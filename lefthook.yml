@@ -1,0 +1,27 @@
+pre-push:
+  commands:
+    check:
+      root: "packages/ui/"
+      run: vp check
+    fmt-check:
+      root: "packages/ui/"
+      run: vp fmt --check
+    test:
+      root: "packages/ui/"
+      run: vp test --run
+    build:
+      root: "packages/ui/"
+      run: vp pack
+
+pre-commit:
+  parallel: true
+  commands:
+    lint:
+      root: "packages/ui/"
+      glob: "*.{ts,tsx}"
+      run: bunx vp check --fix {staged_files}
+      stage_fixed: true
+    format:
+      glob: "*.{ts,tsx,json,md,yaml,yml,css}"
+      run: bunx --cwd packages/ui vp fmt --write {staged_files}
+      stage_fixed: true
