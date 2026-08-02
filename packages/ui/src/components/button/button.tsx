@@ -19,7 +19,7 @@ import {cn} from "../../lib/cn";
  */
 export const buttonVariants = cva(
   [
-    "inline-flex items-center justify-center gap-2 whitespace-nowrap",
+    "inline-flex items-center justify-between gap-2 whitespace-nowrap",
     "font-medium select-none",
     "transition-[background-color,color,border-color,box-shadow,transform] duration-[--rixl-motion-fast] ease-[--rixl-ease-out]",
     "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rixl-ring focus-visible:ring-offset-2 focus-visible:ring-offset-rixl-bg",
