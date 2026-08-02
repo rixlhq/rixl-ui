@@ -62,8 +62,4 @@ export default defineConfig({
       exclude: ["node_modules/", "dist/", "**/*.config.{js,ts}", "**/types.ts", "**/*.d.ts", "**/index.ts", "**/__tests__/**"],
     },
   },
-  staged: {
-    "*.{js,ts,tsx}": "vp check --fix",
-    "*.{json,md,yaml,yml,css}": "vp fmt --write",
-  },
 });
