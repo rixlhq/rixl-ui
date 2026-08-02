@@ -58,23 +58,12 @@ jobs:
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         uses: googleapis/release-please-action@v5
         with:
-          token: ${{ secrets.BUILD_GITHUB_TOKEN }}
-          config-file: packages/ui/release-please-config.json
-          manifest-file: packages/ui/.release-please-manifest.json
+          token: ${{ secrets.GITHUB_TOKEN }}
+          config-file: release-please-config.json
+          manifest-file: .release-please-manifest.json
 
-      # Publishing uses npm's OIDC "Trusted Publishers" flow: no long-lived
-      # token, no NPM_TOKEN secret. Configuration lives on npmjs.com under
-      # @rixl/ui → Access → Trusted Publisher, pointing to:
-      #   Publisher:   GitHub Actions
-      #   Owner:       rixlhq
-      #   Repository:  rixl-ui
-      #   Workflow:    release.yml
-      #   Environment: (leave blank)
-      #
-      # A trusted publisher can only be configured on a package that already
-      # exists on npm. The bootstrap publish for 0.1.0 was done manually
-      # from a maintainer's machine (see CONTRIBUTING). Every release after
-      # that publishes here via the OIDC flow below.
+      # Bun currently does not support publishing with NPM OIDC (Trusted Publishing),
+      # so we swap in Node just for `npm publish`.
       - name: Setup Node for npm publish
         if: ${{ steps.release.outputs.releases_created == 'true' }}
         uses: actions/setup-node@v7
@@ -82,6 +71,9 @@ jobs:
           node-version: 25
           registry-url: "https://registry.npmjs.org"
 
-      - name: Publish to npm (OIDC)
+      - name: Publish to npm
         if: ${{ steps.release.outputs.releases_created == 'true' }}
-        run: vp pack && npm publish --provenance --access public
+        run: vp pack && npm publish
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
