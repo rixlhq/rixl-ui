@@ -44,6 +44,11 @@
       "development": "./src/components/button/index.ts",
       "import": "./dist/button.js"
     },
+    "./label": {
+      "types": "./dist/label.d.ts",
+      "development": "./src/components/label/index.ts",
+      "import": "./dist/label.js"
+    },
     "./preset.css": "./src/styles/preset.css",
     "./package.json": "./package.json"
   },
