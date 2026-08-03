@@ -59,6 +59,11 @@
       "development": "./src/components/badge/index.ts",
       "import": "./dist/badge.js"
     },
+    "./avatar": {
+      "types": "./dist/avatar.d.ts",
+      "development": "./src/components/avatar/index.ts",
+      "import": "./dist/avatar.js"
+    },
     "./preset.css": "./src/styles/preset.css",
     "./package.json": "./package.json"
   },
