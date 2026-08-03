@@ -10,6 +10,7 @@
 // production bundles.
 export * from "./components/button";
 export * from "./components/label";
+export * from "./components/separator";
 
 /**
  * Shared className utility, re-exported for consumers that want to
