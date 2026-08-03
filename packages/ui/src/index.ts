@@ -16,6 +16,7 @@ export * from "./components/avatar";
 export * from "./components/skeleton";
 export * from "./components/progress";
 export * from "./components/alert";
+export * from "./components/input";
 
 /**
  * Shared className utility, re-exported for consumers that want to
