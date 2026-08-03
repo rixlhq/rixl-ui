@@ -14,6 +14,7 @@ export * from "./components/separator";
 export * from "./components/badge";
 export * from "./components/avatar";
 export * from "./components/skeleton";
+export * from "./components/progress";
 
 /**
  * Shared className utility, re-exported for consumers that want to

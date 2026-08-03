@@ -69,6 +69,11 @@
       "development": "./src/components/skeleton/index.ts",
       "import": "./dist/skeleton.js"
     },
+    "./progress": {
+      "types": "./dist/progress.d.ts",
+      "development": "./src/components/progress/index.ts",
+      "import": "./dist/progress.js"
+    },
     "./preset.css": "./src/styles/preset.css",
     "./package.json": "./package.json"
   },
