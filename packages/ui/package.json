@@ -49,6 +49,11 @@
       "development": "./src/components/label/index.ts",
       "import": "./dist/label.js"
     },
+    "./separator": {
+      "types": "./dist/separator.d.ts",
+      "development": "./src/components/separator/index.ts",
+      "import": "./dist/separator.js"
+    },
     "./preset.css": "./src/styles/preset.css",
     "./package.json": "./package.json"
   },
