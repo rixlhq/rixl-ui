@@ -22,6 +22,7 @@ pre-commit:
       run: bunx vp check --fix {staged_files}
       stage_fixed: true
     format:
+      root: "packages/ui/"
       glob: "*.{ts,tsx,json,md,yaml,yml,css}"
-      run: bunx --cwd packages/ui vp fmt --write {staged_files}
+      run: vp fmt --write {staged_files}
       stage_fixed: true

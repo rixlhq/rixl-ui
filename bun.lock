@@ -28,7 +28,7 @@
     },
     "packages/ui": {
       "name": "@rixl/ui",
-      "version": "0.0.0",
+      "version": "0.1.0",
       "dependencies": {
         "@base-ui-components/react": "^1.0.0-rc.0",
         "class-variance-authority": "^0.7.1",
