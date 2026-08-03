@@ -139,6 +139,11 @@
       "development": "./src/components/sheet/index.ts",
       "import": "./dist/sheet.js"
     },
+    "./dropdown-menu": {
+      "types": "./dist/dropdown-menu.d.ts",
+      "development": "./src/components/dropdown-menu/index.ts",
+      "import": "./dist/dropdown-menu.js"
+    },
     "./preset.css": "./src/styles/preset.css",
     "./package.json": "./package.json"
   },
