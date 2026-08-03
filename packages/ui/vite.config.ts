@@ -32,6 +32,7 @@ export default defineConfig({
       dialog: "src/components/dialog/index.ts",
       "alert-dialog": "src/components/alert-dialog/index.ts",
       sheet: "src/components/sheet/index.ts",
+      "dropdown-menu": "src/components/dropdown-menu/index.ts",
     },
     // Manage `package.json#exports` by hand — we ship both compiled JS
     // subpaths and a raw CSS subpath (preset.css) that vp's auto-exports

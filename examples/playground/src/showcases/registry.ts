@@ -19,6 +19,7 @@ import * as popover from "./popover";
 import * as dialog from "./dialog";
 import * as alertDialog from "./alert-dialog";
 import * as sheet from "./sheet";
+import * as dropdownMenu from "./dropdown-menu";
 
 export type Showcase = {
   /** URL-safe id, used in the hash route (e.g. `#/button`). */
@@ -57,4 +58,5 @@ export const showcases: Showcase[] = [
   dialog,
   alertDialog,
   sheet,
+  dropdownMenu,
 ];
