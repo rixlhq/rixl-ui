@@ -27,6 +27,7 @@ export default defineConfig({
       switch: "src/components/switch/index.ts",
       select: "src/components/select/index.ts",
       "input-otp": "src/components/input-otp/index.ts",
+      tooltip: "src/components/tooltip/index.ts",
     },
     // Manage `package.json#exports` by hand — we ship both compiled JS
     // subpaths and a raw CSS subpath (preset.css) that vp's auto-exports
