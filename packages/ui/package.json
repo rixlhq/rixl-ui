@@ -104,6 +104,11 @@
       "development": "./src/components/switch/index.ts",
       "import": "./dist/switch.js"
     },
+    "./select": {
+      "types": "./dist/select.d.ts",
+      "development": "./src/components/select/index.ts",
+      "import": "./dist/select.js"
+    },
     "./preset.css": "./src/styles/preset.css",
     "./package.json": "./package.json"
   },

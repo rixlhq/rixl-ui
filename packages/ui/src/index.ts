@@ -21,6 +21,7 @@ export * from "./components/textarea";
 export * from "./components/checkbox";
 export * from "./components/radio-group";
 export * from "./components/switch";
+export * from "./components/select";
 
 /**
  * Shared className utility, re-exported for consumers that want to
