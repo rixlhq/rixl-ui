@@ -1,28 +1,20 @@
+pre-commit:
+  commands:
+    staged:
+      # `vp staged` reads packages/ui/vite.config.ts#staged and runs
+      # `vp check --fix` on staged *.ts,tsx and `vp fmt --write` on
+      # staged *.{json,md,yaml,yml,css}. It scopes the git diff to the
+      # cwd, so files outside packages/ui/ are simply not touched.
+      root: "packages/ui/"
+      run: vp staged
+
 pre-push:
   commands:
     check:
-      root: "packages/ui/"
-      run: vp check
+      run: bun run --filter=@rixl/ui check
     fmt-check:
-      root: "packages/ui/"
-      run: vp fmt --check
+      run: bun run --filter=@rixl/ui fmt --check
     test:
-      root: "packages/ui/"
-      run: vp test --run
+      run: bun run --filter=@rixl/ui test:run
     build:
-      root: "packages/ui/"
-      run: vp pack
-
-pre-commit:
-  parallel: true
-  commands:
-    lint:
-      root: "packages/ui/"
-      glob: "*.{ts,tsx}"
-      run: bunx vp check --fix {staged_files}
-      stage_fixed: true
-    format:
-      root: "packages/ui/"
-      glob: "*.{ts,tsx,json,md,yaml,yml,css}"
-      run: vp fmt --write {staged_files}
-      stage_fixed: true
+      run: bun run --filter=@rixl/ui build

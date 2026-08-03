@@ -1,6 +1,6 @@
 {
   "name": "@rixl/ui",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Rixl design system — reusable React components, tokens, and Tailwind preset shared across Rixl web projects.",
   "keywords": [
     "components",
