@@ -74,6 +74,11 @@
       "development": "./src/components/progress/index.ts",
       "import": "./dist/progress.js"
     },
+    "./alert": {
+      "types": "./dist/alert.d.ts",
+      "development": "./src/components/alert/index.ts",
+      "import": "./dist/alert.js"
+    },
     "./preset.css": "./src/styles/preset.css",
     "./package.json": "./package.json"
   },
