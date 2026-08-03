@@ -24,6 +24,9 @@ export * from "./components/switch";
 export * from "./components/select";
 export * from "./components/input-otp";
 export * from "./components/tooltip";
+export * from "./components/popover";
+export * from "./components/dialog";
+export * from "./components/alert-dialog";
 
 /**
  * Shared className utility, re-exported for consumers that want to
