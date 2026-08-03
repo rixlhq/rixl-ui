@@ -1,4 +1,3 @@
-import {useState} from "react";
 import {Button} from "@rixl/ui/button";
 import {Group, Section} from "./_layout";
 
@@ -8,9 +7,9 @@ export const group = "Actions";
 
 export function Showcase() {
   return (
-    <Section title="Button" description="Primary action primitive. Six variants × four sizes × loading state.">
-      <Group label="Variants (size=md)">
-        <Button variant="primary">Primary</Button>
+    <Section title="Button" description="Primary action primitive. Six variants × four sizes, with Base UI polymorphism.">
+      <Group label="Variants (size=default)">
+        <Button variant="default">Default</Button>
         <Button variant="secondary">Secondary</Button>
         <Button variant="outline">Outline</Button>
         <Button variant="ghost">Ghost</Button>
@@ -18,9 +17,9 @@ export function Showcase() {
         <Button variant="link">Link</Button>
       </Group>
 
-      <Group label="Sizes (variant=primary)">
+      <Group label="Sizes (variant=default)">
         <Button size="sm">Small</Button>
-        <Button size="md">Medium</Button>
+        <Button size="default">Default</Button>
         <Button size="lg">Large</Button>
         <Button size="icon" aria-label="Search">
           <SearchIcon />
@@ -28,7 +27,7 @@ export function Showcase() {
       </Group>
 
       <Group label="With leading icon">
-        <Button variant="primary">
+        <Button>
           <PlusIcon /> New feed
         </Button>
         <Button variant="secondary">
@@ -41,26 +40,20 @@ export function Showcase() {
 
       <Group label="States">
         <Button disabled>Disabled</Button>
-        <Button loading>Loading</Button>
-        <LoadingDemo />
+        <Button variant="destructive" disabled>
+          Delete
+        </Button>
+      </Group>
+
+      <Group label="Polymorphic (render={<a/>})">
+        <Button render={<a href="https://rixl.co" target="_blank" rel="noreferrer" />} variant="link">
+          Open rixl.co
+        </Button>
+        <Button render={<a href="https://rixl.co" target="_blank" rel="noreferrer" />} variant="outline">
+          <PlusIcon /> Anchor styled as button
+        </Button>
       </Group>
     </Section>
-  );
-}
-
-function LoadingDemo() {
-  const [busy, setBusy] = useState(false);
-  return (
-    <Button
-      variant="primary"
-      loading={busy}
-      onClick={() => {
-        setBusy(true);
-        window.setTimeout(() => setBusy(false), 1400);
-      }}
-    >
-      Click me
-    </Button>
   );
 }
 
