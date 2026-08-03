@@ -54,6 +54,11 @@
       "development": "./src/components/separator/index.ts",
       "import": "./dist/separator.js"
     },
+    "./badge": {
+      "types": "./dist/badge.d.ts",
+      "development": "./src/components/badge/index.ts",
+      "import": "./dist/badge.js"
+    },
     "./preset.css": "./src/styles/preset.css",
     "./package.json": "./package.json"
   },
