@@ -84,6 +84,11 @@
       "development": "./src/components/input/index.ts",
       "import": "./dist/input.js"
     },
+    "./textarea": {
+      "types": "./dist/textarea.d.ts",
+      "development": "./src/components/textarea/index.ts",
+      "import": "./dist/textarea.js"
+    },
     "./preset.css": "./src/styles/preset.css",
     "./package.json": "./package.json"
   },
