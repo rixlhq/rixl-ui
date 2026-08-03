@@ -22,6 +22,7 @@ export default defineConfig({
       alert: "src/components/alert/index.ts",
       input: "src/components/input/index.ts",
       textarea: "src/components/textarea/index.ts",
+      checkbox: "src/components/checkbox/index.ts",
     },
     // Manage `package.json#exports` by hand — we ship both compiled JS
     // subpaths and a raw CSS subpath (preset.css) that vp's auto-exports
