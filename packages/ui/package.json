@@ -134,6 +134,11 @@
       "development": "./src/components/alert-dialog/index.ts",
       "import": "./dist/alert-dialog.js"
     },
+    "./sheet": {
+      "types": "./dist/sheet.d.ts",
+      "development": "./src/components/sheet/index.ts",
+      "import": "./dist/sheet.js"
+    },
     "./preset.css": "./src/styles/preset.css",
     "./package.json": "./package.json"
   },
