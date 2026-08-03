@@ -114,6 +114,11 @@
       "development": "./src/components/input-otp/index.ts",
       "import": "./dist/input-otp.js"
     },
+    "./tooltip": {
+      "types": "./dist/tooltip.d.ts",
+      "development": "./src/components/tooltip/index.ts",
+      "import": "./dist/tooltip.js"
+    },
     "./preset.css": "./src/styles/preset.css",
     "./package.json": "./package.json"
   },
