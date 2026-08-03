@@ -15,6 +15,7 @@ import * as switchShowcase from "./switch";
 import * as select from "./select";
 import * as inputOtp from "./input-otp";
 import * as tooltip from "./tooltip";
+import * as popover from "./popover";
 
 export type Showcase = {
   /** URL-safe id, used in the hash route (e.g. `#/button`). */
@@ -49,4 +50,5 @@ export const showcases: Showcase[] = [
   select,
   inputOtp,
   tooltip,
+  popover,
 ];
