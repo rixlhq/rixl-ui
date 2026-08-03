@@ -1,89 +1,59 @@
-import {forwardRef, type ButtonHTMLAttributes, type ReactNode} from "react";
+import {isValidElement} from "react";
+import {Button as ButtonPrimitive} from "@base-ui-components/react/button";
 import {cva, type VariantProps} from "class-variance-authority";
 import {cn} from "../../lib/cn";
 
 /**
  * Rixl Button — the primary action primitive.
  *
- * Design intent:
- * - Solid, quiet, or destructive intent expressed via `variant`.
- * - Size scale matches the rest of the system (sm | md | lg | icon).
- * - Renders a real <button>. For non-button triggers (e.g. an <a>
- *   styled like a button), apply `buttonVariants({variant, size})` to
- *   the target element directly — an `asChild` slot pattern will land
- *   with the next batch alongside a shared Slot primitive.
+ * Ported from dashboard's shadcn Button (Base UI + cva). Class names
+ * mapped to `--rixl-*` tokens; variant and size names preserved
+ * verbatim so downstream call sites in dashboard/landing/docs migrate
+ * one-for-one.
  *
- * Styling is 100% Tailwind classes resolving against @rixl/ui tokens
- * (see src/styles/preset.css). No third-party UI kit is layered on
- * top of this — the goal is a distinctly Rixl visual language.
+ * Base UI's polymorphism (`render`, `nativeButton`) is preserved: pass
+ * `render={<Link/>}` to render a styled anchor while keeping keyboard
+ * semantics correct.
  */
-export const buttonVariants = cva(
-  [
-    "inline-flex items-center justify-center gap-2 whitespace-nowrap",
-    "font-medium select-none",
-    "transition-[background-color,color,border-color,box-shadow,transform] duration-[--rixl-motion-fast] ease-[--rixl-ease-out]",
-    "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rixl-ring focus-visible:ring-offset-2 focus-visible:ring-offset-rixl-bg",
-    "disabled:pointer-events-none disabled:opacity-50",
-    "[&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
-  ].join(" "),
+const buttonVariants = cva(
+  "inline-flex items-center cursor-pointer justify-center gap-2 whitespace-nowrap rounded-rixl-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-rixl-ring focus-visible:ring-rixl-ring/50 focus-visible:ring-[3px] aria-invalid:ring-rixl-danger/20 aria-invalid:border-rixl-danger",
   {
     variants: {
       variant: {
-        primary: "bg-rixl-primary text-rixl-primary-fg hover:bg-rixl-primary-hover active:bg-rixl-primary-active shadow-rixl-xs",
-        secondary: "bg-rixl-secondary text-rixl-secondary-fg hover:bg-rixl-secondary-hover shadow-rixl-xs",
-        outline:
-          "border border-rixl-border bg-rixl-surface text-rixl-fg hover:bg-rixl-surface-muted hover:border-rixl-border-strong shadow-rixl-xs",
-        ghost: "text-rixl-fg hover:bg-rixl-surface-muted",
-        destructive: "bg-rixl-danger text-rixl-danger-fg hover:bg-rixl-danger-hover shadow-rixl-xs",
-        link: "text-rixl-primary underline-offset-4 hover:underline focus-visible:ring-offset-0",
+        default: "bg-rixl-primary text-rixl-primary-fg shadow-rixl-xs hover:bg-rixl-primary-hover",
+        destructive: "bg-rixl-danger text-rixl-danger-fg shadow-rixl-xs hover:bg-rixl-danger-hover focus-visible:ring-rixl-danger/20",
+        outline: "border border-rixl-border bg-rixl-bg shadow-rixl-xs hover:bg-rixl-surface-muted hover:text-rixl-fg",
+        secondary: "bg-rixl-secondary text-rixl-secondary-fg shadow-rixl-xs hover:bg-rixl-secondary-hover",
+        ghost: "hover:bg-rixl-surface-muted hover:text-rixl-fg",
+        link: "text-rixl-primary underline underline-offset-4 hover:underline",
       },
       size: {
-        sm: "h-8 rounded-rixl-sm px-3 text-xs",
-        md: "h-9 rounded-rixl-md px-4 text-sm",
-        lg: "h-11 rounded-rixl-md px-6 text-sm",
-        icon: "h-9 w-9 rounded-rixl-md",
+        default: "h-9 px-4 py-2 has-[>svg]:px-3",
+        sm: "h-8 rounded-rixl-md gap-1.5 px-3 has-[>svg]:px-2.5",
+        lg: "h-10 rounded-rixl-md px-6 has-[>svg]:px-4",
+        icon: "size-9",
       },
     },
     defaultVariants: {
-      variant: "primary",
-      size: "md",
+      variant: "default",
+      size: "default",
     },
   }
 );
 
-export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement>, VariantProps<typeof buttonVariants> {
-  /**
-   * Show a loading state — disables interactions and hides the button's
-   * label. Consumers can supply their own spinner via `loadingIcon`.
-   */
-  loading?: boolean;
-  loadingIcon?: ReactNode;
-}
-
-export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button(
-  {className, variant, size, type = "button", loading = false, loadingIcon, disabled, children, ...rest},
-  ref
-) {
+function Button({className, variant, size, nativeButton, render, ...props}: ButtonPrimitive.Props & VariantProps<typeof buttonVariants>) {
+  // When rendered as a non-<button> element (e.g. render={<Link/>}), tell Base UI so it drops native button semantics.
+  const isNativeButton = nativeButton ?? (isValidElement(render) ? render.type === "button" : true);
   return (
-    <button
-      ref={ref}
-      type={type}
-      disabled={disabled ?? loading}
-      data-loading={loading || undefined}
-      className={cn(buttonVariants({variant, size}), className)}
-      {...rest}
-    >
-      {loading ? (loadingIcon ?? <ButtonSpinner />) : null}
-      {loading ? <span className="sr-only">Loading</span> : children}
-    </button>
-  );
-});
-
-function ButtonSpinner() {
-  return (
-    <svg aria-hidden="true" viewBox="0 0 24 24" className="size-4 animate-spin" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <circle cx="12" cy="12" r="9" stroke="currentColor" strokeOpacity="0.25" strokeWidth="3" />
-      <path d="M21 12a9 9 0 0 0-9-9" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
-    </svg>
+    <ButtonPrimitive
+      data-slot="button"
+      nativeButton={isNativeButton}
+      render={render}
+      className={cn(buttonVariants({variant, size, className}))}
+      {...props}
+    />
   );
 }
+
+export {Button, buttonVariants};
+export type ButtonProps = ButtonPrimitive.Props & VariantProps<typeof buttonVariants>;

@@ -1,5 +1,6 @@
 import type {ComponentType} from "react";
 import * as button from "./button";
+import * as label from "./label";
 
 export type Showcase = {
   /** URL-safe id, used in the hash route (e.g. `#/button`). */
@@ -17,4 +18,4 @@ export type Showcase = {
  * append an entry here. The sidebar, routing, and content pane all read
  * from this array.
  */
-export const showcases: Showcase[] = [button];
+export const showcases: Showcase[] = [button, label];

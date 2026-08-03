@@ -9,6 +9,7 @@
 // pulls in every component, which is fine for prototyping but not for
 // production bundles.
 export * from "./components/button";
+export * from "./components/label";
 
 /**
  * Shared className utility, re-exported for consumers that want to
