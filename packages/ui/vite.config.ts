@@ -15,6 +15,7 @@ export default defineConfig({
       button: "src/components/button/index.ts",
       label: "src/components/label/index.ts",
       separator: "src/components/separator/index.ts",
+      badge: "src/components/badge/index.ts",
     },
     // Manage `package.json#exports` by hand — we ship both compiled JS
     // subpaths and a raw CSS subpath (preset.css) that vp's auto-exports

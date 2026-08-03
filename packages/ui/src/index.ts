@@ -11,6 +11,7 @@
 export * from "./components/button";
 export * from "./components/label";
 export * from "./components/separator";
+export * from "./components/badge";
 
 /**
  * Shared className utility, re-exported for consumers that want to
