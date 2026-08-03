@@ -64,6 +64,11 @@
       "development": "./src/components/avatar/index.ts",
       "import": "./dist/avatar.js"
     },
+    "./skeleton": {
+      "types": "./dist/skeleton.d.ts",
+      "development": "./src/components/skeleton/index.ts",
+      "import": "./dist/skeleton.js"
+    },
     "./preset.css": "./src/styles/preset.css",
     "./package.json": "./package.json"
   },

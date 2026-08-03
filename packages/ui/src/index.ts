@@ -13,6 +13,7 @@ export * from "./components/label";
 export * from "./components/separator";
 export * from "./components/badge";
 export * from "./components/avatar";
+export * from "./components/skeleton";
 
 /**
  * Shared className utility, re-exported for consumers that want to
