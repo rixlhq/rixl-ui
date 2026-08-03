@@ -25,6 +25,7 @@ export default defineConfig({
       checkbox: "src/components/checkbox/index.ts",
       "radio-group": "src/components/radio-group/index.ts",
       switch: "src/components/switch/index.ts",
+      select: "src/components/select/index.ts",
     },
     // Manage `package.json#exports` by hand — we ship both compiled JS
     // subpaths and a raw CSS subpath (preset.css) that vp's auto-exports

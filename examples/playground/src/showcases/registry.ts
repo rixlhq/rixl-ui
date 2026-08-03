@@ -12,6 +12,7 @@ import * as textarea from "./textarea";
 import * as checkbox from "./checkbox";
 import * as radioGroup from "./radio-group";
 import * as switchShowcase from "./switch";
+import * as select from "./select";
 
 export type Showcase = {
   /** URL-safe id, used in the hash route (e.g. `#/button`). */
@@ -43,4 +44,5 @@ export const showcases: Showcase[] = [
   checkbox,
   radioGroup,
   switchShowcase,
+  select,
 ];
