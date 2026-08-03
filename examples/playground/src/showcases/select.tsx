@@ -24,7 +24,7 @@ export function Showcase() {
           <Label htmlFor="fruit-trigger">Favourite fruit</Label>
           <Select>
             <SelectTrigger id="fruit-trigger" className="w-full">
-              <SelectValue placeholder="Pick one" />
+              <SelectValue>{(v) => (v ? String(v) : "Pick one")}</SelectValue>
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="apple">Apple</SelectItem>
@@ -65,7 +65,7 @@ export function Showcase() {
       <Group label="Grouped options with separator">
         <Select>
           <SelectTrigger>
-            <SelectValue placeholder="Pick a timezone" />
+            <SelectValue>{(v) => (v ? String(v) : "Pick a timezone")}</SelectValue>
           </SelectTrigger>
           <SelectContent>
             <SelectGroup>
@@ -117,7 +117,7 @@ export function Showcase() {
           </Label>
           <Select>
             <SelectTrigger id="region-trigger" aria-invalid>
-              <SelectValue placeholder="Choose a region" />
+              <SelectValue>{(v) => (v ? String(v) : "Choose a region")}</SelectValue>
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="us">United States</SelectItem>

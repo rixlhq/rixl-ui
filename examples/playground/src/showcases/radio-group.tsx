@@ -72,7 +72,7 @@ function ControlledDemo() {
   const [value, setValue] = useState<string>("apple");
   return (
     <div className="flex flex-col gap-3">
-      <RadioGroup value={value} onValueChange={setValue} name="fruit">
+      <RadioGroup value={value} onValueChange={(v) => setValue(String(v))} name="fruit">
         <div className="flex items-center gap-2">
           <RadioGroupItem id="f-apple" value="apple" />
           <Label htmlFor="f-apple">Apple</Label>

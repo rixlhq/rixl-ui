@@ -163,4 +163,21 @@
   --shadow-rixl-sm: var(--rixl-shadow-sm);
   --shadow-rixl-md: var(--rixl-shadow-md);
   --shadow-rixl-lg: var(--rixl-shadow-lg);
+
+  /*
+   * Blinking caret used by the InputOTP slot. Consumers get
+   * `animate-caret-blink` automatically once they import preset.css.
+   */
+  --animate-caret-blink: caret-blink 1.25s ease-out infinite;
+  @keyframes caret-blink {
+    0%,
+    70%,
+    100% {
+      opacity: 1;
+    }
+    20%,
+    50% {
+      opacity: 0;
+    }
+  }
 }

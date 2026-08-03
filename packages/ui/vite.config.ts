@@ -26,6 +26,7 @@ export default defineConfig({
       "radio-group": "src/components/radio-group/index.ts",
       switch: "src/components/switch/index.ts",
       select: "src/components/select/index.ts",
+      "input-otp": "src/components/input-otp/index.ts",
     },
     // Manage `package.json#exports` by hand — we ship both compiled JS
     // subpaths and a raw CSS subpath (preset.css) that vp's auto-exports

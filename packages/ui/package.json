@@ -109,6 +109,11 @@
       "development": "./src/components/select/index.ts",
       "import": "./dist/select.js"
     },
+    "./input-otp": {
+      "types": "./dist/input-otp.d.ts",
+      "development": "./src/components/input-otp/index.ts",
+      "import": "./dist/input-otp.js"
+    },
     "./preset.css": "./src/styles/preset.css",
     "./package.json": "./package.json"
   },
@@ -132,6 +137,7 @@
     "@base-ui-components/react": "^1.0.0-rc.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "input-otp": "^1.4.2",
     "tailwind-merge": "^3.6.0"
   },
   "devDependencies": {
