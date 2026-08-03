@@ -94,6 +94,11 @@
       "development": "./src/components/checkbox/index.ts",
       "import": "./dist/checkbox.js"
     },
+    "./radio-group": {
+      "types": "./dist/radio-group.d.ts",
+      "development": "./src/components/radio-group/index.ts",
+      "import": "./dist/radio-group.js"
+    },
     "./preset.css": "./src/styles/preset.css",
     "./package.json": "./package.json"
   },
