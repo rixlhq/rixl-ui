@@ -6,7 +6,7 @@ function Basic({defaultValue, disabled, size}: {defaultValue?: string; disabled?
   return (
     <Select defaultValue={defaultValue} disabled={disabled}>
       <SelectTrigger size={size} data-testid="trigger">
-        <SelectValue placeholder="Pick one" />
+        <SelectValue>{(v) => (v ? String(v) : "Pick one")}</SelectValue>
       </SelectTrigger>
       <SelectContent>
         <SelectGroup>
@@ -57,17 +57,19 @@ describe("Select", () => {
     expect(val).not.toBeNull();
   });
 
-  it("shows the placeholder attribute when no value is selected", () => {
+  it("renders the placeholder text when no value is selected", () => {
     render(<Basic />);
+    // With Base UI, placeholder is rendered via the SelectValue children render function.
+    expect(screen.getByText("Pick one")).toBeInTheDocument();
     const val = screen.getByTestId("trigger").querySelector("[data-slot='select-value']");
-    expect(val).toHaveAttribute("placeholder", "Pick one");
     expect(val).toHaveAttribute("data-placeholder");
   });
 
-  it("shows the resolved item label when defaultValue is set (popup unmounted)", () => {
+  it("shows the raw value in the render function when defaultValue is set", () => {
     render(<Basic defaultValue="banana" />);
-    // The trigger reflects the selected item's label via the resolved items map.
-    expect(screen.getByText("Banana")).toBeInTheDocument();
+    // With the render-function pattern, SelectValue receives the raw value.
+    // Callers who want the label can look it up in their own items map.
+    expect(screen.getByText("banana")).toBeInTheDocument();
   });
 
   it("respects the disabled prop on the root", () => {

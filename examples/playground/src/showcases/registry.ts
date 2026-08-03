@@ -13,6 +13,7 @@ import * as checkbox from "./checkbox";
 import * as radioGroup from "./radio-group";
 import * as switchShowcase from "./switch";
 import * as select from "./select";
+import * as inputOtp from "./input-otp";
 
 export type Showcase = {
   /** URL-safe id, used in the hash route (e.g. `#/button`). */
@@ -45,4 +46,5 @@ export const showcases: Showcase[] = [
   radioGroup,
   switchShowcase,
   select,
+  inputOtp,
 ];
