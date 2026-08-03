@@ -89,6 +89,11 @@
       "development": "./src/components/textarea/index.ts",
       "import": "./dist/textarea.js"
     },
+    "./checkbox": {
+      "types": "./dist/checkbox.d.ts",
+      "development": "./src/components/checkbox/index.ts",
+      "import": "./dist/checkbox.js"
+    },
     "./preset.css": "./src/styles/preset.css",
     "./package.json": "./package.json"
   },

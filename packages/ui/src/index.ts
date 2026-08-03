@@ -18,6 +18,7 @@ export * from "./components/progress";
 export * from "./components/alert";
 export * from "./components/input";
 export * from "./components/textarea";
+export * from "./components/checkbox";
 
 /**
  * Shared className utility, re-exported for consumers that want to
