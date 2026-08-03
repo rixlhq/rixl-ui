@@ -119,6 +119,21 @@
       "development": "./src/components/tooltip/index.ts",
       "import": "./dist/tooltip.js"
     },
+    "./popover": {
+      "types": "./dist/popover.d.ts",
+      "development": "./src/components/popover/index.ts",
+      "import": "./dist/popover.js"
+    },
+    "./dialog": {
+      "types": "./dist/dialog.d.ts",
+      "development": "./src/components/dialog/index.ts",
+      "import": "./dist/dialog.js"
+    },
+    "./alert-dialog": {
+      "types": "./dist/alert-dialog.d.ts",
+      "development": "./src/components/alert-dialog/index.ts",
+      "import": "./dist/alert-dialog.js"
+    },
     "./preset.css": "./src/styles/preset.css",
     "./package.json": "./package.json"
   },

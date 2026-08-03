@@ -17,6 +17,7 @@ import * as inputOtp from "./input-otp";
 import * as tooltip from "./tooltip";
 import * as popover from "./popover";
 import * as dialog from "./dialog";
+import * as alertDialog from "./alert-dialog";
 
 export type Showcase = {
   /** URL-safe id, used in the hash route (e.g. `#/button`). */
@@ -53,4 +54,5 @@ export const showcases: Showcase[] = [
   tooltip,
   popover,
   dialog,
+  alertDialog,
 ];
