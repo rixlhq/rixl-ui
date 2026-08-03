@@ -15,8 +15,15 @@ import {cn} from "../../lib/cn";
  * `render={<Link/>}` to render a styled anchor while keeping keyboard
  * semantics correct.
  */
-const buttonVariants = cva(
-  "inline-flex items-center cursor-pointer justify-center gap-2 whitespace-nowrap rounded-rixl-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-rixl-ring focus-visible:ring-rixl-ring/50 focus-visible:ring-[3px] aria-invalid:ring-rixl-danger/20 aria-invalid:border-rixl-danger",
+export const buttonVariants = cva(
+  [
+    "inline-flex items-center justify-between gap-2 whitespace-nowrap",
+    "font-medium select-none",
+    "transition-[background-color,color,border-color,box-shadow,transform] duration-[--rixl-motion-fast] ease-[--rixl-ease-out]",
+    "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rixl-ring focus-visible:ring-offset-2 focus-visible:ring-offset-rixl-bg",
+    "disabled:pointer-events-none disabled:opacity-50",
+    "[&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
+  ].join(" "),
   {
     variants: {
       variant: {

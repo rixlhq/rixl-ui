@@ -42,6 +42,12 @@ export default defineConfig({
     bracketSameLine: false,
     endOfLine: "lf",
   },
+  // `vp staged` reads this map and runs the matching command on each
+  // staged file — used by the pre-commit hook (see lefthook.yml).
+  staged: {
+    "*.{ts,tsx}": "vp check --fix",
+    "*.{json,md,yaml,yml,css}": "vp fmt --write",
+  },
   test: {
     globals: true,
     environment: "jsdom",
@@ -56,9 +62,5 @@ export default defineConfig({
       include: ["src/**/*.{ts,tsx}"],
       exclude: ["node_modules/", "dist/", "**/*.config.{js,ts}", "**/types.ts", "**/*.d.ts", "**/index.ts", "**/__tests__/**"],
     },
-  },
-  staged: {
-    "*.{js,ts,tsx}": "vp check --fix",
-    "*.{json,md,yaml,yml,css}": "vp fmt --write",
   },
 });
