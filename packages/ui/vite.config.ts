@@ -17,6 +17,7 @@ export default defineConfig({
       separator: "src/components/separator/index.ts",
       badge: "src/components/badge/index.ts",
       avatar: "src/components/avatar/index.ts",
+      skeleton: "src/components/skeleton/index.ts",
     },
     // Manage `package.json#exports` by hand — we ship both compiled JS
     // subpaths and a raw CSS subpath (preset.css) that vp's auto-exports
