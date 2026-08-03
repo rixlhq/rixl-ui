@@ -2,6 +2,14 @@
 @import "@rixl/ui/preset.css";
 
 /*
+ * Tailwind v4 skips node_modules by default. In dev the playground
+ * consumes @rixl/ui from source (via the `development` export
+ * condition), so we point Tailwind at the workspace-linked source
+ * files so their utility classes are generated.
+ */
+@source "../../../packages/ui/src/**/*.{ts,tsx}";
+
+/*
  * Playground-only styles. The library ships zero global CSS beyond the
  * preset; anything below here is just to make the playground page
  * itself readable — not part of @rixl/ui.
