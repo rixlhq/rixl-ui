@@ -99,6 +99,11 @@
       "development": "./src/components/radio-group/index.ts",
       "import": "./dist/radio-group.js"
     },
+    "./switch": {
+      "types": "./dist/switch.d.ts",
+      "development": "./src/components/switch/index.ts",
+      "import": "./dist/switch.js"
+    },
     "./preset.css": "./src/styles/preset.css",
     "./package.json": "./package.json"
   },

@@ -20,6 +20,7 @@ export * from "./components/input";
 export * from "./components/textarea";
 export * from "./components/checkbox";
 export * from "./components/radio-group";
+export * from "./components/switch";
 
 /**
  * Shared className utility, re-exported for consumers that want to
