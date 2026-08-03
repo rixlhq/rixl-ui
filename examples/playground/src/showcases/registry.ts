@@ -7,6 +7,7 @@ import * as avatar from "./avatar";
 import * as skeleton from "./skeleton";
 import * as progress from "./progress";
 import * as alert from "./alert";
+import * as input from "./input";
 
 export type Showcase = {
   /** URL-safe id, used in the hash route (e.g. `#/button`). */
@@ -24,4 +25,4 @@ export type Showcase = {
  * append an entry here. The sidebar, routing, and content pane all read
  * from this array.
  */
-export const showcases: Showcase[] = [button, label, separator, badge, avatar, skeleton, progress, alert];
+export const showcases: Showcase[] = [button, label, separator, badge, avatar, skeleton, progress, alert, input];

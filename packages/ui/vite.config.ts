@@ -20,6 +20,7 @@ export default defineConfig({
       skeleton: "src/components/skeleton/index.ts",
       progress: "src/components/progress/index.ts",
       alert: "src/components/alert/index.ts",
+      input: "src/components/input/index.ts",
     },
     // Manage `package.json#exports` by hand — we ship both compiled JS
     // subpaths and a raw CSS subpath (preset.css) that vp's auto-exports

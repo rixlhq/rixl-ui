@@ -79,6 +79,11 @@
       "development": "./src/components/alert/index.ts",
       "import": "./dist/alert.js"
     },
+    "./input": {
+      "types": "./dist/input.d.ts",
+      "development": "./src/components/input/index.ts",
+      "import": "./dist/input.js"
+    },
     "./preset.css": "./src/styles/preset.css",
     "./package.json": "./package.json"
   },
