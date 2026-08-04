@@ -144,6 +144,11 @@
       "development": "./src/components/dropdown-menu/index.ts",
       "import": "./dist/dropdown-menu.js"
     },
+    "./collapsible": {
+      "types": "./dist/collapsible.d.ts",
+      "development": "./src/components/collapsible/index.ts",
+      "import": "./dist/collapsible.js"
+    },
     "./preset.css": "./src/styles/preset.css",
     "./package.json": "./package.json"
   },
