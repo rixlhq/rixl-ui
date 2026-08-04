@@ -31,6 +31,7 @@ export * from "./components/sheet";
 export * from "./components/dropdown-menu";
 export * from "./components/collapsible";
 export * from "./components/tabs";
+export * from "./components/breadcrumb";
 
 /**
  * Shared className utility, re-exported for consumers that want to

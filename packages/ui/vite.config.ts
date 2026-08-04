@@ -35,6 +35,7 @@ export default defineConfig({
       "dropdown-menu": "src/components/dropdown-menu/index.ts",
       collapsible: "src/components/collapsible/index.ts",
       tabs: "src/components/tabs/index.ts",
+      breadcrumb: "src/components/breadcrumb/index.ts",
     },
     // Manage `package.json#exports` by hand — we ship both compiled JS
     // subpaths and a raw CSS subpath (preset.css) that vp's auto-exports
