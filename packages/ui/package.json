@@ -149,6 +149,11 @@
       "development": "./src/components/collapsible/index.ts",
       "import": "./dist/collapsible.js"
     },
+    "./tabs": {
+      "types": "./dist/tabs.d.ts",
+      "development": "./src/components/tabs/index.ts",
+      "import": "./dist/tabs.js"
+    },
     "./preset.css": "./src/styles/preset.css",
     "./package.json": "./package.json"
   },
