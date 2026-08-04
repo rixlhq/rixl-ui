@@ -159,6 +159,11 @@
       "development": "./src/components/breadcrumb/index.ts",
       "import": "./dist/breadcrumb.js"
     },
+    "./sidebar": {
+      "types": "./dist/sidebar.d.ts",
+      "development": "./src/components/sidebar/index.ts",
+      "import": "./dist/sidebar.js"
+    },
     "./preset.css": "./src/styles/preset.css",
     "./package.json": "./package.json"
   },
