@@ -164,6 +164,31 @@
       "development": "./src/components/sidebar/index.ts",
       "import": "./dist/sidebar.js"
     },
+    "./card": {
+      "types": "./dist/card.d.ts",
+      "development": "./src/components/card/index.ts",
+      "import": "./dist/card.js"
+    },
+    "./table": {
+      "types": "./dist/table.d.ts",
+      "development": "./src/components/table/index.ts",
+      "import": "./dist/table.js"
+    },
+    "./calendar": {
+      "types": "./dist/calendar.d.ts",
+      "development": "./src/components/calendar/index.ts",
+      "import": "./dist/calendar.js"
+    },
+    "./copy-block": {
+      "types": "./dist/copy-block.d.ts",
+      "development": "./src/components/copy-block/index.ts",
+      "import": "./dist/copy-block.js"
+    },
+    "./empty-state": {
+      "types": "./dist/empty-state.d.ts",
+      "development": "./src/components/empty-state/index.ts",
+      "import": "./dist/empty-state.js"
+    },
     "./preset.css": "./src/styles/preset.css",
     "./package.json": "./package.json"
   },
@@ -189,6 +214,7 @@
     "clsx": "^2.1.1",
     "input-otp": "^1.4.2",
     "lucide-react": "^1.16.0",
+    "react-day-picker": "^9.14.0",
     "tailwind-merge": "^3.6.0"
   },
   "devDependencies": {

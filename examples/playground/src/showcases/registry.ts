@@ -24,6 +24,11 @@ import * as collapsible from "./collapsible";
 import * as tabs from "./tabs";
 import * as breadcrumb from "./breadcrumb";
 import * as sidebar from "./sidebar";
+import * as card from "./card";
+import * as table from "./table";
+import * as calendar from "./calendar";
+import * as copyBlock from "./copy-block";
+import * as emptyState from "./empty-state";
 
 export type Showcase = {
   /** URL-safe id, used in the hash route (e.g. `#/button`). */
@@ -67,4 +72,9 @@ export const showcases: Showcase[] = [
   tabs,
   breadcrumb,
   sidebar,
+  card,
+  table,
+  calendar,
+  copyBlock,
+  emptyState,
 ];

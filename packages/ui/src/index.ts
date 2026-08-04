@@ -33,6 +33,11 @@ export * from "./components/collapsible";
 export * from "./components/tabs";
 export * from "./components/breadcrumb";
 export * from "./components/sidebar";
+export * from "./components/card";
+export * from "./components/table";
+export * from "./components/calendar";
+export * from "./components/copy-block";
+export * from "./components/empty-state";
 
 /**
  * Shared className utility, re-exported for consumers that want to
