@@ -189,6 +189,11 @@
       "development": "./src/components/empty-state/index.ts",
       "import": "./dist/empty-state.js"
     },
+    "./toaster": {
+      "types": "./dist/toaster.d.ts",
+      "development": "./src/components/toaster/index.ts",
+      "import": "./dist/toaster.js"
+    },
     "./preset.css": "./src/styles/preset.css",
     "./package.json": "./package.json"
   },
@@ -215,6 +220,7 @@
     "input-otp": "^1.4.2",
     "lucide-react": "^1.16.0",
     "react-day-picker": "^9.14.0",
+    "sonner": "^2.0.0",
     "tailwind-merge": "^3.6.0"
   },
   "devDependencies": {

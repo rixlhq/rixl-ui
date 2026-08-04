@@ -29,6 +29,7 @@ import * as table from "./table";
 import * as calendar from "./calendar";
 import * as copyBlock from "./copy-block";
 import * as emptyState from "./empty-state";
+import * as toaster from "./toaster";
 
 export type Showcase = {
   /** URL-safe id, used in the hash route (e.g. `#/button`). */
@@ -77,4 +78,5 @@ export const showcases: Showcase[] = [
   calendar,
   copyBlock,
   emptyState,
+  toaster,
 ];

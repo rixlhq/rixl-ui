@@ -42,6 +42,7 @@ export default defineConfig({
       calendar: "src/components/calendar/index.ts",
       "copy-block": "src/components/copy-block/index.ts",
       "empty-state": "src/components/empty-state/index.ts",
+      toaster: "src/components/toaster/index.ts",
     },
     // Manage `package.json#exports` by hand — we ship both compiled JS
     // subpaths and a raw CSS subpath (preset.css) that vp's auto-exports

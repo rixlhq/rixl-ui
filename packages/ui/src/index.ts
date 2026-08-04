@@ -38,6 +38,7 @@ export * from "./components/table";
 export * from "./components/calendar";
 export * from "./components/copy-block";
 export * from "./components/empty-state";
+export * from "./components/toaster";
 
 /**
  * Shared className utility, re-exported for consumers that want to
