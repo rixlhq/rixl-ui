@@ -37,6 +37,12 @@ export default defineConfig({
       tabs: "src/components/tabs/index.ts",
       breadcrumb: "src/components/breadcrumb/index.ts",
       sidebar: "src/components/sidebar/index.ts",
+      card: "src/components/card/index.ts",
+      table: "src/components/table/index.ts",
+      calendar: "src/components/calendar/index.ts",
+      "copy-block": "src/components/copy-block/index.ts",
+      "empty-state": "src/components/empty-state/index.ts",
+      toaster: "src/components/toaster/index.ts",
     },
     // Manage `package.json#exports` by hand — we ship both compiled JS
     // subpaths and a raw CSS subpath (preset.css) that vp's auto-exports
