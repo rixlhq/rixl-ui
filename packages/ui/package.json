@@ -144,6 +144,26 @@
       "development": "./src/components/dropdown-menu/index.ts",
       "import": "./dist/dropdown-menu.js"
     },
+    "./collapsible": {
+      "types": "./dist/collapsible.d.ts",
+      "development": "./src/components/collapsible/index.ts",
+      "import": "./dist/collapsible.js"
+    },
+    "./tabs": {
+      "types": "./dist/tabs.d.ts",
+      "development": "./src/components/tabs/index.ts",
+      "import": "./dist/tabs.js"
+    },
+    "./breadcrumb": {
+      "types": "./dist/breadcrumb.d.ts",
+      "development": "./src/components/breadcrumb/index.ts",
+      "import": "./dist/breadcrumb.js"
+    },
+    "./sidebar": {
+      "types": "./dist/sidebar.d.ts",
+      "development": "./src/components/sidebar/index.ts",
+      "import": "./dist/sidebar.js"
+    },
     "./preset.css": "./src/styles/preset.css",
     "./package.json": "./package.json"
   },
@@ -168,6 +188,7 @@
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "input-otp": "^1.4.2",
+    "lucide-react": "^1.16.0",
     "tailwind-merge": "^3.6.0"
   },
   "devDependencies": {

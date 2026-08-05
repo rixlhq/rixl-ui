@@ -20,6 +20,10 @@ import * as dialog from "./dialog";
 import * as alertDialog from "./alert-dialog";
 import * as sheet from "./sheet";
 import * as dropdownMenu from "./dropdown-menu";
+import * as collapsible from "./collapsible";
+import * as tabs from "./tabs";
+import * as breadcrumb from "./breadcrumb";
+import * as sidebar from "./sidebar";
 
 export type Showcase = {
   /** URL-safe id, used in the hash route (e.g. `#/button`). */
@@ -59,4 +63,8 @@ export const showcases: Showcase[] = [
   alertDialog,
   sheet,
   dropdownMenu,
+  collapsible,
+  tabs,
+  breadcrumb,
+  sidebar,
 ];

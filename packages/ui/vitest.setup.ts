@@ -9,3 +9,21 @@ if (typeof globalThis.ResizeObserver === "undefined") {
     disconnect() {}
   };
 }
+
+// jsdom doesn't implement matchMedia, which useIsMobile (Sidebar) relies
+// on. Polyfill as desktop-first so Sidebar renders its desktop shell.
+if (typeof globalThis.matchMedia === "undefined") {
+  globalThis.matchMedia = (query: string) =>
+    ({
+      matches: false,
+      media: query,
+      addEventListener() {},
+      removeEventListener() {},
+      addListener() {},
+      removeListener() {},
+      dispatchEvent() {
+        return false;
+      },
+      onchange: null,
+    }) as MediaQueryList;
+}

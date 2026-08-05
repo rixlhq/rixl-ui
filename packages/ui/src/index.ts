@@ -29,6 +29,10 @@ export * from "./components/dialog";
 export * from "./components/alert-dialog";
 export * from "./components/sheet";
 export * from "./components/dropdown-menu";
+export * from "./components/collapsible";
+export * from "./components/tabs";
+export * from "./components/breadcrumb";
+export * from "./components/sidebar";
 
 /**
  * Shared className utility, re-exported for consumers that want to
