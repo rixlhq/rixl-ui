@@ -1,9 +1,17 @@
 import "@testing-library/jest-dom/vitest";
 import {cleanup} from "@testing-library/react";
+import {vi, afterEach} from "vitest";
 
-// Clean up rendered React trees after each test so timers and effects from
-// components like input-otp don't leak into the next test environment.
-afterEach(cleanup);
+// Use fake timers so async effects from components like input-otp can be
+// flushed before the test environment is torn down.
+vi.useFakeTimers({shouldAdvanceTime: true});
+
+// Clean up rendered React trees after each test and flush any pending timers
+// so they don't leak into the next test environment.
+afterEach(() => {
+  cleanup();
+  vi.runOnlyPendingTimers();
+});
 
 // jsdom doesn't implement ResizeObserver, which some primitives (e.g.
 // input-otp) rely on. Polyfill with a no-op so tests don't crash.
