@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import {cn} from "../../lib/cn";
+import {cn} from "cnfast";
 
 /**
  * Rixl Card — surface container for grouping related content.

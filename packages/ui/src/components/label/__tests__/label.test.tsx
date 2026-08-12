@@ -34,7 +34,7 @@ describe("Label", () => {
     expect(label.className).toContain("font-medium");
   });
 
-  it("last-write-wins on conflicting Tailwind utilities via tailwind-merge", () => {
+  it("last-write-wins on conflicting Tailwind utilities via cnfast", () => {
     render(<Label className="text-lg">Email</Label>);
     const cls = screen.getByText("Email").className;
     expect(cls).toContain("text-lg");

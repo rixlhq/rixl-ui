@@ -2,7 +2,7 @@ import {CopyIcon} from "lucide-react";
 import type {ReactNode} from "react";
 
 import {copyToClipboard} from "../../lib/clipboard";
-import {cn} from "../../lib/cn";
+import {cn} from "cnfast";
 import {Tooltip, TooltipContent, TooltipTrigger} from "../tooltip";
 
 /**

@@ -1,6 +1,6 @@
 import {Children, isValidElement, useMemo, type ComponentProps, type ReactNode} from "react";
 import {Select as SelectPrimitive} from "@base-ui-components/react/select";
-import {cn} from "../../lib/cn";
+import {cn} from "cnfast";
 
 /**
  * Rixl Select — an accessible, portalled select composition.

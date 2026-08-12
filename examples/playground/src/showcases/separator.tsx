@@ -26,7 +26,7 @@ export function Showcase() {
         </div>
       </Group>
 
-      <Group label="Custom className (last-write-wins via tailwind-merge)">
+      <Group label="Custom className (last-write-wins via cnfast)">
         <div className="w-full">
           <Separator className="bg-rixl-primary my-2 h-0.5" />
         </div>

@@ -1,5 +1,5 @@
 import type {ComponentProps} from "react";
-import {cn} from "../../lib/cn";
+import {cn} from "cnfast";
 
 /**
  * Rixl Skeleton — a pulsing placeholder for loading UI.

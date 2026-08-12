@@ -46,7 +46,7 @@ describe("Button", () => {
     expect(btn.className).toContain("bg-rixl-primary");
   });
 
-  it("last-write-wins on conflicting Tailwind utilities via tailwind-merge", () => {
+  it("last-write-wins on conflicting Tailwind utilities via cnfast", () => {
     render(
       <Button size="default" className="h-14">
         Tall

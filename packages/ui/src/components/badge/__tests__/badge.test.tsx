@@ -38,7 +38,7 @@ describe("Badge", () => {
     expect(cls).toContain("bg-rixl-primary");
   });
 
-  it("last-write-wins on conflicting Tailwind utilities via tailwind-merge", () => {
+  it("last-write-wins on conflicting Tailwind utilities via cnfast", () => {
     render(<Badge className="px-6">Wide</Badge>);
     const cls = screen.getByText("Wide").className;
     expect(cls).toContain("px-6");
