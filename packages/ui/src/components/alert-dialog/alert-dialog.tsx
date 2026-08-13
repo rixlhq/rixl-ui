@@ -1,6 +1,6 @@
 import * as React from "react";
 import {AlertDialog as AlertDialogPrimitive} from "@base-ui-components/react/alert-dialog";
-import {cn} from "../../lib/cn";
+import {cn} from "cnfast";
 import {Button} from "../button";
 
 /**

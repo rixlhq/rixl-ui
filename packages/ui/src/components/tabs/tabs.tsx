@@ -1,6 +1,6 @@
 import {Tabs as TabsPrimitive} from "@base-ui-components/react/tabs";
 
-import {cn} from "../../lib/cn";
+import {cn} from "cnfast";
 
 /**
  * Rixl Tabs — tabbed content shell built on Base UI Tabs.

@@ -1,6 +1,6 @@
 import {useContext, type ComponentProps} from "react";
 import {OTPInput, OTPInputContext} from "input-otp";
-import {cn} from "../../lib/cn";
+import {cn} from "cnfast";
 
 /**
  * Rixl InputOTP — a one-time-password / verification-code input.
