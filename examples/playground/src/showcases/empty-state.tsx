@@ -1,27 +1,40 @@
-import {EmptyState} from "@rixl/ui/empty-state";
-import {Group, Section} from "./_layout";
+import { EmptyState } from "@rixl/ui/empty-state";
+import type { ControlValue, Example } from "./registry";
+import { Group } from "./_layout";
 
 export const path = "empty-state";
 export const title = "EmptyState";
 export const group = "Content";
+export const description =
+  "Placeholder for empty content, with an optional primary action and custom icon.";
 
 export function Showcase() {
-  return (
-    <Section
-      title="EmptyState"
-      description="Placeholder for empty content, with an optional primary action and custom icon."
-    >
-      <Group label="Without action">
-        <EmptyState title="No media" description="Upload your first asset to see it here." />
-      </Group>
+  return <EmptyState title="No media" description="Upload your first asset to see it here." />;
+}
 
-      <Group label="With action">
-        <EmptyState
-          title="No projects"
-          description="Create a project to organize your work."
-          action={{label: "New project", onClick: () => {}}}
-        />
-      </Group>
-    </Section>
+function WithoutActionExample(props: { state: Record<string, ControlValue> }) {
+  void props;
+  return (
+    <Group label="Without action">
+      <EmptyState title="No media" description="Upload your first asset to see it here." />
+    </Group>
   );
 }
+
+function WithActionExample(props: { state: Record<string, ControlValue> }) {
+  void props;
+  return (
+    <Group label="With action">
+      <EmptyState
+        title="No projects"
+        description="Create a project to organize your work."
+        action={{ label: "New project", onClick: () => {} }}
+      />
+    </Group>
+  );
+}
+
+export const examples: Example[] = [
+  { id: "basic", title: "Without action", render: WithoutActionExample },
+  { id: "action", title: "With action", render: WithActionExample },
+];
