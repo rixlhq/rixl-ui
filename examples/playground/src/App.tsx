@@ -10,6 +10,16 @@ import {
   type Showcase,
 } from "./showcases/registry";
 
+type Theme = "light" | "dark" | "system";
+
+const THEME_STORAGE_KEY = "rixl-ui-playground-theme";
+
+function getInitialTheme(): Theme {
+  if (typeof localStorage === "undefined") return "system";
+  const saved = localStorage.getItem(THEME_STORAGE_KEY);
+  return saved === "light" || saved === "dark" || saved === "system" ? saved : "system";
+}
+
 /**
  * Rixl Studio — component playground.
  *
@@ -49,8 +59,8 @@ function Header({
   query,
   onQueryChange,
 }: {
-  theme: string;
-  onThemeChange: (next: string) => void;
+  theme: Theme;
+  onThemeChange: (next: Theme) => void;
   query: string;
   onQueryChange: (value: string) => void;
 }) {
@@ -78,18 +88,34 @@ function Header({
   );
 }
 
-function ThemeToggle({ theme, onChange }: { theme: string; onChange: (next: string) => void }) {
-  const next = theme === "dark" ? "light" : "dark";
+function ThemeToggle({ theme, onChange }: { theme: Theme; onChange: (next: Theme) => void }) {
   return (
-    <Button
-      variant="outline"
-      size="icon"
-      aria-label={`Switch to ${next} mode`}
-      onClick={() => onChange(next)}
-      className="shrink-0"
-    >
-      {theme === "dark" ? <SunIcon /> : <MoonIcon />}
-    </Button>
+    <div className="flex items-center rounded-rixl-md border border-rixl-border bg-rixl-bg p-0.5">
+      <Button
+        variant={theme === "system" ? "secondary" : "ghost"}
+        size="icon"
+        aria-label="System theme"
+        onClick={() => onChange("system")}
+      >
+        <MonitorIcon />
+      </Button>
+      <Button
+        variant={theme === "light" ? "secondary" : "ghost"}
+        size="icon"
+        aria-label="Light theme"
+        onClick={() => onChange("light")}
+      >
+        <SunIcon />
+      </Button>
+      <Button
+        variant={theme === "dark" ? "secondary" : "ghost"}
+        size="icon"
+        aria-label="Dark theme"
+        onClick={() => onChange("dark")}
+      >
+        <MoonIcon />
+      </Button>
+    </div>
   );
 }
 
@@ -421,17 +447,54 @@ function readHash(): string {
 
 // ── theme ─────────────────────────────────────────────────────
 
-function useTheme(): [string, (next: string) => void] {
-  const [theme, setTheme] = useState<string>(() =>
-    typeof document !== "undefined" ? (document.documentElement.dataset.theme ?? "light") : "light",
-  );
+function useTheme(): [Theme, (next: Theme) => void] {
+  const [theme, setThemeState] = useState<Theme>(getInitialTheme);
+
+  const setTheme = (next: Theme) => {
+    localStorage.setItem(THEME_STORAGE_KEY, next);
+    setThemeState(next);
+  };
+
   useEffect(() => {
-    document.documentElement.dataset.theme = theme;
+    const root = document.documentElement;
+    const apply = () => {
+      if (theme === "system") {
+        const prefersDark = matchMedia("(prefers-color-scheme: dark)").matches;
+        root.dataset.theme = prefersDark ? "dark" : "light";
+      } else {
+        root.dataset.theme = theme;
+      }
+    };
+    apply();
+
+    if (theme !== "system") return;
+    const mq = matchMedia("(prefers-color-scheme: dark)");
+    const onChange = () => apply();
+    mq.addEventListener("change", onChange);
+    return () => mq.removeEventListener("change", onChange);
   }, [theme]);
+
   return [theme, setTheme];
 }
 
 // ── icons ─────────────────────────────────────────────────────
+
+function MonitorIcon() {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className="h-4 w-4"
+    >
+      <rect x="2" y="3" width="20" height="14" rx="2" />
+      <path d="M8 21h8M12 17v4" />
+    </svg>
+  );
+}
 
 function SunIcon() {
   return (
