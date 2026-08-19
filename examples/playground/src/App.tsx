@@ -1,59 +1,126 @@
-import {useState, useEffect} from "react";
-import {Button} from "@rixl/ui/button";
-import {showcases, type Showcase} from "./showcases/registry";
+import { useEffect, useMemo, useState } from "react";
+import { Button } from "@rixl/ui/button";
+import { Input } from "@rixl/ui/input";
+import { showcases, type Showcase } from "./showcases/registry";
 
 /**
- * Playground shell. Two-pane layout: left sidebar lists every showcase
- * grouped by category; right pane renders the selected one. Hash routing
- * (`#/button`) keeps deep links working and lets us skip a router dep.
+ * Rixl Studio — component playground.
  *
- * Adding a component: create `showcases/<name>.tsx` and append it to
- * `showcases/registry.ts`. The sidebar and content pane both read from
- * that array.
+ * Hash routing keeps the build dependency-free:
+ *   #/              home grid
+ *   #/<path>        component detail
+ *
+ * The shell is split into a sticky header, collapsible grouped sidebar,
+ * and a main area that switches between the home grid and a detail view.
  */
 export function App() {
   const [theme, setTheme] = useTheme();
+  const [query, setQuery] = useState("");
   const active = useHashRoute(showcases);
+  const isHome = active === null;
 
   return (
     <div className="flex min-h-screen">
-      <Sidebar showcases={showcases} activePath={active.path} />
+      <Sidebar showcases={showcases} query={query} activePath={active?.path} />
 
       <main className="flex-1 overflow-x-hidden">
-        <header className="flex items-center justify-between gap-6 border-b border-rixl-border bg-rixl-surface px-8 py-4">
-          <div>
-            <p className="text-xs font-medium uppercase tracking-widest text-rixl-fg-muted">@rixl/ui — playground</p>
-            <h1 className="mt-1 text-lg font-semibold text-rixl-fg">{active.title}</h1>
-          </div>
-          <Button variant="outline" size="sm" onClick={() => setTheme(theme === "dark" ? "light" : "dark")}>
-            {theme === "dark" ? "Light mode" : "Dark mode"}
-          </Button>
-        </header>
+        <Header theme={theme} onThemeChange={setTheme} query={query} onQueryChange={setQuery} />
 
-        <div className="mx-auto max-w-5xl px-8 py-10">
-          <active.Showcase />
+        <div className="mx-auto max-w-6xl px-6 py-10 lg:px-10">
+          {isHome ? <HomeGrid showcases={showcases} query={query} /> : <Detail showcase={active} />}
         </div>
       </main>
     </div>
   );
 }
 
+// ── header ────────────────────────────────────────────────────
+
+function Header({
+  theme,
+  onThemeChange,
+  query,
+  onQueryChange,
+}: {
+  theme: string;
+  onThemeChange: (next: string) => void;
+  query: string;
+  onQueryChange: (value: string) => void;
+}) {
+  return (
+    <header className="sticky top-0 z-20 flex items-center justify-between gap-6 border-b border-rixl-border bg-rixl-surface px-6 py-4 lg:px-10">
+      <a href="#/" className="flex items-center gap-2 text-rixl-fg">
+        <span className="flex h-7 w-7 items-center justify-center rounded-rixl-md bg-rixl-primary text-rixl-primary-fg font-bold text-sm">
+          R
+        </span>
+        <span className="text-lg font-semibold tracking-tight">Rixl Studio</span>
+      </a>
+
+      <div className="flex flex-1 items-center justify-end gap-4">
+        <div className="w-full max-w-sm">
+          <Input
+            value={query}
+            onChange={(e) => onQueryChange(e.target.value)}
+            placeholder="Search components…"
+            className="h-9"
+          />
+        </div>
+        <ThemeToggle theme={theme} onChange={onThemeChange} />
+      </div>
+    </header>
+  );
+}
+
+function ThemeToggle({ theme, onChange }: { theme: string; onChange: (next: string) => void }) {
+  const next = theme === "dark" ? "light" : "dark";
+  return (
+    <Button
+      variant="outline"
+      size="icon"
+      aria-label={`Switch to ${next} mode`}
+      onClick={() => onChange(next)}
+      className="shrink-0"
+    >
+      {theme === "dark" ? <SunIcon /> : <MoonIcon />}
+    </Button>
+  );
+}
+
 // ── sidebar ───────────────────────────────────────────────────
 
-function Sidebar({showcases, activePath}: {showcases: Showcase[]; activePath: string}) {
-  const groups = groupByCategory(showcases);
+function Sidebar({
+  showcases,
+  query,
+  activePath,
+}: {
+  showcases: Showcase[];
+  query: string;
+  activePath?: string;
+}) {
+  const filtered = useMemo(() => showcases.filter((s) => matches(s, query)), [showcases, query]);
+  const groups = groupByCategory(filtered);
 
   return (
-    <aside className="sticky top-0 h-screen w-64 shrink-0 overflow-y-auto border-r border-rixl-border bg-rixl-surface px-4 py-6">
+    <aside className="sticky top-0 z-10 hidden h-screen w-64 shrink-0 flex-col overflow-y-auto border-r border-rixl-border bg-rixl-surface px-4 py-6 lg:flex">
       <div className="mb-6 px-2">
         <p className="text-sm font-semibold text-rixl-fg">Components</p>
-        <p className="mt-0.5 text-xs text-rixl-fg-muted">{showcases.length} shipped</p>
+        <p className="mt-0.5 text-xs text-rixl-fg-muted">{filtered.length} shipped</p>
       </div>
 
-      <nav className="space-y-6">
+      <nav className="space-y-5">
+        <a
+          href="#/"
+          aria-current={!activePath ? "page" : undefined}
+          className="block rounded-rixl-sm px-2 py-1.5 text-sm text-rixl-fg-muted hover:bg-rixl-surface-muted hover:text-rixl-fg aria-[current=page]:bg-rixl-surface-muted aria-[current=page]:text-rixl-fg aria-[current=page]:font-medium"
+        >
+          Overview
+        </a>
+
         {groups.map(([group, items]) => (
-          <div key={group}>
-            <p className="mb-2 px-2 text-xs font-medium uppercase tracking-wide text-rixl-fg-subtle">{group}</p>
+          <details key={group} open>
+            <summary className="mb-1.5 cursor-pointer list-none px-2 text-xs font-medium uppercase tracking-wide text-rixl-fg-subtle">
+              {group}
+            </summary>
             <ul className="space-y-0.5">
               {items.map((s) => (
                 <li key={s.path}>
@@ -67,11 +134,94 @@ function Sidebar({showcases, activePath}: {showcases: Showcase[]; activePath: st
                 </li>
               ))}
             </ul>
-          </div>
+          </details>
         ))}
       </nav>
     </aside>
   );
+}
+
+// ── home grid ─────────────────────────────────────────────────
+
+function HomeGrid({ showcases, query }: { showcases: Showcase[]; query: string }) {
+  const filtered = useMemo(() => showcases.filter((s) => matches(s, query)), [showcases, query]);
+
+  if (filtered.length === 0) {
+    return (
+      <div className="flex flex-col items-center justify-center py-24 text-center">
+        <p className="text-lg font-medium text-rixl-fg">No components found</p>
+        <p className="mt-1 text-sm text-rixl-fg-muted">Try a different search term.</p>
+      </div>
+    );
+  }
+
+  return (
+    <div className="space-y-6">
+      <div>
+        <h1 className="text-3xl font-semibold tracking-tight text-rixl-fg">Components</h1>
+        <p className="mt-1 text-rixl-fg-muted">
+          {filtered.length} showcase{filtered.length === 1 ? "" : "s"} available
+        </p>
+      </div>
+
+      <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-3">
+        {filtered.map((s) => (
+          <ComponentCard key={s.path} showcase={s} />
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function ComponentCard({ showcase }: { showcase: Showcase }) {
+  return (
+    <a
+      href={`#/${showcase.path}`}
+      className="group block rounded-rixl-lg border border-rixl-border bg-rixl-surface p-5 shadow-rixl-xs transition-all hover:shadow-rixl-md hover:border-rixl-border-strong"
+    >
+      <div className="mb-4 flex h-28 items-center justify-center rounded-rixl-md border border-rixl-border border-dashed bg-rixl-bg">
+        <span className="text-3xl font-semibold text-rixl-fg-subtle">{showcase.title[0]}</span>
+      </div>
+      <div className="flex items-center justify-between gap-2">
+        <div>
+          <h3 className="font-medium text-rixl-fg group-hover:text-rixl-primary transition-colors">
+            {showcase.title}
+          </h3>
+          <p className="text-xs text-rixl-fg-muted">{showcase.group}</p>
+        </div>
+        <Button variant="ghost" size="sm">
+          View
+        </Button>
+      </div>
+    </a>
+  );
+}
+
+// ── detail ────────────────────────────────────────────────────
+
+function Detail({ showcase }: { showcase: Showcase }) {
+  return (
+    <div className="space-y-6">
+      <div className="border-b border-rixl-border pb-6">
+        <span className="inline-flex items-center rounded-full bg-rixl-surface-muted px-2.5 py-0.5 text-xs font-medium text-rixl-fg-muted">
+          {showcase.group}
+        </span>
+        <h1 className="mt-2 text-3xl font-semibold tracking-tight text-rixl-fg">
+          {showcase.title}
+        </h1>
+      </div>
+
+      <showcase.Showcase />
+    </div>
+  );
+}
+
+// ── helpers ───────────────────────────────────────────────────
+
+function matches(showcase: Showcase, query: string): boolean {
+  if (!query.trim()) return true;
+  const q = query.toLowerCase();
+  return showcase.title.toLowerCase().includes(q) || showcase.group.toLowerCase().includes(q);
 }
 
 function groupByCategory(items: Showcase[]): [string, Showcase[]][] {
@@ -86,7 +236,7 @@ function groupByCategory(items: Showcase[]): [string, Showcase[]][] {
 
 // ── hash routing ──────────────────────────────────────────────
 
-function useHashRoute(showcases: Showcase[]): Showcase {
+function useHashRoute(showcases: Showcase[]): Showcase | null {
   const [path, setPath] = useState<string>(() => readHash());
 
   useEffect(() => {
@@ -95,7 +245,8 @@ function useHashRoute(showcases: Showcase[]): Showcase {
     return () => window.removeEventListener("hashchange", onChange);
   }, []);
 
-  return showcases.find((s) => s.path === path) ?? showcases[0]!;
+  if (path === "") return null;
+  return showcases.find((s) => s.path === path) ?? null;
 }
 
 function readHash(): string {
@@ -107,10 +258,45 @@ function readHash(): string {
 
 function useTheme(): [string, (next: string) => void] {
   const [theme, setTheme] = useState<string>(() =>
-    typeof document !== "undefined" ? (document.documentElement.dataset.theme ?? "light") : "light"
+    typeof document !== "undefined" ? (document.documentElement.dataset.theme ?? "light") : "light",
   );
   useEffect(() => {
     document.documentElement.dataset.theme = theme;
   }, [theme]);
   return [theme, setTheme];
+}
+
+// ── icons ─────────────────────────────────────────────────────
+
+function SunIcon() {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className="h-4 w-4"
+    >
+      <circle cx="12" cy="12" r="4" />
+      <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66 4.93 19.07M19.07 4.93 17.66 6.34" />
+    </svg>
+  );
+}
+
+function MoonIcon() {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className="h-4 w-4"
+    >
+      <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z" />
+    </svg>
+  );
 }

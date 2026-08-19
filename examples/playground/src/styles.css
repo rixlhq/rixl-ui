@@ -20,6 +20,7 @@ body,
   min-height: 100%;
 }
 
+html,
 body {
   background: var(--rixl-bg);
   color: var(--rixl-fg);
@@ -33,4 +34,7 @@ body {
     Arial,
     sans-serif;
   font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  transition:
+    background-color var(--rixl-motion-base) var(--rixl-ease-out),
+    color var(--rixl-motion-base) var(--rixl-ease-out);
 }
