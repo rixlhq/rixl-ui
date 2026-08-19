@@ -1,4 +1,4 @@
-import type { ComponentType } from "react";
+import type { ComponentType, ReactNode } from "react";
 import * as button from "./button";
 import * as label from "./label";
 import * as separator from "./separator";
@@ -31,6 +31,18 @@ import * as copyBlock from "./copy-block";
 import * as emptyState from "./empty-state";
 import * as toaster from "./toaster";
 
+export type ControlValue = string | boolean;
+
+export type Control =
+  | {
+      name: string;
+      label: string;
+      type: "select";
+      options: { value: string; label: string }[];
+      defaultValue?: string;
+    }
+  | { name: string; label: string; type: "boolean"; defaultValue?: boolean };
+
 export type Example = {
   /** URL-safe id for this example. */
   id: string;
@@ -38,8 +50,10 @@ export type Example = {
   title: string;
   /** Optional one-line description. */
   description?: string;
-  /** The rendered example. */
-  render: ComponentType;
+  /** The rendered example. Receives live playground state when `controls` is set. */
+  render: ComponentType<{ state: Record<string, ControlValue> } & { children?: ReactNode }>;
+  /** Optional live prop controls for the example. */
+  controls?: Control[];
   /** Optional source snippet for the Code tab. */
   code?: string;
 };

@@ -1,7 +1,14 @@
 import { useEffect, useMemo, useState } from "react";
+import type { ComponentType, ReactNode } from "react";
 import { Button } from "@rixl/ui/button";
 import { Input } from "@rixl/ui/input";
-import { showcases, type Example, type Showcase } from "./showcases/registry";
+import {
+  showcases,
+  type Control,
+  type ControlValue,
+  type Example,
+  type Showcase,
+} from "./showcases/registry";
 
 /**
  * Rixl Studio — component playground.
@@ -177,7 +184,7 @@ function ComponentCard({ showcase }: { showcase: Showcase }) {
   return (
     <a
       href={`#/${showcase.path}`}
-      className="group block rounded-rixl-lg border border-rixl-border bg-rixl-surface p-5 shadow-rixl-xs transition-all hover:shadow-rixl-md hover:border-rixl-border-strong"
+      className="group block rounded-rixl-lg border border-rixl-border bg-rixl-surface p-5 shadow-rixl-xs transition-all duration-200 hover:-translate-y-0.5 hover:shadow-rixl-md hover:border-rixl-border-strong"
     >
       <div className="mb-4 flex h-28 items-center justify-center rounded-rixl-md border border-rixl-border border-dashed bg-rixl-bg">
         <span className="text-3xl font-semibold text-rixl-fg-subtle">{showcase.title[0]}</span>
@@ -202,7 +209,11 @@ function ComponentCard({ showcase }: { showcase: Showcase }) {
 function Detail({ showcase }: { showcase: Showcase }) {
   const examples = useMemo<Example[]>(() => {
     if (showcase.examples && showcase.examples.length > 0) return showcase.examples;
-    return [{ id: "default", title: "Preview", render: showcase.Showcase }];
+    const Legacy: ComponentType<{
+      state: Record<string, ControlValue>;
+      children?: ReactNode;
+    }> = () => <showcase.Showcase />;
+    return [{ id: "default", title: "Preview", render: Legacy }];
   }, [showcase]);
 
   return (
@@ -231,10 +242,13 @@ function Detail({ showcase }: { showcase: Showcase }) {
 function ExampleCard({ example }: { example: Example }) {
   const [mode, setMode] = useState<"preview" | "code">("preview");
   const hasCode = Boolean(example.code?.trim());
+  const [state, setState] = useState<Record<string, ControlValue>>(() =>
+    defaultState(example.controls),
+  );
   const Render = example.render;
 
   return (
-    <section className="overflow-hidden rounded-rixl-lg border border-rixl-border bg-rixl-surface shadow-rixl-xs">
+    <section className="overflow-hidden rounded-rixl-lg border border-rixl-border bg-rixl-surface shadow-rixl-xs transition-shadow duration-200 hover:shadow-rixl-sm">
       <div className="flex items-center justify-between border-b border-rixl-border px-4 py-3">
         <div>
           <h2 className="text-sm font-semibold text-rixl-fg">{example.title}</h2>
@@ -261,9 +275,17 @@ function ExampleCard({ example }: { example: Example }) {
         </div>
       </div>
 
+      {example.controls && mode === "preview" ? (
+        <div className="flex flex-wrap gap-4 border-b border-rixl-border bg-rixl-bg px-4 py-3">
+          {example.controls.map((control) => (
+            <ControlField key={control.name} control={control} state={state} onChange={setState} />
+          ))}
+        </div>
+      ) : null}
+
       <div className="p-6">
         {mode === "preview" ? (
-          <Render />
+          <Render state={state} />
         ) : hasCode ? (
           <div className="relative">
             <pre className="overflow-x-auto rounded-rixl-md border border-rixl-border bg-rixl-bg p-4 text-xs text-rixl-fg">
@@ -277,6 +299,62 @@ function ExampleCard({ example }: { example: Example }) {
       </div>
     </section>
   );
+}
+
+function ControlField({
+  control,
+  state,
+  onChange,
+}: {
+  control: Control;
+  state: Record<string, ControlValue>;
+  onChange: (next: Record<string, ControlValue>) => void;
+}) {
+  const value = state[control.name];
+
+  if (control.type === "select") {
+    return (
+      <label className="flex items-center gap-2 text-sm text-rixl-fg">
+        <span className="text-rixl-fg-muted">{control.label}</span>
+        <select
+          value={value as string}
+          onChange={(e) => onChange({ ...state, [control.name]: e.target.value })}
+          className="h-8 rounded-rixl-md border border-rixl-border bg-rixl-surface px-2 text-sm text-rixl-fg outline-none focus-visible:ring-rixl-ring/50 focus-visible:ring-[3px]"
+        >
+          {control.options.map((opt) => (
+            <option key={opt.value} value={opt.value}>
+              {opt.label}
+            </option>
+          ))}
+        </select>
+      </label>
+    );
+  }
+
+  return (
+    <label className="flex items-center gap-2 text-sm text-rixl-fg">
+      <input
+        type="checkbox"
+        checked={value as boolean}
+        onChange={(e) => onChange({ ...state, [control.name]: e.target.checked })}
+        className="size-4 rounded-rixl-sm border-rixl-border accent-rixl-primary"
+      />
+      <span className="text-rixl-fg-muted">{control.label}</span>
+    </label>
+  );
+}
+
+function defaultState(controls?: Control[]): Record<string, ControlValue> {
+  const state: Record<string, ControlValue> = {};
+  if (!controls) return state;
+  for (const control of controls) {
+    if (control.type === "select") {
+      state[control.name] = control.defaultValue ?? control.options[0]?.value ?? "";
+    } else {
+      state[control.name] = control.defaultValue ?? false;
+    }
+  }
+  return state;
 }
 
 function CopyButton({ text }: { text: string }) {
