@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { Button } from "@rixl/ui/button";
 import { Input } from "@rixl/ui/input";
-import { showcases, type Showcase } from "./showcases/registry";
+import { showcases, type Example, type Showcase } from "./showcases/registry";
 
 /**
  * Rixl Studio — component playground.
@@ -200,8 +200,13 @@ function ComponentCard({ showcase }: { showcase: Showcase }) {
 // ── detail ────────────────────────────────────────────────────
 
 function Detail({ showcase }: { showcase: Showcase }) {
+  const examples = useMemo<Example[]>(() => {
+    if (showcase.examples && showcase.examples.length > 0) return showcase.examples;
+    return [{ id: "default", title: "Preview", render: showcase.Showcase }];
+  }, [showcase]);
+
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
       <div className="border-b border-rixl-border pb-6">
         <span className="inline-flex items-center rounded-full bg-rixl-surface-muted px-2.5 py-0.5 text-xs font-medium text-rixl-fg-muted">
           {showcase.group}
@@ -209,10 +214,88 @@ function Detail({ showcase }: { showcase: Showcase }) {
         <h1 className="mt-2 text-3xl font-semibold tracking-tight text-rixl-fg">
           {showcase.title}
         </h1>
+        {showcase.description ? (
+          <p className="mt-2 text-rixl-fg-muted">{showcase.description}</p>
+        ) : null}
       </div>
 
-      <showcase.Showcase />
+      <div className="space-y-6">
+        {examples.map((example) => (
+          <ExampleCard key={example.id} example={example} />
+        ))}
+      </div>
     </div>
+  );
+}
+
+function ExampleCard({ example }: { example: Example }) {
+  const [mode, setMode] = useState<"preview" | "code">("preview");
+  const hasCode = Boolean(example.code?.trim());
+  const Render = example.render;
+
+  return (
+    <section className="overflow-hidden rounded-rixl-lg border border-rixl-border bg-rixl-surface shadow-rixl-xs">
+      <div className="flex items-center justify-between border-b border-rixl-border px-4 py-3">
+        <div>
+          <h2 className="text-sm font-semibold text-rixl-fg">{example.title}</h2>
+          {example.description ? (
+            <p className="text-xs text-rixl-fg-muted">{example.description}</p>
+          ) : null}
+        </div>
+        <div className="flex items-center gap-1">
+          <Button
+            variant={mode === "preview" ? "secondary" : "ghost"}
+            size="sm"
+            onClick={() => setMode("preview")}
+          >
+            Preview
+          </Button>
+          <Button
+            variant={mode === "code" ? "secondary" : "ghost"}
+            size="sm"
+            disabled={!hasCode}
+            onClick={() => setMode("code")}
+          >
+            Code
+          </Button>
+        </div>
+      </div>
+
+      <div className="p-6">
+        {mode === "preview" ? (
+          <Render />
+        ) : hasCode ? (
+          <div className="relative">
+            <pre className="overflow-x-auto rounded-rixl-md border border-rixl-border bg-rixl-bg p-4 text-xs text-rixl-fg">
+              {example.code}
+            </pre>
+            <CopyButton text={example.code!} />
+          </div>
+        ) : (
+          <p className="text-rixl-fg-muted">No code available for this example.</p>
+        )}
+      </div>
+    </section>
+  );
+}
+
+function CopyButton({ text }: { text: string }) {
+  const [copied, setCopied] = useState(false);
+
+  const handleCopy = async () => {
+    try {
+      await navigator.clipboard.writeText(text);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 1200);
+    } catch {
+      /* ignore */
+    }
+  };
+
+  return (
+    <Button variant="outline" size="sm" className="absolute top-2 right-2" onClick={handleCopy}>
+      {copied ? "Copied" : "Copy"}
+    </Button>
   );
 }
 
@@ -221,7 +304,11 @@ function Detail({ showcase }: { showcase: Showcase }) {
 function matches(showcase: Showcase, query: string): boolean {
   if (!query.trim()) return true;
   const q = query.toLowerCase();
-  return showcase.title.toLowerCase().includes(q) || showcase.group.toLowerCase().includes(q);
+  return (
+    showcase.title.toLowerCase().includes(q) ||
+    showcase.group.toLowerCase().includes(q) ||
+    (showcase.description?.toLowerCase().includes(q) ?? false)
+  );
 }
 
 function groupByCategory(items: Showcase[]): [string, Showcase[]][] {
