@@ -1,5 +1,5 @@
 import type {ToasterProps, ToastT} from "sonner";
-import {Toaster as SonnerToaster, toast as sonnerToast, type ToastT as SonnerToastT, type ExternalToast} from "sonner";
+import {Toaster as SonnerToaster, toast, type ExternalToast} from "sonner";
 
 import {cn} from "cnfast";
 
@@ -10,10 +10,6 @@ import {cn} from "cnfast";
  */
 function Toaster({className, ...props}: ToasterProps) {
   return <SonnerToaster className={cn("toaster group", className)} {...props} />;
-}
-
-function toast(message: string | React.ReactNode, options?: ExternalToast): string | number {
-  return sonnerToast(message, options);
 }
 
 export {Toaster, toast};
