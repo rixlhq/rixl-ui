@@ -1,5 +1,4 @@
-import {useState} from "react";
-import {Label} from "@rixl/ui/label";
+import { Label } from "@rixl/ui/label";
 import {
   Select,
   SelectContent,
@@ -10,146 +9,128 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@rixl/ui/select";
-import {Group, Section} from "./_layout";
+import type { ControlValue, Example } from "./registry";
+import { Group } from "./_layout";
 
 export const path = "select";
 export const title = "Select";
 export const group = "Forms";
+export const description =
+  "Portalled Base UI Select. Composition of Trigger, Value, Content, Groups, Items, and Separators.";
 
 export function Showcase() {
   return (
-    <Section title="Select" description="Portalled Base UI Select. Composition of Trigger, Value, Content, Groups, Items, and Separators.">
-      <Group label="Basic">
-        <div className="flex w-full max-w-sm flex-col gap-1.5">
-          <Label htmlFor="fruit-trigger">Favourite fruit</Label>
-          <Select>
-            <SelectTrigger id="fruit-trigger" className="w-full">
-              <SelectValue>{(v) => (v ? String(v) : "Pick one")}</SelectValue>
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="apple">Apple</SelectItem>
-              <SelectItem value="banana">Banana</SelectItem>
-              <SelectItem value="cherry">Cherry</SelectItem>
-              <SelectItem value="date">Date</SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
-      </Group>
-
-      <Group label="Sizes">
-        <div className="flex items-center gap-3">
-          <Select defaultValue="daily">
-            <SelectTrigger size="sm">
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="daily">Daily</SelectItem>
-              <SelectItem value="weekly">Weekly</SelectItem>
-              <SelectItem value="monthly">Monthly</SelectItem>
-            </SelectContent>
-          </Select>
-
-          <Select defaultValue="daily">
-            <SelectTrigger>
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="daily">Daily</SelectItem>
-              <SelectItem value="weekly">Weekly</SelectItem>
-              <SelectItem value="monthly">Monthly</SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
-      </Group>
-
-      <Group label="Grouped options with separator">
-        <Select>
-          <SelectTrigger>
-            <SelectValue>{(v) => (v ? String(v) : "Pick a timezone")}</SelectValue>
-          </SelectTrigger>
-          <SelectContent>
-            <SelectGroup>
-              <SelectLabel>North America</SelectLabel>
-              <SelectItem value="pst">Pacific Standard Time (PST)</SelectItem>
-              <SelectItem value="est">Eastern Standard Time (EST)</SelectItem>
-            </SelectGroup>
-            <SelectSeparator />
-            <SelectGroup>
-              <SelectLabel>Europe</SelectLabel>
-              <SelectItem value="gmt">Greenwich Mean Time (GMT)</SelectItem>
-              <SelectItem value="cet">Central European Time (CET)</SelectItem>
-              <SelectItem value="eet">Eastern European Time (EET)</SelectItem>
-            </SelectGroup>
-          </SelectContent>
-        </Select>
-      </Group>
-
-      <Group label="Disabled option + disabled trigger">
-        <div className="flex items-center gap-3">
-          <Select defaultValue="pro">
-            <SelectTrigger>
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="free">Free</SelectItem>
-              <SelectItem value="pro">Pro</SelectItem>
-              <SelectItem value="enterprise" disabled>
-                Enterprise (contact sales)
-              </SelectItem>
-            </SelectContent>
-          </Select>
-
-          <Select disabled defaultValue="pro">
-            <SelectTrigger>
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="pro">Pro</SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
-      </Group>
-
-      <Group label="Invalid (aria-invalid on trigger)">
-        <div className="flex w-full max-w-sm flex-col gap-1.5">
-          <Label htmlFor="region-trigger" className="text-rixl-danger">
-            Region
-          </Label>
-          <Select>
-            <SelectTrigger id="region-trigger" aria-invalid>
-              <SelectValue>{(v) => (v ? String(v) : "Choose a region")}</SelectValue>
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="us">United States</SelectItem>
-              <SelectItem value="eu">European Union</SelectItem>
-            </SelectContent>
-          </Select>
-          <p className="text-xs text-rixl-danger">You must pick a region.</p>
-        </div>
-      </Group>
-
-      <Group label="Controlled">
-        <ControlledDemo />
-      </Group>
-    </Section>
+    <Select>
+      <SelectTrigger>
+        <SelectValue>{(v) => (v ? String(v) : "Pick one")}</SelectValue>
+      </SelectTrigger>
+      <SelectContent>
+        <SelectItem value="apple">Apple</SelectItem>
+        <SelectItem value="banana">Banana</SelectItem>
+      </SelectContent>
+    </Select>
   );
 }
 
-function ControlledDemo() {
-  const [value, setValue] = useState<string>("comfortable");
+function LiveExample({ state }: { state: Record<string, ControlValue> }) {
+  const size = state.size as "sm" | "default";
+  const disabled = state.disabled as boolean;
+  const invalid = state.invalid as boolean;
+
   return (
-    <div className="flex flex-col gap-2">
-      <Select value={value} onValueChange={setValue}>
+    <div className="flex w-full max-w-sm flex-col gap-1.5">
+      <Label htmlFor="live-select">Favourite fruit</Label>
+      <Select disabled={disabled}>
+        <SelectTrigger id="live-select" size={size} aria-invalid={invalid}>
+          <SelectValue>{(v) => (v ? String(v) : "Pick one")}</SelectValue>
+        </SelectTrigger>
+        <SelectContent>
+          <SelectItem value="apple">Apple</SelectItem>
+          <SelectItem value="banana">Banana</SelectItem>
+          <SelectItem value="cherry">Cherry</SelectItem>
+          <SelectItem value="date">Date</SelectItem>
+        </SelectContent>
+      </Select>
+      {invalid ? <p className="text-xs text-rixl-danger">Please make a selection.</p> : null}
+    </div>
+  );
+}
+
+function GroupedExample(props: { state: Record<string, ControlValue> }) {
+  void props;
+  return (
+    <Group label="Grouped options with separator">
+      <Select>
+        <SelectTrigger>
+          <SelectValue>{(v) => (v ? String(v) : "Pick a timezone")}</SelectValue>
+        </SelectTrigger>
+        <SelectContent>
+          <SelectGroup>
+            <SelectLabel>North America</SelectLabel>
+            <SelectItem value="pst">Pacific Standard Time (PST)</SelectItem>
+            <SelectItem value="est">Eastern Standard Time (EST)</SelectItem>
+          </SelectGroup>
+          <SelectSeparator />
+          <SelectGroup>
+            <SelectLabel>Europe</SelectLabel>
+            <SelectItem value="gmt">Greenwich Mean Time (GMT)</SelectItem>
+            <SelectItem value="cet">Central European Time (CET)</SelectItem>
+          </SelectGroup>
+        </SelectContent>
+      </Select>
+    </Group>
+  );
+}
+
+function DisabledOptionExample(props: { state: Record<string, ControlValue> }) {
+  void props;
+  return (
+    <Group label="Disabled option">
+      <Select defaultValue="pro">
         <SelectTrigger>
           <SelectValue />
         </SelectTrigger>
         <SelectContent>
-          <SelectItem value="compact">Compact</SelectItem>
-          <SelectItem value="comfortable">Comfortable</SelectItem>
-          <SelectItem value="spacious">Spacious</SelectItem>
+          <SelectItem value="free">Free</SelectItem>
+          <SelectItem value="pro">Pro</SelectItem>
+          <SelectItem value="enterprise" disabled>
+            Enterprise (contact sales)
+          </SelectItem>
         </SelectContent>
       </Select>
-      <p className="text-xs text-rixl-fg-muted">Selected: {value}</p>
-    </div>
+    </Group>
   );
 }
+
+export const examples: Example[] = [
+  {
+    id: "live",
+    title: "Interactive",
+    description: "Tweak trigger size, disabled, and invalid states live.",
+    render: LiveExample,
+    controls: [
+      {
+        name: "size",
+        label: "Size",
+        type: "select",
+        options: [
+          { value: "sm", label: "Small" },
+          { value: "default", label: "Default" },
+        ],
+        defaultValue: "default",
+      },
+      { name: "disabled", label: "Disabled", type: "boolean", defaultValue: false },
+      { name: "invalid", label: "Invalid", type: "boolean", defaultValue: false },
+    ],
+    code: `<Select>
+  <SelectTrigger>
+    <SelectValue>{(v) => (v ? String(v) : "Pick one")}</SelectValue>
+  </SelectTrigger>
+  <SelectContent>
+    <SelectItem value="apple">Apple</SelectItem>
+  </SelectContent>
+</Select>`,
+  },
+  { id: "grouped", title: "Grouped options", render: GroupedExample },
+  { id: "disabled-option", title: "Disabled option", render: DisabledOptionExample },
+];
