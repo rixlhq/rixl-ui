@@ -1,4 +1,4 @@
-import {defineConfig} from "vite";
+import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import tailwindcss from "@tailwindcss/vite";
 
@@ -10,7 +10,7 @@ import tailwindcss from "@tailwindcss/vite";
 // `vite build` the `import` condition falls through to `dist/**`, so
 // the built bundle imports the packaged output.
 export default defineConfig({
-  plugins: [react(), tailwindcss()],
+  plugins: [react({ compiler: true }), tailwindcss()],
   server: {
     port: 5176,
   },
