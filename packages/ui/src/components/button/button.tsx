@@ -1,4 +1,4 @@
-import {isValidElement} from "react";
+import {forwardRef, isValidElement} from "react";
 import {Button as ButtonPrimitive} from "@base-ui-components/react/button";
 import {cva, type VariantProps} from "class-variance-authority";
 import {cn} from "cnfast";
@@ -41,19 +41,23 @@ const buttonVariants = cva(
   }
 );
 
-function Button({className, variant, size, nativeButton, render, ...props}: ButtonPrimitive.Props & VariantProps<typeof buttonVariants>) {
-  // When rendered as a non-<button> element (e.g. render={<Link/>}), tell Base UI so it drops native button semantics.
-  const isNativeButton = nativeButton ?? (isValidElement(render) ? render.type === "button" : true);
-  return (
-    <ButtonPrimitive
-      data-slot="button"
-      nativeButton={isNativeButton}
-      render={render}
-      className={cn(buttonVariants({variant, size, className}))}
-      {...props}
-    />
-  );
-}
+const Button = forwardRef<HTMLButtonElement, ButtonPrimitive.Props & VariantProps<typeof buttonVariants>>(
+  ({className, variant, size, nativeButton, render, ...props}, ref) => {
+    // When rendered as a non-<button> element (e.g. render={<Link/>}), tell Base UI so it drops native button semantics.
+    const isNativeButton = nativeButton ?? (isValidElement(render) ? render.type === "button" : true);
+    return (
+      <ButtonPrimitive
+        ref={ref}
+        data-slot="button"
+        nativeButton={isNativeButton}
+        render={render}
+        className={cn(buttonVariants({variant, size, className}))}
+        {...props}
+      />
+    );
+  }
+);
+Button.displayName = "Button";
 
 export {Button, buttonVariants};
 export type ButtonProps = ButtonPrimitive.Props & VariantProps<typeof buttonVariants>;

@@ -1,92 +1,85 @@
-import {useState} from "react";
-import {Label} from "@rixl/ui/label";
-import {RadioGroup, RadioGroupItem} from "@rixl/ui/radio-group";
-import {Group, Section} from "./_layout";
+import { Label } from "@rixl/ui/label";
+import { RadioGroup, RadioGroupItem } from "@rixl/ui/radio-group";
+import type { ControlValue, Example } from "./registry";
+import { Group } from "./_layout";
 
 export const path = "radio-group";
 export const title = "Radio Group";
 export const group = "Forms";
+export const description =
+  "Single-selection group. Compose each item with a Label for accessible labelling.";
 
 export function Showcase() {
   return (
-    <Section title="Radio Group" description="Single-selection group. Compose each item with a Label for accessible labelling.">
-      <Group label="Basic">
-        <RadioGroup defaultValue="comfortable" name="density">
-          <div className="flex items-center gap-2">
-            <RadioGroupItem id="d-compact" value="compact" />
-            <Label htmlFor="d-compact">Compact</Label>
-          </div>
-          <div className="flex items-center gap-2">
-            <RadioGroupItem id="d-comfortable" value="comfortable" />
-            <Label htmlFor="d-comfortable">Comfortable</Label>
-          </div>
-          <div className="flex items-center gap-2">
-            <RadioGroupItem id="d-spacious" value="spacious" />
-            <Label htmlFor="d-spacious">Spacious</Label>
-          </div>
-        </RadioGroup>
-      </Group>
-
-      <Group label="Disabled options">
-        <RadioGroup defaultValue="pro" name="plan">
-          <div className="flex items-center gap-2">
-            <RadioGroupItem id="p-free" value="free" />
-            <Label htmlFor="p-free">Free</Label>
-          </div>
-          <div className="flex items-center gap-2">
-            <RadioGroupItem id="p-pro" value="pro" />
-            <Label htmlFor="p-pro">Pro</Label>
-          </div>
-          <div className="flex items-center gap-2">
-            <RadioGroupItem id="p-enterprise" value="enterprise" disabled />
-            <Label htmlFor="p-enterprise">Enterprise (contact sales)</Label>
-          </div>
-        </RadioGroup>
-      </Group>
-
-      <Group label="Invalid (aria-invalid on items)">
-        <RadioGroup name="delivery">
-          <div className="flex items-center gap-2">
-            <RadioGroupItem id="s-standard" value="standard" aria-invalid />
-            <Label htmlFor="s-standard" className="text-rixl-danger">
-              Standard (unavailable to your region)
-            </Label>
-          </div>
-          <div className="flex items-center gap-2">
-            <RadioGroupItem id="s-express" value="express" aria-invalid />
-            <Label htmlFor="s-express" className="text-rixl-danger">
-              Express (unavailable to your region)
-            </Label>
-          </div>
-        </RadioGroup>
-      </Group>
-
-      <Group label="Controlled">
-        <ControlledDemo />
-      </Group>
-    </Section>
+    <RadioGroup defaultValue="comfortable" name="showcase">
+      <div className="flex items-center gap-2">
+        <RadioGroupItem id="d-comfortable" value="comfortable" />
+        <Label htmlFor="d-comfortable">Comfortable</Label>
+      </div>
+    </RadioGroup>
   );
 }
 
-function ControlledDemo() {
-  const [value, setValue] = useState<string>("apple");
+function LiveExample({ state }: { state: Record<string, ControlValue> }) {
+  const disabled = state.disabled as boolean;
+  const invalid = state.invalid as boolean;
+
   return (
-    <div className="flex flex-col gap-3">
-      <RadioGroup value={value} onValueChange={(v) => setValue(String(v))} name="fruit">
+    <RadioGroup defaultValue="comfortable" name="live" disabled={disabled}>
+      <div className="flex items-center gap-2">
+        <RadioGroupItem id="l-compact" value="compact" aria-invalid={invalid} />
+        <Label htmlFor="l-compact">Compact</Label>
+      </div>
+      <div className="flex items-center gap-2">
+        <RadioGroupItem id="l-comfortable" value="comfortable" aria-invalid={invalid} />
+        <Label htmlFor="l-comfortable">Comfortable</Label>
+      </div>
+      <div className="flex items-center gap-2">
+        <RadioGroupItem id="l-spacious" value="spacious" aria-invalid={invalid} />
+        <Label htmlFor="l-spacious">Spacious</Label>
+      </div>
+    </RadioGroup>
+  );
+}
+
+function DisabledOptionsExample(props: { state: Record<string, ControlValue> }) {
+  void props;
+  return (
+    <Group label="Disabled options">
+      <RadioGroup defaultValue="pro" name="plan">
         <div className="flex items-center gap-2">
-          <RadioGroupItem id="f-apple" value="apple" />
-          <Label htmlFor="f-apple">Apple</Label>
+          <RadioGroupItem id="p-free" value="free" />
+          <Label htmlFor="p-free">Free</Label>
         </div>
         <div className="flex items-center gap-2">
-          <RadioGroupItem id="f-banana" value="banana" />
-          <Label htmlFor="f-banana">Banana</Label>
+          <RadioGroupItem id="p-pro" value="pro" />
+          <Label htmlFor="p-pro">Pro</Label>
         </div>
         <div className="flex items-center gap-2">
-          <RadioGroupItem id="f-cherry" value="cherry" />
-          <Label htmlFor="f-cherry">Cherry</Label>
+          <RadioGroupItem id="p-enterprise" value="enterprise" disabled />
+          <Label htmlFor="p-enterprise">Enterprise (contact sales)</Label>
         </div>
       </RadioGroup>
-      <p className="text-xs text-rixl-fg-muted">Selected: {value}</p>
-    </div>
+    </Group>
   );
 }
+
+export const examples: Example[] = [
+  {
+    id: "live",
+    title: "Interactive",
+    description: "Tweak disabled and invalid states live.",
+    render: LiveExample,
+    controls: [
+      { name: "disabled", label: "Disabled", type: "boolean", defaultValue: false },
+      { name: "invalid", label: "Invalid", type: "boolean", defaultValue: false },
+    ],
+    code: `<RadioGroup defaultValue="comfortable" name="density">
+  <div className="flex items-center gap-2">
+    <RadioGroupItem id="d-comfortable" value="comfortable" />
+    <Label htmlFor="d-comfortable">Comfortable</Label>
+  </div>
+</RadioGroup>`,
+  },
+  { id: "disabled-options", title: "Disabled options", render: DisabledOptionsExample },
+];
