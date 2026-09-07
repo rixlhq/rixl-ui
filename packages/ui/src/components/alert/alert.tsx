@@ -1,6 +1,6 @@
 import type {ComponentProps} from "react";
 import {cva, type VariantProps} from "class-variance-authority";
-import {cn} from "cnfast";
+import {cn} from "cn";
 
 /**
  * Rixl Alert — an inline banner for status / instructive messages.

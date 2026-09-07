@@ -57,7 +57,7 @@ packages/ui/                    — @rixl/ui library (publish target)
       <name>.tsx                — implementation with forwardRef, cva variants
       index.ts                  — public re-exports
       __tests__/<name>.test.tsx — vitest + Testing Library
-    cnfast                       — drop-in cn utility imported directly
+    cn                           — drop-in cn utility imported directly
     styles/preset.css           — design tokens (`--rixl-*`) + Tailwind `@theme`
     index.ts                    — barrel (avoid in production; prefer subpath imports)
   vite.config.ts                — vp+ config; declares every entry

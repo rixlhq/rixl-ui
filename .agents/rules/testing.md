@@ -19,7 +19,7 @@ We deliberately do **not** ship Playwright CT here — a design system's UI corr
 
 ## When to use each
 
-- **Vitest + Testing Library (jsdom)** — every component test, every hook test, every utility test. Cover: rendering, all variants, className merging via `cnfast`, ref forwarding, keyboard interaction, disabled/loading states, controlled vs uncontrolled behavior.
+- **Vitest + Testing Library (jsdom)** — every component test, every hook test, every utility test. Cover: rendering, all variants, className merging via `cn`, ref forwarding, keyboard interaction, disabled/loading states, controlled vs uncontrolled behavior.
 - **fast-check** — pure functions like `cn`, size/variant class builders, token helpers. Add property tests inline in the same `__tests__/<name>.test.ts` file.
 
 ## Test location

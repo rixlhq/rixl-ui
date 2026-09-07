@@ -1,5 +1,5 @@
 import {Separator as SeparatorPrimitive} from "@base-ui-components/react/separator";
-import {cn} from "cnfast";
+import {cn} from "cn";
 
 /**
  * Rixl Separator — a themed horizontal or vertical divider.

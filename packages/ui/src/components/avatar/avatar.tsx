@@ -1,5 +1,5 @@
 import {Avatar as AvatarPrimitive} from "@base-ui-components/react/avatar";
-import {cn} from "cnfast";
+import {cn} from "cn";
 
 /**
  * Rixl Avatar — image with fallback initials/icon.

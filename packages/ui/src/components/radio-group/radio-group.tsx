@@ -1,6 +1,6 @@
 import {Radio as RadioPrimitive} from "@base-ui-components/react/radio";
 import {RadioGroup as RadioGroupPrimitive} from "@base-ui-components/react/radio-group";
-import {cn} from "cnfast";
+import {cn} from "cn";
 
 /**
  * Rixl RadioGroup — single-selection group of radio inputs.

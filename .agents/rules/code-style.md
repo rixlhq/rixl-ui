@@ -51,8 +51,8 @@ If a component exceeds these limits it is a design smell — split into sub-comp
 
 - **Tailwind 4 utility classes only.** No CSS modules, no CSS-in-JS, no inline styles unless a dynamic value forces it.
 - Classes must resolve against **`--rixl-*` design tokens** declared in `src/styles/preset.css`. Do not hardcode colors, radii, shadows, or motion durations in a component — read them from tokens.
-- Use `cn(...)` from `cnfast` for conditional classes. It replaces `clsx` + `tailwind-merge`, so consumer classes override component defaults last-write-wins.
-- Import as `import {cn} from "cnfast";` — no local `lib/cn` helper.
+- Use `cn(...)` from `cn` for conditional classes. It replaces `clsx` + `tailwind-merge`, so consumer classes override component defaults last-write-wins.
+- Import as `import {cn} from "cn";` — no local `lib/cn` helper.
 - Every component ships variant classes via `cva` (`class-variance-authority`) exported as `<name>Variants`. Consumers can compose those variants onto their own elements without re-implementing.
 
 ## Accessibility

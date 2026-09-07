@@ -1,5 +1,5 @@
 import {Switch as SwitchPrimitive} from "@base-ui-components/react/switch";
-import {cn} from "cnfast";
+import {cn} from "cn";
 
 /**
  * Rixl Switch — a two-state toggle.

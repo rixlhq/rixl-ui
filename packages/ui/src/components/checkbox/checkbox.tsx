@@ -1,5 +1,5 @@
 import {Checkbox as CheckboxPrimitive} from "@base-ui-components/react/checkbox";
-import {cn} from "cnfast";
+import {cn} from "cn";
 
 /**
  * Rixl Checkbox — a boolean form control.

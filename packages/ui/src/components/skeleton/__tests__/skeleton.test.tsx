@@ -29,7 +29,7 @@ describe("Skeleton", () => {
     expect(cls).toContain("animate-pulse");
   });
 
-  it("last-write-wins on conflicting Tailwind utilities via cnfast", () => {
+  it("last-write-wins on conflicting Tailwind utilities via cn", () => {
     render(<Skeleton data-testid="s" className="bg-red-500" />);
     const cls = screen.getByTestId("s").className;
     expect(cls).toContain("bg-red-500");

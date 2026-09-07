@@ -1,7 +1,7 @@
 import type {ToasterProps, ToastT} from "sonner";
 import {Toaster as SonnerToaster, toast, type ExternalToast} from "sonner";
 
-import {cn} from "cnfast";
+import {cn} from "cn";
 
 /**
  * Rixl Toaster — sonner wrapper with rixl defaults.

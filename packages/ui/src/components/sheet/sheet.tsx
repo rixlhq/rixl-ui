@@ -1,6 +1,6 @@
 import * as React from "react";
 import {Dialog as SheetPrimitive} from "@base-ui-components/react/dialog";
-import {cn} from "cnfast";
+import {cn} from "cn";
 
 /**
  * Rixl Sheet — a slide-in panel anchored to an edge.

@@ -1,6 +1,6 @@
 import * as React from "react";
 import {Menu as MenuPrimitive} from "@base-ui-components/react/menu";
-import {cn} from "cnfast";
+import {cn} from "cn";
 
 /**
  * Rixl DropdownMenu — a popup menu of actions anchored to a trigger.

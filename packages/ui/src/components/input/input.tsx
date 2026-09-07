@@ -1,6 +1,6 @@
 import type {ComponentProps} from "react";
 import {Input as InputPrimitive} from "@base-ui-components/react/input";
-import {cn} from "cnfast";
+import {cn} from "cn";
 
 /**
  * Rixl Input — the single-line text input primitive.

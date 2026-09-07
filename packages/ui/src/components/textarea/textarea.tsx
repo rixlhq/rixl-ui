@@ -1,5 +1,5 @@
 import type {ComponentProps} from "react";
-import {cn} from "cnfast";
+import {cn} from "cn";
 
 /**
  * Rixl Textarea — the multi-line text input primitive.

@@ -1,5 +1,5 @@
 import type {ComponentProps} from "react";
-import {cn} from "cnfast";
+import {cn} from "cn";
 
 /**
  * Rixl Label — the form-field label primitive.

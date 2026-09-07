@@ -43,6 +43,6 @@ export * from "./components/toaster";
 /**
  * Shared className utility, re-exported for consumers that want to
  * compose Tailwind classes the same way @rixl/ui does internally
- * (cnfast).
+ * (cn).
  */
-export {cn} from "cnfast";
+export {cn} from "cn";

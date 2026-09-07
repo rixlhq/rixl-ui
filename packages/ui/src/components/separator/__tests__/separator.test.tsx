@@ -37,7 +37,7 @@ describe("Separator", () => {
     expect(el.className).toContain("bg-rixl-border");
   });
 
-  it("last-write-wins on conflicting Tailwind utilities via cnfast", () => {
+  it("last-write-wins on conflicting Tailwind utilities via cn", () => {
     render(<Separator className="bg-red-500" />);
     const cls = screen.getByRole("separator").className;
     expect(cls).toContain("bg-red-500");

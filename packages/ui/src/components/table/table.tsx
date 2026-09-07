@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import {cn} from "cnfast";
+import {cn} from "cn";
 
 /**
  * Rixl Table — plain HTML table styled as a data grid.

@@ -36,7 +36,7 @@ function LiveExample({ state }: { state: Record<string, ControlValue> }) {
 function CustomClassExample(props: { state: Record<string, ControlValue> }) {
   void props;
   return (
-    <Group label="Custom className (last-write-wins via cnfast)">
+    <Group label="Custom className (last-write-wins via cn)">
       <div className="w-full">
         <Separator className="my-2 h-0.5 bg-rixl-primary" />
       </div>

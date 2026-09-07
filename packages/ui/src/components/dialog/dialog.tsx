@@ -1,6 +1,6 @@
 import * as React from "react";
 import {Dialog as DialogPrimitive} from "@base-ui-components/react/dialog";
-import {cn} from "cnfast";
+import {cn} from "cn";
 
 /**
  * Rixl Dialog — a modal surface layered over a backdrop.
