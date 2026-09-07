@@ -13,6 +13,11 @@ permissions:
 jobs:
   build-release:
     runs-on: ubuntu-latest
+    # Caps the job so a hung install, build or npm publish can't run to
+    # GitHub's 6h default. Observed max over the last 37 runs: 2.0 min.
+    # Note this bounds runner time only, not time spent queued or awaiting
+    # approval.
+    timeout-minutes: 10
     permissions:
       id-token: write # Required for NPMJS OIDC
       contents: write
