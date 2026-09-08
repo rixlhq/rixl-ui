@@ -1,10 +1,10 @@
 import {describe, it, expect} from "vitest";
 import {act, render, screen} from "@testing-library/react";
-import {Tabs, TabsList, TabsTrigger, TabsContent} from "../tabs";
+import {Tabs, TabsList, TabsTrigger, TabsContent, type TabsProps} from "../tabs";
 
-function Basic() {
+function Basic(props: Partial<TabsProps> = {}) {
   return (
-    <Tabs defaultValue="account" data-testid="root">
+    <Tabs defaultValue="account" data-testid="root" {...props}>
       <TabsList>
         <TabsTrigger value="account" data-testid="tab-account">
           Account
@@ -23,33 +23,22 @@ function Basic() {
   );
 }
 
+const list = () => document.querySelector("[data-slot='tabs-list']")!;
+const indicator = () => document.querySelector("[data-slot='tabs-indicator']");
+
 describe("Tabs", () => {
   it("sets data-slot markers on root, list, trigger, and content", () => {
     render(<Basic />);
     expect(screen.getByTestId("root")).toHaveAttribute("data-slot", "tabs");
-    expect(document.querySelector("[data-slot='tabs-list']")).toHaveAttribute("data-slot", "tabs-list");
+    expect(list()).toHaveAttribute("data-slot", "tabs-list");
     expect(screen.getByTestId("tab-account")).toHaveAttribute("data-slot", "tabs-trigger");
     expect(screen.getByTestId("content-account")).toHaveAttribute("data-slot", "tabs-content");
-  });
-
-  it("applies base classes to the list", () => {
-    render(<Basic />);
-    const cls = document.querySelector("[data-slot='tabs-list']")!.className;
-    expect(cls).toContain("bg-rixl-surface-muted");
-    expect(cls).toContain("text-rixl-fg-muted");
-    expect(cls).toContain("rounded-rixl-lg");
   });
 
   it("activates the matching trigger via data-active", () => {
     render(<Basic />);
     expect(screen.getByTestId("tab-account")).toHaveAttribute("data-active");
     expect(screen.getByTestId("tab-password")).not.toHaveAttribute("data-active");
-  });
-
-  it("applies active classes to the selected trigger", () => {
-    render(<Basic />);
-    const cls = screen.getByTestId("tab-account").className;
-    expect(cls).toContain("data-active:bg-rixl-bg");
   });
 
   it("switches the active trigger on click", () => {
@@ -62,6 +51,140 @@ describe("Tabs", () => {
   it("renders the active content panel", () => {
     render(<Basic />);
     expect(screen.getByText("Account panel")).toBeInTheDocument();
+  });
+
+  describe("travelling indicator", () => {
+    // The active state is one element that moves, rather than a fill repainted
+    // on each trigger. TabsList renders it so a tab set cannot be built without.
+    it("is rendered by TabsList without the consumer adding it", () => {
+      render(<Basic />);
+      expect(indicator()).not.toBeNull();
+    });
+
+    it("carries the active fill, so triggers do not", () => {
+      render(<Basic />);
+      expect(indicator()!.className).toContain("bg-rixl-bg");
+      expect(screen.getByTestId("tab-account").className).not.toContain("bg-rixl-bg");
+    });
+
+    it("is positioned from the measured tab box rather than a fixed offset", () => {
+      render(<Basic />);
+      const cls = indicator()!.className;
+      expect(cls).toContain("translate-x-[var(--active-tab-left)]");
+      expect(cls).toContain("w-[var(--active-tab-width)]");
+    });
+
+    // Translate is composited; animating left/top would lay out every frame.
+    it("transitions translate and size, not layout properties", () => {
+      render(<Basic />);
+      const cls = indicator()!.className;
+      expect(cls).toContain("transition-[translate,width,height]");
+      expect(cls).toContain("motion-reduce:transition-none");
+    });
+
+    it("draws a bar rather than a pill for the underline variant", () => {
+      render(<Basic variant="underline" />);
+      const cls = indicator()!.className;
+      expect(cls).toContain("border-b-2");
+      expect(cls).not.toContain("bg-rixl-bg");
+    });
+  });
+
+  describe("variants", () => {
+    it("wraps segmented tabs in a muted container", () => {
+      render(<Basic />);
+      expect(list().className).toContain("bg-rixl-surface-muted");
+      expect(list().className).toContain("rounded-rixl-lg");
+    });
+
+    it("rules the underline variant instead of filling it", () => {
+      render(<Basic variant="underline" />);
+      const cls = list().className;
+      expect(cls).toContain("border-b");
+      expect(cls).not.toContain("bg-rixl-surface-muted");
+    });
+
+    it("leaves the ghost variant unadorned", () => {
+      render(<Basic variant="ghost" />);
+      const cls = list().className;
+      expect(cls).not.toContain("bg-rixl-surface-muted");
+      expect(cls).not.toContain("border-b");
+    });
+
+    it("passes the variant from the root to both list and indicator", () => {
+      render(<Basic variant="ghost" />);
+      expect(indicator()!.className).toContain("bg-rixl-surface-muted");
+    });
+  });
+
+  describe("sizes and layout", () => {
+    it("defaults triggers to the md size", () => {
+      render(<Basic />);
+      expect(screen.getByTestId("tab-account").className).toContain("h-8");
+    });
+
+    it("applies the sm size to triggers", () => {
+      render(<Basic size="sm" />);
+      expect(screen.getByTestId("tab-account").className).toContain("h-7");
+    });
+
+    it("sizes triggers to their content by default", () => {
+      render(<Basic />);
+      expect(screen.getByTestId("tab-account").className).not.toContain("flex-1");
+      expect(list().className).toContain("w-fit");
+    });
+
+    it("distributes triggers evenly when fullWidth is set", () => {
+      render(<Basic fullWidth />);
+      expect(screen.getByTestId("tab-account").className).toContain("flex-1");
+      expect(list().className).toContain("w-full");
+    });
+
+    // A wrapped row would leave the indicator jumping between lines.
+    it("scrolls an overflowing row instead of wrapping", () => {
+      render(<Basic />);
+      expect(list().className).toContain("overflow-x-auto");
+    });
+
+    it("can opt out of scrolling", () => {
+      render(
+        <Tabs defaultValue="a">
+          <TabsList scrollable={false}>
+            <TabsTrigger value="a">A</TabsTrigger>
+          </TabsList>
+        </Tabs>
+      );
+      expect(list().className).not.toContain("overflow-x-auto");
+    });
+  });
+
+  describe("interaction states", () => {
+    it("presses with the scale token shared with Button", () => {
+      render(<Basic />);
+      const cls = screen.getByTestId("tab-account").className;
+      expect(cls).toContain("active:scale-[var(--rixl-press-scale)]");
+      expect(cls).toContain("motion-reduce:active:scale-100");
+    });
+
+    it("lifts inactive triggers toward the foreground on hover", () => {
+      render(<Basic />);
+      expect(screen.getByTestId("tab-password").className).toContain("hover:text-rixl-fg");
+    });
+
+    // Button draws a single ring; tabs previously drew a ring and an outline.
+    it("draws one focus ring, not a ring and an outline", () => {
+      render(<Basic />);
+      const cls = screen.getByTestId("tab-account").className;
+      expect(cls).toContain("focus-visible:ring-[3px]");
+      expect(cls).not.toContain("focus-visible:outline-1");
+    });
+
+    it("dims disabled triggers and stops pointer events", () => {
+      render(<Basic />);
+      const cls = screen.getByTestId("tab-account").className;
+      expect(cls).toContain("disabled:opacity-50");
+      expect(cls).toContain("disabled:pointer-events-none");
+    });
   });
 
   it("forwards an additional className on the trigger", () => {

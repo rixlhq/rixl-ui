@@ -125,7 +125,9 @@ describe("Button", () => {
     it("transitions only the properties it animates", () => {
       render(<Button>Save</Button>);
       const cls = screen.getByRole("button").className;
-      expect(cls).toContain("transition-[transform,background-color,box-shadow,border-color,color]");
+      // Tailwind's scale-* utility sets the `scale` property, not `transform`;
+      // naming transform here would leave the press untransitioned.
+      expect(cls).toContain("transition-[scale,background-color,box-shadow,border-color,color]");
       expect(cls).not.toContain("transition-all");
     });
   });

@@ -32,7 +32,7 @@ import {cn} from "cn";
  */
 const press =
   "active:scale-[var(--rixl-press-scale)] motion-reduce:active:scale-100 " +
-  "transition-[transform,background-color,box-shadow,border-color,color] " +
+  "transition-[scale,background-color,box-shadow,border-color,color] " +
   "duration-rixl-fast ease-rixl-out";
 
 /** Shadow collapses as the surface depresses, so it reads as pushed in rather than merely smaller. */
