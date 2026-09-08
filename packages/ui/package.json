@@ -214,7 +214,6 @@
     "prepare": "vp config --no-hooks"
   },
   "dependencies": {
-    "@base-ui/react": "^1.7.0",
     "class-variance-authority": "^0.7.1",
     "cn": "0.2.6",
     "input-otp": "^1.4.2",
@@ -223,6 +222,7 @@
     "sonner": "^2.0.0"
   },
   "devDependencies": {
+    "@base-ui/react": "^1.7.0",
     "@testing-library/jest-dom": "^7.0.0",
     "@testing-library/react": "^16.3.2",
     "@types/node": "^26.1.1",
@@ -239,6 +239,7 @@
     "vite-plus": "^0.2.4"
   },
   "peerDependencies": {
+    "@base-ui/react": "^1.7.0",
     "react": "^18.0.0 || ^19.0.0",
     "react-dom": "^18.0.0 || ^19.0.0"
   },

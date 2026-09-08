@@ -12,7 +12,7 @@
  * Consumers can override any token by redeclaring the CSS variable at
  * :root or on a scoped element:
  *
- *   :root { --rixl-primary: oklch(0.55 0.20 265); }
+ *   :root { --rixl-primary: oklch(0.21 0 0); }
  */
 
 @layer rixl-tokens {
@@ -33,11 +33,17 @@
     --rixl-border: oklch(0.9 0.004 264);
     --rixl-border-strong: oklch(0.8 0.006 264);
 
-    /* ── Primary (brand action) ───────────────────────────── */
-    --rixl-primary: oklch(0.55 0.2 265);
-    --rixl-primary-hover: oklch(0.5 0.2 265);
-    --rixl-primary-active: oklch(0.45 0.2 265);
-    --rixl-primary-fg: oklch(1 0 0);
+    /*
+     * Primary (brand action) — a neutral that inverts between themes: near-black
+     * on light, near-white on dark. Because the button flips, so does the
+     * direction of its states: on light it lightens toward the page, on dark it
+     * darkens toward it. Both move the surface away from the resting colour by
+     * the same amount, so the two themes feel identical to press.
+     */
+    --rixl-primary: oklch(0.21 0 0);
+    --rixl-primary-hover: oklch(0.27 0 0);
+    --rixl-primary-active: oklch(0.32 0 0);
+    --rixl-primary-fg: oklch(0.985 0 0);
 
     /* ── Secondary (subdued action) ───────────────────────── */
     --rixl-secondary: oklch(0.95 0.005 264);
@@ -56,7 +62,7 @@
     --rixl-warning: oklch(0.78 0.16 80);
 
     /* ── Focus ring ───────────────────────────────────────── */
-    --rixl-ring: oklch(0.55 0.2 265 / 0.4);
+    --rixl-ring: oklch(0.21 0 0 / 0.4);
 
     /* ── Sidebar (navigation rail) ────────────────────────── */
     --rixl-sidebar: oklch(0.975 0.002 264);
@@ -64,7 +70,7 @@
     --rixl-sidebar-accent: oklch(0.94 0.004 264);
     --rixl-sidebar-accent-fg: oklch(0.24 0.01 265);
     --rixl-sidebar-border: oklch(0.91 0.004 264);
-    --rixl-sidebar-ring: oklch(0.55 0.2 265 / 0.4);
+    --rixl-sidebar-ring: oklch(0.21 0 0 / 0.4);
 
     /* ── Radii ────────────────────────────────────────────── */
     --rixl-radius-xs: 0.25rem;
@@ -117,10 +123,10 @@
     --rixl-border: oklch(0.28 0.01 265);
     --rixl-border-strong: oklch(0.38 0.012 265);
 
-    --rixl-primary: oklch(0.68 0.18 265);
-    --rixl-primary-hover: oklch(0.72 0.18 265);
-    --rixl-primary-active: oklch(0.62 0.18 265);
-    --rixl-primary-fg: oklch(0.14 0.01 265);
+    --rixl-primary: oklch(0.985 0 0);
+    --rixl-primary-hover: oklch(0.93 0 0);
+    --rixl-primary-active: oklch(0.88 0 0);
+    --rixl-primary-fg: oklch(0.21 0 0);
 
     --rixl-secondary: oklch(0.25 0.01 265);
     --rixl-secondary-hover: oklch(0.3 0.01 265);
@@ -132,14 +138,14 @@
     --rixl-danger-active: oklch(0.76 0.2 25);
     --rixl-danger-fg: oklch(0.14 0.01 265);
 
-    --rixl-ring: oklch(0.68 0.18 265 / 0.5);
+    --rixl-ring: oklch(0.83 0 0 / 0.5);
 
     --rixl-sidebar: oklch(0.17 0.01 265);
     --rixl-sidebar-fg: oklch(0.92 0.005 264);
     --rixl-sidebar-accent: oklch(0.22 0.01 265);
     --rixl-sidebar-accent-fg: oklch(0.95 0.004 264);
     --rixl-sidebar-border: oklch(0.22 0.01 265);
-    --rixl-sidebar-ring: oklch(0.68 0.18 265 / 0.5);
+    --rixl-sidebar-ring: oklch(0.83 0 0 / 0.5);
   }
 }
 
