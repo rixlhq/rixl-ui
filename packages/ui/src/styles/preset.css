@@ -42,11 +42,13 @@
     /* ── Secondary (subdued action) ───────────────────────── */
     --rixl-secondary: oklch(0.95 0.005 264);
     --rixl-secondary-hover: oklch(0.92 0.005 264);
+    --rixl-secondary-active: oklch(0.88 0.006 264);
     --rixl-secondary-fg: oklch(0.2 0.01 265);
 
     /* ── Destructive (danger) ─────────────────────────────── */
     --rixl-danger: oklch(0.6 0.22 25);
     --rixl-danger-hover: oklch(0.55 0.22 25);
+    --rixl-danger-active: oklch(0.5 0.22 25);
     --rixl-danger-fg: oklch(1 0 0);
 
     /* ── Success / warning (feedback) ─────────────────────── */
@@ -78,6 +80,15 @@
     --rixl-motion-slow: 260ms;
     --rixl-ease-out: cubic-bezier(0.16, 1, 0.3, 1);
     --rixl-ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+
+    /*
+     * Press feedback. One scale shared by every pressable component so a
+     * button, tab and checkbox depress by the same amount. Larger surfaces
+     * use the lg value: the same ratio reads as more travel the wider the
+     * element, so big targets need a shallower scale to feel equivalent.
+     */
+    --rixl-press-scale: 0.97;
+    --rixl-press-scale-lg: 0.98;
 
     /* ── Shadows ──────────────────────────────────────────── */
     --rixl-shadow-xs: 0 1px 2px 0 oklch(0 0 0 / 0.05);
@@ -113,10 +124,12 @@
 
     --rixl-secondary: oklch(0.25 0.01 265);
     --rixl-secondary-hover: oklch(0.3 0.01 265);
+    --rixl-secondary-active: oklch(0.34 0.01 265);
     --rixl-secondary-fg: oklch(0.96 0.003 264);
 
     --rixl-danger: oklch(0.68 0.2 25);
     --rixl-danger-hover: oklch(0.72 0.2 25);
+    --rixl-danger-active: oklch(0.76 0.2 25);
     --rixl-danger-fg: oklch(0.14 0.01 265);
 
     --rixl-ring: oklch(0.68 0.18 265 / 0.5);
@@ -156,10 +169,12 @@
 
   --color-rixl-secondary: var(--rixl-secondary);
   --color-rixl-secondary-hover: var(--rixl-secondary-hover);
+  --color-rixl-secondary-active: var(--rixl-secondary-active);
   --color-rixl-secondary-fg: var(--rixl-secondary-fg);
 
   --color-rixl-danger: var(--rixl-danger);
   --color-rixl-danger-hover: var(--rixl-danger-hover);
+  --color-rixl-danger-active: var(--rixl-danger-active);
   --color-rixl-danger-fg: var(--rixl-danger-fg);
 
   --color-rixl-success: var(--rixl-success);
@@ -180,6 +195,13 @@
   --radius-rixl-lg: var(--rixl-radius-lg);
   --radius-rixl-xl: var(--rixl-radius-xl);
   --radius-rixl-full: var(--rixl-radius-full);
+
+  /* Motion, exposed as `duration-rixl-*` / `ease-rixl-*` utilities. */
+  --transition-duration-rixl-fast: var(--rixl-motion-fast);
+  --transition-duration-rixl-base: var(--rixl-motion-base);
+  --transition-duration-rixl-slow: var(--rixl-motion-slow);
+  --ease-rixl-out: var(--rixl-ease-out);
+  --ease-rixl-in-out: var(--rixl-ease-in-out);
 
   --shadow-rixl-xs: var(--rixl-shadow-xs);
   --shadow-rixl-sm: var(--rixl-shadow-sm);
