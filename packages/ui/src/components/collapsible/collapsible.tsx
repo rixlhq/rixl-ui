@@ -1,4 +1,4 @@
-import {Collapsible as CollapsiblePrimitive} from "@base-ui-components/react/collapsible";
+import {Collapsible as CollapsiblePrimitive} from "@base-ui/react/collapsible";
 
 /**
  * Rixl Collapsible — expand/collapse primitive built on Base UI Collapsible.

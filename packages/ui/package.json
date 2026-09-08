@@ -214,7 +214,7 @@
     "prepare": "vp config --no-hooks"
   },
   "dependencies": {
-    "@base-ui-components/react": "^1.0.0-rc.0",
+    "@base-ui/react": "^1.7.0",
     "class-variance-authority": "^0.7.1",
     "cn": "0.2.6",
     "input-otp": "^1.4.2",

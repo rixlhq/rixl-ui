@@ -1,5 +1,5 @@
 import {forwardRef, isValidElement} from "react";
-import {Button as ButtonPrimitive} from "@base-ui-components/react/button";
+import {Button as ButtonPrimitive} from "@base-ui/react/button";
 import {cva, type VariantProps} from "class-variance-authority";
 import {cn} from "cn";
 
