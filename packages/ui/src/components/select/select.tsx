@@ -1,5 +1,5 @@
 import {Children, isValidElement, useMemo, type ComponentProps, type ReactNode} from "react";
-import {Select as SelectPrimitive} from "@base-ui-components/react/select";
+import {Select as SelectPrimitive} from "@base-ui/react/select";
 import {cn} from "cn";
 
 /**
