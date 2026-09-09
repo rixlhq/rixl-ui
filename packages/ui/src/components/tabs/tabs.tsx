@@ -53,9 +53,15 @@ const triggerVariants = cva(
   {
     variants: {
       variant: {
-        segmented: "text-rixl-fg-muted hover:text-rixl-fg data-active:text-rixl-fg rounded-rixl-md",
-        underline: "text-rixl-fg-muted hover:text-rixl-fg data-active:text-rixl-fg",
-        ghost: "text-rixl-fg-muted hover:bg-rixl-surface-muted hover:text-rixl-fg data-active:text-rixl-fg rounded-rixl-md",
+        // The wash is a foreground tint rather than a fixed colour so one value
+        // works on the muted ground in light and dark. It is suppressed on the
+        // active tab, which already has the pill behind it.
+        segmented:
+          "text-rixl-fg-muted hover:bg-rixl-fg/5 hover:text-rixl-fg data-active:bg-transparent data-active:text-rixl-fg rounded-rixl-md",
+        underline:
+          "text-rixl-fg-muted hover:bg-rixl-fg/5 hover:text-rixl-fg data-active:bg-transparent data-active:text-rixl-fg rounded-rixl-sm",
+        ghost:
+          "text-rixl-fg-muted hover:bg-rixl-fg/5 hover:text-rixl-fg data-active:bg-transparent data-active:text-rixl-fg rounded-rixl-md",
       },
       size: {sm: "h-7 px-2.5 text-xs", md: "h-8 px-3 text-sm"},
       fullWidth: {true: "flex-1", false: ""},
@@ -74,9 +80,12 @@ const indicatorVariants = cva(
   {
     variants: {
       variant: {
-        segmented: "bg-rixl-bg shadow-rixl-sm rounded-rixl-md",
+        // The border carries most of the separation: the pill and its container
+        // are only a few percent apart in lightness, in this palette as in
+        // Cloudflare's, so colour alone does not read as raised.
+        segmented: "bg-rixl-surface-raised border-rixl-border shadow-rixl-sm rounded-rixl-md border",
         underline: "border-rixl-primary border-b-2",
-        ghost: "bg-rixl-surface-muted rounded-rixl-md",
+        ghost: "bg-rixl-surface-raised border-rixl-border shadow-rixl-xs rounded-rixl-md border",
       },
     },
     defaultVariants: {variant: "segmented"},

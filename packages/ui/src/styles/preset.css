@@ -21,6 +21,14 @@
     --rixl-bg: oklch(0.99 0.002 264);
     --rixl-surface: oklch(1 0 0);
     --rixl-surface-muted: oklch(0.97 0.003 264);
+    /*
+     * Raised above --rixl-surface-muted, for an element that floats on a muted
+     * ground: the active pill of a segmented control, a popover over a toolbar.
+     * The relationship inverts by theme — lighter than the muted ground on
+     * light, lighter again on dark — which is why it cannot just be
+     * --rixl-surface, whose dark value sits below the muted ground.
+     */
+    --rixl-surface-raised: oklch(1 0 0);
     --rixl-surface-inverse: oklch(0.18 0.01 265);
 
     /* ── Foreground ───────────────────────────────────────── */
@@ -113,6 +121,7 @@
     --rixl-bg: oklch(0.14 0.01 265);
     --rixl-surface: oklch(0.18 0.01 265);
     --rixl-surface-muted: oklch(0.22 0.01 265);
+    --rixl-surface-raised: oklch(0.29 0.012 265);
     --rixl-surface-inverse: oklch(0.99 0.002 264);
 
     --rixl-fg: oklch(0.96 0.003 264);
@@ -158,6 +167,7 @@
   --color-rixl-bg: var(--rixl-bg);
   --color-rixl-surface: var(--rixl-surface);
   --color-rixl-surface-muted: var(--rixl-surface-muted);
+  --color-rixl-surface-raised: var(--rixl-surface-raised);
   --color-rixl-surface-inverse: var(--rixl-surface-inverse);
 
   --color-rixl-fg: var(--rixl-fg);

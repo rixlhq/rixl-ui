@@ -63,8 +63,17 @@ describe("Tabs", () => {
 
     it("carries the active fill, so triggers do not", () => {
       render(<Basic />);
-      expect(indicator()!.className).toContain("bg-rixl-bg");
-      expect(screen.getByTestId("tab-account").className).not.toContain("bg-rixl-bg");
+      expect(indicator()!.className).toContain("bg-rixl-surface-raised");
+      expect(screen.getByTestId("tab-account").className).not.toContain("bg-rixl-surface-raised");
+    });
+
+    // The pill and its container are only a couple of percent apart in
+    // lightness, so without a border the active tab does not read as raised.
+    it("borders the pill rather than relying on fill alone", () => {
+      render(<Basic />);
+      const cls = indicator()!.className;
+      expect(cls).toContain("border-rixl-border");
+      expect(cls).toContain("shadow-rixl-sm");
     });
 
     it("is positioned from the measured tab box rather than a fixed offset", () => {
@@ -113,7 +122,7 @@ describe("Tabs", () => {
 
     it("passes the variant from the root to both list and indicator", () => {
       render(<Basic variant="ghost" />);
-      expect(indicator()!.className).toContain("bg-rixl-surface-muted");
+      expect(indicator()!.className).toContain("shadow-rixl-xs");
     });
   });
 
@@ -166,9 +175,14 @@ describe("Tabs", () => {
       expect(cls).toContain("motion-reduce:active:scale-100");
     });
 
-    it("lifts inactive triggers toward the foreground on hover", () => {
+    // A text-colour change alone was too weak to notice; inactive tabs also
+    // take a foreground wash, suppressed on the active tab which has the pill.
+    it("washes inactive triggers on hover, not only their text", () => {
       render(<Basic />);
-      expect(screen.getByTestId("tab-password").className).toContain("hover:text-rixl-fg");
+      const cls = screen.getByTestId("tab-password").className;
+      expect(cls).toContain("hover:bg-rixl-fg/5");
+      expect(cls).toContain("hover:text-rixl-fg");
+      expect(cls).toContain("data-active:bg-transparent");
     });
 
     // Button draws a single ring; tabs previously drew a ring and an outline.
