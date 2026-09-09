@@ -25,6 +25,10 @@
   ],
   "files": [
     "dist",
+    "src",
+    "!src/**/__tests__",
+    "!src/**/*.test.*",
+    "!src/**/*.spec.*",
     "src/styles",
     "LICENSE"
   ],
