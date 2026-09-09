@@ -27,7 +27,7 @@ const TabsStyleContext = createContext<{variant: TabsVariant; size: TabsSize; fu
   fullWidth: false,
 });
 
-const listVariants = cva("relative isolate flex items-center", {
+const listVariants = cva("relative isolate flex items-stretch", {
   variants: {
     variant: {
       segmented: "bg-rixl-surface-muted rounded-rixl-lg gap-1 p-1",
@@ -63,7 +63,11 @@ const triggerVariants = cva(
         ghost:
           "text-rixl-fg-muted hover:bg-rixl-fg/5 hover:text-rixl-fg data-active:bg-transparent data-active:text-rixl-fg rounded-rixl-md",
       },
-      size: {sm: "h-7 px-2.5 text-xs", md: "h-8 px-3 text-sm"},
+      // A floor, not a fixed height: a trigger may stack an icon, a label and a
+      // description, and a hard height would let that content spill out of the
+      // box the indicator is measured from. The padding reproduces the previous
+      // heights exactly for single-line labels.
+      size: {sm: "min-h-7 px-2.5 py-1 text-xs", md: "min-h-8 px-3 py-1.5 text-sm"},
       fullWidth: {true: "flex-1", false: ""},
     },
     defaultVariants: {variant: "segmented", size: "md", fullWidth: false},

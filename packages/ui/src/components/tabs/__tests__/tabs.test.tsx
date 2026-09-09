@@ -127,14 +127,24 @@ describe("Tabs", () => {
   });
 
   describe("sizes and layout", () => {
-    it("defaults triggers to the md size", () => {
+    // A floor rather than a fixed height, so a trigger stacking a label over a
+    // description grows instead of spilling out of the box the indicator
+    // measures.
+    it("defaults triggers to the md size as a minimum height", () => {
       render(<Basic />);
-      expect(screen.getByTestId("tab-account").className).toContain("h-8");
+      const cls = screen.getByTestId("tab-account").className;
+      expect(cls).toContain("min-h-8");
+      expect(cls).not.toMatch(/(^|\s)h-8(\s|$)/);
     });
 
     it("applies the sm size to triggers", () => {
       render(<Basic size="sm" />);
-      expect(screen.getByTestId("tab-account").className).toContain("h-7");
+      expect(screen.getByTestId("tab-account").className).toContain("min-h-7");
+    });
+
+    it("stretches a row so a taller tab does not leave its neighbours floating", () => {
+      render(<Basic />);
+      expect(list().className).toContain("items-stretch");
     });
 
     it("sizes triggers to their content by default", () => {
