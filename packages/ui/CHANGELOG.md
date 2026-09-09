@@ -1,5 +1,15 @@
 # Changelog
 
+## [0.1.3](https://github.com/rixlhq/rixl-ui/compare/@rixl/ui-v0.1.2...@rixl/ui-v0.1.3) (2026-09-09)
+
+
+### Bug Fixes
+
+* **ui:** ship source files in @rixl/ui package ([f2061dc](https://github.com/rixlhq/rixl-ui/commit/f2061dc2217b103f5f4afa2cb91d8a12bcbcd58d))
+* **ui:** ship source files in @rixl/ui package ([37e681f](https://github.com/rixlhq/rixl-ui/commit/37e681fed8760b4bea77b9ffe6403af78cabac85))
+* update tabs ([f4e3fcb](https://github.com/rixlhq/rixl-ui/commit/f4e3fcb74a1483a190203401c720fe99b8ebb6dd))
+* update tabs ([9429be2](https://github.com/rixlhq/rixl-ui/commit/9429be2a4f299d9075a8fc3a976643175dd49a3b))
+
 ## [0.1.2](https://github.com/rixlhq/rixl-ui/compare/@rixl/ui-v0.1.1...@rixl/ui-v0.1.2) (2026-08-27)
 
 
