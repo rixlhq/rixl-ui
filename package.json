@@ -21,7 +21,10 @@
     "prepare": "lefthook install || true"
   },
   "devDependencies": {
-    "lefthook": "^2.1.8"
+    "@vitest/coverage-v8": "^5.0.0",
+    "@vitest/ui": "^5.0.0",
+    "lefthook": "^2.1.8",
+    "vitest": "^5.0.0"
   },
   "engines": {
     "node": ">=24"
