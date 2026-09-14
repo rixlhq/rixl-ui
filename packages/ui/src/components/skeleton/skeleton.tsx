@@ -6,12 +6,12 @@ import {cn} from "cn";
  * Rixl Skeleton — a placeholder for loading UI.
  *
  * Size and shape come from consumer classes (`<Skeleton className="h-4 w-32" />`,
- * `rounded-full` for avatars). A bare `<Skeleton>` is unchanged from the port:
- * it pulses. Additions are opt-in via `animation`:
+ * `rounded-full` for avatars). Pick the loading motion via `animation`:
  *
- * - `pulse` (default) → the original opacity pulse.
- * - `shimmer` → a highlight band sweeps across the placeholder (the Facebook /
- *   Linear / Stripe style), using `--rixl-surface-raised` over the muted base.
+ * - `shimmer` (default) → a highlight band sweeps across the placeholder (the
+ *   Facebook / Linear / Stripe style), using `--rixl-surface-raised` over the
+ *   muted base.
+ * - `pulse` → the classic opacity pulse.
  * - `none` → a static muted fill.
  *
  * Motion is dropped under `prefers-reduced-motion`: the sweep/pulse stops and a
@@ -31,7 +31,7 @@ const skeletonVariants = cva("bg-rixl-surface-muted rounded-rixl-md", {
       none: "",
     },
   },
-  defaultVariants: {animation: "pulse"},
+  defaultVariants: {animation: "shimmer"},
 });
 
 export type SkeletonProps = ComponentProps<"div"> & VariantProps<typeof skeletonVariants>;

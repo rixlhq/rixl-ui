@@ -14,11 +14,11 @@ describe("Skeleton", () => {
     expect(screen.getByTestId("s")).toHaveAttribute("data-slot", "skeleton");
   });
 
-  it("applies base classes by default", () => {
+  it("applies base classes and shimmers by default", () => {
     render(<Skeleton data-testid="s" />);
     const cls = screen.getByTestId("s").className;
     expect(cls).toContain("bg-rixl-surface-muted");
-    expect(cls).toContain("animate-pulse");
+    expect(cls).toContain("animate-rixl-shimmer");
     expect(cls).toContain("rounded-rixl-md");
   });
 
@@ -27,7 +27,7 @@ describe("Skeleton", () => {
     const cls = screen.getByTestId("s").className;
     expect(cls).toContain("h-4");
     expect(cls).toContain("w-32");
-    expect(cls).toContain("animate-pulse");
+    expect(cls).toContain("animate-rixl-shimmer");
   });
 
   it("last-write-wins on conflicting Tailwind utilities via cn", () => {
@@ -57,8 +57,13 @@ describe("Skeleton", () => {
   });
 
   describe("animation", () => {
-    it("pulse (default) freezes under reduced motion", () => {
+    it("defaults to shimmer", () => {
       render(<Skeleton data-testid="s" />);
+      expect(screen.getByTestId("s").className).toContain("animate-rixl-shimmer");
+    });
+
+    it("pulse applies the opacity pulse and freezes under reduced motion", () => {
+      render(<Skeleton data-testid="s" animation="pulse" />);
       const cls = screen.getByTestId("s").className;
       expect(cls).toContain("animate-pulse");
       expect(cls).toContain("motion-reduce:animate-none");
