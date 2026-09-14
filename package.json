@@ -20,12 +20,12 @@
     "playground:build": "bun run --filter=@rixl/ui build && bun run --filter=@rixl/ui-playground build",
     "prepare": "lefthook install || true"
   },
-  "// vitest": "vitest, @vitest/coverage-v8 and @vitest/ui are pinned to 4.1.11 because vite-plus bundles vitest@4.1.11. TODO: move back to ^5.0.0 once vite-plus ships a 5.x bundle.",
+  "// vitest": "vitest, @vitest/coverage-v8 and @vitest/ui are pinned to 4.1.10 because vite-plus bundles vitest@4.1.10. TODO: move back to ^5.0.0 once vite-plus ships a 5.x bundle.",
   "devDependencies": {
-    "@vitest/coverage-v8": "4.1.11",
-    "@vitest/ui": "4.1.11",
+    "@vitest/coverage-v8": "4.1.10",
+    "@vitest/ui": "4.1.10",
     "lefthook": "^2.1.8",
-    "vitest": "4.1.11"
+    "vitest": "4.1.10"
   },
   "engines": {
     "node": ">=24"
