@@ -6,6 +6,7 @@ export {
   CardAction,
   CardContent,
   CardFooter,
+  cardVariants,
   type CardProps,
   type CardHeaderProps,
   type CardTitleProps,

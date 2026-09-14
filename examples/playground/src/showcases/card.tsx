@@ -15,7 +15,7 @@ export const path = "card";
 export const title = "Card";
 export const group = "Content";
 export const description =
-  "Surface container for grouping related content. Header, title, description, action, content, and footer slots.";
+  "Surface container for grouping related content. Header/title/description/action/content/footer slots, three variants (default, outline, ghost), plus interactive (hover lift + press) and selected states.";
 
 export function Showcase() {
   return (
@@ -74,8 +74,94 @@ function WithActionExample(props: { state: Record<string, ControlValue> }) {
   );
 }
 
+function LiveExample({ state }: { state: Record<string, ControlValue> }) {
+  const variant = state.variant as "default" | "outline" | "ghost";
+  const interactive = state.interactive as boolean;
+  const selected = state.selected as boolean;
+  return (
+    <Card className="max-w-md" variant={variant} interactive={interactive} selected={selected}>
+      <CardHeader>
+        <CardTitle>Card title</CardTitle>
+        <CardDescription>Tweak variant, interactive, and selected.</CardDescription>
+      </CardHeader>
+      <CardContent>
+        <p className="text-sm text-rixl-fg">Hover an interactive card to see the lift; press to feel it settle.</p>
+      </CardContent>
+    </Card>
+  );
+}
+
+function VariantsExample(props: { state: Record<string, ControlValue> }) {
+  void props;
+  return (
+    <Group label="Variants">
+      <div className="grid w-full gap-4 sm:grid-cols-3">
+        {(["default", "outline", "ghost"] as const).map((variant) => (
+          <Card key={variant} variant={variant}>
+            <CardHeader>
+              <CardTitle className="capitalize">{variant}</CardTitle>
+              <CardDescription>{variant} surface</CardDescription>
+            </CardHeader>
+          </Card>
+        ))}
+      </div>
+    </Group>
+  );
+}
+
+function InteractiveExample(props: { state: Record<string, ControlValue> }) {
+  void props;
+  return (
+    <Group label="Interactive & selected">
+      <div className="grid w-full gap-4 sm:grid-cols-2">
+        <Card interactive tabIndex={0} className="max-w-md">
+          <CardHeader>
+            <CardTitle>Clickable</CardTitle>
+            <CardDescription>Hover to lift, press to settle, tab to focus.</CardDescription>
+          </CardHeader>
+        </Card>
+        <Card interactive selected tabIndex={0} className="max-w-md">
+          <CardHeader>
+            <CardTitle>Selected</CardTitle>
+            <CardDescription>Ring highlight for the chosen item.</CardDescription>
+          </CardHeader>
+        </Card>
+      </div>
+    </Group>
+  );
+}
+
 export const examples: Example[] = [
+  {
+    id: "live",
+    title: "Interactive",
+    description: "Tweak variant and state live.",
+    render: LiveExample,
+    controls: [
+      {
+        name: "variant",
+        label: "Variant",
+        type: "select",
+        options: [
+          { value: "default", label: "Default" },
+          { value: "outline", label: "Outline" },
+          { value: "ghost", label: "Ghost" },
+        ],
+        defaultValue: "default",
+      },
+      { name: "interactive", label: "Interactive", type: "boolean", defaultValue: false },
+      { name: "selected", label: "Selected", type: "boolean", defaultValue: false },
+    ],
+    code: `<Card variant="outline" interactive selected>
+  <CardHeader>
+    <CardTitle>Card title</CardTitle>
+    <CardDescription>Card description</CardDescription>
+  </CardHeader>
+</Card>`,
+  },
   { id: "basic", title: "Basic", render: BasicExample },
+  { id: "variants", title: "Variants", render: VariantsExample },
+  { id: "interactive", title: "Interactive & selected", render: InteractiveExample },
   { id: "action", title: "With action", render: WithActionExample },
 ];
 
