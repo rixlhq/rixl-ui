@@ -9,6 +9,7 @@ export {
   DialogPortal,
   DialogTitle,
   DialogTrigger,
+  dialogContentVariants,
   type DialogProps,
   type DialogTriggerProps,
   type DialogPortalProps,
