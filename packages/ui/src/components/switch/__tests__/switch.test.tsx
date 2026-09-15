@@ -36,6 +36,13 @@ describe("Switch", () => {
     expect(cls).toContain("focus-visible:ring-rixl-ring/50");
   });
 
+  it("applies hover affordances for both states", () => {
+    render(<Switch />);
+    const cls = screen.getByRole("switch").className;
+    expect(cls).toContain("data-checked:enabled:hover:bg-rixl-primary-hover");
+    expect(cls).toContain("data-unchecked:enabled:hover:bg-rixl-border-strong");
+  });
+
   it("renders the thumb with data-slot='switch-thumb'", () => {
     const {container} = render(<Switch />);
     const thumb = container.querySelector("[data-slot='switch-thumb']");

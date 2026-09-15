@@ -13,7 +13,7 @@ function Switch({className, ...props}: SwitchPrimitive.Root.Props) {
     <SwitchPrimitive.Root
       data-slot="switch"
       className={cn(
-        "peer data-checked:bg-rixl-primary data-unchecked:bg-rixl-border focus-visible:border-rixl-ring focus-visible:ring-rixl-ring/50 inline-flex h-[1.15rem] w-8 shrink-0 items-center rounded-full border border-transparent shadow-rixl-xs transition-all outline-none focus-visible:ring-[3px] data-disabled:cursor-not-allowed data-disabled:opacity-50",
+        "peer inline-flex h-[1.15rem] w-8 shrink-0 items-center rounded-full border border-transparent shadow-rixl-xs outline-none transition-[background-color,border-color,box-shadow] duration-rixl-fast ease-rixl-out data-checked:bg-rixl-primary data-unchecked:bg-rixl-border data-checked:enabled:hover:bg-rixl-primary-hover data-unchecked:enabled:hover:bg-rixl-border-strong focus-visible:border-rixl-ring focus-visible:ring-rixl-ring/50 focus-visible:ring-[3px] data-disabled:cursor-not-allowed data-disabled:opacity-50",
         className
       )}
       {...props}
@@ -21,7 +21,7 @@ function Switch({className, ...props}: SwitchPrimitive.Root.Props) {
       <SwitchPrimitive.Thumb
         data-slot="switch-thumb"
         className={cn(
-          "bg-rixl-surface pointer-events-none block size-4 rounded-full ring-0 transition-transform data-checked:translate-x-[calc(100%-2px)] data-unchecked:translate-x-0"
+          "bg-rixl-surface pointer-events-none block size-4 rounded-full ring-0 transition-transform duration-rixl-fast ease-rixl-out data-checked:translate-x-[calc(100%-2px)] data-unchecked:translate-x-0"
         )}
       />
     </SwitchPrimitive.Root>
