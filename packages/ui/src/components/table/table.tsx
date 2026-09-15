@@ -4,18 +4,30 @@ import {cn} from "cn";
 
 /**
  * Rixl Table — plain HTML table styled as a data grid.
- * Ported verbatim from dashboard; token-mapped to rixl tokens.
+ *
+ * `containerClassName` targets the wrapper `<div>`, so consumers can opt into
+ * horizontal scroll (`overflow-x-auto`) or a self-scrolling body
+ * (`overflow-auto max-h-…`) without the primitive forcing a layout that would
+ * fight a page-level sticky header.
  */
-function Table({className, ...props}: React.ComponentProps<"table">) {
+function Table({className, containerClassName, ...props}: React.ComponentProps<"table"> & {containerClassName?: string}) {
   return (
-    <div data-slot="table-container" className="relative w-full">
+    <div data-slot="table-container" className={cn("relative w-full", containerClassName)}>
       <table data-slot="table" className={cn("w-full caption-bottom text-sm", className)} {...props} />
     </div>
   );
 }
 
-function TableHeader({className, ...props}: React.ComponentProps<"thead">) {
-  return <thead data-slot="table-header" className={cn("[&_tr]:border-b sticky top-12 bg-rixl-bg z-10", className)} {...props} />;
+/**
+ * `sticky` pins the header to the top of the scroll context. The top offset is
+ * `0` by default — pass `className="top-N"` when it sits under a fixed toolbar.
+ * A sticky header needs the page (or the container via `containerClassName`
+ * `overflow-y`) to be the vertical scroller.
+ */
+function TableHeader({className, sticky, ...props}: React.ComponentProps<"thead"> & {sticky?: boolean}) {
+  return (
+    <thead data-slot="table-header" className={cn("[&_tr]:border-b", sticky && "sticky top-0 z-10 bg-rixl-bg", className)} {...props} />
+  );
 }
 
 function TableBody({className, ...props}: React.ComponentProps<"tbody">) {
@@ -69,8 +81,8 @@ function TableCaption({className, ...props}: React.ComponentProps<"caption">) {
   return <caption data-slot="table-caption" className={cn("text-rixl-fg-muted mt-4 text-sm", className)} {...props} />;
 }
 
-export type TableProps = React.ComponentProps<"table">;
-export type TableHeaderProps = React.ComponentProps<"thead">;
+export type TableProps = React.ComponentProps<"table"> & {containerClassName?: string};
+export type TableHeaderProps = React.ComponentProps<"thead"> & {sticky?: boolean};
 export type TableBodyProps = React.ComponentProps<"tbody">;
 export type TableFooterProps = React.ComponentProps<"tfoot">;
 export type TableRowProps = React.ComponentProps<"tr">;
