@@ -24,12 +24,20 @@ function RadioGroupItem({className, ...props}: RadioPrimitive.Root.Props) {
     <RadioPrimitive.Root
       data-slot="radio-group-item"
       className={cn(
-        "border-rixl-border text-rixl-primary focus-visible:border-rixl-ring focus-visible:ring-rixl-ring/50 aria-invalid:ring-rixl-danger/20 aria-invalid:border-rixl-danger aspect-square size-4 shrink-0 rounded-full border shadow-rixl-xs transition-[color,box-shadow] outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50",
+        "border-rixl-border text-rixl-primary aspect-square size-4 shrink-0 rounded-full border shadow-rixl-xs outline-none",
+        "transition-[color,box-shadow,border-color] duration-rixl-fast ease-rixl-out",
+        "data-unchecked:enabled:hover:border-rixl-border-strong data-checked:border-rixl-primary",
+        "focus-visible:border-rixl-ring focus-visible:ring-rixl-ring/50 focus-visible:ring-[3px]",
+        "aria-invalid:ring-rixl-danger/20 aria-invalid:border-rixl-danger",
+        "disabled:cursor-not-allowed disabled:opacity-50",
         className
       )}
       {...props}
     >
-      <RadioPrimitive.Indicator data-slot="radio-group-indicator" className="relative flex items-center justify-center">
+      <RadioPrimitive.Indicator
+        data-slot="radio-group-indicator"
+        className="relative flex items-center justify-center animate-in zoom-in-50 fade-in-0 duration-rixl-fast motion-reduce:animate-none"
+      >
         <CircleIcon />
       </RadioPrimitive.Indicator>
     </RadioPrimitive.Root>
