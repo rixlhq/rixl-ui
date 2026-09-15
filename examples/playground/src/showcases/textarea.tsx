@@ -6,7 +6,8 @@ import { Group } from "./_layout";
 export const path = "textarea";
 export const title = "Textarea";
 export const group = "Forms";
-export const description = "Multi-line text input. Auto-grows with content via field-sizing.";
+export const description =
+  "Auto-growing multi-line input with hover, focus, read-only, and invalid states.";
 
 export function Showcase() {
   return <Textarea placeholder="Tell us what you think…" className="max-w-md" />;
