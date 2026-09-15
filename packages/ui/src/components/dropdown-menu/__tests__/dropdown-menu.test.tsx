@@ -66,6 +66,16 @@ describe("DropdownMenu", () => {
     expect(item.className).toContain("text-rixl-danger");
   });
 
+  it("highlights items via data-highlighted (Base UI), not :focus", async () => {
+    render(<Basic open />);
+    await act(async () => {});
+    const items = document.querySelectorAll("[data-slot='dropdown-menu-item']");
+    const cls = items[0]!.className;
+    expect(cls).toContain("data-highlighted:bg-rixl-surface-muted");
+    expect(cls).toContain("transition-colors");
+    expect(cls).not.toContain("focus:bg-rixl-surface-muted");
+  });
+
   it("renders the label with its data-slot and text size", async () => {
     render(<Basic open />);
     await act(async () => {});
