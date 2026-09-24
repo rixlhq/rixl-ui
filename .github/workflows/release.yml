@@ -4,14 +4,17 @@ on:
   workflow_dispatch:
   push:
     branches: [main]
-  pull_request:
-    branches: [main]
+
+# PR checks moved to ci.yml, which reports the shared `ci / ci` check. This
+# workflow only runs on main pushes: release-please opens/updates the release
+# PR, and merging that PR publishes to npm. Publish runs `vp pack` first, so
+# nothing ships unbuilt.
 
 permissions:
   contents: write
 
 jobs:
-  build-release:
+  release:
     runs-on: ubuntu-latest
     # Caps the job so a hung install, build or npm publish can't run to
     # GitHub's 6h default. Observed max over the last 37 runs: 2.0 min.
@@ -23,47 +26,26 @@ jobs:
       contents: write
       pull-requests: write
       packages: write
-    outputs:
-      releases_created: ${{ steps.release.outputs.releases_created }}
-      tag_name: ${{ steps.release.outputs.tag_name }}
     defaults:
       run:
         working-directory: packages/ui
     steps:
       - uses: actions/checkout@v7
-      - uses: voidzero-dev/setup-vp@v1
+      # Pinned to an exact release: the moving `v1` tag is frozen at v1.15.0.
+      - uses: voidzero-dev/setup-vp@v1.21.1
         with:
+          working-directory: packages/ui
           cache: "true"
           run-install: "true"
 
-      - name: Lint and type-check
-        run: vp check
-
-      - name: Format check
-        run: vp fmt --check
-
-      - name: Build library
-        run: vp pack
-
-      - name: Run tests with coverage
-        run: vp test --coverage --run
-
-      - name: Report coverage to PR
-        if: github.event_name == 'pull_request'
-        uses: davelosert/vitest-coverage-report-action@v2
-        with:
-          working-directory: packages/ui
-          json-summary-path: ./coverage/coverage-summary.json
-          json-final-path: ./coverage/coverage-final.json
-          vite-config-path: ./vite.config.ts
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-
       - name: Run Release Please
         id: release
-        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         uses: googleapis/release-please-action@v5
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          # BUILD_GITHUB_TOKEN so the release PR triggers CI — the default
+          # GITHUB_TOKEN's events never start workflow runs, so a release PR
+          # opened with it would sit at "Expected: waiting for status".
+          token: ${{ secrets.BUILD_GITHUB_TOKEN }}
           config-file: release-please-config.json
           manifest-file: .release-please-manifest.json
 

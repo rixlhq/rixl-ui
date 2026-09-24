@@ -207,6 +207,7 @@
   "scripts": {
     "dev": "vp pack --watch",
     "build": "vp pack",
+    "ci": "vp check && vp fmt --check && vp test --coverage --run && vp pack",
     "check": "vp check",
     "lint": "vp lint",
     "fmt": "vp fmt",
