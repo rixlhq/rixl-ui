@@ -1,0 +1,28 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+  pull-requests: write # coverage report comment
+
+concurrency:
+  group: ci-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  ci:
+    uses: rixlhq/github-actions/.github/workflows/frontend-ci.yml@main
+    with:
+      # The publishable library lives in packages/ui; install and commands run
+      # there (the workspace lockfile stays at the repo root).
+      working-directory: packages/ui
+      # The `ci` script in packages/ui/package.json defines what CI runs:
+      # check, fmt --check, tests with coverage, and the package build.
+      commands: vp run ci
+      coverage-report: true
+      coverage-vite-config: ./vite.config.ts
+      timeout-minutes: 10
