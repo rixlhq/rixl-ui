@@ -17,7 +17,7 @@ Tailwind 4 preset shared across `dashboard`, `landing`, and `docs`.
   component:
 
   ```ts
-  import {Button} from "@rixl/ui/button";
+  import { Button } from "@rixl/ui/button";
   ```
 
 - **Tailwind 4 preset, not compiled CSS.** Consumers already run
@@ -35,7 +35,7 @@ Tailwind 4 preset shared across `dashboard`, `landing`, and `docs`.
 ```
 
 ```tsx
-import {Button} from "@rixl/ui/button";
+import { Button } from "@rixl/ui/button";
 
 export function Save() {
   return <Button variant="primary">Save</Button>;
@@ -47,7 +47,7 @@ export function Save() {
 ```
 packages/ui/             — @rixl/ui library (publish target)
 examples/playground/     — Vite consumer for local visual iteration
-lefthook.yml             — repo-wide git hooks
+.vite-hooks/             — repo-wide git hooks (installed by `vp install`)
 ```
 
 Root is a workspace container; the library lives in `packages/ui`.
@@ -72,10 +72,10 @@ vp env doctor          # diagnose toolchain issues
 From the repo root, use the workspace scripts:
 
 ```bash
-bun run build          # → packages/ui $ vp pack
-bun run test:run       # → packages/ui $ vp test --run
-bun run check
-bun run playground     # start the visual playground
+vp run build           # → packages/ui $ vp pack
+vp run test:run        # → packages/ui $ vp test --run
+vp run check
+vp run playground      # start the visual playground
 ```
 
 ## Visual playground
@@ -83,10 +83,10 @@ bun run playground     # start the visual playground
 To see components render live while you edit source:
 
 ```bash
-bun install            # once, from repo root — links the workspace
-bun run playground     # from repo root
+vp install             # once, from repo root — links the workspace
+vp run playground      # from repo root
 # — or —
-cd examples/playground && bun run dev
+cd examples/playground && vp run dev
 ```
 
 Then open http://localhost:5173. The playground consumes `@rixl/ui`

@@ -6,6 +6,17 @@ This project is using Vite+, a unified toolchain built on top of Vite, Rolldown,
 
 Docs are local at `node_modules/vite-plus/docs` or online at https://viteplus.dev/guide/.
 
+## Built-in Commands vs Scripts
+
+`vp <name>` runs a built-in command. `vp run <name>` runs a `package.json` script or a `vite.config.ts` task. Scripts cannot overwrite built-ins, so `vp dev` and `vp run dev` may do different things. Check `package.json` and `vite.config.ts` first, and run `vp run <name>` when the project defines a script or task with that name.
+
+## Tool Versions
+
+Run `vp toolchain` to show versions and relationships in the active Vite+
+release. Add a tool name to select part of the graph. For example, run
+`vp toolchain vite`. Use `--global` to ignore the local `vite-plus` package. Use
+`vp why <package>` to show the package-manager dependency graph.
+
 ## Review Checklist
 
 - [ ] Run `vp install` after pulling remote changes and before getting started.
@@ -32,7 +43,7 @@ Docs are local at `node_modules/vite-plus/docs` or online at https://viteplus.de
 - **Subpath exports.** Consumers import one component and get one component: `import {Button} from "@rixl/ui/button"`.
 - **Tree-shakable.** Each component compiles to its own entry (see `vite.config.ts#pack.entry`).
 
-## Prefer `vp` over `bun run`
+## Use `vp` for everything
 
 Inside `packages/ui/`, the primary interface is `vp <command>`. The scripts in `packages/ui/package.json` and the root workspace `package.json` are convenience aliases only. Use:
 
@@ -44,7 +55,7 @@ Inside `packages/ui/`, the primary interface is `vp <command>`. The scripts in `
 - `vp dev` — watch build.
 - `vp env doctor` — diagnose toolchain issues.
 
-From the repo root (workspace container), the equivalents are `bun run check`, `bun run test:run`, `bun run build`, etc. Root scripts delegate via bun's workspace filter (`bun run --filter=@rixl/ui <script>`) so output stays namespaced by workspace member (`@rixl/ui check: …`, `@rixl/ui-playground build: …`).
+From the repo root (workspace container), the equivalents are `vp run check`, `vp run test:run`, `vp run build`, etc. Root scripts delegate with Vite+'s workspace filter (`vp run -F @rixl/ui <script>`). Don't call `bun`, `npm` or `npx` directly: `vp install` fetches the pinned package manager. PM detection is scoped to the directory `vp` runs in, so the `packageManager` field in `packages/ui/package.json` is load-bearing — CI runs `vp install` from there; removing it makes vp fall back to pnpm.
 
 ## Repository layout
 
@@ -68,7 +79,7 @@ packages/ui/                    — @rixl/ui library (publish target)
 examples/
   playground/                   — Vite + React + Tailwind consumer of @rixl/ui via `workspace:*`
 
-lefthook.yml                    — root git hooks (pre-commit + pre-push run into packages/ui)
+.vite-hooks/                    — root git hooks (pre-commit + pre-push run into packages/ui)
 .github/workflows/release.yml   — CI: check, fmt --check, pack, test --coverage, release-please, npm publish (working-directory: packages/ui)
 package.json                    — root workspace container; scripts proxy to `packages/ui`
 ```
@@ -77,7 +88,7 @@ package.json                    — root workspace container; scripts proxy to `
 
 Run commands from either place:
 
-- **Repo root** — use the root scripts: `bun run check`, `bun run test:run`, `bun run build`, `bun run playground`.
+- **Repo root** — use the root scripts: `vp run check`, `vp run test:run`, `vp run build`, `vp run playground`.
 - **`packages/ui/`** — use `vp` directly: `vp check`, `vp test`, `vp pack`, `vp fmt`.
 
 The CI workflow sets `defaults.run.working-directory: packages/ui`, so every CI step runs from there.
@@ -126,7 +137,7 @@ See `.agents/rules/testing.md`. Vitest + jsdom + Testing Library. Every componen
 ## Commit and release flow
 
 - Conventional commits (`.agents/rules/commits.md`). Release-please computes the next version from commit types.
-- **Lefthook** owns git hooks (installed by `bun install` at the repo root via the root `prepare` script). Config lives in `lefthook.yml`.
+- **Vite+ hooks** own git hooks (installed by `vp install` at the repo root via the root `prepare` script, `vp config`). The scripts live in `.vite-hooks/`.
   - `pre-commit`: `vp check --fix` + `vp fmt --write` on staged files.
   - `pre-push`: `vp check`, `vp fmt --check`, `vp test --run`, `vp pack` — matches CI.
 - CI runs the same on every PR + on push to `main` (from `packages/ui/`), then opens/updates a release PR. Merging that PR triggers `npm publish`.
