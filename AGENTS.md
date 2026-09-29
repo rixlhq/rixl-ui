@@ -55,7 +55,7 @@ Inside `packages/ui/`, the primary interface is `vp <command>`. The scripts in `
 - `vp dev` — watch build.
 - `vp env doctor` — diagnose toolchain issues.
 
-From the repo root (workspace container), the equivalents are `vp run check`, `vp run test:run`, `vp run build`, etc. Root scripts delegate with Vite+'s workspace filter (`vp run -F @rixl/ui <script>`). Don't call `bun`, `npm` or `npx` directly: `vp install` fetches the package manager pinned in the root `package.json`.
+From the repo root (workspace container), the equivalents are `vp run check`, `vp run test:run`, `vp run build`, etc. Root scripts delegate with Vite+'s workspace filter (`vp run -F @rixl/ui <script>`). Don't call `bun`, `npm` or `npx` directly: `vp install` fetches the pinned package manager. PM detection is scoped to the directory `vp` runs in, so the `packageManager` field in `packages/ui/package.json` is load-bearing — CI runs `vp install` from there; removing it makes vp fall back to pnpm.
 
 ## Repository layout
 
