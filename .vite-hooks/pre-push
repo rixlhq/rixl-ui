@@ -1,0 +1,4 @@
+#!/usr/bin/env sh
+# The same checks CI runs before anything leaves the machine: check, format
+# check, tests and the library build.
+vp run -F @rixl/ui check && vp run -F @rixl/ui fmt --check && vp run -F @rixl/ui test:run && vp run -F @rixl/ui build

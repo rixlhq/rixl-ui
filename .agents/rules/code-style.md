@@ -31,7 +31,7 @@ If a component exceeds these limits it is a design smell — split into sub-comp
 
 ## Linting and formatting
 
-- Toolchain is **Vite+ (vp)**. Prefer running `vp <command>` directly over `bun run <script>` — the scripts are aliases only.
+- Toolchain is **Vite+ (vp)**. Prefer running `vp <command>` directly; from the repo root use `vp run <script>`. Don't call `bun`, `npm` or `npx` directly.
 - `vp check` — oxlint + tsc, zero warnings.
 - `vp fmt` — oxfmt (write mode); `vp fmt --check` in CI.
 - Auto-fix: `vp check --fix`.

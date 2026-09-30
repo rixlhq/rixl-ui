@@ -56,7 +56,7 @@ export default defineConfig({
     target: "es2022",
   },
   lint: {
-    ignorePatterns: ["dist/**", "examples/**"],
+    ignorePatterns: ["dist/**", "examples/**", "__tests__", "*.test.ts", "*.test.tsx"],
   },
   fmt: {
     ignorePatterns: ["dist/**", "examples/**", "CHANGELOG.md", ".release-please-manifest.json"],

@@ -9,26 +9,22 @@
     "examples/*"
   ],
   "scripts": {
-    "build": "bun run --filter=@rixl/ui build",
-    "dev": "bun run --filter=@rixl/ui dev",
-    "check": "bun run --filter=@rixl/ui check",
-    "fmt": "bun run --filter=@rixl/ui fmt",
-    "test": "bun run --filter=@rixl/ui test",
-    "test:run": "bun run --filter=@rixl/ui test:run",
-    "test:coverage": "bun run --filter=@rixl/ui test:coverage",
-    "playground": "bun run --filter=@rixl/ui-playground dev",
-    "playground:build": "bun run --filter=@rixl/ui build && bun run --filter=@rixl/ui-playground build",
-    "prepare": "lefthook install || true"
+    "build": "vp run -F @rixl/ui build",
+    "dev": "vp run -F @rixl/ui dev",
+    "check": "vp run -F @rixl/ui check",
+    "fmt": "vp run -F @rixl/ui fmt",
+    "test": "vp run -F @rixl/ui test",
+    "test:run": "vp run -F @rixl/ui test:run",
+    "test:coverage": "vp run -F @rixl/ui test:coverage",
+    "playground": "vp run -F @rixl/ui-playground dev",
+    "playground:build": "vp run -F @rixl/ui build && vp run -F @rixl/ui-playground build",
+    "prepare": "vp config"
   },
-  "// vitest": "vitest, @vitest/coverage-v8 and @vitest/ui are pinned to 4.1.10 because vite-plus bundles vitest@4.1.10. TODO: move back to ^5.0.0 once vite-plus ships a 5.x bundle.",
   "devDependencies": {
-    "@vitest/coverage-v8": "4.1.10",
-    "@vitest/ui": "4.1.10",
-    "lefthook": "^2.1.8",
-    "vitest": "4.1.10"
+    "vite-plus": "1.0.0"
   },
   "engines": {
     "node": ">=24"
   },
-  "packageManager": "bun@1.4.0"
+  "packageManager": "bun@1.4.2"
 }
