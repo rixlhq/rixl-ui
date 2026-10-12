@@ -1,5 +1,6 @@
 import {Children, isValidElement, useMemo, type ComponentProps, type ReactNode} from "react";
 import {Select as SelectPrimitive} from "@base-ui/react/select";
+import {cva, type VariantProps} from "class-variance-authority";
 import {cn} from "cn";
 
 /**
@@ -69,26 +70,45 @@ function SelectValue({...props}: SelectPrimitive.Value.Props) {
   return <SelectPrimitive.Value data-slot="select-value" {...props} />;
 }
 
+const selectTriggerVariants = cva(
+  cn(
+    "border-rixl-border data-[placeholder]:text-rixl-fg-muted [&_svg:not([class*='text-'])]:text-rixl-fg-muted",
+    "flex w-fit items-center justify-between gap-2 rounded-rixl-md border bg-transparent px-3 py-2 text-sm whitespace-nowrap shadow-rixl-xs outline-none",
+    "transition-[color,box-shadow,border-color] duration-rixl-fast ease-rixl-out",
+    // Hover strengthens the border; opening the popup keeps it emphasised.
+    "enabled:hover:border-rixl-border-strong data-[popup-open]:border-rixl-border-strong",
+    "focus-visible:border-rixl-ring focus-visible:ring-rixl-ring/50 focus-visible:ring-[3px]",
+    "aria-invalid:ring-rixl-danger/20 aria-invalid:border-rixl-danger",
+    "disabled:cursor-not-allowed disabled:opacity-50",
+    "*:data-[slot=select-value]:line-clamp-1 *:data-[slot=select-value]:flex *:data-[slot=select-value]:items-center *:data-[slot=select-value]:gap-2",
+    "[&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4"
+  ),
+  {
+    variants: {size: {default: "h-9", sm: "h-8"}},
+    defaultVariants: {size: "default"},
+  }
+);
+
 function SelectTrigger({
   className,
   size = "default",
   children,
   ...props
-}: SelectPrimitive.Trigger.Props & {
-  size?: "sm" | "default";
-}) {
+}: SelectPrimitive.Trigger.Props & VariantProps<typeof selectTriggerVariants>) {
   return (
     <SelectPrimitive.Trigger
       data-slot="select-trigger"
       data-size={size}
-      className={cn(
-        "border-rixl-border data-[placeholder]:text-rixl-fg-muted [&_svg:not([class*='text-'])]:text-rixl-fg-muted focus-visible:border-rixl-ring focus-visible:ring-rixl-ring/50 aria-invalid:ring-rixl-danger/20 aria-invalid:border-rixl-danger flex w-fit items-center justify-between gap-2 rounded-rixl-md border bg-transparent px-3 py-2 text-sm whitespace-nowrap shadow-rixl-xs transition-[color,box-shadow] outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50 data-[size=default]:h-9 data-[size=sm]:h-8 *:data-[slot=select-value]:line-clamp-1 *:data-[slot=select-value]:flex *:data-[slot=select-value]:items-center *:data-[slot=select-value]:gap-2 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
-        className
-      )}
+      className={cn(selectTriggerVariants({size}), className)}
       {...props}
     >
       {children}
-      <SelectPrimitive.Icon render={<ChevronDownIcon className="size-4 opacity-50" />} />
+      {/* Chevron flips when the popup is open (ancestor carries data-popup-open). */}
+      <SelectPrimitive.Icon
+        render={
+          <ChevronDownIcon className="size-4 opacity-50 transition-transform duration-rixl-fast ease-rixl-out [[data-popup-open]_&]:rotate-180" />
+        }
+      />
     </SelectPrimitive.Trigger>
   );
 }
@@ -140,7 +160,10 @@ function SelectItem({className, children, ...props}: SelectPrimitive.Item.Props)
     <SelectPrimitive.Item
       data-slot="select-item"
       className={cn(
-        "focus:bg-rixl-surface-muted focus:text-rixl-fg [&_svg:not([class*='text-'])]:text-rixl-fg-muted relative flex w-full cursor-pointer items-center gap-2 rounded-rixl-sm py-1.5 pr-8 pl-2 text-sm outline-hidden select-none data-disabled:pointer-events-none data-disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 *:[span]:last:flex *:[span]:last:items-center *:[span]:last:gap-2",
+        // Base UI highlights the active option via data-highlighted (keyboard and
+        // pointer) — not :focus — so drive the highlight from that. Selected rows
+        // get a touch more weight on top of the checkmark.
+        "data-highlighted:bg-rixl-surface-muted data-highlighted:text-rixl-fg data-selected:font-medium transition-colors duration-rixl-fast ease-rixl-out [&_svg:not([class*='text-'])]:text-rixl-fg-muted relative flex w-full cursor-pointer items-center gap-2 rounded-rixl-sm py-1.5 pr-8 pl-2 text-sm outline-hidden select-none data-disabled:pointer-events-none data-disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 *:[span]:last:flex *:[span]:last:items-center *:[span]:last:gap-2",
         className
       )}
       {...props}
@@ -253,4 +276,5 @@ export {
   SelectSeparator,
   SelectTrigger,
   SelectValue,
+  selectTriggerVariants,
 };

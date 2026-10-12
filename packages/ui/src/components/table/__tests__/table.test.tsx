@@ -71,4 +71,40 @@ describe("Table", () => {
     );
     expect(screen.getByTestId("table").className).toContain("max-w-md");
   });
+
+  it("header is not sticky by default", () => {
+    render(<Basic />);
+    const header = document.querySelector("[data-slot='table-header']");
+    expect(header!.className).not.toContain("sticky");
+  });
+
+  it("header opts into sticky positioning", () => {
+    render(
+      <Table>
+        <TableHeader sticky>
+          <TableRow>
+            <TableHead>H</TableHead>
+          </TableRow>
+        </TableHeader>
+      </Table>
+    );
+    const header = document.querySelector("[data-slot='table-header']");
+    expect(header!.className).toContain("sticky");
+    expect(header!.className).toContain("top-0");
+    expect(header!.className).toContain("bg-rixl-bg");
+  });
+
+  it("forwards containerClassName to the wrapper for opt-in scroll", () => {
+    render(
+      <Table containerClassName="overflow-x-auto">
+        <TableBody>
+          <TableRow>
+            <TableCell>x</TableCell>
+          </TableRow>
+        </TableBody>
+      </Table>
+    );
+    const container = document.querySelector("[data-slot='table-container']");
+    expect(container!.className).toContain("overflow-x-auto");
+  });
 });

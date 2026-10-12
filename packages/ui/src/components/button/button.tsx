@@ -31,12 +31,14 @@ import {cn} from "cn";
  * so the press is still legible without movement.
  */
 const press =
-  "active:scale-[var(--rixl-press-scale)] motion-reduce:active:scale-100 " +
-  "transition-[scale,background-color,box-shadow,border-color,color] " +
-  "duration-rixl-fast ease-rixl-out";
+  "transition-[scale,translate,background-color,box-shadow,border-color,color] duration-rixl-fast ease-rixl-out " +
+  // Lift a touch on hover, settle back down and shrink on press — reads as a
+  // physical button. Both movements drop under reduced motion.
+  "hover:-translate-y-px active:translate-y-0 active:scale-[var(--rixl-press-scale)] " +
+  "motion-reduce:hover:translate-y-0 motion-reduce:active:scale-100";
 
-/** Shadow collapses as the surface depresses, so it reads as pushed in rather than merely smaller. */
-const pressShadow = "shadow-rixl-xs active:shadow-none";
+/** Shadow deepens on the hover lift and collapses on press, so it reads as pushed in. */
+const pressShadow = "shadow-rixl-xs hover:shadow-rixl-sm active:shadow-none";
 
 const variantClasses = {
   default: `bg-rixl-primary text-rixl-primary-fg hover:bg-rixl-primary-hover active:bg-rixl-primary-active ${pressShadow}`,
@@ -44,9 +46,9 @@ const variantClasses = {
   outline: `border border-rixl-border bg-rixl-bg hover:bg-rixl-surface-muted hover:text-rixl-fg hover:border-rixl-border-strong active:bg-rixl-secondary-active ${pressShadow}`,
   secondary: `bg-rixl-secondary text-rixl-secondary-fg hover:bg-rixl-secondary-hover active:bg-rixl-secondary-active ${pressShadow}`,
   ghost: "hover:bg-rixl-surface-muted hover:text-rixl-fg active:bg-rixl-secondary-active",
-  // Inline text: scaling it against surrounding copy looks broken, so `link`
-  // opts out of the press transform and signals with colour alone.
-  link: "text-rixl-primary underline underline-offset-4 active:scale-100 active:text-rixl-primary-active",
+  // Inline text: moving/scaling it against surrounding copy looks broken, so
+  // `link` opts out of the lift and press transform and signals with colour alone.
+  link: "text-rixl-primary underline underline-offset-4 hover:translate-y-0 active:translate-y-0 active:scale-100 active:text-rixl-primary-active",
 } as const;
 
 /** fumadocs calls the brand action `primary`; dashboard calls it `default`. */

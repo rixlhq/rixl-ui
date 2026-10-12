@@ -69,4 +69,35 @@ describe("Checkbox", () => {
     fireEvent.click(screen.getByRole("checkbox"));
     expect(onCheckedChange).toHaveBeenCalledWith(true, expect.anything());
   });
+
+  it("applies hover affordances (unchecked strengthens, checked deepens)", () => {
+    render(<Checkbox />);
+    const cls = screen.getByRole("checkbox").className;
+    expect(cls).toContain("data-unchecked:enabled:hover:border-rixl-border-strong");
+    expect(cls).toContain("data-checked:enabled:hover:bg-rixl-primary-hover");
+  });
+
+  it("fills the box for the indeterminate state", () => {
+    render(<Checkbox />);
+    const cls = screen.getByRole("checkbox").className;
+    expect(cls).toContain("data-indeterminate:bg-rixl-primary");
+    expect(cls).toContain("data-indeterminate:border-rixl-primary");
+  });
+
+  it("renders both check and dash icons, dash gated on indeterminate", () => {
+    render(<Checkbox indeterminate />);
+    const icons = document.querySelectorAll("[data-slot='checkbox-icon']");
+    expect(icons.length).toBe(2);
+    const dash = icons[1]!;
+    expect(dash.getAttribute("class")).toContain("[[data-indeterminate]_&]:block");
+    expect(dash.getAttribute("class")).toContain("hidden");
+  });
+
+  it("animates the indicator in, reduced-motion safe", () => {
+    render(<Checkbox defaultChecked />);
+    const indicator = document.querySelector("[data-slot='checkbox-indicator']");
+    expect(indicator!.className).toContain("animate-in");
+    expect(indicator!.className).toContain("zoom-in-50");
+    expect(indicator!.className).toContain("motion-reduce:animate-none");
+  });
 });

@@ -22,7 +22,7 @@ export const path = "dropdown-menu";
 export const title = "DropdownMenu";
 export const group = "Overlays";
 export const description =
-  "Popup menu of actions anchored to a trigger. Base UI Menu; keyboard navigable, submenus, checkbox/radio items, shortcuts.";
+  "Popup menu of actions anchored to a trigger. Base UI Menu; rows highlight on keyboard + pointer, submenus, checkbox/radio items, shortcuts, and an animated panel.";
 
 export function Showcase() {
   return (

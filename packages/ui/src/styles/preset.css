@@ -244,4 +244,20 @@
       opacity: 0;
     }
   }
+
+  /*
+   * Shimmer sweep for the Skeleton `shimmer` variant. A highlight band travels
+   * across the placeholder; the base `--rixl-surface-muted` shows through the
+   * transparent stops. Linear + infinite reads as a steady metronome. Consumers
+   * get `animate-rixl-shimmer` automatically once they import preset.css.
+   */
+  --animate-rixl-shimmer: rixl-shimmer 1.5s linear infinite;
+  @keyframes rixl-shimmer {
+    from {
+      background-position: 200% 0;
+    }
+    to {
+      background-position: -200% 0;
+    }
+  }
 }

@@ -46,6 +46,10 @@ function StatesExample(props: { state: Record<string, ControlValue> }) {
           <Label htmlFor="d2">Locked / checked</Label>
         </div>
         <div className="flex items-center gap-2">
+          <Checkbox id="ind" indeterminate />
+          <Label htmlFor="ind">Indeterminate (dash)</Label>
+        </div>
+        <div className="flex items-center gap-2">
           <Checkbox id="bad" aria-invalid />
           <Label htmlFor="bad" className="text-rixl-danger">
             You must agree before continuing

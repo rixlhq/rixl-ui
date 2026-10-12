@@ -1,6 +1,16 @@
 import {describe, it, expect} from "vitest";
 import {render, screen} from "@testing-library/react";
-import {Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectSeparator, SelectTrigger, SelectValue} from "../select";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectSeparator,
+  SelectTrigger,
+  SelectValue,
+  selectTriggerVariants,
+} from "../select";
 
 function Basic({defaultValue, disabled, size}: {defaultValue?: string; disabled?: boolean; size?: "sm" | "default"} = {}) {
   return (
@@ -38,6 +48,26 @@ describe("Select", () => {
     expect(cls).toContain("rounded-rixl-md");
     expect(cls).toContain("shadow-rixl-xs");
     expect(cls).toContain("focus-visible:border-rixl-ring");
+  });
+
+  it("applies hover and open-state affordances to the trigger", () => {
+    render(<Basic />);
+    const cls = screen.getByTestId("trigger").className;
+    expect(cls).toContain("enabled:hover:border-rixl-border-strong");
+    expect(cls).toContain("data-[popup-open]:border-rixl-border-strong");
+  });
+
+  it("rotates the chevron when the popup is open", () => {
+    render(<Basic />);
+    const chevron = screen.getByTestId("trigger").querySelector("svg");
+    expect(chevron?.getAttribute("class")).toContain("[[data-popup-open]_&]:rotate-180");
+    expect(chevron?.getAttribute("class")).toContain("transition-transform");
+  });
+
+  it("applies the size height via selectTriggerVariants", () => {
+    render(<Basic size="sm" />);
+    expect(screen.getByTestId("trigger").className).toContain("h-8");
+    expect(selectTriggerVariants({size: "default"})).toContain("h-9");
   });
 
   it("reflects the size prop via data-size", () => {

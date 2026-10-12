@@ -1,5 +1,6 @@
 import * as React from "react";
 import {Dialog as DialogPrimitive} from "@base-ui/react/dialog";
+import {cva, type VariantProps} from "class-variance-authority";
 import {cn} from "cn";
 
 /**
@@ -41,7 +42,9 @@ function DialogOverlay({className, ...props}: DialogPrimitive.Backdrop.Props) {
     <DialogPrimitive.Backdrop
       data-slot="dialog-overlay"
       className={cn(
-        "data-open:animate-in data-closed:animate-out data-closed:fade-out-0 data-open:fade-in-0 fixed inset-0 z-50 bg-black/80",
+        // Lighter scrim + subtle blur: separation is carried by the blur, not a
+        // heavy wash. Fade only, so it stays still under reduced motion.
+        "data-open:animate-in data-closed:animate-out data-closed:fade-out-0 data-open:fade-in-0 fixed inset-0 z-50 bg-black/50 backdrop-blur-sm",
         className
       )}
       {...props}
@@ -49,30 +52,51 @@ function DialogOverlay({className, ...props}: DialogPrimitive.Backdrop.Props) {
   );
 }
 
+const dialogContentVariants = cva(
+  cn(
+    "bg-rixl-bg fixed top-[50%] left-[50%] z-50 grid w-full max-w-[calc(100%-2rem)] translate-x-[-50%] translate-y-[-50%] gap-4",
+    "rounded-rixl-lg border border-rixl-border p-6 shadow-rixl-lg",
+    // Scale-and-fade entrance/exit (scale 0.95 → 1), reduced-motion safe.
+    "data-open:animate-in data-closed:animate-out data-closed:fade-out-0 data-open:fade-in-0 data-closed:zoom-out-95 data-open:zoom-in-95 duration-rixl-base ease-rixl-out"
+  ),
+  {
+    variants: {
+      size: {
+        sm: "sm:max-w-sm",
+        default: "sm:max-w-lg",
+        lg: "sm:max-w-2xl",
+        xl: "sm:max-w-4xl",
+      },
+    },
+    defaultVariants: {size: "default"},
+  }
+);
+
 function DialogContent({
   className,
   children,
+  size,
   showCloseButton = true,
   ...props
-}: DialogPrimitive.Popup.Props & {
-  showCloseButton?: boolean;
-}) {
+}: DialogPrimitive.Popup.Props &
+  VariantProps<typeof dialogContentVariants> & {
+    showCloseButton?: boolean;
+  }) {
   return (
     <DialogPortal>
       <DialogOverlay />
-      <DialogPrimitive.Popup
-        data-slot="dialog-content"
-        className={cn(
-          "bg-rixl-bg data-open:animate-in data-closed:animate-out data-closed:fade-out-0 data-open:fade-in-0 data-closed:zoom-out-95 data-open:zoom-in-95 fixed top-[50%] left-[50%] z-50 grid w-full max-w-[calc(100%-2rem)] translate-x-[-50%] translate-y-[-50%] gap-4 rounded-rixl-lg border-rixl-border border p-6 shadow-rixl-lg duration-200 sm:max-w-lg",
-          className
-        )}
-        {...props}
-      >
+      <DialogPrimitive.Popup data-slot="dialog-content" className={cn(dialogContentVariants({size}), className)} {...props}>
         {children}
         {showCloseButton && (
           <DialogPrimitive.Close
             data-slot="dialog-close"
-            className="ring-offset-rixl-bg focus:ring-rixl-ring absolute top-4 right-4 rounded-xs opacity-70 transition-opacity hover:opacity-100 focus:ring-2 focus:ring-offset-2 focus:outline-hidden disabled:pointer-events-none [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4"
+            className={cn(
+              "absolute top-4 right-4 flex items-center justify-center rounded-rixl-sm p-1 opacity-70",
+              "transition-[opacity,background-color,box-shadow] duration-rixl-fast ease-rixl-out",
+              "hover:bg-rixl-surface-muted hover:opacity-100",
+              "focus-visible:ring-rixl-ring/50 focus-visible:ring-[3px] focus-visible:outline-none",
+              "disabled:pointer-events-none [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4"
+            )}
           >
             <CloseIcon />
             <span className="sr-only">Close</span>
@@ -127,12 +151,13 @@ export {
   DialogPortal,
   DialogTitle,
   DialogTrigger,
+  dialogContentVariants,
 };
 export type DialogProps = DialogPrimitive.Root.Props;
 export type DialogTriggerProps = DialogPrimitive.Trigger.Props;
 export type DialogPortalProps = DialogPrimitive.Portal.Props;
 export type DialogCloseProps = DialogPrimitive.Close.Props;
 export type DialogOverlayProps = DialogPrimitive.Backdrop.Props;
-export type DialogContentProps = DialogPrimitive.Popup.Props & {showCloseButton?: boolean};
+export type DialogContentProps = DialogPrimitive.Popup.Props & VariantProps<typeof dialogContentVariants> & {showCloseButton?: boolean};
 export type DialogTitleProps = DialogPrimitive.Title.Props;
 export type DialogDescriptionProps = DialogPrimitive.Description.Props;

@@ -38,6 +38,13 @@ describe("Textarea", () => {
     expect(cls).toContain("aria-invalid:ring-rixl-danger/20");
   });
 
+  it("applies hover and read-only state classes", () => {
+    render(<Textarea placeholder="Message" readOnly />);
+    const cls = screen.getByPlaceholderText("Message").className;
+    expect(cls).toContain("hover:border-rixl-border-strong");
+    expect(cls).toContain("read-only:bg-rixl-surface-muted");
+  });
+
   it("forwards additional className without dropping base classes", () => {
     render(<Textarea placeholder="Message" className="min-h-32" />);
     const cls = screen.getByPlaceholderText("Message").className;

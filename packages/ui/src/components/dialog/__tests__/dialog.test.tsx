@@ -1,7 +1,17 @@
 import {describe, it, expect} from "vitest";
 import {useState} from "react";
 import {act, render, screen} from "@testing-library/react";
-import {Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger} from "../dialog";
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+  dialogContentVariants,
+} from "../dialog";
 
 function Basic({open, defaultOpen}: {open?: boolean; defaultOpen?: boolean} = {}) {
   return (
@@ -108,5 +118,38 @@ describe("Dialog", () => {
     const footer = document.querySelector("[data-slot='dialog-footer']");
     expect(footer).not.toBeNull();
     expect(footer!.className).toContain("flex-col-reverse");
+  });
+
+  it("uses a lighter, blurred backdrop", async () => {
+    render(<Basic open />);
+    await act(async () => {});
+    const overlay = document.querySelector("[data-slot='dialog-overlay']");
+    expect(overlay!.className).toContain("bg-black/50");
+    expect(overlay!.className).toContain("backdrop-blur-sm");
+  });
+
+  describe("size", () => {
+    it("defaults to the lg max-width", async () => {
+      render(<Basic open />);
+      await act(async () => {});
+      expect(screen.getByTestId("content").className).toContain("sm:max-w-lg");
+    });
+
+    it("applies a larger size when requested", async () => {
+      render(
+        <Dialog open>
+          <DialogTrigger render={<button type="button">Open</button>} />
+          <DialogContent data-testid="content" size="lg">
+            <DialogTitle>Title</DialogTitle>
+          </DialogContent>
+        </Dialog>
+      );
+      await act(async () => {});
+      expect(screen.getByTestId("content").className).toContain("sm:max-w-2xl");
+    });
+
+    it("dialogContentVariants is exported and produces size classes", () => {
+      expect(dialogContentVariants({size: "xl"})).toContain("sm:max-w-4xl");
+    });
   });
 });

@@ -113,10 +113,24 @@ describe("Button", () => {
       expect(screen.getByRole("button").className).toContain("active:scale-100");
     });
 
-    it("drops the transform but keeps colour under reduced motion", () => {
+    it("lifts and deepens its shadow on hover", () => {
+      render(<Button>Save</Button>);
+      const cls = screen.getByRole("button").className;
+      expect(cls).toContain("hover:-translate-y-px");
+      expect(cls).toContain("hover:shadow-rixl-sm");
+      expect(cls).toContain("active:translate-y-0");
+    });
+
+    it("opts the link variant out of the hover lift", () => {
+      render(<Button variant="link">Docs</Button>);
+      expect(screen.getByRole("button").className).toContain("hover:translate-y-0");
+    });
+
+    it("drops the transforms but keeps colour under reduced motion", () => {
       render(<Button>Save</Button>);
       const cls = screen.getByRole("button").className;
       expect(cls).toContain("motion-reduce:active:scale-100");
+      expect(cls).toContain("motion-reduce:hover:translate-y-0");
       expect(cls).toContain("active:bg-rixl-primary-active");
     });
 
@@ -127,7 +141,7 @@ describe("Button", () => {
       const cls = screen.getByRole("button").className;
       // Tailwind's scale-* utility sets the `scale` property, not `transform`;
       // naming transform here would leave the press untransitioned.
-      expect(cls).toContain("transition-[scale,background-color,box-shadow,border-color,color]");
+      expect(cls).toContain("transition-[scale,translate,background-color,box-shadow,border-color,color]");
       expect(cls).not.toContain("transition-all");
     });
   });

@@ -16,7 +16,7 @@ export const path = "dialog";
 export const title = "Dialog";
 export const group = "Overlays";
 export const description =
-  "Modal surface layered over a backdrop. Base UI Dialog; modal (focus-trapped), closes on Escape / backdrop / scroll.";
+  "Modal surface over a blurred backdrop. Base UI Dialog; modal (focus-trapped), closes on Escape / backdrop / scroll. Scale-and-fade entrance and four size variants.";
 
 export function Showcase() {
   return (
@@ -129,8 +129,39 @@ function CustomContentExample(props: { state: Record<string, ControlValue> }) {
   );
 }
 
+function SizesExample(props: { state: Record<string, ControlValue> }) {
+  void props;
+  return (
+    <Group label="Sizes">
+      <div className="flex flex-wrap gap-3">
+        {(["sm", "default", "lg", "xl"] as const).map((size) => (
+          <Dialog key={size}>
+            <DialogTrigger
+              render={
+                <Button variant="outline" className="capitalize">
+                  {size}
+                </Button>
+              }
+            />
+            <DialogContent size={size}>
+              <DialogHeader>
+                <DialogTitle className="capitalize">{size} dialog</DialogTitle>
+                <DialogDescription>This dialog uses the “{size}” size variant.</DialogDescription>
+              </DialogHeader>
+              <DialogFooter>
+                <DialogClose render={<Button variant="outline">Close</Button>} />
+              </DialogFooter>
+            </DialogContent>
+          </Dialog>
+        ))}
+      </div>
+    </Group>
+  );
+}
+
 export const examples: Example[] = [
   { id: "basic", title: "Basic", render: BasicExample },
+  { id: "sizes", title: "Sizes", render: SizesExample },
   { id: "no-close", title: "Without close button", render: NoCloseExample },
   { id: "custom", title: "Custom content", render: CustomContentExample },
 ];

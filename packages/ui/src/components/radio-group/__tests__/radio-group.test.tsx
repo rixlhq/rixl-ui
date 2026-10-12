@@ -81,6 +81,29 @@ describe("RadioGroup", () => {
     expect(cls).toContain("aria-invalid:border-rixl-danger");
   });
 
+  it("applies hover and checked border affordances to items", () => {
+    render(
+      <RadioGroup>
+        <RadioGroupItem value="a" data-testid="a" />
+      </RadioGroup>
+    );
+    const cls = screen.getByTestId("a").className;
+    expect(cls).toContain("data-unchecked:enabled:hover:border-rixl-border-strong");
+    expect(cls).toContain("data-checked:border-rixl-primary");
+  });
+
+  it("animates the selected dot in, reduced-motion safe", () => {
+    render(
+      <RadioGroup defaultValue="a">
+        <RadioGroupItem value="a" />
+      </RadioGroup>
+    );
+    const indicator = document.querySelector("[data-slot='radio-group-indicator']");
+    expect(indicator!.className).toContain("animate-in");
+    expect(indicator!.className).toContain("zoom-in-50");
+    expect(indicator!.className).toContain("motion-reduce:animate-none");
+  });
+
   it("forwards className on items", () => {
     render(
       <RadioGroup>
