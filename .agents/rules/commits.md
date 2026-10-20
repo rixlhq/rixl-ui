@@ -41,7 +41,7 @@ Release-please reads these to compute the next version.
 `vp install` at the repo root runs `prepare`, which installs lefthook (`lefthook.yml` at the repo root owns git hooks for the whole workspace).
 
 - **pre-commit** — `vp check --fix` on staged `*.{ts,tsx}` and `vp fmt --write` on staged `*.{json,md,yaml,yml,css}`, scoped to `packages/ui`; fixes are re-staged.
-- **pre-push** — `vp check`, `vp fmt --check`, `vp test --run`, `vp pack`. This mirrors what CI runs, catching failures before they reach GitHub.
+- **pre-push** — `vp test --run` and `vp pack`: the whole test suite and the library build, catching failures before they reach GitHub. Check and format already run on commit.
 
 The library is nested in `packages/ui`, so the `pre-commit` commands set lefthook's `root: packages/ui/` (each runs there, with staged paths relative to it, and files outside the package are left alone), and `pre-push` uses `vp run -F @rixl/ui …`. `packages/ui` keeps `vp config --no-hooks` in its own `prepare` so only the root installs hooks.
 

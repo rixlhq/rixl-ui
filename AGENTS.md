@@ -139,7 +139,7 @@ See `.agents/rules/testing.md`. Vitest + jsdom + Testing Library. Every componen
 - Conventional commits (`.agents/rules/commits.md`). Release-please computes the next version from commit types.
 - **Lefthook** owns git hooks (`lefthook.yml` at the root, installed by `prepare` — `vp install` runs it).
   - `pre-commit`: `vp check --fix` on staged `*.{ts,tsx}` and `vp fmt --write` on staged `*.{json,md,yaml,yml,css}` under `packages/ui` (lefthook `root`), fixes re-staged.
-  - `pre-push`: `vp check`, `vp fmt --check`, `vp test --run`, `vp pack` — matches CI.
+  - `pre-push`: `vp test --run` and `vp pack` (check and format already ran on commit).
 - CI runs the same on every PR + on push to `main` (from `packages/ui/`), then opens/updates a release PR. Merging that PR triggers `npm publish`.
 
 ## Agent skills available in `.agents/skills/`

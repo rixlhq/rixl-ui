@@ -18,7 +18,7 @@
     "test:coverage": "vp run -F @rixl/ui test:coverage",
     "playground": "vp run -F @rixl/ui-playground dev",
     "playground:build": "vp run -F @rixl/ui build && vp run -F @rixl/ui-playground build",
-    "prepare": "[ -n \"$CI\" ] || (git config --unset-all --local core.hooksPath 2>/dev/null; lefthook install)"
+    "prepare": "[ -n \"$CI\" ] || lefthook install --reset-hooks-path"
   },
   "devDependencies": {
     "lefthook": "^2.2.2",

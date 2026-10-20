@@ -1,5 +1,3 @@
-# The library lives in packages/ui: `root` runs each command there with the
-# staged files relative to it, and leaves files outside the package alone.
 pre-commit:
   parallel: true
   commands:
@@ -14,9 +12,7 @@ pre-commit:
       run: vp fmt --write {staged_files}
       stage_fixed: true
 
-# The same checks CI runs, read-only: check, format check, the whole test
-# suite and the library build.
 pre-push:
   commands:
     gate:
-      run: vp run -F @rixl/ui check && vp run -F @rixl/ui fmt --check && vp run -F @rixl/ui test:run && vp run -F @rixl/ui build
+      run: vp run -F @rixl/ui test:run && vp run -F @rixl/ui build
