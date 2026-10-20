@@ -47,7 +47,7 @@ export function Save() {
 ```
 packages/ui/             — @rixl/ui library (publish target)
 examples/playground/     — Vite consumer for local visual iteration
-.vite-hooks/             — repo-wide git hooks (installed by `vp install`)
+lefthook.yml             — repo-wide git hooks (installed by `vp install`)
 ```
 
 Root is a workspace container; the library lives in `packages/ui`.

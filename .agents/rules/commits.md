@@ -36,14 +36,14 @@ Release-please reads these to compute the next version.
 4. Keep each commit scoped to one logical change.
 5. Make step-by-step commits as work progresses.
 
-## Git hooks (Vite+)
+## Git hooks (lefthook)
 
-`vp install` at the repo root runs `vp config`, which points git at the Vite+ hook dispatcher. The hook scripts live in `.vite-hooks/` at the repo root and own git hooks for the whole workspace.
+`vp install` at the repo root runs `prepare`, which installs lefthook (`lefthook.yml` at the repo root owns git hooks for the whole workspace).
 
-- **pre-commit** — `vp check --fix` + `vp fmt --write` on staged files, scoped to `packages/ui`.
+- **pre-commit** — `vp check --fix` on staged `*.{ts,tsx}` and `vp fmt --write` on staged `*.{json,md,yaml,yml,css}`, scoped to `packages/ui`; fixes are re-staged.
 - **pre-push** — `vp check`, `vp fmt --check`, `vp test --run`, `vp pack`. This mirrors what CI runs, catching failures before they reach GitHub.
 
-The library is nested in `packages/ui`, so the root `pre-commit` script does `cd packages/ui && vp staged` (`vp staged` scopes the diff to its working directory), and `pre-push` uses `vp run -F @rixl/ui …`. `packages/ui` keeps `vp config --no-hooks` in its own `prepare` so only the root installs hooks.
+The library is nested in `packages/ui`, so the `pre-commit` commands set lefthook's `root: packages/ui/` (each runs there, with staged paths relative to it, and files outside the package are left alone), and `pre-push` uses `vp run -F @rixl/ui …`. `packages/ui` keeps `vp config --no-hooks` in its own `prepare` so only the root installs hooks.
 
 ## Do Not
 
