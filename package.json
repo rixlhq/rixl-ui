@@ -18,9 +18,10 @@
     "test:coverage": "vp run -F @rixl/ui test:coverage",
     "playground": "vp run -F @rixl/ui-playground dev",
     "playground:build": "vp run -F @rixl/ui build && vp run -F @rixl/ui-playground build",
-    "prepare": "vp config"
+    "prepare": "[ -n \"$CI\" ] || (git config --unset-all --local core.hooksPath 2>/dev/null; lefthook install)"
   },
   "devDependencies": {
+    "lefthook": "^2.2.2",
     "vite-plus": "1.0.0"
   },
   "engines": {

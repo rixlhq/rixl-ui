@@ -1,6 +1,0 @@
-#!/usr/bin/env sh
-# Runs the staged-file tasks in packages/ui/vite.config.ts#staged:
-# `vp check --fix` on staged *.ts,tsx and `vp fmt --write` on staged
-# *.{json,md,yaml,yml,css}. vp staged scopes the diff to the cwd, so files
-# outside packages/ui/ are not touched.
-cd packages/ui && vp staged

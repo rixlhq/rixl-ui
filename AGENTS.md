@@ -79,7 +79,7 @@ packages/ui/                    — @rixl/ui library (publish target)
 examples/
   playground/                   — Vite + React + Tailwind consumer of @rixl/ui via `workspace:*`
 
-.vite-hooks/                    — root git hooks (pre-commit + pre-push run into packages/ui)
+lefthook.yml                    — root git hooks (pre-commit + pre-push run into packages/ui)
 .github/workflows/release.yml   — CI: check, fmt --check, pack, test --coverage, release-please, npm publish (working-directory: packages/ui)
 package.json                    — root workspace container; scripts proxy to `packages/ui`
 ```
@@ -137,8 +137,8 @@ See `.agents/rules/testing.md`. Vitest + jsdom + Testing Library. Every componen
 ## Commit and release flow
 
 - Conventional commits (`.agents/rules/commits.md`). Release-please computes the next version from commit types.
-- **Vite+ hooks** own git hooks (installed by `vp install` at the repo root via the root `prepare` script, `vp config`). The scripts live in `.vite-hooks/`.
-  - `pre-commit`: `vp check --fix` + `vp fmt --write` on staged files.
+- **Lefthook** owns git hooks (`lefthook.yml` at the root, installed by `prepare` — `vp install` runs it).
+  - `pre-commit`: `vp check --fix` on staged `*.{ts,tsx}` and `vp fmt --write` on staged `*.{json,md,yaml,yml,css}` under `packages/ui` (lefthook `root`), fixes re-staged.
   - `pre-push`: `vp check`, `vp fmt --check`, `vp test --run`, `vp pack` — matches CI.
 - CI runs the same on every PR + on push to `main` (from `packages/ui/`), then opens/updates a release PR. Merging that PR triggers `npm publish`.
 
