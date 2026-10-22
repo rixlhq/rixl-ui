@@ -56,6 +56,7 @@ const dialogContentVariants = cva(
   cn(
     "bg-rixl-bg fixed top-[50%] left-[50%] z-50 grid w-full max-w-[calc(100%-2rem)] translate-x-[-50%] translate-y-[-50%] gap-4",
     "rounded-rixl-lg border border-rixl-border p-6 shadow-rixl-lg",
+    "content-start max-h-dvh overflow-y-auto overscroll-contain sm:max-h-[calc(100dvh-2rem)] max-sm:top-0 max-sm:left-0 max-sm:h-dvh max-sm:max-w-none max-sm:translate-x-0 max-sm:translate-y-0 max-sm:rounded-none max-sm:border-0",
     // Scale-and-fade entrance/exit (scale 0.95 → 1), reduced-motion safe.
     "data-open:animate-in data-closed:animate-out data-closed:fade-out-0 data-open:fade-in-0 data-closed:zoom-out-95 data-open:zoom-in-95 duration-rixl-base ease-rixl-out"
   ),
@@ -91,7 +92,7 @@ function DialogContent({
           <DialogPrimitive.Close
             data-slot="dialog-close"
             className={cn(
-              "absolute top-4 right-4 flex items-center justify-center rounded-rixl-sm p-1 opacity-70",
+              "absolute top-2 right-2 flex size-11 items-center justify-center rounded-rixl-sm opacity-70",
               "transition-[opacity,background-color,box-shadow] duration-rixl-fast ease-rixl-out",
               "hover:bg-rixl-surface-muted hover:opacity-100",
               "focus-visible:ring-rixl-ring/50 focus-visible:ring-[3px] focus-visible:outline-none",

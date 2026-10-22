@@ -138,3 +138,15 @@ describe("RadioGroup", () => {
     expect(onValueChange).toHaveBeenCalledWith("b", expect.anything());
   });
 });
+
+it("centers the selected dot in the control without zero-size positioning anchors", () => {
+  render(
+    <RadioGroup defaultValue="a">
+      <RadioGroupItem value="a" />
+    </RadioGroup>
+  );
+  expect(screen.getByRole("radio").className).toContain("items-center");
+  expect(screen.getByRole("radio").className).toContain("justify-center");
+  const indicator = document.querySelector("[data-slot='radio-group-indicator']");
+  expect(indicator?.querySelector("svg")?.getAttribute("class")).not.toContain("absolute");
+});
