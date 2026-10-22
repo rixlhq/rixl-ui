@@ -53,6 +53,7 @@ function AlertDialogContent({className, ...props}: AlertDialogPrimitive.Popup.Pr
         data-slot="alert-dialog-content"
         className={cn(
           "bg-rixl-bg data-open:animate-in data-closed:animate-out data-closed:fade-out-0 data-open:fade-in-0 data-closed:zoom-out-95 data-open:zoom-in-95 fixed top-[50%] left-[50%] z-50 grid w-full max-w-[calc(100%-2rem)] translate-x-[-50%] translate-y-[-50%] gap-4 rounded-rixl-lg border-rixl-border border p-6 shadow-rixl-lg duration-200 sm:max-w-lg",
+          "content-start max-h-dvh overflow-y-auto overscroll-contain sm:max-h-[calc(100dvh-2rem)] max-sm:top-0 max-sm:left-0 max-sm:h-dvh max-sm:max-w-none max-sm:translate-x-0 max-sm:translate-y-0 max-sm:rounded-none max-sm:border-0",
           className
         )}
         {...props}

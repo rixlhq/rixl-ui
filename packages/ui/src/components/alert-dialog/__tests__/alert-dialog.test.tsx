@@ -110,3 +110,13 @@ describe("AlertDialog", () => {
     expect(document.querySelector("[data-slot='alert-dialog-content']")).toBeNull();
   });
 });
+
+it("fills mobile viewports and constrains scrolling on larger screens", async () => {
+  render(<Basic open />);
+  await act(async () => {});
+  const content = screen.getByTestId("content");
+  expect(content.className).toContain("max-sm:h-dvh");
+  expect(content.className).toContain("max-sm:rounded-none");
+  expect(content.className).toContain("overflow-y-auto");
+  expect(content.className).toContain("sm:max-h-[calc(100dvh-2rem)]");
+});
