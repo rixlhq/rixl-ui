@@ -27,7 +27,7 @@ const TabsStyleContext = createContext<{variant: TabsVariant; size: TabsSize; fu
   fullWidth: false,
 });
 
-const listVariants = cva("relative isolate flex items-stretch", {
+const listVariants = cva("relative isolate flex min-w-0 max-w-full items-stretch", {
   variants: {
     variant: {
       segmented: "bg-rixl-surface-muted rounded-rixl-lg gap-1 p-1",
@@ -66,8 +66,8 @@ const triggerVariants = cva(
       // A floor, not a fixed height: a trigger may stack an icon, a label and a
       // description, and a hard height would let that content spill out of the
       // box the indicator is measured from. The padding reproduces the previous
-      // heights exactly for single-line labels.
-      size: {sm: "min-h-7 px-2.5 py-1 text-xs", md: "min-h-8 px-3 py-1.5 text-sm"},
+      // desktop heights for single-line labels; mobile keeps a 44px touch target.
+      size: {sm: "min-h-11 px-2.5 py-1 text-xs sm:min-h-7", md: "min-h-11 px-3 py-1.5 text-sm sm:min-h-8"},
       fullWidth: {true: "flex-1", false: ""},
     },
     defaultVariants: {variant: "segmented", size: "md", fullWidth: false},
@@ -106,7 +106,7 @@ export type TabsProps = TabsPrimitive.Root.Props & {
 function Tabs({className, variant = "segmented", size = "md", fullWidth = false, ...props}: TabsProps) {
   return (
     <TabsStyleContext.Provider value={{variant, size, fullWidth}}>
-      <TabsPrimitive.Root data-slot="tabs" className={cn("flex flex-col gap-3", className)} {...props} />
+      <TabsPrimitive.Root data-slot="tabs" className={cn("flex min-w-0 flex-col gap-3", className)} {...props} />
     </TabsStyleContext.Provider>
   );
 }
@@ -136,7 +136,7 @@ function TabsTrigger({className, ...props}: TabsTriggerProps) {
 export type TabsContentProps = TabsPrimitive.Panel.Props;
 
 function TabsContent({className, ...props}: TabsContentProps) {
-  return <TabsPrimitive.Panel data-slot="tabs-content" className={cn("flex-1 outline-none", className)} {...props} />;
+  return <TabsPrimitive.Panel data-slot="tabs-content" className={cn("min-w-0 flex-1 outline-none", className)} {...props} />;
 }
 
 export type TabsVariantProps = VariantProps<typeof triggerVariants>;
