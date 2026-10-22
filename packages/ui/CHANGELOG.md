@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.5](https://github.com/rixlhq/rixl-ui/compare/@rixl/ui-v0.1.4...@rixl/ui-v0.1.5) (2026-10-22)
+
+
+### Bug Fixes
+
+* **tabs:** contain mobile overflow and enlarge touch targets ([#40](https://github.com/rixlhq/rixl-ui/issues/40)) ([9cb6d39](https://github.com/rixlhq/rixl-ui/commit/9cb6d39174a881dcad659698e1831239245468b8))
+
 ## [0.1.4](https://github.com/rixlhq/rixl-ui/compare/@rixl/ui-v0.1.3...@rixl/ui-v0.1.4) (2026-10-22)
 
 
