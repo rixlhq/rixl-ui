@@ -1,5 +1,30 @@
 # Changelog
 
+## [0.1.4](https://github.com/rixlhq/rixl-ui/compare/@rixl/ui-v0.1.3...@rixl/ui-v0.1.4) (2026-10-22)
+
+
+### Features
+
+* **button:** add hover lift and shadow to the shared press physics ([9bcf811](https://github.com/rixlhq/rixl-ui/commit/9bcf8112a882d4e82cb8a03edb2ab5c212f14656))
+* **card:** add variants, interactive and selected states, and motion ([7de4d65](https://github.com/rixlhq/rixl-ui/commit/7de4d657be860e29ac8cd61df800e18ff5ea0e08))
+* **checkbox:** hover states, animated indicator, and indeterminate ([a2cecfb](https://github.com/rixlhq/rixl-ui/commit/a2cecfb723a7dbef32c4b2d1337d5fb2ec72eab9))
+* **dialog:** blurred backdrop, size variants, and refined close button ([70f163b](https://github.com/rixlhq/rixl-ui/commit/70f163b2761529c2af3a113638859ae5db696c02))
+* **input:** add sizes, icon slots, hover/read-only states, and motion ([971df57](https://github.com/rixlhq/rixl-ui/commit/971df5735761df974cb3a16a95182d9488312ece))
+* **radio-group:** checked border, hover, and animated dot ([ec4a515](https://github.com/rixlhq/rixl-ui/commit/ec4a515874294332f019acc32d06e73e7dd61ca8))
+* **select:** trigger hover/open states, chevron rotation, correct option highlight ([a17dd3e](https://github.com/rixlhq/rixl-ui/commit/a17dd3e0c50e98aba859cde1cf0b5ea594383f1e))
+* **skeleton:** add shimmer and static animations, reduced-motion safe ([33ad701](https://github.com/rixlhq/rixl-ui/commit/33ad7012cdf610797b248ed14508b90391308526))
+* **skeleton:** default to shimmer ([8d7ce68](https://github.com/rixlhq/rixl-ui/commit/8d7ce6839ab459751a8fa442ddd94bd745e60361))
+* **switch:** add hover states and tokenized motion ([9c6c6c9](https://github.com/rixlhq/rixl-ui/commit/9c6c6c9965db51574d4606c5a03b1a5298ce100c))
+* **table:** opt-in sticky header and container scroll ([02b2b16](https://github.com/rixlhq/rixl-ui/commit/02b2b16e5de7d15c3b609baee86a08ce3024981b))
+* **textarea:** add hover and read-only states, tokenized motion ([ec583b0](https://github.com/rixlhq/rixl-ui/commit/ec583b080bb791046f26764074b6a824d939d1c1))
+
+
+### Bug Fixes
+
+* **dialog:** correct mobile viewport and radio alignment #z90hj350z2 ([def0afa](https://github.com/rixlhq/rixl-ui/commit/def0afa54d49702a22442b61601cbe27ce324ecb))
+* **dropdown-menu:** highlight rows via data-highlighted, add motion ([e16bcfa](https://github.com/rixlhq/rixl-ui/commit/e16bcfacbb3caff60f86636e5a2387fb5cdeb52a))
+* restore packageManager pin in workspace manifests ([ae4d84a](https://github.com/rixlhq/rixl-ui/commit/ae4d84a11d2429e9add81ac825898b24778382b2))
+
 ## [0.1.3](https://github.com/rixlhq/rixl-ui/compare/@rixl/ui-v0.1.2...@rixl/ui-v0.1.3) (2026-09-09)
 
 
