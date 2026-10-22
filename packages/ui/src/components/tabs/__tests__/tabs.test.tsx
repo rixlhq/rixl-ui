@@ -127,6 +127,22 @@ describe("Tabs", () => {
   });
 
   describe("sizes and layout", () => {
+    it("lets tab roots and panels shrink inside flex and grid columns", () => {
+      render(<Basic />);
+      expect(screen.getByTestId("root")).toHaveClass("min-w-0");
+      expect(screen.getByTestId("content-account")).toHaveClass("min-w-0");
+    });
+
+    it("bounds the scrollable list to its container", () => {
+      render(<Basic />);
+      expect(list()).toHaveClass("min-w-0", "max-w-full");
+    });
+
+    it.each(["sm", "md"] as const)("gives %s triggers mobile touch targets", (size) => {
+      render(<Basic size={size} />);
+      expect(screen.getByTestId("tab-account")).toHaveClass("min-h-11");
+    });
+
     // A floor rather than a fixed height, so a trigger stacking a label over a
     // description grows instead of spilling out of the box the indicator
     // measures.
