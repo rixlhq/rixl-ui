@@ -15,6 +15,7 @@
     "fmt": "vp run -F @rixl/ui fmt",
     "test": "vp run -F @rixl/ui test",
     "test:run": "vp run -F @rixl/ui test:run",
+    "test:browser": "vp run -F @rixl/ui test:browser",
     "test:coverage": "vp run -F @rixl/ui test:coverage",
     "typecheck": "tsc --noEmit",
     "playground": "vp run -F playground dev",

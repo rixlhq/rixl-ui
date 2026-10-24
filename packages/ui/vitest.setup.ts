@@ -1,4 +1,11 @@
 import "@testing-library/jest-dom/vitest";
+import {cleanup} from "@testing-library/react";
+import {afterEach} from "vitest";
+
+// Ensure clean DOM between tests in both jsdom and browser mode
+afterEach(() => {
+  cleanup();
+});
 
 // jsdom doesn't implement ResizeObserver, which some primitives (e.g.
 // input-otp) rely on. Polyfill with a no-op so tests don't crash.
