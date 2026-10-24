@@ -76,6 +76,10 @@ export default defineConfig({
     environment: "jsdom",
     setupFiles: ["./vitest.setup.ts"],
     isolate: true,
+    pool: "vmThreads",
+    restoreMocks: true,
+    unstubGlobals: true,
+    unstubEnvs: true,
     include: ["src/**/*.{test,spec}.{ts,tsx}"],
     coverage: {
       provider: "v8",
