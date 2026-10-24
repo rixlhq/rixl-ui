@@ -34,7 +34,7 @@ export function EmptyState({title, description, icon: Icon = InfoIcon, action}: 
 export interface EmptyStateProps {
   title: string;
   description: string;
-  icon?: LucideIcon;
+  icon?: LucideIcon | React.ComponentType<{className?: string}>;
   action?: {
     label: string;
     onClick: () => void;
