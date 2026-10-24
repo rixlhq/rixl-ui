@@ -1,4 +1,4 @@
-import {useContext, type ComponentProps} from "react";
+import {useContext, useState, type ComponentProps} from "react";
 import {OTPInput, OTPInputContext} from "input-otp";
 import {cn} from "cn";
 
@@ -18,15 +18,33 @@ import {cn} from "cn";
 function InputOTP({
   className,
   containerClassName,
+  value,
+  defaultValue,
+  onChange,
   ...props
 }: ComponentProps<typeof OTPInput> & {
   containerClassName?: string;
 }) {
+  const [internalValue, setInternalValue] = useState(defaultValue ?? "");
+  const isControlled = value !== undefined;
+  const hasDefault = defaultValue !== undefined;
+
   return (
     <OTPInput
       data-slot="input-otp"
       containerClassName={cn("flex items-center gap-2 has-disabled:opacity-50", containerClassName)}
       className={cn("disabled:cursor-not-allowed", className)}
+      {...(isControlled
+        ? {value, onChange}
+        : hasDefault
+          ? {
+              value: internalValue,
+              onChange: (val: string) => {
+                setInternalValue(val);
+                onChange?.(val);
+              },
+            }
+          : {onChange})}
       {...props}
     />
   );
