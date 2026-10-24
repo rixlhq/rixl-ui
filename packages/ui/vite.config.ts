@@ -1,4 +1,7 @@
 import {defineConfig} from "vite-plus";
+import {playwright} from "@vitest/browser-playwright";
+
+const playwrightProvider = playwright();
 
 // `@rixl/ui` ships one entry per component so consumers can import a single
 // component and get only its code (tree-shaking friendly). The barrel at
@@ -9,6 +12,26 @@ import {defineConfig} from "vite-plus";
 // package portable — downstream consumers reading our source in a stack
 // trace see paths that resolve without knowing our tooling config.
 export default defineConfig({
+  plugins: [
+    {
+      name: "browser-provider-resolver",
+      enforce: "pre",
+      config(config) {
+        if (config.test?.browser) {
+          if (typeof config.test.browser.provider === "string" && config.test.browser.provider === "playwright") {
+            config.test.browser.provider = playwrightProvider;
+          }
+          if (Array.isArray(config.test.browser.instances) && config.test.browser.instances.length > 1) {
+            config.test.browser.instances = [{browser: "chromium"}];
+          }
+          if (config.test.browser.enabled) {
+            config.test.include = ["src/**/*.browser.{test,spec}.{ts,tsx}"];
+            config.test.exclude = ["node_modules/**", "dist/**"];
+          }
+        }
+      },
+    },
+  ],
   pack: {
     entry: {
       index: "src/index.ts",
@@ -81,6 +104,13 @@ export default defineConfig({
     unstubGlobals: true,
     unstubEnvs: true,
     include: ["src/**/*.{test,spec}.{ts,tsx}"],
+    exclude: ["node_modules/**", "dist/**", "src/**/*.browser.{test,spec}.{ts,tsx}"],
+    browser: {
+      enabled: false,
+      provider: playwrightProvider,
+      instances: [{browser: "chromium"}],
+      headless: true,
+    },
     coverage: {
       provider: "v8",
       reporter: ["text", "json", "json-summary", "html", "lcov"],

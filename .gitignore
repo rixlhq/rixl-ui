@@ -7,4 +7,4 @@ coverage
 .env.local
 .turbo
 .idea
-
+.vitest
