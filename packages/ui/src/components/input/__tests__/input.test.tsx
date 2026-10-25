@@ -111,7 +111,7 @@ describe("Input", () => {
     it("wraps and pads for a startIcon", () => {
       render(<Input placeholder="Email" startIcon={<svg data-testid="start" />} />);
       const el = screen.getByPlaceholderText("Email");
-      expect(el.className).toContain("pl-9");
+      expect(el.className).toContain("ps-9");
       expect(el.parentElement).toHaveAttribute("data-slot", "input-wrapper");
       expect(screen.getByTestId("start")).toBeInTheDocument();
     });
@@ -119,13 +119,25 @@ describe("Input", () => {
     it("wraps and pads for an endIcon", () => {
       render(<Input placeholder="Email" endIcon={<svg data-testid="end" />} />);
       const el = screen.getByPlaceholderText("Email");
-      expect(el.className).toContain("pr-9");
+      expect(el.className).toContain("pe-9");
       expect(screen.getByTestId("end")).toBeInTheDocument();
     });
 
     it("scales icon padding with inputSize", () => {
       render(<Input placeholder="Email" inputSize="lg" startIcon={<svg />} />);
-      expect(screen.getByPlaceholderText("Email").className).toContain("pl-10");
+      expect(screen.getByPlaceholderText("Email").className).toContain("ps-10");
+    });
+
+    it("uses logical spacing and insets in RTL", () => {
+      render(
+        <div dir="rtl">
+          <Input placeholder="Email" startIcon={<svg data-testid="start" />} endIcon={<svg data-testid="end" />} />
+        </div>
+      );
+      expect(screen.getByPlaceholderText("Email").className).toContain("ps-9");
+      expect(screen.getByPlaceholderText("Email").className).toContain("pe-9");
+      expect(screen.getByTestId("start").parentElement?.className).toContain("start-3");
+      expect(screen.getByTestId("end").parentElement?.className).toContain("end-3");
     });
   });
 
