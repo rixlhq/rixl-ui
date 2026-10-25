@@ -120,3 +120,17 @@ it("fills mobile viewports and constrains scrolling on larger screens", async ()
   expect(content.className).toContain("overflow-y-auto");
   expect(content.className).toContain("sm:max-h-[calc(100dvh-2rem)]");
 });
+
+it("uses logical text alignment while preserving symmetric centering in RTL", async () => {
+  render(
+    <div dir="rtl">
+      <Basic open />
+    </div>
+  );
+  await act(async () => {});
+  const header = document.querySelector("[data-slot='alert-dialog-header']");
+  const content = screen.getByTestId("content");
+  expect(header?.className).toContain("sm:text-start");
+  expect(content.className).toContain("left-[50%]");
+  expect(content.className).toContain("translate-x-[-50%]");
+});
