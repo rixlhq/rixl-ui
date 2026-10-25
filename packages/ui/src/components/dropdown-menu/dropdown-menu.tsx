@@ -86,7 +86,7 @@ function DropdownMenuItem({
       data-variant={variant}
       className={cn(
         // Base UI highlights via data-highlighted (keyboard + pointer), not :focus.
-        "data-highlighted:bg-rixl-surface-muted data-highlighted:text-rixl-fg data-[variant=destructive]:text-rixl-danger data-[variant=destructive]:data-highlighted:bg-rixl-danger/10 data-[variant=destructive]:data-highlighted:text-rixl-danger data-[variant=destructive]:*:[svg]:!text-rixl-danger [&_svg:not([class*='text-'])]:text-rixl-fg-muted transition-colors duration-rixl-fast ease-rixl-out relative flex cursor-default items-center gap-2 rounded-rixl-sm px-2 py-1.5 text-sm outline-hidden select-none data-disabled:pointer-events-none data-disabled:opacity-50 data-[inset]:pl-8 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
+        "data-highlighted:bg-rixl-surface-muted data-highlighted:text-rixl-fg data-[variant=destructive]:text-rixl-danger data-[variant=destructive]:data-highlighted:bg-rixl-danger/10 data-[variant=destructive]:data-highlighted:text-rixl-danger data-[variant=destructive]:*:[svg]:!text-rixl-danger [&_svg:not([class*='text-'])]:text-rixl-fg-muted transition-colors duration-rixl-fast ease-rixl-out relative flex cursor-default items-center gap-2 rounded-rixl-sm px-2 py-1.5 text-sm outline-hidden select-none data-disabled:pointer-events-none data-disabled:opacity-50 data-[inset]:ps-8 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
         className
       )}
       {...props}
@@ -99,13 +99,13 @@ function DropdownMenuCheckboxItem({className, children, checked, ...props}: Menu
     <MenuPrimitive.CheckboxItem
       data-slot="dropdown-menu-checkbox-item"
       className={cn(
-        "data-highlighted:bg-rixl-surface-muted data-highlighted:text-rixl-fg transition-colors duration-rixl-fast ease-rixl-out relative flex cursor-default items-center gap-2 rounded-rixl-sm py-1.5 pr-2 pl-8 text-sm outline-hidden select-none data-disabled:pointer-events-none data-disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
+        "data-highlighted:bg-rixl-surface-muted data-highlighted:text-rixl-fg transition-colors duration-rixl-fast ease-rixl-out relative flex cursor-default items-center gap-2 rounded-rixl-sm py-1.5 pe-2 ps-8 text-sm outline-hidden select-none data-disabled:pointer-events-none data-disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
         className
       )}
       checked={checked}
       {...props}
     >
-      <span className="pointer-events-none absolute left-2 flex size-3.5 items-center justify-center">
+      <span className="pointer-events-none absolute start-2 flex size-3.5 items-center justify-center">
         <MenuPrimitive.CheckboxItemIndicator>
           <CheckIcon className="size-4" />
         </MenuPrimitive.CheckboxItemIndicator>
@@ -124,12 +124,12 @@ function DropdownMenuRadioItem({className, children, ...props}: MenuPrimitive.Ra
     <MenuPrimitive.RadioItem
       data-slot="dropdown-menu-radio-item"
       className={cn(
-        "data-highlighted:bg-rixl-surface-muted data-highlighted:text-rixl-fg transition-colors duration-rixl-fast ease-rixl-out relative flex cursor-default items-center gap-2 rounded-rixl-sm py-1.5 pr-2 pl-8 text-sm outline-hidden select-none data-disabled:pointer-events-none data-disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
+        "data-highlighted:bg-rixl-surface-muted data-highlighted:text-rixl-fg transition-colors duration-rixl-fast ease-rixl-out relative flex cursor-default items-center gap-2 rounded-rixl-sm py-1.5 pe-2 ps-8 text-sm outline-hidden select-none data-disabled:pointer-events-none data-disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
         className
       )}
       {...props}
     >
-      <span className="pointer-events-none absolute left-2 flex size-3.5 items-center justify-center">
+      <span className="pointer-events-none absolute start-2 flex size-3.5 items-center justify-center">
         <MenuPrimitive.RadioItemIndicator>
           <CircleIcon className="size-2 fill-current" />
         </MenuPrimitive.RadioItemIndicator>
@@ -150,7 +150,7 @@ function DropdownMenuLabel({
     <div
       data-slot="dropdown-menu-label"
       data-inset={inset}
-      className={cn("px-2 py-1.5 text-sm font-medium data-[inset]:pl-8", className)}
+      className={cn("px-2 py-1.5 text-sm font-medium data-[inset]:ps-8", className)}
       {...props}
     />
   );
@@ -164,7 +164,7 @@ function DropdownMenuSeparator({className, ...props}: MenuPrimitive.Separator.Pr
 
 function DropdownMenuShortcut({className, ...props}: React.ComponentProps<"span">) {
   return (
-    <span data-slot="dropdown-menu-shortcut" className={cn("text-rixl-fg-muted ml-auto text-xs tracking-widest", className)} {...props} />
+    <span data-slot="dropdown-menu-shortcut" className={cn("text-rixl-fg-muted ms-auto text-xs tracking-widest", className)} {...props} />
   );
 }
 
@@ -185,13 +185,13 @@ function DropdownMenuSubTrigger({
       data-slot="dropdown-menu-sub-trigger"
       data-inset={inset}
       className={cn(
-        "data-highlighted:bg-rixl-surface-muted data-highlighted:text-rixl-fg data-popup-open:bg-rixl-surface-muted data-popup-open:text-rixl-fg transition-colors duration-rixl-fast ease-rixl-out flex cursor-default items-center rounded-rixl-sm px-2 py-1.5 text-sm outline-hidden select-none data-[inset]:pl-8",
+        "data-highlighted:bg-rixl-surface-muted data-highlighted:text-rixl-fg data-popup-open:bg-rixl-surface-muted data-popup-open:text-rixl-fg transition-colors duration-rixl-fast ease-rixl-out flex cursor-default items-center rounded-rixl-sm px-2 py-1.5 text-sm outline-hidden select-none data-[inset]:ps-8",
         className
       )}
       {...props}
     >
       {children}
-      <ChevronRightIcon className="ml-auto size-4" />
+      <ChevronRightIcon className="ms-auto size-4 rtl:-scale-x-100" />
     </MenuPrimitive.SubmenuTrigger>
   );
 }
@@ -200,7 +200,7 @@ function DropdownMenuSubContent({
   className,
   align = "start",
   alignOffset = -3,
-  side = "right",
+  side = "inline-end",
   sideOffset = 0,
   ...props
 }: React.ComponentProps<typeof DropdownMenuContent>) {

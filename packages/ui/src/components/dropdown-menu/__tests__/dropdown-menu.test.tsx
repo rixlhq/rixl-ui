@@ -9,6 +9,7 @@ import {
   DropdownMenuRadioGroup,
   DropdownMenuRadioItem,
   DropdownMenuSeparator,
+  DropdownMenuShortcut,
   DropdownMenuSub,
   DropdownMenuSubContent,
   DropdownMenuSubTrigger,
@@ -149,5 +150,45 @@ describe("DropdownMenu", () => {
     expect(trigger.querySelector("svg")).not.toBeNull();
     // Sub content is only portalled once the submenu opens.
     expect(screen.queryByText("Nested item")).not.toBeInTheDocument();
+  });
+
+  it("uses logical spacing and mirrors submenu chevrons in RTL", async () => {
+    render(
+      <div dir="rtl">
+        <DropdownMenu open>
+          <DropdownMenuTrigger render={<button type="button">Open</button>} />
+          <DropdownMenuContent>
+            <DropdownMenuLabel inset>My Account</DropdownMenuLabel>
+            <DropdownMenuItem inset>Profile</DropdownMenuItem>
+            <DropdownMenuCheckboxItem checked>Show details</DropdownMenuCheckboxItem>
+            <DropdownMenuItem>
+              Save
+              <DropdownMenuShortcut data-testid="shortcut">⌘K</DropdownMenuShortcut>
+            </DropdownMenuItem>
+            <DropdownMenuSub open>
+              <DropdownMenuSubTrigger inset>More</DropdownMenuSubTrigger>
+              <DropdownMenuSubContent data-testid="submenu-content">
+                <DropdownMenuItem>Nested item</DropdownMenuItem>
+              </DropdownMenuSubContent>
+            </DropdownMenuSub>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </div>
+    );
+    await act(async () => {});
+
+    expect(screen.getByText("My Account").className).toContain("data-[inset]:ps-8");
+    expect(screen.getByText("Profile").className).toContain("data-[inset]:ps-8");
+    const checkbox = screen.getByText("Show details");
+    expect(checkbox.className).toContain("pe-2");
+    expect(checkbox.className).toContain("ps-8");
+    expect(checkbox.querySelector("span")?.className).toContain("start-2");
+    expect(screen.getByTestId("shortcut").className).toContain("ms-auto");
+    const submenuTrigger = screen.getByText("More");
+    expect(submenuTrigger.className).toContain("data-[inset]:ps-8");
+    const chevronClass = submenuTrigger.querySelector("svg")?.getAttribute("class");
+    expect(chevronClass).toContain("ms-auto");
+    expect(chevronClass).toContain("rtl:-scale-x-100");
+    expect(screen.getByTestId("submenu-content")).toHaveAttribute("data-side", "inline-end");
   });
 });
