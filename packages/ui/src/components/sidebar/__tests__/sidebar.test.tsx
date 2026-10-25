@@ -85,6 +85,17 @@ describe("Sidebar", () => {
     expect(shell.className).toContain("bg-rixl-sidebar");
   });
 
+  it("uses logical layout classes in RTL", () => {
+    render(
+      <div dir="rtl">
+        <Shell />
+      </div>
+    );
+    expect(document.querySelector("[data-slot='sidebar-container']")?.className).toContain("start-0");
+    expect(screen.getByTestId("menu-button").className).toContain("text-start");
+    expect(document.querySelector("[data-slot='sidebar-inset']")?.className).toContain("ms-0");
+  });
+
   it("marks an active menu button via data-active", () => {
     render(<Shell />);
     expect(screen.getByTestId("menu-button")).toHaveAttribute("data-active");
