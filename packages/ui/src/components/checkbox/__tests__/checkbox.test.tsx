@@ -45,9 +45,9 @@ describe("Checkbox", () => {
   });
 
   it("forwards additional className without dropping base classes", () => {
-    render(<Checkbox className="ml-2" />);
+    render(<Checkbox className="ms-2" />);
     const cls = screen.getByRole("checkbox").className;
-    expect(cls).toContain("ml-2");
+    expect(cls).toContain("ms-2");
     expect(cls).toContain("size-4");
   });
 
