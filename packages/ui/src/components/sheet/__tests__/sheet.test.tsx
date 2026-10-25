@@ -43,7 +43,7 @@ describe("Sheet", () => {
     const cls = content.className;
     expect(cls).toContain("bg-rixl-bg");
     expect(cls).toContain("shadow-rixl-lg");
-    expect(cls).toContain("data-[side=right]:right-0");
+    expect(cls).toContain("data-[side=right]:end-0");
     expect(cls).toContain("sm:max-w-sm");
   });
 
@@ -52,7 +52,19 @@ describe("Sheet", () => {
     await act(async () => {});
     const content = screen.getByTestId("content");
     expect(content).toHaveAttribute("data-side", "left");
-    expect(content.className).toContain("data-[side=left]:left-0");
+    expect(content.className).toContain("data-[side=left]:start-0");
+  });
+
+  it("uses logical edges and mirrors slide direction in RTL", async () => {
+    render(
+      <div dir="rtl">
+        <Basic open />
+      </div>
+    );
+    await act(async () => {});
+    const content = screen.getByTestId("content");
+    expect(content.className).toContain("data-[side=right]:end-0");
+    expect(content.className).toContain("data-[side=right]:rtl:data-starting-style:-translate-x-full");
   });
 
   it("renders the X close button with sr-only label", async () => {
