@@ -83,6 +83,17 @@ describe("Tabs", () => {
       expect(cls).toContain("w-[var(--active-tab-width)]");
     });
 
+    it("keeps Base UI's physical measurement variables in RTL", () => {
+      render(
+        <div dir="rtl">
+          <Basic />
+        </div>
+      );
+      const cls = indicator()!.className;
+      expect(cls).toContain("translate-x-[var(--active-tab-left)]");
+      expect(cls).toContain("w-[var(--active-tab-width)]");
+    });
+
     // Translate is composited; animating left/top would lay out every frame.
     it("transitions translate and size, not layout properties", () => {
       render(<Basic />);
