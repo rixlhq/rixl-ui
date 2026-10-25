@@ -44,6 +44,23 @@ describe("Tooltip", () => {
     expect(cls).toContain("rounded-rixl-md");
   });
 
+  it("positions the arrow with logical sides in RTL", async () => {
+    render(
+      <div dir="rtl">
+        <Tooltip open>
+          <TooltipTrigger data-testid="trigger" render={<button type="button">Trigger</button>} />
+          <TooltipContent data-testid="content" side="inline-end">
+            Hello
+          </TooltipContent>
+        </Tooltip>
+      </div>
+    );
+    await act(async () => {});
+    const arrow = screen.getByTestId("content").lastElementChild;
+    expect(arrow?.getAttribute("class")).toContain("data-[side=inline-end]:-start-1");
+    expect(arrow?.getAttribute("class")).toContain("data-[side=inline-start]:-end-1");
+  });
+
   it("forwards additional className without dropping base classes", async () => {
     render(
       <Tooltip defaultOpen>
