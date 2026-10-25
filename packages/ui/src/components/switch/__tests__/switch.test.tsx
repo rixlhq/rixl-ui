@@ -52,9 +52,9 @@ describe("Switch", () => {
   });
 
   it("forwards additional className without dropping base classes", () => {
-    render(<Switch className="ml-2" />);
+    render(<Switch className="ms-2" />);
     const cls = screen.getByRole("switch").className;
-    expect(cls).toContain("ml-2");
+    expect(cls).toContain("ms-2");
     expect(cls).toContain("rounded-full");
   });
 

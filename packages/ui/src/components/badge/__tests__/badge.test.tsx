@@ -32,9 +32,9 @@ describe("Badge", () => {
   });
 
   it("forwards additional className without dropping variant classes", () => {
-    render(<Badge className="ml-2">New</Badge>);
+    render(<Badge className="ms-2">New</Badge>);
     const cls = screen.getByText("New").className;
-    expect(cls).toContain("ml-2");
+    expect(cls).toContain("ms-2");
     expect(cls).toContain("bg-rixl-primary");
   });
 
