@@ -16,7 +16,7 @@ import {cn} from "cn";
  *   everywhere (search glyph, password toggle). When either is set the input is
  *   wrapped in a `relative` group and auto-padded to clear the icon; without
  *   them a lone `<input>` is rendered exactly as before, so existing call sites
- *   that bring their own `relative`/`pl-9` wrapper are untouched.
+ *   that bring their own `relative`/`ps-9` wrapper are untouched.
  *
  * States covered: hover (border strengthens), focus-visible (3px primary ring),
  * disabled (dimmed, no pointer), read-only (muted surface, no hover shift),
@@ -54,10 +54,10 @@ const inputVariants = cva(
 type InputSize = NonNullable<VariantProps<typeof inputVariants>["inputSize"]>;
 
 /** Extra padding so text clears an icon, and the icon inset, kept in step per size. */
-const startPad: Record<InputSize, string> = {sm: "pl-8", default: "pl-9", lg: "pl-10"};
-const endPad: Record<InputSize, string> = {sm: "pr-8", default: "pr-9", lg: "pr-10"};
-const startInset: Record<InputSize, string> = {sm: "left-2.5", default: "left-3", lg: "left-3.5"};
-const endInset: Record<InputSize, string> = {sm: "right-2.5", default: "right-3", lg: "right-3.5"};
+const startPad: Record<InputSize, string> = {sm: "ps-8", default: "ps-9", lg: "ps-10"};
+const endPad: Record<InputSize, string> = {sm: "pe-8", default: "pe-9", lg: "pe-10"};
+const startInset: Record<InputSize, string> = {sm: "start-2.5", default: "start-3", lg: "start-3.5"};
+const endInset: Record<InputSize, string> = {sm: "end-2.5", default: "end-3", lg: "end-3.5"};
 
 const iconBase = cn(
   "absolute top-1/2 flex -translate-y-1/2 items-center text-rixl-fg-muted",
