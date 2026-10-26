@@ -1,5 +1,23 @@
 # Changelog
 
+## [0.1.6](https://github.com/rixlhq/rixl-ui/compare/@rixl/ui-v0.1.5...@rixl/ui-v0.1.6) (2026-10-26)
+
+
+### Bug Fixes
+
+* **alert-dialog:** use logical alignment in RTL ([04714b2](https://github.com/rixlhq/rixl-ui/commit/04714b2fc9919886b35dff19efb56ef91413b9e4))
+* **calendar:** use logical range edges ([9903d4c](https://github.com/rixlhq/rixl-ui/commit/9903d4c431ac9ae5c3ce22a81e07666f0bc397f3))
+* **dialog:** use logical edge alignment ([d2e2da9](https://github.com/rixlhq/rixl-ui/commit/d2e2da9b60ddb414aa1b84d390da77fd4124d8f2))
+* **dropdown-menu:** align submenu content logically ([a1be513](https://github.com/rixlhq/rixl-ui/commit/a1be51316687e29e72a877f7c9b9d5a8c3021b15))
+* **input-otp:** use logical slot borders ([9f5939f](https://github.com/rixlhq/rixl-ui/commit/9f5939f6acb00a4d0974582a36aa7fe66594aa5e))
+* **input:** use logical spacing for icon adornments ([bc28841](https://github.com/rixlhq/rixl-ui/commit/bc288416be8df4ee3b3fa63d58fb00dfcd836e71))
+* **select:** use logical item spacing ([42931c5](https://github.com/rixlhq/rixl-ui/commit/42931c5fd734997335085f8d75c27ee4c0cf46ab))
+* **sheet:** keep physical sides physical ([54249e4](https://github.com/rixlhq/rixl-ui/commit/54249e4d5b389cda09032438df6b4f995fe106e0))
+* **sheet:** use logical edges and RTL transitions ([a29e276](https://github.com/rixlhq/rixl-ui/commit/a29e276b26c5f3cc105f352626a7143347921f3a))
+* **sidebar:** align internal layout for RTL ([8c32449](https://github.com/rixlhq/rixl-ui/commit/8c324495da584b5e6f1cfd0fa991b5a70bd79412))
+* **table:** use logical alignment for headers and cells ([bb9c004](https://github.com/rixlhq/rixl-ui/commit/bb9c004a7ef16db2fc9974b277ce367961755694))
+* **tooltip:** position arrows with logical sides ([9598ec8](https://github.com/rixlhq/rixl-ui/commit/9598ec825a621d6641fe3d7430151d74c6288b33))
+
 ## [0.1.5](https://github.com/rixlhq/rixl-ui/compare/@rixl/ui-v0.1.4...@rixl/ui-v0.1.5) (2026-10-22)
 
 
