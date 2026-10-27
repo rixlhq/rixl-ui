@@ -29,17 +29,8 @@ jobs:
 
   browser-tests:
     name: Browser Tests
-    runs-on: ubuntu-latest
-    timeout-minutes: 10
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v7
-
-      - name: ⚙️ Setup Vite+
-        uses: voidzero-dev/setup-vp@v1.22.0
-        with:
-          cache: "true"
-          run-install: "true"
-
-      - name: Run Vitest browser tests
-        run: vp run test:browser
+    uses: rixlhq/github-actions/.github/workflows/frontend-ci.yml@main
+    with:
+      working-directory: packages/ui
+      commands: vp run test:browser
+      timeout-minutes: 10
