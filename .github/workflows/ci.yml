@@ -26,3 +26,11 @@ jobs:
       coverage-report: true
       coverage-vite-config: ./vite.config.ts
       timeout-minutes: 10
+
+  browser-tests:
+    name: Browser Tests
+    uses: rixlhq/github-actions/.github/workflows/frontend-ci.yml@main
+    with:
+      working-directory: packages/ui
+      commands: vp run test:browser
+      timeout-minutes: 10
