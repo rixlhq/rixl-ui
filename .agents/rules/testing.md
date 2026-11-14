@@ -16,7 +16,7 @@ Test projects are in the `test` block of `packages/ui/vite.config.ts`. Run comma
 | fast-check          | Property tests for logic with wide inputs                  | inside the unit tests, titled `[property] …` |
 | Vitest Browser Mode | Popups and focus in real Chromium, with the preset built   | `vp test --project browser`                  |
 | axe-core            | WCAG 2.2 AA checks on what those tests render              | `axeViolations()` from `test/a11y.ts`        |
-| Stryker             | Mutation testing: proves the unit tests notice wrong code  | `vp run test:mutation`                       |
+| Stryker             | Mutation testing: proves the unit tests notice wrong code  | CI only (`mutation.yml`)                     |
 | size-limit          | The built JS and the preset stay within `.size-limit.json` | `vp run budget` after `vp pack`              |
 
 Tests import Vitest APIs from `vitest`.
