@@ -1,6 +1,6 @@
 import {createContext, useContext} from "react";
 import {Tabs as TabsPrimitive} from "@base-ui/react/tabs";
-import {cva, type VariantProps} from "class-variance-authority";
+import {cva} from "class-variance-authority";
 import {cn} from "cn";
 
 /**
@@ -139,6 +139,4 @@ function TabsContent({className, ...props}: TabsContentProps) {
   return <TabsPrimitive.Panel data-slot="tabs-content" className={cn("min-w-0 flex-1 outline-none", className)} {...props} />;
 }
 
-export type TabsVariantProps = VariantProps<typeof triggerVariants>;
-
-export {Tabs, TabsList, TabsTrigger, TabsContent, listVariants, triggerVariants, indicatorVariants};
+export {Tabs, TabsList, TabsTrigger, TabsContent};

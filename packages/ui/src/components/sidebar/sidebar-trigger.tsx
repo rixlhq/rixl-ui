@@ -36,7 +36,7 @@ interface SidebarTriggerIconProps {
   isHovered: boolean;
 }
 
-export function SidebarTriggerIcon({isMobile, isHovered, isOpened}: SidebarTriggerIconProps) {
+function SidebarTriggerIcon({isMobile, isHovered, isOpened}: SidebarTriggerIconProps) {
   if (isMobile) return <PanelLeftIcon />;
   return isOpened ? isHovered ? <PanelRightOpenIcon /> : <PanelRightIcon /> : isHovered ? <PanelLeftOpenIcon /> : <PanelLeftIcon />;
 }

@@ -1,7 +1,24 @@
 import {defineConfig} from "vite-plus";
+import type {TestProjectInlineConfiguration} from "vite-plus/test/config";
+import tailwindcss from "@tailwindcss/vite";
 import {playwright} from "@vitest/browser-playwright";
 
-const playwrightProvider = playwright();
+// Exported for test/stryker.vitest.config.ts, which reruns only this project per mutant.
+export const unitProject: TestProjectInlineConfiguration = {
+  test: {
+    name: "unit",
+    globals: true,
+    environment: "jsdom",
+    setupFiles: ["./vitest.setup.ts"],
+    isolate: true,
+    pool: "vmThreads",
+    restoreMocks: true,
+    unstubGlobals: true,
+    unstubEnvs: true,
+    include: ["src/**/__tests__/**/*.test.{ts,tsx}"],
+    exclude: ["src/**/*.browser.test.{ts,tsx}"],
+  },
+};
 
 // `@rixl/ui` ships one entry per component so consumers can import a single
 // component and get only its code (tree-shaking friendly). The barrel at
@@ -12,26 +29,6 @@ const playwrightProvider = playwright();
 // package portable — downstream consumers reading our source in a stack
 // trace see paths that resolve without knowing our tooling config.
 export default defineConfig({
-  plugins: [
-    {
-      name: "browser-provider-resolver",
-      enforce: "pre",
-      config(config) {
-        if (config.test?.browser) {
-          if (typeof config.test.browser.provider === "string" && config.test.browser.provider === "playwright") {
-            config.test.browser.provider = playwrightProvider;
-          }
-          if (Array.isArray(config.test.browser.instances) && config.test.browser.instances.length > 1) {
-            config.test.browser.instances = [{browser: "chromium"}];
-          }
-          if (config.test.browser.enabled) {
-            config.test.include = ["src/**/*.browser.{test,spec}.{ts,tsx}"];
-            config.test.exclude = ["node_modules/**", "dist/**"];
-          }
-        }
-      },
-    },
-  ],
   pack: {
     entry: {
       index: "src/index.ts",
@@ -115,22 +112,26 @@ export default defineConfig({
     endOfLine: "lf",
   },
   test: {
-    globals: true,
-    environment: "jsdom",
-    setupFiles: ["./vitest.setup.ts"],
-    isolate: true,
-    pool: "vmThreads",
-    restoreMocks: true,
-    unstubGlobals: true,
-    unstubEnvs: true,
-    include: ["src/**/*.{test,spec}.{ts,tsx}"],
-    exclude: ["node_modules/**", "dist/**", "src/**/*.browser.{test,spec}.{ts,tsx}"],
-    browser: {
-      enabled: false,
-      provider: playwrightProvider,
-      instances: [{browser: "chromium"}],
-      headless: true,
-    },
+    projects: [
+      unitProject,
+      {
+        // Tailwind builds test/browser.css, so axe checks colour contrast against the real styles.
+        plugins: [tailwindcss()],
+        optimizeDeps: {include: ["react", "react-dom/client", "axe-core"]},
+        test: {
+          name: "browser",
+          globals: true,
+          setupFiles: ["./test/setup.browser.ts"],
+          include: ["src/**/__tests__/**/*.browser.test.{ts,tsx}"],
+          browser: {
+            enabled: true,
+            provider: playwright(),
+            headless: true,
+            instances: [{browser: "chromium"}],
+          },
+        },
+      },
+    ],
     coverage: {
       provider: "v8",
       reporter: ["text", "json", "json-summary", "html", "lcov"],
@@ -138,6 +139,9 @@ export default defineConfig({
       cleanOnRerun: true,
       include: ["src/**/*.{ts,tsx}"],
       exclude: ["node_modules/", "dist/", "**/*.config.{js,ts}", "**/types.ts", "**/*.d.ts", "**/index.ts", "**/__tests__/**"],
+      // Measured 86.62 / 79.78 / 85.49 / 87.73 (unit and browser projects) when set, rounded down with at
+      // least half a point spare: the figure can move a little between runs. Raise it as tests land; never lower it.
+      thresholds: {statements: 86, branches: 79, functions: 84, lines: 87},
     },
   },
 });

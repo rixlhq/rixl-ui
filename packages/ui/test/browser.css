@@ -1,0 +1,3 @@
+/* The styles a consumer app builds (see src/styles/preset.css), so axe checks contrast against real tokens. */
+@import "tailwindcss";
+@import "../src/styles/preset.css";
