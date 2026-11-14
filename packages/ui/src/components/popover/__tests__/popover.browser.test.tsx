@@ -1,6 +1,7 @@
 import {describe, it, expect, afterEach} from "vitest";
 import {page, userEvent} from "vitest/browser";
 import {render, cleanup} from "@testing-library/react";
+import {axeViolations} from "../../../../test/a11y";
 import {Popover, PopoverTrigger, PopoverContent} from "../popover";
 
 function TestPopover({defaultOpen = false}: {defaultOpen?: boolean} = {}) {
@@ -72,5 +73,13 @@ describe("Popover Browser Mode", () => {
     await userEvent.click(outside);
 
     await expect.element(content).not.toBeInTheDocument();
+  });
+
+  it("has no WCAG 2.2 AA violations when open", async () => {
+    render(<TestPopover />);
+    await userEvent.click(page.getByTestId("popover-trigger"));
+    await expect.element(page.getByTestId("popover-content")).toBeVisible();
+
+    expect(await axeViolations(document.body)).toEqual([]);
   });
 });

@@ -1,6 +1,7 @@
 import {describe, it, expect, afterEach, vi} from "vitest";
 import {page, userEvent} from "vitest/browser";
 import {render, cleanup} from "@testing-library/react";
+import {axeViolations} from "../../../../test/a11y";
 import {DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator} from "../dropdown-menu";
 
 function TestDropdownMenu({
@@ -118,5 +119,13 @@ describe("DropdownMenu Browser Mode", () => {
     // ArrowUp moves back
     await userEvent.keyboard("{ArrowUp}");
     await expect.element(profile).toHaveFocus();
+  });
+
+  it("has no WCAG 2.2 AA violations when open", async () => {
+    render(<TestDropdownMenu />);
+    await userEvent.click(page.getByTestId("menu-trigger"));
+    await expect.element(page.getByTestId("menu-content")).toBeVisible();
+
+    expect(await axeViolations(document.body)).toEqual([]);
   });
 });

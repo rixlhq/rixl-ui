@@ -1,6 +1,7 @@
 import {describe, it, expect, afterEach} from "vitest";
 import {page, userEvent} from "vitest/browser";
 import {render, cleanup} from "@testing-library/react";
+import {axeViolations} from "../../../../test/a11y";
 import {Sheet, SheetTrigger, SheetContent, SheetHeader, SheetTitle, SheetDescription, SheetClose} from "../sheet";
 
 function TestSheet({defaultOpen = false}: {defaultOpen?: boolean} = {}) {
@@ -82,5 +83,13 @@ describe("Sheet Browser Mode", () => {
 
     await expect.element(content).not.toBeInTheDocument();
     await expect.element(trigger).toHaveFocus();
+  });
+
+  it("has no WCAG 2.2 AA violations when open", async () => {
+    render(<TestSheet />);
+    await userEvent.click(page.getByTestId("sheet-trigger"));
+    await expect.element(page.getByTestId("sheet-content")).toBeVisible();
+
+    expect(await axeViolations(document.body)).toEqual([]);
   });
 });
