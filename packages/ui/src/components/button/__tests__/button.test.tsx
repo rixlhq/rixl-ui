@@ -1,4 +1,5 @@
 import {describe, it, expect, vi} from "vitest";
+import fc from "fast-check";
 import {render, screen} from "@testing-library/react";
 import {Button, buttonVariants} from "../button";
 
@@ -188,5 +189,46 @@ describe("Button", () => {
 
   it("exports a buttonVariants helper that returns a class string", () => {
     expect(typeof buttonVariants({variant: "ghost", size: "lg"})).toBe("string");
+  });
+});
+
+describe("[property] Button class resolution", () => {
+  const variants = ["default", "destructive", "outline", "secondary", "ghost", "link"] as const;
+  const knownColors = new Set<string>([...variants, "primary"]);
+  const classOf = (element: React.ReactElement) => {
+    const {getByRole, unmount} = render(element);
+    const className = getByRole("button").className;
+    unmount();
+    return className;
+  };
+
+  it("variant wins over any color", () => {
+    fc.assert(
+      fc.property(fc.constantFrom(...variants), fc.string(), (variant, color) => {
+        expect(classOf(<Button variant={variant} color={color} />)).toBe(classOf(<Button variant={variant} />));
+      })
+    );
+  });
+
+  it("an unknown color falls back to the default variant", () => {
+    fc.assert(
+      fc.property(
+        fc.string().filter((color) => !knownColors.has(color)),
+        (color) => {
+          expect(classOf(<Button color={color} />)).toBe(classOf(<Button />));
+        }
+      )
+    );
+  });
+
+  it("a consumer height replaces the size's height", () => {
+    fc.assert(
+      fc.property(fc.constantFrom("default", "sm", "lg"), fc.integer({min: 1, max: 96}), (size, height) => {
+        const heights = classOf(<Button size={size} className={`h-${height}`} />)
+          .split(" ")
+          .filter((token) => /^h-\d+$/.test(token));
+        expect(heights).toEqual([`h-${height}`]);
+      })
+    );
   });
 });
