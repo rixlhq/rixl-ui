@@ -60,9 +60,10 @@
     --rixl-secondary-fg: oklch(0.2 0.01 265);
 
     /* ── Destructive (danger) ─────────────────────────────── */
-    --rixl-danger: oklch(0.6 0.22 25);
-    --rixl-danger-hover: oklch(0.55 0.22 25);
-    --rixl-danger-active: oklch(0.5 0.22 25);
+    /* 0.56 keeps danger text at 4.5:1 (WCAG AA) on white and on its 10% highlight tint. */
+    --rixl-danger: oklch(0.56 0.22 25);
+    --rixl-danger-hover: oklch(0.51 0.22 25);
+    --rixl-danger-active: oklch(0.46 0.22 25);
     --rixl-danger-fg: oklch(1 0 0);
 
     /* ── Success / warning (feedback) ─────────────────────── */
