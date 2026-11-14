@@ -23,6 +23,7 @@
     "prepare": "[ -n \"$CI\" ] || lefthook install --reset-hooks-path"
   },
   "devDependencies": {
+    "@fission-ai/openspec": "1.2.0",
     "lefthook": "^2.2.2",
     "typescript": "^7.0.2",
     "vite-plus": "1.4.0"

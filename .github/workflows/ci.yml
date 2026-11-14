@@ -7,30 +7,60 @@ on:
 
 permissions:
   contents: read
-  pull-requests: write # coverage report comment
 
 concurrency:
   group: ci-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
 
+# Steps are inline, not the shared rixlhq/github-actions frontend-ci workflow:
+# this repo is public and that one is private, and GitHub doesn't let a public
+# repo call a private repo's reusable workflow (every run failed in 0s at
+# startup). docs, the other public repo, does the same.
 jobs:
   ci:
-    uses: rixlhq/github-actions/.github/workflows/frontend-ci.yml@main
-    with:
-      # The publishable library lives in packages/ui; install and commands run
-      # there (the workspace lockfile stays at the repo root).
-      working-directory: packages/ui
-      # The `ci` script in packages/ui/package.json defines what CI runs:
-      # check, fmt --check, tests with coverage, and the package build.
-      commands: vp run ci
-      coverage-report: true
-      coverage-vite-config: ./vite.config.ts
-      timeout-minutes: 10
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: read
+      pull-requests: write # coverage report comment
+    defaults:
+      run:
+        # The publishable library lives in packages/ui; the workspace lockfile stays at the root.
+        working-directory: packages/ui
+    steps:
+      - name: 📥 Checkout
+        uses: actions/checkout@v7
 
-  browser-tests:
-    name: Browser Tests
-    uses: rixlhq/github-actions/.github/workflows/frontend-ci.yml@main
-    with:
-      working-directory: packages/ui
-      commands: vp run test:browser
-      timeout-minutes: 10
+      - name: ⚙️ Setup Vite+
+        uses: voidzero-dev/setup-vp@v1.22.0
+        with:
+          working-directory: packages/ui
+          cache: "true"
+          run-install: "true"
+
+      - name: 🎭 Cache Playwright browsers
+        id: playwright-cache
+        uses: actions/cache@v6
+        with:
+          path: ~/.cache/ms-playwright
+          key: ${{ runner.os }}-playwright-${{ hashFiles('bun.lock') }}
+
+      - name: ⚙️ Setup Playwright OS dependencies
+        run: vp exec playwright install-deps chromium
+
+      - name: ⚙️ Setup Playwright browser
+        if: steps.playwright-cache.outputs.cache-hit != 'true'
+        run: vp exec playwright install chromium
+
+      # The `ci` script in packages/ui/package.json: check, fmt, suppressions,
+      # Knip, unit and browser tests with coverage floors, the package build,
+      # the size budget and publint.
+      - name: 🧪 Gate
+        run: vp run ci
+
+      - name: 📊 Report coverage to PR
+        if: ${{ !cancelled() && github.event_name == 'pull_request' && github.event.pull_request.head.repo.fork == false }}
+        uses: davelosert/vitest-coverage-report-action@v2
+        with:
+          working-directory: packages/ui
+          vite-config-path: ./vite.config.ts

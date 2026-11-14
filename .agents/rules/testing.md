@@ -1,67 +1,46 @@
 ---
 trigger: when writing tests or reviewing test coverage
-description: Testing standards, tools, and quality gates for @rixl/ui.
+description: Testing tools, where tests live and what each kind proves for the design system.
 ---
 
-# Testing Standards
+# Testing
+
+Test projects are in the `test` block of `packages/ui/vite.config.ts`. Run commands from `packages/ui`.
 
 ## Tools
 
-| Tool                      | Purpose                                           | Command              |
-| ------------------------- | ------------------------------------------------- | -------------------- |
-| Vitest                    | Unit and component tests (jsdom)                  | `vp test`            |
-| @testing-library/react    | React component DOM testing                       | Used within Vitest   |
-| @testing-library/jest-dom | DOM matchers (`toBeInTheDocument`, etc.)          | Registered in setup  |
-| @vitest/coverage-v8       | Coverage reports                                  | `vp test --coverage` |
-| fast-check                | Property-based testing (optional, for pure utils) | Used within Vitest   |
+| Tool                | Purpose                                                    | Command                                      |
+| ------------------- | ---------------------------------------------------------- | -------------------------------------------- |
+| Vitest (`unit`)     | Components, hooks and `src/lib`, in jsdom                  | `vp test --project unit`                     |
+| Testing Library     | What a user sees and can do, queried by role and text      | inside the tests                             |
+| fast-check          | Property tests for logic with wide inputs                  | inside the unit tests, titled `[property] …` |
+| Vitest Browser Mode | Popups and focus in real Chromium, with the preset built   | `vp test --project browser`                  |
+| axe-core            | WCAG 2.2 AA checks on what those tests render              | `axeViolations()` from `test/a11y.ts`        |
+| Stryker             | Mutation testing: proves the unit tests notice wrong code  | `vp run test:mutation`                       |
+| size-limit          | The built JS and the preset stay within `.size-limit.json` | `vp run budget` after `vp pack`              |
 
-We deliberately do **not** ship Playwright CT here — a design system's UI correctness lives in the visual pass on the consumer app plus jsdom + Testing Library for logic. Adding a real-browser layer belongs in the consumer or in a Storybook-based visual harness (future).
+Tests import Vitest APIs from `vitest`.
 
 ## When to use each
 
-- **Vitest + Testing Library (jsdom)** — every component test, every hook test, every utility test. Cover: rendering, all variants, className merging via `cn`, ref forwarding, keyboard interaction, disabled/loading states, controlled vs uncontrolled behavior.
-- **fast-check** — pure functions like `cn`, size/variant class builders, token helpers. Add property tests inline in the same `__tests__/<name>.test.ts` file.
+- **Unit** — Every component and hook: role, each variant and size, `className` merging (a conflicting consumer class wins), ref forwarding, keyboard, disabled, and props passthrough. "Renders without crashing" is not a test.
+- **fast-check** — Logic whose input space is wide: class resolution across variants (see `button.test.tsx`), parsing, token helpers. Assert an invariant across generated inputs.
+- **Browser and axe** — Anything jsdom can't do faithfully: portals, focus traps, positioning, dismissal. Each browser test file asserts `expect(await axeViolations(document.body)).toEqual([])` with its component open. axe finds about a third of accessibility issues; it can't judge whether a label is meaningful.
+- **Stryker** — Mutates `src/` and reruns the unit tests. Too slow for pull requests, so `.github/workflows/mutation.yml` runs it report-only every Monday and opens a `mutation-report` issue.
 
 ## Test location
 
-Co-located next to source under `__tests__/`:
+- Co-located in `__tests__/` next to the source.
+- Unit: `__tests__/<name>.test.ts` or `.test.tsx`
+- Browser: `__tests__/<name>.browser.test.tsx`
+- Shared browser helpers, setup and CSS: `packages/ui/test/`
 
-```
-src/components/<name>/
-  <name>.tsx
-  index.ts
-  __tests__/<name>.test.tsx
-```
+## Coverage
 
-## Contract every component test must cover
-
-1. Renders with default props and exposes the correct role.
-2. Every variant applies its expected class(es).
-3. Every size applies its expected class(es).
-4. `className` prop is merged last-write-wins via `cn` — pass a conflicting utility and assert the consumer wins.
-5. `ref` forwards to the underlying DOM element.
-6. Interactive components respond to keyboard (Enter, Space, Escape, arrows where relevant).
-7. `disabled` (and `loading` if applicable) suppresses click handlers.
-8. `...rest` props (e.g., `data-testid`, `aria-label`, `onClick`) flow through.
-
-Tests that only check "renders without crashing" are not acceptable.
+CI runs `vp test --coverage` across both projects and fails below the floor in `coverage.thresholds`. Raise it when tests land; never lower it to make a change pass.
 
 ## Quality gates
 
-- Deterministic. No network. No wall-clock timers unless `vi.useFakeTimers()`.
-- Prefer focused unit tests over broad integration tests.
-- Every pure exported function ships at least one property-based test with fast-check.
-- `vp test --run` must pass with zero skipped tests in the changeset unless a `TODO(test):` comment justifies it.
-
-## Coverage thresholds
-
-Coverage floors are declared in `vite.config.ts#test.coverage.thresholds`. They rise as the library matures — never lower them to unblock a PR. If a merge would drop coverage, add the missing tests first.
-
-## Running
-
-```bash
-vp test                  # watch mode
-vp test --run            # single-pass (CI)
-vp test --coverage       # with coverage report
-vp test --ui             # UI inspector
-```
+- Deterministic: no network, no real clock (`vi.useFakeTimers()`), no shared state between tests.
+- Before trusting a new test, break the code it covers and watch it fail, then restore the code.
+- A test that only restates the implementation is slop.

@@ -9,6 +9,90 @@ import {Button, buttonVariants} from "../button";
  * Rixl Calendar — date grid built on react-day-picker v9.
  * Ported verbatim from dashboard; token-mapped to rixl tokens.
  */
+type CalendarClassNames = ReturnType<typeof getDefaultClassNames>;
+type ButtonVariant = React.ComponentProps<typeof Button>["variant"];
+type CaptionLayout = React.ComponentProps<typeof DayPicker>["captionLayout"];
+
+function captionClassNames(defaultClassNames: CalendarClassNames, buttonVariant: ButtonVariant, captionLayout: CaptionLayout) {
+  return {
+    root: cn("w-fit", defaultClassNames.root),
+    months: cn("flex gap-4 flex-col md:flex-row relative", defaultClassNames.months),
+    month: cn("flex flex-col w-full gap-4", defaultClassNames.month),
+    nav: cn("flex items-center gap-1 w-full absolute top-0 inset-x-0 justify-between", defaultClassNames.nav),
+    button_previous: cn(
+      buttonVariants({variant: buttonVariant}),
+      "size-(--cell-size) aria-disabled:opacity-50 p-0 select-none",
+      defaultClassNames.button_previous
+    ),
+    button_next: cn(
+      buttonVariants({variant: buttonVariant}),
+      "size-(--cell-size) aria-disabled:opacity-50 p-0 select-none",
+      defaultClassNames.button_next
+    ),
+    month_caption: cn("flex items-center justify-center h-(--cell-size) w-full px-(--cell-size)", defaultClassNames.month_caption),
+    dropdowns: cn("w-full flex items-center text-sm font-medium justify-center h-(--cell-size) gap-1.5", defaultClassNames.dropdowns),
+    dropdown_root: cn(
+      "relative has-focus:border-rixl-ring border border-rixl-border shadow-rixl-xs has-focus:ring-rixl-ring/50 has-focus:ring-[3px] rounded-rixl-md",
+      defaultClassNames.dropdown_root
+    ),
+    dropdown: cn("absolute bg-rixl-surface inset-0 opacity-0", defaultClassNames.dropdown),
+    caption_label: cn(
+      "select-none font-medium",
+      captionLayout === "label"
+        ? "text-sm"
+        : "rounded-rixl-md ps-2 pe-1 flex items-center gap-1 text-sm h-8 [&>svg]:text-rixl-fg-muted [&>svg]:size-3.5",
+      defaultClassNames.caption_label
+    ),
+  };
+}
+
+function gridClassNames(defaultClassNames: CalendarClassNames) {
+  return {
+    table: "w-full border-collapse",
+    weekdays: cn("flex", defaultClassNames.weekdays),
+    weekday: cn("text-rixl-fg-muted rounded-rixl-md flex-1 font-normal text-[0.8rem] select-none", defaultClassNames.weekday),
+    week: cn("flex w-full mt-2", defaultClassNames.week),
+    week_number_header: cn("select-none w-(--cell-size)", defaultClassNames.week_number_header),
+    week_number: cn("text-[0.8rem] select-none text-rixl-fg-muted", defaultClassNames.week_number),
+    day: cn(
+      "relative w-full h-full p-0 text-center [&:first-child[data-selected=true]_button]:rounded-s-rixl-md [&:last-child[data-selected=true]_button]:rounded-e-rixl-md group/day aspect-square select-none",
+      defaultClassNames.day
+    ),
+    range_start: cn("rounded-s-rixl-md bg-rixl-surface-muted", defaultClassNames.range_start),
+    range_middle: cn("rounded-none", defaultClassNames.range_middle),
+    range_end: cn("rounded-e-rixl-md bg-rixl-surface-muted", defaultClassNames.range_end),
+    today: cn("bg-rixl-surface-muted text-rixl-fg rounded-rixl-md data-[selected=true]:rounded-none", defaultClassNames.today),
+    outside: cn("text-rixl-fg-muted aria-selected:text-rixl-fg-muted", defaultClassNames.outside),
+    disabled: cn("text-rixl-fg-muted opacity-50", defaultClassNames.disabled),
+    hidden: cn("invisible", defaultClassNames.hidden),
+  };
+}
+
+const calendarComponents: React.ComponentProps<typeof DayPicker>["components"] = {
+  Root({className, rootRef, ...props}) {
+    return <div data-slot="calendar" ref={rootRef} className={cn(className)} {...props} />;
+  },
+  Chevron({className, orientation, ...props}) {
+    if (orientation === "left") {
+      return <ChevronLeftIcon className={cn("size-4", className)} {...props} />;
+    }
+
+    if (orientation === "right") {
+      return <ChevronRightIcon className={cn("size-4", className)} {...props} />;
+    }
+
+    return <ChevronDownIcon className={cn("size-4", className)} {...props} />;
+  },
+  DayButton: CalendarDayButton,
+  WeekNumber({children, ...props}) {
+    return (
+      <td {...props}>
+        <div className="flex size-(--cell-size) items-center justify-center text-center">{children}</div>
+      </td>
+    );
+  },
+};
+
 function Calendar({
   className,
   classNames,
@@ -40,76 +124,12 @@ function Calendar({
         ...formatters,
       }}
       classNames={{
-        root: cn("w-fit", defaultClassNames.root),
-        months: cn("flex gap-4 flex-col md:flex-row relative", defaultClassNames.months),
-        month: cn("flex flex-col w-full gap-4", defaultClassNames.month),
-        nav: cn("flex items-center gap-1 w-full absolute top-0 inset-x-0 justify-between", defaultClassNames.nav),
-        button_previous: cn(
-          buttonVariants({variant: buttonVariant}),
-          "size-(--cell-size) aria-disabled:opacity-50 p-0 select-none",
-          defaultClassNames.button_previous
-        ),
-        button_next: cn(
-          buttonVariants({variant: buttonVariant}),
-          "size-(--cell-size) aria-disabled:opacity-50 p-0 select-none",
-          defaultClassNames.button_next
-        ),
-        month_caption: cn("flex items-center justify-center h-(--cell-size) w-full px-(--cell-size)", defaultClassNames.month_caption),
-        dropdowns: cn("w-full flex items-center text-sm font-medium justify-center h-(--cell-size) gap-1.5", defaultClassNames.dropdowns),
-        dropdown_root: cn(
-          "relative has-focus:border-rixl-ring border border-rixl-border shadow-rixl-xs has-focus:ring-rixl-ring/50 has-focus:ring-[3px] rounded-rixl-md",
-          defaultClassNames.dropdown_root
-        ),
-        dropdown: cn("absolute bg-rixl-surface inset-0 opacity-0", defaultClassNames.dropdown),
-        caption_label: cn(
-          "select-none font-medium",
-          captionLayout === "label"
-            ? "text-sm"
-            : "rounded-rixl-md ps-2 pe-1 flex items-center gap-1 text-sm h-8 [&>svg]:text-rixl-fg-muted [&>svg]:size-3.5",
-          defaultClassNames.caption_label
-        ),
-        table: "w-full border-collapse",
-        weekdays: cn("flex", defaultClassNames.weekdays),
-        weekday: cn("text-rixl-fg-muted rounded-rixl-md flex-1 font-normal text-[0.8rem] select-none", defaultClassNames.weekday),
-        week: cn("flex w-full mt-2", defaultClassNames.week),
-        week_number_header: cn("select-none w-(--cell-size)", defaultClassNames.week_number_header),
-        week_number: cn("text-[0.8rem] select-none text-rixl-fg-muted", defaultClassNames.week_number),
-        day: cn(
-          "relative w-full h-full p-0 text-center [&:first-child[data-selected=true]_button]:rounded-s-rixl-md [&:last-child[data-selected=true]_button]:rounded-e-rixl-md group/day aspect-square select-none",
-          defaultClassNames.day
-        ),
-        range_start: cn("rounded-s-rixl-md bg-rixl-surface-muted", defaultClassNames.range_start),
-        range_middle: cn("rounded-none", defaultClassNames.range_middle),
-        range_end: cn("rounded-e-rixl-md bg-rixl-surface-muted", defaultClassNames.range_end),
-        today: cn("bg-rixl-surface-muted text-rixl-fg rounded-rixl-md data-[selected=true]:rounded-none", defaultClassNames.today),
-        outside: cn("text-rixl-fg-muted aria-selected:text-rixl-fg-muted", defaultClassNames.outside),
-        disabled: cn("text-rixl-fg-muted opacity-50", defaultClassNames.disabled),
-        hidden: cn("invisible", defaultClassNames.hidden),
+        ...captionClassNames(defaultClassNames, buttonVariant, captionLayout),
+        ...gridClassNames(defaultClassNames),
         ...classNames,
       }}
       components={{
-        Root({className, rootRef, ...props}) {
-          return <div data-slot="calendar" ref={rootRef} className={cn(className)} {...props} />;
-        },
-        Chevron({className, orientation, ...props}) {
-          if (orientation === "left") {
-            return <ChevronLeftIcon className={cn("size-4", className)} {...props} />;
-          }
-
-          if (orientation === "right") {
-            return <ChevronRightIcon className={cn("size-4", className)} {...props} />;
-          }
-
-          return <ChevronDownIcon className={cn("size-4", className)} {...props} />;
-        },
-        DayButton: CalendarDayButton,
-        WeekNumber({children, ...props}) {
-          return (
-            <td {...props}>
-              <div className="flex size-(--cell-size) items-center justify-center text-center">{children}</div>
-            </td>
-          );
-        },
+        ...calendarComponents,
         ...components,
       }}
       {...props}

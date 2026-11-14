@@ -1,6 +1,7 @@
 import {describe, it, expect, afterEach, vi} from "vitest";
 import {page, userEvent} from "vitest/browser";
 import {render, cleanup} from "@testing-library/react";
+import {axeViolations} from "../../../../test/a11y";
 import {Select, SelectTrigger, SelectValue, SelectContent, SelectItem} from "../select";
 
 function TestSelect({
@@ -13,7 +14,8 @@ function TestSelect({
   return (
     <div className="p-8">
       <Select defaultValue={defaultValue} onValueChange={onValueChange}>
-        <SelectTrigger data-testid="select-trigger" className="w-48">
+        {/* A combobox takes no name from its text, so the placeholder doesn't label it; consumers must. */}
+        <SelectTrigger data-testid="select-trigger" aria-label="Fruit" className="w-48">
           <SelectValue placeholder="Choose an option" />
         </SelectTrigger>
         <SelectContent data-testid="select-content">
@@ -92,5 +94,13 @@ describe("Select Browser Mode", () => {
 
     await expect.element(content).not.toBeVisible();
     await expect.element(trigger).toHaveFocus();
+  });
+
+  it("has no WCAG 2.2 AA violations when open", async () => {
+    render(<TestSelect />);
+    await userEvent.click(page.getByTestId("select-trigger"));
+    await expect.element(page.getByTestId("select-content")).toBeVisible();
+
+    expect(await axeViolations(document.body)).toEqual([]);
   });
 });

@@ -61,8 +61,10 @@ cd packages/ui
 vp pack                # bundle library (Rolldown + tsdown; ESM + .d.ts)
 vp dev                 # watch build
 vp test                # Vitest (watch)
-vp test --run          # single pass (CI-style)
-vp test --coverage     # with coverage report
+vp test --run          # single pass: unit (jsdom) and browser (Chromium, axe) projects
+vp test --coverage     # with coverage; fails under the floor in vite.config.ts
+vp run knip            # unused files, exports and dependencies
+vp run ci              # the full gate CI and the release job run
 vp check               # oxlint + tsc, zero warnings
 vp fmt                 # oxfmt (write)
 vp fmt --check         # verify only
