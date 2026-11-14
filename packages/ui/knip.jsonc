@@ -8,8 +8,4 @@
     // stryker.config.mjs names the Vitest config as a string.
     "test/stryker.vitest.config.ts",
   ],
-  "ignoreDependencies": [
-    // The OpenSpec skills run the CLI as `vp exec openspec`; nothing imports it.
-    "@fission-ai/openspec",
-  ],
 }

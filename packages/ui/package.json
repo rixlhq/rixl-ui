@@ -236,7 +236,6 @@
   },
   "devDependencies": {
     "@base-ui/react": "^1.9.0",
-    "@fission-ai/openspec": "1.2.0",
     "@size-limit/file": "^14.3.0",
     "@stryker-mutator/api": "^10.1.1",
     "@stryker-mutator/core": "^10.1.1",
