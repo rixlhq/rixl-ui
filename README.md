@@ -118,7 +118,8 @@ packages/ui/src/components/<name>/
   <name>.tsx          — implementation
   index.ts            — public re-exports
   __tests__/
-    <name>.test.tsx   — vitest + Testing Library
+    <name>.test.tsx          — unit: Vitest + Testing Library (jsdom)
+    <name>.browser.test.tsx  — popups, focus, dismissal in Chromium, with an axe check
 ```
 
 Then:
