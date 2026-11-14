@@ -89,7 +89,8 @@ describe("Dialog Browser Mode", () => {
 
     const closeBtn = page.getByTestId("close-button");
     await expect.element(closeBtn).toBeVisible();
-    closeBtn.element().click();
+    // The close control is a <button>, so the element is an HTMLElement.
+    (closeBtn.element() as HTMLElement).click();
 
     await expect.element(dialog).not.toBeInTheDocument();
     await expect.element(trigger).toHaveFocus();

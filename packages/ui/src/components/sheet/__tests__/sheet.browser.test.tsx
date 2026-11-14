@@ -64,7 +64,8 @@ describe("Sheet Browser Mode", () => {
     await expect.element(content).toBeVisible();
 
     const closeBtn = page.getByTestId("sheet-close");
-    closeBtn.element().click();
+    // The close control is a <button>, so the element is an HTMLElement.
+    (closeBtn.element() as HTMLElement).click();
 
     await expect.element(content).not.toBeInTheDocument();
     await expect.element(trigger).toHaveFocus();

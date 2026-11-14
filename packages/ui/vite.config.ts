@@ -79,7 +79,27 @@ export default defineConfig({
     target: "es2022",
   },
   lint: {
+    plugins: ["react", "react-perf", "typescript", "jsx-a11y"],
     ignorePatterns: ["dist/**", "examples/**", "__tests__", "*.test.ts", "*.test.tsx"],
+    rules: {
+      "react/react-in-jsx-scope": "off",
+      "typescript/no-explicit-any": "error",
+      // The caps .agents/rules/code-style.md lists (the anti-slop guide, layer 5).
+      "eslint/complexity": ["error", {max: 10}],
+      "eslint/max-lines-per-function": ["error", {max: 50, skipComments: true}],
+      "eslint/max-lines": ["error", {max: 250, skipBlankLines: true, skipComments: true}],
+      "eslint/max-params": ["error", 3],
+      "eslint/max-depth": ["error", 3],
+      "eslint/max-statements": ["error", 25],
+      "eslint/max-classes-per-file": ["error", 1],
+    },
+    options: {
+      typeAware: true,
+      typeCheck: true,
+      // A warning nobody fixes is noise: `vp check` (hook and CI) fails on any.
+      denyWarnings: true,
+      reportUnusedDisableDirectives: "error",
+    },
   },
   fmt: {
     ignorePatterns: ["dist/**", "examples/**", "CHANGELOG.md", ".release-please-manifest.json"],

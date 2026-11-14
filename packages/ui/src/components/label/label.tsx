@@ -16,6 +16,7 @@ import {cn} from "cn";
  */
 function Label({className, ...props}: ComponentProps<"label">) {
   return (
+    // oxlint-disable-next-line jsx-a11y/label-has-associated-control -- a primitive: the consumer associates it through htmlFor or a nested control
     <label
       data-slot="label"
       className={cn(
