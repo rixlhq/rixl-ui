@@ -1,136 +1,47 @@
-import * as React from "react";
 import {AlertDialog as AlertDialogPrimitive} from "@base-ui/react/alert-dialog";
-import {cn} from "cn";
-import {Button} from "../button";
 
-/**
- * Rixl AlertDialog — a modal confirmation surface.
- *
- * Ported from dashboard's shadcn AlertDialog (Base UI AlertDialog).
- * Composition mirrors Dialog but adds semantics:
- * - `<AlertDialog>` — root; modal with focus trap.
- * - `<AlertDialogTrigger>` — the anchor element.
- * - `<AlertDialogContent>` — portalled popup + auto backdrop.
- * - `<AlertDialogTitle>` / `<AlertDialogDescription>` — required
- *   accessible labelling.
- * - `<AlertDialogAction>` — a primary `<Button>` for the confirm action.
- * - `<AlertDialogCancel>` — an outline `<Button>` closing the dialog.
- *
- * Class names swapped to `--rixl-*` tokens; surface is `bg-rixl-bg`
- * with `border-rixl-border` and `shadow-rixl-lg`. Backdrop is a softer
- * `bg-black/50` than Dialog's.
- */
-function AlertDialog({...props}: AlertDialogPrimitive.Root.Props) {
+import {AlertDialogAction, AlertDialogCancel, type AlertDialogActionProps, type AlertDialogCancelProps} from "./actions";
+import {AlertDialogContent, type AlertDialogContentProps} from "./content";
+import {
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  type AlertDialogDescriptionProps,
+  type AlertDialogTitleProps,
+} from "./layout";
+import {AlertDialogOverlay, type AlertDialogOverlayProps} from "./overlay";
+
+export function AlertDialog({...props}: AlertDialogPrimitive.Root.Props) {
   return <AlertDialogPrimitive.Root data-slot="alert-dialog" {...props} />;
 }
 
-function AlertDialogTrigger({...props}: AlertDialogPrimitive.Trigger.Props) {
+export function AlertDialogTrigger({...props}: AlertDialogPrimitive.Trigger.Props) {
   return <AlertDialogPrimitive.Trigger data-slot="alert-dialog-trigger" {...props} />;
 }
 
-function AlertDialogPortal({...props}: AlertDialogPrimitive.Portal.Props) {
+export function AlertDialogPortal({...props}: AlertDialogPrimitive.Portal.Props) {
   return <AlertDialogPrimitive.Portal data-slot="alert-dialog-portal" {...props} />;
 }
 
-function AlertDialogOverlay({className, ...props}: AlertDialogPrimitive.Backdrop.Props) {
-  return (
-    <AlertDialogPrimitive.Backdrop
-      data-slot="alert-dialog-overlay"
-      className={cn(
-        "fixed inset-0 z-50 bg-black/50 backdrop-blur-sm",
-        "transition-opacity duration-rixl-base ease-rixl-out motion-reduce:transition-none",
-        "data-starting-style:opacity-0 data-ending-style:opacity-0",
-        className
-      )}
-      {...props}
-    />
-  );
-}
-
-function AlertDialogContent({className, ...props}: AlertDialogPrimitive.Popup.Props) {
-  return (
-    <AlertDialogPortal>
-      <AlertDialogOverlay />
-      <AlertDialogPrimitive.Popup
-        data-slot="alert-dialog-content"
-        className={cn(
-          "bg-rixl-bg fixed top-[50%] left-[50%] z-50 grid w-full max-w-[calc(100%-2rem)] translate-x-[-50%] translate-y-[-50%] gap-4 rounded-rixl-lg border-rixl-border border p-6 shadow-rixl-lg sm:max-w-lg",
-          "max-h-[calc(100dvh-2rem)] overflow-y-auto overscroll-contain",
-          "transition-[scale,opacity] duration-rixl-base ease-rixl-out motion-reduce:transition-none",
-          "data-starting-style:scale-95 data-starting-style:opacity-0 data-ending-style:scale-95 data-ending-style:opacity-0",
-          className
-        )}
-        {...props}
-      />
-    </AlertDialogPortal>
-  );
-}
-
-function AlertDialogHeader({className, ...props}: React.ComponentProps<"div">) {
-  return (
-    <div data-slot="alert-dialog-header" className={cn("flex min-w-0 flex-col gap-2 text-center sm:text-start", className)} {...props} />
-  );
-}
-
-function AlertDialogFooter({className, ...props}: React.ComponentProps<"div">) {
-  return (
-    <div data-slot="alert-dialog-footer" className={cn("flex flex-col-reverse gap-2 sm:flex-row sm:justify-end", className)} {...props} />
-  );
-}
-
-function AlertDialogTitle({className, ...props}: React.ComponentProps<typeof AlertDialogPrimitive.Title>) {
-  return <AlertDialogPrimitive.Title data-slot="alert-dialog-title" className={cn("text-lg font-semibold", className)} {...props} />;
-}
-
-function AlertDialogDescription({className, ...props}: React.ComponentProps<typeof AlertDialogPrimitive.Description>) {
-  return (
-    <AlertDialogPrimitive.Description
-      data-slot="alert-dialog-description"
-      className={cn("text-rixl-fg-muted text-sm", className)}
-      {...props}
-    />
-  );
-}
-
-function AlertDialogAction({className, ...props}: React.ComponentProps<typeof Button>) {
-  return <Button data-slot="alert-dialog-action" className={cn(className)} {...props} />;
-}
-
-function AlertDialogCancel({
-  className,
-  variant = "outline",
-  size,
-  ...props
-}: AlertDialogPrimitive.Close.Props & Pick<React.ComponentProps<typeof Button>, "variant" | "size">) {
-  return (
-    <AlertDialogPrimitive.Close
-      data-slot="alert-dialog-cancel"
-      className={cn(className)}
-      render={<Button variant={variant} size={size} />}
-      {...props}
-    />
-  );
-}
-
 export {
-  AlertDialog,
-  AlertDialogPortal,
-  AlertDialogOverlay,
-  AlertDialogTrigger,
-  AlertDialogContent,
-  AlertDialogHeader,
-  AlertDialogFooter,
-  AlertDialogTitle,
-  AlertDialogDescription,
   AlertDialogAction,
   AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogOverlay,
+  AlertDialogTitle,
 };
 export type AlertDialogProps = AlertDialogPrimitive.Root.Props;
 export type AlertDialogTriggerProps = AlertDialogPrimitive.Trigger.Props;
 export type AlertDialogPortalProps = AlertDialogPrimitive.Portal.Props;
-export type AlertDialogOverlayProps = AlertDialogPrimitive.Backdrop.Props;
-export type AlertDialogContentProps = AlertDialogPrimitive.Popup.Props;
-export type AlertDialogTitleProps = React.ComponentProps<typeof AlertDialogPrimitive.Title>;
-export type AlertDialogDescriptionProps = React.ComponentProps<typeof AlertDialogPrimitive.Description>;
-export type AlertDialogActionProps = React.ComponentProps<typeof Button>;
-export type AlertDialogCancelProps = AlertDialogPrimitive.Close.Props & Pick<React.ComponentProps<typeof Button>, "variant" | "size">;
+export type {
+  AlertDialogActionProps,
+  AlertDialogCancelProps,
+  AlertDialogContentProps,
+  AlertDialogDescriptionProps,
+  AlertDialogOverlayProps,
+  AlertDialogTitleProps,
+};
