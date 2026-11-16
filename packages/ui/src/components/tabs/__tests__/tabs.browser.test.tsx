@@ -2,7 +2,7 @@ import {describe, it, expect, afterEach} from "vitest";
 import {page, userEvent} from "vitest/browser";
 import {render, cleanup} from "@testing-library/react";
 import {axeViolations} from "../../../../test/a11y";
-import {Tabs, TabsList, TabsTrigger, TabsContent} from "../tabs";
+import {Tabs, TabsList, TabsTrigger, TabsContent} from "../index";
 
 function TestTabs() {
   return (

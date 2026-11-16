@@ -1,12 +1,22 @@
+import { Badge } from "@rixl/ui/badge";
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@rixl/ui/breadcrumb";
+import { Button } from "@rixl/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger, type TabsProps } from "@rixl/ui/tabs";
-import type { ControlValue, Example } from "./registry";
 import { Group } from "../components/showcase-layout";
+import type { ControlValue, Example } from "./registry";
 
 export const path = "tabs";
 export const title = "Tabs";
 export const group = "Navigation";
 export const description =
-  "Tabbed content built on Base UI Tabs. The active state is one element that travels between tabs rather than a fill repainted on each trigger — three variants, two sizes, and a shared press token.";
+  "Tabbed content built on Base UI Tabs. Hovering an inactive tab changes text intensity only while a single indicator glides across tabs over 300ms. Overflowing tab lists scroll in one row with fade + chevron controls, drag-to-scroll, and smooth scrollIntoView.";
 
 const CLOUDFLARE = [
   "Overview",
@@ -25,10 +35,8 @@ export function Showcase() {
       <TabsList>
         <TabsTrigger value="overview">Overview</TabsTrigger>
         <TabsTrigger value="activity">Activity</TabsTrigger>
+        <TabsTrigger value="settings">Settings</TabsTrigger>
       </TabsList>
-      <TabsContent value="overview">
-        <p className="text-sm text-rixl-fg">Overview panel</p>
-      </TabsContent>
     </Tabs>
   );
 }
@@ -57,20 +65,56 @@ function Row({ labels, ...rest }: { labels: string[] } & Partial<TabsProps>) {
 function SlideExample(props: { state: Record<string, ControlValue> }) {
   void props;
   return (
-    <div className="space-y-6">
-      <Group label="Click across several tabs — the pill travels, it does not teleport">
-        <Row labels={CLOUDFLARE} />
-      </Group>
-      <p className="text-sm text-rixl-fg-muted">
-        Base UI publishes the active tab&apos;s box as{" "}
-        <code className="text-rixl-fg">--active-tab-left/top/width/height</code>, so one element
-        follows the selection and resizes to it. It is moved with{" "}
-        <code className="text-rixl-fg">translate</code> rather than{" "}
-        <code className="text-rixl-fg">left</code>, so the movement is composited rather than laid
-        out every frame. Cloudflare, DaisyUI and Untitled UI all repaint the active tab instead, so
-        their marker jumps. Under <code className="text-rixl-fg">prefers-reduced-motion</code> it
-        snaps.
+    <div className="space-y-4">
+      <Row labels={CLOUDFLARE} />
+      <p className="text-xs text-rixl-fg-muted">
+        Hovering an inactive trigger only shifts text intensity (
+        <code className="text-rixl-fg">text-rixl-fg-muted → text-rixl-fg</code>), so the travelling
+        pill is the single moving surface across the bar.
       </p>
+    </div>
+  );
+}
+
+function OverflowExample(props: { state: Record<string, ControlValue> }) {
+  void props;
+  return (
+    <div className="space-y-6">
+      <div className="max-w-sm space-y-2">
+        <p className="text-xs font-medium text-rixl-fg-muted">
+          Segmented overflow (narrow container — use chevrons, drag, or click partially visible
+          tabs)
+        </p>
+        <Row labels={CLOUDFLARE} variant="segmented" />
+      </div>
+
+      <div className="max-w-md space-y-4 rounded-rixl-lg border border-rixl-border bg-rixl-bg p-5">
+        <Breadcrumb>
+          <BreadcrumbList>
+            <BreadcrumbItem>
+              <BreadcrumbLink href="#/tabs">Workers &amp; Pages</BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbSeparator />
+            <BreadcrumbItem>
+              <BreadcrumbPage>api-gateway-prod</BreadcrumbPage>
+            </BreadcrumbItem>
+          </BreadcrumbList>
+        </Breadcrumb>
+
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <div className="flex items-center gap-2.5">
+            <h3 className="text-base font-semibold text-rixl-fg">api-gateway-prod</h3>
+            <Badge variant="success">Active</Badge>
+          </div>
+          <div className="flex items-center gap-2">
+            <Button variant="outline" size="sm">
+              Visit
+            </Button>
+          </div>
+        </div>
+
+        <Row labels={CLOUDFLARE} variant="underline" />
+      </div>
     </div>
   );
 }
@@ -80,16 +124,14 @@ function VariantsExample({ state }: { state: Record<string, ControlValue> }) {
   const size = state.size as TabsProps["size"];
   const fullWidth = state.fullWidth as boolean;
   return (
-    <Group label="Live preview">
-      <div className="w-full">
-        <Row
-          labels={["Overview", "Metrics", "Deployments", "Settings"]}
-          variant={variant}
-          size={size}
-          fullWidth={fullWidth}
-        />
-      </div>
-    </Group>
+    <div className="w-full">
+      <Row
+        labels={["Overview", "Metrics", "Deployments", "Settings"]}
+        variant={variant}
+        size={size}
+        fullWidth={fullWidth}
+      />
+    </div>
   );
 }
 
@@ -97,13 +139,13 @@ function AllVariantsExample(props: { state: Record<string, ControlValue> }) {
   void props;
   return (
     <div className="space-y-6">
-      <Group label="Segmented — a container, for switching a view in place">
+      <Group label="Segmented — pill indicator on a muted track">
         <Row labels={["Overview", "Metrics", "Settings"]} variant="segmented" />
       </Group>
-      <Group label="Underline — no container, for page-level navigation">
+      <Group label="Underline — bottom bar for page-level navigation">
         <Row labels={["Overview", "Metrics", "Settings"]} variant="underline" />
       </Group>
-      <Group label="Ghost — no chrome until you interact">
+      <Group label="Ghost — minimal chrome">
         <Row labels={["Overview", "Metrics", "Settings"]} variant="ghost" />
       </Group>
     </div>
@@ -124,43 +166,28 @@ function SizesExample(props: { state: Record<string, ControlValue> }) {
   );
 }
 
-function LayoutExample(props: { state: Record<string, ControlValue> }) {
-  void props;
-  return (
-    <div className="space-y-6">
-      <Group label="Content width (default)">
-        <Row labels={["Overview", "Metrics", "Settings"]} />
-      </Group>
-      <div className="w-full">
-        <p className="mb-2 text-xs font-medium tracking-wide text-rixl-fg-subtle uppercase">
-          fullWidth — distributes evenly
-        </p>
-        <Row labels={["Overview", "Metrics", "Settings"]} fullWidth />
-      </div>
-      <div className="max-w-sm">
-        <p className="mb-2 text-xs font-medium tracking-wide text-rixl-fg-subtle uppercase">
-          Overflow — scrolls in one row rather than wrapping
-        </p>
-        <Row labels={CLOUDFLARE} />
-      </div>
-    </div>
-  );
-}
-
 export const examples: Example[] = [
   {
     id: "slide",
     title: "Travelling indicator",
     description:
-      "The differentiator: the active marker moves between tabs instead of being repainted.",
+      "Hover changes text intensity only; clicking glides the single active pill across tabs over 300ms.",
     render: SlideExample,
-    code: `/* One element follows the selection, driven by Base UI's measurements */
-translate-x-[var(--active-tab-left)]
-translate-y-[var(--active-tab-top)]
-h-[var(--active-tab-height)]
-w-[var(--active-tab-width)]
-transition-[translate,width,height] duration-rixl-base ease-rixl-out
-motion-reduce:transition-none`,
+    code: `<Tabs defaultValue="overview" variant="segmented">
+  <TabsList>
+    <TabsTrigger value="overview">Overview</TabsTrigger>
+    <TabsTrigger value="metrics">Metrics</TabsTrigger>
+    <TabsTrigger value="deployments">Deployments</TabsTrigger>
+  </TabsList>
+  <TabsContent value="overview">Overview panel</TabsContent>
+</Tabs>`,
+  },
+  {
+    id: "overflow",
+    title: "Overflow & page header",
+    description:
+      "When tabs exceed the container width, TabsList scrolls horizontally with start/end fade controls, mouse drag-to-scroll, and auto-scrollIntoView on click.",
+    render: OverflowExample,
   },
   {
     id: "variants",
@@ -191,38 +218,7 @@ motion-reduce:transition-none`,
       },
       { name: "fullWidth", label: "Full width", type: "boolean", defaultValue: false },
     ],
-    code: `<Tabs defaultValue="overview" variant="segmented" size="md">
-  <TabsList>
-    <TabsTrigger value="overview">Overview</TabsTrigger>
-    <TabsTrigger value="metrics">Metrics</TabsTrigger>
-  </TabsList>
-  <TabsContent value="overview">…</TabsContent>
-</Tabs>`,
   },
-  {
-    id: "all-variants",
-    title: "Variants",
-    description: "One moving part, three geometries.",
-    render: AllVariantsExample,
-    code: `<Tabs variant="segmented">…</Tabs>
-<Tabs variant="underline">…</Tabs>
-<Tabs variant="ghost">…</Tabs>`,
-  },
-  {
-    id: "sizes",
-    title: "Sizes",
-    render: SizesExample,
-    code: `<Tabs size="md">…</Tabs>
-<Tabs size="sm">…</Tabs>`,
-  },
-  {
-    id: "layout",
-    title: "Layout & overflow",
-    description: "Content width by default; even distribution and single-row scrolling on demand.",
-    render: LayoutExample,
-    code: `<Tabs fullWidth>…</Tabs>
-
-{/* TabsList scrolls rather than wrapping; opt out with scrollable={false} */}
-<TabsList scrollable={false}>…</TabsList>`,
-  },
+  { id: "all-variants", title: "Variants", render: AllVariantsExample },
+  { id: "sizes", title: "Sizes", render: SizesExample },
 ];

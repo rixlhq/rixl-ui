@@ -1,6 +1,6 @@
-import {describe, it, expect} from "vitest";
-import {act, render, screen} from "@testing-library/react";
-import {Tabs, TabsList, TabsTrigger, TabsContent, type TabsProps} from "../tabs";
+import {describe, it, expect, vi} from "vitest";
+import {act, fireEvent, render, screen} from "@testing-library/react";
+import {Tabs, TabsList, TabsTrigger, TabsContent, type TabsProps} from "../index";
 
 function Basic(props: Partial<TabsProps> = {}) {
   return (
@@ -214,21 +214,92 @@ describe("Tabs", () => {
   });
 
   describe("interaction states", () => {
-    it("presses with the scale token shared with Button", () => {
-      render(<Basic />);
-      const cls = screen.getByTestId("tab-account").className;
-      expect(cls).toContain("active:scale-[var(--rixl-press-scale)]");
-      expect(cls).toContain("motion-reduce:active:scale-100");
-    });
-
-    // A text-colour change alone was too weak to notice; inactive tabs also
-    // take a foreground wash, suppressed on the active tab which has the pill.
-    it("washes inactive triggers on hover, not only their text", () => {
+    it("changes text intensity on hover without a background wash or scale jump", () => {
       render(<Basic />);
       const cls = screen.getByTestId("tab-password").className;
-      expect(cls).toContain("hover:bg-rixl-fg/5");
+      expect(cls).toContain("text-rixl-fg-muted");
       expect(cls).toContain("hover:text-rixl-fg");
-      expect(cls).toContain("data-active:bg-transparent");
+      expect(cls).toContain("data-active:text-rixl-fg");
+      expect(cls).toContain("transition-colors");
+      expect(cls).not.toContain("hover:bg-rixl-fg/5");
+      expect(cls).not.toContain("active:scale-");
+    });
+
+    it("renders overflow scroll controls when scrollable is enabled", () => {
+      render(<Basic />);
+      const controls = document.querySelectorAll("[data-slot='tabs-overflow-control']");
+      expect(controls.length).toBe(2);
+    });
+
+    it("scrolls when clicking the overflow controls", () => {
+      render(<Basic />);
+      const listEl = document.querySelector("[data-slot='tabs-list']") as HTMLElement;
+      const scrollBySpy = vi.fn();
+      listEl.scrollBy = scrollBySpy;
+
+      const controls = document.querySelectorAll("[data-slot='tabs-overflow-control']");
+      const startControl = controls[0] as HTMLElement;
+      const endControl = controls[1] as HTMLElement;
+
+      act(() => {
+        endControl.click();
+      });
+      expect(scrollBySpy).toHaveBeenCalledWith(expect.objectContaining({behavior: "smooth"}));
+
+      act(() => {
+        startControl.click();
+      });
+      expect(scrollBySpy).toHaveBeenCalledTimes(2);
+    });
+
+    it("handles drag-to-scroll gestures on mouse pointer events", () => {
+      render(<Basic />);
+      const listEl = document.querySelector("[data-slot='tabs-list']") as HTMLElement;
+      listEl.setPointerCapture = vi.fn();
+      listEl.releasePointerCapture = vi.fn();
+
+      Object.defineProperty(listEl, "scrollWidth", {value: 400, configurable: true});
+      Object.defineProperty(listEl, "clientWidth", {value: 200, configurable: true});
+
+      fireEvent.scroll(listEl);
+
+      fireEvent.pointerDown(listEl, {
+        pointerType: "mouse",
+        button: 0,
+        pointerId: 1,
+        clientX: 100,
+      });
+
+      fireEvent.pointerMove(listEl, {
+        pointerType: "mouse",
+        pointerId: 1,
+        clientX: 50,
+      });
+
+      fireEvent.click(listEl);
+
+      fireEvent.pointerUp(listEl, {
+        pointerType: "mouse",
+        pointerId: 1,
+      });
+
+      fireEvent.pointerCancel(listEl, {
+        pointerType: "mouse",
+        pointerId: 1,
+      });
+    });
+
+    it("updates scroll bounds on scroll events", () => {
+      render(<Basic />);
+      const listEl = document.querySelector("[data-slot='tabs-list']") as HTMLElement;
+      Object.defineProperty(listEl, "scrollWidth", {value: 300, configurable: true});
+      Object.defineProperty(listEl, "clientWidth", {value: 100, configurable: true});
+      Object.defineProperty(listEl, "scrollLeft", {value: 50, configurable: true, writable: true});
+
+      act(() => {
+        fireEvent.scroll(listEl);
+      });
+      expect(listEl.getAttribute("data-overflowing")).toBe("");
     });
 
     // Button draws a single ring; tabs previously drew a ring and an outline.
