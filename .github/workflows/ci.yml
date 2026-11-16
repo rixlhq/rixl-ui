@@ -41,11 +41,11 @@ jobs:
           key: ${{ runner.os }}-playwright-${{ hashFiles('bun.lock') }}
 
       - name: ⚙️ Setup Playwright OS dependencies
-        run: vp exec playwright install-deps chromium
+        run: vp exec -F @rixl/ui -- playwright install-deps chromium
 
       - name: ⚙️ Setup Playwright browser
         if: steps.playwright-cache.outputs.cache-hit != 'true'
-        run: vp exec playwright install chromium
+        run: vp exec -F @rixl/ui -- playwright install chromium
 
       # Check and package gates are independent; docs builds after the UI pack.
       - parallel:
@@ -59,7 +59,7 @@ jobs:
         run: vp run ci:docs
 
       - name: 📊 Report coverage to PR
-        if: ${{ !cancelled() && github.event_name == 'pull_request' && github.event.pull_request.head.repo.fork == false }}
+        if: ${{ !cancelled() && github.event_name == 'pull_request' && github.event.pull_request.head.repo.fork == false && hashFiles('packages/ui/coverage/coverage-summary.json') != '' }}
         uses: davelosert/vitest-coverage-report-action@v2
         with:
           working-directory: packages/ui
