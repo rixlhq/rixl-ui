@@ -61,7 +61,7 @@ vp run ci                  # Standalone UI package gate
 vp run ci:package          # UI-only tasks (tests, pack, budget, publint)
 ```
 
-The repository root owns the Bun version pin and workspace installation. Run `vp install` from the root; all CI workflows set up Vite+ there. `vp check` runs shared format and lint checks across the workspaces. UI commands delegate to `@rixl/ui`; `vp run docs` starts the showcase app and `vp run docs:build` builds the library and docs app. From the root, `vp run ci` is the CI and release gate across the workspace. Use `vp` for everything; don't call `bun`, `npm` or `npx` directly. Install Chromium once per machine with `vp exec playwright install chromium`.
+The repository root owns the Bun version pin and workspace installation. Run `vp install` from the root; all CI workflows set up Vite+ there. `vp check` runs shared format and lint checks across the workspaces. UI commands delegate to `@rixl/ui`; `vp run docs` starts the showcase app and `vp run docs:build` builds the library and docs app. From the root, `vp run ci` is the workspace gate used by release; CI runs its `ci:check` and `ci:ui` tasks in parallel, then builds docs with `ci:docs`. Use `vp` for everything; don't call `bun`, `npm` or `npx` directly. Install Chromium once per machine with `vp exec playwright install chromium`.
 
 ## Repository layout
 
@@ -116,7 +116,7 @@ Behaviour changes start as an OpenSpec change (`/opsx:propose`); `openspec/specs
 
 ## CI and release
 
-- `.github/workflows/ci.yml` runs the root `vp run ci` on every pull request and push to `main`, with Chromium installed for the browser project.
+- `.github/workflows/ci.yml` runs root `ci:check` and `ci:ui` tasks in parallel, then builds docs with `ci:docs` on every pull request and push to `main`, with Chromium installed for the browser project.
 - `.github/workflows/react-doctor.yml` comments React Doctor findings on PRs (advisory).
 - `.github/workflows/mutation.yml` runs Stryker every Monday and opens a `mutation-report` issue.
 - `.github/workflows/release.yml` runs Release Please on `main`. Merging its release PR publishes to npm through trusted publishing, after the root `vp run ci` gate passes on that commit.

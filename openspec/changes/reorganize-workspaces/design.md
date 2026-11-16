@@ -49,10 +49,10 @@ See [proposal.md](proposal.md) for motivation. The root currently owns `packages
 
 ### Run one workspace CI gate from the root
 
-- **Chosen:** Keep shared checks in the root `ci` script, compose the UI-specific tests and package checks through `@rixl/ui`'s `ci:package` script, and build the docs app in the same root gate. CI and release workflows invoke that single root script.
-- **Alternatives considered:** Keep the workflow's package-level default directory and run separate root and package checks, which repeats shared checks and requires explicit directory overrides.
+- **Chosen:** Keep shared checks, UI-specific tests and package checks, and the docs build as root `ci:*` scripts. The root `ci` script composes them for release; GitHub Actions runs the independent check and UI tasks in a `parallel` step, then builds docs after the UI package.
+- **Alternatives considered:** Keep the workflow's package-level default directory and run separate root and package checks, which repeats shared checks and requires explicit directory overrides; run all checks in sequence, which delays independent work.
 - **Dropped:** None.
-- **Evidence:** Shared format and lint settings live at the root; package packing and tests remain owned by `packages/ui`; the docs production build belongs to `apps/docs`.
+- **Evidence:** Shared format and lint settings live at the root; package packing and tests remain owned by `packages/ui`; the docs production build belongs to `apps/docs`. GitHub Actions supports parallel step groups on hosted runners.
 
 ## Risks / Trade-offs
 
