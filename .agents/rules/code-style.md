@@ -1,84 +1,37 @@
 ---
 trigger: when writing or reviewing code
-description: TypeScript, React, and styling standards for @rixl/ui.
+description: TypeScript, component, token and export rules for @rixl/ui.
 ---
 
-# Code Style
+# Code style
+
+Lint and complexity caps live in the `lint` block of `packages/ui/vite.config.ts`. `vp check` enforces them (type-aware, zero warnings); this file doesn't repeat them. Over a cap is a design smell: split the component or extract a hook.
 
 ## TypeScript
 
-- Strict mode enabled. No exceptions.
-- Never use `any`. Use `unknown`, generics, or explicit types.
-- Use generics only when they improve correctness, not for cleverness.
-- Use `@/*` path alias for all `src/*` imports.
-- Prefer `type` over `interface` unless extending is needed. `interface` is fine for public component prop types (better error messages in IDEs).
-- No type assertions (`as`) unless there is no alternative and it is commented.
-- Never re-export types with a barrel that fans them out via `export *` from many files — export explicitly so tree-shaking works.
+- Keep strict typing. Don't weaken `tsconfig.json` to make code compile.
+- No `any`. A lint suppression states its reason on the same line: `// oxlint-disable-next-line <rule> -- <reason>`.
+- `as` only with a comment on the line above saying why the compiler can't know.
+- Generics only when they make the types more correct.
+- Imports inside `src/` are relative, never an alias: consumers read our source in stack traces and through the `development` export condition, and an alias wouldn't resolve for them.
 
-## Complexity (enforced by Oxlint)
+## Components
 
-| Rule                    | Limit   |
-| ----------------------- | ------- |
-| Cyclomatic complexity   | max 10  |
-| Lines per function      | max 50  |
-| Lines per file          | max 250 |
-| Parameters per function | max 3   |
-| Nesting depth           | max 3   |
-| Statements per function | max 25  |
-| Classes per file        | max 1   |
-
-If a component exceeds these limits it is a design smell — split into sub-components or extract a hook.
-
-## Linting and formatting
-
-- Toolchain is **Vite+ (vp)**. Prefer running `vp <command>` directly; from the repo root use `vp run <script>`. Don't call `bun`, `npm` or `npx` directly.
-- `vp check` — oxlint + tsc, zero warnings.
-- `vp fmt` — oxfmt (write mode); `vp fmt --check` in CI.
-- Auto-fix: `vp check --fix`.
-
-## React components
-
-- One exported component (or one exported hook) per file.
-- Co-locate: `src/components/<name>/<name>.tsx`, `index.ts`, `__tests__/<name>.test.tsx`.
-- Keep components small and focused. Extract sub-components at ~80 lines.
-- Keep props minimal. Do not thread data through components that don't use it.
-- Extract non-trivial logic into custom hooks.
-- No data fetching inside components — this is a UI library, not an app.
-- **Forward refs** on every leaf component (`forwardRef`). Consumers need refs for focus management, portals, tooltips.
-- **Spread `...rest` props** so consumers can pass through native HTML attributes, `data-*`, `aria-*`, event handlers.
+- A file holds one component family (`Dialog`, `DialogTrigger`, `DialogContent`…), exported by name. Split a file when it reaches the caps, as `sidebar/` is split.
+- Build anything with interaction semantics (dialog, menu, popover, select, tabs, tooltip) on Base UI (`@base-ui/react`), which owns focus, dismissal and keyboard navigation.
+- Spread the remaining props onto the root element so consumers can pass `data-*`, `aria-*` and handlers.
+- No data fetching. This is a UI library.
+- React 18 is a supported peer, and under React 18 a function component only receives `ref` through `forwardRef`. New leaf components that wrap a DOM element use `forwardRef` with a `displayName`.
 
 ## Styling
 
-- **Tailwind 4 utility classes only.** No CSS modules, no CSS-in-JS, no inline styles unless a dynamic value forces it.
-- Classes must resolve against **`--rixl-*` design tokens** declared in `src/styles/preset.css`. Do not hardcode colors, radii, shadows, or motion durations in a component — read them from tokens.
-- **All styles must be written with `cn(...)`.** Every className string — static or conditional — is composed through `cn`, one Tailwind concern per argument. Never build class strings with `+` concatenation or bare template literals; a multi-line class list is `cn("...", "...", ...)`, not `"..." + "..."`. This keeps `tailwind-merge`'s last-write-wins resolution working across the whole string and makes conditional classes uniform with static ones.
-- `cva` base and variant values are written the same way — pass `cn("...", "...")` as the `cva` base and as each variant's class list rather than a concatenated literal.
-- Use `cn(...)` from `cn` for conditional classes. It replaces `clsx` + `tailwind-merge`, so consumer classes override component defaults last-write-wins.
-- Import as `import {cn} from "cn";` — no local `lib/cn` helper.
-- Every component ships variant classes via `cva` (`class-variance-authority`) exported as `<name>Variants`. Consumers can compose those variants onto their own elements without re-implementing.
+- Tailwind 4 utilities only. Inline `style` only for values computed at runtime.
+- Compose classes with `cn` (`import {cn} from "cn"`), so a consumer's `className` wins over the defaults (tailwind-merge, last write wins).
+- Variants go through `cva`. Export the helper as `<name>Variants` when consumers need the classes on their own elements.
+- Every colour, radius, shadow and duration reads a `--rixl-*` token registered in `src/styles/preset.css`. A new token gets a light and a dark value.
 
-## Accessibility
+## Public API
 
-- Every interactive component must have keyboard support (Tab, Enter/Space, arrow keys where relevant).
-- Focus states must be visible — use `focus-visible:ring-2 focus-visible:ring-rixl-ring`.
-- Use Base UI primitives (`@base-ui-components/react`) for anything with real interaction semantics (Dialog, Popover, Menu, Select, Tabs, Tooltip). Base UI handles focus traps, portal-safe positioning, and keyboard nav.
-- Native HTML wins over ARIA when the semantics match (`<button>` over `role="button"`).
-- All interactive elements must be reachable via keyboard and have an accessible name.
-
-## Component contract
-
-Each component ships with:
-
-1. A `forwardRef` implementation with a display name.
-2. A named `<Name>Props` type (exported).
-3. A `<name>Variants` `cva` helper (exported).
-4. An `index.ts` that re-exports the component, its props type, and its variants.
-5. A test file exercising: rendering, all variants, className passthrough, ref forwarding, keyboard interaction, disabled/loading states as applicable.
-6. An entry in `vite.config.ts#pack.entry` **and** `package.json#exports` so the subpath resolves.
-
-## Public API discipline
-
-- Consumers import from `@rixl/ui/<component>`. Never rely on internal paths like `@rixl/ui/dist/...`.
-- Renames or removals of exported symbols are **breaking changes** and require a major version bump.
-- Adding a new variant, size, or optional prop is a minor version bump.
-- Bug fixes and internal refactors are patch bumps. Conventional commit messages drive release-please.
+- Consumers import `@rixl/ui/<component>`, never `dist/` paths.
+- A new component needs an entry in `vite.config.ts#pack.entry` and in `package.json#exports` (both by hand; see `AGENTS.md`). `vp run publint` checks the exports map.
+- Removing or renaming an export is breaking; a new variant, size or optional prop is a feature; an internal change is a fix or refactor. Release Please reads the commit type.
