@@ -60,7 +60,7 @@ vp run publint             # Checks the package.json exports map
 vp run ci                  # The gate CI and the release job run
 ```
 
-From the repo root, `vp check` runs shared format and lint checks across the workspaces. UI commands delegate to `@rixl/ui`; `vp run docs` starts the showcase app and `vp run docs:build` builds the library and docs app. Use `vp` for everything; don't call `bun`, `npm` or `npx` directly. The `devEngines.packageManager` field in `packages/ui/package.json` is load-bearing: CI runs `vp install` from there, and without it vp falls back to pnpm. Install Chromium once per machine with `vp exec playwright install chromium`.
+The repository root owns the Bun version pin and workspace installation. Run `vp install` from the root; all CI workflows set up Vite+ there. `vp check` runs shared format and lint checks across the workspaces. UI commands delegate to `@rixl/ui`; `vp run docs` starts the showcase app and `vp run docs:build` builds the library and docs app. Use `vp` for everything; don't call `bun`, `npm` or `npx` directly. Install Chromium once per machine with `vp exec playwright install chromium`.
 
 ## Repository layout
 

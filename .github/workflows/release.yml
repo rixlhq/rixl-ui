@@ -35,7 +35,7 @@ jobs:
       # Pinned to an exact release: the moving `v1` tag is frozen at v1.15.0.
       - uses: voidzero-dev/setup-vp@v1.22.0
         with:
-          working-directory: packages/ui
+          working-directory: .
           cache: "true"
           run-install: "true"
 
