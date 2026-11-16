@@ -9,6 +9,10 @@ updates:
       # Dependabot can't do: bump them with `vp migrate`.
       - dependency-name: "vite-plus"
       - dependency-name: "vite"
+      # vite-plus bundles Vitest, and the Vitest add-ons must match its version
+      # exactly or the run fails at startup. They move with vite-plus.
+      - dependency-name: "vitest"
+      - dependency-name: "@vitest/*"
       # Pinned: an upgrade regenerates the OpenSpec skills (AGENTS.md, Specs).
       - dependency-name: "@fission-ai/openspec"
     groups:
