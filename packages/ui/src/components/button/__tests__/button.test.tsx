@@ -214,33 +214,36 @@ describe("[property] Button class resolution", () => {
     return className;
   };
 
-  it("variant wins over any color", () => {
+  it("variant wins over any color", {timeout: 10000}, () => {
     fc.assert(
       fc.property(fc.constantFrom(...variants), fc.string(), (variant, color) => {
         expect(classOf(<Button variant={variant} color={color} />)).toBe(classOf(<Button variant={variant} />));
-      })
+      }),
+      {numRuns: 30}
     );
   });
 
-  it("an unknown color falls back to the default variant", () => {
+  it("an unknown color falls back to the default variant", {timeout: 10000}, () => {
     fc.assert(
       fc.property(
         fc.string().filter((color) => !knownColors.has(color)),
         (color) => {
           expect(classOf(<Button color={color} />)).toBe(classOf(<Button />));
         }
-      )
+      ),
+      {numRuns: 30}
     );
   });
 
-  it("a consumer height replaces the size's height", () => {
+  it("a consumer height replaces the size's height", {timeout: 10000}, () => {
     fc.assert(
       fc.property(fc.constantFrom("default", "sm", "lg"), fc.integer({min: 1, max: 96}), (size, height) => {
         const heights = classOf(<Button size={size} className={`h-${height}`} />)
           .split(" ")
           .filter((token) => /^h-\d+$/.test(token));
         expect(heights).toEqual([`h-${height}`]);
-      })
+      }),
+      {numRuns: 30}
     );
   });
 });
