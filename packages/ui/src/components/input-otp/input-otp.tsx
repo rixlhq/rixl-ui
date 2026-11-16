@@ -1,6 +1,10 @@
-import {useContext, useState, type ComponentProps} from "react";
-import {OTPInput, OTPInputContext} from "input-otp";
+import {useState, type ComponentProps} from "react";
+import {OTPInput} from "input-otp";
 import {cn} from "cn";
+
+import {InputOTPGroup, type InputOTPGroupProps} from "./group";
+import {InputOTPSlot, type InputOTPSlotProps} from "./slot";
+import {InputOTPSeparator, type InputOTPSeparatorProps} from "./separator";
 
 /**
  * Rixl InputOTP — a one-time-password / verification-code input.
@@ -18,19 +22,14 @@ import {cn} from "cn";
 // OTPInput's props are a union (render function or children); a plain Omit would merge it into one shape.
 type OmitFromEach<T, K extends PropertyKey> = T extends unknown ? Omit<T, K> : never;
 
-function InputOTP({
-  className,
-  containerClassName,
-  value,
-  defaultValue,
-  onChange,
-  ...props
-}: OmitFromEach<ComponentProps<typeof OTPInput>, "value" | "defaultValue"> & {
+export type InputOTPProps = OmitFromEach<ComponentProps<typeof OTPInput>, "value" | "defaultValue"> & {
   // OTPInput takes a string; the input attributes it extends also allow numbers and arrays.
   value?: string;
   defaultValue?: string;
   containerClassName?: string;
-}) {
+};
+
+export function InputOTP({className, containerClassName, value, defaultValue, onChange, ...props}: InputOTPProps) {
   const [internalValue, setInternalValue] = useState(defaultValue ?? "");
   const isControlled = value !== undefined;
   const hasDefault = defaultValue !== undefined;
@@ -56,65 +55,4 @@ function InputOTP({
   );
 }
 
-function InputOTPGroup({className, ...props}: ComponentProps<"div">) {
-  return <div data-slot="input-otp-group" className={cn("flex items-center", className)} {...props} />;
-}
-
-function InputOTPSlot({
-  index,
-  className,
-  ...props
-}: ComponentProps<"div"> & {
-  index: number;
-}) {
-  const inputOTPContext = useContext(OTPInputContext);
-  const {char, hasFakeCaret, isActive} = inputOTPContext?.slots[index] ?? {};
-
-  return (
-    <div
-      data-slot="input-otp-slot"
-      data-active={isActive}
-      className={cn(
-        "data-[active=true]:border-rixl-ring data-[active=true]:ring-rixl-ring/50 data-[active=true]:aria-invalid:ring-rixl-danger/20 aria-invalid:border-rixl-danger data-[active=true]:aria-invalid:border-rixl-danger border-rixl-border relative flex h-9 w-9 items-center justify-center border-y border-e text-sm tabular-nums shadow-rixl-xs transition-[border-color,box-shadow,background-color] duration-rixl-fast ease-rixl-out outline-none first:rounded-s-rixl-md first:border-s last:rounded-e-rixl-md data-[active=true]:z-10 data-[active=true]:ring-[3px]",
-        className
-      )}
-      {...props}
-    >
-      {char}
-      {hasFakeCaret && (
-        <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
-          <div className="animate-caret-blink motion-reduce:animate-none bg-rixl-fg h-4 w-px duration-1000" />
-        </div>
-      )}
-    </div>
-  );
-}
-
-function InputOTPSeparator({...props}: ComponentProps<"div">) {
-  return (
-    // oxlint-disable-next-line jsx-a11y/prefer-tag-over-role -- an <hr> can't hold the icon, and the separator is aria-hidden
-    <div data-slot="input-otp-separator" role="separator" aria-hidden="true" {...props}>
-      <MinusIcon />
-    </div>
-  );
-}
-
-function MinusIcon() {
-  return (
-    <svg
-      className="size-4"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden="true"
-    >
-      <path d="M5 12h14" />
-    </svg>
-  );
-}
-
-export {InputOTP, InputOTPGroup, InputOTPSlot, InputOTPSeparator};
-export type InputOTPProps = ComponentProps<typeof OTPInput> & {containerClassName?: string};
+export {InputOTPGroup, InputOTPSlot, InputOTPSeparator, type InputOTPGroupProps, type InputOTPSlotProps, type InputOTPSeparatorProps};

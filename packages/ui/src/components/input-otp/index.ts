@@ -1,1 +1,10 @@
-export {InputOTP, InputOTPGroup, InputOTPSlot, InputOTPSeparator, type InputOTPProps} from "./input-otp";
+export {
+  InputOTP,
+  InputOTPGroup,
+  InputOTPSlot,
+  InputOTPSeparator,
+  type InputOTPProps,
+  type InputOTPGroupProps,
+  type InputOTPSlotProps,
+  type InputOTPSeparatorProps,
+} from "./input-otp";

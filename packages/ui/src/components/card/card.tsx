@@ -2,6 +2,19 @@ import {forwardRef, type ComponentProps} from "react";
 import {cva, type VariantProps} from "class-variance-authority";
 import {cn} from "cn";
 
+import {
+  CardAction,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+  type CardActionProps,
+  type CardDescriptionProps,
+  type CardHeaderProps,
+  type CardTitleProps,
+} from "./header";
+import {CardContent, type CardContentProps} from "./content";
+import {CardFooter, type CardFooterProps} from "./footer";
+
 /**
  * Rixl Card — surface container for grouping related content.
  *
@@ -21,7 +34,7 @@ import {cn} from "cn";
  *
  * Motion follows the shared language: `duration-rixl-base ease-rixl-out`.
  */
-const cardVariants = cva(
+export const cardVariants = cva(
   cn(
     "bg-rixl-surface text-rixl-fg flex flex-col gap-6 rounded-rixl-xl py-6",
     "transition-[scale,box-shadow,border-color] duration-rixl-base ease-rixl-out"
@@ -54,7 +67,7 @@ const cardVariants = cva(
 
 export type CardProps = ComponentProps<"div"> & VariantProps<typeof cardVariants>;
 
-const Card = forwardRef<HTMLDivElement, CardProps>(({className, variant, interactive, selected, ...props}, ref) => (
+export const Card = forwardRef<HTMLDivElement, CardProps>(({className, variant, interactive, selected, ...props}, ref) => (
   <div
     ref={ref}
     data-slot="card"
@@ -65,54 +78,17 @@ const Card = forwardRef<HTMLDivElement, CardProps>(({className, variant, interac
 ));
 Card.displayName = "Card";
 
-const CardHeader = forwardRef<HTMLDivElement, ComponentProps<"div">>(({className, ...props}, ref) => (
-  <div
-    ref={ref}
-    data-slot="card-header"
-    className={cn(
-      "@container/card-header grid min-w-0 auto-rows-min grid-rows-[auto_auto] items-start gap-1.5 px-6 has-data-[slot=card-action]:grid-cols-[1fr_auto] [.border-b]:pb-6",
-      className
-    )}
-    {...props}
-  />
-));
-CardHeader.displayName = "CardHeader";
-
-const CardTitle = forwardRef<HTMLDivElement, ComponentProps<"div">>(({className, ...props}, ref) => (
-  <div ref={ref} data-slot="card-title" className={cn("min-w-0 leading-none font-semibold break-words", className)} {...props} />
-));
-CardTitle.displayName = "CardTitle";
-
-const CardDescription = forwardRef<HTMLDivElement, ComponentProps<"div">>(({className, ...props}, ref) => (
-  <div ref={ref} data-slot="card-description" className={cn("text-rixl-fg-muted min-w-0 text-sm break-words", className)} {...props} />
-));
-CardDescription.displayName = "CardDescription";
-
-const CardAction = forwardRef<HTMLDivElement, ComponentProps<"div">>(({className, ...props}, ref) => (
-  <div
-    ref={ref}
-    data-slot="card-action"
-    className={cn("col-start-2 row-span-2 row-start-1 self-start justify-self-end", className)}
-    {...props}
-  />
-));
-CardAction.displayName = "CardAction";
-
-const CardContent = forwardRef<HTMLDivElement, ComponentProps<"div">>(({className, ...props}, ref) => (
-  <div ref={ref} data-slot="card-content" className={cn("px-6", className)} {...props} />
-));
-CardContent.displayName = "CardContent";
-
-const CardFooter = forwardRef<HTMLDivElement, ComponentProps<"div">>(({className, ...props}, ref) => (
-  <div ref={ref} data-slot="card-footer" className={cn("flex items-center px-6 [.border-t]:pt-6", className)} {...props} />
-));
-CardFooter.displayName = "CardFooter";
-
-export type CardHeaderProps = ComponentProps<"div">;
-export type CardTitleProps = ComponentProps<"div">;
-export type CardDescriptionProps = ComponentProps<"div">;
-export type CardActionProps = ComponentProps<"div">;
-export type CardContentProps = ComponentProps<"div">;
-export type CardFooterProps = ComponentProps<"div">;
-
-export {Card, CardHeader, CardFooter, CardTitle, CardAction, CardDescription, CardContent, cardVariants};
+export {
+  CardHeader,
+  CardTitle,
+  CardDescription,
+  CardAction,
+  CardContent,
+  CardFooter,
+  type CardHeaderProps,
+  type CardTitleProps,
+  type CardDescriptionProps,
+  type CardActionProps,
+  type CardContentProps,
+  type CardFooterProps,
+};
