@@ -1,6 +1,22 @@
 import * as React from "react";
 
 const MOBILE_BREAKPOINT = 768;
+const MOBILE_QUERY = `(max-width: ${MOBILE_BREAKPOINT - 1}px)`;
+
+function subscribe(onChange: () => void) {
+  const mql = window.matchMedia(MOBILE_QUERY);
+  mql.addEventListener("change", onChange);
+  return () => mql.removeEventListener("change", onChange);
+}
+
+function isMobileViewport() {
+  return window.innerWidth < MOBILE_BREAKPOINT;
+}
+
+// There is no viewport on the server; render the desktop layout there.
+function isMobileOnServer() {
+  return false;
+}
 
 /**
  * Reactive mobile-width detector (port of dashboard's `use-mobile`).
@@ -8,17 +24,5 @@ const MOBILE_BREAKPOINT = 768;
  * updating on resize via `matchMedia`.
  */
 export function useIsMobile() {
-  const [isMobile, setIsMobile] = React.useState<boolean | undefined>(undefined);
-
-  React.useEffect(() => {
-    const mql = window.matchMedia(`(max-width: ${MOBILE_BREAKPOINT - 1}px)`);
-    const onChange = () => {
-      setIsMobile(window.innerWidth < MOBILE_BREAKPOINT);
-    };
-    mql.addEventListener("change", onChange);
-    setIsMobile(window.innerWidth < MOBILE_BREAKPOINT);
-    return () => mql.removeEventListener("change", onChange);
-  }, []);
-
-  return !!isMobile;
+  return React.useSyncExternalStore(subscribe, isMobileViewport, isMobileOnServer);
 }

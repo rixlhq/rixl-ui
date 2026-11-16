@@ -1,30 +1,27 @@
 ---
 trigger: when writing or modifying production code
-description: Enforce red/green/refactor TDD cycle for all feature work.
+description: The red, green, refactor cycle and what each change ships with.
 ---
 
-# TDD Workflow
+# TDD
 
 ## Cycle
 
-1. **Red** — Write a failing test that describes the expected behavior.
-2. **Green** — Write the minimum production code to make the test pass.
-3. **Refactor** — Clean up while keeping tests green.
+1. **Red** — Write a failing test that describes the expected behaviour.
+2. **Green** — Write the least code that makes it pass.
+3. **Refactor** — Clean up with the tests green.
 
 ## Rules
 
-- No production code without a corresponding failing test first.
-- Tests describe behavior ("primary variant applies the primary background token"), not implementation ("class attribute contains bg-rixl-primary" is fine here — that is behavior for a design-system component).
-- One assertion per test unless multiple assertions test the same logical behavior.
-- Run `vp test` in watch mode during development; `vp test --run` before committing.
-- Every new component must land with the full contract in `testing.md`: variants, sizes, className merge, ref forwarding, keyboard, disabled, props passthrough.
+- No production code without a failing test first. A bug fix starts with a spec scenario, then a test that reproduces the bug.
+- Tests describe behaviour ("the destructive variant applies the danger background"), not implementation. For a design system, the class a variant applies is behaviour.
+- One assertion per test unless the assertions check the same behaviour.
+- Run `vp test` after every green and refactor step.
+- After the unit cycle, add `[property]` tests with fast-check where the input space is wide.
+- A new or changed popup, overlay or focus behaviour gets a browser test with an axe check once its unit tests pass.
+- Mutation testing runs weekly in CI (`.github/workflows/mutation.yml`), not per change. When the `mutation-report` issue lists surviving mutants in code you own, kill them with assertions, or delete the code they show nobody needs.
 
-## Test file naming
+## Commits
 
-- Unit / component: `__tests__/<name>.test.tsx` (React) or `__tests__/<name>.test.ts` (utilities).
-- Property-based tests live inside the same file, using fast-check.
-
-## Commit Cadence
-
-- Commit after each completed red/green/refactor cycle.
-- Never commit red (failing) tests on the main branch.
+- Commit after each completed cycle (`.agents/rules/commits.md`).
+- Never commit a failing test to `main`.

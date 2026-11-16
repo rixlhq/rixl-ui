@@ -1,54 +1,39 @@
 ---
 trigger: when preparing to commit code
-description: Commit workflow and conventional commit standards.
+description: Commit order, git hooks and message rules.
 ---
 
-# Commit Rules
+# Commits
 
-## Conventional Commits
+A commit records claims: the message and the code. Only commit what has been checked.
 
-Every commit message must follow the format:
+## Order
 
-```
-type(scope): description
-```
+1. Finish one logical change.
+2. Run the checks for what you touched, from `packages/ui`: `vp check`, `vp test`, and `vp pack` when entries, exports or config changed.
+3. Run the `code-simplifier` skill on the changed code, then rerun the checks.
+4. Commit. Then move on to the next change.
 
-**Types:** `feat`, `fix`, `refactor`, `test`, `docs`, `chore`, `style`, `perf`
+## Hooks
 
-**Scopes:** `button`, `input`, `dialog`, `tabs`, `tokens`, `preset`, `lib`, `config`, `ci`, `deps` (add a scope per new component; keep them short).
+Lefthook runs them (`lefthook.yml` at the repo root, installed by the root `prepare`, using the version pinned in the root `package.json`). Every command sets `root: packages/ui/`, so it runs there with staged paths relative to it.
 
-**Examples:**
+- **pre-commit**, in order, stopping at the first failure: `vp check --fix` on staged files (fixes are re-staged); `vp run lint:suppressions`; and `vp test related` on the staged files (unit project).
+- **pre-push:** the whole test suite (unit and browser), `vp pack`, `vp run knip`, and React Doctor on changed components.
 
-- `feat(button): add destructive variant`
-- `feat(dialog): initial component`
-- `fix(button): forward ref to underlying <button>`
-- `feat(tokens): add motion tokens for reduced-motion`
-- `chore(config): pin typescript@6.0.3`
-- `docs(readme): document preset.css usage`
+Every job reads stdin from `/dev/null`, so a hidden prompt can't block it, and the slow ones have a `timeout`, so a stuck run fails the hook instead of hanging it.
 
-Release-please reads these to compute the next version.
+Never skip a hook (`--no-verify`, `-n`, `LEFTHOOK=0`, `core.hooksPath`). If a hook fails, fix the cause. For Claude Code this is enforced: `.agents/hooks/no-skip-git-hooks.mjs` blocks those commands.
 
-## Workflow
+## Messages
 
-1. Run relevant tests for touched code: `vp test --run`.
-2. Run code-simplifier skill on the diff before committing.
-3. Commit — vp's staged hook will run lint + format on the touched files.
-4. Keep each commit scoped to one logical change.
-5. Make step-by-step commits as work progresses.
+- Conventional commits (`feat`, `fix`, `refactor`, `test`, `docs`, `chore`, `ci`, `build`, `perf`, `style`), with a short scope: the component (`button`, `dialog`), or `tokens`, `config`, `deps`, `ci`. Release Please builds the version and changelog from them.
+- A breaking change to an export says so (`feat(button)!:` or a `BREAKING CHANGE:` footer).
+- One logical change per commit. Commit only what the current step changed.
+- Body says why, not what. State only claims you checked.
+- Never edit `CHANGELOG.md` or `.release-please-manifest.json`; Release Please owns them. Never commit `dist/`, `coverage/` or `reports/`.
 
-## Git hooks (lefthook)
+## `main`
 
-`vp install` at the repo root runs `prepare`, which installs lefthook (`lefthook.yml` at the repo root owns git hooks for the whole workspace).
-
-- **pre-commit** — `vp check --fix` on staged `*.{ts,tsx}` and `vp fmt --write` on staged `*.{json,md,yaml,yml,css}`, scoped to `packages/ui`; fixes are re-staged.
-- **pre-push** — `vp test --run` and `vp pack`: the whole test suite and the library build, catching failures before they reach GitHub. Check and format already run on commit.
-
-The library is nested in `packages/ui`, so the `pre-commit` commands set lefthook's `root: packages/ui/` (each runs there, with staged paths relative to it, and files outside the package are left alone), and `pre-push` uses `vp run -F @rixl/ui …`. `packages/ui` keeps `vp config --no-hooks` in its own `prepare` so only the root installs hooks.
-
-## Do Not
-
-- Do not commit failing tests to the main branch.
-- Do not bundle unrelated changes in a single commit.
-- Do not skip pre-commit or pre-push hooks (`--no-verify`).
-- Do not commit generated files (`dist/`, `coverage/`).
-- Do not manually edit `CHANGELOG.md` or `.release-please-manifest.json` — release-please owns them.
+- Never merge or push to `main` while CI is red.
+- Everything goes through a pull request unless a human asks for a hotfix.

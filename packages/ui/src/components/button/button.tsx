@@ -88,7 +88,8 @@ type ButtonVariant = keyof typeof variantClasses;
 type ButtonColor = keyof typeof colorClasses;
 type ButtonSize = NonNullable<VariantProps<typeof buttonVariants>["size"]>;
 
-const isButtonColor = (value: unknown): value is ButtonColor => typeof value === "string" && value in colorClasses;
+// Own keys only: `in` would also accept inherited names such as "toString".
+const isButtonColor = (value: unknown): value is ButtonColor => typeof value === "string" && Object.hasOwn(colorClasses, value);
 
 /**
  * `color` is deliberately widened past the union. `<button>` carries a

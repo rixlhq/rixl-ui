@@ -17,7 +17,7 @@ import {
   SidebarProvider,
   SidebarTrigger,
   useSidebar,
-} from "../sidebar";
+} from "../index";
 
 function Shell() {
   return (

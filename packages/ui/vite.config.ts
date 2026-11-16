@@ -1,7 +1,24 @@
 import {defineConfig} from "vite-plus";
-import {playwright} from "@vitest/browser-playwright";
+import type {TestProjectInlineConfiguration} from "vite-plus/test/config";
+import tailwindcss from "@tailwindcss/vite";
+import {playwright} from "vite-plus/test/browser-playwright";
 
-const playwrightProvider = playwright();
+// Exported for test/stryker.vitest.config.ts, which reruns only this project per mutant.
+export const unitProject: TestProjectInlineConfiguration = {
+  test: {
+    name: "unit",
+    globals: true,
+    environment: "jsdom",
+    setupFiles: ["./vitest.setup.ts"],
+    isolate: true,
+    pool: "vmThreads",
+    restoreMocks: true,
+    unstubGlobals: true,
+    unstubEnvs: true,
+    include: ["src/**/__tests__/**/*.test.{ts,tsx}"],
+    exclude: ["src/**/*.browser.test.{ts,tsx}"],
+  },
+};
 
 // `@rixl/ui` ships one entry per component so consumers can import a single
 // component and get only its code (tree-shaking friendly). The barrel at
@@ -12,26 +29,6 @@ const playwrightProvider = playwright();
 // package portable — downstream consumers reading our source in a stack
 // trace see paths that resolve without knowing our tooling config.
 export default defineConfig({
-  plugins: [
-    {
-      name: "browser-provider-resolver",
-      enforce: "pre",
-      config(config) {
-        if (config.test?.browser) {
-          if (typeof config.test.browser.provider === "string" && config.test.browser.provider === "playwright") {
-            config.test.browser.provider = playwrightProvider;
-          }
-          if (Array.isArray(config.test.browser.instances) && config.test.browser.instances.length > 1) {
-            config.test.browser.instances = [{browser: "chromium"}];
-          }
-          if (config.test.browser.enabled) {
-            config.test.include = ["src/**/*.browser.{test,spec}.{ts,tsx}"];
-            config.test.exclude = ["node_modules/**", "dist/**"];
-          }
-        }
-      },
-    },
-  ],
   pack: {
     entry: {
       index: "src/index.ts",
@@ -79,7 +76,27 @@ export default defineConfig({
     target: "es2022",
   },
   lint: {
+    plugins: ["react", "react-perf", "typescript", "jsx-a11y"],
     ignorePatterns: ["dist/**", "examples/**", "__tests__", "*.test.ts", "*.test.tsx"],
+    rules: {
+      "react/react-in-jsx-scope": "off",
+      "typescript/no-explicit-any": "error",
+      // The caps .agents/rules/code-style.md lists (the anti-slop guide, layer 5).
+      "eslint/complexity": ["error", {max: 10}],
+      "eslint/max-lines-per-function": ["error", {max: 50, skipComments: true}],
+      "eslint/max-lines": ["error", {max: 250, skipBlankLines: true, skipComments: true}],
+      "eslint/max-params": ["error", 3],
+      "eslint/max-depth": ["error", 3],
+      "eslint/max-statements": ["error", 25],
+      "eslint/max-classes-per-file": ["error", 1],
+    },
+    options: {
+      typeAware: true,
+      typeCheck: true,
+      // A warning nobody fixes is noise: `vp check` (hook and CI) fails on any.
+      denyWarnings: true,
+      reportUnusedDisableDirectives: "error",
+    },
   },
   fmt: {
     ignorePatterns: ["dist/**", "examples/**", "CHANGELOG.md", ".release-please-manifest.json"],
@@ -95,22 +112,27 @@ export default defineConfig({
     endOfLine: "lf",
   },
   test: {
-    globals: true,
-    environment: "jsdom",
-    setupFiles: ["./vitest.setup.ts"],
-    isolate: true,
-    pool: "vmThreads",
-    restoreMocks: true,
-    unstubGlobals: true,
-    unstubEnvs: true,
-    include: ["src/**/*.{test,spec}.{ts,tsx}"],
-    exclude: ["node_modules/**", "dist/**", "src/**/*.browser.{test,spec}.{ts,tsx}"],
-    browser: {
-      enabled: false,
-      provider: playwrightProvider,
-      instances: [{browser: "chromium"}],
-      headless: true,
-    },
+    projects: [
+      unitProject,
+      {
+        // Tailwind builds test/browser.css, so axe checks colour contrast against the real styles.
+        plugins: [tailwindcss()],
+        // Pre-bundled so the browser can load the coverage module; served unbundled, its import fails to fetch.
+        optimizeDeps: {include: ["react", "react-dom/client", "axe-core", "@vitest/coverage-v8/browser"]},
+        test: {
+          name: "browser",
+          globals: true,
+          setupFiles: ["./test/setup.browser.ts"],
+          include: ["src/**/__tests__/**/*.browser.test.{ts,tsx}"],
+          browser: {
+            enabled: true,
+            provider: playwright(),
+            headless: true,
+            instances: [{browser: "chromium"}],
+          },
+        },
+      },
+    ],
     coverage: {
       provider: "v8",
       reporter: ["text", "json", "json-summary", "html", "lcov"],
@@ -118,6 +140,9 @@ export default defineConfig({
       cleanOnRerun: true,
       include: ["src/**/*.{ts,tsx}"],
       exclude: ["node_modules/", "dist/", "**/*.config.{js,ts}", "**/types.ts", "**/*.d.ts", "**/index.ts", "**/__tests__/**"],
+      // Measured 88.46 / 79.16 / 88.26 / 89.47 (unit and browser projects) when set, rounded down with at
+      // least half a point spare: the figure can move a little between runs. Raise it as tests land; never lower it.
+      thresholds: {statements: 87, branches: 78, functions: 87, lines: 88},
     },
   },
 });

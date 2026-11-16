@@ -15,6 +15,9 @@ import {cn} from "cn";
  * The blinking caret uses `animate-caret-blink`, registered in
  * `preset.css` via `@theme`.
  */
+// OTPInput's props are a union (render function or children); a plain Omit would merge it into one shape.
+type OmitFromEach<T, K extends PropertyKey> = T extends unknown ? Omit<T, K> : never;
+
 function InputOTP({
   className,
   containerClassName,
@@ -22,7 +25,10 @@ function InputOTP({
   defaultValue,
   onChange,
   ...props
-}: ComponentProps<typeof OTPInput> & {
+}: OmitFromEach<ComponentProps<typeof OTPInput>, "value" | "defaultValue"> & {
+  // OTPInput takes a string; the input attributes it extends also allow numbers and arrays.
+  value?: string;
+  defaultValue?: string;
   containerClassName?: string;
 }) {
   const [internalValue, setInternalValue] = useState(defaultValue ?? "");
@@ -86,6 +92,7 @@ function InputOTPSlot({
 
 function InputOTPSeparator({...props}: ComponentProps<"div">) {
   return (
+    // oxlint-disable-next-line jsx-a11y/prefer-tag-over-role -- an <hr> can't hold the icon, and the separator is aria-hidden
     <div data-slot="input-otp-separator" role="separator" aria-hidden="true" {...props}>
       <MinusIcon />
     </div>
