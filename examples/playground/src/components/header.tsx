@@ -28,7 +28,7 @@ export function Header({
   active: Showcase | null;
 }) {
   return (
-    <header className="sticky top-0 z-20 flex h-14 items-center justify-between gap-4 border-b border-rixl-border bg-rixl-bg/85 px-6 backdrop-blur-md lg:px-10">
+    <header className="sticky top-0 z-20 flex h-14 items-center justify-between gap-3 sm:gap-4 border-b border-rixl-border bg-rixl-bg/85 px-4 sm:px-6 backdrop-blur-md lg:px-10">
       <div className="flex min-w-0 items-center gap-3">
         <SidebarTrigger aria-label="Toggle sidebar" />
         <Separator orientation="vertical" className="h-4" />
@@ -57,8 +57,8 @@ export function Header({
         </Breadcrumb>
       </div>
 
-      <div className="flex items-center gap-3">
-        <div className="w-44 sm:w-64">
+      <div className="flex items-center gap-2 sm:gap-3">
+        <div className="w-28 xs:w-36 sm:w-64">
           <Input
             inputSize="sm"
             value={query}

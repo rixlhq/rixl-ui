@@ -30,7 +30,7 @@ export function App() {
           onQueryChange={setQuery}
           active={active}
         />
-        <div className="mx-auto w-full max-w-6xl px-6 py-8 lg:px-10">
+        <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 py-6 sm:py-8 lg:px-10">
           {isHome ? (
             <HomeGrid
               showcases={showcases}

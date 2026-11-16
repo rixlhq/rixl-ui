@@ -7,7 +7,7 @@ import {DialogOverlay} from "./overlay";
 export const dialogContentVariants = cva(
   cn(
     "bg-rixl-bg fixed top-[50%] left-[50%] z-50 grid w-full max-w-[calc(100%-2rem)] translate-x-[-50%] translate-y-[-50%] gap-4",
-    "rounded-rixl-lg border border-rixl-border p-6 shadow-rixl-lg",
+    "rounded-rixl-lg border border-rixl-border p-5 sm:p-6 shadow-rixl-lg",
     "max-h-[calc(100dvh-2rem)] overflow-y-auto overscroll-contain",
     "transition-[scale,opacity] duration-rixl-base ease-rixl-out motion-reduce:transition-none",
     "data-starting-style:scale-95 data-starting-style:opacity-0 data-ending-style:scale-95 data-ending-style:opacity-0"
@@ -40,7 +40,7 @@ export function DialogContent({className, children, size, showCloseButton = true
           <DialogPrimitive.Close
             data-slot="dialog-close"
             className={cn(
-              "absolute top-3.5 end-3.5 flex size-7 items-center justify-center rounded-rixl-sm opacity-70",
+              "absolute top-3.5 end-3.5 flex size-8 sm:size-7 items-center justify-center rounded-rixl-sm opacity-70",
               "transition-[scale,opacity,background-color,box-shadow] duration-rixl-fast ease-rixl-out",
               "hover:bg-rixl-surface-muted hover:opacity-100",
               "active:scale-[var(--rixl-press-scale)] motion-reduce:active:scale-100",

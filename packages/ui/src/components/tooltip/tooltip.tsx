@@ -47,7 +47,7 @@ function TooltipContent({
         <TooltipPrimitive.Popup
           data-slot="tooltip-content"
           className={cn(
-            "bg-rixl-primary text-rixl-primary-fg z-50 w-fit origin-(--transform-origin) rounded-rixl-md px-3 py-1.5 text-xs text-balance shadow-rixl-sm",
+            "bg-rixl-primary text-rixl-primary-fg z-50 w-fit max-w-[calc(100dvw-2rem)] origin-(--transform-origin) rounded-rixl-md px-3 py-1.5 text-xs text-balance shadow-rixl-sm",
             "transition-[scale,opacity] duration-rixl-fast ease-rixl-out data-instant:duration-0 motion-reduce:transition-none",
             "data-starting-style:scale-95 data-starting-style:opacity-0 data-ending-style:scale-95 data-ending-style:opacity-0",
             className

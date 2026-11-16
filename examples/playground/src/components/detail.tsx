@@ -61,7 +61,7 @@ function ExampleCard({ example }: { example: Example }) {
 
   return (
     <Card className="gap-0 overflow-hidden py-0">
-      <CardHeader className="border-b border-rixl-border px-5 py-3.5 [.border-b]:pb-3.5">
+      <CardHeader className="border-b border-rixl-border px-4 sm:px-5 py-3.5 [.border-b]:pb-3.5">
         <CardTitle className="text-sm">{example.title}</CardTitle>
         {example.description ? (
           <CardDescription className="text-xs">{example.description}</CardDescription>
@@ -84,14 +84,14 @@ function ExampleCard({ example }: { example: Example }) {
       </CardHeader>
 
       {example.controls && mode === "preview" ? (
-        <div className="flex flex-wrap items-center gap-5 border-b border-rixl-border bg-rixl-surface-muted/50 px-5 py-3">
+        <div className="flex flex-wrap items-center gap-3 sm:gap-5 border-b border-rixl-border bg-rixl-surface-muted/50 px-4 sm:px-5 py-3">
           {example.controls.map((control) => (
             <ControlField key={control.name} control={control} state={state} onChange={setState} />
           ))}
         </div>
       ) : null}
 
-      <CardContent className="p-6">
+      <CardContent className="p-4 sm:p-6">
         {mode === "preview" ? (
           <Render state={state} />
         ) : hasCode ? (

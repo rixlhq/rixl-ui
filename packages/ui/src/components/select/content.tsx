@@ -30,7 +30,7 @@ export function SelectContent({
         <SelectPrimitive.Popup
           data-slot="select-content"
           className={cn(
-            "bg-rixl-surface text-rixl-fg relative z-50 max-h-(--available-height) min-w-[8rem] origin-(--transform-origin) overflow-x-hidden overflow-y-auto overscroll-contain rounded-rixl-md border border-rixl-border shadow-rixl-md",
+            "bg-rixl-surface text-rixl-fg relative z-50 max-h-(--available-height) min-w-[8rem] max-w-[calc(100dvw-2rem)] origin-(--transform-origin) overflow-x-hidden overflow-y-auto overscroll-contain rounded-rixl-md border border-rixl-border shadow-rixl-md",
             "transition-[scale,opacity] duration-rixl-fast ease-rixl-out motion-reduce:transition-none",
             "data-starting-style:scale-95 data-starting-style:opacity-0 data-ending-style:scale-95 data-ending-style:opacity-0",
             className

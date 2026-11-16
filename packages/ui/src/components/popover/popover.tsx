@@ -36,7 +36,7 @@ function PopoverContent({
         <PopoverPrimitive.Popup
           data-slot="popover-content"
           className={cn(
-            "bg-rixl-surface text-rixl-fg z-50 w-72 origin-(--transform-origin) rounded-rixl-md border-rixl-border border p-4 shadow-rixl-md outline-hidden",
+            "bg-rixl-surface text-rixl-fg z-50 w-72 max-w-[calc(100dvw-2rem)] origin-(--transform-origin) rounded-rixl-md border-rixl-border border p-4 shadow-rixl-md outline-hidden",
             "transition-[scale,opacity] duration-rixl-fast ease-rixl-out motion-reduce:transition-none",
             "data-starting-style:scale-95 data-starting-style:opacity-0 data-ending-style:scale-95 data-ending-style:opacity-0",
             className
