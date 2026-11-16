@@ -47,9 +47,16 @@ jobs:
         if: steps.playwright-cache.outputs.cache-hit != 'true'
         run: vp exec playwright install chromium
 
-      # Root `ci` runs shared checks, the publishable UI package gate and the docs build.
-      - name: 🧪 Workspace gate
-        run: vp run ci
+      # Check and package gates are independent; docs builds after the UI pack.
+      - parallel:
+          - name: 🧹 Workspace checks
+            run: vp run ci:check
+
+          - name: 🧪 UI package gate
+            run: vp run ci:ui
+
+      - name: 🏗️ Build docs app
+        run: vp run ci:docs
 
       - name: 📊 Report coverage to PR
         if: ${{ !cancelled() && github.event_name == 'pull_request' && github.event.pull_request.head.repo.fork == false }}
