@@ -13,7 +13,7 @@ import {
 import { Input } from "@rixl/ui/input";
 import { Label } from "@rixl/ui/label";
 import type { ControlValue, Example } from "./registry";
-import { Group } from "./_layout";
+import { Group } from "../components/showcase-layout";
 
 export const path = "dialog";
 export const title = "Dialog";

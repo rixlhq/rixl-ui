@@ -1,7 +1,7 @@
 import { Button } from "@rixl/ui/button";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@rixl/ui/tooltip";
 import type { ControlValue, Example } from "./registry";
-import { Group } from "./_layout";
+import { Group } from "../components/showcase-layout";
 
 export const path = "tooltip";
 export const title = "Tooltip";

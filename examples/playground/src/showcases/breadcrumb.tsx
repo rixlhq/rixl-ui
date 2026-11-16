@@ -8,7 +8,7 @@ import {
   BreadcrumbSeparator,
 } from "@rixl/ui/breadcrumb";
 import type { ControlValue, Example } from "./registry";
-import { Group } from "./_layout";
+import { Group } from "../components/showcase-layout";
 
 export const path = "breadcrumb";
 export const title = "Breadcrumb";

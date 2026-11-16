@@ -1,7 +1,7 @@
 import { Checkbox } from "@rixl/ui/checkbox";
 import { Label } from "@rixl/ui/label";
 import type { ControlValue, Example } from "./registry";
-import { Group } from "./_layout";
+import { Group } from "../components/showcase-layout";
 
 export const path = "checkbox";
 export const title = "Checkbox";

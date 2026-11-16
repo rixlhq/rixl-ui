@@ -1,7 +1,7 @@
 import { Label } from "@rixl/ui/label";
 import { RadioGroup, RadioGroupItem } from "@rixl/ui/radio-group";
 import type { ControlValue, Example } from "./registry";
-import { Group } from "./_layout";
+import { Group } from "../components/showcase-layout";
 
 export const path = "radio-group";
 export const title = "Radio Group";

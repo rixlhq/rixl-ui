@@ -2,7 +2,7 @@ import { useState } from "react";
 import { InputOTP, InputOTPGroup, InputOTPSeparator, InputOTPSlot } from "@rixl/ui/input-otp";
 import { Label } from "@rixl/ui/label";
 import type { ControlValue, Example } from "./registry";
-import { Group } from "./_layout";
+import { Group } from "../components/showcase-layout";
 
 export const path = "input-otp";
 export const title = "Input OTP";

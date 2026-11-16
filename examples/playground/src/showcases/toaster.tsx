@@ -1,7 +1,7 @@
 import { Button } from "@rixl/ui/button";
 import { toast } from "@rixl/ui/toaster";
 import type { ControlValue, Example } from "./registry";
-import { Group } from "./_layout";
+import { Group } from "../components/showcase-layout";
 
 export const path = "toaster";
 export const title = "Toaster";

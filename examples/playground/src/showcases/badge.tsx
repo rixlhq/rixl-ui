@@ -1,6 +1,6 @@
 import { Badge, type BadgeProps } from "@rixl/ui/badge";
 import type { ControlValue, Example } from "./registry";
-import { Group } from "./_layout";
+import { Group } from "../components/showcase-layout";
 
 export const path = "badge";
 export const title = "Badge";

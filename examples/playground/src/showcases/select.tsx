@@ -10,7 +10,7 @@ import {
   SelectValue,
 } from "@rixl/ui/select";
 import type { ControlValue, Example } from "./registry";
-import { Group } from "./_layout";
+import { Group } from "../components/showcase-layout";
 
 export const path = "select";
 export const title = "Select";

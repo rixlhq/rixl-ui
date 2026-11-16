@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Progress } from "@rixl/ui/progress";
 import type { ControlValue, Example } from "./registry";
-import { Group } from "./_layout";
+import { Group } from "../components/showcase-layout";
 
 export const path = "progress";
 export const title = "Progress";

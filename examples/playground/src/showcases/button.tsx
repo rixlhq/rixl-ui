@@ -1,6 +1,6 @@
 import { Button, type ButtonProps } from "@rixl/ui/button";
 import type { ControlValue, Example } from "./registry";
-import { Group } from "./_layout";
+import { Group } from "../components/showcase-layout";
 
 export const path = "button";
 export const title = "Button";

@@ -16,7 +16,7 @@ import {
   DropdownMenuTrigger,
 } from "@rixl/ui/dropdown-menu";
 import type { ControlValue, Example } from "./registry";
-import { Group } from "./_layout";
+import { Group } from "../components/showcase-layout";
 
 export const path = "dropdown-menu";
 export const title = "DropdownMenu";
