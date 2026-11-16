@@ -40,6 +40,13 @@ See [proposal.md](proposal.md) for motivation. The root currently owns `packages
 - **Dropped:** None.
 - **Evidence:** Vite+ [Monorepo guide](https://viteplus.dev/guide/monorepo) recommends root lint/fmt settings with separate package Vite configs; generated Vite+ application imports `defineConfig` from `vite-plus`.
 
+### Keep one package-manager pin at the workspace root
+
+- **Chosen:** Keep the Bun version pin only in the root manifest and configure every setup-vp workflow to install from the workspace root. Keep `packages/ui`'s Node runtime metadata because npm publish validates it and it describes the published package's runtime requirement.
+- **Alternatives considered:** Repeat the Bun pin in every package manifest, which creates drift risk; retain package-local setup in CI, which makes the library appear to own workspace installation.
+- **Dropped:** None.
+- **Evidence:** Root Bun lockfile and workspaces define the install boundary; the repo's `setup-vp` workflows can install at root while build/test commands continue to target `packages/ui`.
+
 ## Risks / Trade-offs
 
 - **Path references may be missed** → Search source, config, workflows, README, and agent guidance for `examples/playground`; verify the build and CI references after moving.

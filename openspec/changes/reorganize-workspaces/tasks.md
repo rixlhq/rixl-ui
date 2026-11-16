@@ -5,6 +5,7 @@
 - [x] 1.1 Move `examples/playground` to `apps/docs`; `git status --short` reports the app files as renames under `apps/docs`.
 - [x] 1.2 Make root workspaces `packages/*` and `apps/*`, remove nested workspace metadata and the stale app lockfile; `vp install` from root completed and linked the workspace.
 - [x] 1.3 Update root scripts, Vite+ configuration, CI and contributor docs to use `apps/docs`; `rg` found no active old-path references and root `vp check` passed with 0 warnings across 160 files.
+- [x] 1.4 Keep the Bun pin and `setup-vp` install at the workspace root; only the root manifest declares Bun, all three setup-vp workflows install from `.`, `vp install` succeeds, and `vp run ci` passes from `packages/ui`.
 
 ## 2. Verify package boundaries
 
