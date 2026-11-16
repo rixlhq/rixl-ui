@@ -24,6 +24,13 @@ describe("Badge", () => {
     expect(screen.getByText("Danger").className).toContain("bg-rixl-danger");
   });
 
+  it("respects the success and warning variants", () => {
+    const {rerender} = render(<Badge variant="success">Live</Badge>);
+    expect(screen.getByText("Live").className).toContain("text-rixl-success");
+    rerender(<Badge variant="warning">Pending</Badge>);
+    expect(screen.getByText("Pending").className).toContain("text-rixl-warning");
+  });
+
   it("respects the outline variant", () => {
     render(<Badge variant="outline">Outline</Badge>);
     const cls = screen.getByText("Outline").className;

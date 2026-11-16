@@ -18,8 +18,13 @@ const alertVariants = cva(
   {
     variants: {
       variant: {
-        default: "bg-rixl-bg text-rixl-fg",
-        destructive: "text-rixl-danger [&>svg]:text-current *:data-[slot=alert-description]:text-rixl-danger/80",
+        default: "border-rixl-border bg-rixl-bg text-rixl-fg",
+        destructive:
+          "border-rixl-danger/30 bg-rixl-danger/5 text-rixl-danger [&>svg]:text-current *:data-[slot=alert-description]:text-rixl-danger/80",
+        success:
+          "border-rixl-success/30 bg-rixl-success/5 text-rixl-success [&>svg]:text-current *:data-[slot=alert-description]:text-rixl-fg-muted",
+        warning:
+          "border-rixl-warning/30 bg-rixl-warning/5 text-rixl-warning [&>svg]:text-current *:data-[slot=alert-description]:text-rixl-fg-muted",
       },
     },
     defaultVariants: {
@@ -46,7 +51,10 @@ function AlertDescription({className, ...props}: ComponentProps<"div">) {
   return (
     <div
       data-slot="alert-description"
-      className={cn("text-rixl-fg-muted col-start-2 grid justify-items-start gap-1 text-xs [&_p]:leading-relaxed", className)}
+      className={cn(
+        "text-rixl-fg-muted col-start-2 grid min-w-0 justify-items-start gap-1 text-xs break-words [&_p]:leading-relaxed",
+        className
+      )}
       {...props}
     />
   );
