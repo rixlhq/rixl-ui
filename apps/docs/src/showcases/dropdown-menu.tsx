@@ -1,4 +1,4 @@
-import { Button } from "@rixl/ui/button";
+import {Button} from "@rixl/ui/button";
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
@@ -15,8 +15,8 @@ import {
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "@rixl/ui/dropdown-menu";
-import type { ControlValue, Example } from "./registry";
-import { Group } from "../components/showcase-layout";
+import type {ControlValue, Example} from "./registry";
+import {Group} from "../components/showcase-layout";
 
 export const path = "dropdown-menu";
 export const title = "DropdownMenu";
@@ -41,7 +41,7 @@ export function Showcase() {
   );
 }
 
-function BasicExample(props: { state: Record<string, ControlValue> }) {
+function BasicExample(props: {state: Record<string, ControlValue>}) {
   void props;
   return (
     <Group label="Basic">
@@ -61,7 +61,7 @@ function BasicExample(props: { state: Record<string, ControlValue> }) {
   );
 }
 
-function ShortcutsExample(props: { state: Record<string, ControlValue> }) {
+function ShortcutsExample(props: {state: Record<string, ControlValue>}) {
   void props;
   return (
     <Group label="Shortcuts & inset">
@@ -94,7 +94,7 @@ function ShortcutsExample(props: { state: Record<string, ControlValue> }) {
   );
 }
 
-function CheckboxItemsExample(props: { state: Record<string, ControlValue> }) {
+function CheckboxItemsExample(props: {state: Record<string, ControlValue>}) {
   void props;
   return (
     <Group label="Checkbox items">
@@ -110,7 +110,7 @@ function CheckboxItemsExample(props: { state: Record<string, ControlValue> }) {
   );
 }
 
-function RadioGroupExample(props: { state: Record<string, ControlValue> }) {
+function RadioGroupExample(props: {state: Record<string, ControlValue>}) {
   void props;
   return (
     <Group label="Radio group">
@@ -128,7 +128,7 @@ function RadioGroupExample(props: { state: Record<string, ControlValue> }) {
   );
 }
 
-function SubmenuExample(props: { state: Record<string, ControlValue> }) {
+function SubmenuExample(props: {state: Record<string, ControlValue>}) {
   void props;
   return (
     <Group label="Submenu">
@@ -154,9 +154,9 @@ function SubmenuExample(props: { state: Record<string, ControlValue> }) {
 }
 
 export const examples: Example[] = [
-  { id: "basic", title: "Basic", render: BasicExample },
-  { id: "shortcuts", title: "Shortcuts & inset", render: ShortcutsExample },
-  { id: "checkbox", title: "Checkbox items", render: CheckboxItemsExample },
-  { id: "radio", title: "Radio group", render: RadioGroupExample },
-  { id: "submenu", title: "Submenu", render: SubmenuExample },
+  {id: "basic", title: "Basic", render: BasicExample},
+  {id: "shortcuts", title: "Shortcuts & inset", render: ShortcutsExample},
+  {id: "checkbox", title: "Checkbox items", render: CheckboxItemsExample},
+  {id: "radio", title: "Radio group", render: RadioGroupExample},
+  {id: "submenu", title: "Submenu", render: SubmenuExample},
 ];

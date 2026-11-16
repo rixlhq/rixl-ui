@@ -1,37 +1,20 @@
-import { memo, useMemo } from "react";
-import { Badge } from "@rixl/ui/badge";
-import {
-  Card,
-  CardAction,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@rixl/ui/card";
-import { EmptyState } from "@rixl/ui/empty-state";
-import { matchesShowcase } from "../hooks/use-hash-route";
-import type { Showcase } from "../showcases/registry";
+/* oxlint-disable jsx-a11y/prefer-tag-over-role -- Card can't render an anchor and its preview can contain interactive controls. */
+import {memo, useMemo} from "react";
+import {Badge} from "@rixl/ui/badge";
+import {Card, CardAction, CardContent, CardDescription, CardHeader, CardTitle} from "@rixl/ui/card";
+import {EmptyState} from "@rixl/ui/empty-state";
+import {matchesShowcase} from "../hooks/use-hash-route";
+import type {Showcase} from "../showcases/registry";
 
-export function HomeGrid({
-  showcases,
-  query,
-  onClearQuery,
-}: {
-  showcases: Showcase[];
-  query: string;
-  onClearQuery: () => void;
-}) {
-  const filtered = useMemo(
-    () => showcases.filter((s) => matchesShowcase(s, query)),
-    [showcases, query],
-  );
+export function HomeGrid({showcases, query, onClearQuery}: {showcases: Showcase[]; query: string; onClearQuery: () => void}) {
+  const filtered = useMemo(() => showcases.filter((s) => matchesShowcase(s, query)), [showcases, query]);
 
   if (filtered.length === 0) {
     return (
       <EmptyState
         title="No components found"
         description={`No components matched "${query}". Try a different search term.`}
-        action={{ label: "Clear search", onClick: onClearQuery }}
+        action={{label: "Clear search", onClick: onClearQuery}}
       />
     );
   }
@@ -42,8 +25,7 @@ export function HomeGrid({
         <div>
           <h1 className="text-2xl font-semibold tracking-tight text-rixl-fg">Components</h1>
           <p className="mt-1 text-sm text-rixl-fg-muted">
-            Live primitives rendered directly from <code className="text-rixl-fg">@rixl/ui</code>{" "}
-            workspace source.
+            Live primitives rendered directly from <code className="text-rixl-fg">@rixl/ui</code> workspace source.
           </p>
         </div>
         <Badge variant="outline">
@@ -60,7 +42,7 @@ export function HomeGrid({
   );
 }
 
-const ComponentCard = memo(function ComponentCard({ showcase }: { showcase: Showcase }) {
+const ComponentCard = memo(function ComponentCard({showcase}: {showcase: Showcase}) {
   return (
     <Card
       interactive
@@ -79,9 +61,7 @@ const ComponentCard = memo(function ComponentCard({ showcase }: { showcase: Show
     >
       <CardHeader className="px-5">
         <CardTitle className="text-base">{showcase.title}</CardTitle>
-        <CardDescription className="line-clamp-2 text-xs">
-          {showcase.description ?? `${showcase.title} component`}
-        </CardDescription>
+        <CardDescription className="line-clamp-2 text-xs">{showcase.description ?? `${showcase.title} component`}</CardDescription>
         <CardAction>
           <Badge variant="secondary">{showcase.group}</Badge>
         </CardAction>
@@ -101,7 +81,7 @@ const ComponentCard = memo(function ComponentCard({ showcase }: { showcase: Show
   );
 });
 
-function PreviewThumbnail({ showcase }: { showcase: Showcase }) {
+function PreviewThumbnail({showcase}: {showcase: Showcase}) {
   // Sidebar's full shell is too large for a small grid thumbnail; render a compact summary badge.
   if (showcase.path === "sidebar") {
     return <Badge variant="outline">App shell · ⌘B</Badge>;

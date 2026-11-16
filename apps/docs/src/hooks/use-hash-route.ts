@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import type { Showcase } from "../showcases/registry";
+import {useEffect, useState} from "react";
+import type {Showcase} from "../showcases/registry";
 
 function readHash(): string {
   if (typeof window === "undefined") return "";

@@ -1,6 +1,6 @@
-import { Button, type ButtonProps } from "@rixl/ui/button";
-import type { ControlValue, Example } from "./registry";
-import { Group } from "../components/showcase-layout";
+import {Button, type ButtonProps} from "@rixl/ui/button";
+import type {ControlValue, Example} from "./registry";
+import {Group} from "../components/showcase-layout";
 
 export const path = "button";
 export const title = "Button";
@@ -13,7 +13,7 @@ export function Showcase() {
   return <Button>Button</Button>;
 }
 
-function VariantsExample({ state }: { state: Record<string, ControlValue> }) {
+function VariantsExample({state}: {state: Record<string, ControlValue>}) {
   const variant = state.variant as ButtonProps["variant"];
   const size = state.size as ButtonProps["size"];
   const loading = state.loading as boolean;
@@ -28,7 +28,7 @@ function VariantsExample({ state }: { state: Record<string, ControlValue> }) {
   );
 }
 
-function PressExample(props: { state: Record<string, ControlValue> }) {
+function PressExample(props: {state: Record<string, ControlValue>}) {
   void props;
   return (
     <div className="space-y-6">
@@ -51,17 +51,16 @@ function PressExample(props: { state: Record<string, ControlValue> }) {
       </Group>
 
       <p className="text-sm text-rixl-fg-muted">
-        Press scale comes from <code className="text-rixl-fg">--rixl-press-scale</code>, shared by
-        every pressable component so a button, tab and checkbox depress by the same amount. Change
-        it once and the whole system follows. Under{" "}
-        <code className="text-rixl-fg">prefers-reduced-motion</code> the transform is dropped and
-        the colour and shadow changes remain, so the press stays legible without movement.
+        Press scale comes from <code className="text-rixl-fg">--rixl-press-scale</code>, shared by every pressable component so a button,
+        tab and checkbox depress by the same amount. Change it once and the whole system follows. Under{" "}
+        <code className="text-rixl-fg">prefers-reduced-motion</code> the transform is dropped and the colour and shadow changes remain, so
+        the press stays legible without movement.
       </p>
     </div>
   );
 }
 
-function VariantGridExample(props: { state: Record<string, ControlValue> }) {
+function VariantGridExample(props: {state: Record<string, ControlValue>}) {
   void props;
   return (
     <Group label="All six variants">
@@ -75,7 +74,7 @@ function VariantGridExample(props: { state: Record<string, ControlValue> }) {
   );
 }
 
-function SizesExample(props: { state: Record<string, ControlValue> }) {
+function SizesExample(props: {state: Record<string, ControlValue>}) {
   void props;
   return (
     <div className="space-y-6">
@@ -99,7 +98,7 @@ function SizesExample(props: { state: Record<string, ControlValue> }) {
   );
 }
 
-function CrossAppExample(props: { state: Record<string, ControlValue> }) {
+function CrossAppExample(props: {state: Record<string, ControlValue>}) {
   void props;
   return (
     <div className="space-y-6">
@@ -108,18 +107,17 @@ function CrossAppExample(props: { state: Record<string, ControlValue> }) {
         <Button color="primary">color=&quot;primary&quot;</Button>
       </Group>
       <p className="text-sm text-rixl-fg-muted">
-        Dashboard call sites say <code className="text-rixl-fg">variant</code>; fumadocs — which
-        docs and landing are built on — passes <code className="text-rixl-fg">color</code> from its
-        own internals. Both render identically, and <code className="text-rixl-fg">variant</code>{" "}
-        wins when both are supplied. A <code className="text-rixl-fg">color</code> that is not a
-        known variant (the deprecated HTML <code className="text-rixl-fg">color</code> attribute,
-        which Calendar&apos;s day button spreads) is ignored rather than applied.
+        Dashboard call sites say <code className="text-rixl-fg">variant</code>; fumadocs — which docs and landing are built on — passes{" "}
+        <code className="text-rixl-fg">color</code> from its own internals. Both render identically, and{" "}
+        <code className="text-rixl-fg">variant</code> wins when both are supplied. A <code className="text-rixl-fg">color</code> that is not
+        a known variant (the deprecated HTML <code className="text-rixl-fg">color</code> attribute, which Calendar&apos;s day button
+        spreads) is ignored rather than applied.
       </p>
     </div>
   );
 }
 
-function StatesExample(props: { state: Record<string, ControlValue> }) {
+function StatesExample(props: {state: Record<string, ControlValue>}) {
   void props;
   return (
     <div className="space-y-6">
@@ -147,25 +145,21 @@ function StatesExample(props: { state: Record<string, ControlValue> }) {
         <Button variant="outline">And me</Button>
       </Group>
       <p className="text-sm text-rixl-fg-muted">
-        Keyboard focus is drawn with <code className="text-rixl-fg">focus-visible</code>, so it
-        appears for keyboard users without ringing on every mouse click. Destructive carries its own
-        ring colour.
+        Keyboard focus is drawn with <code className="text-rixl-fg">focus-visible</code>, so it appears for keyboard users without ringing
+        on every mouse click. Destructive carries its own ring colour.
       </p>
     </div>
   );
 }
 
-function PolymorphicExample(props: { state: Record<string, ControlValue> }) {
+function PolymorphicExample(props: {state: Record<string, ControlValue>}) {
   void props;
   return (
     <Group label="Polymorphic (render={<a/>})">
-      <Button render={<a href="https://rixl.co" target="_blank" rel="noreferrer" />} variant="link">
+      <Button render={<a href="https://rixl.co" target="_blank" rel="noreferrer" aria-label="Open rixl.co" />} variant="link">
         Open rixl.co
       </Button>
-      <Button
-        render={<a href="https://rixl.co" target="_blank" rel="noreferrer" />}
-        variant="outline"
-      >
+      <Button render={<a href="https://rixl.co" target="_blank" rel="noreferrer" aria-label="Anchor styled as button" />} variant="outline">
         <PlusIcon /> Anchor styled as button
       </Button>
     </Group>
@@ -184,12 +178,12 @@ export const examples: Example[] = [
         label: "Variant",
         type: "select",
         options: [
-          { value: "default", label: "Default" },
-          { value: "secondary", label: "Secondary" },
-          { value: "outline", label: "Outline" },
-          { value: "ghost", label: "Ghost" },
-          { value: "destructive", label: "Destructive" },
-          { value: "link", label: "Link" },
+          {value: "default", label: "Default"},
+          {value: "secondary", label: "Secondary"},
+          {value: "outline", label: "Outline"},
+          {value: "ghost", label: "Ghost"},
+          {value: "destructive", label: "Destructive"},
+          {value: "link", label: "Link"},
         ],
         defaultValue: "default",
       },
@@ -198,17 +192,17 @@ export const examples: Example[] = [
         label: "Size",
         type: "select",
         options: [
-          { value: "sm", label: "Small" },
-          { value: "default", label: "Default" },
-          { value: "lg", label: "Large" },
-          { value: "icon", label: "Icon" },
-          { value: "icon-sm", label: "Icon small" },
-          { value: "icon-xs", label: "Icon extra small" },
+          {value: "sm", label: "Small"},
+          {value: "default", label: "Default"},
+          {value: "lg", label: "Large"},
+          {value: "icon", label: "Icon"},
+          {value: "icon-sm", label: "Icon small"},
+          {value: "icon-xs", label: "Icon extra small"},
         ],
         defaultValue: "default",
       },
-      { name: "loading", label: "Loading", type: "boolean", defaultValue: false },
-      { name: "disabled", label: "Disabled", type: "boolean", defaultValue: false },
+      {name: "loading", label: "Loading", type: "boolean", defaultValue: false},
+      {name: "disabled", label: "Disabled", type: "boolean", defaultValue: false},
     ],
     code: `<Button variant="default" size="default">
   Button
@@ -289,14 +283,7 @@ duration-rixl-fast ease-rixl-out`,
 
 function PlusIcon() {
   return (
-    <svg
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
       <path d="M12 5v14M5 12h14" />
     </svg>
   );
@@ -304,14 +291,7 @@ function PlusIcon() {
 
 function SearchIcon() {
   return (
-    <svg
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
       <circle cx="11" cy="11" r="7" />
       <path d="m20 20-3.5-3.5" />
     </svg>

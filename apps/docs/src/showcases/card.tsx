@@ -1,15 +1,7 @@
-import { Button } from "@rixl/ui/button";
-import {
-  Card,
-  CardAction,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@rixl/ui/card";
-import type { ControlValue, Example } from "./registry";
-import { Group } from "../components/showcase-layout";
+import {Button} from "@rixl/ui/button";
+import {Card, CardAction, CardContent, CardDescription, CardFooter, CardHeader, CardTitle} from "@rixl/ui/card";
+import type {ControlValue, Example} from "./registry";
+import {Group} from "../components/showcase-layout";
 
 export const path = "card";
 export const title = "Card";
@@ -28,7 +20,7 @@ export function Showcase() {
   );
 }
 
-function BasicExample(props: { state: Record<string, ControlValue> }) {
+function BasicExample(props: {state: Record<string, ControlValue>}) {
   void props;
   return (
     <Card className="w-full max-w-md">
@@ -47,7 +39,7 @@ function BasicExample(props: { state: Record<string, ControlValue> }) {
   );
 }
 
-function WithActionExample(props: { state: Record<string, ControlValue> }) {
+function WithActionExample(props: {state: Record<string, ControlValue>}) {
   void props;
   return (
     <Card className="w-full max-w-md">
@@ -67,31 +59,24 @@ function WithActionExample(props: { state: Record<string, ControlValue> }) {
   );
 }
 
-function LiveExample({ state }: { state: Record<string, ControlValue> }) {
+function LiveExample({state}: {state: Record<string, ControlValue>}) {
   const variant = state.variant as "default" | "outline" | "ghost";
   const interactive = state.interactive as boolean;
   const selected = state.selected as boolean;
   return (
-    <Card
-      className="w-full max-w-md"
-      variant={variant}
-      interactive={interactive}
-      selected={selected}
-    >
+    <Card className="w-full max-w-md" variant={variant} interactive={interactive} selected={selected}>
       <CardHeader>
         <CardTitle>Card title</CardTitle>
         <CardDescription>Tweak variant, interactive, and selected.</CardDescription>
       </CardHeader>
       <CardContent>
-        <p className="text-sm text-rixl-fg">
-          Hover an interactive card to see border emphasis; press to feel it depress.
-        </p>
+        <p className="text-sm text-rixl-fg">Hover an interactive card to see border emphasis; press to feel it depress.</p>
       </CardContent>
     </Card>
   );
 }
 
-function VariantsExample(props: { state: Record<string, ControlValue> }) {
+function VariantsExample(props: {state: Record<string, ControlValue>}) {
   void props;
   return (
     <Group label="Variants">
@@ -109,7 +94,7 @@ function VariantsExample(props: { state: Record<string, ControlValue> }) {
   );
 }
 
-function InteractiveExample(props: { state: Record<string, ControlValue> }) {
+function InteractiveExample(props: {state: Record<string, ControlValue>}) {
   void props;
   return (
     <Group label="Interactive & selected">
@@ -143,14 +128,14 @@ export const examples: Example[] = [
         label: "Variant",
         type: "select",
         options: [
-          { value: "default", label: "Default" },
-          { value: "outline", label: "Outline" },
-          { value: "ghost", label: "Ghost" },
+          {value: "default", label: "Default"},
+          {value: "outline", label: "Outline"},
+          {value: "ghost", label: "Ghost"},
         ],
         defaultValue: "default",
       },
-      { name: "interactive", label: "Interactive", type: "boolean", defaultValue: false },
-      { name: "selected", label: "Selected", type: "boolean", defaultValue: false },
+      {name: "interactive", label: "Interactive", type: "boolean", defaultValue: false},
+      {name: "selected", label: "Selected", type: "boolean", defaultValue: false},
     ],
     code: `<Card variant="outline" interactive selected>
   <CardHeader>
@@ -159,10 +144,10 @@ export const examples: Example[] = [
   </CardHeader>
 </Card>`,
   },
-  { id: "basic", title: "Basic", render: BasicExample },
-  { id: "variants", title: "Variants", render: VariantsExample },
-  { id: "interactive", title: "Interactive & selected", render: InteractiveExample },
-  { id: "action", title: "With action", render: WithActionExample },
+  {id: "basic", title: "Basic", render: BasicExample},
+  {id: "variants", title: "Variants", render: VariantsExample},
+  {id: "interactive", title: "Interactive & selected", render: InteractiveExample},
+  {id: "action", title: "With action", render: WithActionExample},
 ];
 
 function PencilIcon() {

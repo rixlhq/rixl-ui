@@ -1,7 +1,7 @@
-import { Input } from "@rixl/ui/input";
-import { Label } from "@rixl/ui/label";
-import type { ControlValue, Example } from "./registry";
-import { Group } from "../components/showcase-layout";
+import {Input} from "@rixl/ui/input";
+import {Label} from "@rixl/ui/label";
+import type {ControlValue, Example} from "./registry";
+import {Group} from "../components/showcase-layout";
 
 export const path = "input";
 export const title = "Input";
@@ -47,7 +47,7 @@ export function Showcase() {
   return <Input placeholder="Text" className="max-w-sm" />;
 }
 
-function LiveExample({ state }: { state: Record<string, ControlValue> }) {
+function LiveExample({state}: {state: Record<string, ControlValue>}) {
   const type = state.type as React.HTMLInputTypeAttribute;
   const inputSize = state.inputSize as "sm" | "default" | "lg";
   const disabled = state.disabled as boolean;
@@ -74,7 +74,7 @@ function LiveExample({ state }: { state: Record<string, ControlValue> }) {
   );
 }
 
-function SizesExample(props: { state: Record<string, ControlValue> }) {
+function SizesExample(props: {state: Record<string, ControlValue>}) {
   void props;
   return (
     <Group label="Sizes">
@@ -87,7 +87,7 @@ function SizesExample(props: { state: Record<string, ControlValue> }) {
   );
 }
 
-function IconsExample(props: { state: Record<string, ControlValue> }) {
+function IconsExample(props: {state: Record<string, ControlValue>}) {
   void props;
   return (
     <Group label="With icons">
@@ -100,7 +100,7 @@ function IconsExample(props: { state: Record<string, ControlValue> }) {
   );
 }
 
-function StatesExample(props: { state: Record<string, ControlValue> }) {
+function StatesExample(props: {state: Record<string, ControlValue>}) {
   void props;
   return (
     <Group label="States">
@@ -114,7 +114,7 @@ function StatesExample(props: { state: Record<string, ControlValue> }) {
   );
 }
 
-function TypesExample(props: { state: Record<string, ControlValue> }) {
+function TypesExample(props: {state: Record<string, ControlValue>}) {
   void props;
   return (
     <Group label="Types">
@@ -143,9 +143,9 @@ export const examples: Example[] = [
         label: "Size",
         type: "select",
         options: [
-          { value: "sm", label: "Small" },
-          { value: "default", label: "Default" },
-          { value: "lg", label: "Large" },
+          {value: "sm", label: "Small"},
+          {value: "default", label: "Default"},
+          {value: "lg", label: "Large"},
         ],
         defaultValue: "default",
       },
@@ -154,19 +154,19 @@ export const examples: Example[] = [
         label: "Type",
         type: "select",
         options: [
-          { value: "text", label: "Text" },
-          { value: "email", label: "Email" },
-          { value: "password", label: "Password" },
-          { value: "number", label: "Number" },
-          { value: "tel", label: "Phone" },
-          { value: "url", label: "URL" },
+          {value: "text", label: "Text"},
+          {value: "email", label: "Email"},
+          {value: "password", label: "Password"},
+          {value: "number", label: "Number"},
+          {value: "tel", label: "Phone"},
+          {value: "url", label: "URL"},
         ],
         defaultValue: "text",
       },
-      { name: "withIcon", label: "Start icon", type: "boolean", defaultValue: false },
-      { name: "disabled", label: "Disabled", type: "boolean", defaultValue: false },
-      { name: "readOnly", label: "Read-only", type: "boolean", defaultValue: false },
-      { name: "invalid", label: "Invalid", type: "boolean", defaultValue: false },
+      {name: "withIcon", label: "Start icon", type: "boolean", defaultValue: false},
+      {name: "disabled", label: "Disabled", type: "boolean", defaultValue: false},
+      {name: "readOnly", label: "Read-only", type: "boolean", defaultValue: false},
+      {name: "invalid", label: "Invalid", type: "boolean", defaultValue: false},
     ],
     code: `<div className="flex flex-col gap-1.5">
   <Label htmlFor="email">Email</Label>

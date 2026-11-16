@@ -1,7 +1,7 @@
-import { Label } from "@rixl/ui/label";
-import { RadioGroup, RadioGroupItem } from "@rixl/ui/radio-group";
-import type { ControlValue, Example } from "./registry";
-import { Group } from "../components/showcase-layout";
+import {Label} from "@rixl/ui/label";
+import {RadioGroup, RadioGroupItem} from "@rixl/ui/radio-group";
+import type {ControlValue, Example} from "./registry";
+import {Group} from "../components/showcase-layout";
 
 export const path = "radio-group";
 export const title = "Radio Group";
@@ -20,7 +20,7 @@ export function Showcase() {
   );
 }
 
-function LiveExample({ state }: { state: Record<string, ControlValue> }) {
+function LiveExample({state}: {state: Record<string, ControlValue>}) {
   const disabled = state.disabled as boolean;
   const invalid = state.invalid as boolean;
 
@@ -42,7 +42,7 @@ function LiveExample({ state }: { state: Record<string, ControlValue> }) {
   );
 }
 
-function DisabledOptionsExample(props: { state: Record<string, ControlValue> }) {
+function DisabledOptionsExample(props: {state: Record<string, ControlValue>}) {
   void props;
   return (
     <Group label="Disabled options">
@@ -71,8 +71,8 @@ export const examples: Example[] = [
     description: "Tweak disabled and invalid states live.",
     render: LiveExample,
     controls: [
-      { name: "disabled", label: "Disabled", type: "boolean", defaultValue: false },
-      { name: "invalid", label: "Invalid", type: "boolean", defaultValue: false },
+      {name: "disabled", label: "Disabled", type: "boolean", defaultValue: false},
+      {name: "invalid", label: "Invalid", type: "boolean", defaultValue: false},
     ],
     code: `<RadioGroup defaultValue="comfortable" name="density">
   <div className="flex items-center gap-2">
@@ -81,5 +81,5 @@ export const examples: Example[] = [
   </div>
 </RadioGroup>`,
   },
-  { id: "disabled-options", title: "Disabled options", render: DisabledOptionsExample },
+  {id: "disabled-options", title: "Disabled options", render: DisabledOptionsExample},
 ];

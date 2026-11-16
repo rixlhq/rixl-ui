@@ -1,18 +1,17 @@
-import { Separator, type SeparatorProps } from "@rixl/ui/separator";
-import type { ControlValue, Example } from "./registry";
-import { Group } from "../components/showcase-layout";
+import {Separator, type SeparatorProps} from "@rixl/ui/separator";
+import type {ControlValue, Example} from "./registry";
+import {Group} from "../components/showcase-layout";
 
 export const path = "separator";
 export const title = "Separator";
 export const group = "Layout";
-export const description =
-  "Themed divider. Horizontal by default; pass orientation='vertical' inside a flex row.";
+export const description = "Themed divider. Horizontal by default; pass orientation='vertical' inside a flex row.";
 
 export function Showcase() {
   return <Separator className="my-3" />;
 }
 
-function LiveExample({ state }: { state: Record<string, ControlValue> }) {
+function LiveExample({state}: {state: Record<string, ControlValue>}) {
   const orientation = state.orientation as SeparatorProps["orientation"];
   return (
     <Group label="Live preview">
@@ -33,7 +32,7 @@ function LiveExample({ state }: { state: Record<string, ControlValue> }) {
   );
 }
 
-function CustomClassExample(props: { state: Record<string, ControlValue> }) {
+function CustomClassExample(props: {state: Record<string, ControlValue>}) {
   void props;
   return (
     <Group label="Custom className (last-write-wins via cn)">
@@ -56,8 +55,8 @@ export const examples: Example[] = [
         label: "Orientation",
         type: "select",
         options: [
-          { value: "horizontal", label: "Horizontal" },
-          { value: "vertical", label: "Vertical" },
+          {value: "horizontal", label: "Horizontal"},
+          {value: "vertical", label: "Vertical"},
         ],
         defaultValue: "horizontal",
       },
@@ -70,5 +69,5 @@ export const examples: Example[] = [
   <span>Guides</span>
 </div>`,
   },
-  { id: "custom", title: "Custom className", render: CustomClassExample },
+  {id: "custom", title: "Custom className", render: CustomClassExample},
 ];

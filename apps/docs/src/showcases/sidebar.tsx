@@ -1,4 +1,4 @@
-import { Badge } from "@rixl/ui/badge";
+import {Badge} from "@rixl/ui/badge";
 import {
   Sidebar,
   SidebarContent,
@@ -15,7 +15,7 @@ import {
   SidebarRail,
   SidebarTrigger,
 } from "@rixl/ui/sidebar";
-import type { ControlValue, Example } from "./registry";
+import type {ControlValue, Example} from "./registry";
 
 export const path = "sidebar";
 export const title = "Sidebar";
@@ -27,7 +27,7 @@ export function Showcase() {
   return <SidebarPreview collapsible="offcanvas" />;
 }
 
-function SidebarPreview({ collapsible }: { collapsible: "offcanvas" | "icon" | "none" }) {
+function SidebarPreview({collapsible}: {collapsible: "offcanvas" | "icon" | "none"}) {
   return (
     <div className="h-80 w-full overflow-hidden rounded-rixl-lg border border-rixl-border shadow-rixl-xs [transform:translateZ(0)]">
       <SidebarProvider defaultOpen className="h-full min-h-0">
@@ -72,9 +72,7 @@ function SidebarPreview({ collapsible }: { collapsible: "offcanvas" | "icon" | "
               <span className="text-sm font-medium text-rixl-fg">Dashboard</span>
             </header>
             <div className="flex flex-1 items-center justify-center p-4 text-xs text-rixl-fg-muted">
-              {collapsible === "none"
-                ? "Static sidebar (collapsible='none')"
-                : `Click the trigger or press ⌘B to toggle (${collapsible})`}
+              {collapsible === "none" ? "Static sidebar (collapsible='none')" : `Click the trigger or press ⌘B to toggle (${collapsible})`}
             </div>
           </div>
         </SidebarInset>
@@ -83,7 +81,7 @@ function SidebarPreview({ collapsible }: { collapsible: "offcanvas" | "icon" | "
   );
 }
 
-function LiveExample({ state }: { state: Record<string, ControlValue> }) {
+function LiveExample({state}: {state: Record<string, ControlValue>}) {
   const collapsible = (state.collapsible as "offcanvas" | "icon" | "none") || "offcanvas";
   return <SidebarPreview key={collapsible} collapsible={collapsible} />;
 }
@@ -92,8 +90,7 @@ export const examples: Example[] = [
   {
     id: "live",
     title: "Interactive shell",
-    description:
-      "Contained preview of SidebarProvider + Sidebar + SidebarInset. Switch collapsible modes live.",
+    description: "Contained preview of SidebarProvider + Sidebar + SidebarInset. Switch collapsible modes live.",
     render: LiveExample,
     controls: [
       {
@@ -101,9 +98,9 @@ export const examples: Example[] = [
         label: "Collapsible",
         type: "select",
         options: [
-          { value: "offcanvas", label: "Offcanvas" },
-          { value: "icon", label: "Icon rail" },
-          { value: "none", label: "None (static)" },
+          {value: "offcanvas", label: "Offcanvas"},
+          {value: "icon", label: "Icon rail"},
+          {value: "none", label: "None (static)"},
         ],
         defaultValue: "offcanvas",
       },

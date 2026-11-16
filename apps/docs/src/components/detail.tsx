@@ -1,30 +1,23 @@
-import { memo, useMemo, useState } from "react";
-import type { ComponentType, ReactNode } from "react";
-import { Badge } from "@rixl/ui/badge";
-import { Button } from "@rixl/ui/button";
-import {
-  Card,
-  CardAction,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@rixl/ui/card";
-import { Label } from "@rixl/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@rixl/ui/select";
-import { Switch } from "@rixl/ui/switch";
-import { Tabs, TabsList, TabsTrigger } from "@rixl/ui/tabs";
-import { Tooltip, TooltipContent, TooltipTrigger } from "@rixl/ui/tooltip";
-import type { Control, ControlValue, Example, Showcase } from "../showcases/registry";
+import {memo, useMemo, useState} from "react";
+import type {ComponentType, ReactNode} from "react";
+import {Badge} from "@rixl/ui/badge";
+import {Button} from "@rixl/ui/button";
+import {Card, CardAction, CardContent, CardDescription, CardHeader, CardTitle} from "@rixl/ui/card";
+import {Label} from "@rixl/ui/label";
+import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@rixl/ui/select";
+import {Switch} from "@rixl/ui/switch";
+import {Tabs, TabsList, TabsTrigger} from "@rixl/ui/tabs";
+import {Tooltip, TooltipContent, TooltipTrigger} from "@rixl/ui/tooltip";
+import type {Control, ControlValue, Example, Showcase} from "../showcases/registry";
 
-export const Detail = memo(function Detail({ showcase }: { showcase: Showcase }) {
+export const Detail = memo(function Detail({showcase}: {showcase: Showcase}) {
   const examples = useMemo<Example[]>(() => {
     if (showcase.examples && showcase.examples.length > 0) return showcase.examples;
     const Legacy: ComponentType<{
       state: Record<string, ControlValue>;
       children?: ReactNode;
     }> = () => <showcase.Showcase />;
-    return [{ id: "default", title: "Preview", render: Legacy }];
+    return [{id: "default", title: "Preview", render: Legacy}];
   }, [showcase]);
 
   return (
@@ -35,11 +28,7 @@ export const Detail = memo(function Detail({ showcase }: { showcase: Showcase })
           <code className="text-xs text-rixl-fg-muted">@rixl/ui/{showcase.path}</code>
         </div>
         <h1 className="text-2xl font-semibold tracking-tight text-rixl-fg">{showcase.title}</h1>
-        {showcase.description ? (
-          <p className="max-w-3xl text-sm leading-relaxed text-rixl-fg-muted">
-            {showcase.description}
-          </p>
-        ) : null}
+        {showcase.description ? <p className="max-w-3xl text-sm leading-relaxed text-rixl-fg-muted">{showcase.description}</p> : null}
       </div>
 
       <div className="space-y-6">
@@ -51,29 +40,20 @@ export const Detail = memo(function Detail({ showcase }: { showcase: Showcase })
   );
 });
 
-function ExampleCard({ example }: { example: Example }) {
+function ExampleCard({example}: {example: Example}) {
   const [mode, setMode] = useState<"preview" | "code">("preview");
   const hasCode = Boolean(example.code?.trim());
-  const [state, setState] = useState<Record<string, ControlValue>>(() =>
-    defaultState(example.controls),
-  );
+  const [state, setState] = useState<Record<string, ControlValue>>(() => defaultState(example.controls));
   const Render = example.render;
 
   return (
     <Card className="gap-0 overflow-hidden py-0">
       <CardHeader className="border-b border-rixl-border px-4 sm:px-5 py-3.5 [.border-b]:pb-3.5">
         <CardTitle className="text-sm">{example.title}</CardTitle>
-        {example.description ? (
-          <CardDescription className="text-xs">{example.description}</CardDescription>
-        ) : null}
+        {example.description ? <CardDescription className="text-xs">{example.description}</CardDescription> : null}
         {hasCode ? (
           <CardAction>
-            <Tabs
-              value={mode}
-              onValueChange={(value) => setMode(value as "preview" | "code")}
-              variant="segmented"
-              size="sm"
-            >
+            <Tabs value={mode} onValueChange={(value) => setMode(value as "preview" | "code")} variant="segmented" size="sm">
               <TabsList>
                 <TabsTrigger value="preview">Preview</TabsTrigger>
                 <TabsTrigger value="code">Code</TabsTrigger>
@@ -125,10 +105,7 @@ function ControlField({
         <Label htmlFor={controlId} className="text-xs text-rixl-fg-muted">
           {control.label}
         </Label>
-        <Select
-          value={value as string}
-          onValueChange={(next) => onChange({ ...state, [control.name]: next })}
-        >
+        <Select value={value as string} onValueChange={(next) => onChange({...state, [control.name]: next})}>
           <SelectTrigger id={controlId} size="sm" aria-label={control.label}>
             <SelectValue />
           </SelectTrigger>
@@ -146,11 +123,7 @@ function ControlField({
 
   return (
     <div className="flex items-center gap-2">
-      <Switch
-        id={controlId}
-        checked={Boolean(value)}
-        onCheckedChange={(checked) => onChange({ ...state, [control.name]: checked })}
-      />
+      <Switch id={controlId} checked={Boolean(value)} onCheckedChange={(checked) => onChange({...state, [control.name]: checked})} />
       <Label htmlFor={controlId} className="cursor-pointer text-xs text-rixl-fg-muted">
         {control.label}
       </Label>
@@ -171,7 +144,7 @@ function defaultState(controls?: Control[]): Record<string, ControlValue> {
   return state;
 }
 
-function CopyButton({ text }: { text: string }) {
+function CopyButton({text}: {text: string}) {
   const [copied, setCopied] = useState(false);
 
   const handleCopy = async () => {
@@ -188,12 +161,7 @@ function CopyButton({ text }: { text: string }) {
     <Tooltip>
       <TooltipTrigger
         render={
-          <Button
-            variant="outline"
-            size="sm"
-            className="absolute top-2.5 end-2.5"
-            onClick={handleCopy}
-          >
+          <Button variant="outline" size="sm" className="absolute top-2.5 end-2.5" onClick={handleCopy}>
             {copied ? "Copied!" : "Copy"}
           </Button>
         }

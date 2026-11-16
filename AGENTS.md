@@ -40,6 +40,8 @@ release. Add a tool name to select part of the graph. For example, run
 
 ## Commands
 
+The root `vite.config.ts` owns shared Vite+ lint and format settings. `packages/ui/vite.config.ts` owns library packing and tests; `apps/docs/vite.config.ts` owns the docs app's plugins and server settings.
+
 Run these in `packages/ui/`:
 
 ```bash
@@ -58,7 +60,7 @@ vp run publint             # Checks the package.json exports map
 vp run ci                  # The gate CI and the release job run
 ```
 
-From the repo root, UI commands delegate to `@rixl/ui`; `vp run docs` starts the showcase app and `vp run docs:build` builds it after the library. Use `vp` for everything; don't call `bun`, `npm` or `npx` directly. The `devEngines.packageManager` field in `packages/ui/package.json` is load-bearing: CI runs `vp install` from there, and without it vp falls back to pnpm. Install Chromium once per machine with `vp exec playwright install chromium`.
+From the repo root, `vp check` runs shared format and lint checks across the workspaces. UI commands delegate to `@rixl/ui`; `vp run docs` starts the showcase app and `vp run docs:build` builds the library and docs app. Use `vp` for everything; don't call `bun`, `npm` or `npx` directly. The `devEngines.packageManager` field in `packages/ui/package.json` is load-bearing: CI runs `vp install` from there, and without it vp falls back to pnpm. Install Chromium once per machine with `vp exec playwright install chromium`.
 
 ## Repository layout
 

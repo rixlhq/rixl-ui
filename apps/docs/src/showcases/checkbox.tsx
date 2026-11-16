@@ -1,13 +1,12 @@
-import { Checkbox } from "@rixl/ui/checkbox";
-import { Label } from "@rixl/ui/label";
-import type { ControlValue, Example } from "./registry";
-import { Group } from "../components/showcase-layout";
+import {Checkbox} from "@rixl/ui/checkbox";
+import {Label} from "@rixl/ui/label";
+import type {ControlValue, Example} from "./registry";
+import {Group} from "../components/showcase-layout";
 
 export const path = "checkbox";
 export const title = "Checkbox";
 export const group = "Forms";
-export const description =
-  "Boolean form control. Composes with Label; supports indeterminate and controlled state.";
+export const description = "Boolean form control. Composes with Label; supports indeterminate and controlled state.";
 
 export function Showcase() {
   return (
@@ -18,7 +17,7 @@ export function Showcase() {
   );
 }
 
-function LiveExample({ state }: { state: Record<string, ControlValue> }) {
+function LiveExample({state}: {state: Record<string, ControlValue>}) {
   const disabled = state.disabled as boolean;
   const invalid = state.invalid as boolean;
 
@@ -32,7 +31,7 @@ function LiveExample({ state }: { state: Record<string, ControlValue> }) {
   );
 }
 
-function StatesExample(props: { state: Record<string, ControlValue> }) {
+function StatesExample(props: {state: Record<string, ControlValue>}) {
   void props;
   return (
     <Group label="States">
@@ -67,8 +66,8 @@ export const examples: Example[] = [
     description: "Tweak disabled and invalid states live.",
     render: LiveExample,
     controls: [
-      { name: "disabled", label: "Disabled", type: "boolean", defaultValue: false },
-      { name: "invalid", label: "Invalid", type: "boolean", defaultValue: false },
+      {name: "disabled", label: "Disabled", type: "boolean", defaultValue: false},
+      {name: "invalid", label: "Invalid", type: "boolean", defaultValue: false},
     ],
     code: `<div className="flex items-center gap-2">
   <Checkbox id="terms" defaultChecked />

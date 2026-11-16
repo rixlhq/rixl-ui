@@ -1,7 +1,7 @@
-import { Button } from "@rixl/ui/button";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@rixl/ui/tooltip";
-import type { ControlValue, Example } from "./registry";
-import { Group } from "../components/showcase-layout";
+import {Button} from "@rixl/ui/button";
+import {Tooltip, TooltipContent, TooltipProvider, TooltipTrigger} from "@rixl/ui/tooltip";
+import type {ControlValue, Example} from "./registry";
+import {Group} from "../components/showcase-layout";
 
 export const path = "tooltip";
 export const title = "Tooltip";
@@ -24,7 +24,7 @@ export function Showcase() {
   );
 }
 
-function BasicExample(props: { state: Record<string, ControlValue> }) {
+function BasicExample(props: {state: Record<string, ControlValue>}) {
   void props;
   return (
     <Tooltip>
@@ -34,7 +34,7 @@ function BasicExample(props: { state: Record<string, ControlValue> }) {
   );
 }
 
-function ToolbarGroupExample(props: { state: Record<string, ControlValue> }) {
+function ToolbarGroupExample(props: {state: Record<string, ControlValue>}) {
   void props;
   return (
     <Group label="Hover across buttons — first tooltip animates in, adjacent ones open instantly">
@@ -56,7 +56,7 @@ function ToolbarGroupExample(props: { state: Record<string, ControlValue> }) {
   );
 }
 
-function SidesExample(props: { state: Record<string, ControlValue> }) {
+function SidesExample(props: {state: Record<string, ControlValue>}) {
   void props;
   return (
     <Group label="Sides">
@@ -70,7 +70,7 @@ function SidesExample(props: { state: Record<string, ControlValue> }) {
   );
 }
 
-function AlignmentsExample(props: { state: Record<string, ControlValue> }) {
+function AlignmentsExample(props: {state: Record<string, ControlValue>}) {
   void props;
   return (
     <Group label="Alignments (side=bottom)">
@@ -86,7 +86,7 @@ function AlignmentsExample(props: { state: Record<string, ControlValue> }) {
   );
 }
 
-function IconTriggerExample(props: { state: Record<string, ControlValue> }) {
+function IconTriggerExample(props: {state: Record<string, ControlValue>}) {
   void props;
   return (
     <Group label="Icon button trigger">
@@ -105,17 +105,16 @@ function IconTriggerExample(props: { state: Record<string, ControlValue> }) {
 }
 
 export const examples: Example[] = [
-  { id: "basic", title: "Basic", render: BasicExample },
+  {id: "basic", title: "Basic", render: BasicExample},
   {
     id: "toolbar",
     title: "Instant neighbor hover (TooltipProvider)",
-    description:
-      "Once one tooltip is open in a TooltipProvider group, hovering adjacent triggers skips the entrance delay and duration.",
+    description: "Once one tooltip is open in a TooltipProvider group, hovering adjacent triggers skips the entrance delay and duration.",
     render: ToolbarGroupExample,
   },
-  { id: "sides", title: "Sides", render: SidesExample },
-  { id: "alignments", title: "Alignments", render: AlignmentsExample },
-  { id: "icon", title: "Icon trigger", render: IconTriggerExample },
+  {id: "sides", title: "Sides", render: SidesExample},
+  {id: "alignments", title: "Alignments", render: AlignmentsExample},
+  {id: "icon", title: "Icon trigger", render: IconTriggerExample},
 ];
 
 function InfoIcon() {

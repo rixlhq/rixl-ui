@@ -9,15 +9,14 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@rixl/ui/alert-dialog";
-import { Button } from "@rixl/ui/button";
-import type { ControlValue, Example } from "./registry";
-import { Group } from "../components/showcase-layout";
+import {Button} from "@rixl/ui/button";
+import type {ControlValue, Example} from "./registry";
+import {Group} from "../components/showcase-layout";
 
 export const path = "alert-dialog";
 export const title = "AlertDialog";
 export const group = "Overlays";
-export const description =
-  "Modal confirmation surface. Base UI AlertDialog; action/cancel use the Button component (primary / outline).";
+export const description = "Modal confirmation surface. Base UI AlertDialog; action/cancel use the Button component (primary / outline).";
 
 export function Showcase() {
   return (
@@ -27,22 +26,19 @@ export function Showcase() {
         <AlertDialogHeader>
           <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
           <AlertDialogDescription>
-            This action cannot be undone. This will permanently delete your account and remove your
-            data from our servers.
+            This action cannot be undone. This will permanently delete your account and remove your data from our servers.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <AlertDialogAction className="bg-rixl-danger text-rixl-danger-fg hover:bg-rixl-danger">
-            Continue
-          </AlertDialogAction>
+          <AlertDialogAction className="bg-rixl-danger text-rixl-danger-fg hover:bg-rixl-danger">Continue</AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>
   );
 }
 
-function BasicExample(props: { state: Record<string, ControlValue> }) {
+function BasicExample(props: {state: Record<string, ControlValue>}) {
   void props;
   return (
     <Group label="Basic">
@@ -52,15 +48,12 @@ function BasicExample(props: { state: Record<string, ControlValue> }) {
           <AlertDialogHeader>
             <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
             <AlertDialogDescription>
-              This action cannot be undone. This will permanently delete your account and remove
-              your data from our servers.
+              This action cannot be undone. This will permanently delete your account and remove your data from our servers.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel>Cancel</AlertDialogCancel>
-            <AlertDialogAction className="bg-rixl-danger text-rixl-danger-fg hover:bg-rixl-danger">
-              Continue
-            </AlertDialogAction>
+            <AlertDialogAction className="bg-rixl-danger text-rixl-danger-fg hover:bg-rixl-danger">Continue</AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
@@ -68,7 +61,7 @@ function BasicExample(props: { state: Record<string, ControlValue> }) {
   );
 }
 
-function NeutralConfirmExample(props: { state: Record<string, ControlValue> }) {
+function NeutralConfirmExample(props: {state: Record<string, ControlValue>}) {
   void props;
   return (
     <Group label="Custom actions (neutral confirm)">
@@ -77,9 +70,7 @@ function NeutralConfirmExample(props: { state: Record<string, ControlValue> }) {
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>Leave this project?</AlertDialogTitle>
-            <AlertDialogDescription>
-              You will lose access to its private channels and settings.
-            </AlertDialogDescription>
+            <AlertDialogDescription>You will lose access to its private channels and settings.</AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel>Stay</AlertDialogCancel>
@@ -91,7 +82,7 @@ function NeutralConfirmExample(props: { state: Record<string, ControlValue> }) {
   );
 }
 
-function DestructiveCopyExample(props: { state: Record<string, ControlValue> }) {
+function DestructiveCopyExample(props: {state: Record<string, ControlValue>}) {
   void props;
   return (
     <Group label="Destructive with custom button copy">
@@ -106,9 +97,7 @@ function DestructiveCopyExample(props: { state: Record<string, ControlValue> }) 
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel>Keep Alex</AlertDialogCancel>
-            <AlertDialogAction className="bg-rixl-danger text-rixl-danger-fg hover:bg-rixl-danger">
-              Remove
-            </AlertDialogAction>
+            <AlertDialogAction className="bg-rixl-danger text-rixl-danger-fg hover:bg-rixl-danger">Remove</AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
@@ -117,7 +106,7 @@ function DestructiveCopyExample(props: { state: Record<string, ControlValue> }) 
 }
 
 export const examples: Example[] = [
-  { id: "basic", title: "Basic", render: BasicExample },
-  { id: "neutral", title: "Neutral confirm", render: NeutralConfirmExample },
-  { id: "destructive", title: "Destructive copy", render: DestructiveCopyExample },
+  {id: "basic", title: "Basic", render: BasicExample},
+  {id: "neutral", title: "Neutral confirm", render: NeutralConfirmExample},
+  {id: "destructive", title: "Destructive copy", render: DestructiveCopyExample},
 ];

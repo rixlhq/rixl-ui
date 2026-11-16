@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react";
-import { Progress } from "@rixl/ui/progress";
-import type { ControlValue, Example } from "./registry";
-import { Group } from "../components/showcase-layout";
+import {useEffect, useState} from "react";
+import {Progress} from "@rixl/ui/progress";
+import type {ControlValue, Example} from "./registry";
+import {Group} from "../components/showcase-layout";
 
 export const path = "progress";
 export const title = "Progress";
@@ -12,7 +12,7 @@ export function Showcase() {
   return <Progress value={50} className="w-full" />;
 }
 
-function LiveExample({ state }: { state: Record<string, ControlValue> }) {
+function LiveExample({state}: {state: Record<string, ControlValue>}) {
   const raw = state.value as string;
   const value = raw === "indeterminate" ? null : Number(raw);
   const valueLabel = raw === "indeterminate" ? "Indeterminate" : `${raw}%`;
@@ -25,7 +25,7 @@ function LiveExample({ state }: { state: Record<string, ControlValue> }) {
   );
 }
 
-function StaticValuesExample(props: { state: Record<string, ControlValue> }) {
+function StaticValuesExample(props: {state: Record<string, ControlValue>}) {
   void props;
   return (
     <Group label="Static values">
@@ -40,7 +40,7 @@ function StaticValuesExample(props: { state: Record<string, ControlValue> }) {
   );
 }
 
-function CustomHeightExample(props: { state: Record<string, ControlValue> }) {
+function CustomHeightExample(props: {state: Record<string, ControlValue>}) {
   void props;
   return (
     <Group label="Custom height (className)">
@@ -74,12 +74,12 @@ export const examples: Example[] = [
         label: "Value",
         type: "select",
         options: [
-          { value: "0", label: "0%" },
-          { value: "25", label: "25%" },
-          { value: "50", label: "50%" },
-          { value: "75", label: "75%" },
-          { value: "100", label: "100%" },
-          { value: "indeterminate", label: "Indeterminate" },
+          {value: "0", label: "0%"},
+          {value: "25", label: "25%"},
+          {value: "50", label: "50%"},
+          {value: "75", label: "75%"},
+          {value: "100", label: "100%"},
+          {value: "indeterminate", label: "Indeterminate"},
         ],
         defaultValue: "50",
       },
@@ -87,9 +87,9 @@ export const examples: Example[] = [
     code: `<Progress value={50} className="w-full" />
 <Progress value={null} className="w-full" />`,
   },
-  { id: "static", title: "Static values", render: StaticValuesExample },
-  { id: "heights", title: "Custom heights", render: CustomHeightExample },
-  { id: "animated", title: "Animated", render: AnimatedExample },
+  {id: "static", title: "Static values", render: StaticValuesExample},
+  {id: "heights", title: "Custom heights", render: CustomHeightExample},
+  {id: "animated", title: "Animated", render: AnimatedExample},
 ];
 
 function useAnimatedValue() {

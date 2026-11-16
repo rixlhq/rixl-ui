@@ -1,28 +1,25 @@
-import { CopyBlock } from "@rixl/ui/copy-block";
-import type { ControlValue, Example } from "./registry";
+import {CopyBlock} from "@rixl/ui/copy-block";
+import type {ControlValue, Example} from "./registry";
 
 export const path = "copy-block";
 export const title = "CopyBlock";
 export const group = "Content";
-export const description =
-  "Inline label + value with a morphing copy/check icon and tooltip feedback. Copies the value to the clipboard.";
+export const description = "Inline label + value with a morphing copy/check icon and tooltip feedback. Copies the value to the clipboard.";
 
 export function Showcase() {
   return <CopyBlock title="API Key" value="sk_live_51H3xQ9kP2e0R8m" className="w-full max-w-md" />;
 }
 
-function ValueExample(props: { state: Record<string, ControlValue> }) {
+function ValueExample(props: {state: Record<string, ControlValue>}) {
   void props;
   return <CopyBlock title="API Key" value="sk_live_51H3xQ9kP2e0R8m" className="w-full max-w-md" />;
 }
 
-function CustomContentExample(props: { state: Record<string, ControlValue> }) {
+function CustomContentExample(props: {state: Record<string, ControlValue>}) {
   void props;
   return (
     <CopyBlock title="Endpoint" value="https://api.rixl.dev/v1/media" className="w-full max-w-md">
-      <span className="p-2 font-mono text-sm whitespace-nowrap text-rixl-fg">
-        https://api.rixl.dev/v1/media
-      </span>
+      <span className="p-2 font-mono text-sm whitespace-nowrap text-rixl-fg">https://api.rixl.dev/v1/media</span>
     </CopyBlock>
   );
 }

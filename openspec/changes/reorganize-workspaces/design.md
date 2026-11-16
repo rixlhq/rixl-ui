@@ -33,6 +33,13 @@ See [proposal.md](proposal.md) for motivation. The root currently owns `packages
 - **Dropped:** None.
 - **Evidence:** `apps/docs/vite.config.ts` imports `defineConfig` from `vite` and installs Vite plugins; root scripts use Vite+ commands.
 
+### Centralize shared lint and format configuration
+
+- **Chosen:** Put shared lint and format settings in the root `vite.config.ts`. Keep `packages/ui/vite.config.ts` for pack/test configuration and `apps/docs/vite.config.ts` for Vite plugins and server settings. Use `vite-plus` imports and the Vite+ import lint plugin in configs.
+- **Alternatives considered:** Keep lint/format in the UI config, which excludes docs and leaves root checks without shared settings; merge all app, pack, test, and shared settings into one root config, which couples package-specific concerns.
+- **Dropped:** None.
+- **Evidence:** Vite+ [Monorepo guide](https://viteplus.dev/guide/monorepo) recommends root lint/fmt settings with separate package Vite configs; generated Vite+ application imports `defineConfig` from `vite-plus`.
+
 ## Risks / Trade-offs
 
 - **Path references may be missed** → Search source, config, workflows, README, and agent guidance for `examples/playground`; verify the build and CI references after moving.

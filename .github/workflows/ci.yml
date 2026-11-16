@@ -52,11 +52,20 @@ jobs:
         if: steps.playwright-cache.outputs.cache-hit != 'true'
         run: vp exec playwright install chromium
 
-      # The `ci` script in packages/ui/package.json: check, fmt, suppressions,
-      # Knip, unit and browser tests with coverage floors, the package build,
-      # the size budget and publint.
+      # Shared formatting and linting use the root Vite+ config across both workspaces.
+      - name: 🧹 Workspace checks
+        run: vp check
+        working-directory: .
+
+      # The `ci` script in packages/ui/package.json: UI package checks,
+      # Knip, unit and browser tests with coverage floors, package build,
+      # size budget and publint.
       - name: 🧪 Gate
         run: vp run ci
+
+      - name: 🏗️ Build docs app
+        run: vp run -F docs build
+        working-directory: .
 
       - name: 📊 Report coverage to PR
         if: ${{ !cancelled() && github.event_name == 'pull_request' && github.event.pull_request.head.repo.fork == false }}
