@@ -13,12 +13,12 @@ The package SHALL expose every component at `@rixl/ui/<component>`, built as its
 #### Scenario: Subpath import
 
 - **WHEN** a consumer imports `@rixl/ui/button`
-- **THEN** the `exports` map resolves it to `dist/button.js` and `dist/button.d.ts` (`vp run publint` passes)
+- **THEN** the `exports` map resolves it to `dist/button.js` and `dist/button.d.ts` (`vpr publint` passes)
 
 #### Scenario: Size budget
 
 - **WHEN** the package is built
-- **THEN** the built JS and the Tailwind preset stay within `.size-limit.json` (`vp run budget`)
+- **THEN** the built JS and the Tailwind preset stay within `.size-limit.json` (`vpr budget`)
 
 ### Requirement: A consumer's classes win
 

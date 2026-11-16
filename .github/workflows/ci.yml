@@ -41,22 +41,22 @@ jobs:
           key: ${{ runner.os }}-playwright-${{ hashFiles('bun.lock') }}
 
       - name: ⚙️ Setup Playwright OS dependencies
-        run: vp exec -F @rixl/ui -- playwright install-deps chromium
+        run: vpx -F @rixl/ui -- playwright install-deps chromium
 
       - name: ⚙️ Setup Playwright browser
         if: steps.playwright-cache.outputs.cache-hit != 'true'
-        run: vp exec -F @rixl/ui -- playwright install chromium
+        run: vpx -F @rixl/ui -- playwright install chromium
 
       # Check and package gates are independent; docs builds after the UI pack.
       - parallel:
           - name: 🧹 Workspace checks
-            run: vp run ci:check
+            run: vpr ci:check
 
           - name: 🧪 UI package gate
-            run: vp run ci:ui
+            run: vpr ci:ui
 
       - name: 🏗️ Build docs app
-        run: vp run ci:docs
+        run: vpr ci:docs
 
       - name: 📊 Report coverage to PR
         if: ${{ !cancelled() && github.event_name == 'pull_request' && github.event.pull_request.head.repo.fork == false && hashFiles('packages/ui/coverage/coverage-summary.json') != '' }}

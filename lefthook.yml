@@ -24,7 +24,7 @@ pre-commit:
     suppressions:
       root: "packages/ui/"
       glob: "*.{ts,tsx}"
-      run: vp run lint:suppressions < /dev/null
+      run: vpr lint:suppressions < /dev/null
     test:
       root: "packages/ui/"
       glob: "*.{ts,tsx}"
@@ -45,10 +45,10 @@ pre-push:
       timeout: 3m
     knip:
       root: "packages/ui/"
-      run: vp run knip < /dev/null
+      run: vpr knip < /dev/null
       timeout: 2m
     react-doctor:
       root: "packages/ui/"
       glob: "*.{jsx,tsx}"
-      run: vp run react-doctor < /dev/null
+      run: vpr react-doctor < /dev/null
       timeout: 2m
