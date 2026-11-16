@@ -1,6 +1,6 @@
-import {createContext, useContext} from "react";
+import {createContext, useContext, useMemo} from "react";
 import {Tabs as TabsPrimitive} from "@base-ui/react/tabs";
-import {cva, type VariantProps} from "class-variance-authority";
+import {cva} from "class-variance-authority";
 import {cn} from "cn";
 
 /**
@@ -21,7 +21,11 @@ import {cn} from "cn";
 type TabsVariant = "segmented" | "underline" | "ghost";
 type TabsSize = "sm" | "md";
 
-const TabsStyleContext = createContext<{variant: TabsVariant; size: TabsSize; fullWidth: boolean}>({
+const TabsStyleContext = createContext<{
+  variant: TabsVariant;
+  size: TabsSize;
+  fullWidth: boolean;
+}>({
   variant: "segmented",
   size: "md",
   fullWidth: false,
@@ -37,19 +41,26 @@ const listVariants = cva("relative isolate flex min-w-0 max-w-full items-stretch
     fullWidth: {true: "w-full", false: "w-fit"},
     // Many tabs in a narrow column scroll rather than wrap, so a tab row is
     // always one row and the indicator never has to jump between lines.
-    scrollable: {true: "overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden", false: ""},
+    scrollable: {
+      true: "overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden",
+      false: "",
+    },
   },
   defaultVariants: {variant: "segmented", fullWidth: false, scrollable: true},
 });
 
 const triggerVariants = cva(
-  "relative z-10 inline-flex shrink-0 cursor-pointer items-center justify-center gap-1.5 font-medium whitespace-nowrap " +
-    "outline-none select-none disabled:pointer-events-none disabled:opacity-50 " +
-    "[&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 " +
-    "focus-visible:ring-rixl-ring/50 focus-visible:ring-[3px] " +
+  cn(
+    "relative z-10 inline-flex shrink-0 cursor-pointer items-center justify-center gap-1.5 font-medium whitespace-nowrap",
+    "outline-none select-none touch-manipulation disabled:pointer-events-none disabled:opacity-50",
+    "[&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
+    "focus-visible:ring-rixl-ring/50 focus-visible:ring-[3px]",
     // Same press token as Button, so every pressable surface depresses alike.
-    "active:scale-[var(--rixl-press-scale)] motion-reduce:active:scale-100 " +
-    "transition-[color,background-color,scale] duration-rixl-fast ease-rixl-out",
+    // Snap back to scale-100 on data-active so Base UI's TabsIndicator measures
+    // the unscaled bounding box on activation.
+    "active:scale-[var(--rixl-press-scale)] data-active:scale-100 motion-reduce:active:scale-100",
+    "transition-[color,background-color,scale] data-active:transition-[color,background-color] duration-rixl-fast ease-rixl-out"
+  ),
   {
     variants: {
       variant: {
@@ -65,9 +76,8 @@ const triggerVariants = cva(
       },
       // A floor, not a fixed height: a trigger may stack an icon, a label and a
       // description, and a hard height would let that content spill out of the
-      // box the indicator is measured from. The padding reproduces the previous
-      // desktop heights for single-line labels; mobile keeps a 44px touch target.
-      size: {sm: "min-h-11 px-2.5 py-1 text-xs sm:min-h-7", md: "min-h-11 px-3 py-1.5 text-sm sm:min-h-8"},
+      // box the indicator is measured from.
+      size: {sm: "min-h-7 px-2.5 py-1 text-xs", md: "min-h-8 px-3 py-1.5 text-sm"},
       fullWidth: {true: "flex-1", false: ""},
     },
     defaultVariants: {variant: "segmented", size: "md", fullWidth: false},
@@ -75,12 +85,14 @@ const triggerVariants = cva(
 );
 
 const indicatorVariants = cva(
-  "pointer-events-none absolute top-0 left-0 z-0 " +
-    "translate-x-[var(--active-tab-left)] translate-y-[var(--active-tab-top)] " +
-    "h-[var(--active-tab-height)] w-[var(--active-tab-width)] " +
+  cn(
+    "pointer-events-none absolute top-0 left-0 z-0",
+    "translate-x-[var(--active-tab-left)] translate-y-[var(--active-tab-top)]",
+    "h-[var(--active-tab-height)] w-[var(--active-tab-width)]",
     // Base UI renders nothing until it has measured a tab, so there is no
     // unpositioned first paint to guard against.
-    "transition-[translate,width,height] duration-rixl-base ease-rixl-out motion-reduce:transition-none",
+    "transition-[translate,width,height] duration-rixl-base ease-rixl-out motion-reduce:transition-none"
+  ),
   {
     variants: {
       variant: {
@@ -104,8 +116,9 @@ export type TabsProps = TabsPrimitive.Root.Props & {
 };
 
 function Tabs({className, variant = "segmented", size = "md", fullWidth = false, ...props}: TabsProps) {
+  const styleValue = useMemo(() => ({variant, size, fullWidth}), [variant, size, fullWidth]);
   return (
-    <TabsStyleContext.Provider value={{variant, size, fullWidth}}>
+    <TabsStyleContext.Provider value={styleValue}>
       <TabsPrimitive.Root data-slot="tabs" className={cn("flex min-w-0 flex-col gap-3", className)} {...props} />
     </TabsStyleContext.Provider>
   );
@@ -135,10 +148,20 @@ function TabsTrigger({className, ...props}: TabsTriggerProps) {
 
 export type TabsContentProps = TabsPrimitive.Panel.Props;
 
+const contentVariants = cva(
+  cn(
+    "min-w-0 flex-1 outline-none",
+    "focus-visible:ring-rixl-ring/50 focus-visible:ring-[3px] focus-visible:rounded-rixl-sm",
+    "data-[activation-direction=left]:animate-in data-[activation-direction=left]:fade-in-0 data-[activation-direction=left]:slide-in-from-left-1",
+    "data-[activation-direction=right]:animate-in data-[activation-direction=right]:fade-in-0 data-[activation-direction=right]:slide-in-from-right-1",
+    "data-[activation-direction=up]:animate-in data-[activation-direction=up]:fade-in-0 data-[activation-direction=up]:slide-in-from-top-1",
+    "data-[activation-direction=down]:animate-in data-[activation-direction=down]:fade-in-0 data-[activation-direction=down]:slide-in-from-bottom-1",
+    "duration-rixl-base ease-rixl-out motion-reduce:animate-none"
+  )
+);
+
 function TabsContent({className, ...props}: TabsContentProps) {
-  return <TabsPrimitive.Panel data-slot="tabs-content" className={cn("min-w-0 flex-1 outline-none", className)} {...props} />;
+  return <TabsPrimitive.Panel data-slot="tabs-content" className={cn(contentVariants(), className)} {...props} />;
 }
 
-export type TabsVariantProps = VariantProps<typeof triggerVariants>;
-
-export {Tabs, TabsList, TabsTrigger, TabsContent, listVariants, triggerVariants, indicatorVariants};
+export {Tabs, TabsList, TabsTrigger, TabsContent};

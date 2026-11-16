@@ -53,6 +53,17 @@ describe("Tabs", () => {
     expect(screen.getByText("Account panel")).toBeInTheDocument();
   });
 
+  it("animates the content panel according to activation direction, reduced-motion safe", () => {
+    render(<Basic />);
+    const cls = screen.getByTestId("content-account").className;
+    expect(cls).toContain("data-[activation-direction=right]:animate-in");
+    expect(cls).toContain("data-[activation-direction=left]:animate-in");
+    expect(cls).toContain("data-[activation-direction=right]:slide-in-from-right-1");
+    expect(cls).toContain("data-[activation-direction=left]:slide-in-from-left-1");
+    expect(cls).toContain("duration-rixl-base");
+    expect(cls).toContain("motion-reduce:animate-none");
+  });
+
   describe("travelling indicator", () => {
     // The active state is one element that moves, rather than a fill repainted
     // on each trigger. TabsList renders it so a tab set cannot be built without.
@@ -149,24 +160,22 @@ describe("Tabs", () => {
       expect(list()).toHaveClass("min-w-0", "max-w-full");
     });
 
-    it.each(["sm", "md"] as const)("gives %s triggers mobile touch targets", (size) => {
-      render(<Basic size={size} />);
-      expect(screen.getByTestId("tab-account")).toHaveClass("min-h-11");
-    });
-
     // A floor rather than a fixed height, so a trigger stacking a label over a
     // description grows instead of spilling out of the box the indicator
     // measures.
-    it("defaults triggers to the md size as a minimum height", () => {
+    it("defaults triggers to the md size as a compact 32px minimum height", () => {
       render(<Basic />);
       const cls = screen.getByTestId("tab-account").className;
       expect(cls).toContain("min-h-8");
+      expect(cls).not.toContain("min-h-11");
       expect(cls).not.toMatch(/(^|\s)h-8(\s|$)/);
     });
 
-    it("applies the sm size to triggers", () => {
+    it("applies the sm size (28px minimum height) to triggers", () => {
       render(<Basic size="sm" />);
-      expect(screen.getByTestId("tab-account").className).toContain("min-h-7");
+      const cls = screen.getByTestId("tab-account").className;
+      expect(cls).toContain("min-h-7");
+      expect(cls).not.toContain("min-h-11");
     });
 
     it("stretches a row so a taller tab does not leave its neighbours floating", () => {
