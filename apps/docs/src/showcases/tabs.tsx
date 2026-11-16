@@ -1,16 +1,9 @@
-import { Badge } from "@rixl/ui/badge";
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
-} from "@rixl/ui/breadcrumb";
-import { Button } from "@rixl/ui/button";
-import { Tabs, TabsContent, TabsList, TabsTrigger, type TabsProps } from "@rixl/ui/tabs";
-import { Group } from "../components/showcase-layout";
-import type { ControlValue, Example } from "./registry";
+import {Badge} from "@rixl/ui/badge";
+import {Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator} from "@rixl/ui/breadcrumb";
+import {Button} from "@rixl/ui/button";
+import {Tabs, TabsContent, TabsList, TabsTrigger, type TabsProps} from "@rixl/ui/tabs";
+import {Group} from "../components/showcase-layout";
+import type {ControlValue, Example} from "./registry";
 
 export const path = "tabs";
 export const title = "Tabs";
@@ -18,16 +11,7 @@ export const group = "Navigation";
 export const description =
   "Tabbed content built on Base UI Tabs. Hovering an inactive tab changes text intensity only while a single indicator glides across tabs over 300ms. Overflowing tab lists scroll in one row with fade + chevron controls, drag-to-scroll, and smooth scrollIntoView.";
 
-const CLOUDFLARE = [
-  "Overview",
-  "Metrics",
-  "Deployments",
-  "Bindings",
-  "Observability",
-  "Domains",
-  "Access",
-  "Settings",
-];
+const CLOUDFLARE = ["Overview", "Metrics", "Deployments", "Bindings", "Observability", "Domains", "Access", "Settings"];
 
 export function Showcase() {
   return (
@@ -42,7 +26,7 @@ export function Showcase() {
 }
 
 /** A tab row with panels, so every example stays a couple of lines. */
-function Row({ labels, ...rest }: { labels: string[] } & Partial<TabsProps>) {
+function Row({labels, ...rest}: {labels: string[]} & Partial<TabsProps>) {
   const value = (label: string) => label.toLowerCase().replace(/\s+/g, "-");
   return (
     <Tabs defaultValue={value(labels[0])} {...rest}>
@@ -62,28 +46,26 @@ function Row({ labels, ...rest }: { labels: string[] } & Partial<TabsProps>) {
   );
 }
 
-function SlideExample(props: { state: Record<string, ControlValue> }) {
+function SlideExample(props: {state: Record<string, ControlValue>}) {
   void props;
   return (
     <div className="space-y-4">
       <Row labels={CLOUDFLARE} />
       <p className="text-xs text-rixl-fg-muted">
-        Hovering an inactive trigger only shifts text intensity (
-        <code className="text-rixl-fg">text-rixl-fg-muted → text-rixl-fg</code>), so the travelling
-        pill is the single moving surface across the bar.
+        Hovering an inactive trigger only shifts text intensity (<code className="text-rixl-fg">text-rixl-fg-muted → text-rixl-fg</code>),
+        so the travelling pill is the single moving surface across the bar.
       </p>
     </div>
   );
 }
 
-function OverflowExample(props: { state: Record<string, ControlValue> }) {
+function OverflowExample(props: {state: Record<string, ControlValue>}) {
   void props;
   return (
     <div className="space-y-6">
       <div className="max-w-sm space-y-2">
         <p className="text-xs font-medium text-rixl-fg-muted">
-          Segmented overflow (narrow container — use chevrons, drag, or click partially visible
-          tabs)
+          Segmented overflow (narrow container — use chevrons, drag, or click partially visible tabs)
         </p>
         <Row labels={CLOUDFLARE} variant="segmented" />
       </div>
@@ -119,23 +101,18 @@ function OverflowExample(props: { state: Record<string, ControlValue> }) {
   );
 }
 
-function VariantsExample({ state }: { state: Record<string, ControlValue> }) {
+function VariantsExample({state}: {state: Record<string, ControlValue>}) {
   const variant = state.variant as TabsProps["variant"];
   const size = state.size as TabsProps["size"];
   const fullWidth = state.fullWidth as boolean;
   return (
     <div className="w-full">
-      <Row
-        labels={["Overview", "Metrics", "Deployments", "Settings"]}
-        variant={variant}
-        size={size}
-        fullWidth={fullWidth}
-      />
+      <Row labels={["Overview", "Metrics", "Deployments", "Settings"]} variant={variant} size={size} fullWidth={fullWidth} />
     </div>
   );
 }
 
-function AllVariantsExample(props: { state: Record<string, ControlValue> }) {
+function AllVariantsExample(props: {state: Record<string, ControlValue>}) {
   void props;
   return (
     <div className="space-y-6">
@@ -152,7 +129,7 @@ function AllVariantsExample(props: { state: Record<string, ControlValue> }) {
   );
 }
 
-function SizesExample(props: { state: Record<string, ControlValue> }) {
+function SizesExample(props: {state: Record<string, ControlValue>}) {
   void props;
   return (
     <div className="space-y-6">
@@ -170,8 +147,7 @@ export const examples: Example[] = [
   {
     id: "slide",
     title: "Travelling indicator",
-    description:
-      "Hover changes text intensity only; clicking glides the single active pill across tabs over 300ms.",
+    description: "Hover changes text intensity only; clicking glides the single active pill across tabs over 300ms.",
     render: SlideExample,
     code: `<Tabs defaultValue="overview" variant="segmented">
   <TabsList>
@@ -200,9 +176,9 @@ export const examples: Example[] = [
         label: "Variant",
         type: "select",
         options: [
-          { value: "segmented", label: "Segmented" },
-          { value: "underline", label: "Underline" },
-          { value: "ghost", label: "Ghost" },
+          {value: "segmented", label: "Segmented"},
+          {value: "underline", label: "Underline"},
+          {value: "ghost", label: "Ghost"},
         ],
         defaultValue: "segmented",
       },
@@ -211,14 +187,14 @@ export const examples: Example[] = [
         label: "Size",
         type: "select",
         options: [
-          { value: "sm", label: "Small" },
-          { value: "md", label: "Medium" },
+          {value: "sm", label: "Small"},
+          {value: "md", label: "Medium"},
         ],
         defaultValue: "md",
       },
-      { name: "fullWidth", label: "Full width", type: "boolean", defaultValue: false },
+      {name: "fullWidth", label: "Full width", type: "boolean", defaultValue: false},
     ],
   },
-  { id: "all-variants", title: "Variants", render: AllVariantsExample },
-  { id: "sizes", title: "Sizes", render: SizesExample },
+  {id: "all-variants", title: "Variants", render: AllVariantsExample},
+  {id: "sizes", title: "Sizes", render: SizesExample},
 ];

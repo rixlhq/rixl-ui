@@ -1,18 +1,11 @@
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
-} from "@rixl/ui/breadcrumb";
-import { Input } from "@rixl/ui/input";
-import { Separator } from "@rixl/ui/separator";
-import { SidebarTrigger } from "@rixl/ui/sidebar";
-import { Tabs, TabsList, TabsTrigger } from "@rixl/ui/tabs";
-import type { Theme } from "../hooks/use-theme";
-import type { Showcase } from "../showcases/registry";
-import { MonitorIcon, MoonIcon, SearchIcon, SunIcon } from "./icons";
+import {Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator} from "@rixl/ui/breadcrumb";
+import {Input} from "@rixl/ui/input";
+import {Separator} from "@rixl/ui/separator";
+import {SidebarTrigger} from "@rixl/ui/sidebar";
+import {Tabs, TabsList, TabsTrigger} from "@rixl/ui/tabs";
+import type {Theme} from "../hooks/use-theme";
+import type {Showcase} from "../showcases/registry";
+import {MonitorIcon, MoonIcon, SearchIcon, SunIcon} from "./icons";
 
 export function Header({
   theme,
@@ -35,11 +28,7 @@ export function Header({
         <Breadcrumb>
           <BreadcrumbList>
             <BreadcrumbItem>
-              {active ? (
-                <BreadcrumbLink href="#/">Components</BreadcrumbLink>
-              ) : (
-                <BreadcrumbPage>Components</BreadcrumbPage>
-              )}
+              {active ? <BreadcrumbLink href="#/">Components</BreadcrumbLink> : <BreadcrumbPage>Components</BreadcrumbPage>}
             </BreadcrumbItem>
             {active ? (
               <>
@@ -73,14 +62,9 @@ export function Header({
   );
 }
 
-function ThemeToggle({ theme, onChange }: { theme: Theme; onChange: (next: Theme) => void }) {
+function ThemeToggle({theme, onChange}: {theme: Theme; onChange: (next: Theme) => void}) {
   return (
-    <Tabs
-      value={theme}
-      onValueChange={(value) => onChange(value as Theme)}
-      variant="segmented"
-      size="sm"
-    >
+    <Tabs value={theme} onValueChange={(value) => onChange(value as Theme)} variant="segmented" size="sm">
       <TabsList aria-label="Theme">
         <TabsTrigger value="system" aria-label="System theme">
           <MonitorIcon />

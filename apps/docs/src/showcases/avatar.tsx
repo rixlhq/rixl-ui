@@ -1,12 +1,11 @@
-import { Avatar, AvatarFallback, AvatarImage } from "@rixl/ui/avatar";
-import type { ControlValue, Example } from "./registry";
-import { Group } from "../components/showcase-layout";
+import {Avatar, AvatarFallback, AvatarImage} from "@rixl/ui/avatar";
+import type {ControlValue, Example} from "./registry";
+import {Group} from "../components/showcase-layout";
 
 export const path = "avatar";
 export const title = "Avatar";
 export const group = "Feedback";
-export const description =
-  "Image with graceful fallback. Composed of Avatar (root), AvatarImage, and AvatarFallback.";
+export const description = "Image with graceful fallback. Composed of Avatar (root), AvatarImage, and AvatarFallback.";
 
 export function Showcase() {
   return (
@@ -17,7 +16,7 @@ export function Showcase() {
   );
 }
 
-function LiveExample({ state }: { state: Record<string, ControlValue> }) {
+function LiveExample({state}: {state: Record<string, ControlValue>}) {
   const size = state.size as string;
   return (
     <Group label="Live preview">
@@ -29,7 +28,7 @@ function LiveExample({ state }: { state: Record<string, ControlValue> }) {
   );
 }
 
-function WithImageExample(props: { state: Record<string, ControlValue> }) {
+function WithImageExample(props: {state: Record<string, ControlValue>}) {
   void props;
   return (
     <Group label="With image">
@@ -45,7 +44,7 @@ function WithImageExample(props: { state: Record<string, ControlValue> }) {
   );
 }
 
-function FallbackOnlyExample(props: { state: Record<string, ControlValue> }) {
+function FallbackOnlyExample(props: {state: Record<string, ControlValue>}) {
   void props;
   return (
     <Group label="Fallback only (missing / broken image)">
@@ -62,7 +61,7 @@ function FallbackOnlyExample(props: { state: Record<string, ControlValue> }) {
   );
 }
 
-function StackedGroupExample(props: { state: Record<string, ControlValue> }) {
+function StackedGroupExample(props: {state: Record<string, ControlValue>}) {
   void props;
   return (
     <Group label="Stacked group">
@@ -95,10 +94,10 @@ export const examples: Example[] = [
         label: "Size class",
         type: "select",
         options: [
-          { value: "size-6", label: "Small" },
-          { value: "size-8", label: "Default" },
-          { value: "size-12", label: "Large" },
-          { value: "size-16", label: "Extra large" },
+          {value: "size-6", label: "Small"},
+          {value: "size-8", label: "Default"},
+          {value: "size-12", label: "Large"},
+          {value: "size-16", label: "Extra large"},
         ],
         defaultValue: "size-8",
       },
@@ -108,9 +107,9 @@ export const examples: Example[] = [
   <AvatarFallback>AV</AvatarFallback>
 </Avatar>`,
   },
-  { id: "image", title: "With image", render: WithImageExample },
-  { id: "fallback", title: "Fallback", render: FallbackOnlyExample },
-  { id: "stacked", title: "Stacked group", render: StackedGroupExample },
+  {id: "image", title: "With image", render: WithImageExample},
+  {id: "fallback", title: "Fallback", render: FallbackOnlyExample},
+  {id: "stacked", title: "Stacked group", render: StackedGroupExample},
 ];
 
 function UserIcon() {

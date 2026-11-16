@@ -1,10 +1,10 @@
-import { Button } from "@rixl/ui/button";
-import { Input } from "@rixl/ui/input";
-import { Label } from "@rixl/ui/label";
-import { Popover, PopoverContent, PopoverTrigger } from "@rixl/ui/popover";
-import { Switch } from "@rixl/ui/switch";
-import type { ControlValue, Example } from "./registry";
-import { Group } from "../components/showcase-layout";
+import {Button} from "@rixl/ui/button";
+import {Input} from "@rixl/ui/input";
+import {Label} from "@rixl/ui/label";
+import {Popover, PopoverContent, PopoverTrigger} from "@rixl/ui/popover";
+import {Switch} from "@rixl/ui/switch";
+import type {ControlValue, Example} from "./registry";
+import {Group} from "../components/showcase-layout";
 
 export const path = "popover";
 export const title = "Popover";
@@ -18,30 +18,26 @@ export function Showcase() {
       <PopoverTrigger render={<Button variant="outline">Open popover</Button>} />
       <PopoverContent>
         <p className="text-sm font-medium">Placements</p>
-        <p className="mt-1 text-sm text-rixl-fg-muted">
-          The popover closes on outside press, Escape, and when it loses focus.
-        </p>
+        <p className="mt-1 text-sm text-rixl-fg-muted">The popover closes on outside press, Escape, and when it loses focus.</p>
       </PopoverContent>
     </Popover>
   );
 }
 
-function BasicExample(props: { state: Record<string, ControlValue> }) {
+function BasicExample(props: {state: Record<string, ControlValue>}) {
   void props;
   return (
     <Popover>
       <PopoverTrigger render={<Button variant="outline">Open popover</Button>} />
       <PopoverContent>
         <p className="text-sm font-medium">Placements</p>
-        <p className="mt-1 text-sm text-rixl-fg-muted">
-          The popover closes on outside press, Escape, and when it loses focus.
-        </p>
+        <p className="mt-1 text-sm text-rixl-fg-muted">The popover closes on outside press, Escape, and when it loses focus.</p>
       </PopoverContent>
     </Popover>
   );
 }
 
-function SidesExample(props: { state: Record<string, ControlValue> }) {
+function SidesExample(props: {state: Record<string, ControlValue>}) {
   void props;
   return (
     <Group label="Sides">
@@ -58,7 +54,7 @@ function SidesExample(props: { state: Record<string, ControlValue> }) {
   );
 }
 
-function AlignmentsExample(props: { state: Record<string, ControlValue> }) {
+function AlignmentsExample(props: {state: Record<string, ControlValue>}) {
   void props;
   return (
     <Group label="Alignments">
@@ -75,7 +71,7 @@ function AlignmentsExample(props: { state: Record<string, ControlValue> }) {
   );
 }
 
-function FormInsideExample(props: { state: Record<string, ControlValue> }) {
+function FormInsideExample(props: {state: Record<string, ControlValue>}) {
   void props;
   return (
     <Popover>
@@ -102,8 +98,8 @@ function FormInsideExample(props: { state: Record<string, ControlValue> }) {
 }
 
 export const examples: Example[] = [
-  { id: "basic", title: "Basic", render: BasicExample },
-  { id: "sides", title: "Sides", render: SidesExample },
-  { id: "alignments", title: "Alignments", render: AlignmentsExample },
-  { id: "form", title: "Form inside", render: FormInsideExample },
+  {id: "basic", title: "Basic", render: BasicExample},
+  {id: "sides", title: "Sides", render: SidesExample},
+  {id: "alignments", title: "Alignments", render: AlignmentsExample},
+  {id: "form", title: "Form inside", render: FormInsideExample},
 ];

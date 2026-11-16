@@ -1,9 +1,9 @@
-import { useState } from "react";
-import { Badge } from "@rixl/ui/badge";
-import { Button } from "@rixl/ui/button";
-import { Card, CardContent } from "@rixl/ui/card";
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@rixl/ui/collapsible";
-import type { ControlValue, Example } from "./registry";
+import {useState} from "react";
+import {Badge} from "@rixl/ui/badge";
+import {Button} from "@rixl/ui/button";
+import {Card, CardContent} from "@rixl/ui/card";
+import {Collapsible, CollapsibleContent, CollapsibleTrigger} from "@rixl/ui/collapsible";
+import type {ControlValue, Example} from "./registry";
 
 export const path = "collapsible";
 export const title = "Collapsible";
@@ -24,9 +24,7 @@ export function Showcase() {
       <CollapsibleContent>
         <div className="pt-2">
           <Card className="py-3">
-            <CardContent className="px-3 text-xs text-rixl-fg-muted">
-              Expandable panel content.
-            </CardContent>
+            <CardContent className="px-3 text-xs text-rixl-fg-muted">Expandable panel content.</CardContent>
           </Card>
         </div>
       </CollapsibleContent>
@@ -34,7 +32,7 @@ export function Showcase() {
   );
 }
 
-function UncontrolledExample(props: { state: Record<string, ControlValue> }) {
+function UncontrolledExample(props: {state: Record<string, ControlValue>}) {
   void props;
   return (
     <Collapsible className="w-full max-w-sm">
@@ -55,7 +53,7 @@ function UncontrolledExample(props: { state: Record<string, ControlValue> }) {
   );
 }
 
-function ControlledExample(props: { state: Record<string, ControlValue> }) {
+function ControlledExample(props: {state: Record<string, ControlValue>}) {
   void props;
   const [open, setOpen] = useState(false);
   return (
@@ -88,6 +86,6 @@ function ControlledExample(props: { state: Record<string, ControlValue> }) {
 }
 
 export const examples: Example[] = [
-  { id: "uncontrolled", title: "Uncontrolled", render: UncontrolledExample },
-  { id: "controlled", title: "Controlled", render: ControlledExample },
+  {id: "uncontrolled", title: "Uncontrolled", render: UncontrolledExample},
+  {id: "controlled", title: "Controlled", render: ControlledExample},
 ];

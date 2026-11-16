@@ -1,17 +1,9 @@
-import { Badge } from "@rixl/ui/badge";
-import { Button } from "@rixl/ui/button";
-import { Input } from "@rixl/ui/input";
-import { Label } from "@rixl/ui/label";
-import {
-  Sheet,
-  SheetContent,
-  SheetDescription,
-  SheetFooter,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from "@rixl/ui/sheet";
-import type { ControlValue, Example } from "./registry";
+import {Badge} from "@rixl/ui/badge";
+import {Button} from "@rixl/ui/button";
+import {Input} from "@rixl/ui/input";
+import {Label} from "@rixl/ui/label";
+import {Sheet, SheetContent, SheetDescription, SheetFooter, SheetHeader, SheetTitle, SheetTrigger} from "@rixl/ui/sheet";
+import type {ControlValue, Example} from "./registry";
 
 export const path = "sheet";
 export const title = "Sheet";
@@ -45,7 +37,7 @@ export function Showcase() {
   );
 }
 
-function LiveExample({ state }: { state: Record<string, ControlValue> }) {
+function LiveExample({state}: {state: Record<string, ControlValue>}) {
   const side = state.side as "top" | "right" | "bottom" | "left";
   return (
     <Sheet>
@@ -53,9 +45,7 @@ function LiveExample({ state }: { state: Record<string, ControlValue> }) {
       <SheetContent side={side}>
         <SheetHeader>
           <SheetTitle>Edit profile</SheetTitle>
-          <SheetDescription>
-            Make changes to your profile here. Click save when you are done.
-          </SheetDescription>
+          <SheetDescription>Make changes to your profile here. Click save when you are done.</SheetDescription>
         </SheetHeader>
         <div className="grid gap-3 px-4">
           <div className="grid gap-1.5">
@@ -73,7 +63,7 @@ function LiveExample({ state }: { state: Record<string, ControlValue> }) {
   );
 }
 
-function WithBodyExample(props: { state: Record<string, ControlValue> }) {
+function WithBodyExample(props: {state: Record<string, ControlValue>}) {
   void props;
   return (
     <Sheet>
@@ -85,9 +75,9 @@ function WithBodyExample(props: { state: Record<string, ControlValue> }) {
         </SheetHeader>
         <div className="space-y-2.5 px-4">
           {[
-            { name: "hero-cover.png", meta: "1.2 MB", ext: "PNG" },
-            { name: "brand-lockup.svg", meta: "48 KB", ext: "SVG" },
-            { name: "press-kit.pdf", meta: "3.4 MB", ext: "PDF" },
+            {name: "hero-cover.png", meta: "1.2 MB", ext: "PNG"},
+            {name: "brand-lockup.svg", meta: "48 KB", ext: "SVG"},
+            {name: "press-kit.pdf", meta: "3.4 MB", ext: "PDF"},
           ].map((f) => (
             <div
               key={f.name}
@@ -121,10 +111,10 @@ export const examples: Example[] = [
         label: "Side",
         type: "select",
         options: [
-          { value: "right", label: "Right" },
-          { value: "left", label: "Left" },
-          { value: "top", label: "Top" },
-          { value: "bottom", label: "Bottom" },
+          {value: "right", label: "Right"},
+          {value: "left", label: "Left"},
+          {value: "top", label: "Top"},
+          {value: "bottom", label: "Bottom"},
         ],
         defaultValue: "right",
       },
@@ -138,5 +128,5 @@ export const examples: Example[] = [
   </SheetContent>
 </Sheet>`,
   },
-  { id: "body", title: "With body content", render: WithBodyExample },
+  {id: "body", title: "With body content", render: WithBodyExample},
 ];

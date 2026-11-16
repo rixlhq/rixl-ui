@@ -1,6 +1,6 @@
-import { Skeleton } from "@rixl/ui/skeleton";
-import type { ControlValue, Example } from "./registry";
-import { Group } from "../components/showcase-layout";
+import {Skeleton} from "@rixl/ui/skeleton";
+import type {ControlValue, Example} from "./registry";
+import {Group} from "../components/showcase-layout";
 
 export const path = "skeleton";
 export const title = "Skeleton";
@@ -12,7 +12,7 @@ export function Showcase() {
   return <Skeleton className="h-4 w-40" />;
 }
 
-function AnimationExample({ state }: { state: Record<string, ControlValue> }) {
+function AnimationExample({state}: {state: Record<string, ControlValue>}) {
   const animation = state.animation as "pulse" | "shimmer" | "none";
   return (
     <Group label="Animation">
@@ -27,7 +27,7 @@ function AnimationExample({ state }: { state: Record<string, ControlValue> }) {
   );
 }
 
-function AnimationsComparisonExample(props: { state: Record<string, ControlValue> }) {
+function AnimationsComparisonExample(props: {state: Record<string, ControlValue>}) {
   void props;
   return (
     <Group label="Pulse / shimmer / none">
@@ -44,7 +44,7 @@ function AnimationsComparisonExample(props: { state: Record<string, ControlValue
   );
 }
 
-function ShapesExample(props: { state: Record<string, ControlValue> }) {
+function ShapesExample(props: {state: Record<string, ControlValue>}) {
   void props;
   return (
     <Group label="Basic shapes">
@@ -55,7 +55,7 @@ function ShapesExample(props: { state: Record<string, ControlValue> }) {
   );
 }
 
-function CirclesExample(props: { state: Record<string, ControlValue> }) {
+function CirclesExample(props: {state: Record<string, ControlValue>}) {
   void props;
   return (
     <Group label="Circle (avatar-shaped)">
@@ -66,7 +66,7 @@ function CirclesExample(props: { state: Record<string, ControlValue> }) {
   );
 }
 
-function CardRowExample(props: { state: Record<string, ControlValue> }) {
+function CardRowExample(props: {state: Record<string, ControlValue>}) {
   void props;
   return (
     <Group label="Card row">
@@ -81,7 +81,7 @@ function CardRowExample(props: { state: Record<string, ControlValue> }) {
   );
 }
 
-function TableRowsExample(props: { state: Record<string, ControlValue> }) {
+function TableRowsExample(props: {state: Record<string, ControlValue>}) {
   void props;
   return (
     <Group label="Table rows">
@@ -99,7 +99,7 @@ function TableRowsExample(props: { state: Record<string, ControlValue> }) {
   );
 }
 
-function BlockExample(props: { state: Record<string, ControlValue> }) {
+function BlockExample(props: {state: Record<string, ControlValue>}) {
   void props;
   return (
     <Group label="Block (image / hero placeholder)">
@@ -120,19 +120,19 @@ export const examples: Example[] = [
         label: "Animation",
         type: "select",
         options: [
-          { value: "pulse", label: "Pulse" },
-          { value: "shimmer", label: "Shimmer" },
-          { value: "none", label: "None" },
+          {value: "pulse", label: "Pulse"},
+          {value: "shimmer", label: "Shimmer"},
+          {value: "none", label: "None"},
         ],
         defaultValue: "shimmer",
       },
     ],
     code: `<Skeleton className="h-4 w-40" animation="shimmer" />`,
   },
-  { id: "animations", title: "Pulse / shimmer / none", render: AnimationsComparisonExample },
-  { id: "shapes", title: "Basic shapes", render: ShapesExample },
-  { id: "circles", title: "Circles", render: CirclesExample },
-  { id: "card", title: "Card row", render: CardRowExample },
-  { id: "table", title: "Table rows", render: TableRowsExample },
-  { id: "block", title: "Block", render: BlockExample },
+  {id: "animations", title: "Pulse / shimmer / none", render: AnimationsComparisonExample},
+  {id: "shapes", title: "Basic shapes", render: ShapesExample},
+  {id: "circles", title: "Circles", render: CirclesExample},
+  {id: "card", title: "Card row", render: CardRowExample},
+  {id: "table", title: "Table rows", render: TableRowsExample},
+  {id: "block", title: "Block", render: BlockExample},
 ];

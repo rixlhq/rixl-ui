@@ -1,16 +1,7 @@
-import { Label } from "@rixl/ui/label";
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectSeparator,
-  SelectTrigger,
-  SelectValue,
-} from "@rixl/ui/select";
-import type { ControlValue, Example } from "./registry";
-import { Group } from "../components/showcase-layout";
+import {Label} from "@rixl/ui/label";
+import {Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectSeparator, SelectTrigger, SelectValue} from "@rixl/ui/select";
+import type {ControlValue, Example} from "./registry";
+import {Group} from "../components/showcase-layout";
 
 export const path = "select";
 export const title = "Select";
@@ -32,7 +23,7 @@ export function Showcase() {
   );
 }
 
-function LiveExample({ state }: { state: Record<string, ControlValue> }) {
+function LiveExample({state}: {state: Record<string, ControlValue>}) {
   const size = state.size as "sm" | "default";
   const disabled = state.disabled as boolean;
   const invalid = state.invalid as boolean;
@@ -56,7 +47,7 @@ function LiveExample({ state }: { state: Record<string, ControlValue> }) {
   );
 }
 
-function GroupedExample(props: { state: Record<string, ControlValue> }) {
+function GroupedExample(props: {state: Record<string, ControlValue>}) {
   void props;
   return (
     <Group label="Grouped options with separator">
@@ -82,7 +73,7 @@ function GroupedExample(props: { state: Record<string, ControlValue> }) {
   );
 }
 
-function DisabledOptionExample(props: { state: Record<string, ControlValue> }) {
+function DisabledOptionExample(props: {state: Record<string, ControlValue>}) {
   void props;
   return (
     <Group label="Disabled option">
@@ -114,13 +105,13 @@ export const examples: Example[] = [
         label: "Size",
         type: "select",
         options: [
-          { value: "sm", label: "Small" },
-          { value: "default", label: "Default" },
+          {value: "sm", label: "Small"},
+          {value: "default", label: "Default"},
         ],
         defaultValue: "default",
       },
-      { name: "disabled", label: "Disabled", type: "boolean", defaultValue: false },
-      { name: "invalid", label: "Invalid", type: "boolean", defaultValue: false },
+      {name: "disabled", label: "Disabled", type: "boolean", defaultValue: false},
+      {name: "invalid", label: "Invalid", type: "boolean", defaultValue: false},
     ],
     code: `<Select>
   <SelectTrigger>
@@ -131,6 +122,6 @@ export const examples: Example[] = [
   </SelectContent>
 </Select>`,
   },
-  { id: "grouped", title: "Grouped options", render: GroupedExample },
-  { id: "disabled-option", title: "Disabled option", render: DisabledOptionExample },
+  {id: "grouped", title: "Grouped options", render: GroupedExample},
+  {id: "disabled-option", title: "Disabled option", render: DisabledOptionExample},
 ];

@@ -1,15 +1,6 @@
-import { Badge } from "@rixl/ui/badge";
-import {
-  Table,
-  TableBody,
-  TableCaption,
-  TableCell,
-  TableFooter,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@rixl/ui/table";
-import type { ControlValue, Example } from "./registry";
+import {Badge} from "@rixl/ui/badge";
+import {Table, TableBody, TableCaption, TableCell, TableFooter, TableHead, TableHeader, TableRow} from "@rixl/ui/table";
+import type {ControlValue, Example} from "./registry";
 
 export const path = "table";
 export const title = "Table";
@@ -42,7 +33,7 @@ export function Showcase() {
   );
 }
 
-function BasicExample(props: { state: Record<string, ControlValue> }) {
+function BasicExample(props: {state: Record<string, ControlValue>}) {
   void props;
   return (
     <div className="w-full max-w-2xl">
@@ -93,4 +84,4 @@ function BasicExample(props: { state: Record<string, ControlValue> }) {
   );
 }
 
-export const examples: Example[] = [{ id: "basic", title: "Invoices table", render: BasicExample }];
+export const examples: Example[] = [{id: "basic", title: "Invoices table", render: BasicExample}];

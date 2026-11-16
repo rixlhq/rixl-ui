@@ -1,5 +1,5 @@
-import { Alert, AlertDescription, AlertTitle, type AlertProps } from "@rixl/ui/alert";
-import type { ControlValue, Example } from "./registry";
+import {Alert, AlertDescription, AlertTitle, type AlertProps} from "@rixl/ui/alert";
+import type {ControlValue, Example} from "./registry";
 
 export const path = "alert";
 export const title = "Alert";
@@ -17,10 +17,7 @@ export function Showcase() {
   );
 }
 
-const ALERT_COPY: Record<
-  NonNullable<AlertProps["variant"]>,
-  { title: string; description: string; icon: () => React.JSX.Element }
-> = {
+const ALERT_COPY: Record<NonNullable<AlertProps["variant"]>, {title: string; description: string; icon: () => React.JSX.Element}> = {
   default: {
     title: "New release available",
     description: "v2.3.0 is ready to install. It includes performance improvements and bug fixes.",
@@ -43,7 +40,7 @@ const ALERT_COPY: Record<
   },
 };
 
-function LiveExample({ state }: { state: Record<string, ControlValue> }) {
+function LiveExample({state}: {state: Record<string, ControlValue>}) {
   const variant = (state.variant as NonNullable<AlertProps["variant"]>) || "default";
   const copy = ALERT_COPY[variant];
   const Icon = copy.icon;
@@ -57,7 +54,7 @@ function LiveExample({ state }: { state: Record<string, ControlValue> }) {
   );
 }
 
-function AllVariantsExample(props: { state: Record<string, ControlValue> }) {
+function AllVariantsExample(props: {state: Record<string, ControlValue>}) {
   void props;
   return (
     <div className="grid max-w-xl gap-3">
@@ -88,10 +85,10 @@ export const examples: Example[] = [
         label: "Variant",
         type: "select",
         options: [
-          { value: "default", label: "Default" },
-          { value: "success", label: "Success" },
-          { value: "warning", label: "Warning" },
-          { value: "destructive", label: "Destructive" },
+          {value: "default", label: "Default"},
+          {value: "success", label: "Success"},
+          {value: "warning", label: "Warning"},
+          {value: "destructive", label: "Destructive"},
         ],
         defaultValue: "default",
       },
@@ -112,14 +109,7 @@ export const examples: Example[] = [
 
 function InfoIcon() {
   return (
-    <svg
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
       <circle cx="12" cy="12" r="10" />
       <path d="M12 16v-4M12 8h.01" />
     </svg>
@@ -128,14 +118,7 @@ function InfoIcon() {
 
 function CheckCircleIcon() {
   return (
-    <svg
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
       <circle cx="12" cy="12" r="10" />
       <path d="m9 12 2 2 4-4" />
     </svg>
@@ -144,14 +127,7 @@ function CheckCircleIcon() {
 
 function WarningIcon() {
   return (
-    <svg
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
       <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3" />
       <path d="M12 9v4M12 17h.01" />
     </svg>
@@ -160,14 +136,7 @@ function WarningIcon() {
 
 function XCircleIcon() {
   return (
-    <svg
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
       <circle cx="12" cy="12" r="10" />
       <path d="m15 9-6 6M9 9l6 6" />
     </svg>

@@ -1,14 +1,13 @@
-import { useState } from "react";
-import { InputOTP, InputOTPGroup, InputOTPSeparator, InputOTPSlot } from "@rixl/ui/input-otp";
-import { Label } from "@rixl/ui/label";
-import type { ControlValue, Example } from "./registry";
-import { Group } from "../components/showcase-layout";
+import {useState} from "react";
+import {InputOTP, InputOTPGroup, InputOTPSeparator, InputOTPSlot} from "@rixl/ui/input-otp";
+import {Label} from "@rixl/ui/label";
+import type {ControlValue, Example} from "./registry";
+import {Group} from "../components/showcase-layout";
 
 export const path = "input-otp";
 export const title = "Input OTP";
 export const group = "Forms";
-export const description =
-  "One-time-password / verification-code input. Fixed number of slots with a blinking caret on the active slot.";
+export const description = "One-time-password / verification-code input. Fixed number of slots with a blinking caret on the active slot.";
 
 export function Showcase() {
   return (
@@ -28,7 +27,7 @@ export function Showcase() {
   );
 }
 
-function LiveExample({ state }: { state: Record<string, ControlValue> }) {
+function LiveExample({state}: {state: Record<string, ControlValue>}) {
   const maxLength = Number(state.maxLength);
   const disabled = state.disabled as boolean;
 
@@ -38,13 +37,13 @@ function LiveExample({ state }: { state: Record<string, ControlValue> }) {
       <Label htmlFor="live-otp">Verification code</Label>
       <InputOTP id="live-otp" maxLength={maxLength} disabled={disabled}>
         <InputOTPGroup>
-          {Array.from({ length: firstHalf }).map((_, i) => (
+          {Array.from({length: firstHalf}).map((_, i) => (
             <InputOTPSlot key={i} index={i} />
           ))}
         </InputOTPGroup>
         <InputOTPSeparator />
         <InputOTPGroup>
-          {Array.from({ length: maxLength - firstHalf }).map((_, i) => (
+          {Array.from({length: maxLength - firstHalf}).map((_, i) => (
             <InputOTPSlot key={i} index={firstHalf + i} />
           ))}
         </InputOTPGroup>
@@ -53,7 +52,7 @@ function LiveExample({ state }: { state: Record<string, ControlValue> }) {
   );
 }
 
-function ContiguousExample(props: { state: Record<string, ControlValue> }) {
+function ContiguousExample(props: {state: Record<string, ControlValue>}) {
   void props;
   return (
     <Group label="Contiguous (4 digits, single group)">
@@ -69,7 +68,7 @@ function ContiguousExample(props: { state: Record<string, ControlValue> }) {
   );
 }
 
-function PrefilledExample(props: { state: Record<string, ControlValue> }) {
+function PrefilledExample(props: {state: Record<string, ControlValue>}) {
   void props;
   return (
     <Group label="Prefilled (defaultValue)">
@@ -90,7 +89,7 @@ function PrefilledExample(props: { state: Record<string, ControlValue> }) {
   );
 }
 
-function ControlledExample(props: { state: Record<string, ControlValue> }) {
+function ControlledExample(props: {state: Record<string, ControlValue>}) {
   void props;
   const [value, setValue] = useState<string>("");
   return (
@@ -130,13 +129,13 @@ export const examples: Example[] = [
         label: "Length",
         type: "select",
         options: [
-          { value: "4", label: "4" },
-          { value: "6", label: "6" },
-          { value: "8", label: "8" },
+          {value: "4", label: "4"},
+          {value: "6", label: "6"},
+          {value: "8", label: "8"},
         ],
         defaultValue: "6",
       },
-      { name: "disabled", label: "Disabled", type: "boolean", defaultValue: false },
+      {name: "disabled", label: "Disabled", type: "boolean", defaultValue: false},
     ],
     code: `<InputOTP maxLength={6}>
   <InputOTPGroup>
@@ -152,7 +151,7 @@ export const examples: Example[] = [
   </InputOTPGroup>
 </InputOTP>`,
   },
-  { id: "contiguous", title: "Contiguous", render: ContiguousExample },
-  { id: "prefilled", title: "Prefilled", render: PrefilledExample },
-  { id: "controlled", title: "Controlled", render: ControlledExample },
+  {id: "contiguous", title: "Contiguous", render: ContiguousExample},
+  {id: "prefilled", title: "Prefilled", render: PrefilledExample},
+  {id: "controlled", title: "Controlled", render: ControlledExample},
 ];

@@ -1,27 +1,22 @@
-import { Calendar } from "@rixl/ui/calendar";
-import type { ControlValue, Example } from "./registry";
-import { Group } from "../components/showcase-layout";
+import {Calendar} from "@rixl/ui/calendar";
+import type {ControlValue, Example} from "./registry";
+import {Group} from "../components/showcase-layout";
 
 export const path = "calendar";
 export const title = "Calendar";
 export const group = "Content";
-export const description =
-  "Date grid built on react-day-picker v9. Single and range selection, outside days, and caption dropdowns.";
+export const description = "Date grid built on react-day-picker v9. Single and range selection, outside days, and caption dropdowns.";
 
 export function Showcase() {
   return <Calendar mode="single" />;
 }
 
-function LiveExample({ state }: { state: Record<string, ControlValue> }) {
+function LiveExample({state}: {state: Record<string, ControlValue>}) {
   const mode = state.mode as "single" | "range";
-  return mode === "range" ? (
-    <Calendar mode="range" numberOfMonths={2} />
-  ) : (
-    <Calendar mode="single" />
-  );
+  return mode === "range" ? <Calendar mode="range" numberOfMonths={2} /> : <Calendar mode="single" />;
 }
 
-function SingleExample(props: { state: Record<string, ControlValue> }) {
+function SingleExample(props: {state: Record<string, ControlValue>}) {
   void props;
   return (
     <Group label="Single selection">
@@ -30,7 +25,7 @@ function SingleExample(props: { state: Record<string, ControlValue> }) {
   );
 }
 
-function RangeExample(props: { state: Record<string, ControlValue> }) {
+function RangeExample(props: {state: Record<string, ControlValue>}) {
   void props;
   return (
     <Group label="Range selection">
@@ -51,8 +46,8 @@ export const examples: Example[] = [
         label: "Mode",
         type: "select",
         options: [
-          { value: "single", label: "Single" },
-          { value: "range", label: "Range" },
+          {value: "single", label: "Single"},
+          {value: "range", label: "Range"},
         ],
         defaultValue: "single",
       },
@@ -60,6 +55,6 @@ export const examples: Example[] = [
     code: `<Calendar mode="single" />
 <Calendar mode="range" numberOfMonths={2} />`,
   },
-  { id: "single", title: "Single", render: SingleExample },
-  { id: "range", title: "Range", render: RangeExample },
+  {id: "single", title: "Single", render: SingleExample},
+  {id: "range", title: "Range", render: RangeExample},
 ];

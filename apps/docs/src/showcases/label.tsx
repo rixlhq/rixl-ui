@@ -1,12 +1,11 @@
-import { Input } from "@rixl/ui/input";
-import { Label } from "@rixl/ui/label";
-import type { ControlValue, Example } from "./registry";
+import {Input} from "@rixl/ui/input";
+import {Label} from "@rixl/ui/label";
+import type {ControlValue, Example} from "./registry";
 
 export const path = "label";
 export const title = "Label";
 export const group = "Forms";
-export const description =
-  "Form-field label. Dims automatically when a peer or ancestor field is disabled.";
+export const description = "Form-field label. Dims automatically when a peer or ancestor field is disabled.";
 
 export function Showcase() {
   return (
@@ -17,7 +16,7 @@ export function Showcase() {
   );
 }
 
-function WiredExample(props: { state: Record<string, ControlValue> }) {
+function WiredExample(props: {state: Record<string, ControlValue>}) {
   void props;
   return (
     <div className="flex w-full max-w-sm flex-col gap-1.5">
@@ -27,23 +26,17 @@ function WiredExample(props: { state: Record<string, ControlValue> }) {
   );
 }
 
-function DisabledExample(props: { state: Record<string, ControlValue> }) {
+function DisabledExample(props: {state: Record<string, ControlValue>}) {
   void props;
   return (
     <div className="flex w-full max-w-sm flex-col gap-1.5">
-      <Input
-        id="playground-disabled"
-        type="text"
-        disabled
-        defaultValue="Read only"
-        className="peer"
-      />
+      <Input id="playground-disabled" type="text" disabled defaultValue="Read only" className="peer" />
       <Label htmlFor="playground-disabled">Field label (dims via peer-disabled)</Label>
     </div>
   );
 }
 
-function GroupDisabledExample(props: { state: Record<string, ControlValue> }) {
+function GroupDisabledExample(props: {state: Record<string, ControlValue>}) {
   void props;
   return (
     <div data-disabled="true" className="group flex w-full max-w-sm flex-col gap-1.5">
@@ -54,7 +47,7 @@ function GroupDisabledExample(props: { state: Record<string, ControlValue> }) {
 }
 
 export const examples: Example[] = [
-  { id: "wired", title: "Wired to an input", render: WiredExample },
-  { id: "disabled", title: "Peer disabled", render: DisabledExample },
-  { id: "group", title: "Group disabled", render: GroupDisabledExample },
+  {id: "wired", title: "Wired to an input", render: WiredExample},
+  {id: "disabled", title: "Peer disabled", render: DisabledExample},
+  {id: "group", title: "Group disabled", render: GroupDisabledExample},
 ];

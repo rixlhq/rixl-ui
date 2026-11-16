@@ -11,8 +11,8 @@
   "scripts": {
     "build": "vp run -F @rixl/ui build",
     "dev": "vp run -F @rixl/ui dev",
-    "check": "vp run -F @rixl/ui check",
-    "fmt": "vp run -F @rixl/ui fmt",
+    "check": "vp check",
+    "fmt": "vp fmt",
     "test": "vp run -F @rixl/ui test",
     "test:run": "vp run -F @rixl/ui test:run",
     "test:browser": "vp run -F @rixl/ui test:browser",

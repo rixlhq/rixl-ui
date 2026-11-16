@@ -1,5 +1,5 @@
-import { Badge } from "@rixl/ui/badge";
-import { Button } from "@rixl/ui/button";
+import {Badge} from "@rixl/ui/badge";
+import {Button} from "@rixl/ui/button";
 import {
   Dialog,
   DialogClose,
@@ -10,10 +10,10 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@rixl/ui/dialog";
-import { Input } from "@rixl/ui/input";
-import { Label } from "@rixl/ui/label";
-import type { ControlValue, Example } from "./registry";
-import { Group } from "../components/showcase-layout";
+import {Input} from "@rixl/ui/input";
+import {Label} from "@rixl/ui/label";
+import type {ControlValue, Example} from "./registry";
+import {Group} from "../components/showcase-layout";
 
 export const path = "dialog";
 export const title = "Dialog";
@@ -34,9 +34,7 @@ export function Showcase() {
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Edit profile</DialogTitle>
-          <DialogDescription>
-            Make changes to your profile here. Click save when you are done.
-          </DialogDescription>
+          <DialogDescription>Make changes to your profile here. Click save when you are done.</DialogDescription>
         </DialogHeader>
         <div className="grid gap-3">
           <div className="grid gap-1.5">
@@ -53,7 +51,7 @@ export function Showcase() {
   );
 }
 
-function BasicExample(props: { state: Record<string, ControlValue> }) {
+function BasicExample(props: {state: Record<string, ControlValue>}) {
   void props;
   return (
     <Dialog>
@@ -61,9 +59,7 @@ function BasicExample(props: { state: Record<string, ControlValue> }) {
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Edit profile</DialogTitle>
-          <DialogDescription>
-            Make changes to your profile here. Click save when you are done.
-          </DialogDescription>
+          <DialogDescription>Make changes to your profile here. Click save when you are done.</DialogDescription>
         </DialogHeader>
         <div className="grid gap-3">
           <div className="grid gap-1.5">
@@ -84,7 +80,7 @@ function BasicExample(props: { state: Record<string, ControlValue> }) {
   );
 }
 
-function NoCloseExample(props: { state: Record<string, ControlValue> }) {
+function NoCloseExample(props: {state: Record<string, ControlValue>}) {
   void props;
   return (
     <Dialog>
@@ -102,7 +98,7 @@ function NoCloseExample(props: { state: Record<string, ControlValue> }) {
   );
 }
 
-function CustomContentExample(props: { state: Record<string, ControlValue> }) {
+function CustomContentExample(props: {state: Record<string, ControlValue>}) {
   void props;
   return (
     <Dialog>
@@ -153,7 +149,7 @@ function CustomContentExample(props: { state: Record<string, ControlValue> }) {
   );
 }
 
-function SizesExample(props: { state: Record<string, ControlValue> }) {
+function SizesExample(props: {state: Record<string, ControlValue>}) {
   void props;
   return (
     <Group label="Sizes">
@@ -182,8 +178,8 @@ function SizesExample(props: { state: Record<string, ControlValue> }) {
 }
 
 export const examples: Example[] = [
-  { id: "basic", title: "Basic", render: BasicExample },
-  { id: "sizes", title: "Sizes", render: SizesExample },
-  { id: "no-close", title: "Without close button", render: NoCloseExample },
-  { id: "custom", title: "Custom content", render: CustomContentExample },
+  {id: "basic", title: "Basic", render: BasicExample},
+  {id: "sizes", title: "Sizes", render: SizesExample},
+  {id: "no-close", title: "Without close button", render: NoCloseExample},
+  {id: "custom", title: "Custom content", render: CustomContentExample},
 ];

@@ -7,14 +7,13 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@rixl/ui/breadcrumb";
-import type { ControlValue, Example } from "./registry";
-import { Group } from "../components/showcase-layout";
+import type {ControlValue, Example} from "./registry";
+import {Group} from "../components/showcase-layout";
 
 export const path = "breadcrumb";
 export const title = "Breadcrumb";
 export const group = "Navigation";
-export const description =
-  "Navigation trail. Built on Base UI useRender; links are polymorphic via the render prop.";
+export const description = "Navigation trail. Built on Base UI useRender; links are polymorphic via the render prop.";
 
 export function Showcase() {
   return (
@@ -32,7 +31,7 @@ export function Showcase() {
   );
 }
 
-function BasicExample(props: { state: Record<string, ControlValue> }) {
+function BasicExample(props: {state: Record<string, ControlValue>}) {
   void props;
   return (
     <Group label="Basic">
@@ -55,7 +54,7 @@ function BasicExample(props: { state: Record<string, ControlValue> }) {
   );
 }
 
-function EllipsisExample(props: { state: Record<string, ControlValue> }) {
+function EllipsisExample(props: {state: Record<string, ControlValue>}) {
   void props;
   return (
     <Group label="With ellipsis">
@@ -83,6 +82,6 @@ function EllipsisExample(props: { state: Record<string, ControlValue> }) {
 }
 
 export const examples: Example[] = [
-  { id: "basic", title: "Basic", render: BasicExample },
-  { id: "ellipsis", title: "With ellipsis", render: EllipsisExample },
+  {id: "basic", title: "Basic", render: BasicExample},
+  {id: "ellipsis", title: "With ellipsis", render: EllipsisExample},
 ];

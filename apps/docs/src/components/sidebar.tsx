@@ -1,5 +1,5 @@
-import { memo, useMemo } from "react";
-import { Badge } from "@rixl/ui/badge";
+import {memo, useMemo} from "react";
+import {Badge} from "@rixl/ui/badge";
 import {
   Sidebar,
   SidebarContent,
@@ -13,8 +13,8 @@ import {
   SidebarMenuItem,
   SidebarRail,
 } from "@rixl/ui/sidebar";
-import { groupShowcasesByCategory, matchesShowcase } from "../hooks/use-hash-route";
-import type { Showcase } from "../showcases/registry";
+import {groupShowcasesByCategory, matchesShowcase} from "../hooks/use-hash-route";
+import type {Showcase} from "../showcases/registry";
 
 export const AppSidebar = memo(function AppSidebar({
   showcases,
@@ -25,10 +25,7 @@ export const AppSidebar = memo(function AppSidebar({
   query: string;
   activePath?: string;
 }) {
-  const filtered = useMemo(
-    () => showcases.filter((s) => matchesShowcase(s, query)),
-    [showcases, query],
-  );
+  const filtered = useMemo(() => showcases.filter((s) => matchesShowcase(s, query)), [showcases, query]);
   const groups = useMemo(() => groupShowcasesByCategory(filtered), [filtered]);
 
   return (
@@ -50,7 +47,7 @@ export const AppSidebar = memo(function AppSidebar({
           <SidebarGroupContent>
             <SidebarMenu>
               <SidebarMenuItem>
-                <SidebarMenuButton isActive={!activePath} render={<a href="#/" />}>
+                <SidebarMenuButton isActive={!activePath} render={<a href="#/" aria-label="Overview" />}>
                   Overview
                 </SidebarMenuButton>
               </SidebarMenuItem>
@@ -65,10 +62,7 @@ export const AppSidebar = memo(function AppSidebar({
               <SidebarMenu>
                 {items.map((s) => (
                   <SidebarMenuItem key={s.path}>
-                    <SidebarMenuButton
-                      isActive={s.path === activePath}
-                      render={<a href={`#/${s.path}`} />}
-                    >
+                    <SidebarMenuButton isActive={s.path === activePath} render={<a href={`#/${s.path}`} aria-label={s.title} />}>
                       {s.title}
                     </SidebarMenuButton>
                   </SidebarMenuItem>

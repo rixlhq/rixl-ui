@@ -5,7 +5,7 @@ description: TypeScript, component, token and export rules for @rixl/ui.
 
 # Code style
 
-Lint and complexity caps live in the `lint` block of `packages/ui/vite.config.ts`. `vp check` enforces them (type-aware, zero warnings); this file doesn't repeat them. Over a cap is a design smell: split the component or extract a hook.
+Shared lint rules live in the root `vite.config.ts`; UI-specific complexity caps are in its `packages/ui/**` override. `vp check` uses the root configuration across workspaces. Over a cap is a design smell: split the component or extract a hook.
 
 ## TypeScript
 

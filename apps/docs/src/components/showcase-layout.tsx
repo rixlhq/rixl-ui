@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+import type {ReactNode} from "react";
 
 /**
  * Layout helpers shared across component showcases.
@@ -6,15 +6,7 @@ import type { ReactNode } from "react";
  * library primitives.
  */
 
-export function Section({
-  title,
-  description,
-  children,
-}: {
-  title: string;
-  description?: string;
-  children: ReactNode;
-}) {
+export function Section({title, description, children}: {title: string; description?: string; children: ReactNode}) {
   return (
     <div className="space-y-6">
       <div>
@@ -26,12 +18,10 @@ export function Section({
   );
 }
 
-export function Group({ label, children }: { label?: string; children: ReactNode }) {
+export function Group({label, children}: {label?: string; children: ReactNode}) {
   return (
     <div className="w-full space-y-2.5">
-      {label ? (
-        <p className="text-xs font-medium tracking-wide text-rixl-fg-muted">{label}</p>
-      ) : null}
+      {label ? <p className="text-xs font-medium tracking-wide text-rixl-fg-muted">{label}</p> : null}
       <div className="flex w-full flex-wrap items-center gap-3">{children}</div>
     </div>
   );

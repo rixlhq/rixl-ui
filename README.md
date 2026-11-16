@@ -17,7 +17,7 @@ Tailwind 4 preset shared across `dashboard`, `landing`, and `docs`.
   component:
 
   ```ts
-  import { Button } from "@rixl/ui/button";
+  import {Button} from "@rixl/ui/button";
   ```
 
 - **Tailwind 4 preset, not compiled CSS.** Consumers already run
@@ -35,7 +35,7 @@ Tailwind 4 preset shared across `dashboard`, `landing`, and `docs`.
 ```
 
 ```tsx
-import { Button } from "@rixl/ui/button";
+import {Button} from "@rixl/ui/button";
 
 export function Save() {
   return <Button variant="primary">Save</Button>;
@@ -54,7 +54,7 @@ Root is a workspace container; the library lives in `packages/ui`.
 
 ## Toolchain
 
-Built on **Vite+ (`vp`)**. Inside `packages/ui/`, prefer the `vp` CLI directly:
+Built on **Vite+ (`vp`)**. Shared format and lint settings live in the root `vite.config.ts`; library pack/test settings and docs app plugins stay in their package configs. Inside `packages/ui/`, use the `vp` CLI directly:
 
 ```bash
 cd packages/ui

@@ -28,6 +28,7 @@
         "tailwindcss": "^4.3.5",
         "typescript": "^7.0.2",
         "vite": "^1.6.0",
+        "vite-plus": "1.6.0",
       },
     },
     "packages/ui": {
