@@ -26,7 +26,11 @@ function Table({className, containerClassName, ...props}: React.ComponentProps<"
  */
 function TableHeader({className, sticky, ...props}: React.ComponentProps<"thead"> & {sticky?: boolean}) {
   return (
-    <thead data-slot="table-header" className={cn("[&_tr]:border-b", sticky && "sticky top-0 z-10 bg-rixl-bg", className)} {...props} />
+    <thead
+      data-slot="table-header"
+      className={cn("[&_tr]:border-b", sticky && "sticky top-0 z-10 bg-rixl-bg/90 backdrop-blur-sm", className)}
+      {...props}
+    />
   );
 }
 
@@ -48,7 +52,10 @@ function TableRow({className, ...props}: React.ComponentProps<"tr">) {
   return (
     <tr
       data-slot="table-row"
-      className={cn("hover:bg-rixl-surface-muted/50 data-[state=selected]:bg-rixl-surface-muted border-b transition-colors", className)}
+      className={cn(
+        "hover:bg-rixl-surface-muted/50 data-[state=selected]:bg-rixl-surface-muted border-b transition-colors duration-rixl-fast ease-rixl-out",
+        className
+      )}
       {...props}
     />
   );

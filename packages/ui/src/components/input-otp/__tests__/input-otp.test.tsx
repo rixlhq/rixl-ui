@@ -34,11 +34,12 @@ describe("InputOTP", () => {
     }
   });
 
-  it("applies base classes to a slot", () => {
+  it("applies base classes and tabular-nums to a slot", () => {
     render(<Basic />);
     const cls = screen.getByTestId("s0").className;
     expect(cls).toContain("border-rixl-border");
     expect(cls).toContain("shadow-rixl-xs");
+    expect(cls).toContain("tabular-nums");
     expect(cls).toContain("h-9");
     expect(cls).toContain("w-9");
   });

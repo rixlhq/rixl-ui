@@ -30,7 +30,12 @@ function BreadcrumbItem({className, ...props}: React.ComponentProps<"li">) {
 function BreadcrumbLink({className, render, ...props}: useRender.ComponentProps<"a">) {
   return useRender({
     defaultTagName: "a",
-    props: mergeProps<"a">({className: cn("hover:text-rixl-fg transition-colors", className)}, props),
+    props: mergeProps<"a">(
+      {
+        className: cn("hover:text-rixl-fg transition-colors duration-rixl-fast ease-rixl-out", className),
+      },
+      props
+    ),
     render,
     state: {slot: "breadcrumb-link"},
   });
@@ -62,7 +67,7 @@ function BreadcrumbEllipsis({className, ...props}: React.ComponentProps<"span">)
       data-slot="breadcrumb-ellipsis"
       role="presentation"
       aria-hidden="true"
-      className={cn("flex size-9 items-center justify-center", className)}
+      className={cn("flex size-5 items-center justify-center", className)}
       {...props}
     >
       <MoreHorizontal className="size-4" />

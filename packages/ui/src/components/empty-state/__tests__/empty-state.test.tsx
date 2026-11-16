@@ -23,9 +23,11 @@ describe("EmptyState", () => {
     expect(p.className).toContain("text-rixl-fg-muted");
   });
 
-  it("uses a custom icon", () => {
+  it("uses a custom icon in both default and action layouts", () => {
     const CustomIcon = () => <svg data-testid="custom-icon" />;
-    render(<EmptyState title="Empty" description="Nothing here." icon={CustomIcon} />);
+    const {rerender} = render(<EmptyState title="Empty" description="Nothing here." icon={CustomIcon} />);
+    expect(screen.getByTestId("custom-icon")).toBeInTheDocument();
+    rerender(<EmptyState title="Empty" description="Nothing here." icon={CustomIcon} action={{label: "Create", onClick: () => {}}} />);
     expect(screen.getByTestId("custom-icon")).toBeInTheDocument();
   });
 });

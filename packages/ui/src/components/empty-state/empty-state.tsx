@@ -1,19 +1,28 @@
 import {InfoIcon, PlusIcon, type LucideIcon} from "lucide-react";
-
+import {cn} from "cn";
 import {Button} from "../button";
 
 /**
  * Rixl EmptyState — placeholder for empty content, with an optional
- * primary action. Ported verbatim from dashboard; token-mapped.
+ * primary action.
  */
-export function EmptyState({title, description, icon: Icon = InfoIcon, action}: EmptyStateProps) {
+export function EmptyState({title, description, icon: Icon = InfoIcon, action, className}: EmptyStateProps) {
   if (action) {
     return (
-      <div className="flex flex-col items-center justify-center p-8 border border-dashed rounded-rixl-lg">
-        <h3 className="text-xl font-semibold mb-2">{title}</h3>
-        <p className="text-rixl-fg-muted mb-4">{description}</p>
+      <div
+        data-slot="empty-state"
+        className={cn(
+          "flex flex-col items-center justify-center rounded-rixl-lg border border-dashed border-rixl-border p-8 text-center",
+          className
+        )}
+      >
+        <div className="bg-rixl-surface-muted text-rixl-fg-muted mb-3 flex size-10 items-center justify-center rounded-full">
+          <Icon className="size-5" />
+        </div>
+        <h3 className="text-rixl-fg mb-1.5 text-lg font-semibold tracking-tight">{title}</h3>
+        <p className="text-rixl-fg-muted mb-5 max-w-sm text-sm text-balance">{description}</p>
         <Button onClick={action.onClick}>
-          <PlusIcon className="h-4 w-4" />
+          <PlusIcon className="size-4" />
           {action.label}
         </Button>
       </div>
@@ -21,12 +30,12 @@ export function EmptyState({title, description, icon: Icon = InfoIcon, action}: 
   }
 
   return (
-    <div className="text-center py-6 border border-dashed rounded-rixl-lg">
-      <div className="flex items-center justify-center gap-2 text-rixl-fg-muted mb-1">
-        <Icon className="h-4 w-4" />
-        <span className="text-sm font-medium">{title}</span>
+    <div data-slot="empty-state" className={cn("rounded-rixl-lg border border-dashed border-rixl-border py-6 text-center", className)}>
+      <div className="text-rixl-fg-muted mb-1 flex items-center justify-center gap-2">
+        <Icon className="size-4" />
+        <span className="text-rixl-fg text-sm font-medium">{title}</span>
       </div>
-      <p className="text-xs text-rixl-fg-muted">{description}</p>
+      <p className="text-rixl-fg-muted text-xs text-balance">{description}</p>
     </div>
   );
 }
@@ -39,4 +48,5 @@ export interface EmptyStateProps {
     label: string;
     onClick: () => void;
   };
+  className?: string;
 }

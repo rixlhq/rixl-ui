@@ -38,11 +38,14 @@ describe("Progress", () => {
     expect(cls).toContain("bg-rixl-primary/20");
   });
 
-  it("renders the indicator with data-slot='progress-indicator'", () => {
+  it("renders the indicator with data-slot='progress-indicator' and tokenized motion", () => {
     const {container} = render(<Progress value={50} />);
     const indicator = container.querySelector("[data-slot='progress-indicator']");
     expect(indicator).not.toBeNull();
     expect(indicator!.className).toContain("bg-rixl-primary");
+    expect(indicator!.className).toContain("duration-rixl-base");
+    expect(indicator!.className).toContain("ease-rixl-out");
+    expect(indicator!.className).toContain("motion-reduce:transition-none");
   });
 
   it("treats null value as indeterminate", () => {
