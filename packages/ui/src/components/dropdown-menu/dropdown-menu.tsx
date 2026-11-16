@@ -2,7 +2,7 @@ import * as React from "react";
 import {Menu as MenuPrimitive} from "@base-ui/react/menu";
 import {cn} from "cn";
 
-import {CheckIcon, ChevronRightIcon, CircleIcon} from "./dropdown-menu-icons";
+import {CheckIcon, ChevronRightIcon, CircleIcon} from "./icons";
 
 /**
  * Rixl DropdownMenu — a popup menu of actions anchored to a trigger.

@@ -3,7 +3,7 @@ import {cn} from "cn";
 import {PanelLeftIcon, PanelLeftOpenIcon, PanelRightIcon, PanelRightOpenIcon} from "lucide-react";
 
 import {Button} from "../button";
-import {useSidebar} from "./sidebar-context";
+import {useSidebar} from "./context";
 
 export function SidebarTrigger({className, onClick, ...props}: React.ComponentProps<typeof Button>) {
   const {toggleSidebar, open, isMobile} = useSidebar();

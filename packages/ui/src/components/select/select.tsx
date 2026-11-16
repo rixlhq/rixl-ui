@@ -3,6 +3,8 @@ import {Select as SelectPrimitive} from "@base-ui/react/select";
 import {cva, type VariantProps} from "class-variance-authority";
 import {cn} from "cn";
 
+import {CheckIcon, ChevronDownIcon, ChevronUpIcon} from "./icons";
+
 /**
  * Rixl Select — an accessible, portalled select composition.
  *
@@ -212,59 +214,6 @@ function SelectScrollDownButton({className, ...props}: ComponentProps<typeof Sel
     >
       <ChevronDownIcon className="size-4" />
     </SelectPrimitive.ScrollDownArrow>
-  );
-}
-
-// ── Inlined icons (lucide-react equivalents; keep @rixl/ui icon-dep-free) ──
-
-function ChevronDownIcon({className}: {className?: string}) {
-  return (
-    <svg
-      className={className}
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden="true"
-    >
-      <path d="m6 9 6 6 6-6" />
-    </svg>
-  );
-}
-
-function ChevronUpIcon({className}: {className?: string}) {
-  return (
-    <svg
-      className={className}
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden="true"
-    >
-      <path d="m18 15-6-6-6 6" />
-    </svg>
-  );
-}
-
-function CheckIcon({className}: {className?: string}) {
-  return (
-    <svg
-      className={className}
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden="true"
-    >
-      <path d="M20 6 9 17l-5-5" />
-    </svg>
   );
 }
 

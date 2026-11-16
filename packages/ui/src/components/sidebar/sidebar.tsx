@@ -2,7 +2,7 @@ import * as React from "react";
 import {cn} from "cn";
 
 import {Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle} from "../sheet";
-import {SidebarSideContext, useSidebar} from "./sidebar-context";
+import {SidebarSideContext, useSidebar} from "./context";
 
 const SIDEBAR_WIDTH_MOBILE = "18rem";
 
