@@ -77,7 +77,7 @@ export default defineConfig({
   },
   lint: {
     plugins: ["react", "react-perf", "typescript", "jsx-a11y"],
-    ignorePatterns: ["dist/**", "examples/**", "__tests__", "*.test.ts", "*.test.tsx"],
+    ignorePatterns: ["dist/**", "apps/docs/**", "__tests__", "*.test.ts", "*.test.tsx"],
     rules: {
       "react/react-in-jsx-scope": "off",
       "typescript/no-explicit-any": "error",
@@ -99,7 +99,7 @@ export default defineConfig({
     },
   },
   fmt: {
-    ignorePatterns: ["dist/**", "examples/**", "CHANGELOG.md", ".release-please-manifest.json"],
+    ignorePatterns: ["dist/**", "apps/docs/**", "CHANGELOG.md", ".release-please-manifest.json"],
     printWidth: 140,
     tabWidth: 2,
     useTabs: false,

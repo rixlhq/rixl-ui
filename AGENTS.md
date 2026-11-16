@@ -58,7 +58,7 @@ vp run publint             # Checks the package.json exports map
 vp run ci                  # The gate CI and the release job run
 ```
 
-From the repo root, `vp run check`, `vp run test:run`, `vp run build` and `vp run playground` delegate to the package (`vp run -F @rixl/ui <script>`). Use `vp` for everything; don't call `bun`, `npm` or `npx` directly. The `devEngines.packageManager` field in `packages/ui/package.json` is load-bearing: CI runs `vp install` from there, and without it vp falls back to pnpm. Install Chromium once per machine with `vp exec playwright install chromium`.
+From the repo root, UI commands delegate to `@rixl/ui`; `vp run docs` starts the showcase app and `vp run docs:build` builds it after the library. Use `vp` for everything; don't call `bun`, `npm` or `npx` directly. The `devEngines.packageManager` field in `packages/ui/package.json` is load-bearing: CI runs `vp install` from there, and without it vp falls back to pnpm. Install Chromium once per machine with `vp exec playwright install chromium`.
 
 ## Repository layout
 
@@ -71,7 +71,7 @@ packages/ui/                   — @rixl/ui, the published package
   test/                        — browser test setup, CSS and the axe helper
   vite.config.ts               — build entries, lint caps, test projects, coverage floor
   knip.jsonc, stryker.config.mjs, .size-limit.json
-examples/playground/           — Vite app consuming @rixl/ui from source (workspace:*)
+apps/docs/                     — Vite+ app showcasing @rixl/ui (workspace:*)
 openspec/                      — specs and changes
 .agents/                       — rules, skills, commands and the git-hook guard
 lefthook.yml                   — git hooks, run inside packages/ui
@@ -93,7 +93,7 @@ Vite+'s auto-exports generator drops non-JS entries such as `./preset.css`, so `
    }
    ```
 
-The `development` condition lets the playground consume source with HMR under `vite dev`; production builds resolve `import`, the built `dist/`. `vp run publint` checks the map.
+The `development` condition lets the docs app consume source with HMR under `vite dev`; production builds resolve `import`, the built `dist/`. `vp run publint` checks the map.
 
 ## Rule files
 

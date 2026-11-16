@@ -10,7 +10,7 @@ import { useTheme } from "./hooks/use-theme";
 import { showcases } from "./showcases/registry";
 
 /**
- * Rixl Studio — component playground built entirely from @rixl/ui primitives.
+ * Rixl Studio — component showcase built entirely from @rixl/ui primitives.
  */
 export function App() {
   const [theme, setTheme] = useTheme();

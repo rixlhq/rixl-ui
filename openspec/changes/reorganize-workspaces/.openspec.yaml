@@ -1,0 +1,5 @@
+schema: spec-driven
+created: 2026-11-16
+skip_specs: true
+goal: Keep @rixl/ui independently publishable while making the showcase a
+  first-class workspace app with one Vite+ setup.
