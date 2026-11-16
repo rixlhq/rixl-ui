@@ -43,10 +43,10 @@ jobs:
         id: release
         uses: googleapis/release-please-action@v5
         with:
-          # BUILD_GITHUB_TOKEN so the release PR triggers CI — the default
           # GITHUB_TOKEN's events never start workflow runs, so a release PR
-          # opened with it would sit at "Expected: waiting for status".
-          token: ${{ secrets.BUILD_GITHUB_TOKEN }}
+          # opened with it will sit at "Expected: waiting for status" — a human
+          # must push an empty commit or close/reopen to kick CI off.
+          token: ${{ secrets.GITHUB_TOKEN }}
           config-file: release-please-config.json
           manifest-file: .release-please-manifest.json
 
