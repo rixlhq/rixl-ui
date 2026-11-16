@@ -8,7 +8,7 @@ Docs are local at `node_modules/vite-plus/docs` or online at https://viteplus.de
 
 ## Built-in Commands vs Scripts
 
-`vp <name>` runs a built-in command. `vp run <name>` runs a `package.json` script or a `vite.config.ts` task. Scripts cannot overwrite built-ins, so `vp dev` and `vp run dev` may do different things. Check `package.json` and `vite.config.ts` first, and run `vp run <name>` when the project defines a script or task with that name.
+`vp <name>` runs a built-in command. `vpr <name>` runs a `package.json` script or a `vite.config.ts` task (`vp run <name>` is the long form). Scripts cannot overwrite built-ins, so `vp dev` and `vpr dev` may do different things. Check `package.json` and `vite.config.ts` first, and use `vpr <name>` when the project defines a script or task with that name. `vpx <command>` executes a local binary (`vp exec <command>` is the long form).
 
 ## Tool Versions
 
@@ -21,7 +21,7 @@ release. Add a tool name to select part of the graph. For example, run
 
 - [ ] Run `vp install` after pulling remote changes and before getting started.
 - [ ] Run `vp check` and `vp test` to format, lint, type check and test changes.
-- [ ] Check if there are `vite.config.ts` tasks or `package.json` scripts necessary for validation, run via `vp run <script>`.
+- [ ] Check if there are `vite.config.ts` tasks or `package.json` scripts necessary for validation, run via `vpr <script>`.
 - [ ] If setup, runtime, or package-manager behavior looks wrong, run `vp env doctor` and include its output when asking for help.
 
 <!--VITE PLUS END-->
@@ -50,18 +50,18 @@ vp check                   # Oxfmt + Oxlint, type-aware, zero warnings, complexi
 vp test                    # Unit and browser tests (watch mode)
 vp test --project unit     # jsdom tests only
 vp test --project browser  # Real Chromium with the preset built; axe accessibility checks
-vp run test:coverage       # Tests with coverage; fails under the floor in vite.config.ts
-vp run test:mutation       # Stryker (CI only, weekly: .github/workflows/mutation.yml)
-vp run lint:suppressions   # Fails on a lint suppression without a reason
-vp run knip                # Unused files, exports and dependencies
+vpr test:coverage          # Tests with coverage; fails under the floor in vite.config.ts
+vpr test:mutation          # Stryker (CI only, weekly: .github/workflows/mutation.yml)
+vpr lint:suppressions      # Fails on a lint suppression without a reason
+vpr knip                   # Unused files, exports and dependencies
 vp pack                    # Build dist/ (ESM + .d.ts)
-vp run budget              # Size budget (.size-limit.json), after vp pack
-vp run publint             # Checks the package.json exports map
-vp run ci                  # Standalone UI package gate
-vp run ci:package          # UI-only tasks (tests, pack, budget, publint)
+vpr budget                 # Size budget (.size-limit.json), after vp pack
+vpr publint                # Checks the package.json exports map
+vpr ci                     # Standalone UI package gate
+vpr ci:package             # UI-only tasks (tests, pack, budget, publint)
 ```
 
-The repository root owns the Bun version pin and workspace installation. Run `vp install` from the root; all CI workflows set up Vite+ there. `vp check` runs shared format and lint checks across the workspaces. UI commands delegate to `@rixl/ui`; `vp run docs` starts the showcase app and `vp run docs:build` builds the library and docs app. From the root, `vp run ci` is the workspace gate used by release; CI runs its `ci:check` and `ci:ui` tasks in parallel, then builds docs with `ci:docs`. Use `vp` for everything; don't call `bun`, `npm` or `npx` directly. Install Chromium once per machine with `vp exec playwright install chromium`.
+The repository root owns the Bun version pin and workspace installation. Run `vp install` from the root; all CI workflows set up Vite+ there. `vp check` runs shared format and lint checks across the workspaces. UI commands delegate to `@rixl/ui`; `vpr docs` starts the showcase app and `vpr docs:build` builds the library and docs app. From the root, `vpr ci` is the workspace gate used by release; CI runs its `ci:check` and `ci:ui` tasks in parallel, then builds docs with `ci:docs`. Use `vp` for everything; don't call `bun`, `npm` or `npx` directly. Install Chromium from `packages/ui/` with `vpx playwright install chromium`.
 
 ## Repository layout
 
@@ -96,7 +96,7 @@ Vite+'s auto-exports generator drops non-JS entries such as `./preset.css`, so `
    }
    ```
 
-The `development` condition lets the docs app consume source with HMR under `vite dev`; production builds resolve `import`, the built `dist/`. `vp run publint` checks the map.
+The `development` condition lets the docs app consume source with HMR under `vite dev`; production builds resolve `import`, the built `dist/`. `vpr publint` checks the map.
 
 ## Rule files
 
@@ -119,4 +119,4 @@ Behaviour changes start as an OpenSpec change (`/opsx:propose`); `openspec/specs
 - `.github/workflows/ci.yml` runs root `ci:check` and `ci:ui` tasks in parallel, then builds docs with `ci:docs` on every pull request and push to `main`, with Chromium installed for the browser project.
 - `.github/workflows/react-doctor.yml` comments React Doctor findings on PRs (advisory).
 - `.github/workflows/mutation.yml` runs Stryker every Monday and opens a `mutation-report` issue.
-- `.github/workflows/release.yml` runs Release Please on `main`. Merging its release PR publishes to npm through trusted publishing, after the root `vp run ci` gate passes on that commit.
+- `.github/workflows/release.yml` runs Release Please on `main`. Merging its release PR publishes to npm through trusted publishing, after the root `vpr ci` gate passes on that commit.

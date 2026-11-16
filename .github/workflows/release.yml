@@ -8,7 +8,7 @@ on:
 # PR checks moved to ci.yml, which reports the shared `ci / ci` check. This
 # workflow only runs on main pushes: release-please opens/updates the release
 # PR, and merging that PR publishes to npm. Publish runs the full gate
-# (the root `vp run ci`, which checks the workspace and builds both packages)
+# (the root `vpr ci`, which checks the workspace and builds both packages)
 # first, so nothing ships unchecked.
 
 permissions:
@@ -65,11 +65,11 @@ jobs:
       # request, rerun on the exact commit being published.
       - name: Install Chromium for the browser tests
         if: ${{ steps.release.outputs.releases_created == 'true' }}
-        run: vp exec playwright install --with-deps chromium
+        run: vpx playwright install --with-deps chromium
 
       - name: Run the gate (includes vp pack)
         if: ${{ steps.release.outputs.releases_created == 'true' }}
-        run: vp run -F rixl-ui-workspace ci
+        run: vpr -F rixl-ui-workspace ci
 
       - name: Publish to npm
         if: ${{ steps.release.outputs.releases_created == 'true' }}

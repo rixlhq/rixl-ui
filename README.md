@@ -63,8 +63,8 @@ vp dev                 # watch build
 vp test                # Vitest (watch)
 vp test --run          # single pass: unit (jsdom) and browser (Chromium, axe) projects
 vp test --coverage     # with coverage; fails under the floor in vite.config.ts
-vp run knip            # unused files, exports and dependencies
-vp run ci               # standalone UI package gate
+vpr knip               # unused files, exports and dependencies
+vpr ci                 # standalone UI package gate
 vp check               # oxlint + tsc, zero warnings
 vp fmt                 # oxfmt (write)
 vp fmt --check         # verify only
@@ -74,12 +74,12 @@ vp env doctor          # diagnose toolchain issues
 From the repo root, use the workspace scripts:
 
 ```bash
-vp run build           # → packages/ui $ vp pack
-vp run test:run        # → packages/ui $ vp test --run
-vp run check
-vp run docs            # start the docs app
-vp run docs:build      # build the library and docs app
-vp run ci              # CI/release gate across the workspace
+vpr build              # → packages/ui $ vp pack
+vpr test:run           # → packages/ui $ vp test --run
+vp check
+vpr docs               # start the docs app
+vpr docs:build         # build the library and docs app
+vpr ci                 # CI/release gate across the workspace
 ```
 
 ## Documentation app
@@ -88,9 +88,9 @@ To see components render live while you edit source:
 
 ```bash
 vp install             # once, from repo root — links the workspace
-vp run docs             # from repo root
+vpr docs                # from repo root
 # — or —
-cd apps/docs && vp run dev
+cd apps/docs && vpr dev
 ```
 
 Then open http://localhost:5176. The docs app consumes `@rixl/ui`

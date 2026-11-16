@@ -38,7 +38,7 @@ jobs:
           restore-keys: stryker-
 
       - name: 🧬 Mutation testing
-        run: vp run test:mutation
+        run: vpr test:mutation
 
       - name: 💾 Save Stryker cache
         if: ${{ !cancelled() }}

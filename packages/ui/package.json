@@ -204,9 +204,9 @@
   "scripts": {
     "dev": "vp pack --watch",
     "build": "vp pack",
-    "prepublishOnly": "vp run build",
-    "ci": "vp check && vp run ci:package",
-    "ci:package": "vp run lint:suppressions && vp run knip && vp test --coverage --run && vp pack && vp run budget && vp run publint",
+    "prepublishOnly": "vpr build",
+    "ci": "vp check && vpr ci:package",
+    "ci:package": "vpr lint:suppressions && vpr knip && vp test --coverage --run && vp pack && vpr budget && vpr publint",
     "check": "vp check",
     "lint": "vp lint",
     "lint:suppressions": "! grep -rnE '(eslint|oxlint)-disable' src test --include='*.ts' --include='*.tsx' | grep -v ' -- '",
