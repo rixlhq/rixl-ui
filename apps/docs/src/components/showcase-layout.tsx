@@ -2,7 +2,7 @@ import type { ReactNode } from "react";
 
 /**
  * Layout helpers shared across component showcases.
- * Kept in the playground (not in @rixl/ui) — these are demo scaffolding, not
+ * Kept in the docs app (not in @rixl/ui) — these are showcase scaffolding, not
  * library primitives.
  */
 

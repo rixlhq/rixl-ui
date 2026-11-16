@@ -1,8 +1,8 @@
 {
-  "name": "playground",
+  "name": "docs",
   "version": "0.0.0",
   "private": true,
-  "description": "Local playground for @rixl/ui. Import components from the source, iterate on visuals with hot reload.",
+  "description": "Documentation and component showcase for @rixl/ui.",
   "type": "module",
   "scripts": {
     "dev": "vp dev --host",
@@ -23,6 +23,5 @@
     "tailwindcss": "^4.3.5",
     "typescript": "^7.0.2",
     "vite": "^1.6.0"
-  },
-  "packageManager": "bun@1.4.4"
+  }
 }

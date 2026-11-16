@@ -46,7 +46,7 @@ export function Save() {
 
 ```
 packages/ui/             — @rixl/ui library (publish target)
-examples/playground/     — Vite consumer for local visual iteration
+apps/docs/               — Vite+ docs and component showcase app
 lefthook.yml             — repo-wide git hooks (installed by `vp install`)
 ```
 
@@ -77,23 +77,24 @@ From the repo root, use the workspace scripts:
 vp run build           # → packages/ui $ vp pack
 vp run test:run        # → packages/ui $ vp test --run
 vp run check
-vp run playground      # start the visual playground
+vp run docs            # start the docs app
+vp run docs:build       # build the library and docs app
 ```
 
-## Visual playground
+## Documentation app
 
 To see components render live while you edit source:
 
 ```bash
 vp install             # once, from repo root — links the workspace
-vp run playground      # from repo root
+vp run docs             # from repo root
 # — or —
-cd examples/playground && vp run dev
+cd apps/docs && vp run dev
 ```
 
-Then open http://localhost:5173. The playground consumes `@rixl/ui`
+Then open http://localhost:5176. The docs app consumes `@rixl/ui`
 through the workspace dependency (`"@rixl/ui": "workspace:*"`). Bun
-symlinks it into `examples/playground/node_modules/@rixl/`; Vite reads
+symlinks it into `apps/docs/node_modules/@rixl/`; Vite reads
 the package's `exports` map and — because Vite adds the `development`
 condition automatically in `vite dev` — resolves each subpath to
 `packages/ui/src/**` for HMR. In `vite build` (production) the same
@@ -103,9 +104,8 @@ Toggle dark mode with the header button — that flips
 `document.documentElement.dataset.theme` so all `--rixl-*` tokens
 re-evaluate.
 
-Add a new component to the playground by importing it in
-`examples/playground/src/App.tsx` and dropping a new `<Section>` for
-it. The playground is not part of the published package
+Add a new component showcase by importing it in
+`apps/docs/src/App.tsx` and adding a new section for it. The docs app is not part of the published package
 (`packages/ui/package.json#files` is an allowlist), so anything you
 add here is local-only.
 
@@ -129,7 +129,7 @@ Then:
 2. Add a subpath entry to `packages/ui/package.json#exports` with
    `types`, `development`, and `import` conditions (see the existing
    `./button` entry for the shape).
-3. Import it in `examples/playground/src/App.tsx` to see it render.
+3. Import it in `apps/docs/src/App.tsx` to see it render.
 
 ## Tokens
 

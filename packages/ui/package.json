@@ -20,9 +20,6 @@
     "type": "git",
     "url": "git+https://github.com/rixlhq/rixl-ui.git"
   },
-  "workspaces": [
-    "examples/*"
-  ],
   "files": [
     "dist",
     "src",

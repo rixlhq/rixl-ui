@@ -5,7 +5,7 @@
   "description": "Workspace root for @rixl/ui — the Rixl design system.",
   "workspaces": [
     "packages/*",
-    "examples/*"
+    "apps/*"
   ],
   "type": "module",
   "scripts": {
@@ -18,8 +18,8 @@
     "test:browser": "vp run -F @rixl/ui test:browser",
     "test:coverage": "vp run -F @rixl/ui test:coverage",
     "typecheck": "tsc --noEmit",
-    "playground": "vp run -F playground dev",
-    "playground:build": "vp run -F @rixl/ui build && vp run -F playground build",
+    "docs": "vp run -F docs dev",
+    "docs:build": "vp run -F @rixl/ui build && vp run -F docs build",
     "prepare": "[ -n \"$CI\" ] || lefthook install --reset-hooks-path"
   },
   "devDependencies": {

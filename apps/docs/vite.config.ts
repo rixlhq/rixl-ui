@@ -2,7 +2,7 @@ import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import tailwindcss from "@tailwindcss/vite";
 
-// The playground consumes `@rixl/ui` through the workspace dependency
+// The docs app consumes `@rixl/ui` through the workspace dependency
 // (`"@rixl/ui": "workspace:*"` in package.json). Bun symlinks it into
 // node_modules; Vite resolves the import through the package's
 // `exports` map. In `vite dev` the `development` condition wins and

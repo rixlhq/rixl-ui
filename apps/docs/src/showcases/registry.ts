@@ -50,7 +50,7 @@ export type Example = {
   title: string;
   /** Optional one-line description. */
   description?: string;
-  /** The rendered example. Receives live playground state when `controls` is set. */
+  /** The rendered example. Receives live control state when `controls` is set. */
   render: ComponentType<{ state: Record<string, ControlValue> } & { children?: ReactNode }>;
   /** Optional live prop controls for the example. */
   controls?: Control[];
