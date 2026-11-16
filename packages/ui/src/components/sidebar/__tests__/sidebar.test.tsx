@@ -17,7 +17,7 @@ import {
   SidebarProvider,
   SidebarTrigger,
   useSidebar,
-} from "../sidebar";
+} from "../index";
 
 function Shell() {
   return (
@@ -148,5 +148,36 @@ describe("Sidebar", () => {
     render(<Shell />);
     const cls = screen.getByTestId("menu-button").className;
     expect(cls).toContain("rounded-rixl-md");
+  });
+
+  it("uses tokenized press scale and reduced-motion fallback on menu and sub-menu buttons", () => {
+    render(<Shell />);
+    const menuBtnCls = screen.getByTestId("menu-button").className;
+    const subBtnCls = screen.getByTestId("sub-button").className;
+    expect(menuBtnCls).toContain("active:scale-[var(--rixl-press-scale)]");
+    expect(menuBtnCls).toContain("motion-reduce:active:scale-100");
+    expect(menuBtnCls).not.toContain("will-change-transform");
+    expect(subBtnCls).toContain("active:scale-[var(--rixl-press-scale)]");
+    expect(subBtnCls).toContain("motion-reduce:active:scale-100");
+    expect(subBtnCls).not.toContain("will-change-transform");
+  });
+
+  it("uses CSS variables directly (not wrapped in hsl()) for the outline menu button variant", () => {
+    render(
+      <SidebarProvider>
+        <Sidebar>
+          <SidebarMenu>
+            <SidebarMenuItem>
+              <SidebarMenuButton variant="outline" data-testid="outline-btn">
+                Outline
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+          </SidebarMenu>
+        </Sidebar>
+      </SidebarProvider>
+    );
+    const cls = screen.getByTestId("outline-btn").className;
+    expect(cls).toContain("shadow-[0_0_0_1px_var(--rixl-sidebar-border)]");
+    expect(cls).not.toContain("hsl(");
   });
 });
