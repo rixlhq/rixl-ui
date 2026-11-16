@@ -47,6 +47,13 @@ See [proposal.md](proposal.md) for motivation. The root currently owns `packages
 - **Dropped:** None.
 - **Evidence:** Root Bun lockfile and workspaces define the install boundary; the repo's `setup-vp` workflows can install at root while build/test commands continue to target `packages/ui`.
 
+### Run one workspace CI gate from the root
+
+- **Chosen:** Keep shared checks in the root `ci` script, compose the UI-specific tests and package checks through `@rixl/ui`'s `ci:package` script, and build the docs app in the same root gate. CI and release workflows invoke that single root script.
+- **Alternatives considered:** Keep the workflow's package-level default directory and run separate root and package checks, which repeats shared checks and requires explicit directory overrides.
+- **Dropped:** None.
+- **Evidence:** Shared format and lint settings live at the root; package packing and tests remain owned by `packages/ui`; the docs production build belongs to `apps/docs`.
+
 ## Risks / Trade-offs
 
 - **Path references may be missed** → Search source, config, workflows, README, and agent guidance for `examples/playground`; verify the build and CI references after moving.

@@ -23,10 +23,6 @@ jobs:
     permissions:
       contents: read
       pull-requests: write # coverage report comment
-    defaults:
-      run:
-        # The publishable library lives in packages/ui; the workspace lockfile stays at the root.
-        working-directory: packages/ui
     steps:
       - name: 📥 Checkout
         uses: actions/checkout@v7
@@ -34,7 +30,6 @@ jobs:
       - name: ⚙️ Setup Vite+
         uses: voidzero-dev/setup-vp@v1.22.0
         with:
-          working-directory: .
           cache: "true"
           run-install: "true"
 
@@ -52,20 +47,9 @@ jobs:
         if: steps.playwright-cache.outputs.cache-hit != 'true'
         run: vp exec playwright install chromium
 
-      # Shared formatting and linting use the root Vite+ config across both workspaces.
-      - name: 🧹 Workspace checks
-        run: vp check
-        working-directory: .
-
-      # The `ci` script in packages/ui/package.json: UI package checks,
-      # Knip, unit and browser tests with coverage floors, package build,
-      # size budget and publint.
-      - name: 🧪 Gate
+      # Root `ci` runs shared checks, the publishable UI package gate and the docs build.
+      - name: 🧪 Workspace gate
         run: vp run ci
-
-      - name: 🏗️ Build docs app
-        run: vp run -F docs build
-        working-directory: .
 
       - name: 📊 Report coverage to PR
         if: ${{ !cancelled() && github.event_name == 'pull_request' && github.event.pull_request.head.repo.fork == false }}

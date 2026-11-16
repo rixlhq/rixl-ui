@@ -8,7 +8,8 @@ on:
 # PR checks moved to ci.yml, which reports the shared `ci / ci` check. This
 # workflow only runs on main pushes: release-please opens/updates the release
 # PR, and merging that PR publishes to npm. Publish runs the full gate
-# (`vp run ci`, which builds the package) first, so nothing ships unchecked.
+# (the root `vp run ci`, which checks the workspace and builds both packages)
+# first, so nothing ships unchecked.
 
 permissions:
   contents: write
@@ -61,9 +62,8 @@ jobs:
           node-version-file: .node-version
           registry-url: "https://registry.npmjs.org"
 
-      # The release gate: the same checks CI runs on a pull request (lint,
-      # Knip, unit and browser tests with coverage floors, the build, the size
-      # budget and publint), rerun on the exact commit being published.
+      # The root release gate is the same workspace gate CI runs on a pull
+      # request, rerun on the exact commit being published.
       - name: Install Chromium for the browser tests
         if: ${{ steps.release.outputs.releases_created == 'true' }}
         run: vp exec playwright install --with-deps chromium
@@ -71,6 +71,7 @@ jobs:
       - name: Run the gate (includes vp pack)
         if: ${{ steps.release.outputs.releases_created == 'true' }}
         run: vp run ci
+        working-directory: .
 
       - name: Publish to npm
         if: ${{ steps.release.outputs.releases_created == 'true' }}

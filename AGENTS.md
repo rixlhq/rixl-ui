@@ -57,10 +57,11 @@ vp run knip                # Unused files, exports and dependencies
 vp pack                    # Build dist/ (ESM + .d.ts)
 vp run budget              # Size budget (.size-limit.json), after vp pack
 vp run publint             # Checks the package.json exports map
-vp run ci                  # The gate CI and the release job run
+vp run ci                  # Standalone UI package gate
+vp run ci:package          # UI-only tasks (tests, pack, budget, publint)
 ```
 
-The repository root owns the Bun version pin and workspace installation. Run `vp install` from the root; all CI workflows set up Vite+ there. `vp check` runs shared format and lint checks across the workspaces. UI commands delegate to `@rixl/ui`; `vp run docs` starts the showcase app and `vp run docs:build` builds the library and docs app. Use `vp` for everything; don't call `bun`, `npm` or `npx` directly. Install Chromium once per machine with `vp exec playwright install chromium`.
+The repository root owns the Bun version pin and workspace installation. Run `vp install` from the root; all CI workflows set up Vite+ there. `vp check` runs shared format and lint checks across the workspaces. UI commands delegate to `@rixl/ui`; `vp run docs` starts the showcase app and `vp run docs:build` builds the library and docs app. From the root, `vp run ci` is the CI and release gate across the workspace. Use `vp` for everything; don't call `bun`, `npm` or `npx` directly. Install Chromium once per machine with `vp exec playwright install chromium`.
 
 ## Repository layout
 
@@ -115,7 +116,7 @@ Behaviour changes start as an OpenSpec change (`/opsx:propose`); `openspec/specs
 
 ## CI and release
 
-- `.github/workflows/ci.yml` runs `vp run ci` in `packages/ui` on every pull request and push to `main`, with Chromium installed for the browser project.
+- `.github/workflows/ci.yml` runs the root `vp run ci` on every pull request and push to `main`, with Chromium installed for the browser project.
 - `.github/workflows/react-doctor.yml` comments React Doctor findings on PRs (advisory).
 - `.github/workflows/mutation.yml` runs Stryker every Monday and opens a `mutation-report` issue.
-- `.github/workflows/release.yml` runs Release Please on `main`. Merging its release PR publishes to npm through trusted publishing, after the same `vp run ci` gate passes on that commit.
+- `.github/workflows/release.yml` runs Release Please on `main`. Merging its release PR publishes to npm through trusted publishing, after the root `vp run ci` gate passes on that commit.
