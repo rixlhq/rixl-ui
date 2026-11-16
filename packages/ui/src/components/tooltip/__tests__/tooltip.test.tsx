@@ -44,6 +44,15 @@ describe("Tooltip", () => {
     expect(cls).toContain("rounded-rixl-md");
   });
 
+  it("skips transition duration when data-instant is present", async () => {
+    render(<Basic defaultOpen />);
+    await act(async () => {});
+    const cls = screen.getByTestId("content").className;
+    expect(cls).toContain("data-instant:duration-0");
+    expect(cls).toContain("data-starting-style:scale-95");
+    expect(cls).not.toContain("data-open:animate-in");
+  });
+
   it("positions the arrow with logical sides in RTL", async () => {
     render(
       <div dir="rtl">

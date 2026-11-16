@@ -1,6 +1,7 @@
 import {describe, it, expect, afterEach} from "vitest";
 import {page, userEvent} from "vitest/browser";
 import {render, cleanup} from "@testing-library/react";
+import {axeViolations} from "../../../../test/a11y";
 import {Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger} from "../dialog";
 
 function TestDialog({defaultOpen = false}: {defaultOpen?: boolean} = {}) {
@@ -89,7 +90,8 @@ describe("Dialog Browser Mode", () => {
 
     const closeBtn = page.getByTestId("close-button");
     await expect.element(closeBtn).toBeVisible();
-    closeBtn.element().click();
+    // The close control is a <button>, so the element is an HTMLElement.
+    (closeBtn.element() as HTMLElement).click();
 
     await expect.element(dialog).not.toBeInTheDocument();
     await expect.element(trigger).toHaveFocus();
@@ -112,5 +114,13 @@ describe("Dialog Browser Mode", () => {
     await userEvent.tab();
     const closeBtn = page.getByTestId("close-button");
     await expect.element(closeBtn).toHaveFocus();
+  });
+
+  it("has no WCAG 2.2 AA violations when open", async () => {
+    render(<TestDialog />);
+    await userEvent.click(page.getByTestId("trigger"));
+    await expect.element(page.getByTestId("content")).toBeVisible();
+
+    expect(await axeViolations(document.body)).toEqual([]);
   });
 });

@@ -73,8 +73,9 @@ function SelectValue({...props}: SelectPrimitive.Value.Props) {
 const selectTriggerVariants = cva(
   cn(
     "border-rixl-border data-[placeholder]:text-rixl-fg-muted [&_svg:not([class*='text-'])]:text-rixl-fg-muted",
-    "flex w-fit items-center justify-between gap-2 rounded-rixl-md border bg-transparent px-3 py-2 text-sm whitespace-nowrap shadow-rixl-xs outline-none",
-    "transition-[color,box-shadow,border-color] duration-rixl-fast ease-rixl-out",
+    "flex w-fit items-center justify-between gap-2 rounded-rixl-md border bg-transparent px-3 py-2 text-sm whitespace-nowrap shadow-rixl-xs outline-none select-none touch-manipulation",
+    "transition-[scale,color,box-shadow,border-color] duration-rixl-fast ease-rixl-out",
+    "enabled:active:scale-[var(--rixl-press-scale)] motion-reduce:active:scale-100",
     // Hover strengthens the border; opening the popup keeps it emphasised.
     "enabled:hover:border-rixl-border-strong data-[popup-open]:border-rixl-border-strong",
     "focus-visible:border-rixl-ring focus-visible:ring-rixl-ring/50 focus-visible:ring-[3px]",
@@ -106,7 +107,7 @@ function SelectTrigger({
       {/* Chevron flips when the popup is open (ancestor carries data-popup-open). */}
       <SelectPrimitive.Icon
         render={
-          <ChevronDownIcon className="size-4 opacity-50 transition-transform duration-rixl-fast ease-rixl-out [[data-popup-open]_&]:rotate-180" />
+          <ChevronDownIcon className="size-4 opacity-50 transition-transform duration-rixl-fast ease-rixl-out motion-reduce:transition-none [[data-popup-open]_&]:rotate-180" />
         }
       />
     </SelectPrimitive.Trigger>
@@ -137,7 +138,9 @@ function SelectContent({
         <SelectPrimitive.Popup
           data-slot="select-content"
           className={cn(
-            "bg-rixl-surface text-rixl-fg data-open:animate-in data-closed:animate-out data-closed:fade-out-0 data-open:fade-in-0 data-closed:zoom-out-95 data-open:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 data-[side=inline-end]:slide-in-from-left-2 data-[side=inline-start]:slide-in-from-right-2 relative z-50 max-h-(--available-height) min-w-[8rem] origin-(--transform-origin) overflow-x-hidden overflow-y-auto rounded-rixl-md border border-rixl-border shadow-rixl-md",
+            "bg-rixl-surface text-rixl-fg relative z-50 max-h-(--available-height) min-w-[8rem] origin-(--transform-origin) overflow-x-hidden overflow-y-auto overscroll-contain rounded-rixl-md border border-rixl-border shadow-rixl-md",
+            "transition-[scale,opacity] duration-rixl-fast ease-rixl-out motion-reduce:transition-none",
+            "data-starting-style:scale-95 data-starting-style:opacity-0 data-ending-style:scale-95 data-ending-style:opacity-0",
             className
           )}
           {...props}
@@ -163,7 +166,7 @@ function SelectItem({className, children, ...props}: SelectPrimitive.Item.Props)
         // Base UI highlights the active option via data-highlighted (keyboard and
         // pointer) — not :focus — so drive the highlight from that. Selected rows
         // get a touch more weight on top of the checkmark.
-        "data-highlighted:bg-rixl-surface-muted data-highlighted:text-rixl-fg data-selected:font-medium transition-colors duration-rixl-fast ease-rixl-out [&_svg:not([class*='text-'])]:text-rixl-fg-muted relative flex w-full cursor-pointer items-center gap-2 rounded-rixl-sm py-1.5 pe-8 ps-2 text-sm outline-hidden select-none data-disabled:pointer-events-none data-disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 *:[span]:last:flex *:[span]:last:items-center *:[span]:last:gap-2",
+        "data-highlighted:bg-rixl-surface-muted data-highlighted:text-rixl-fg data-selected:font-medium [&_svg:not([class*='text-'])]:text-rixl-fg-muted relative flex w-full cursor-pointer items-center gap-2 rounded-rixl-sm py-1.5 pe-8 ps-2 text-sm outline-hidden select-none data-disabled:pointer-events-none data-disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 *:[span]:last:flex *:[span]:last:items-center *:[span]:last:gap-2",
         className
       )}
       {...props}

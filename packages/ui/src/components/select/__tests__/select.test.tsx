@@ -50,10 +50,12 @@ describe("Select", () => {
     expect(cls).toContain("focus-visible:border-rixl-ring");
   });
 
-  it("applies hover and open-state affordances to the trigger", () => {
+  it("applies hover, press, and open-state affordances to the trigger", () => {
     render(<Basic />);
     const cls = screen.getByTestId("trigger").className;
     expect(cls).toContain("enabled:hover:border-rixl-border-strong");
+    expect(cls).toContain("enabled:active:scale-[var(--rixl-press-scale)]");
+    expect(cls).toContain("motion-reduce:active:scale-100");
     expect(cls).toContain("data-[popup-open]:border-rixl-border-strong");
   });
 

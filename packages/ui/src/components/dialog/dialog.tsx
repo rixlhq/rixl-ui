@@ -43,8 +43,10 @@ function DialogOverlay({className, ...props}: DialogPrimitive.Backdrop.Props) {
       data-slot="dialog-overlay"
       className={cn(
         // Lighter scrim + subtle blur: separation is carried by the blur, not a
-        // heavy wash. Fade only, so it stays still under reduced motion.
-        "data-open:animate-in data-closed:animate-out data-closed:fade-out-0 data-open:fade-in-0 fixed inset-0 z-50 bg-black/50 backdrop-blur-sm",
+        // heavy wash. Interruptible fade via data-starting-style / data-ending-style.
+        "fixed inset-0 z-50 bg-black/50 backdrop-blur-sm",
+        "transition-opacity duration-rixl-base ease-rixl-out motion-reduce:transition-none",
+        "data-starting-style:opacity-0 data-ending-style:opacity-0",
         className
       )}
       {...props}
@@ -56,9 +58,10 @@ const dialogContentVariants = cva(
   cn(
     "bg-rixl-bg fixed top-[50%] left-[50%] z-50 grid w-full max-w-[calc(100%-2rem)] translate-x-[-50%] translate-y-[-50%] gap-4",
     "rounded-rixl-lg border border-rixl-border p-6 shadow-rixl-lg",
-    "content-start max-h-dvh overflow-y-auto overscroll-contain sm:max-h-[calc(100dvh-2rem)] max-sm:top-0 max-sm:start-0 max-sm:h-dvh max-sm:max-w-none max-sm:translate-x-0 max-sm:translate-y-0 max-sm:rounded-none max-sm:border-0",
-    // Scale-and-fade entrance/exit (scale 0.95 → 1), reduced-motion safe.
-    "data-open:animate-in data-closed:animate-out data-closed:fade-out-0 data-open:fade-in-0 data-closed:zoom-out-95 data-open:zoom-in-95 duration-rixl-base ease-rixl-out"
+    "max-h-[calc(100dvh-2rem)] overflow-y-auto overscroll-contain",
+    // Interruptible scale-and-fade entrance/exit (0.95 → 1), reduced-motion safe.
+    "transition-[scale,opacity] duration-rixl-base ease-rixl-out motion-reduce:transition-none",
+    "data-starting-style:scale-95 data-starting-style:opacity-0 data-ending-style:scale-95 data-ending-style:opacity-0"
   ),
   {
     variants: {
@@ -92,9 +95,10 @@ function DialogContent({
           <DialogPrimitive.Close
             data-slot="dialog-close"
             className={cn(
-              "absolute top-2 end-2 flex size-11 items-center justify-center rounded-rixl-sm opacity-70",
-              "transition-[opacity,background-color,box-shadow] duration-rixl-fast ease-rixl-out",
+              "absolute top-3.5 end-3.5 flex size-7 items-center justify-center rounded-rixl-sm opacity-70",
+              "transition-[scale,opacity,background-color,box-shadow] duration-rixl-fast ease-rixl-out",
               "hover:bg-rixl-surface-muted hover:opacity-100",
+              "active:scale-[var(--rixl-press-scale)] motion-reduce:active:scale-100",
               "focus-visible:ring-rixl-ring/50 focus-visible:ring-[3px] focus-visible:outline-none",
               "disabled:pointer-events-none [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4"
             )}
@@ -109,7 +113,7 @@ function DialogContent({
 }
 
 function DialogHeader({className, ...props}: React.ComponentProps<"div">) {
-  return <div data-slot="dialog-header" className={cn("flex flex-col gap-2 text-center sm:text-start", className)} {...props} />;
+  return <div data-slot="dialog-header" className={cn("flex min-w-0 flex-col gap-2 text-center sm:text-start", className)} {...props} />;
 }
 
 function DialogFooter({className, ...props}: React.ComponentProps<"div">) {

@@ -43,6 +43,8 @@ describe("Sheet", () => {
     const cls = content.className;
     expect(cls).toContain("bg-rixl-bg");
     expect(cls).toContain("shadow-rixl-lg");
+    expect(cls).toContain("ease-rixl-drawer");
+    expect(cls).toContain("overscroll-contain");
     expect(cls).toContain("data-[side=right]:right-0");
     expect(cls).toContain("sm:max-w-sm");
   });

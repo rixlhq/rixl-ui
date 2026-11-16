@@ -41,7 +41,7 @@ function SheetOverlay({className, ...props}: SheetPrimitive.Backdrop.Props) {
     <SheetPrimitive.Backdrop
       data-slot="sheet-overlay"
       className={cn(
-        "fixed inset-0 z-50 bg-black/50 transition-opacity duration-150 data-starting-style:opacity-0 data-ending-style:opacity-0",
+        "fixed inset-0 z-50 bg-black/50 backdrop-blur-sm transition-opacity duration-rixl-base ease-rixl-out motion-reduce:transition-none data-starting-style:opacity-0 data-ending-style:opacity-0",
         className
       )}
       {...props}
@@ -64,7 +64,7 @@ function SheetContent({
         data-slot="sheet-content"
         data-side={side}
         className={cn(
-          "bg-rixl-bg fixed z-50 flex flex-col gap-4 shadow-rixl-lg transition duration-300 ease-in-out",
+          "bg-rixl-bg fixed z-50 flex flex-col gap-4 overscroll-contain shadow-rixl-lg transition-transform duration-rixl-slow ease-rixl-drawer motion-reduce:transition-none",
           "data-[side=right]:inset-y-0 data-[side=right]:right-0 data-[side=right]:h-full data-[side=right]:w-3/4 data-[side=right]:border-l data-[side=right]:sm:max-w-sm data-[side=right]:data-starting-style:translate-x-full data-[side=right]:data-ending-style:translate-x-full",
           "data-[side=left]:inset-y-0 data-[side=left]:left-0 data-[side=left]:h-full data-[side=left]:w-3/4 data-[side=left]:border-r data-[side=left]:sm:max-w-sm data-[side=left]:data-starting-style:-translate-x-full data-[side=left]:data-ending-style:-translate-x-full",
           "data-[side=top]:inset-x-0 data-[side=top]:top-0 data-[side=top]:h-auto data-[side=top]:border-b data-[side=top]:data-starting-style:-translate-y-full data-[side=top]:data-ending-style:-translate-y-full",
@@ -76,7 +76,13 @@ function SheetContent({
         {children}
         <SheetPrimitive.Close
           data-slot="sheet-close"
-          className="ring-offset-rixl-bg focus:ring-rixl-ring absolute top-4 end-4 rounded-xs opacity-70 transition-opacity hover:opacity-100 focus:ring-2 focus:ring-offset-2 focus:outline-hidden disabled:pointer-events-none"
+          className={cn(
+            "ring-offset-rixl-bg focus:ring-rixl-ring absolute top-3.5 end-3.5 flex size-7 items-center justify-center rounded-rixl-sm opacity-70",
+            "transition-[scale,opacity,background-color,box-shadow] duration-rixl-fast ease-rixl-out",
+            "hover:bg-rixl-surface-muted hover:opacity-100",
+            "active:scale-[var(--rixl-press-scale)] motion-reduce:active:scale-100",
+            "focus-visible:ring-rixl-ring/50 focus-visible:ring-[3px] focus:outline-hidden disabled:pointer-events-none"
+          )}
         >
           <CloseIcon />
           <span className="sr-only">Close</span>
@@ -87,7 +93,7 @@ function SheetContent({
 }
 
 function SheetHeader({className, ...props}: React.ComponentProps<"div">) {
-  return <div data-slot="sheet-header" className={cn("flex flex-col gap-1.5 p-4", className)} {...props} />;
+  return <div data-slot="sheet-header" className={cn("flex min-w-0 flex-col gap-1.5 p-4", className)} {...props} />;
 }
 
 function SheetFooter({className, ...props}: React.ComponentProps<"div">) {
@@ -125,6 +131,8 @@ export type SheetTriggerProps = SheetPrimitive.Trigger.Props;
 export type SheetCloseProps = SheetPrimitive.Close.Props;
 export type SheetPortalProps = SheetPrimitive.Portal.Props;
 export type SheetOverlayProps = SheetPrimitive.Backdrop.Props;
-export type SheetContentProps = SheetPrimitive.Popup.Props & {side?: "top" | "right" | "bottom" | "left"};
+export type SheetContentProps = SheetPrimitive.Popup.Props & {
+  side?: "top" | "right" | "bottom" | "left";
+};
 export type SheetTitleProps = SheetPrimitive.Title.Props;
 export type SheetDescriptionProps = SheetPrimitive.Description.Props;

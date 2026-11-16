@@ -2,6 +2,8 @@ import * as React from "react";
 import {Menu as MenuPrimitive} from "@base-ui/react/menu";
 import {cn} from "cn";
 
+import {CheckIcon, ChevronRightIcon, CircleIcon} from "./dropdown-menu-icons";
+
 /**
  * Rixl DropdownMenu — a popup menu of actions anchored to a trigger.
  *
@@ -56,7 +58,9 @@ function DropdownMenuContent({
         <MenuPrimitive.Popup
           data-slot="dropdown-menu-content"
           className={cn(
-            "bg-rixl-surface text-rixl-fg data-open:animate-in data-closed:animate-out data-closed:fade-out-0 data-open:fade-in-0 data-closed:zoom-out-95 data-open:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 data-[side=inline-end]:slide-in-from-left-2 data-[side=inline-start]:slide-in-from-right-2 z-50 max-h-(--available-height) min-w-[8rem] origin-(--transform-origin) overflow-x-hidden overflow-y-auto rounded-rixl-md border-rixl-border border p-1 shadow-rixl-md outline-hidden",
+            "bg-rixl-surface text-rixl-fg z-50 max-h-(--available-height) min-w-[8rem] origin-(--transform-origin) overflow-x-hidden overflow-y-auto overscroll-contain rounded-rixl-md border-rixl-border border p-1 shadow-rixl-md outline-hidden",
+            "transition-[scale,opacity] duration-rixl-fast ease-rixl-out motion-reduce:transition-none",
+            "data-starting-style:scale-95 data-starting-style:opacity-0 data-ending-style:scale-95 data-ending-style:opacity-0",
             className
           )}
           {...props}
@@ -86,7 +90,8 @@ function DropdownMenuItem({
       data-variant={variant}
       className={cn(
         // Base UI highlights via data-highlighted (keyboard + pointer), not :focus.
-        "data-highlighted:bg-rixl-surface-muted data-highlighted:text-rixl-fg data-[variant=destructive]:text-rixl-danger data-[variant=destructive]:data-highlighted:bg-rixl-danger/10 data-[variant=destructive]:data-highlighted:text-rixl-danger data-[variant=destructive]:*:[svg]:!text-rixl-danger [&_svg:not([class*='text-'])]:text-rixl-fg-muted transition-colors duration-rixl-fast ease-rixl-out relative flex cursor-default items-center gap-2 rounded-rixl-sm px-2 py-1.5 text-sm outline-hidden select-none data-disabled:pointer-events-none data-disabled:opacity-50 data-[inset]:ps-8 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
+        // No transition-colors on menu rows: instant highlight prevents a fading trail on fast hover/arrow keys.
+        "data-highlighted:bg-rixl-surface-muted data-highlighted:text-rixl-fg data-[variant=destructive]:text-rixl-danger data-[variant=destructive]:data-highlighted:bg-rixl-danger/10 data-[variant=destructive]:data-highlighted:text-rixl-danger data-[variant=destructive]:*:[svg]:!text-rixl-danger [&_svg:not([class*='text-'])]:text-rixl-fg-muted relative flex cursor-default items-center gap-2 rounded-rixl-sm px-2 py-1.5 text-sm outline-hidden select-none data-disabled:pointer-events-none data-disabled:opacity-50 data-[inset]:ps-8 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
         className
       )}
       {...props}
@@ -99,14 +104,14 @@ function DropdownMenuCheckboxItem({className, children, checked, ...props}: Menu
     <MenuPrimitive.CheckboxItem
       data-slot="dropdown-menu-checkbox-item"
       className={cn(
-        "data-highlighted:bg-rixl-surface-muted data-highlighted:text-rixl-fg transition-colors duration-rixl-fast ease-rixl-out relative flex cursor-default items-center gap-2 rounded-rixl-sm py-1.5 pe-2 ps-8 text-sm outline-hidden select-none data-disabled:pointer-events-none data-disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
+        "data-highlighted:bg-rixl-surface-muted data-highlighted:text-rixl-fg relative flex cursor-default items-center gap-2 rounded-rixl-sm py-1.5 pe-2 ps-8 text-sm outline-hidden select-none data-disabled:pointer-events-none data-disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
         className
       )}
       checked={checked}
       {...props}
     >
       <span className="pointer-events-none absolute start-2 flex size-3.5 items-center justify-center">
-        <MenuPrimitive.CheckboxItemIndicator>
+        <MenuPrimitive.CheckboxItemIndicator className="transition-[scale,opacity] duration-rixl-fast ease-rixl-out motion-reduce:transition-none data-starting-style:scale-50 data-starting-style:opacity-0 data-ending-style:scale-50 data-ending-style:opacity-0">
           <CheckIcon className="size-4" />
         </MenuPrimitive.CheckboxItemIndicator>
       </span>
@@ -124,13 +129,13 @@ function DropdownMenuRadioItem({className, children, ...props}: MenuPrimitive.Ra
     <MenuPrimitive.RadioItem
       data-slot="dropdown-menu-radio-item"
       className={cn(
-        "data-highlighted:bg-rixl-surface-muted data-highlighted:text-rixl-fg transition-colors duration-rixl-fast ease-rixl-out relative flex cursor-default items-center gap-2 rounded-rixl-sm py-1.5 pe-2 ps-8 text-sm outline-hidden select-none data-disabled:pointer-events-none data-disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
+        "data-highlighted:bg-rixl-surface-muted data-highlighted:text-rixl-fg relative flex cursor-default items-center gap-2 rounded-rixl-sm py-1.5 pe-2 ps-8 text-sm outline-hidden select-none data-disabled:pointer-events-none data-disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
         className
       )}
       {...props}
     >
       <span className="pointer-events-none absolute start-2 flex size-3.5 items-center justify-center">
-        <MenuPrimitive.RadioItemIndicator>
+        <MenuPrimitive.RadioItemIndicator className="transition-[scale,opacity] duration-rixl-fast ease-rixl-out motion-reduce:transition-none data-starting-style:scale-50 data-starting-style:opacity-0 data-ending-style:scale-50 data-ending-style:opacity-0">
           <CircleIcon className="size-2 fill-current" />
         </MenuPrimitive.RadioItemIndicator>
       </span>
@@ -185,7 +190,7 @@ function DropdownMenuSubTrigger({
       data-slot="dropdown-menu-sub-trigger"
       data-inset={inset}
       className={cn(
-        "data-highlighted:bg-rixl-surface-muted data-highlighted:text-rixl-fg data-popup-open:bg-rixl-surface-muted data-popup-open:text-rixl-fg transition-colors duration-rixl-fast ease-rixl-out flex cursor-default items-center rounded-rixl-sm px-2 py-1.5 text-sm outline-hidden select-none data-[inset]:ps-8",
+        "data-highlighted:bg-rixl-surface-muted data-highlighted:text-rixl-fg data-popup-open:bg-rixl-surface-muted data-popup-open:text-rixl-fg flex cursor-default items-center rounded-rixl-sm px-2 py-1.5 text-sm outline-hidden select-none data-[inset]:ps-8",
         className
       )}
       {...props}
@@ -217,57 +222,6 @@ function DropdownMenuSubContent({
   );
 }
 
-function CheckIcon({className}: {className?: string}) {
-  return (
-    <svg
-      className={className}
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden="true"
-    >
-      <path d="M20 6 9 17l-5-5" />
-    </svg>
-  );
-}
-
-function ChevronRightIcon({className}: {className?: string}) {
-  return (
-    <svg
-      className={className}
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden="true"
-    >
-      <path d="m9 18 6-6-6-6" />
-    </svg>
-  );
-}
-
-function CircleIcon({className}: {className?: string}) {
-  return (
-    <svg
-      className={className}
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden="true"
-    >
-      <circle cx="12" cy="12" r="10" />
-    </svg>
-  );
-}
-
 export {
   DropdownMenu,
   DropdownMenuPortal,
@@ -289,7 +243,10 @@ export type DropdownMenuProps = MenuPrimitive.Root.Props;
 export type DropdownMenuTriggerProps = MenuPrimitive.Trigger.Props;
 export type DropdownMenuContentProps = MenuPrimitive.Popup.Props &
   Pick<MenuPrimitive.Positioner.Props, "align" | "alignOffset" | "side" | "sideOffset">;
-export type DropdownMenuItemProps = MenuPrimitive.Item.Props & {inset?: boolean; variant?: "default" | "destructive"};
+export type DropdownMenuItemProps = MenuPrimitive.Item.Props & {
+  inset?: boolean;
+  variant?: "default" | "destructive";
+};
 export type DropdownMenuCheckboxItemProps = MenuPrimitive.CheckboxItem.Props;
 export type DropdownMenuRadioGroupProps = MenuPrimitive.RadioGroup.Props;
 export type DropdownMenuRadioItemProps = MenuPrimitive.RadioItem.Props;

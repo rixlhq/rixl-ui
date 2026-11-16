@@ -37,7 +37,9 @@ function AlertDialogOverlay({className, ...props}: AlertDialogPrimitive.Backdrop
     <AlertDialogPrimitive.Backdrop
       data-slot="alert-dialog-overlay"
       className={cn(
-        "data-open:animate-in data-closed:animate-out data-closed:fade-out-0 data-open:fade-in-0 fixed inset-0 z-50 bg-black/50",
+        "fixed inset-0 z-50 bg-black/50 backdrop-blur-sm",
+        "transition-opacity duration-rixl-base ease-rixl-out motion-reduce:transition-none",
+        "data-starting-style:opacity-0 data-ending-style:opacity-0",
         className
       )}
       {...props}
@@ -52,8 +54,10 @@ function AlertDialogContent({className, ...props}: AlertDialogPrimitive.Popup.Pr
       <AlertDialogPrimitive.Popup
         data-slot="alert-dialog-content"
         className={cn(
-          "bg-rixl-bg data-open:animate-in data-closed:animate-out data-closed:fade-out-0 data-open:fade-in-0 data-closed:zoom-out-95 data-open:zoom-in-95 fixed top-[50%] left-[50%] z-50 grid w-full max-w-[calc(100%-2rem)] translate-x-[-50%] translate-y-[-50%] gap-4 rounded-rixl-lg border-rixl-border border p-6 shadow-rixl-lg duration-200 sm:max-w-lg",
-          "content-start max-h-dvh overflow-y-auto overscroll-contain sm:max-h-[calc(100dvh-2rem)] max-sm:top-0 max-sm:start-0 max-sm:h-dvh max-sm:max-w-none max-sm:translate-x-0 max-sm:translate-y-0 max-sm:rounded-none max-sm:border-0",
+          "bg-rixl-bg fixed top-[50%] left-[50%] z-50 grid w-full max-w-[calc(100%-2rem)] translate-x-[-50%] translate-y-[-50%] gap-4 rounded-rixl-lg border-rixl-border border p-6 shadow-rixl-lg sm:max-w-lg",
+          "max-h-[calc(100dvh-2rem)] overflow-y-auto overscroll-contain",
+          "transition-[scale,opacity] duration-rixl-base ease-rixl-out motion-reduce:transition-none",
+          "data-starting-style:scale-95 data-starting-style:opacity-0 data-ending-style:scale-95 data-ending-style:opacity-0",
           className
         )}
         {...props}
@@ -63,7 +67,9 @@ function AlertDialogContent({className, ...props}: AlertDialogPrimitive.Popup.Pr
 }
 
 function AlertDialogHeader({className, ...props}: React.ComponentProps<"div">) {
-  return <div data-slot="alert-dialog-header" className={cn("flex flex-col gap-2 text-center sm:text-start", className)} {...props} />;
+  return (
+    <div data-slot="alert-dialog-header" className={cn("flex min-w-0 flex-col gap-2 text-center sm:text-start", className)} {...props} />
+  );
 }
 
 function AlertDialogFooter({className, ...props}: React.ComponentProps<"div">) {

@@ -73,7 +73,6 @@ describe("DropdownMenu", () => {
     const items = document.querySelectorAll("[data-slot='dropdown-menu-item']");
     const cls = items[0]!.className;
     expect(cls).toContain("data-highlighted:bg-rixl-surface-muted");
-    expect(cls).toContain("transition-colors");
     expect(cls).not.toContain("focus:bg-rixl-surface-muted");
   });
 

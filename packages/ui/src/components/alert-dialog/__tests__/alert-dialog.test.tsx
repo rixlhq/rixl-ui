@@ -111,14 +111,14 @@ describe("AlertDialog", () => {
   });
 });
 
-it("fills mobile viewports and constrains scrolling on larger screens", async () => {
+it("constrains height and scrolls internally without forcing full-screen on mobile", async () => {
   render(<Basic open />);
   await act(async () => {});
   const content = screen.getByTestId("content");
-  expect(content.className).toContain("max-sm:h-dvh");
-  expect(content.className).toContain("max-sm:rounded-none");
+  expect(content.className).toContain("max-w-[calc(100%-2rem)]");
+  expect(content.className).toContain("max-h-[calc(100dvh-2rem)]");
   expect(content.className).toContain("overflow-y-auto");
-  expect(content.className).toContain("sm:max-h-[calc(100dvh-2rem)]");
+  expect(content.className).not.toContain("max-sm:h-dvh");
 });
 
 it("uses logical text alignment while preserving symmetric centering in RTL", async () => {
