@@ -1,6 +1,6 @@
 import { Skeleton } from "@rixl/ui/skeleton";
 import type { ControlValue, Example } from "./registry";
-import { Group } from "./_layout";
+import { Group } from "../components/showcase-layout";
 
 export const path = "skeleton";
 export const title = "Skeleton";

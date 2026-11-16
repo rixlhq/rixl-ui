@@ -1,6 +1,6 @@
 import { Separator, type SeparatorProps } from "@rixl/ui/separator";
 import type { ControlValue, Example } from "./registry";
-import { Group } from "./_layout";
+import { Group } from "../components/showcase-layout";
 
 export const path = "separator";
 export const title = "Separator";

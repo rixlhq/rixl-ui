@@ -1,5 +1,5 @@
-import {describe, it, expect} from "vitest";
-import {render, screen} from "@testing-library/react";
+import {describe, it, expect, vi} from "vitest";
+import {act, render, screen} from "@testing-library/react";
 import {Avatar, AvatarFallback, AvatarImage} from "../avatar";
 
 describe("Avatar", () => {
@@ -68,6 +68,34 @@ describe("Avatar", () => {
     // Image renders only after loading in Base UI; the fallback is what shows synchronously in jsdom.
     // We can still verify the fallback got a data-slot, matching the composition contract.
     expect(screen.getByText("AA")).toHaveAttribute("data-slot", "avatar-fallback");
+  });
+
+  it("applies aspect-square, size-full, and object-cover to the image", () => {
+    let onload: (() => void) | null = null;
+    class MockImage {
+      onload: (() => void) | null = null;
+      onerror: (() => void) | null = null;
+      referrerPolicy = "";
+      crossOrigin: string | null = null;
+      set src(_value: string) {
+        onload = () => this.onload?.();
+      }
+    }
+    vi.stubGlobal("Image", MockImage);
+    render(
+      <Avatar>
+        <AvatarImage data-testid="img" src="/me.png" alt="Me" />
+      </Avatar>
+    );
+    act(() => {
+      onload?.();
+    });
+    const img = screen.getByTestId("img");
+    expect(img).toHaveAttribute("data-slot", "avatar-image");
+    expect(img.className).toContain("aspect-square");
+    expect(img.className).toContain("size-full");
+    expect(img.className).toContain("object-cover");
+    vi.unstubAllGlobals();
   });
 
   it("shows the fallback initially in jsdom (image not yet loaded)", () => {

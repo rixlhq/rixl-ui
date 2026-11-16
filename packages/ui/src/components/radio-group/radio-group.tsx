@@ -24,8 +24,9 @@ function RadioGroupItem({className, ...props}: RadioPrimitive.Root.Props) {
     <RadioPrimitive.Root
       data-slot="radio-group-item"
       className={cn(
-        "border-rixl-border text-rixl-primary flex items-center justify-center aspect-square size-4 shrink-0 rounded-full border shadow-rixl-xs outline-none",
-        "transition-[color,box-shadow,border-color] duration-rixl-fast ease-rixl-out",
+        "border-rixl-border text-rixl-primary flex items-center justify-center aspect-square size-4 shrink-0 rounded-full border shadow-rixl-xs outline-none touch-manipulation",
+        "transition-[scale,box-shadow,border-color] duration-rixl-fast ease-rixl-out",
+        "enabled:active:scale-[var(--rixl-press-scale)] motion-reduce:active:scale-100",
         "data-unchecked:enabled:hover:border-rixl-border-strong data-checked:border-rixl-primary",
         "focus-visible:border-rixl-ring focus-visible:ring-rixl-ring/50 focus-visible:ring-[3px]",
         "aria-invalid:ring-rixl-danger/20 aria-invalid:border-rixl-danger",
@@ -36,7 +37,7 @@ function RadioGroupItem({className, ...props}: RadioPrimitive.Root.Props) {
     >
       <RadioPrimitive.Indicator
         data-slot="radio-group-indicator"
-        className="flex items-center justify-center animate-in zoom-in-50 fade-in-0 duration-rixl-fast motion-reduce:animate-none"
+        className="flex items-center justify-center transition-[scale,opacity] duration-rixl-fast ease-rixl-out motion-reduce:transition-none data-starting-style:scale-50 data-starting-style:opacity-0 data-ending-style:scale-50 data-ending-style:opacity-0"
       >
         <CircleIcon />
       </RadioPrimitive.Indicator>

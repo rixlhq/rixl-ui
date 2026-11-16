@@ -45,7 +45,7 @@ describe("Popover", () => {
     expect(screen.getByTestId("content")).toHaveAttribute("data-slot", "popover-content");
   });
 
-  it("applies base classes to the popup", async () => {
+  it("applies base classes and origin-anchored interruptible transitions to the popup", async () => {
     render(<Basic defaultOpen />);
     await act(async () => {});
     const cls = screen.getByTestId("content").className;
@@ -55,6 +55,10 @@ describe("Popover", () => {
     expect(cls).toContain("rounded-rixl-md");
     expect(cls).toContain("shadow-rixl-md");
     expect(cls).toContain("w-72");
+    expect(cls).toContain("origin-(--transform-origin)");
+    expect(cls).toContain("data-starting-style:scale-95");
+    expect(cls).toContain("data-ending-style:scale-95");
+    expect(cls).not.toContain("data-open:animate-in");
   });
 
   it("forwards additional className without dropping base classes", async () => {

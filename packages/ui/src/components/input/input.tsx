@@ -42,8 +42,8 @@ const inputVariants = cva(
   {
     variants: {
       inputSize: {
-        sm: "h-8 px-2.5 text-sm",
-        default: "h-9 px-3 text-base md:text-sm",
+        sm: "h-8 px-2.5 text-xs",
+        default: "h-9 px-3 text-sm",
         lg: "h-10 px-3.5 text-base",
       },
     },
@@ -56,7 +56,11 @@ type InputSize = NonNullable<VariantProps<typeof inputVariants>["inputSize"]>;
 /** Extra padding so text clears an icon, and the icon inset, kept in step per size. */
 const startPad: Record<InputSize, string> = {sm: "ps-8", default: "ps-9", lg: "ps-10"};
 const endPad: Record<InputSize, string> = {sm: "pe-8", default: "pe-9", lg: "pe-10"};
-const startInset: Record<InputSize, string> = {sm: "start-2.5", default: "start-3", lg: "start-3.5"};
+const startInset: Record<InputSize, string> = {
+  sm: "start-2.5",
+  default: "start-3",
+  lg: "start-3.5",
+};
 const endInset: Record<InputSize, string> = {sm: "end-2.5", default: "end-3", lg: "end-3.5"};
 
 const iconBase = cn(

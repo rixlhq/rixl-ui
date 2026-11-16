@@ -1,6 +1,6 @@
-export {SidebarProvider, useSidebar, type SidebarProviderProps} from "./sidebar-context";
+export {SidebarProvider, useSidebar, type SidebarProviderProps} from "./context";
 export {Sidebar, type SidebarProps} from "./sidebar";
-export {SidebarRail, SidebarTrigger, type SidebarRailProps, type SidebarTriggerProps} from "./sidebar-trigger";
+export {SidebarRail, SidebarTrigger, type SidebarRailProps, type SidebarTriggerProps} from "./trigger";
 export {
   SidebarContent,
   SidebarFooter,
@@ -14,7 +14,7 @@ export {
   type SidebarInputProps,
   type SidebarInsetProps,
   type SidebarSeparatorProps,
-} from "./sidebar-layout";
+} from "./layout";
 export {
   SidebarGroup,
   SidebarGroupAction,
@@ -24,7 +24,7 @@ export {
   type SidebarGroupContentProps,
   type SidebarGroupLabelProps,
   type SidebarGroupProps,
-} from "./sidebar-group";
+} from "./group";
 export {
   SidebarMenu,
   SidebarMenuAction,
@@ -39,7 +39,7 @@ export {
   type SidebarMenuItemProps,
   type SidebarMenuProps,
   type SidebarMenuSkeletonProps,
-} from "./sidebar-menu";
+} from "./menu";
 export {
   SidebarMenuSub,
   SidebarMenuSubButton,
@@ -47,4 +47,4 @@ export {
   type SidebarMenuSubButtonProps,
   type SidebarMenuSubItemProps,
   type SidebarMenuSubProps,
-} from "./sidebar-menu-sub";
+} from "./menu-sub";

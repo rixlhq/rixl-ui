@@ -1,4 +1,8 @@
 [
-  {"name": "All component JS (dist/*.js)", "path": "dist/*.js", "limit": "40.3 kB"},
-  {"name": "Tailwind preset (src/styles/preset.css)", "path": "src/styles/preset.css", "limit": "2.5 kB"}
+  {"name": "All component JS (dist/*.js)", "path": "dist/*.js", "limit": "42.5 kB"},
+  {
+    "name": "Tailwind preset (src/styles/preset.css)",
+    "path": "src/styles/preset.css",
+    "limit": "3 kB"
+  }
 ]

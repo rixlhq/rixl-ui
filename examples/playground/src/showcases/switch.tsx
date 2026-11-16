@@ -1,7 +1,7 @@
 import { Label } from "@rixl/ui/label";
 import { Switch } from "@rixl/ui/switch";
 import type { ControlValue, Example } from "./registry";
-import { Group } from "./_layout";
+import { Group } from "../components/showcase-layout";
 
 export const path = "switch";
 export const title = "Switch";

@@ -30,25 +30,29 @@ import {cn} from "cn";
  * `motion-reduce` drops the transform only — the colour and shadow changes stay,
  * so the press is still legible without movement.
  */
-const press =
-  "transition-[scale,translate,background-color,box-shadow,border-color,color] duration-rixl-fast ease-rixl-out " +
-  // Lift a touch on hover, settle back down and shrink on press — reads as a
-  // physical button. Both movements drop under reduced motion.
-  "hover:-translate-y-px active:translate-y-0 active:scale-[var(--rixl-press-scale)] " +
-  "motion-reduce:hover:translate-y-0 motion-reduce:active:scale-100";
+const press = cn(
+  "active:scale-[var(--rixl-press-scale)] motion-reduce:active:scale-100",
+  "transition-[scale,background-color,box-shadow,border-color,color] duration-rixl-fast ease-rixl-out"
+);
 
-/** Shadow deepens on the hover lift and collapses on press, so it reads as pushed in. */
-const pressShadow = "shadow-rixl-xs hover:shadow-rixl-sm active:shadow-none";
+/** Shadow collapses as the surface depresses, so it reads as pushed in rather than merely smaller. */
+const pressShadow = "shadow-rixl-xs active:shadow-none";
 
 const variantClasses = {
-  default: `bg-rixl-primary text-rixl-primary-fg hover:bg-rixl-primary-hover active:bg-rixl-primary-active ${pressShadow}`,
-  destructive: `bg-rixl-danger text-rixl-danger-fg hover:bg-rixl-danger-hover active:bg-rixl-danger-active focus-visible:ring-rixl-danger/20 ${pressShadow}`,
-  outline: `border border-rixl-border bg-rixl-bg hover:bg-rixl-surface-muted hover:text-rixl-fg hover:border-rixl-border-strong active:bg-rixl-secondary-active ${pressShadow}`,
-  secondary: `bg-rixl-secondary text-rixl-secondary-fg hover:bg-rixl-secondary-hover active:bg-rixl-secondary-active ${pressShadow}`,
+  default: cn("bg-rixl-primary text-rixl-primary-fg hover:bg-rixl-primary-hover active:bg-rixl-primary-active", pressShadow),
+  destructive: cn(
+    "bg-rixl-danger text-rixl-danger-fg hover:bg-rixl-danger-hover active:bg-rixl-danger-active focus-visible:ring-rixl-danger/20",
+    pressShadow
+  ),
+  outline: cn(
+    "border border-rixl-border bg-rixl-bg hover:bg-rixl-surface-muted hover:text-rixl-fg hover:border-rixl-border-strong active:bg-rixl-secondary-active",
+    pressShadow
+  ),
+  secondary: cn("bg-rixl-secondary text-rixl-secondary-fg hover:bg-rixl-secondary-hover active:bg-rixl-secondary-active", pressShadow),
   ghost: "hover:bg-rixl-surface-muted hover:text-rixl-fg active:bg-rixl-secondary-active",
-  // Inline text: moving/scaling it against surrounding copy looks broken, so
-  // `link` opts out of the lift and press transform and signals with colour alone.
-  link: "text-rixl-primary underline underline-offset-4 hover:translate-y-0 active:translate-y-0 active:scale-100 active:text-rixl-primary-active",
+  // Inline text: scaling it against surrounding copy looks broken, so `link`
+  // opts out of the press transform and signals with colour alone.
+  link: "text-rixl-primary underline underline-offset-4 active:scale-100 active:text-rixl-primary-active",
 } as const;
 
 /** fumadocs calls the brand action `primary`; dashboard calls it `default`. */
@@ -58,12 +62,14 @@ const colorClasses = {
 } as const;
 
 const buttonVariants = cva(
-  "inline-flex items-center cursor-pointer justify-center gap-2 whitespace-nowrap rounded-rixl-md text-sm font-medium " +
-    "disabled:pointer-events-none disabled:opacity-50 " +
-    "[&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 " +
-    "outline-none focus-visible:border-rixl-ring focus-visible:ring-rixl-ring/50 focus-visible:ring-[3px] " +
-    "aria-invalid:ring-rixl-danger/20 aria-invalid:border-rixl-danger " +
-    press,
+  cn(
+    "inline-flex items-center cursor-pointer justify-center gap-2 whitespace-nowrap rounded-rixl-md text-sm font-medium select-none touch-manipulation",
+    "disabled:pointer-events-none disabled:opacity-50",
+    "[&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0",
+    "outline-none focus-visible:border-rixl-ring focus-visible:ring-rixl-ring/50 focus-visible:ring-[3px]",
+    "aria-invalid:ring-rixl-danger/20 aria-invalid:border-rixl-danger",
+    press
+  ),
   {
     variants: {
       variant: variantClasses,
@@ -101,25 +107,51 @@ export type ButtonProps = Omit<ButtonPrimitive.Props, "color"> & {
   variant?: ButtonVariant | null;
   color?: ButtonColor | (string & {});
   size?: ButtonSize | null;
+  loading?: boolean;
 };
 
-const Button = forwardRef<HTMLButtonElement, ButtonProps>(({className, variant, color, size, nativeButton, render, ...props}, ref) => {
-  // When rendered as a non-<button> element (e.g. render={<Link/>}), tell Base UI so it drops native button semantics.
-  const isNativeButton = nativeButton ?? (isValidElement(render) ? render.type === "button" : true);
-  // `variant` wins over `color`; falling back to `default` keeps a bare
-  // <Button> styled when neither is passed.
-  const resolved: ButtonColor = variant ?? (isButtonColor(color) ? color : "default");
+function ButtonSpinner() {
   return (
-    <ButtonPrimitive
-      ref={ref}
-      data-slot="button"
-      nativeButton={isNativeButton}
-      render={render}
-      className={cn(buttonVariants({color: resolved, size, className}))}
-      {...props}
-    />
+    <svg
+      data-slot="button-spinner"
+      className="size-4 animate-spin motion-reduce:animate-none"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2.5"
+      strokeLinecap="round"
+      aria-hidden="true"
+    >
+      <path d="M21 12a9 9 0 1 1-6.219-8.56" />
+    </svg>
   );
-});
+}
+
+const Button = forwardRef<HTMLButtonElement, ButtonProps>(
+  ({className, variant, color, size, loading, disabled, nativeButton, render, children, ...props}, ref) => {
+    // When rendered as a non-<button> element (e.g. render={<Link/>}), tell Base UI so it drops native button semantics.
+    const isNativeButton = nativeButton ?? (isValidElement(render) ? render.type === "button" : true);
+    // `variant` wins over `color`; falling back to `default` keeps a bare
+    // <Button> styled when neither is passed.
+    const resolved: ButtonColor = variant ?? (isButtonColor(color) ? color : "default");
+    return (
+      <ButtonPrimitive
+        ref={ref}
+        data-slot="button"
+        data-loading={loading || undefined}
+        aria-busy={loading || undefined}
+        disabled={disabled || loading}
+        nativeButton={isNativeButton}
+        render={render}
+        className={cn(buttonVariants({color: resolved, size, className}))}
+        {...props}
+      >
+        {loading && <ButtonSpinner />}
+        {children}
+      </ButtonPrimitive>
+    );
+  }
+);
 Button.displayName = "Button";
 
 export {Button, buttonVariants};

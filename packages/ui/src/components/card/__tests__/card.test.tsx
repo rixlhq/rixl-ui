@@ -90,14 +90,17 @@ describe("Card", () => {
   });
 
   describe("interactive", () => {
-    it("adds hover/press/focus affordances and reduced-motion fallbacks", () => {
+    it("adds hover/press/focus affordances without hover jump and with reduced-motion fallbacks", () => {
       render(<Card data-testid="card" interactive />);
       const cls = screen.getByTestId("card").className;
       expect(cls).toContain("cursor-pointer");
-      expect(cls).toContain("hover:-translate-y-0.5");
+      expect(cls).toContain("hover:border-rixl-border-strong");
       expect(cls).toContain("hover:shadow-rixl-md");
+      expect(cls).toContain("active:scale-[var(--rixl-press-scale)]");
+      expect(cls).toContain("motion-reduce:active:scale-100");
       expect(cls).toContain("focus-visible:ring-[3px]");
-      expect(cls).toContain("motion-reduce:hover:translate-y-0");
+      expect(cls).toContain("transition-[scale,box-shadow,border-color]");
+      expect(cls).not.toContain("hover:-translate-y");
     });
 
     it("is not interactive by default", () => {

@@ -1,6 +1,6 @@
 import { Calendar } from "@rixl/ui/calendar";
 import type { ControlValue, Example } from "./registry";
-import { Group } from "./_layout";
+import { Group } from "../components/showcase-layout";
 
 export const path = "calendar";
 export const title = "Calendar";

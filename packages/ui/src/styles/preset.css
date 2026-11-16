@@ -93,8 +93,9 @@
     --rixl-motion-fast: 120ms;
     --rixl-motion-base: 180ms;
     --rixl-motion-slow: 260ms;
-    --rixl-ease-out: cubic-bezier(0.16, 1, 0.3, 1);
-    --rixl-ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+    --rixl-ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+    --rixl-ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+    --rixl-ease-drawer: cubic-bezier(0.32, 0.72, 0, 1);
 
     /*
      * Press feedback. One scale shared by every pressable component so a
@@ -156,6 +157,11 @@
     --rixl-sidebar-accent-fg: oklch(0.95 0.004 264);
     --rixl-sidebar-border: oklch(0.22 0.01 265);
     --rixl-sidebar-ring: oklch(0.83 0 0 / 0.5);
+
+    --rixl-shadow-xs: 0 1px 2px 0 oklch(0 0 0 / 0.28);
+    --rixl-shadow-sm: 0 2px 4px -1px oklch(0 0 0 / 0.36), 0 1px 2px -1px oklch(0 0 0 / 0.24);
+    --rixl-shadow-md: 0 8px 16px -4px oklch(0 0 0 / 0.45), 0 2px 4px -2px oklch(0 0 0 / 0.3);
+    --rixl-shadow-lg: 0 16px 32px -8px oklch(0 0 0 / 0.55), 0 4px 8px -4px oklch(0 0 0 / 0.35);
   }
 }
 
@@ -219,6 +225,7 @@
   --transition-duration-rixl-slow: var(--rixl-motion-slow);
   --ease-rixl-out: var(--rixl-ease-out);
   --ease-rixl-in-out: var(--rixl-ease-in-out);
+  --ease-rixl-drawer: var(--rixl-ease-drawer);
 
   --shadow-rixl-xs: var(--rixl-shadow-xs);
   --shadow-rixl-sm: var(--rixl-shadow-sm);
@@ -226,8 +233,8 @@
   --shadow-rixl-lg: var(--rixl-shadow-lg);
 
   /* Sidebar collapse/expand motion (used by the Sidebar component). */
-  --transition-duration-sidebar: 640ms;
-  --ease-curve-sidebar: cubic-bezier(0.22, 1, 0.36, 1);
+  --transition-duration-sidebar: 220ms;
+  --ease-curve-sidebar: var(--rixl-ease-drawer);
 
   /*
    * Blinking caret used by the InputOTP slot. Consumers get
@@ -261,4 +268,97 @@
       background-position: -200% 0;
     }
   }
+}
+
+/*
+ * Composable enter/exit keyframes used by tab panels (`animate-in`,
+ * `animate-out`, `fade-in-0`, `zoom-in-95`, `slide-in-from-*`). Placed outside
+ * `@theme` so Tailwind v4 does not tree-shake them when referenced from
+ * `@utility` rules.
+ */
+@keyframes rixl-enter {
+  from {
+    opacity: var(--rixl-enter-opacity, 1);
+    transform: translate3d(var(--rixl-enter-translate-x, 0), var(--rixl-enter-translate-y, 0), 0)
+      scale3d(var(--rixl-enter-scale, 1), var(--rixl-enter-scale, 1), var(--rixl-enter-scale, 1));
+  }
+}
+
+@keyframes rixl-exit {
+  to {
+    opacity: var(--rixl-exit-opacity, 1);
+    transform: translate3d(var(--rixl-exit-translate-x, 0), var(--rixl-exit-translate-y, 0), 0)
+      scale3d(var(--rixl-exit-scale, 1), var(--rixl-exit-scale, 1), var(--rixl-exit-scale, 1));
+  }
+}
+
+@utility animate-in {
+  animation-name: rixl-enter;
+  animation-duration: var(--tw-duration, var(--rixl-motion-base));
+  animation-timing-function: var(--tw-ease, var(--rixl-ease-out));
+  @media (prefers-reduced-motion: reduce) {
+    animation-duration: 0ms;
+  }
+}
+
+@utility animate-out {
+  animation-name: rixl-exit;
+  animation-duration: var(--tw-duration, var(--rixl-motion-fast));
+  animation-timing-function: var(--tw-ease, var(--rixl-ease-out));
+  animation-fill-mode: forwards;
+  @media (prefers-reduced-motion: reduce) {
+    animation-duration: 0ms;
+  }
+}
+
+@utility fade-in-0 {
+  --rixl-enter-opacity: 0;
+}
+
+@utility fade-out-0 {
+  --rixl-exit-opacity: 0;
+}
+
+@utility zoom-in-50 {
+  --rixl-enter-scale: 0.75;
+}
+
+@utility zoom-in-95 {
+  --rixl-enter-scale: 0.95;
+}
+
+@utility zoom-out-95 {
+  --rixl-exit-scale: 0.95;
+}
+
+@utility slide-in-from-top-1 {
+  --rixl-enter-translate-y: -0.25rem;
+}
+
+@utility slide-in-from-top-2 {
+  --rixl-enter-translate-y: -0.5rem;
+}
+
+@utility slide-in-from-bottom-1 {
+  --rixl-enter-translate-y: 0.25rem;
+}
+
+@utility slide-in-from-bottom-2 {
+  --rixl-enter-translate-y: 0.5rem;
+}
+
+@utility slide-in-from-left-1 {
+  --rixl-enter-translate-x: -0.25rem;
+}
+
+@utility slide-in-from-left-2 {
+  --rixl-enter-translate-x: -0.5rem;
+}
+
+@utility slide-in-from-right-1 {
+  --rixl-enter-translate-x: 0.25rem;
+}
+
+@utility slide-in-from-right-2 {
+  --rixl-enter-translate-x: 0.5rem;
 }

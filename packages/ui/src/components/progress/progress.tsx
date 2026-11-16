@@ -16,7 +16,10 @@ function Progress({className, value = 0, ...props}: Omit<ProgressPrimitive.Root.
       className={cn("bg-rixl-primary/20 relative h-2 w-full overflow-hidden rounded-full", className)}
       {...props}
     >
-      <ProgressPrimitive.Indicator data-slot="progress-indicator" className="bg-rixl-primary h-full transition-all" />
+      <ProgressPrimitive.Indicator
+        data-slot="progress-indicator"
+        className="bg-rixl-primary h-full transition-[width,transform] duration-rixl-base ease-rixl-out motion-reduce:transition-none"
+      />
     </ProgressPrimitive.Root>
   );
 }

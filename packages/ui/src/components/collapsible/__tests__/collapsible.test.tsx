@@ -42,4 +42,15 @@ describe("Collapsible", () => {
     act(() => trigger.click());
     expect(trigger).toHaveAttribute("aria-expanded", "false");
   });
+
+  it("animates panel height and opacity on expand/collapse, reduced-motion safe", () => {
+    render(<Basic defaultOpen />);
+    const cls = screen.getByTestId("content").className;
+    expect(cls).toContain("h-[var(--collapsible-panel-height)]");
+    expect(cls).toContain("transition-[height,opacity]");
+    expect(cls).toContain("duration-rixl-base");
+    expect(cls).toContain("data-starting-style:h-0");
+    expect(cls).toContain("data-ending-style:h-0");
+    expect(cls).toContain("motion-reduce:transition-none");
+  });
 });

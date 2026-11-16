@@ -118,7 +118,9 @@ export default defineConfig({
         // Tailwind builds test/browser.css, so axe checks colour contrast against the real styles.
         plugins: [tailwindcss()],
         // Pre-bundled so the browser can load the coverage module; served unbundled, its import fails to fetch.
-        optimizeDeps: {include: ["react", "react-dom/client", "axe-core", "@vitest/coverage-v8/browser"]},
+        optimizeDeps: {
+          include: ["react", "react-dom/client", "axe-core", "@vitest/coverage-v8/browser"],
+        },
         test: {
           name: "browser",
           globals: true,

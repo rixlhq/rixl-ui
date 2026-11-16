@@ -41,6 +41,21 @@ describe("Alert", () => {
     expect(screen.getByRole("alert").className).toContain("text-rixl-danger");
   });
 
+  it("respects the success and warning variants", () => {
+    const {rerender} = render(
+      <Alert variant="success">
+        <AlertTitle>Saved</AlertTitle>
+      </Alert>
+    );
+    expect(screen.getByRole("alert").className).toContain("text-rixl-success");
+    rerender(
+      <Alert variant="warning">
+        <AlertTitle>Caution</AlertTitle>
+      </Alert>
+    );
+    expect(screen.getByRole("alert").className).toContain("text-rixl-warning");
+  });
+
   it("forwards additional className without dropping base classes", () => {
     render(
       <Alert className="mt-4">

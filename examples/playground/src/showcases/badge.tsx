@@ -1,15 +1,22 @@
 import { Badge, type BadgeProps } from "@rixl/ui/badge";
 import type { ControlValue, Example } from "./registry";
-import { Group } from "./_layout";
+import { Group } from "../components/showcase-layout";
 
 export const path = "badge";
 export const title = "Badge";
 export const group = "Feedback";
 export const description =
-  "Compact status / count label. Four variants; polymorphic via Base UI useRender.";
+  "Compact status and count label. Six variants (default, secondary, success, warning, destructive, outline); polymorphic via Base UI useRender.";
 
 export function Showcase() {
-  return <Badge>Badge</Badge>;
+  return (
+    <div className="flex flex-wrap items-center gap-2">
+      <Badge>Default</Badge>
+      <Badge variant="success">Live</Badge>
+      <Badge variant="warning">Beta</Badge>
+      <Badge variant="secondary">v2.3</Badge>
+    </div>
+  );
 }
 
 function LiveExample({ state }: { state: Record<string, ControlValue> }) {
@@ -21,19 +28,22 @@ function LiveExample({ state }: { state: Record<string, ControlValue> }) {
   );
 }
 
-function WithIconsExample(props: { state: Record<string, ControlValue> }) {
+function AllVariantsExample(props: { state: Record<string, ControlValue> }) {
   void props;
   return (
-    <Group label="With a leading icon">
-      <Badge>
-        <CheckIcon /> Active
+    <Group label="All six variants">
+      <Badge>Default</Badge>
+      <Badge variant="secondary">Secondary</Badge>
+      <Badge variant="success">
+        <CheckIcon /> Healthy
+      </Badge>
+      <Badge variant="warning">
+        <DotIcon /> Degraded
       </Badge>
       <Badge variant="destructive">
         <XIcon /> Failed
       </Badge>
-      <Badge variant="outline">
-        <DotIcon /> Draft
-      </Badge>
+      <Badge variant="outline">Outline</Badge>
     </Group>
   );
 }
@@ -53,23 +63,11 @@ function AsLinkExample(props: { state: Record<string, ControlValue> }) {
   );
 }
 
-function CustomClassExample(props: { state: Record<string, ControlValue> }) {
-  void props;
-  return (
-    <Group label="Custom className (pill)">
-      <Badge className="rounded-full px-3">Pill</Badge>
-      <Badge variant="secondary" className="rounded-full px-3">
-        Rounded
-      </Badge>
-    </Group>
-  );
-}
-
 export const examples: Example[] = [
   {
     id: "live",
     title: "Interactive",
-    description: "Cycle through the four badge variants.",
+    description: "Cycle through the six badge variants.",
     render: LiveExample,
     controls: [
       {
@@ -79,17 +77,18 @@ export const examples: Example[] = [
         options: [
           { value: "default", label: "Default" },
           { value: "secondary", label: "Secondary" },
+          { value: "success", label: "Success" },
+          { value: "warning", label: "Warning" },
           { value: "destructive", label: "Destructive" },
           { value: "outline", label: "Outline" },
         ],
         defaultValue: "default",
       },
     ],
-    code: `<Badge variant="default">Badge</Badge>`,
+    code: `<Badge variant="success">Healthy</Badge>`,
   },
-  { id: "icons", title: "With icons", render: WithIconsExample },
+  { id: "variants", title: "All variants & icons", render: AllVariantsExample },
   { id: "link", title: "As a link", render: AsLinkExample },
-  { id: "pill", title: "Custom className", render: CustomClassExample },
 ];
 
 function CheckIcon() {

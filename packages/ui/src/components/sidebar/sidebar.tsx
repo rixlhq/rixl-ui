@@ -2,7 +2,7 @@ import * as React from "react";
 import {cn} from "cn";
 
 import {Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle} from "../sheet";
-import {SidebarSideContext, useSidebar} from "./sidebar-context";
+import {SidebarSideContext, useSidebar} from "./context";
 
 const SIDEBAR_WIDTH_MOBILE = "18rem";
 
@@ -72,7 +72,6 @@ function DesktopSidebar({side, variant = "sidebar", collapsible = "offcanvas", c
         className={cn(
           "relative w-(--sidebar-width) bg-transparent transition-[width] duration-sidebar ease-curve-sidebar",
           "group-data-[collapsible=offcanvas]:w-0",
-          "group-data-[side=right]:rotate-180",
           isInset
             ? "group-data-[collapsible=icon]:w-[calc(var(--sidebar-width-icon)+(--spacing(4)))]"
             : "group-data-[collapsible=icon]:w-(--sidebar-width-icon)"

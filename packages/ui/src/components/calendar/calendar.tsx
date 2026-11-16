@@ -53,7 +53,7 @@ function gridClassNames(defaultClassNames: CalendarClassNames) {
     weekday: cn("text-rixl-fg-muted rounded-rixl-md flex-1 font-normal text-[0.8rem] select-none", defaultClassNames.weekday),
     week: cn("flex w-full mt-2", defaultClassNames.week),
     week_number_header: cn("select-none w-(--cell-size)", defaultClassNames.week_number_header),
-    week_number: cn("text-[0.8rem] select-none text-rixl-fg-muted", defaultClassNames.week_number),
+    week_number: cn("text-[0.8rem] tabular-nums select-none text-rixl-fg-muted", defaultClassNames.week_number),
     day: cn(
       "relative w-full h-full p-0 text-center [&:first-child[data-selected=true]_button]:rounded-s-rixl-md [&:last-child[data-selected=true]_button]:rounded-e-rixl-md group/day aspect-square select-none",
       defaultClassNames.day
@@ -159,7 +159,7 @@ function CalendarDayButton({className, day, modifiers, ...props}: React.Componen
       data-range-end={modifiers.range_end}
       data-range-middle={modifiers.range_middle}
       className={cn(
-        "data-[selected-single=true]:bg-rixl-primary data-[selected-single=true]:text-rixl-primary-fg data-[range-middle=true]:bg-rixl-surface-muted data-[range-middle=true]:text-rixl-fg data-[range-start=true]:bg-rixl-primary data-[range-start=true]:text-rixl-primary-fg data-[range-end=true]:bg-rixl-primary data-[range-end=true]:text-rixl-primary-fg group-data-[focused=true]/day:border-rixl-ring group-data-[focused=true]/day:ring-rixl-ring/50 flex aspect-square size-auto w-full min-w-(--cell-size) flex-col gap-1 leading-none font-normal group-data-[focused=true]/day:relative group-data-[focused=true]/day:z-10 group-data-[focused=true]/day:ring-[3px] data-[range-end=true]:rounded-rixl-md data-[range-end=true]:rounded-e-rixl-md data-[range-middle=true]:rounded-none data-[range-start=true]:rounded-rixl-md data-[range-start=true]:rounded-s-rixl-md [&>span]:text-xs [&>span]:opacity-70",
+        "data-[selected-single=true]:bg-rixl-primary data-[selected-single=true]:text-rixl-primary-fg data-[range-middle=true]:bg-rixl-surface-muted data-[range-middle=true]:text-rixl-fg data-[range-start=true]:bg-rixl-primary data-[range-start=true]:text-rixl-primary-fg data-[range-end=true]:bg-rixl-primary data-[range-end=true]:text-rixl-primary-fg group-data-[focused=true]/day:border-rixl-ring group-data-[focused=true]/day:ring-rixl-ring/50 flex aspect-square size-auto w-full min-w-(--cell-size) flex-col gap-1 leading-none font-normal tabular-nums group-data-[focused=true]/day:relative group-data-[focused=true]/day:z-10 group-data-[focused=true]/day:ring-[3px] data-[range-end=true]:rounded-rixl-md data-[range-end=true]:rounded-e-rixl-md data-[range-middle=true]:rounded-none data-[range-start=true]:rounded-rixl-md data-[range-start=true]:rounded-s-rixl-md [&>span]:text-xs [&>span]:opacity-70",
         defaultClassNames.day,
         className
       )}

@@ -1,6 +1,6 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@rixl/ui/avatar";
 import type { ControlValue, Example } from "./registry";
-import { Group } from "./_layout";
+import { Group } from "../components/showcase-layout";
 
 export const path = "avatar";
 export const title = "Avatar";

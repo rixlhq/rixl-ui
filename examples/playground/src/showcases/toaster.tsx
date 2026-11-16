@@ -1,7 +1,7 @@
 import { Button } from "@rixl/ui/button";
-import { Toaster, toast } from "@rixl/ui/toaster";
+import { toast } from "@rixl/ui/toaster";
 import type { ControlValue, Example } from "./registry";
-import { Group } from "./_layout";
+import { Group } from "../components/showcase-layout";
 
 export const path = "toaster";
 export const title = "Toaster";
@@ -11,18 +11,25 @@ export const description =
 
 export function Showcase() {
   return (
-    <>
-      <Toaster />
-      <Button onClick={() => toast("Hello!")}>Show toast</Button>
-    </>
+    <Button size="sm" variant="outline" onClick={() => toast("Event has been created")}>
+      Trigger toast
+    </Button>
   );
 }
 
 function BasicExample(props: { state: Record<string, ControlValue> }) {
   void props;
   return (
-    <Group label="Basic">
-      <Button onClick={() => toast("Hello!")}>Show toast</Button>
+    <Group label="Toast types">
+      <Button variant="outline" onClick={() => toast("Event has been created")}>
+        Default
+      </Button>
+      <Button variant="outline" onClick={() => toast.success("Deployment completed successfully")}>
+        Success
+      </Button>
+      <Button variant="outline" onClick={() => toast.error("Failed to save workspace settings")}>
+        Error
+      </Button>
     </Group>
   );
 }
@@ -30,44 +37,40 @@ function BasicExample(props: { state: Record<string, ControlValue> }) {
 function WithActionExample(props: { state: Record<string, ControlValue> }) {
   void props;
   return (
-    <Group label="With action">
-      <Button
-        onClick={() =>
-          toast("Undo?", {
-            action: { label: "Undo", onClick: () => console.log("undone") },
-          })
-        }
-      >
-        Show with action
-      </Button>
-    </Group>
+    <Button
+      variant="outline"
+      onClick={() =>
+        toast("Project archived", {
+          description: "Moved to trash. You can restore it within 30 days.",
+          action: { label: "Undo", onClick: () => toast("Project restored") },
+        })
+      }
+    >
+      Show with action
+    </Button>
   );
 }
 
 function PromiseExample(props: { state: Record<string, ControlValue> }) {
   void props;
   return (
-    <Group label="Promise">
-      <Button
-        onClick={() =>
-          toast.promise(
-            fetch("/api/delay").then((r) => r.json()),
-            {
-              loading: "Loading...",
-              success: "Done!",
-              error: (err: Error) => `Failed: ${err.message}`,
-            },
-          )
-        }
-      >
-        Show promise toast
-      </Button>
-    </Group>
+    <Button
+      variant="outline"
+      onClick={() =>
+        toast.promise(new Promise((resolve) => setTimeout(resolve, 1200)), {
+          loading: "Deploying to edge…",
+          success: "Deployment live across 34 regions",
+          error: "Deployment failed",
+        })
+      }
+    >
+      Show promise toast
+    </Button>
   );
 }
 
 export const examples: Example[] = [
-  { id: "basic", title: "Basic", render: BasicExample },
+  { id: "basic", title: "Variants", render: BasicExample },
   { id: "action", title: "With action", render: WithActionExample },
   { id: "promise", title: "Promise", render: PromiseExample },
 ];

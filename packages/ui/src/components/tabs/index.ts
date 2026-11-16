@@ -1,10 +1,4 @@
-export {
-  Tabs,
-  TabsList,
-  TabsTrigger,
-  TabsContent,
-  type TabsProps,
-  type TabsListProps,
-  type TabsTriggerProps,
-  type TabsContentProps,
-} from "./tabs";
+export {Tabs, type TabsProps} from "./tabs";
+export {TabsList, type TabsListProps} from "./list";
+export {TabsTrigger, type TabsTriggerProps} from "./trigger";
+export {TabsContent, type TabsContentProps} from "./content";

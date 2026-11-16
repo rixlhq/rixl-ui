@@ -17,8 +17,9 @@ function Checkbox({className, ...props}: CheckboxPrimitive.Root.Props) {
     <CheckboxPrimitive.Root
       data-slot="checkbox"
       className={cn(
-        "peer border-rixl-border size-4 shrink-0 rounded-[4px] border shadow-rixl-xs outline-none",
-        "transition-[color,box-shadow,border-color,background-color] duration-rixl-fast ease-rixl-out",
+        "peer border-rixl-border size-4 shrink-0 rounded-[4px] border shadow-rixl-xs outline-none touch-manipulation",
+        "transition-[scale,box-shadow,border-color,background-color] duration-rixl-fast ease-rixl-out",
+        "enabled:active:scale-[var(--rixl-press-scale)] motion-reduce:active:scale-100",
         "data-unchecked:enabled:hover:border-rixl-border-strong",
         "data-checked:bg-rixl-primary data-checked:text-rixl-primary-fg data-checked:border-rixl-primary",
         "data-indeterminate:bg-rixl-primary data-indeterminate:text-rixl-primary-fg data-indeterminate:border-rixl-primary",
@@ -33,7 +34,7 @@ function Checkbox({className, ...props}: CheckboxPrimitive.Root.Props) {
     >
       <CheckboxPrimitive.Indicator
         data-slot="checkbox-indicator"
-        className="flex items-center justify-center text-current animate-in zoom-in-50 fade-in-0 duration-rixl-fast motion-reduce:animate-none"
+        className="text-rixl-primary-fg flex items-center justify-center transition-[scale,opacity] duration-rixl-fast ease-rixl-out motion-reduce:transition-none data-starting-style:scale-50 data-starting-style:opacity-0 data-ending-style:scale-50 data-ending-style:opacity-0"
       >
         <CheckIcon className="size-3.5 [[data-indeterminate]_&]:hidden" />
         <MinusIcon className="hidden size-3.5 [[data-indeterminate]_&]:block" />

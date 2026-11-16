@@ -120,12 +120,18 @@ describe("Dialog", () => {
     expect(footer!.className).toContain("flex-col-reverse");
   });
 
-  it("uses a lighter, blurred backdrop", async () => {
+  it("uses a lighter, blurred backdrop with interruptible starting/ending transitions", async () => {
     render(<Basic open />);
     await act(async () => {});
     const overlay = document.querySelector("[data-slot='dialog-overlay']");
     expect(overlay!.className).toContain("bg-black/50");
     expect(overlay!.className).toContain("backdrop-blur-sm");
+    expect(overlay!.className).toContain("data-starting-style:opacity-0");
+    expect(overlay!.className).toContain("data-ending-style:opacity-0");
+    const content = screen.getByTestId("content");
+    expect(content.className).toContain("data-starting-style:scale-95");
+    expect(content.className).toContain("data-ending-style:scale-95");
+    expect(content.className).not.toContain("data-open:animate-in");
   });
 
   describe("size", () => {
@@ -154,12 +160,16 @@ describe("Dialog", () => {
   });
 });
 
-it("fills mobile viewports and constrains scrolling on larger screens", async () => {
+it("constrains height and scrolls internally while keeping compact close button sizing", async () => {
   render(<Basic open />);
   await act(async () => {});
   const content = screen.getByTestId("content");
-  expect(content.className).toContain("max-sm:h-dvh");
-  expect(content.className).toContain("max-sm:rounded-none");
+  expect(content.className).toContain("max-w-[calc(100%-2rem)]");
+  expect(content.className).toContain("max-h-[calc(100dvh-2rem)]");
   expect(content.className).toContain("overflow-y-auto");
-  expect(content.className).toContain("sm:max-h-[calc(100dvh-2rem)]");
+  expect(content.className).not.toContain("max-sm:h-dvh");
+  const closes = document.querySelectorAll("[data-slot='dialog-close']");
+  const close = closes[closes.length - 1];
+  expect(close?.className).toContain("size-7");
+  expect(close?.className).not.toContain("size-11");
 });

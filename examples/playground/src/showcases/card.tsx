@@ -9,24 +9,21 @@ import {
   CardTitle,
 } from "@rixl/ui/card";
 import type { ControlValue, Example } from "./registry";
-import { Group } from "./_layout";
+import { Group } from "../components/showcase-layout";
 
 export const path = "card";
 export const title = "Card";
 export const group = "Content";
 export const description =
-  "Surface container for grouping related content. Header/title/description/action/content/footer slots, three variants (default, outline, ghost), plus interactive (hover lift + press) and selected states.";
+  "Surface container for grouping related content. Header/title/description/action/content/footer slots, three variants (default, outline, ghost), plus interactive and selected states.";
 
 export function Showcase() {
   return (
-    <Card className="max-w-md">
-      <CardHeader>
-        <CardTitle>Card title</CardTitle>
-        <CardDescription>Card description</CardDescription>
+    <Card className="w-full max-w-md py-4 gap-3">
+      <CardHeader className="px-4">
+        <CardTitle className="text-sm">Edge Worker</CardTitle>
+        <CardDescription className="text-xs">Deployed 2m ago</CardDescription>
       </CardHeader>
-      <CardContent>
-        <p className="text-sm text-rixl-fg">Card content.</p>
-      </CardContent>
     </Card>
   );
 }
@@ -34,43 +31,39 @@ export function Showcase() {
 function BasicExample(props: { state: Record<string, ControlValue> }) {
   void props;
   return (
-    <Group label="Basic">
-      <Card className="max-w-md">
-        <CardHeader>
-          <CardTitle>Card title</CardTitle>
-          <CardDescription>Card description</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <p className="text-sm text-rixl-fg">Card content.</p>
-        </CardContent>
-        <CardFooter className="justify-between">
-          <p className="text-sm text-rixl-fg-muted">Card footer</p>
-          <Button size="sm">Deploy</Button>
-        </CardFooter>
-      </Card>
-    </Group>
+    <Card className="w-full max-w-md">
+      <CardHeader>
+        <CardTitle>Card title</CardTitle>
+        <CardDescription>Card description</CardDescription>
+      </CardHeader>
+      <CardContent>
+        <p className="text-sm text-rixl-fg">Card content.</p>
+      </CardContent>
+      <CardFooter className="justify-between">
+        <p className="text-sm text-rixl-fg-muted">Card footer</p>
+        <Button size="sm">Deploy</Button>
+      </CardFooter>
+    </Card>
   );
 }
 
 function WithActionExample(props: { state: Record<string, ControlValue> }) {
   void props;
   return (
-    <Group label="With action">
-      <Card className="max-w-md">
-        <CardHeader>
-          <CardTitle>Settings</CardTitle>
-          <CardDescription>Configure your workspace.</CardDescription>
-          <CardAction>
-            <Button variant="ghost" size="icon" aria-label="Edit">
-              <PencilIcon />
-            </Button>
-          </CardAction>
-        </CardHeader>
-        <CardContent>
-          <p className="text-sm text-rixl-fg">Card action is laid out to the right of the title.</p>
-        </CardContent>
-      </Card>
-    </Group>
+    <Card className="w-full max-w-md">
+      <CardHeader>
+        <CardTitle>Settings</CardTitle>
+        <CardDescription>Configure your workspace.</CardDescription>
+        <CardAction>
+          <Button variant="ghost" size="icon-sm" aria-label="Edit">
+            <PencilIcon />
+          </Button>
+        </CardAction>
+      </CardHeader>
+      <CardContent>
+        <p className="text-sm text-rixl-fg">Card action is laid out to the right of the title.</p>
+      </CardContent>
+    </Card>
   );
 }
 
@@ -79,13 +72,20 @@ function LiveExample({ state }: { state: Record<string, ControlValue> }) {
   const interactive = state.interactive as boolean;
   const selected = state.selected as boolean;
   return (
-    <Card className="max-w-md" variant={variant} interactive={interactive} selected={selected}>
+    <Card
+      className="w-full max-w-md"
+      variant={variant}
+      interactive={interactive}
+      selected={selected}
+    >
       <CardHeader>
         <CardTitle>Card title</CardTitle>
         <CardDescription>Tweak variant, interactive, and selected.</CardDescription>
       </CardHeader>
       <CardContent>
-        <p className="text-sm text-rixl-fg">Hover an interactive card to see the lift; press to feel it settle.</p>
+        <p className="text-sm text-rixl-fg">
+          Hover an interactive card to see border emphasis; press to feel it depress.
+        </p>
       </CardContent>
     </Card>
   );
@@ -117,7 +117,7 @@ function InteractiveExample(props: { state: Record<string, ControlValue> }) {
         <Card interactive tabIndex={0} className="max-w-md">
           <CardHeader>
             <CardTitle>Clickable</CardTitle>
-            <CardDescription>Hover to lift, press to settle, tab to focus.</CardDescription>
+            <CardDescription>Hover to emphasize, press to depress, tab to focus.</CardDescription>
           </CardHeader>
         </Card>
         <Card interactive selected tabIndex={0} className="max-w-md">

@@ -6,7 +6,7 @@ import {cn} from "cn";
 
 import {Skeleton} from "../skeleton";
 import {Tooltip, TooltipContent, TooltipTrigger} from "../tooltip";
-import {SidebarSideContext, useSidebar} from "./sidebar-context";
+import {SidebarSideContext, useSidebar} from "./context";
 
 export function SidebarMenu({className, ...props}: React.ComponentProps<"ul">) {
   return <ul data-slot="sidebar-menu" data-sidebar="menu" className={cn("flex w-full min-w-0 flex-col gap-1", className)} {...props} />;
@@ -17,13 +17,24 @@ export function SidebarMenuItem({className, ...props}: React.ComponentProps<"li"
 }
 
 export const sidebarMenuButtonVariants = cva(
-  "peer/menu-button flex w-full items-center gap-2 overflow-hidden rounded-rixl-md p-2 text-start text-sm outline-hidden ring-rixl-sidebar-ring transition-[width,height,padding,transform] will-change-transform hover:bg-rixl-sidebar-accent hover:text-rixl-sidebar-accent-fg focus-visible:ring-2 active:scale-97 active:bg-rixl-sidebar-accent active:text-rixl-sidebar-accent-fg disabled:pointer-events-none disabled:opacity-50 group-has-data-[sidebar=menu-action]/menu-item:pe-8 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-active:bg-rixl-sidebar-accent data-active:font-medium data-active:text-rixl-sidebar-accent-fg data-popup-open:hover:bg-rixl-sidebar-accent data-popup-open:hover:text-rixl-sidebar-accent-fg group-data-[collapsible=icon]:size-8! group-data-[collapsible=icon]:p-2! [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0",
+  cn(
+    "peer/menu-button flex w-full items-center gap-2 overflow-hidden rounded-rixl-md p-2 text-start text-sm outline-hidden ring-rixl-sidebar-ring",
+    "transition-[scale,background-color,color,box-shadow] duration-rixl-fast ease-rixl-out",
+    "hover:bg-rixl-sidebar-accent hover:text-rixl-sidebar-accent-fg focus-visible:ring-2",
+    "active:scale-[var(--rixl-press-scale)] motion-reduce:active:scale-100 active:bg-rixl-sidebar-accent active:text-rixl-sidebar-accent-fg",
+    "disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50",
+    "group-has-data-[sidebar=menu-action]/menu-item:pe-8",
+    "data-active:bg-rixl-sidebar-accent data-active:font-medium data-active:text-rixl-sidebar-accent-fg",
+    "data-popup-open:hover:bg-rixl-sidebar-accent data-popup-open:hover:text-rixl-sidebar-accent-fg",
+    "group-data-[collapsible=icon]:size-8! group-data-[collapsible=icon]:p-2!",
+    "[&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0"
+  ),
   {
     variants: {
       variant: {
         default: "hover:bg-rixl-sidebar-accent hover:text-rixl-sidebar-accent-fg",
         outline:
-          "bg-rixl-bg shadow-[0_0_0_1px_hsl(var(--rixl-sidebar-border))] hover:bg-rixl-sidebar-accent hover:text-rixl-sidebar-accent-fg hover:shadow-[0_0_0_1px_hsl(var(--rixl-sidebar-accent))]",
+          "bg-rixl-bg shadow-[0_0_0_1px_var(--rixl-sidebar-border)] hover:bg-rixl-sidebar-accent hover:text-rixl-sidebar-accent-fg hover:shadow-[0_0_0_1px_var(--rixl-sidebar-accent)]",
       },
       size: {
         default: "h-8 text-sm",

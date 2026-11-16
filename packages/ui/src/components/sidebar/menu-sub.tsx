@@ -44,7 +44,12 @@ export function SidebarMenuSubButton({
     props: mergeProps<"a">(
       {
         className: cn(
-          "text-rixl-sidebar-fg ring-rixl-sidebar-ring hover:bg-rixl-sidebar-accent hover:text-rixl-sidebar-accent-fg active:scale-97 active:bg-rixl-sidebar-accent active:text-rixl-sidebar-accent-fg [&>svg]:text-rixl-sidebar-accent-fg flex h-7 min-w-0 -translate-x-px rtl:translate-x-px items-center gap-2 overflow-hidden rounded-rixl-md px-2 outline-hidden transition-transform will-change-transform focus-visible:ring-2 disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0",
+          "text-rixl-sidebar-fg ring-rixl-sidebar-ring hover:bg-rixl-sidebar-accent hover:text-rixl-sidebar-accent-fg",
+          "active:scale-[var(--rixl-press-scale)] motion-reduce:active:scale-100 active:bg-rixl-sidebar-accent active:text-rixl-sidebar-accent-fg",
+          "transition-[scale,background-color,color] duration-rixl-fast ease-rixl-out",
+          "[&>svg]:text-rixl-sidebar-accent-fg flex h-7 min-w-0 -translate-x-px rtl:translate-x-px items-center gap-2 overflow-hidden rounded-rixl-md px-2 outline-hidden focus-visible:ring-2",
+          "disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50",
+          "[&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0",
           "data-active:bg-rixl-sidebar-accent data-active:text-rixl-sidebar-accent-fg",
           size === "sm" && "text-xs",
           size === "md" && "text-sm",

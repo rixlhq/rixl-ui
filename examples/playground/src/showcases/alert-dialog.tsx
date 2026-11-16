@@ -11,7 +11,7 @@ import {
 } from "@rixl/ui/alert-dialog";
 import { Button } from "@rixl/ui/button";
 import type { ControlValue, Example } from "./registry";
-import { Group } from "./_layout";
+import { Group } from "../components/showcase-layout";
 
 export const path = "alert-dialog";
 export const title = "AlertDialog";
