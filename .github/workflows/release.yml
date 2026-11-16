@@ -36,7 +36,6 @@ jobs:
       # Pinned to an exact release: the moving `v1` tag is frozen at v1.15.0.
       - uses: voidzero-dev/setup-vp@v1.22.0
         with:
-          working-directory: .
           cache: "true"
           run-install: "true"
 
@@ -70,8 +69,7 @@ jobs:
 
       - name: Run the gate (includes vp pack)
         if: ${{ steps.release.outputs.releases_created == 'true' }}
-        run: vp run ci
-        working-directory: .
+        run: vp run -F rixl-ui-workspace ci
 
       - name: Publish to npm
         if: ${{ steps.release.outputs.releases_created == 'true' }}
