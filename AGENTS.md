@@ -58,7 +58,7 @@ vp run publint             # Checks the package.json exports map
 vp run ci                  # The gate CI and the release job run
 ```
 
-From the repo root, `vp run check`, `vp run test:run`, `vp run build` and `vp run playground` delegate to the package (`vp run -F @rixl/ui <script>`). Use `vp` for everything; don't call `bun`, `npm` or `npx` directly. The `packageManager` field in `packages/ui/package.json` is load-bearing: CI runs `vp install` from there, and without it vp falls back to pnpm. Install Chromium once per machine with `vp exec playwright install chromium`.
+From the repo root, `vp run check`, `vp run test:run`, `vp run build` and `vp run playground` delegate to the package (`vp run -F @rixl/ui <script>`). Use `vp` for everything; don't call `bun`, `npm` or `npx` directly. The `devEngines.packageManager` field in `packages/ui/package.json` is load-bearing: CI runs `vp install` from there, and without it vp falls back to pnpm. Install Chromium once per machine with `vp exec playwright install chromium`.
 
 ## Repository layout
 
