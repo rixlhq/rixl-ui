@@ -2,8 +2,10 @@ name: CI
 
 on:
   pull_request:
+    types: [opened, synchronize, reopened, closed]
   push:
     branches: [main]
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -18,6 +20,8 @@ concurrency:
 # startup). docs, the other public repo, does the same.
 jobs:
   ci:
+    # Run for merged pull requests too, so the merge commit is checked on its base branch.
+    if: ${{ github.event_name != 'pull_request' || github.event.action != 'closed' || github.event.pull_request.merged == true }}
     runs-on: ubuntu-latest
     timeout-minutes: 15
     permissions:
@@ -61,7 +65,7 @@ jobs:
         run: vpr ci:docs
 
       - name: 📊 Report coverage to PR
-        if: ${{ !cancelled() && github.event_name == 'pull_request' && github.event.pull_request.head.repo.fork == false && hashFiles('packages/ui/coverage/coverage-summary.json') != '' }}
+        if: ${{ !cancelled() && github.event_name == 'pull_request' && github.event.action != 'closed' && github.event.pull_request.head.repo.fork == false && hashFiles('packages/ui/coverage/coverage-summary.json') != '' }}
         uses: davelosert/vitest-coverage-report-action@v2
         with:
           working-directory: packages/ui
