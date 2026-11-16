@@ -31,7 +31,7 @@ import {SelectTrigger, SelectValue, selectTriggerVariants, type SelectTriggerPro
  *
  * Composition:
  * - `<Select>` — the root; auto-derives an `items` map from `<SelectItem>` children so preset values render with their label when the popup is unmounted.
- * - `<SelectTrigger>` — the trigger button; `size="sm" | "default"`.
+ * - `<SelectTrigger>` — the trigger button; `size="sm" | "default"`. It has role="combobox", which takes no name from its text, so give it `aria-label` or a `<Label>`.
  * - `<SelectValue>` — placeholder + selected label.
  * - `<SelectContent>` — the popup, portalled; positioning props (side/align/offset) are pass-through.
  * - `<SelectItem value="…">` — an option row with a checkmark indicator.
