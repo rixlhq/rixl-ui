@@ -10,4 +10,4 @@
 
 - [x] 2.1 Build the docs app and the `@rixl/ui` package using `vp run docs:build`; both builds completed successfully.
 - [ ] 2.2 Run `vp run ci` from `packages/ui`; verify the published package checks still pass and its export map remains unchanged.
-- [ ] 2.3 Run `vp outdated --recursive` from root and inspect `git status`; verify the workspace is clean of generated or duplicate lockfiles.
+- [x] 2.3 Run `vp outdated --recursive` from root and inspect `git status`; no outdated packages were reported and the committed workspace tree is clean with only the root lockfile.
