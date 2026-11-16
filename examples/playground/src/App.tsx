@@ -1,7 +1,48 @@
-import { useEffect, useMemo, useState } from "react";
+import { memo, useDeferredValue, useEffect, useMemo, useState } from "react";
 import type { ComponentType, ReactNode } from "react";
+import { Badge } from "@rixl/ui/badge";
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@rixl/ui/breadcrumb";
 import { Button } from "@rixl/ui/button";
+import {
+  Card,
+  CardAction,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@rixl/ui/card";
+import { EmptyState } from "@rixl/ui/empty-state";
 import { Input } from "@rixl/ui/input";
+import { Label } from "@rixl/ui/label";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@rixl/ui/select";
+import { Separator } from "@rixl/ui/separator";
+import {
+  Sidebar,
+  SidebarContent,
+  SidebarFooter,
+  SidebarGroup,
+  SidebarGroupContent,
+  SidebarGroupLabel,
+  SidebarHeader,
+  SidebarInset,
+  SidebarMenu,
+  SidebarMenuButton,
+  SidebarMenuItem,
+  SidebarProvider,
+  SidebarRail,
+  SidebarTrigger,
+} from "@rixl/ui/sidebar";
+import { Switch } from "@rixl/ui/switch";
+import { Tabs, TabsList, TabsTrigger } from "@rixl/ui/tabs";
+import { Toaster } from "@rixl/ui/toaster";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@rixl/ui/tooltip";
 import {
   showcases,
   type Control,
@@ -21,33 +62,40 @@ function getInitialTheme(): Theme {
 }
 
 /**
- * Rixl Studio — component playground.
- *
- * Hash routing keeps the build dependency-free:
- *   #/              home grid
- *   #/<path>        component detail
- *
- * The shell is split into a sticky header, collapsible grouped sidebar,
- * and a main area that switches between the home grid and a detail view.
+ * Rixl Studio — component playground built entirely from @rixl/ui primitives.
  */
 export function App() {
   const [theme, setTheme] = useTheme();
   const [query, setQuery] = useState("");
+  const deferredQuery = useDeferredValue(query);
   const active = useHashRoute(showcases);
   const isHome = active === null;
 
   return (
-    <div className="flex min-h-screen">
-      <Sidebar showcases={showcases} query={query} activePath={active?.path} />
-
-      <main className="flex-1 overflow-x-hidden">
-        <Header theme={theme} onThemeChange={setTheme} query={query} onQueryChange={setQuery} />
-
-        <div className="mx-auto max-w-6xl px-6 py-10 lg:px-10">
-          {isHome ? <HomeGrid showcases={showcases} query={query} /> : <Detail showcase={active} />}
+    <SidebarProvider defaultOpen>
+      <AppSidebar showcases={showcases} query={deferredQuery} activePath={active?.path} />
+      <SidebarInset>
+        <Header
+          theme={theme}
+          onThemeChange={setTheme}
+          query={query}
+          onQueryChange={setQuery}
+          active={active}
+        />
+        <div className="mx-auto w-full max-w-6xl px-6 py-8 lg:px-10">
+          {isHome ? (
+            <HomeGrid
+              showcases={showcases}
+              query={deferredQuery}
+              onClearQuery={() => setQuery("")}
+            />
+          ) : (
+            <Detail showcase={active} />
+          )}
         </div>
-      </main>
-    </div>
+      </SidebarInset>
+      <Toaster />
+    </SidebarProvider>
   );
 }
 
@@ -58,28 +106,52 @@ function Header({
   onThemeChange,
   query,
   onQueryChange,
+  active,
 }: {
   theme: Theme;
   onThemeChange: (next: Theme) => void;
   query: string;
   onQueryChange: (value: string) => void;
+  active: Showcase | null;
 }) {
   return (
-    <header className="sticky top-0 z-20 flex items-center justify-between gap-6 border-b border-rixl-border bg-rixl-surface px-6 py-4 lg:px-10">
-      <a href="#/" className="flex items-center gap-2 text-rixl-fg">
-        <span className="flex h-7 w-7 items-center justify-center rounded-rixl-md bg-rixl-primary text-rixl-primary-fg font-bold text-sm">
-          R
-        </span>
-        <span className="text-lg font-semibold tracking-tight">Rixl Studio</span>
-      </a>
+    <header className="sticky top-0 z-20 flex h-14 items-center justify-between gap-4 border-b border-rixl-border bg-rixl-bg/85 px-6 backdrop-blur-md lg:px-10">
+      <div className="flex min-w-0 items-center gap-3">
+        <SidebarTrigger aria-label="Toggle sidebar" />
+        <Separator orientation="vertical" className="h-4" />
+        <Breadcrumb>
+          <BreadcrumbList>
+            <BreadcrumbItem>
+              {active ? (
+                <BreadcrumbLink href="#/">Components</BreadcrumbLink>
+              ) : (
+                <BreadcrumbPage>Components</BreadcrumbPage>
+              )}
+            </BreadcrumbItem>
+            {active ? (
+              <>
+                <BreadcrumbSeparator />
+                <BreadcrumbItem className="hidden sm:inline-flex">
+                  <span className="text-rixl-fg-muted">{active.group}</span>
+                </BreadcrumbItem>
+                <BreadcrumbSeparator className="hidden sm:inline-flex" />
+                <BreadcrumbItem>
+                  <BreadcrumbPage>{active.title}</BreadcrumbPage>
+                </BreadcrumbItem>
+              </>
+            ) : null}
+          </BreadcrumbList>
+        </Breadcrumb>
+      </div>
 
-      <div className="flex flex-1 items-center justify-end gap-4">
-        <div className="w-full max-w-sm">
+      <div className="flex items-center gap-3">
+        <div className="w-44 sm:w-64">
           <Input
+            inputSize="sm"
             value={query}
             onChange={(e) => onQueryChange(e.target.value)}
             placeholder="Search components…"
-            className="h-9"
+            startIcon={<SearchIcon />}
           />
         </div>
         <ThemeToggle theme={theme} onChange={onThemeChange} />
@@ -90,38 +162,30 @@ function Header({
 
 function ThemeToggle({ theme, onChange }: { theme: Theme; onChange: (next: Theme) => void }) {
   return (
-    <div className="flex items-center rounded-rixl-md border border-rixl-border bg-rixl-bg p-0.5">
-      <Button
-        variant={theme === "system" ? "secondary" : "ghost"}
-        size="icon"
-        aria-label="System theme"
-        onClick={() => onChange("system")}
-      >
-        <MonitorIcon />
-      </Button>
-      <Button
-        variant={theme === "light" ? "secondary" : "ghost"}
-        size="icon"
-        aria-label="Light theme"
-        onClick={() => onChange("light")}
-      >
-        <SunIcon />
-      </Button>
-      <Button
-        variant={theme === "dark" ? "secondary" : "ghost"}
-        size="icon"
-        aria-label="Dark theme"
-        onClick={() => onChange("dark")}
-      >
-        <MoonIcon />
-      </Button>
-    </div>
+    <Tabs
+      value={theme}
+      onValueChange={(value) => onChange(value as Theme)}
+      variant="segmented"
+      size="sm"
+    >
+      <TabsList aria-label="Theme">
+        <TabsTrigger value="system" aria-label="System theme">
+          <MonitorIcon />
+        </TabsTrigger>
+        <TabsTrigger value="light" aria-label="Light theme">
+          <SunIcon />
+        </TabsTrigger>
+        <TabsTrigger value="dark" aria-label="Dark theme">
+          <MoonIcon />
+        </TabsTrigger>
+      </TabsList>
+    </Tabs>
   );
 }
 
 // ── sidebar ───────────────────────────────────────────────────
 
-function Sidebar({
+function AppSidebar({
   showcases,
   query,
   activePath,
@@ -131,73 +195,103 @@ function Sidebar({
   activePath?: string;
 }) {
   const filtered = useMemo(() => showcases.filter((s) => matches(s, query)), [showcases, query]);
-  const groups = groupByCategory(filtered);
+  const groups = useMemo(() => groupByCategory(filtered), [filtered]);
 
   return (
-    <aside className="sticky top-0 z-10 hidden h-screen w-64 shrink-0 flex-col overflow-y-auto border-r border-rixl-border bg-rixl-surface px-4 py-6 lg:flex">
-      <div className="mb-6 px-2">
-        <p className="text-sm font-semibold text-rixl-fg">Components</p>
-        <p className="mt-0.5 text-xs text-rixl-fg-muted">{filtered.length} shipped</p>
-      </div>
-
-      <nav className="space-y-5">
-        <a
-          href="#/"
-          aria-current={!activePath ? "page" : undefined}
-          className="block rounded-rixl-sm px-2 py-1.5 text-sm text-rixl-fg-muted hover:bg-rixl-surface-muted hover:text-rixl-fg aria-[current=page]:bg-rixl-surface-muted aria-[current=page]:text-rixl-fg aria-[current=page]:font-medium"
-        >
-          Overview
+    <Sidebar collapsible="offcanvas">
+      <SidebarHeader className="border-b border-rixl-sidebar-border px-4 py-3.5">
+        <a href="#/" className="flex items-center justify-between gap-2 text-rixl-sidebar-fg">
+          <div className="flex items-center gap-2.5">
+            <span className="flex size-6 items-center justify-center rounded-rixl-sm bg-rixl-primary text-xs font-bold text-rixl-primary-fg">
+              R
+            </span>
+            <span className="text-sm font-semibold tracking-tight">Rixl Studio</span>
+          </div>
+          <Badge variant="secondary">{showcases.length}</Badge>
         </a>
+      </SidebarHeader>
+
+      <SidebarContent className="px-2 py-2">
+        <SidebarGroup>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              <SidebarMenuItem>
+                <SidebarMenuButton isActive={!activePath} render={<a href="#/" />}>
+                  Overview
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
 
         {groups.map(([group, items]) => (
-          <details key={group} open>
-            <summary className="mb-1.5 cursor-pointer list-none px-2 text-xs font-medium uppercase tracking-wide text-rixl-fg-subtle">
-              {group}
-            </summary>
-            <ul className="space-y-0.5">
-              {items.map((s) => (
-                <li key={s.path}>
-                  <a
-                    href={`#/${s.path}`}
-                    aria-current={s.path === activePath ? "page" : undefined}
-                    className="block rounded-rixl-sm px-2 py-1.5 text-sm text-rixl-fg-muted hover:bg-rixl-surface-muted hover:text-rixl-fg aria-[current=page]:bg-rixl-surface-muted aria-[current=page]:text-rixl-fg aria-[current=page]:font-medium"
-                  >
-                    {s.title}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </details>
+          <SidebarGroup key={group}>
+            <SidebarGroupLabel>{group}</SidebarGroupLabel>
+            <SidebarGroupContent>
+              <SidebarMenu>
+                {items.map((s) => (
+                  <SidebarMenuItem key={s.path}>
+                    <SidebarMenuButton
+                      isActive={s.path === activePath}
+                      render={<a href={`#/${s.path}`} />}
+                    >
+                      {s.title}
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                ))}
+              </SidebarMenu>
+            </SidebarGroupContent>
+          </SidebarGroup>
         ))}
-      </nav>
-    </aside>
+      </SidebarContent>
+
+      <SidebarFooter className="border-t border-rixl-sidebar-border px-4 py-3">
+        <p className="text-xs text-rixl-fg-muted">@rixl/ui workspace</p>
+      </SidebarFooter>
+      <SidebarRail />
+    </Sidebar>
   );
 }
 
 // ── home grid ─────────────────────────────────────────────────
 
-function HomeGrid({ showcases, query }: { showcases: Showcase[]; query: string }) {
+function HomeGrid({
+  showcases,
+  query,
+  onClearQuery,
+}: {
+  showcases: Showcase[];
+  query: string;
+  onClearQuery: () => void;
+}) {
   const filtered = useMemo(() => showcases.filter((s) => matches(s, query)), [showcases, query]);
 
   if (filtered.length === 0) {
     return (
-      <div className="flex flex-col items-center justify-center py-24 text-center">
-        <p className="text-lg font-medium text-rixl-fg">No components found</p>
-        <p className="mt-1 text-sm text-rixl-fg-muted">Try a different search term.</p>
-      </div>
+      <EmptyState
+        title="No components found"
+        description={`No components matched "${query}". Try a different search term.`}
+        action={{ label: "Clear search", onClick: onClearQuery }}
+      />
     );
   }
 
   return (
     <div className="space-y-6">
-      <div>
-        <h1 className="text-3xl font-semibold tracking-tight text-rixl-fg">Components</h1>
-        <p className="mt-1 text-rixl-fg-muted">
-          {filtered.length} showcase{filtered.length === 1 ? "" : "s"} available
-        </p>
+      <div className="flex flex-wrap items-baseline justify-between gap-4">
+        <div>
+          <h1 className="text-2xl font-semibold tracking-tight text-rixl-fg">Components</h1>
+          <p className="mt-1 text-sm text-rixl-fg-muted">
+            Live primitives rendered directly from <code className="text-rixl-fg">@rixl/ui</code>{" "}
+            workspace source.
+          </p>
+        </div>
+        <Badge variant="outline">
+          {filtered.length} {filtered.length === 1 ? "component" : "components"}
+        </Badge>
       </div>
 
-      <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-3">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
         {filtered.map((s) => (
           <ComponentCard key={s.path} showcase={s} />
         ))}
@@ -206,28 +300,54 @@ function HomeGrid({ showcases, query }: { showcases: Showcase[]; query: string }
   );
 }
 
-function ComponentCard({ showcase }: { showcase: Showcase }) {
+const ComponentCard = memo(function ComponentCard({ showcase }: { showcase: Showcase }) {
   return (
-    <a
-      href={`#/${showcase.path}`}
-      className="group block rounded-rixl-lg border border-rixl-border bg-rixl-surface p-5 shadow-rixl-xs transition-all duration-200 hover:-translate-y-0.5 hover:shadow-rixl-md hover:border-rixl-border-strong"
+    <Card
+      interactive
+      onClick={() => {
+        window.location.hash = `#/${showcase.path}`;
+      }}
+      onKeyDown={(e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          window.location.hash = `#/${showcase.path}`;
+        }
+      }}
+      role="link"
+      tabIndex={0}
+      className="justify-between gap-4 py-5"
     >
-      <div className="mb-4 flex h-28 items-center justify-center rounded-rixl-md border border-rixl-border border-dashed bg-rixl-bg">
-        <span className="text-3xl font-semibold text-rixl-fg-subtle">{showcase.title[0]}</span>
-      </div>
-      <div className="flex items-center justify-between gap-2">
-        <div>
-          <h3 className="font-medium text-rixl-fg group-hover:text-rixl-primary transition-colors">
-            {showcase.title}
-          </h3>
-          <p className="text-xs text-rixl-fg-muted">{showcase.group}</p>
+      <CardHeader className="px-5">
+        <CardTitle className="text-base">{showcase.title}</CardTitle>
+        <CardDescription className="line-clamp-2 text-xs">
+          {showcase.description ?? `${showcase.title} component`}
+        </CardDescription>
+        <CardAction>
+          <Badge variant="secondary">{showcase.group}</Badge>
+        </CardAction>
+      </CardHeader>
+
+      <CardContent className="px-5">
+        <div
+          onClick={(e) => e.stopPropagation()}
+          onKeyDown={(e) => e.stopPropagation()}
+          role="presentation"
+          className="flex min-h-28 w-full items-center justify-center overflow-hidden rounded-rixl-lg border border-rixl-border bg-rixl-bg p-4"
+        >
+          <PreviewThumbnail showcase={showcase} />
         </div>
-        <Button variant="ghost" size="sm">
-          View
-        </Button>
-      </div>
-    </a>
+      </CardContent>
+    </Card>
   );
+});
+
+function PreviewThumbnail({ showcase }: { showcase: Showcase }) {
+  // Sidebar's full shell is too large for a small grid thumbnail; render a compact summary badge.
+  if (showcase.path === "sidebar") {
+    return <Badge variant="outline">App shell · ⌘B</Badge>;
+  }
+  const Preview = showcase.Showcase;
+  return <Preview />;
 }
 
 // ── detail ────────────────────────────────────────────────────
@@ -244,15 +364,16 @@ function Detail({ showcase }: { showcase: Showcase }) {
 
   return (
     <div className="space-y-8">
-      <div className="border-b border-rixl-border pb-6">
-        <span className="inline-flex items-center rounded-full bg-rixl-surface-muted px-2.5 py-0.5 text-xs font-medium text-rixl-fg-muted">
-          {showcase.group}
-        </span>
-        <h1 className="mt-2 text-3xl font-semibold tracking-tight text-rixl-fg">
-          {showcase.title}
-        </h1>
+      <div className="space-y-2 border-b border-rixl-border pb-6">
+        <div className="flex items-center gap-2">
+          <Badge variant="secondary">{showcase.group}</Badge>
+          <code className="text-xs text-rixl-fg-muted">@rixl/ui/{showcase.path}</code>
+        </div>
+        <h1 className="text-2xl font-semibold tracking-tight text-rixl-fg">{showcase.title}</h1>
         {showcase.description ? (
-          <p className="mt-2 text-rixl-fg-muted">{showcase.description}</p>
+          <p className="max-w-3xl text-sm leading-relaxed text-rixl-fg-muted">
+            {showcase.description}
+          </p>
         ) : null}
       </div>
 
@@ -274,56 +395,50 @@ function ExampleCard({ example }: { example: Example }) {
   const Render = example.render;
 
   return (
-    <section className="overflow-hidden rounded-rixl-lg border border-rixl-border bg-rixl-surface shadow-rixl-xs transition-shadow duration-200 hover:shadow-rixl-sm">
-      <div className="flex items-center justify-between border-b border-rixl-border px-4 py-3">
-        <div>
-          <h2 className="text-sm font-semibold text-rixl-fg">{example.title}</h2>
-          {example.description ? (
-            <p className="text-xs text-rixl-fg-muted">{example.description}</p>
-          ) : null}
-        </div>
-        <div className="flex items-center gap-1">
-          <Button
-            variant={mode === "preview" ? "secondary" : "ghost"}
-            size="sm"
-            onClick={() => setMode("preview")}
-          >
-            Preview
-          </Button>
-          <Button
-            variant={mode === "code" ? "secondary" : "ghost"}
-            size="sm"
-            disabled={!hasCode}
-            onClick={() => setMode("code")}
-          >
-            Code
-          </Button>
-        </div>
-      </div>
+    <Card className="gap-0 overflow-hidden py-0">
+      <CardHeader className="border-b border-rixl-border px-5 py-3.5 [.border-b]:pb-3.5">
+        <CardTitle className="text-sm">{example.title}</CardTitle>
+        {example.description ? (
+          <CardDescription className="text-xs">{example.description}</CardDescription>
+        ) : null}
+        {hasCode ? (
+          <CardAction>
+            <Tabs
+              value={mode}
+              onValueChange={(value) => setMode(value as "preview" | "code")}
+              variant="segmented"
+              size="sm"
+            >
+              <TabsList>
+                <TabsTrigger value="preview">Preview</TabsTrigger>
+                <TabsTrigger value="code">Code</TabsTrigger>
+              </TabsList>
+            </Tabs>
+          </CardAction>
+        ) : null}
+      </CardHeader>
 
       {example.controls && mode === "preview" ? (
-        <div className="flex flex-wrap gap-4 border-b border-rixl-border bg-rixl-bg px-4 py-3">
+        <div className="flex flex-wrap items-center gap-5 border-b border-rixl-border bg-rixl-surface-muted/50 px-5 py-3">
           {example.controls.map((control) => (
             <ControlField key={control.name} control={control} state={state} onChange={setState} />
           ))}
         </div>
       ) : null}
 
-      <div className="p-6">
+      <CardContent className="p-6">
         {mode === "preview" ? (
           <Render state={state} />
         ) : hasCode ? (
           <div className="relative">
-            <pre className="overflow-x-auto rounded-rixl-md border border-rixl-border bg-rixl-bg p-4 text-xs text-rixl-fg">
+            <pre className="overflow-x-auto rounded-rixl-md border border-rixl-border bg-rixl-bg p-4 font-mono text-xs leading-relaxed text-rixl-fg">
               {example.code}
             </pre>
             <CopyButton text={example.code!} />
           </div>
-        ) : (
-          <p className="text-rixl-fg-muted">No code available for this example.</p>
-        )}
-      </div>
-    </section>
+        ) : null}
+      </CardContent>
+    </Card>
   );
 }
 
@@ -337,36 +452,44 @@ function ControlField({
   onChange: (next: Record<string, ControlValue>) => void;
 }) {
   const value = state[control.name];
+  const controlId = `ctrl-${control.name}`;
 
   if (control.type === "select") {
     return (
-      <label className="flex items-center gap-2 text-sm text-rixl-fg">
-        <span className="text-rixl-fg-muted">{control.label}</span>
-        <select
+      <div className="flex items-center gap-2">
+        <Label htmlFor={controlId} className="text-xs text-rixl-fg-muted">
+          {control.label}
+        </Label>
+        <Select
           value={value as string}
-          onChange={(e) => onChange({ ...state, [control.name]: e.target.value })}
-          className="h-8 rounded-rixl-md border border-rixl-border bg-rixl-surface px-2 text-sm text-rixl-fg outline-none focus-visible:ring-rixl-ring/50 focus-visible:ring-[3px]"
+          onValueChange={(next) => onChange({ ...state, [control.name]: next })}
         >
-          {control.options.map((opt) => (
-            <option key={opt.value} value={opt.value}>
-              {opt.label}
-            </option>
-          ))}
-        </select>
-      </label>
+          <SelectTrigger id={controlId} size="sm" aria-label={control.label}>
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent>
+            {control.options.map((opt) => (
+              <SelectItem key={opt.value} value={opt.value}>
+                {opt.label}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      </div>
     );
   }
 
   return (
-    <label className="flex items-center gap-2 text-sm text-rixl-fg">
-      <input
-        type="checkbox"
-        checked={value as boolean}
-        onChange={(e) => onChange({ ...state, [control.name]: e.target.checked })}
-        className="size-4 rounded-rixl-sm border-rixl-border accent-rixl-primary"
+    <div className="flex items-center gap-2">
+      <Switch
+        id={controlId}
+        checked={Boolean(value)}
+        onCheckedChange={(checked) => onChange({ ...state, [control.name]: checked })}
       />
-      <span className="text-rixl-fg-muted">{control.label}</span>
-    </label>
+      <Label htmlFor={controlId} className="cursor-pointer text-xs text-rixl-fg-muted">
+        {control.label}
+      </Label>
+    </div>
   );
 }
 
@@ -390,16 +513,28 @@ function CopyButton({ text }: { text: string }) {
     try {
       await navigator.clipboard.writeText(text);
       setCopied(true);
-      setTimeout(() => setCopied(false), 1200);
+      setTimeout(() => setCopied(false), 1500);
     } catch {
       /* ignore */
     }
   };
 
   return (
-    <Button variant="outline" size="sm" className="absolute top-2 right-2" onClick={handleCopy}>
-      {copied ? "Copied" : "Copy"}
-    </Button>
+    <Tooltip>
+      <TooltipTrigger
+        render={
+          <Button
+            variant="outline"
+            size="sm"
+            className="absolute top-2.5 end-2.5"
+            onClick={handleCopy}
+          >
+            {copied ? "Copied!" : "Copy"}
+          </Button>
+        }
+      />
+      <TooltipContent>{copied ? "Copied!" : "Copy code"}</TooltipContent>
+    </Tooltip>
   );
 }
 
@@ -479,6 +614,23 @@ function useTheme(): [Theme, (next: Theme) => void] {
 
 // ── icons ─────────────────────────────────────────────────────
 
+function SearchIcon() {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <circle cx="11" cy="11" r="8" />
+      <path d="m21 21-4.3-4.3" />
+    </svg>
+  );
+}
+
 function MonitorIcon() {
   return (
     <svg
@@ -488,7 +640,7 @@ function MonitorIcon() {
       strokeWidth="2"
       strokeLinecap="round"
       strokeLinejoin="round"
-      className="h-4 w-4"
+      className="size-3.5"
     >
       <rect x="2" y="3" width="20" height="14" rx="2" />
       <path d="M8 21h8M12 17v4" />
@@ -505,7 +657,7 @@ function SunIcon() {
       strokeWidth="2"
       strokeLinecap="round"
       strokeLinejoin="round"
-      className="h-4 w-4"
+      className="size-3.5"
     >
       <circle cx="12" cy="12" r="4" />
       <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66 4.93 19.07M19.07 4.93 17.66 6.34" />
@@ -522,7 +674,7 @@ function MoonIcon() {
       strokeWidth="2"
       strokeLinecap="round"
       strokeLinejoin="round"
-      className="h-4 w-4"
+      className="size-3.5"
     >
       <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z" />
     </svg>

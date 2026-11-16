@@ -1,4 +1,4 @@
-import type {ReactNode} from "react";
+import type { ReactNode } from "react";
 
 /**
  * Layout helpers shared across component showcases.
@@ -16,21 +16,23 @@ export function Section({
   children: ReactNode;
 }) {
   return (
-    <section className="mb-16 rounded-rixl-lg border border-rixl-border bg-rixl-surface p-6 shadow-rixl-xs">
-      <header className="mb-6 border-b border-rixl-border pb-4">
-        <h2 className="text-xl font-semibold text-rixl-fg">{title}</h2>
+    <div className="space-y-6">
+      <div>
+        <h2 className="text-base font-semibold text-rixl-fg">{title}</h2>
         {description ? <p className="mt-1 text-sm text-rixl-fg-muted">{description}</p> : null}
-      </header>
+      </div>
       <div className="space-y-6">{children}</div>
-    </section>
+    </div>
   );
 }
 
-export function Group({label, children}: {label: string; children: ReactNode}) {
+export function Group({ label, children }: { label?: string; children: ReactNode }) {
   return (
-    <div>
-      <p className="mb-2 text-xs font-medium uppercase tracking-wide text-rixl-fg-subtle">{label}</p>
-      <div className="flex flex-wrap items-center gap-3">{children}</div>
+    <div className="w-full space-y-2.5">
+      {label ? (
+        <p className="text-xs font-medium tracking-wide text-rixl-fg-muted">{label}</p>
+      ) : null}
+      <div className="flex w-full flex-wrap items-center gap-3">{children}</div>
     </div>
   );
 }

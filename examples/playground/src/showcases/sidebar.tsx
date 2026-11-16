@@ -1,3 +1,4 @@
+import { Badge } from "@rixl/ui/badge";
 import {
   Sidebar,
   SidebarContent,
@@ -15,7 +16,6 @@ import {
   SidebarTrigger,
 } from "@rixl/ui/sidebar";
 import type { ControlValue, Example } from "./registry";
-import { Group } from "./_layout";
 
 export const path = "sidebar";
 export const title = "Sidebar";
@@ -24,14 +24,21 @@ export const description =
   "Navigation shell with offcanvas / icon / none collapsibility. Context provider tracks open state, mobile detection, and a Cmd/Ctrl+B shortcut. Renders a Sheet on mobile.";
 
 export function Showcase() {
+  return <SidebarPreview collapsible="offcanvas" />;
+}
+
+function SidebarPreview({ collapsible }: { collapsible: "offcanvas" | "icon" | "none" }) {
   return (
-    <div className="w-full overflow-hidden rounded-rixl-lg border border-rixl-border shadow-rixl-xs">
-      <SidebarProvider defaultOpen>
-        <Sidebar collapsible="offcanvas">
-          <SidebarHeader className="border-b border-rixl-sidebar-border p-4">
-            <span className="text-sm font-semibold text-rixl-sidebar-fg">Acme Inc</span>
+    <div className="h-80 w-full overflow-hidden rounded-rixl-lg border border-rixl-border shadow-rixl-xs [transform:translateZ(0)]">
+      <SidebarProvider defaultOpen className="h-full min-h-0">
+        <Sidebar collapsible={collapsible} className="h-full">
+          <SidebarHeader className="border-b border-rixl-sidebar-border px-4 py-3">
+            <div className="flex items-center justify-between gap-2">
+              <span className="truncate text-sm font-semibold text-rixl-sidebar-fg">Acme Inc</span>
+              <Badge variant="secondary">Pro</Badge>
+            </div>
           </SidebarHeader>
-          <SidebarContent>
+          <SidebarContent className="p-2">
             <SidebarGroup>
               <SidebarGroupLabel>Platform</SidebarGroupLabel>
               <SidebarGroupContent>
@@ -42,18 +49,33 @@ export function Showcase() {
                   <SidebarMenuItem>
                     <SidebarMenuButton>Projects</SidebarMenuButton>
                   </SidebarMenuItem>
+                  <SidebarMenuItem>
+                    <SidebarMenuButton>Billing</SidebarMenuButton>
+                  </SidebarMenuItem>
                 </SidebarMenu>
               </SidebarGroupContent>
             </SidebarGroup>
           </SidebarContent>
-          <SidebarRail />
+          <SidebarFooter className="border-t border-rixl-sidebar-border p-2">
+            <SidebarMenu>
+              <SidebarMenuItem>
+                <SidebarMenuButton>Settings</SidebarMenuButton>
+              </SidebarMenuItem>
+            </SidebarMenu>
+          </SidebarFooter>
+          {collapsible !== "none" ? <SidebarRail /> : null}
         </Sidebar>
         <SidebarInset>
           <div className="flex h-full flex-col">
             <header className="flex h-12 items-center gap-3 border-b border-rixl-border px-4">
-              <SidebarTrigger />
+              {collapsible !== "none" ? <SidebarTrigger /> : null}
               <span className="text-sm font-medium text-rixl-fg">Dashboard</span>
             </header>
+            <div className="flex flex-1 items-center justify-center p-4 text-xs text-rixl-fg-muted">
+              {collapsible === "none"
+                ? "Static sidebar (collapsible='none')"
+                : `Click the trigger or press ⌘B to toggle (${collapsible})`}
+            </div>
           </div>
         </SidebarInset>
       </SidebarProvider>
@@ -61,78 +83,51 @@ export function Showcase() {
   );
 }
 
-function FullShellExample(props: { state: Record<string, ControlValue> }) {
-  void props;
-  return (
-    <Group label="Full shell (provider + trigger + menu)">
-      <div className="w-full overflow-hidden rounded-rixl-lg border border-rixl-border shadow-rixl-xs">
-        <SidebarProvider defaultOpen>
-          <Sidebar collapsible="offcanvas">
-            <SidebarHeader className="border-b border-rixl-sidebar-border p-4">
-              <span className="text-sm font-semibold text-rixl-sidebar-fg">Acme Inc</span>
-            </SidebarHeader>
-            <SidebarContent>
-              <SidebarGroup>
-                <SidebarGroupLabel>Platform</SidebarGroupLabel>
-                <SidebarGroupContent>
-                  <SidebarMenu>
-                    <SidebarMenuItem>
-                      <SidebarMenuButton isActive>Overview</SidebarMenuButton>
-                    </SidebarMenuItem>
-                    <SidebarMenuItem>
-                      <SidebarMenuButton>Projects</SidebarMenuButton>
-                    </SidebarMenuItem>
-                    <SidebarMenuItem>
-                      <SidebarMenuButton>Billing</SidebarMenuButton>
-                    </SidebarMenuItem>
-                  </SidebarMenu>
-                </SidebarGroupContent>
-              </SidebarGroup>
-            </SidebarContent>
-            <SidebarFooter>
-              <SidebarMenu>
-                <SidebarMenuItem>
-                  <SidebarMenuButton>Settings</SidebarMenuButton>
-                </SidebarMenuItem>
-              </SidebarMenu>
-            </SidebarFooter>
-            <SidebarRail />
-          </Sidebar>
-          <SidebarInset>
-            <div className="flex h-full flex-col">
-              <header className="flex h-12 items-center gap-3 border-b border-rixl-border px-4">
-                <SidebarTrigger />
-                <span className="text-sm font-medium text-rixl-fg">Dashboard</span>
-              </header>
-              <main className="flex flex-1 items-center justify-center text-sm text-rixl-fg-muted">
-                Collapse via Cmd/Ctrl+B or the trigger
-              </main>
-            </div>
-          </SidebarInset>
-        </SidebarProvider>
-      </div>
-    </Group>
-  );
-}
-
-function VariantsExample(props: { state: Record<string, ControlValue> }) {
-  void props;
-  return (
-    <Group label="Collapsible variants">
-      <p className="text-sm text-rixl-fg-muted">
-        <code className="rounded-rixl-md bg-rixl-surface-muted px-1.5 py-0.5 text-xs">
-          offcanvas
-        </code>
-        , <code className="rounded-rixl-md bg-rixl-surface-muted px-1.5 py-0.5 text-xs">icon</code>,
-        and{" "}
-        <code className="rounded-rixl-md bg-rixl-surface-muted px-1.5 py-0.5 text-xs">none</code>{" "}
-        are supported.
-      </p>
-    </Group>
-  );
+function LiveExample({ state }: { state: Record<string, ControlValue> }) {
+  const collapsible = (state.collapsible as "offcanvas" | "icon" | "none") || "offcanvas";
+  return <SidebarPreview key={collapsible} collapsible={collapsible} />;
 }
 
 export const examples: Example[] = [
-  { id: "full", title: "Full shell", render: FullShellExample },
-  { id: "variants", title: "Collapsible variants", render: VariantsExample },
+  {
+    id: "live",
+    title: "Interactive shell",
+    description:
+      "Contained preview of SidebarProvider + Sidebar + SidebarInset. Switch collapsible modes live.",
+    render: LiveExample,
+    controls: [
+      {
+        name: "collapsible",
+        label: "Collapsible",
+        type: "select",
+        options: [
+          { value: "offcanvas", label: "Offcanvas" },
+          { value: "icon", label: "Icon rail" },
+          { value: "none", label: "None (static)" },
+        ],
+        defaultValue: "offcanvas",
+      },
+    ],
+    code: `<SidebarProvider defaultOpen>
+  <Sidebar collapsible="offcanvas">
+    <SidebarHeader>Acme Inc</SidebarHeader>
+    <SidebarContent>
+      <SidebarGroup>
+        <SidebarGroupLabel>Platform</SidebarGroupLabel>
+        <SidebarGroupContent>
+          <SidebarMenu>
+            <SidebarMenuItem>
+              <SidebarMenuButton isActive>Overview</SidebarMenuButton>
+            </SidebarMenuItem>
+          </SidebarMenu>
+        </SidebarGroupContent>
+      </SidebarGroup>
+    </SidebarContent>
+    <SidebarRail />
+  </Sidebar>
+  <SidebarInset>
+    <SidebarTrigger />
+  </SidebarInset>
+</SidebarProvider>`,
+  },
 ];

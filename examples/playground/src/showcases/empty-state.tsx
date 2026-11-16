@@ -1,6 +1,5 @@
 import { EmptyState } from "@rixl/ui/empty-state";
 import type { ControlValue, Example } from "./registry";
-import { Group } from "./_layout";
 
 export const path = "empty-state";
 export const title = "EmptyState";
@@ -9,28 +8,30 @@ export const description =
   "Placeholder for empty content, with an optional primary action and custom icon.";
 
 export function Showcase() {
-  return <EmptyState title="No media" description="Upload your first asset to see it here." />;
+  return (
+    <EmptyState title="No media" description="Upload your first asset." className="min-h-24 p-4" />
+  );
 }
 
 function WithoutActionExample(props: { state: Record<string, ControlValue> }) {
   void props;
   return (
-    <Group label="Without action">
+    <div className="w-full">
       <EmptyState title="No media" description="Upload your first asset to see it here." />
-    </Group>
+    </div>
   );
 }
 
 function WithActionExample(props: { state: Record<string, ControlValue> }) {
   void props;
   return (
-    <Group label="With action">
+    <div className="w-full">
       <EmptyState
         title="No projects"
         description="Create a project to organize your work."
         action={{ label: "New project", onClick: () => {} }}
       />
-    </Group>
+    </div>
   );
 }
 

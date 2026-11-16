@@ -8,7 +8,16 @@ export const group = "Navigation";
 export const description =
   "Tabbed content built on Base UI Tabs. The active state is one element that travels between tabs rather than a fill repainted on each trigger — three variants, two sizes, and a shared press token.";
 
-const CLOUDFLARE = ["Overview", "Metrics", "Deployments", "Bindings", "Observability", "Domains", "Access", "Settings"];
+const CLOUDFLARE = [
+  "Overview",
+  "Metrics",
+  "Deployments",
+  "Bindings",
+  "Observability",
+  "Domains",
+  "Access",
+  "Settings",
+];
 
 export function Showcase() {
   return (
@@ -59,8 +68,8 @@ function SlideExample(props: { state: Record<string, ControlValue> }) {
         <code className="text-rixl-fg">translate</code> rather than{" "}
         <code className="text-rixl-fg">left</code>, so the movement is composited rather than laid
         out every frame. Cloudflare, DaisyUI and Untitled UI all repaint the active tab instead, so
-        their marker jumps. Under{" "}
-        <code className="text-rixl-fg">prefers-reduced-motion</code> it snaps.
+        their marker jumps. Under <code className="text-rixl-fg">prefers-reduced-motion</code> it
+        snaps.
       </p>
     </div>
   );
@@ -73,7 +82,12 @@ function VariantsExample({ state }: { state: Record<string, ControlValue> }) {
   return (
     <Group label="Live preview">
       <div className="w-full">
-        <Row labels={["Overview", "Metrics", "Deployments", "Settings"]} variant={variant} size={size} fullWidth={fullWidth} />
+        <Row
+          labels={["Overview", "Metrics", "Deployments", "Settings"]}
+          variant={variant}
+          size={size}
+          fullWidth={fullWidth}
+        />
       </div>
     </Group>
   );
@@ -137,7 +151,8 @@ export const examples: Example[] = [
   {
     id: "slide",
     title: "Travelling indicator",
-    description: "The differentiator: the active marker moves between tabs instead of being repainted.",
+    description:
+      "The differentiator: the active marker moves between tabs instead of being repainted.",
     render: SlideExample,
     code: `/* One element follows the selection, driven by Base UI's measurements */
 translate-x-[var(--active-tab-left)]

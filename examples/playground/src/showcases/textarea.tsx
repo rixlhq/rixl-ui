@@ -10,7 +10,7 @@ export const description =
   "Auto-growing multi-line input with hover, focus, read-only, and invalid states.";
 
 export function Showcase() {
-  return <Textarea placeholder="Tell us what you think…" className="max-w-md" />;
+  return <Textarea placeholder="Tell us what you think…" className="w-full max-w-md" />;
 }
 
 function LiveExample({ state }: { state: Record<string, ControlValue> }) {
@@ -38,7 +38,7 @@ function AutoGrowExample(props: { state: Record<string, ControlValue> }) {
   return (
     <Group label="Auto-grow">
       <Textarea
-        className="max-w-md"
+        className="w-full max-w-md"
         defaultValue={
           "The field-sizing:content utility makes the textarea grow to fit the text you type without JS. Try adding a few more lines here — the box expands automatically."
         }

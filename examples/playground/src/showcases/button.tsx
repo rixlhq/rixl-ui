@@ -16,12 +16,13 @@ export function Showcase() {
 function VariantsExample({ state }: { state: Record<string, ControlValue> }) {
   const variant = state.variant as ButtonProps["variant"];
   const size = state.size as ButtonProps["size"];
+  const loading = state.loading as boolean;
   const disabled = state.disabled as boolean;
 
   return (
     <Group label="Live preview — hold the mouse down to feel the press">
-      <Button variant={variant} size={size} disabled={disabled}>
-        {disabled ? "Disabled" : "Button"}
+      <Button variant={variant} size={size} loading={loading} disabled={disabled}>
+        {loading ? "Saving…" : disabled ? "Disabled" : "Button"}
       </Button>
     </Group>
   );
@@ -53,8 +54,8 @@ function PressExample(props: { state: Record<string, ControlValue> }) {
         Press scale comes from <code className="text-rixl-fg">--rixl-press-scale</code>, shared by
         every pressable component so a button, tab and checkbox depress by the same amount. Change
         it once and the whole system follows. Under{" "}
-        <code className="text-rixl-fg">prefers-reduced-motion</code> the transform is dropped and the
-        colour and shadow changes remain, so the press stays legible without movement.
+        <code className="text-rixl-fg">prefers-reduced-motion</code> the transform is dropped and
+        the colour and shadow changes remain, so the press stays legible without movement.
       </p>
     </div>
   );
@@ -109,11 +110,10 @@ function CrossAppExample(props: { state: Record<string, ControlValue> }) {
       <p className="text-sm text-rixl-fg-muted">
         Dashboard call sites say <code className="text-rixl-fg">variant</code>; fumadocs — which
         docs and landing are built on — passes <code className="text-rixl-fg">color</code> from its
-        own internals. Both render identically, and{" "}
-        <code className="text-rixl-fg">variant</code> wins when both are supplied. A{" "}
-        <code className="text-rixl-fg">color</code> that is not a known variant (the deprecated HTML{" "}
-        <code className="text-rixl-fg">color</code> attribute, which Calendar&apos;s day button
-        spreads) is ignored rather than applied.
+        own internals. Both render identically, and <code className="text-rixl-fg">variant</code>{" "}
+        wins when both are supplied. A <code className="text-rixl-fg">color</code> that is not a
+        known variant (the deprecated HTML <code className="text-rixl-fg">color</code> attribute,
+        which Calendar&apos;s day button spreads) is ignored rather than applied.
       </p>
     </div>
   );
@@ -123,6 +123,15 @@ function StatesExample(props: { state: Record<string, ControlValue> }) {
   void props;
   return (
     <div className="space-y-6">
+      <Group label="Loading — disables clicks, sets aria-busy, and renders an inline spinner">
+        <Button loading>Saving</Button>
+        <Button variant="secondary" loading>
+          Processing
+        </Button>
+        <Button variant="outline" loading>
+          Syncing
+        </Button>
+      </Group>
       <Group label="Disabled">
         <Button disabled>Disabled</Button>
         <Button variant="destructive" disabled>
@@ -198,6 +207,7 @@ export const examples: Example[] = [
         ],
         defaultValue: "default",
       },
+      { name: "loading", label: "Loading", type: "boolean", defaultValue: false },
       { name: "disabled", label: "Disabled", type: "boolean", defaultValue: false },
     ],
     code: `<Button variant="default" size="default">
@@ -207,8 +217,7 @@ export const examples: Example[] = [
   {
     id: "press",
     title: "Press & motion",
-    description:
-      "Press feedback is a scale plus a shadow collapse, driven by one shared token.",
+    description: "Press feedback is a scale plus a shadow collapse, driven by one shared token.",
     render: PressExample,
     code: `/* preset.css — shared by every pressable component */
 --rixl-press-scale: 0.97;
@@ -218,7 +227,7 @@ export const examples: Example[] = [
 active:scale-[var(--rixl-press-scale)]
 motion-reduce:active:scale-100
 shadow-rixl-xs active:shadow-none
-transition-[transform,background-color,box-shadow,border-color,color]
+transition-[scale,background-color,box-shadow,border-color,color]
 duration-rixl-fast ease-rixl-out`,
   },
   {

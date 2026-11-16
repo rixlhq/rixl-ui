@@ -1,22 +1,34 @@
 import { useState } from "react";
+import { Badge } from "@rixl/ui/badge";
+import { Button } from "@rixl/ui/button";
+import { Card, CardContent } from "@rixl/ui/card";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@rixl/ui/collapsible";
 import type { ControlValue, Example } from "./registry";
-import { Group } from "./_layout";
 
 export const path = "collapsible";
 export const title = "Collapsible";
 export const group = "Navigation";
 export const description =
-  "Expand/collapse region built on Base UI Collapsible. Unstyled primitive — style the trigger and content as needed.";
+  "Expand/collapse region built on Base UI Collapsible. Animates height and opacity smoothly via --collapsible-panel-height.";
 
 export function Showcase() {
   return (
-    <Collapsible>
-      <CollapsibleTrigger className="select-none rounded-rixl-md border border-rixl-border bg-rixl-surface px-4 py-2 text-sm font-medium text-rixl-fg hover:bg-rixl-surface-muted">
-        Toggle section
-      </CollapsibleTrigger>
-      <CollapsibleContent className="mt-3 max-w-sm rounded-rixl-md border border-rixl-border bg-rixl-surface p-4 shadow-rixl-xs">
-        <p className="text-sm text-rixl-fg">This content expands and collapses.</p>
+    <Collapsible className="w-full max-w-xs">
+      <CollapsibleTrigger
+        render={
+          <Button variant="outline" size="sm">
+            Toggle section
+          </Button>
+        }
+      />
+      <CollapsibleContent>
+        <div className="pt-2">
+          <Card className="py-3">
+            <CardContent className="px-3 text-xs text-rixl-fg-muted">
+              Expandable panel content.
+            </CardContent>
+          </Card>
+        </div>
       </CollapsibleContent>
     </Collapsible>
   );
@@ -25,19 +37,21 @@ export function Showcase() {
 function UncontrolledExample(props: { state: Record<string, ControlValue> }) {
   void props;
   return (
-    <Group label="Uncontrolled">
-      <Collapsible>
-        <CollapsibleTrigger className="select-none rounded-rixl-md border border-rixl-border bg-rixl-surface px-4 py-2 text-sm font-medium text-rixl-fg hover:bg-rixl-surface-muted">
-          Toggle section
-        </CollapsibleTrigger>
-        <CollapsibleContent className="mt-3 max-w-sm rounded-rixl-md border border-rixl-border bg-rixl-surface p-4 shadow-rixl-xs">
-          <p className="text-sm text-rixl-fg">This content expands and collapses.</p>
-          <p className="mt-2 text-sm text-rixl-fg-muted">
-            The panel keeps its mounted state; height is animated by Base UI.
-          </p>
-        </CollapsibleContent>
-      </Collapsible>
-    </Group>
+    <Collapsible className="w-full max-w-sm">
+      <CollapsibleTrigger render={<Button variant="outline">Toggle section</Button>} />
+      <CollapsibleContent>
+        <div className="pt-2.5">
+          <Card className="py-4">
+            <CardContent className="space-y-1.5 px-4">
+              <p className="text-sm font-medium text-rixl-fg">Smooth height & opacity transition</p>
+              <p className="text-xs text-rixl-fg-muted">
+                Driven by Base UI&apos;s <code>--collapsible-panel-height</code> CSS variable.
+              </p>
+            </CardContent>
+          </Card>
+        </div>
+      </CollapsibleContent>
+    </Collapsible>
   );
 }
 
@@ -45,19 +59,31 @@ function ControlledExample(props: { state: Record<string, ControlValue> }) {
   void props;
   const [open, setOpen] = useState(false);
   return (
-    <Group label="Controlled">
+    <div className="w-full max-w-sm space-y-2">
       <div className="flex items-center gap-3">
-        <Collapsible open={open} onOpenChange={setOpen}>
-          <CollapsibleTrigger className="select-none rounded-rixl-md border border-rixl-border bg-rixl-surface px-4 py-2 text-sm font-medium text-rixl-fg hover:bg-rixl-surface-muted">
-            {open ? "Hide details" : "Show details"}
-          </CollapsibleTrigger>
-          <CollapsibleContent className="mt-3 max-w-sm rounded-rixl-md border border-rixl-border bg-rixl-surface p-4 shadow-rixl-xs">
-            <p className="text-sm text-rixl-fg">Controlled from a useState hook.</p>
+        <Collapsible open={open} onOpenChange={setOpen} className="w-full">
+          <div className="flex items-center justify-between gap-2">
+            <CollapsibleTrigger
+              render={
+                <Button variant="outline" size="sm">
+                  {open ? "Hide details" : "Show details"}
+                </Button>
+              }
+            />
+            <Badge variant={open ? "success" : "secondary"}>open = {String(open)}</Badge>
+          </div>
+          <CollapsibleContent>
+            <div className="pt-2.5">
+              <Card className="py-4">
+                <CardContent className="px-4 text-sm text-rixl-fg-muted">
+                  Controlled from a <code>useState</code> hook with interruptible height animation.
+                </CardContent>
+              </Card>
+            </div>
           </CollapsibleContent>
         </Collapsible>
-        <span className="text-xs text-rixl-fg-subtle">open = {String(open)}</span>
       </div>
-    </Group>
+    </div>
   );
 }
 
