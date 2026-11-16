@@ -81,7 +81,7 @@ describe("RadioGroup", () => {
     expect(cls).toContain("aria-invalid:border-rixl-danger");
   });
 
-  it("applies hover and checked border affordances to items", () => {
+  it("applies hover, press, and checked border affordances to items", () => {
     render(
       <RadioGroup>
         <RadioGroupItem value="a" data-testid="a" />
@@ -90,18 +90,21 @@ describe("RadioGroup", () => {
     const cls = screen.getByTestId("a").className;
     expect(cls).toContain("data-unchecked:enabled:hover:border-rixl-border-strong");
     expect(cls).toContain("data-checked:border-rixl-primary");
+    expect(cls).toContain("enabled:active:scale-[var(--rixl-press-scale)]");
+    expect(cls).toContain("motion-reduce:active:scale-100");
   });
 
-  it("animates the selected dot in, reduced-motion safe", () => {
+  it("animates the selected dot in and out via starting/ending transitions, reduced-motion safe", () => {
     render(
       <RadioGroup defaultValue="a">
         <RadioGroupItem value="a" />
       </RadioGroup>
     );
     const indicator = document.querySelector("[data-slot='radio-group-indicator']");
-    expect(indicator!.className).toContain("animate-in");
-    expect(indicator!.className).toContain("zoom-in-50");
-    expect(indicator!.className).toContain("motion-reduce:animate-none");
+    expect(indicator!.className).toContain("transition-[scale,opacity]");
+    expect(indicator!.className).toContain("data-starting-style:scale-50");
+    expect(indicator!.className).toContain("data-ending-style:scale-50");
+    expect(indicator!.className).toContain("motion-reduce:transition-none");
   });
 
   it("forwards className on items", () => {
