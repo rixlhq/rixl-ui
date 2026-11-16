@@ -41,11 +41,13 @@ jobs:
           key: ${{ runner.os }}-playwright-${{ hashFiles('bun.lock') }}
 
       - name: ⚙️ Setup Playwright OS dependencies
-        run: vpx -F @rixl/ui -- playwright install-deps chromium
+        run: vpx playwright install-deps chromium
+        working-directory: packages/ui
 
       - name: ⚙️ Setup Playwright browser
         if: steps.playwright-cache.outputs.cache-hit != 'true'
-        run: vpx -F @rixl/ui -- playwright install chromium
+        run: vpx playwright install chromium
+        working-directory: packages/ui
 
       # Check and package gates are independent; docs builds after the UI pack.
       - parallel:
