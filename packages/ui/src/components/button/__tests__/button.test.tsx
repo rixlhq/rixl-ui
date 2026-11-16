@@ -1,4 +1,5 @@
 import {describe, it, expect, vi} from "vitest";
+import fc from "fast-check";
 import {render, screen} from "@testing-library/react";
 import {Button, buttonVariants} from "../button";
 
@@ -75,6 +76,22 @@ describe("Button", () => {
     expect(onClick).not.toHaveBeenCalled();
   });
 
+  it("renders a spinner, sets aria-busy, and suppresses clicks when loading", () => {
+    const onClick = vi.fn();
+    render(
+      <Button onClick={onClick} loading>
+        Save
+      </Button>
+    );
+    const btn = screen.getByRole("button");
+    expect(btn).toBeDisabled();
+    expect(btn).toHaveAttribute("aria-busy", "true");
+    expect(btn).toHaveAttribute("data-loading", "true");
+    expect(document.querySelector("[data-slot='button-spinner']")).not.toBeNull();
+    btn.click();
+    expect(onClick).not.toHaveBeenCalled();
+  });
+
   it("renders as a non-button element via `render`", () => {
     render(
       <Button render={<a href="/somewhere" />} variant="link">
@@ -89,9 +106,12 @@ describe("Button", () => {
   });
 
   describe("press feedback", () => {
-    it("scales down on press using the shared token", () => {
+    it("scales down on press using the shared token and prevents text selection or tap delay", () => {
       render(<Button>Save</Button>);
-      expect(screen.getByRole("button").className).toContain("active:scale-[var(--rixl-press-scale)]");
+      const cls = screen.getByRole("button").className;
+      expect(cls).toContain("active:scale-[var(--rixl-press-scale)]");
+      expect(cls).toContain("select-none");
+      expect(cls).toContain("touch-manipulation");
     });
 
     it("collapses the shadow on press so the surface reads as depressed", () => {
@@ -113,24 +133,17 @@ describe("Button", () => {
       expect(screen.getByRole("button").className).toContain("active:scale-100");
     });
 
-    it("lifts and deepens its shadow on hover", () => {
+    it("does not jump or lift on hover", () => {
       render(<Button>Save</Button>);
       const cls = screen.getByRole("button").className;
-      expect(cls).toContain("hover:-translate-y-px");
-      expect(cls).toContain("hover:shadow-rixl-sm");
-      expect(cls).toContain("active:translate-y-0");
+      expect(cls).not.toContain("hover:-translate-y");
+      expect(cls).not.toContain("hover:shadow-rixl-sm");
     });
 
-    it("opts the link variant out of the hover lift", () => {
-      render(<Button variant="link">Docs</Button>);
-      expect(screen.getByRole("button").className).toContain("hover:translate-y-0");
-    });
-
-    it("drops the transforms but keeps colour under reduced motion", () => {
+    it("drops the transform but keeps colour under reduced motion", () => {
       render(<Button>Save</Button>);
       const cls = screen.getByRole("button").className;
       expect(cls).toContain("motion-reduce:active:scale-100");
-      expect(cls).toContain("motion-reduce:hover:translate-y-0");
       expect(cls).toContain("active:bg-rixl-primary-active");
     });
 
@@ -141,7 +154,7 @@ describe("Button", () => {
       const cls = screen.getByRole("button").className;
       // Tailwind's scale-* utility sets the `scale` property, not `transform`;
       // naming transform here would leave the press untransitioned.
-      expect(cls).toContain("transition-[scale,translate,background-color,box-shadow,border-color,color]");
+      expect(cls).toContain("transition-[scale,background-color,box-shadow,border-color,color]");
       expect(cls).not.toContain("transition-all");
     });
   });
@@ -188,5 +201,46 @@ describe("Button", () => {
 
   it("exports a buttonVariants helper that returns a class string", () => {
     expect(typeof buttonVariants({variant: "ghost", size: "lg"})).toBe("string");
+  });
+});
+
+describe("[property] Button class resolution", () => {
+  const variants = ["default", "destructive", "outline", "secondary", "ghost", "link"] as const;
+  const knownColors = new Set<string>([...variants, "primary"]);
+  const classOf = (element: React.ReactElement) => {
+    const {getByRole, unmount} = render(element);
+    const className = getByRole("button").className;
+    unmount();
+    return className;
+  };
+
+  it("variant wins over any color", () => {
+    fc.assert(
+      fc.property(fc.constantFrom(...variants), fc.string(), (variant, color) => {
+        expect(classOf(<Button variant={variant} color={color} />)).toBe(classOf(<Button variant={variant} />));
+      })
+    );
+  });
+
+  it("an unknown color falls back to the default variant", () => {
+    fc.assert(
+      fc.property(
+        fc.string().filter((color) => !knownColors.has(color)),
+        (color) => {
+          expect(classOf(<Button color={color} />)).toBe(classOf(<Button />));
+        }
+      )
+    );
+  });
+
+  it("a consumer height replaces the size's height", () => {
+    fc.assert(
+      fc.property(fc.constantFrom("default", "sm", "lg"), fc.integer({min: 1, max: 96}), (size, height) => {
+        const heights = classOf(<Button size={size} className={`h-${height}`} />)
+          .split(" ")
+          .filter((token) => /^h-\d+$/.test(token));
+        expect(heights).toEqual([`h-${height}`]);
+      })
+    );
   });
 });
