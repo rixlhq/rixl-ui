@@ -242,6 +242,15 @@ describe("InputGroup field integration", () => {
     expect(screen.getByText("(optional)")).toBeInTheDocument();
   });
 
+  it("renders the label tooltip trigger", () => {
+    render(
+      <InputGroup label="API key" labelTooltip="Find this in settings.">
+        <Input placeholder="sk_live_..." />
+      </InputGroup>
+    );
+    expect(screen.getByRole("button", {name: "More information"})).toBeInTheDocument();
+  });
+
   it("disables the inner input through field state", () => {
     render(
       <InputGroup label="Email" disabled>
