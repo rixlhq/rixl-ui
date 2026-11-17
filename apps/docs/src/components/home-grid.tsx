@@ -50,11 +50,10 @@ const Cell = memo(function Cell({showcase}: {showcase: Showcase}) {
       <div className="flex min-h-44 min-w-0 items-center justify-center overflow-hidden p-6">
         {showcase.path === "sidebar" ? <Badge variant="outline">App shell · ⌘B</Badge> : <showcase.Showcase />}
       </div>
-      <div className="flex items-baseline justify-between gap-2 border-t border-rixl-border px-4 py-2.5">
-        <a href={`#/${showcase.path}`} className="shrink-0 text-sm font-medium text-rixl-fg underline-offset-4 hover:underline">
+      <div className="border-t border-rixl-border px-4 py-2.5">
+        <a href={`#/${showcase.path}`} className="text-sm font-medium text-rixl-fg underline-offset-4 hover:underline">
           {showcase.title}
         </a>
-        <span className="truncate text-xs text-rixl-fg-muted">{showcase.group}</span>
       </div>
     </li>
   );

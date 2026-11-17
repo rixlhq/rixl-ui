@@ -22,9 +22,5 @@ export function useHashRoute(showcases: Showcase[]): Showcase | null {
 export function matchesShowcase(showcase: Showcase, query: string): boolean {
   if (!query.trim()) return true;
   const q = query.toLowerCase();
-  return (
-    showcase.title.toLowerCase().includes(q) ||
-    showcase.group.toLowerCase().includes(q) ||
-    (showcase.description?.toLowerCase().includes(q) ?? false)
-  );
+  return showcase.title.toLowerCase().includes(q) || (showcase.description?.toLowerCase().includes(q) ?? false);
 }

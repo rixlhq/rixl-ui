@@ -5,7 +5,6 @@ import {Group} from "../components/showcase-layout";
 
 export const path = "textarea";
 export const title = "Textarea";
-export const group = "Forms";
 export const description = "Auto-growing multi-line input with hover, focus, read-only, and invalid states.";
 
 export function Showcase() {

@@ -5,7 +5,6 @@ import {Group} from "../components/showcase-layout";
 
 export const path = "progress";
 export const title = "Progress";
-export const group = "Feedback";
 export const description = "Determinate horizontal progress bar. Pass null for indeterminate.";
 
 export function Showcase() {

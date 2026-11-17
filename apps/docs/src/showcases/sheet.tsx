@@ -7,7 +7,6 @@ import type {Example} from "./registry";
 
 export const path = "sheet";
 export const title = "Sheet";
-export const group = "Overlays";
 export const description =
   "Edge-anchored slide-in panel. Base UI Dialog; slides from top/right/bottom/left using the Vaul/iOS drawer curve (`ease-rixl-drawer`), closes on Escape / backdrop.";
 

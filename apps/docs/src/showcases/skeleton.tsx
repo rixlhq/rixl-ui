@@ -1,10 +1,9 @@
 import {Skeleton} from "@rixl/ui/skeleton";
-import type {ControlValue, Example} from "./registry";
+import type {Example} from "./registry";
 import {Group} from "../components/showcase-layout";
 
 export const path = "skeleton";
 export const title = "Skeleton";
-export const group = "Feedback";
 export const description =
   "Placeholder for loading UI. Shape and size come from consumer classes; animation is pulse (default), shimmer, or none — all reduced-motion safe.";
 
@@ -12,23 +11,7 @@ export function Showcase() {
   return <Skeleton className="h-4 w-40" />;
 }
 
-function AnimationExample({state}: {state: Record<string, ControlValue>}) {
-  const animation = state.animation as "pulse" | "shimmer" | "none";
-  return (
-    <Group label="Animation">
-      <div className="flex w-full items-center gap-4">
-        <Skeleton className="size-10 rounded-full" animation={animation} />
-        <div className="flex flex-1 flex-col gap-2">
-          <Skeleton className="h-4 w-40" animation={animation} />
-          <Skeleton className="h-3 w-24" animation={animation} />
-        </div>
-      </div>
-    </Group>
-  );
-}
-
-function AnimationsComparisonExample(props: {state: Record<string, ControlValue>}) {
-  void props;
+function AnimationsComparisonExample() {
   return (
     <Group label="Pulse / shimmer / none">
       <div className="grid w-full gap-4 sm:grid-cols-3">
@@ -44,8 +27,7 @@ function AnimationsComparisonExample(props: {state: Record<string, ControlValue>
   );
 }
 
-function ShapesExample(props: {state: Record<string, ControlValue>}) {
-  void props;
+function ShapesExample() {
   return (
     <Group label="Basic shapes">
       <Skeleton className="h-4 w-24" />
@@ -55,8 +37,7 @@ function ShapesExample(props: {state: Record<string, ControlValue>}) {
   );
 }
 
-function CirclesExample(props: {state: Record<string, ControlValue>}) {
-  void props;
+function CirclesExample() {
   return (
     <Group label="Circle (avatar-shaped)">
       <Skeleton className="size-8 rounded-full" />
@@ -66,8 +47,7 @@ function CirclesExample(props: {state: Record<string, ControlValue>}) {
   );
 }
 
-function CardRowExample(props: {state: Record<string, ControlValue>}) {
-  void props;
+function CardRowExample() {
   return (
     <Group label="Card row">
       <div className="flex w-full items-center gap-4">
@@ -81,8 +61,7 @@ function CardRowExample(props: {state: Record<string, ControlValue>}) {
   );
 }
 
-function TableRowsExample(props: {state: Record<string, ControlValue>}) {
-  void props;
+function TableRowsExample() {
   return (
     <Group label="Table rows">
       <div className="flex w-full flex-col gap-3">
@@ -99,8 +78,7 @@ function TableRowsExample(props: {state: Record<string, ControlValue>}) {
   );
 }
 
-function BlockExample(props: {state: Record<string, ControlValue>}) {
-  void props;
+function BlockExample() {
   return (
     <Group label="Block (image / hero placeholder)">
       <Skeleton className="h-40 w-full" />
@@ -110,26 +88,14 @@ function BlockExample(props: {state: Record<string, ControlValue>}) {
 
 export const examples: Example[] = [
   {
-    id: "animation",
-    title: "Animation",
-    description: "Switch between pulse, shimmer, and none.",
-    render: AnimationExample,
-    controls: [
-      {
-        name: "animation",
-        label: "Animation",
-        type: "select",
-        options: [
-          {value: "pulse", label: "Pulse"},
-          {value: "shimmer", label: "Shimmer"},
-          {value: "none", label: "None"},
-        ],
-        defaultValue: "shimmer",
-      },
-    ],
-    code: `<Skeleton className="h-4 w-40" animation="shimmer" />`,
+    id: "animations",
+    title: "Animations",
+    description: "Pulse, shimmer, and none side by side.",
+    render: AnimationsComparisonExample,
+    code: `<Skeleton className="h-4 w-40" animation="pulse" />
+<Skeleton className="h-4 w-40" animation="shimmer" />
+<Skeleton className="h-4 w-40" animation="none" />`,
   },
-  {id: "animations", title: "Pulse / shimmer / none", render: AnimationsComparisonExample},
   {id: "shapes", title: "Basic shapes", render: ShapesExample},
   {id: "circles", title: "Circles", render: CirclesExample},
   {id: "card", title: "Card row", render: CardRowExample},

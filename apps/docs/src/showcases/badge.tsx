@@ -4,7 +4,6 @@ import {Group} from "../components/showcase-layout";
 
 export const path = "badge";
 export const title = "Badge";
-export const group = "Feedback";
 export const description =
   "Compact status and count label. Six variants (default, secondary, success, warning, destructive, outline); polymorphic via Base UI useRender.";
 

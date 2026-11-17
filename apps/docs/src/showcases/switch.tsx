@@ -5,7 +5,6 @@ import {Group} from "../components/showcase-layout";
 
 export const path = "switch";
 export const title = "Switch";
-export const group = "Forms";
 export const description =
   "A two-state toggle with a sliding thumb, hover-deepened track, and focus ring. Composes with Label for accessible labelling.";
 

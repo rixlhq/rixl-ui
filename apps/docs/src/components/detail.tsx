@@ -1,6 +1,5 @@
 import {memo, useMemo, useState} from "react";
 import type {ComponentType, ReactNode} from "react";
-import {Badge} from "@rixl/ui/badge";
 import {Button} from "@rixl/ui/button";
 import {Card, CardAction, CardContent, CardDescription, CardHeader, CardTitle} from "@rixl/ui/card";
 import {Label} from "@rixl/ui/label";
@@ -23,10 +22,7 @@ export const Detail = memo(function Detail({showcase}: {showcase: Showcase}) {
   return (
     <div className="space-y-8">
       <div className="space-y-2 border-b border-rixl-border pb-6">
-        <div className="flex items-center gap-2">
-          <Badge variant="secondary">{showcase.group}</Badge>
-          <code className="text-xs text-rixl-fg-muted">@rixl/ui/{showcase.path}</code>
-        </div>
+        <code className="text-xs text-rixl-fg-muted">@rixl/ui/{showcase.path}</code>
         <h1 className="text-2xl font-semibold tracking-tight text-rixl-fg">{showcase.title}</h1>
         {showcase.description ? <p className="max-w-3xl text-sm leading-relaxed text-rixl-fg-muted">{showcase.description}</p> : null}
       </div>

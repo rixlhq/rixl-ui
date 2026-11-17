@@ -3,7 +3,6 @@ import type {ControlValue, Example} from "./registry";
 
 export const path = "copy-block";
 export const title = "CopyBlock";
-export const group = "Content";
 export const description = "Inline label + value with a morphing copy/check icon and tooltip feedback. Copies the value to the clipboard.";
 
 export function Showcase() {

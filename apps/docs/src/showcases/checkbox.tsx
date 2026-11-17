@@ -5,7 +5,6 @@ import {Group} from "../components/showcase-layout";
 
 export const path = "checkbox";
 export const title = "Checkbox";
-export const group = "Forms";
 export const description = "Boolean form control. Composes with Label; supports indeterminate and controlled state.";
 
 export function Showcase() {

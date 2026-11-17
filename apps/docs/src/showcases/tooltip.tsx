@@ -5,7 +5,6 @@ import {Group} from "../components/showcase-layout";
 
 export const path = "tooltip";
 export const title = "Tooltip";
-export const group = "Overlays";
 export const description =
   "Portalled contextual label anchored to a trigger. Scales from its trigger origin and skips transition duration on adjacent hovers (`data-instant:duration-0`).";
 

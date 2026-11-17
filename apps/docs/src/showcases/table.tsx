@@ -4,7 +4,6 @@ import type {ControlValue, Example} from "./registry";
 
 export const path = "table";
 export const title = "Table";
-export const group = "Content";
 export const description =
   "Plain HTML table styled as a data grid. Row hover + selected states; opt-in sticky header (`sticky`) and opt-in scroll via `containerClassName`.";
 

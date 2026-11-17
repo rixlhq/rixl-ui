@@ -1,4 +1,4 @@
-import {Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator} from "@rixl/ui/breadcrumb";
+import {Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage} from "@rixl/ui/breadcrumb";
 import {Input} from "@rixl/ui/input";
 import {Separator} from "@rixl/ui/separator";
 import {SidebarTrigger} from "@rixl/ui/sidebar";
@@ -31,16 +31,9 @@ export function Header({
               {active ? <BreadcrumbLink href="#/">Components</BreadcrumbLink> : <BreadcrumbPage>Components</BreadcrumbPage>}
             </BreadcrumbItem>
             {active ? (
-              <>
-                <BreadcrumbSeparator />
-                <BreadcrumbItem className="hidden sm:inline-flex">
-                  <span className="text-rixl-fg-muted">{active.group}</span>
-                </BreadcrumbItem>
-                <BreadcrumbSeparator className="hidden sm:inline-flex" />
-                <BreadcrumbItem>
-                  <BreadcrumbPage>{active.title}</BreadcrumbPage>
-                </BreadcrumbItem>
-              </>
+              <BreadcrumbItem>
+                <BreadcrumbPage>{active.title}</BreadcrumbPage>
+              </BreadcrumbItem>
             ) : null}
           </BreadcrumbList>
         </Breadcrumb>

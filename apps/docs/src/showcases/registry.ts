@@ -65,8 +65,6 @@ export type Showcase = {
   path: string;
   /** Human-readable name shown in the sidebar. */
   title: string;
-  /** Sidebar category. */
-  group: string;
   /** Optional overview description for the component. */
   description?: string;
   /** Legacy single-example showcase. Kept until every module migrates. */
