@@ -51,10 +51,15 @@ jobs:
         run: vpx playwright install chromium
         working-directory: packages/ui
 
-      # Check and package build are independent; the remaining gates run in order below.
       - parallel:
-          - name: 🧹 Workspace checks
-            run: vpr ci:check && vpr -F @rixl/ui lint:suppressions
+          - name: 🧹 Checks
+            run: vp check
+
+          - name: 🔎 Lint suppressions
+            run: vpr -F @rixl/ui lint:suppressions
+
+          - name: 🩺 React Doctor
+            run: vpr -F @rixl/ui react-doctor
 
           - name: 📦 Pack UI package
             run: vpr -F @rixl/ui build
