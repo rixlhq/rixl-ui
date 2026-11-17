@@ -5,7 +5,6 @@ import {Group} from "../components/showcase-layout";
 
 export const path = "input";
 export const title = "Input";
-export const group = "Forms";
 export const description =
   "Single-line text input. Base UI Input on rixl tokens, with three sizes, leading/trailing icon slots, hover/focus/disabled/read-only/invalid states, and built-in Field props (label, description, error).";
 

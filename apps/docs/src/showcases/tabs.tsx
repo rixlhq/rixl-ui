@@ -7,7 +7,6 @@ import type {Example} from "./registry";
 
 export const path = "tabs";
 export const title = "Tabs";
-export const group = "Navigation";
 export const description =
   "Tabbed content built on Base UI Tabs. Hovering an inactive tab changes text intensity only while a single indicator glides across tabs over 300ms. Overflowing tab lists scroll in one row with fade + chevron controls, drag-to-scroll, and smooth scrollIntoView.";
 

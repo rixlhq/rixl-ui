@@ -19,7 +19,6 @@ import type {Example} from "./registry";
 
 export const path = "sidebar";
 export const title = "Sidebar";
-export const group = "Navigation";
 export const description =
   "Navigation shell with offcanvas / icon / none collapsibility. Context provider tracks open state, mobile detection, and a Cmd/Ctrl+B shortcut. Renders a Sheet on mobile.";
 

@@ -4,7 +4,6 @@ import type {ControlValue, Example} from "./registry";
 
 export const path = "pagination";
 export const title = "Pagination";
-export const group = "Content";
 export const description =
   "First/prev/next/last pager with an optional page-size selector. Unstyled by locale: every string arrives via props, so consumers wire their own message layer.";
 

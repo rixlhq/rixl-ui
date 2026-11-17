@@ -3,7 +3,6 @@ import type {Example} from "./registry";
 
 export const path = "alert";
 export const title = "Alert";
-export const group = "Feedback";
 export const description =
   "Inline banner for status and instructive messages. Supports default, success, warning, and destructive variants; optional leading icon aligns via grid.";
 

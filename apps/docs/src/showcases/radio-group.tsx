@@ -5,7 +5,6 @@ import {Group} from "../components/showcase-layout";
 
 export const path = "radio-group";
 export const title = "Radio Group";
-export const group = "Forms";
 export const description =
   "Single-selection group. Hover-strengthened border, primary border when selected, and a dot that pops in. Compose each item with a Label for accessible labelling.";
 

@@ -5,7 +5,6 @@ import {Group} from "../components/showcase-layout";
 
 export const path = "input-group";
 export const title = "Input Group";
-export const group = "Forms";
 export const description =
   "Adorned input: static addons and action buttons adjoined to a Rixl Input. The group wears the input chrome — border, shadow, 3px focus ring — while the Input inside renders borderless.";
 

@@ -5,7 +5,6 @@ import {Group} from "../components/showcase-layout";
 
 export const path = "toaster";
 export const title = "Toaster";
-export const group = "Feedback";
 export const description =
   "Sonner-based toast notifications. Place <Toaster /> at app root; call toast() anywhere to trigger notifications.";
 

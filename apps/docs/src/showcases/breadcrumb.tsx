@@ -12,7 +12,6 @@ import {Group} from "../components/showcase-layout";
 
 export const path = "breadcrumb";
 export const title = "Breadcrumb";
-export const group = "Navigation";
 export const description = "Navigation trail. Built on Base UI useRender; links are polymorphic via the render prop.";
 
 export function Showcase() {

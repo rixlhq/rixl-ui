@@ -5,7 +5,6 @@ import {Group} from "../components/showcase-layout";
 
 export const path = "input-otp";
 export const title = "Input OTP";
-export const group = "Forms";
 export const description = "One-time-password / verification-code input. Fixed number of slots with a blinking caret on the active slot.";
 
 export function Showcase() {
