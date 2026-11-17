@@ -1,20 +1,21 @@
-import {Calendar} from "@rixl/ui/calendar";
+import {DatePickerCalendar} from "@rixl/ui/date-picker";
 import type {Example} from "./registry";
 import {Group} from "../components/showcase-layout";
 
 export const path = "calendar";
 export const title = "Calendar";
 export const group = "Content";
-export const description = "Date grid built on react-day-picker v9. Single and range selection, outside days, and caption dropdowns.";
+export const description =
+  'Deprecated alias: the grid now lives in DatePicker (`setup="bare"`). `@rixl/ui/calendar` re-exports the same `DatePickerCalendar` reference and will be removed in a future major.';
 
 export function Showcase() {
-  return <Calendar mode="single" />;
+  return <DatePickerCalendar mode="single" />;
 }
 
 function SingleExample() {
   return (
     <Group label="Single selection">
-      <Calendar mode="single" />
+      <DatePickerCalendar mode="single" />
     </Group>
   );
 }
@@ -22,7 +23,7 @@ function SingleExample() {
 function RangeExample() {
   return (
     <Group label="Range selection">
-      <Calendar mode="range" numberOfMonths={2} />
+      <DatePickerCalendar mode="range" numberOfMonths={2} />
     </Group>
   );
 }
@@ -32,12 +33,12 @@ export const examples: Example[] = [
     id: "single",
     title: "Single",
     render: SingleExample,
-    code: `<Calendar mode="single" />`,
+    code: `import {DatePickerCalendar} from "@rixl/ui/date-picker";\n\n<DatePickerCalendar mode="single" />`,
   },
   {
     id: "range",
     title: "Range",
     render: RangeExample,
-    code: `<Calendar mode="range" numberOfMonths={2} />`,
+    code: `import {DatePickerCalendar} from "@rixl/ui/date-picker";\n\n<DatePickerCalendar mode="range" numberOfMonths={2} />`,
   },
 ];
