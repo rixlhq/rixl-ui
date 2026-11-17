@@ -24,6 +24,12 @@ html,
 body {
   background: var(--rixl-bg);
   color: var(--rixl-fg);
+  /*
+   * Reserve the scrollbar gutter on every page. Without this, switching
+   * between a short showcase (no scrollbar) and a tall one (scrollbar)
+   * shifts the centered content sideways by the scrollbar width.
+   */
+  scrollbar-gutter: stable;
   font-family:
     ui-sans-serif,
     system-ui,
