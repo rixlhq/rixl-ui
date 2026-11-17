@@ -15,7 +15,7 @@ import {
   SidebarRail,
   SidebarTrigger,
 } from "@rixl/ui/sidebar";
-import type {ControlValue, Example} from "./registry";
+import type {Example} from "./registry";
 
 export const path = "sidebar";
 export const title = "Sidebar";
@@ -81,30 +81,24 @@ function SidebarPreview({collapsible}: {collapsible: "offcanvas" | "icon" | "non
   );
 }
 
-function LiveExample({state}: {state: Record<string, ControlValue>}) {
-  const collapsible = (state.collapsible as "offcanvas" | "icon" | "none") || "offcanvas";
-  return <SidebarPreview key={collapsible} collapsible={collapsible} />;
+function OffcanvasExample() {
+  return <SidebarPreview collapsible="offcanvas" />;
+}
+
+function IconRailExample() {
+  return <SidebarPreview collapsible="icon" />;
+}
+
+function StaticExample() {
+  return <SidebarPreview collapsible="none" />;
 }
 
 export const examples: Example[] = [
   {
-    id: "live",
-    title: "Interactive shell",
-    description: "Contained preview of SidebarProvider + Sidebar + SidebarInset. Switch collapsible modes live.",
-    render: LiveExample,
-    controls: [
-      {
-        name: "collapsible",
-        label: "Collapsible",
-        type: "select",
-        options: [
-          {value: "offcanvas", label: "Offcanvas"},
-          {value: "icon", label: "Icon rail"},
-          {value: "none", label: "None (static)"},
-        ],
-        defaultValue: "offcanvas",
-      },
-    ],
+    id: "offcanvas",
+    title: "Offcanvas",
+    description: "Contained preview of SidebarProvider + Sidebar + SidebarInset. Click the trigger or press ⌘B to toggle.",
+    render: OffcanvasExample,
     code: `<SidebarProvider defaultOpen>
   <Sidebar collapsible="offcanvas">
     <SidebarHeader>Acme Inc</SidebarHeader>
@@ -126,5 +120,21 @@ export const examples: Example[] = [
     <SidebarTrigger />
   </SidebarInset>
 </SidebarProvider>`,
+  },
+  {
+    id: "icon-rail",
+    title: "Icon rail",
+    description: "Collapses to an icon rail instead of sliding off-canvas.",
+    render: IconRailExample,
+    code: `<Sidebar collapsible="icon">
+  <SidebarRail />
+</Sidebar>`,
+  },
+  {
+    id: "static",
+    title: "Static",
+    description: "No collapsibility; the trigger and rail are omitted.",
+    render: StaticExample,
+    code: `<Sidebar collapsible="none" />`,
   },
 ];
