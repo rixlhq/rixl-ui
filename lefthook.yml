@@ -1,7 +1,7 @@
 pre-commit:
   commands:
     check:
-      run: vp check --fix {staged_files} < /dev/null
+      run: vp check --fix < /dev/null
       stage_fixed: true
 
 pre-push:
@@ -12,5 +12,5 @@ pre-push:
       timeout: 2m
     test:
       glob: "*.{js,ts,jsx,tsx}"
-      run: vp test related {push_files} --run --bail=1 < /dev/null
+      run: vp test --root packages/ui --run --bail=1 < /dev/null
       timeout: 2m
