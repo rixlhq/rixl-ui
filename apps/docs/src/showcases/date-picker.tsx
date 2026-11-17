@@ -1,35 +1,26 @@
 import {useState} from "react";
 import {DatePicker, type DateRange} from "@rixl/ui/date-picker";
-import type {ControlValue, Example} from "./registry";
+import {Button} from "@rixl/ui/button";
+import {Popover, PopoverContent, PopoverTrigger} from "@rixl/ui/popover";
+import type {Example} from "./registry";
 import {Group} from "../components/showcase-layout";
 
 export const path = "date-picker";
 export const title = "DatePicker";
 export const group = "Overlays";
 export const description =
-  'Date trigger over the calendar panel in a Popover. Single, multiple, and range modes; presets and footers stay with the consumer. `setup="bare"` renders just the panel (Kumo-style grid composition); `DatePickerPanel` stays for custom Popover layouts. Kumo mapping: selected and onChange are accepted as deprecated aliases for value and onSelect.';
+  "Bare calendar grid with single, multiple, and range modes. Number of months, disabled matchers, min/max, dropdown captions, and footers stay on the grid; popover behaviour is consumer composition (trigger Button + Popover + DatePicker). Kumo mapping: selected and onChange are accepted as deprecated aliases for value and onSelect.";
 
 export function Showcase() {
   const [value, setValue] = useState<Date | undefined>();
-  return <DatePicker mode="single" value={value} onSelect={(date) => setValue(date)} />;
+  return (
+    <Group label="Single date">
+      <DatePicker mode="single" value={value} onSelect={(date) => setValue(date)} />
+    </Group>
+  );
 }
 
-function LiveExample({state}: {state: Record<string, ControlValue>}) {
-  const mode = state.mode as "single" | "multiple" | "range";
-  const [single, setSingle] = useState<Date | undefined>();
-  const [multiple, setMultiple] = useState<Date[] | undefined>();
-  const [range, setRange] = useState<DateRange | undefined>();
-  if (mode === "range") {
-    return <DatePicker mode="range" numberOfMonths={2} value={range} onSelect={(next) => setRange(next)} />;
-  }
-  if (mode === "multiple") {
-    return <DatePicker mode="multiple" max={5} value={multiple} onSelect={(next) => setMultiple(next)} />;
-  }
-  return <DatePicker mode="single" value={single} onSelect={(next) => setSingle(next)} />;
-}
-
-function SingleExample(props: {state: Record<string, ControlValue>}) {
-  void props;
+function SingleExample() {
   const [value, setValue] = useState<Date | undefined>();
   return (
     <Group label="Single date">
@@ -38,30 +29,7 @@ function SingleExample(props: {state: Record<string, ControlValue>}) {
   );
 }
 
-function RangeExample(props: {state: Record<string, ControlValue>}) {
-  void props;
-  const [value, setValue] = useState<DateRange | undefined>();
-  return (
-    <Group label="Date range">
-      <DatePicker mode="range" numberOfMonths={2} value={value} onSelect={(next) => setValue(next)} />
-    </Group>
-  );
-}
-
-function LabelSlotExample(props: {state: Record<string, ControlValue>}) {
-  void props;
-  const [value, setValue] = useState<DateRange | undefined>();
-  return (
-    <Group label="Custom label slot">
-      <DatePicker mode="range" value={value} onSelect={(next) => setValue(next)}>
-        Last 7 days
-      </DatePicker>
-    </Group>
-  );
-}
-
-function MultipleExample(props: {state: Record<string, ControlValue>}) {
-  void props;
+function MultipleExample() {
   const [value, setValue] = useState<Date[] | undefined>();
   return (
     <Group label="Multiple dates (max 5)">
@@ -70,18 +38,32 @@ function MultipleExample(props: {state: Record<string, ControlValue>}) {
   );
 }
 
-function BareExample(props: {state: Record<string, ControlValue>}) {
-  void props;
-  const [value, setValue] = useState<Date | undefined>();
+function RangeExample() {
+  const [value, setValue] = useState<DateRange | undefined>();
   return (
-    <Group label="Bare panel, no trigger (same grid as Calendar)">
-      <DatePicker mode="single" setup="bare" value={value} onSelect={(next) => setValue(next)} />
+    <Group label="Date range">
+      <DatePicker mode="range" numberOfMonths={2} value={value} onSelect={(next) => setValue(next)} />
     </Group>
   );
 }
 
-function DropdownExample(props: {state: Record<string, ControlValue>}) {
-  void props;
+function MinMaxExample() {
+  const [value, setValue] = useState<DateRange | undefined>();
+  return (
+    <Group label="Range with min/max (3–7 nights)">
+      <DatePicker
+        mode="range"
+        min={3}
+        max={7}
+        value={value}
+        onSelect={(next) => setValue(next)}
+        footer={<span className="text-xs text-rixl-fg-muted">Select 3-7 nights</span>}
+      />
+    </Group>
+  );
+}
+
+function DropdownExample() {
   const [value, setValue] = useState<Date | undefined>();
   return (
     <Group label="Month/year dropdowns">
@@ -97,15 +79,82 @@ function DropdownExample(props: {state: Record<string, ControlValue>}) {
   );
 }
 
+/** Page-load "today" for the presets demo. Module scope keeps it stable across re-renders. */
+const TODAY = startOfDay(new Date());
+
+/** Unavailable month-days for the disabled-dates demo, derived from the same stable today. */
+const UNAVAILABLE = [5, 12, 18, 25].map((day) => new Date(TODAY.getFullYear(), TODAY.getMonth(), day));
+
+function DisabledFooterExample() {
+  const [value, setValue] = useState<Date[] | undefined>();
+  const selectedCount = value?.length ?? 0;
+  const maxDays = 5;
+  return (
+    <Group label="Disabled dates with usage limits">
+      <DatePicker
+        mode="multiple"
+        max={maxDays}
+        disabled={UNAVAILABLE}
+        fixedWeeks
+        value={value}
+        onSelect={(next) => setValue(next)}
+        footer={
+          <p className="w-full pt-2 text-xs text-rixl-fg-muted">
+            {selectedCount}/{maxDays} days selected. Grayed dates are unavailable.
+          </p>
+        }
+      />
+    </Group>
+  );
+}
+
+function formatRangeLabel(range: DateRange | undefined, empty: string): string {
+  if (!range?.from) return empty;
+  if (!range.to) return range.from.toLocaleDateString();
+  return `${range.from.toLocaleDateString()} – ${range.to.toLocaleDateString()}`;
+}
+
+function WithPopoverExample() {
+  const [date, setDate] = useState<Date | undefined>();
+  const [open, setOpen] = useState(false);
+  return (
+    <Group label="Single in a popover">
+      <Popover open={open} onOpenChange={setOpen}>
+        <PopoverTrigger render={<Button variant="outline">{date ? date.toLocaleDateString() : "Pick a date"}</Button>} />
+        <PopoverContent className="w-auto p-0">
+          <DatePicker
+            mode="single"
+            value={date}
+            onSelect={(next) => {
+              setDate(next);
+              if (next) setOpen(false);
+            }}
+          />
+        </PopoverContent>
+      </Popover>
+    </Group>
+  );
+}
+
+function RangePopoverExample() {
+  const [range, setRange] = useState<DateRange | undefined>();
+  return (
+    <Group label="Range in a popover (two months)">
+      <Popover>
+        <PopoverTrigger render={<Button variant="outline">{formatRangeLabel(range, "Select dates")}</Button>} />
+        <PopoverContent className="w-auto p-0">
+          <DatePicker mode="range" numberOfMonths={2} value={range} onSelect={(next) => setRange(next)} />
+        </PopoverContent>
+      </Popover>
+    </Group>
+  );
+}
+
 function startOfDay(date: Date): Date {
   return new Date(date.getFullYear(), date.getMonth(), date.getDate());
 }
 
-/** Page-load "today" for the presets demo. Module scope keeps it stable across re-renders. */
-const TODAY = startOfDay(new Date());
-
-function PresetsExample(props: {state: Record<string, ControlValue>}) {
-  void props;
+function PresetsExample() {
   const [range, setRange] = useState<DateRange | undefined>();
   const [month, setMonth] = useState<Date>(TODAY);
   const presets: {label: string; range: DateRange}[] = [
@@ -124,65 +173,50 @@ function PresetsExample(props: {state: Record<string, ControlValue>}) {
     return range.from.getTime() === preset.from.getTime() && range.to.getTime() === preset.to.getTime();
   };
   return (
-    <Group label="Range with presets">
-      <div className="flex flex-col gap-3 sm:flex-row">
-        <div className="flex flex-row gap-1 sm:flex-col">
-          {presets.map((preset) => (
-            <button
-              key={preset.label}
-              type="button"
-              onClick={() => {
-                setRange(preset.range);
-                if (preset.range.from) setMonth(preset.range.from);
-              }}
-              data-active={isActive(preset.range)}
-              className="rounded-rixl-md px-3 py-1.5 text-left text-sm whitespace-nowrap text-rixl-fg-muted hover:bg-rixl-surface-muted data-[active=true]:bg-rixl-primary data-[active=true]:text-rixl-primary-fg"
-            >
-              {preset.label}
-            </button>
-          ))}
-        </div>
-        <DatePicker
-          mode="range"
-          numberOfMonths={2}
-          value={range}
-          onSelect={(next) => setRange(next)}
-          month={month}
-          onMonthChange={setMonth}
-        />
-      </div>
+    <Group label="Range in a popover with presets">
+      <Popover>
+        <PopoverTrigger render={<Button variant="outline">{formatRangeLabel(range, "Select dates")}</Button>} />
+        <PopoverContent className="w-auto p-0">
+          <div className="flex flex-col gap-3 p-3 sm:flex-row">
+            <div className="flex flex-row gap-1 sm:flex-col">
+              {presets.map((preset) => (
+                <button
+                  key={preset.label}
+                  type="button"
+                  onClick={() => {
+                    setRange(preset.range);
+                    if (preset.range.from) setMonth(preset.range.from);
+                  }}
+                  data-active={isActive(preset.range)}
+                  className="rounded-rixl-md px-3 py-1.5 text-left text-sm whitespace-nowrap text-rixl-fg-muted hover:bg-rixl-surface-muted data-[active=true]:bg-rixl-primary data-[active=true]:text-rixl-primary-fg"
+                >
+                  {preset.label}
+                </button>
+              ))}
+            </div>
+            <DatePicker
+              mode="range"
+              numberOfMonths={2}
+              value={range}
+              onSelect={(next) => setRange(next)}
+              month={month}
+              onMonthChange={setMonth}
+            />
+          </div>
+        </PopoverContent>
+      </Popover>
     </Group>
   );
 }
 
 export const examples: Example[] = [
-  {
-    id: "live",
-    title: "Interactive",
-    description: "Switch between single and range selection.",
-    render: LiveExample,
-    controls: [
-      {
-        name: "mode",
-        label: "Mode",
-        type: "select",
-        options: [
-          {value: "single", label: "Single"},
-          {value: "multiple", label: "Multiple"},
-          {value: "range", label: "Range"},
-        ],
-        defaultValue: "single",
-      },
-    ],
-    code: `<DatePicker mode="single" value={value} onSelect={setValue} />
-<DatePicker mode="multiple" max={5} value={dates} onSelect={setDates} />
-<DatePicker mode="range" numberOfMonths={2} value={range} onSelect={setRange} />`,
-  },
   {id: "single", title: "Single", render: SingleExample},
-  {id: "bare", title: "Bare", render: BareExample},
   {id: "multiple", title: "Multiple", render: MultipleExample},
-  {id: "dropdown", title: "Dropdowns", render: DropdownExample},
   {id: "range", title: "Range", render: RangeExample},
-  {id: "presets", title: "Presets", render: PresetsExample},
-  {id: "label-slot", title: "Custom label", render: LabelSlotExample},
+  {id: "min-max", title: "Min/Max", render: MinMaxExample},
+  {id: "dropdowns", title: "Dropdowns", render: DropdownExample},
+  {id: "disabled-footer", title: "Disabled + Footer", render: DisabledFooterExample},
+  {id: "with-popover", title: "With Popover", render: WithPopoverExample},
+  {id: "range-popover", title: "Range with Popover", render: RangePopoverExample},
+  {id: "range-presets", title: "Range with Presets", render: PresetsExample},
 ];

@@ -4,13 +4,7 @@ import {act, render, screen} from "@testing-library/react";
 import type {DateRange} from "react-day-picker";
 import {DatePicker} from "../date-picker";
 
-import type {DatePickerSingleProps} from "../date-picker";
-
 const JUNE_2026 = new Date(2026, 5, 1);
-
-function formatDay(date: Date): string {
-  return date.toLocaleDateString(undefined, {day: "numeric", month: "short", year: "numeric"});
-}
 
 /** An enabled in-month day button for the fixed June 2026 month. */
 function dayButton(date: Date): HTMLButtonElement {
@@ -22,17 +16,7 @@ function dayButton(date: Date): HTMLButtonElement {
   return hit;
 }
 
-function openPanel(trigger: HTMLElement) {
-  act(() => trigger.click());
-  return act(async () => {});
-}
-
-type SingleHarnessProps = Omit<DatePickerSingleProps, "mode" | "value" | "onSelect" | "onApply"> & {
-  onSelect?: (date: Date | undefined) => void;
-  onApply?: (date: Date | undefined) => void;
-};
-
-function SingleHarness({onSelect, onApply, ...rest}: SingleHarnessProps) {
+function SingleHarness({onSelect}: {onSelect?: (date: Date | undefined) => void}) {
   const [value, setValue] = useState<Date | undefined>();
   return (
     <DatePicker
@@ -43,19 +27,11 @@ function SingleHarness({onSelect, onApply, ...rest}: SingleHarnessProps) {
         setValue(date);
         onSelect?.(date);
       }}
-      onApply={onApply}
-      {...rest}
     />
   );
 }
 
-function RangeHarness({
-  onSelect,
-  onApply,
-}: {
-  onSelect?: (range: DateRange | undefined) => void;
-  onApply?: (range: DateRange | undefined) => void;
-}) {
+function RangeHarness({onSelect}: {onSelect?: (range: DateRange | undefined) => void}) {
   const [value, setValue] = useState<DateRange | undefined>();
   return (
     <DatePicker
@@ -66,7 +42,6 @@ function RangeHarness({
         setValue(range);
         onSelect?.(range);
       }}
-      onApply={onApply}
     />
   );
 }
@@ -87,90 +62,78 @@ function MultipleHarness({onSelect}: {onSelect?: (dates: Date[] | undefined) => 
 }
 
 describe("DatePicker", () => {
-  it("renders an outline trigger with the single placeholder when empty", () => {
+  it("renders the bare calendar grid with no popover chrome", () => {
     render(<SingleHarness />);
-    const trigger = screen.getByRole("button", {name: "Pick a date"});
-    expect(trigger).toHaveAttribute("data-slot", "popover-trigger");
-    expect(trigger.className).toContain("border-rixl-border");
+    expect(screen.getByRole("grid")).toBeInTheDocument();
+    expect(document.querySelector("[data-slot='popover-trigger']")).not.toBeInTheDocument();
+    expect(document.querySelector("[data-slot='popover-content']")).not.toBeInTheDocument();
   });
 
-  it("renders the range placeholder when empty in range mode", () => {
-    render(<RangeHarness />);
-    expect(screen.getByRole("button", {name: "Pick a date range"})).toBeInTheDocument();
-  });
-
-  it("renders a custom placeholder", () => {
-    render(<SingleHarness placeholder="Select birthday" />);
-    expect(screen.getByRole("button", {name: "Select birthday"})).toBeInTheDocument();
-  });
-
-  it("renders a custom label slot instead of the formatted date", () => {
-    render(<SingleHarness>Last 7 days</SingleHarness>);
-    expect(screen.getByRole("button", {name: "Last 7 days"})).toBeInTheDocument();
-    expect(screen.queryByRole("button", {name: "Pick a date"})).not.toBeInTheDocument();
-  });
-
-  it("shows the formatted single date when a value is set", () => {
-    const value = new Date(2026, 5, 15);
-    render(<DatePicker mode="single" defaultMonth={JUNE_2026} value={value} />);
-    expect(screen.getByRole("button", {name: formatDay(value)})).toBeInTheDocument();
-  });
-
-  it("shows the formatted range when both ends are set", () => {
-    const value = {from: new Date(2026, 5, 10), to: new Date(2026, 5, 20)};
-    render(<DatePicker mode="range" defaultMonth={JUNE_2026} value={value} />);
-    expect(screen.getByRole("button", {name: `${formatDay(value.from)} – ${formatDay(value.to)}`})).toBeInTheDocument();
-  });
-
-  it("opens the calendar panel on trigger click", async () => {
-    render(<SingleHarness />);
-    await openPanel(screen.getByRole("button", {name: "Pick a date"}));
-    expect(document.querySelector("[data-slot='popover-content']")).toBeInTheDocument();
-    expect(document.querySelector("[data-slot='calendar']")).toBeInTheDocument();
-  });
-
-  it("selects a single date, notifies, and closes the panel", async () => {
+  it("selects a single date and notifies onSelect", () => {
     const onSelect = vi.fn();
-    const onApply = vi.fn();
-    render(<SingleHarness onSelect={onSelect} onApply={onApply} />);
-    await openPanel(screen.getByRole("button", {name: "Pick a date"}));
-
+    render(<SingleHarness onSelect={onSelect} />);
     act(() => dayButton(new Date(2026, 5, 15)).click());
-    await act(async () => {});
-
     expect(onSelect).toHaveBeenCalledOnce();
     expect((onSelect.mock.calls[0] as Date[])[0]?.getTime()).toBe(new Date(2026, 5, 15).getTime());
-    expect(onApply).toHaveBeenCalledOnce();
-    expect(document.querySelector("[data-slot='popover-content']")).not.toBeInTheDocument();
-    expect(screen.getByRole("button", {name: formatDay(new Date(2026, 5, 15))})).toBeInTheDocument();
+    expect(dayButton(new Date(2026, 5, 15))).toHaveAttribute("data-selected-single", "true");
   });
 
-  it("keeps the range panel open until the range is complete", async () => {
+  it("accepts the selected alias for the initial value", () => {
+    render(<DatePicker mode="single" defaultMonth={JUNE_2026} selected={new Date(2026, 5, 15)} />);
+    expect(dayButton(new Date(2026, 5, 15))).toHaveAttribute("data-selected-single", "true");
+  });
+
+  it("prefers value over selected when both are set", () => {
+    render(<DatePicker mode="single" defaultMonth={JUNE_2026} value={new Date(2026, 5, 15)} selected={new Date(2026, 5, 20)} />);
+    expect(dayButton(new Date(2026, 5, 15))).toHaveAttribute("data-selected-single", "true");
+    expect(dayButton(new Date(2026, 5, 20))).not.toHaveAttribute("data-selected-single");
+  });
+
+  it("notifies the onChange alias when a date is picked", () => {
+    const onChange = vi.fn();
+    render(<DatePicker mode="single" defaultMonth={JUNE_2026} onChange={onChange} />);
+    act(() => dayButton(new Date(2026, 5, 15)).click());
+    expect(onChange).toHaveBeenCalledOnce();
+    expect((onChange.mock.calls[0] as Date[])[0]?.getTime()).toBe(new Date(2026, 5, 15).getTime());
+  });
+
+  it("completes a range on two distinct days and marks both ends", () => {
     const onSelect = vi.fn();
-    const onApply = vi.fn();
-    render(<RangeHarness onSelect={onSelect} onApply={onApply} />);
-    await openPanel(screen.getByRole("button", {name: "Pick a date range"}));
-
+    render(<RangeHarness onSelect={onSelect} />);
     act(() => dayButton(new Date(2026, 5, 10)).click());
-    await act(async () => {});
-    expect(onSelect).toHaveBeenCalledOnce();
-    expect(onApply).not.toHaveBeenCalled();
-    expect(document.querySelector("[data-slot='popover-content']")).toBeInTheDocument();
-
     act(() => dayButton(new Date(2026, 5, 20)).click());
-    await act(async () => {});
-    expect(onApply).toHaveBeenCalledOnce();
-    expect(document.querySelector("[data-slot='popover-content']")).not.toBeInTheDocument();
-    expect(
-      screen.getByRole("button", {name: `${formatDay(new Date(2026, 5, 10))} – ${formatDay(new Date(2026, 5, 20))}`})
-    ).toBeInTheDocument();
+    expect(onSelect).toHaveBeenCalledTimes(2);
+    expect(dayButton(new Date(2026, 5, 10))).toHaveAttribute("data-range-start", "true");
+    expect(dayButton(new Date(2026, 5, 20))).toHaveAttribute("data-range-end", "true");
   });
 
-  it("disables the days matching the disabled matcher", async () => {
-    render(<SingleHarness />);
+  it("notifies the onChange alias on each range click", () => {
+    const onChange = vi.fn();
+    render(<DatePicker mode="range" defaultMonth={JUNE_2026} onChange={onChange} />);
+    act(() => dayButton(new Date(2026, 5, 10)).click());
+    act(() => dayButton(new Date(2026, 5, 20)).click());
+    expect(onChange).toHaveBeenCalledTimes(2);
+  });
+
+  it("selects multiple dates", () => {
+    const onSelect = vi.fn();
+    render(<MultipleHarness onSelect={onSelect} />);
+    act(() => dayButton(new Date(2026, 5, 10)).click());
+    act(() => dayButton(new Date(2026, 5, 11)).click());
+    expect(onSelect).toHaveBeenCalledTimes(2);
+  });
+
+  it("enforces max selected days in multiple mode", () => {
+    const onSelect = vi.fn();
+    render(<DatePicker mode="multiple" defaultMonth={JUNE_2026} max={1} onSelect={onSelect} />);
+    act(() => dayButton(new Date(2026, 5, 10)).click());
+    act(() => dayButton(new Date(2026, 5, 11)).click());
+    const last = onSelect.mock.calls[onSelect.mock.calls.length - 1] as Date[][];
+    expect(last[0]).toHaveLength(1);
+  });
+
+  it("disables the days matching the disabled matcher", () => {
     render(<DatePicker mode="single" defaultMonth={JUNE_2026} disabled={{before: new Date(2026, 5, 15)}} />);
-    const triggers = screen.getAllByRole("button", {name: "Pick a date"});
-    await openPanel(triggers[1]);
     expect(dayButton(new Date(2026, 5, 20))).not.toBeDisabled();
     const early = Array.from(document.querySelectorAll<HTMLButtonElement>("button[data-day]")).find(
       (button) => button.dataset.day === new Date(2026, 5, 10).toLocaleDateString()
@@ -178,131 +141,59 @@ describe("DatePicker", () => {
     expect(early).toBeDisabled();
   });
 
-  it("names day buttons with the visible day number first for Label in Name", async () => {
-    render(<DatePicker mode="single" defaultOpen defaultMonth={JUNE_2026} />);
-    await act(async () => {});
+  it("names day buttons with the visible day number first for Label in Name", () => {
+    render(<DatePicker mode="single" defaultMonth={JUNE_2026} />);
     expect(dayButton(new Date(2026, 5, 15)).getAttribute("aria-label")).toMatch(/^15, /);
   });
 
-  it("shows outside days by default for a single month", async () => {
-    render(<DatePicker mode="single" defaultOpen defaultMonth={JUNE_2026} />);
-    await act(async () => {});
+  it("shows outside days by default for a single month", () => {
+    render(<DatePicker mode="single" defaultMonth={JUNE_2026} />);
     expect(document.querySelector("[data-slot='calendar'] td[data-outside='true']:not([data-hidden='true'])")).toBeInTheDocument();
   });
 
-  it("hides outside days by default when showing multiple months", async () => {
-    render(<DatePicker mode="range" defaultOpen defaultMonth={JUNE_2026} numberOfMonths={2} />);
-    await act(async () => {});
+  it("hides outside days by default when showing multiple months", () => {
+    render(<DatePicker mode="range" defaultMonth={JUNE_2026} numberOfMonths={2} />);
     const outside = document.querySelectorAll("[data-slot='calendar'] td[data-outside='true']");
     expect(outside.length).toBeGreaterThan(0);
     expect(document.querySelector("[data-slot='calendar'] td[data-outside='true']:not([data-hidden='true'])")).not.toBeInTheDocument();
   });
 
-  it("shows outside days across months when showOutsideDays is set", async () => {
-    render(<DatePicker mode="range" defaultOpen defaultMonth={JUNE_2026} numberOfMonths={2} showOutsideDays />);
-    await act(async () => {});
+  it("shows outside days across months when showOutsideDays is set", () => {
+    render(<DatePicker mode="range" defaultMonth={JUNE_2026} numberOfMonths={2} showOutsideDays />);
     expect(document.querySelector("[data-slot='calendar'] td[data-outside='true']:not([data-hidden='true'])")).toBeInTheDocument();
   });
 
-  it("accepts the selected alias for the initial value", () => {
-    render(<DatePicker mode="single" defaultMonth={JUNE_2026} selected={new Date(2026, 5, 15)} />);
-    expect(screen.getByRole("button", {name: formatDay(new Date(2026, 5, 15))})).toBeInTheDocument();
-  });
-
-  it("notifies the onChange alias when a date is picked", async () => {
-    const onChange = vi.fn();
-    render(<DatePicker mode="single" defaultOpen defaultMonth={JUNE_2026} onChange={onChange} />);
-    await act(async () => {});
-    act(() => dayButton(new Date(2026, 5, 15)).click());
-    await act(async () => {});
-    expect(onChange).toHaveBeenCalledOnce();
-    expect((onChange.mock.calls[0] as Date[])[0]?.getTime()).toBe(new Date(2026, 5, 15).getTime());
-  });
-
-  it("notifies the onChange alias on each range click", async () => {
-    const onChange = vi.fn();
-    render(<DatePicker mode="range" defaultOpen defaultMonth={JUNE_2026} onChange={onChange} />);
-    await act(async () => {});
-    act(() => dayButton(new Date(2026, 5, 10)).click());
-    await act(async () => {});
-    act(() => dayButton(new Date(2026, 5, 20)).click());
-    await act(async () => {});
-    expect(onChange).toHaveBeenCalledTimes(2);
-  });
-  it("selects multiple dates without closing the panel", async () => {
-    const onSelect = vi.fn();
-    render(<MultipleHarness onSelect={onSelect} />);
-    await openPanel(screen.getByRole("button", {name: "Pick dates"}));
-
-    act(() => dayButton(new Date(2026, 5, 10)).click());
-    await act(async () => {});
-    act(() => dayButton(new Date(2026, 5, 11)).click());
-    await act(async () => {});
-
-    expect(onSelect).toHaveBeenCalledTimes(2);
-    expect(document.querySelector("[data-slot='popover-content']")).toBeInTheDocument();
-  });
-  it("shows the date count when multiple dates are set", () => {
-    render(<DatePicker mode="multiple" defaultMonth={JUNE_2026} value={[new Date(2026, 5, 10), new Date(2026, 5, 11)]} />);
-    expect(screen.getByRole("button", {name: "2 dates"})).toBeInTheDocument();
-  });
-  it("enforces max selected days in multiple mode", async () => {
-    const onSelect = vi.fn();
-    render(<DatePicker mode="multiple" defaultMonth={JUNE_2026} max={1} onSelect={onSelect} />);
-    await openPanel(screen.getByRole("button", {name: "Pick dates"}));
-
-    act(() => dayButton(new Date(2026, 5, 10)).click());
-    await act(async () => {});
-    act(() => dayButton(new Date(2026, 5, 11)).click());
-    await act(async () => {});
-
-    const last = onSelect.mock.calls[onSelect.mock.calls.length - 1] as Date[][];
-    expect(last[0]).toHaveLength(1);
-  });
-  it("keeps the range panel open when the range is shorter than min", async () => {
-    const onApply = vi.fn();
-    render(<DatePicker mode="range" defaultMonth={JUNE_2026} min={3} onApply={onApply} />);
-    await openPanel(screen.getByRole("button", {name: "Pick a date range"}));
-
-    act(() => dayButton(new Date(2026, 5, 10)).click());
-    await act(async () => {});
-    act(() => dayButton(new Date(2026, 5, 11)).click());
-    await act(async () => {});
-
-    expect(onApply).not.toHaveBeenCalled();
-    expect(document.querySelector("[data-slot='popover-content']")).toBeInTheDocument();
-  });
-  it("renders month and year dropdowns with the dropdown caption", async () => {
+  it("renders month and year dropdowns with the dropdown caption", () => {
     render(
       <DatePicker
         mode="single"
-        defaultOpen
         defaultMonth={JUNE_2026}
         captionLayout="dropdown"
         startMonth={new Date(2020, 0)}
         endMonth={new Date(2030, 11)}
       />
     );
-    await act(async () => {});
     expect(document.querySelectorAll("[data-slot='calendar'] select")).toHaveLength(2);
   });
-  it("renders the footer below the calendar", async () => {
-    render(<DatePicker mode="multiple" defaultOpen defaultMonth={JUNE_2026} footer={<p>usage hint</p>} />);
-    await act(async () => {});
+
+  it("renders the footer below the calendar", () => {
+    render(<DatePicker mode="multiple" defaultMonth={JUNE_2026} footer={<p>usage hint</p>} />);
     expect(document.querySelector("[data-slot='calendar']")).toHaveTextContent("usage hint");
   });
 
-  it("merges consumer trigger and content classes without dropping the base ones", async () => {
-    render(<SingleHarness triggerClassName="w-44" contentClassName="max-h-80" />);
-    const trigger = screen.getByRole("button", {name: "Pick a date"});
-    expect(trigger.className).toContain("w-44");
-    expect(trigger.className).toContain("border-rixl-border");
+  it("navigates the controlled month via onMonthChange", () => {
+    const onMonthChange = vi.fn();
+    render(<DatePicker mode="single" defaultMonth={JUNE_2026} month={JUNE_2026} onMonthChange={onMonthChange} />);
+    act(() => screen.getByRole("button", {name: "Go to the Next Month"}).click());
+    expect(onMonthChange).toHaveBeenCalledOnce();
+    expect((onMonthChange.mock.calls[0] as Date[])[0]?.getMonth()).toBe(6);
+  });
 
-    await openPanel(trigger);
-    const content = document.querySelector("[data-slot='popover-content']")!;
-    expect(content.className).toContain("max-h-80");
-    expect(content.className).toContain("bg-rixl-surface");
-    expect(content.className).toContain("origin-(--transform-origin)");
-    expect(content.className).toContain("duration-rixl-base");
+  it("merges a consumer className onto the grid without dropping the base ones", () => {
+    render(<SingleHarness />);
+    render(<DatePicker mode="single" defaultMonth={JUNE_2026} className="p-6" />);
+    const grids = document.querySelectorAll("[data-slot='calendar']");
+    expect(grids[1].className).toContain("p-6");
+    expect(grids[1].className).toContain("bg-rixl-bg");
   });
 });

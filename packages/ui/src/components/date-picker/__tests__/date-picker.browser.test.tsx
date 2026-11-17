@@ -23,56 +23,40 @@ describe("DatePicker Browser Mode", () => {
     cleanup();
   });
 
-  it("opens the panel on trigger click", async () => {
+  it("renders the grid without popover chrome", async () => {
     render(<SingleHarness />);
-
-    const trigger = page.getByRole("button", {name: "Pick a date"});
-    await expect.element(trigger).toBeVisible();
-    await expect.element(page.getByRole("dialog")).not.toBeInTheDocument();
-
-    await userEvent.click(trigger);
-    await expect.element(page.getByRole("dialog")).toBeVisible();
     await expect.element(page.getByRole("grid")).toBeVisible();
   });
 
-  it("has no WCAG 2.2 AA violations when open in single mode", async () => {
+  it("has no WCAG 2.2 AA violations in single mode", async () => {
     render(<SingleHarness />);
-    await userEvent.click(page.getByRole("button", {name: "Pick a date"}));
-    await expect.element(page.getByRole("dialog")).toBeVisible();
+    await expect.element(page.getByRole("grid")).toBeVisible();
 
     expect(await axeViolations(document.body)).toEqual([]);
   });
 
-  it("has no WCAG 2.2 AA violations when open in range mode", async () => {
+  it("has no WCAG 2.2 AA violations in range mode", async () => {
     render(<RangeHarness />);
-    await userEvent.click(page.getByRole("button", {name: "Pick a date range"}));
-    await expect.element(page.getByRole("dialog")).toBeVisible();
+    await expect.element(page.getByRole("grid")).toBeVisible();
 
     expect(await axeViolations(document.body)).toEqual([]);
   });
 
-  it("selects a single date, closes, and shows it in the trigger", async () => {
+  it("selects a single date and marks it selected", async () => {
     render(<SingleHarness />);
-    const trigger = page.getByRole("button", {name: "Pick a date"});
-    await userEvent.click(trigger);
-    await expect.element(page.getByRole("dialog")).toBeVisible();
+    await expect.element(page.getByRole("grid")).toBeVisible();
 
     await userEvent.click(page.getByRole("button", {name: /June 15th, 2026/}));
-    await expect.element(page.getByRole("dialog")).not.toBeInTheDocument();
-    await expect.element(page.getByRole("button", {name: /2026/})).toHaveTextContent("2026");
+    await expect.element(page.getByRole("button", {name: /June 15th, 2026/})).toHaveAttribute("data-selected-single", "true");
   });
 
-  it("completes a range on two distinct days and shows it in the trigger", async () => {
+  it("completes a range on two distinct days", async () => {
     render(<RangeHarness />);
-    const trigger = page.getByRole("button", {name: "Pick a date range"});
-    await userEvent.click(trigger);
-    await expect.element(page.getByRole("dialog")).toBeVisible();
+    await expect.element(page.getByRole("grid")).toBeVisible();
 
     await userEvent.click(page.getByRole("button", {name: /June 10th, 2026/}));
-    await expect.element(page.getByRole("dialog")).toBeVisible();
-
     await userEvent.click(page.getByRole("button", {name: /June 20th, 2026/}));
-    await expect.element(page.getByRole("dialog")).not.toBeInTheDocument();
-    await expect.element(page.getByRole("button", {name: /2026/})).toHaveTextContent("2026");
+    await expect.element(page.getByRole("button", {name: /June 10th, 2026/})).toHaveAttribute("data-range-start", "true");
+    await expect.element(page.getByRole("button", {name: /June 20th, 2026/})).toHaveAttribute("data-range-end", "true");
   });
 });

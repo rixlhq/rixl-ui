@@ -21,12 +21,12 @@ const STAND_IN_LOCALE = {code: "stand-in"} as unknown as PropsBase["locale"];
 
 describe("DatePicker locale", () => {
   it("forwards locale to the Calendar", () => {
-    render(<DatePicker mode="single" defaultOpen defaultMonth={JUNE_2026} locale={STAND_IN_LOCALE} />);
+    render(<DatePicker mode="single" defaultMonth={JUNE_2026} locale={STAND_IN_LOCALE} />);
     expect(seenLocales).toContain(STAND_IN_LOCALE);
   });
 
   it("leaves locale unset by default", () => {
-    render(<DatePicker mode="single" defaultOpen defaultMonth={JUNE_2026} />);
+    render(<DatePicker mode="single" defaultMonth={JUNE_2026} />);
     expect(seenLocales[seenLocales.length - 1]).toBeUndefined();
   });
 });

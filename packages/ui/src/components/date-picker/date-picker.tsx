@@ -1,51 +1,22 @@
-import {useCallback, useState, type ReactNode} from "react";
-import {CalendarIcon} from "lucide-react";
-import {type DateRange, type Matcher, type PropsBase} from "react-day-picker";
-import {cn} from "cn";
-import {Button} from "../button/button";
-import {Popover, PopoverContent, PopoverTrigger} from "../popover/popover";
-import {DatePickerPanel, formatDatePickerLabel} from "./panel";
+import type {ReactNode} from "react";
+import {labelDayButton, type DateRange, type Matcher, type PropsBase} from "react-day-picker";
+import {Calendar} from "./calendar";
 
 /**
- * Rixl DatePicker — the unified date-selection component.
+ * Rixl DatePicker — the bare calendar grid (Kumo parity).
  *
- * Two setups via the `setup` setting: `popover` (default) renders the date
- * trigger over the calendar panel in a Popover; `bare` renders just the
- * panel — the Kumo-style grid with `mode="single" | "multiple" | "range"`,
- * `min`/`max`, `captionLayout="dropdown"` and a `footer` slot for presets
- * and usage hints. The `@rixl/ui/calendar` entry is a deprecated thin alias
- * over the same grid (`DatePickerCalendar`).
- *
- * The panel inherits the Popover motion language: origin-aware
- * `origin-(--transform-origin)`, transform/opacity only, `duration-rixl-base`
- * (180ms) `ease-rixl-out`, snapped under reduced motion.
- *
- * Single mode closes on pick; range mode stays open until two distinct days
- * are set — a first click yields a same-day range react-day-picker reports as
- * complete, so closing on any complete range would make multi-day ranges
- * unreachable. `onSelect` fires on every day click, `onApply` only on the
- * commit that closes the panel.
- *
- * Kumo mapping: `selected` is a deprecated alias for `value`, `onChange` for
- * `onSelect`. Both fire together when set; `value`/`onSelect` win for
- * display when both are provided.
+ * Single, multiple and range modes over the styled DayPicker grid.
+ * `value`/`onSelect` are the primary names; `selected`/`onChange` are the
+ * deprecated Kumo aliases and both fire together when set — `value` wins
+ * for display when both are provided. Popover composition stays with the
+ * consumer: trigger Button + Popover + DatePicker (see the docs showcase).
  */
 type DatePickerBaseProps = {
-  /**
-   * `popover` renders the trigger + panel in a Popover; `bare` renders just
-   * the calendar panel with no trigger chrome. Trigger and Popover props
-   * below only apply to `popover`. Defaults to `popover`.
-   */
-  setup?: "popover" | "bare";
-  /** Placeholder label while nothing is selected. Defaults per mode. */
-  placeholder?: string;
-  /** Custom label slot — rendered in the trigger instead of the formatted date. */
-  children?: ReactNode;
-  /** Months visible in the panel. Defaults to 1. */
+  /** Months visible in the grid. Defaults to 1. */
   numberOfMonths?: number;
-  /** react-day-picker matcher forwarded to the Calendar. */
+  /** react-day-picker matcher forwarded to the grid. */
   disabled?: Matcher | Matcher[];
-  /** Month the Calendar opens on. */
+  /** Month the grid opens on. */
   defaultMonth?: Date;
   /** Controlled month (pairs with `onMonthChange` for preset navigation). */
   month?: Date;
@@ -57,7 +28,7 @@ type DatePickerBaseProps = {
   captionLayout?: "label" | "dropdown" | "dropdown-months" | "dropdown-years";
   /** Footer rendered below the calendar (usage limits, hints). */
   footer?: ReactNode;
-  /** date-fns locale for month and weekday names, forwarded to the Calendar. */
+  /** date-fns locale for month and weekday names. */
   locale?: PropsBase["locale"];
   /** Keep a fixed 6-week grid. Pairs with a single month; leave unset for multi-month views. */
   fixedWeeks?: boolean;
@@ -67,23 +38,8 @@ type DatePickerBaseProps = {
    * panels), true for a single month.
    */
   showOutsideDays?: boolean;
-  /** Controlled open state. */
-  open?: boolean;
-  /** Uncontrolled initial open state. */
-  defaultOpen?: boolean;
-  onOpenChange?: (open: boolean) => void;
-  /** Panel alignment to the trigger. Defaults to start. */
-  align?: "start" | "center" | "end";
-  /** Panel side. Defaults to bottom. */
-  side?: "top" | "right" | "bottom" | "left";
-  /** Disables the trigger button. Unrelated to the `disabled` day matcher. */
-  triggerDisabled?: boolean;
-  /** className for the trigger Button (consumer wins via `cn`). */
-  triggerClassName?: string;
-  /** className for the PopoverContent panel (consumer wins via `cn`). */
-  contentClassName?: string;
-  /** className for the Calendar (consumer wins via `cn`). */
-  calendarClassName?: string;
+  /** className for the grid (consumer wins via `cn`). */
+  className?: string;
 };
 
 export type DatePickerSingleProps = DatePickerBaseProps & {
@@ -94,7 +50,6 @@ export type DatePickerSingleProps = DatePickerBaseProps & {
   onSelect?: (date: Date | undefined) => void;
   /** Kumo alias for `onSelect`. Deprecated: prefer `onSelect`. */
   onChange?: (date: Date | undefined) => void;
-  onApply?: (date: Date | undefined) => void;
 };
 
 export type DatePickerRangeProps = DatePickerBaseProps & {
@@ -105,7 +60,6 @@ export type DatePickerRangeProps = DatePickerBaseProps & {
   onSelect?: (range: DateRange | undefined) => void;
   /** Kumo alias for `onSelect`. Deprecated: prefer `onSelect`. */
   onChange?: (range: DateRange | undefined) => void;
-  onApply?: (range: DateRange | undefined) => void;
   /** Min/max range length in days. */
   min?: number;
   max?: number;
@@ -119,7 +73,6 @@ export type DatePickerMultipleProps = DatePickerBaseProps & {
   onSelect?: (dates: Date[] | undefined) => void;
   /** Kumo alias for `onSelect`. Deprecated: prefer `onSelect`. */
   onChange?: (dates: Date[] | undefined) => void;
-  onApply?: (dates: Date[] | undefined) => void;
   /** Min/max selected days. */
   min?: number;
   max?: number;
@@ -127,73 +80,75 @@ export type DatePickerMultipleProps = DatePickerBaseProps & {
 
 export type DatePickerProps = DatePickerSingleProps | DatePickerRangeProps | DatePickerMultipleProps;
 
-function resolveDatePickerPlaceholder(mode: DatePickerProps["mode"], placeholder: string | undefined): string {
-  if (placeholder) return placeholder;
-  if (mode === "range") return "Pick a date range";
-  if (mode === "multiple") return "Pick dates";
-  return "Pick a date";
+/**
+ * Day-button naming for the grid. react-day-picker's default
+ * `labelDayButton` reads "Monday, June 15th, 2026" while the button shows
+ * "15" — axe tokenises both, so "15" is not contained in "15th" and the grid
+ * fails WCAG 2.5.3 Label in Name. Prefixing the bare day number keeps the
+ * full context for screen readers and the visible label as a name token.
+ */
+const datePickerLabels: PropsBase["labels"] = {
+  // oxlint-disable-next-line max-params -- react-day-picker invokes labels with (date, modifiers, options, dateLib); all four are forwarded below.
+  labelDayButton: (date, modifiers, options, dateLib) => `${date.getDate()}, ${labelDayButton(date, modifiers, options, dateLib)}`,
+};
+
+function sharedGridProps(picker: DatePickerProps) {
+  const numberOfMonths = picker.numberOfMonths ?? 1;
+  return {
+    numberOfMonths,
+    disabled: picker.disabled,
+    defaultMonth: picker.defaultMonth,
+    month: picker.month,
+    onMonthChange: picker.onMonthChange,
+    startMonth: picker.startMonth,
+    endMonth: picker.endMonth,
+    captionLayout: picker.captionLayout,
+    footer: picker.footer,
+    locale: picker.locale,
+    fixedWeeks: picker.fixedWeeks,
+    showOutsideDays: picker.showOutsideDays ?? numberOfMonths === 1,
+    labels: datePickerLabels,
+    className: picker.className,
+  };
 }
 
-function useDatePickerOpen(
-  open: boolean | undefined,
-  defaultOpen: boolean | undefined,
-  onOpenChange: ((open: boolean) => void) | undefined
-): [boolean, (open: boolean) => void] {
-  const [internalOpen, setInternalOpen] = useState(defaultOpen ?? false);
-  const isControlled = open !== undefined;
-  const setOpen = useCallback(
-    (next: boolean) => {
-      if (!isControlled) setInternalOpen(next);
-      onOpenChange?.(next);
-    },
-    [isControlled, onOpenChange]
-  );
-  return [isControlled ? open : internalOpen, setOpen];
+/**
+ * Dual-callback forwarder for `onSelect`/`onChange`. Returns undefined when
+ * neither is set so the grid stays uncontrolled — DayPicker drives the
+ * display from `selected` only while `onSelect` is defined.
+ */
+function selectionHandler<T>(primary: ((value: T) => void) | undefined, alias: ((value: T) => void) | undefined) {
+  if (primary === undefined && alias === undefined) return undefined;
+  return (value: T) => {
+    primary?.(value);
+    alias?.(value);
+  };
 }
 
 function DatePicker(props: DatePickerProps) {
-  const {
-    setup = "popover",
-    placeholder,
-    align = "start",
-    side = "bottom",
-    triggerClassName,
-    contentClassName,
-    triggerDisabled,
-    children,
-  } = props;
-  const [isOpen, setOpen] = useDatePickerOpen(props.open, props.defaultOpen, props.onOpenChange);
-
-  if (setup === "bare") {
-    return <DatePickerPanel picker={props} onCommit={() => {}} />;
+  const shared = sharedGridProps(props);
+  if (props.mode === "range") {
+    const {value, selected, onSelect, onChange, min, max} = props;
+    return (
+      <Calendar mode="range" {...shared} min={min} max={max} selected={value ?? selected} onSelect={selectionHandler(onSelect, onChange)} />
+    );
   }
-
-  const resolvedPlaceholder = resolveDatePickerPlaceholder(props.mode, placeholder);
-  const label = children ?? formatDatePickerLabel(props.value ?? props.selected, resolvedPlaceholder);
-  const isEmpty = children == null && label === resolvedPlaceholder;
-
-  return (
-    <Popover open={isOpen} onOpenChange={setOpen}>
-      <PopoverTrigger
-        render={
-          <Button
-            variant="outline"
-            disabled={triggerDisabled}
-            className={cn("justify-start gap-2 text-start font-normal", triggerClassName)}
-          >
-            <CalendarIcon className="size-4 shrink-0" aria-hidden="true" />
-            <span data-slot="date-picker-label" className={cn("truncate", isEmpty && "text-rixl-fg-muted")}>
-              {label}
-            </span>
-          </Button>
-        }
+  if (props.mode === "multiple") {
+    const {value, selected, onSelect, onChange, min, max} = props;
+    return (
+      <Calendar
+        mode="multiple"
+        {...shared}
+        min={min}
+        max={max}
+        selected={value ?? selected}
+        onSelect={selectionHandler(onSelect, onChange)}
       />
-      <PopoverContent align={align} side={side} className={cn("w-auto p-0 duration-rixl-base", contentClassName)}>
-        <DatePickerPanel picker={props} onCommit={() => setOpen(false)} />
-      </PopoverContent>
-    </Popover>
-  );
+    );
+  }
+  const {value, selected, onSelect, onChange} = props;
+  return <Calendar mode="single" {...shared} selected={value ?? selected} onSelect={selectionHandler(onSelect, onChange)} />;
 }
 
-export {DatePicker, formatDatePickerLabel};
+export {DatePicker};
 export type {DateRange};
