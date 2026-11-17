@@ -52,8 +52,8 @@ function AsLinkExample(props: {state: Record<string, ControlValue>}) {
   void props;
   return (
     <Group label="As a link (render={<a/>})">
-      <Badge render={<a href="https://rixl.co" target="_blank" rel="noreferrer" aria-label="Docs" />}>Docs →</Badge>
-      <Badge render={<a href="https://rixl.co" target="_blank" rel="noreferrer" aria-label="Changelog" />} variant="outline">
+      <Badge render={<a href="https://rixl.com" target="_blank" rel="noreferrer" aria-label="Docs" />}>Docs →</Badge>
+      <Badge render={<a href="https://rixl.com" target="_blank" rel="noreferrer" aria-label="Changelog" />} variant="outline">
         Changelog
       </Badge>
     </Group>

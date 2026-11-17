@@ -156,10 +156,13 @@ function PolymorphicExample(props: {state: Record<string, ControlValue>}) {
   void props;
   return (
     <Group label="Polymorphic (render={<a/>})">
-      <Button render={<a href="https://rixl.co" target="_blank" rel="noreferrer" aria-label="Open rixl.co" />} variant="link">
-        Open rixl.co
+      <Button render={<a href="https://rixl.com" target="_blank" rel="noreferrer" aria-label="Open rixl.com" />} variant="link">
+        Open rixl.com
       </Button>
-      <Button render={<a href="https://rixl.co" target="_blank" rel="noreferrer" aria-label="Anchor styled as button" />} variant="outline">
+      <Button
+        render={<a href="https://rixl.com" target="_blank" rel="noreferrer" aria-label="Anchor styled as button" />}
+        variant="outline"
+      >
         <PlusIcon /> Anchor styled as button
       </Button>
     </Group>
@@ -275,8 +278,8 @@ duration-rixl-fast ease-rixl-out`,
     title: "Polymorphic",
     description: "Render as a different element while keeping button styling.",
     render: PolymorphicExample,
-    code: `<Button render={<a href="https://rixl.co" />} variant="link">
-  Open rixl.co
+    code: `<Button render={<a href="https://rixl.com" />} variant="link">
+  Open rixl.com
 </Button>`,
   },
 ];
