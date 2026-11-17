@@ -43,7 +43,12 @@ function EyeIcon() {
 }
 
 export function Showcase() {
-  return <Input placeholder="Text" className="max-w-sm" />;
+  return (
+    <div className="w-full max-w-64 space-y-3">
+      <Input placeholder="Search anything…" aria-label="Demo search" startIcon={<SearchIcon />} />
+      <Input placeholder="you@example.com" aria-label="Demo email" type="email" />
+    </div>
+  );
 }
 
 function LiveExample({state}: {state: Record<string, ControlValue>}) {

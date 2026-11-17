@@ -9,15 +9,12 @@ export const description =
 
 export function Showcase() {
   const [page, setPage] = useState(2);
-  const [limit, setLimit] = useState(20);
   return (
     <div className="w-full">
       <Pagination
         currentPage={page}
         totalPages={8}
         onPageChange={setPage}
-        limit={limit}
-        setLimit={setLimit}
         firstLabel="Go to first page"
         prevLabel="Go to previous page"
         nextLabel="Go to next page"

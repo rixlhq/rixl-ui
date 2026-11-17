@@ -11,8 +11,8 @@ export const description =
 export function Showcase() {
   return (
     <div className="flex items-center gap-2">
-      <Switch id="showcase" />
-      <Label htmlFor="showcase">Enable notifications</Label>
+      <Switch id="overview-switch" />
+      <Label htmlFor="overview-switch">Enable notifications</Label>
     </div>
   );
 }

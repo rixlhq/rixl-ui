@@ -10,8 +10,8 @@ export const description = "Boolean form control. Composes with Label; supports 
 export function Showcase() {
   return (
     <div className="flex items-center gap-2">
-      <Checkbox id="showcase" />
-      <Label htmlFor="showcase">Accept terms</Label>
+      <Checkbox id="overview-checkbox" />
+      <Label htmlFor="overview-checkbox">Accept terms</Label>
     </div>
   );
 }

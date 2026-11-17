@@ -2,7 +2,7 @@ import {EmptyState} from "@rixl/ui/empty-state";
 import type {ControlValue, Example} from "./registry";
 
 export const path = "empty-state";
-export const title = "EmptyState";
+export const title = "Empty State";
 export const description = "Placeholder for empty content, with an optional primary action and custom icon.";
 
 export function Showcase() {

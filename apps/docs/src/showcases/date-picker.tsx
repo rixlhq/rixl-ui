@@ -6,16 +6,26 @@ import type {Example} from "./registry";
 import {Group} from "../components/showcase-layout";
 
 export const path = "date-picker";
-export const title = "DatePicker";
+export const title = "Date Picker";
 export const description =
   "Bare calendar grid with single, multiple, and range modes. Number of months, disabled matchers, min/max, dropdown captions, and footers stay on the grid; popover behaviour is consumer composition (trigger Button + Popover + DatePicker). Kumo mapping: selected and onChange are accepted as deprecated aliases for value and onSelect.";
 
 export function Showcase() {
   const [value, setValue] = useState<Date | undefined>();
   return (
-    <Group label="Single date">
-      <DatePicker mode="single" value={value} onSelect={(date) => setValue(date)} />
-    </Group>
+    <Popover>
+      <PopoverTrigger
+        render={
+          <Button variant="outline" className="min-w-44 justify-between">
+            {value ? value.toLocaleDateString(undefined, {month: "short", day: "numeric", year: "numeric"}) : "Pick a date"}
+            <span aria-hidden="true">⌄</span>
+          </Button>
+        }
+      />
+      <PopoverContent className="w-auto p-2">
+        <DatePicker mode="single" value={value} onSelect={setValue} />
+      </PopoverContent>
+    </Popover>
   );
 }
 

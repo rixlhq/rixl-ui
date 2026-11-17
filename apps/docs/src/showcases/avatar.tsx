@@ -8,10 +8,17 @@ export const description = "Image with graceful fallback. Composed of Avatar (ro
 
 export function Showcase() {
   return (
-    <Avatar>
-      <AvatarImage src="https://i.pravatar.cc/64?img=1" alt="Ava" />
-      <AvatarFallback>AV</AvatarFallback>
-    </Avatar>
+    <div className="flex items-center gap-3">
+      <Avatar className="size-8">
+        <AvatarFallback>JL</AvatarFallback>
+      </Avatar>
+      <Avatar className="size-11">
+        <AvatarFallback>SK</AvatarFallback>
+      </Avatar>
+      <Avatar className="size-14">
+        <AvatarFallback>AM</AvatarFallback>
+      </Avatar>
+    </div>
   );
 }
 

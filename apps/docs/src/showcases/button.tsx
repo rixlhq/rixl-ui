@@ -8,8 +8,19 @@ export const description =
   "Primary action primitive. Six variants, six sizes, token-driven press feedback, and a fumadocs-compatible `color` alias so dashboard, docs and landing share one button.";
 
 export function Showcase() {
-  // Legacy single-preview fallback. The detail view uses `examples`.
-  return <Button>Button</Button>;
+  return (
+    <div className="flex flex-col items-center gap-3">
+      <div className="flex items-center gap-2">
+        <Button>
+          Continue <span aria-hidden="true">→</span>
+        </Button>
+        <Button variant="outline">Cancel</Button>
+      </div>
+      <Button variant="ghost" size="sm">
+        Learn more
+      </Button>
+    </div>
+  );
 }
 
 function PressExample() {
@@ -45,7 +56,7 @@ function PressExample() {
 
 function VariantGridExample() {
   return (
-    <Group label="All six variants">
+    <Group>
       <Button>Default</Button>
       <Button variant="secondary">Secondary</Button>
       <Button variant="outline">Outline</Button>

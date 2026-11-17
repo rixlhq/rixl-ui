@@ -19,7 +19,7 @@ import type {ControlValue, Example} from "./registry";
 import {Group} from "../components/showcase-layout";
 
 export const path = "dropdown-menu";
-export const title = "DropdownMenu";
+export const title = "Dropdown Menu";
 export const description =
   "Popup menu of actions anchored to a trigger. Base UI Menu; rows highlight on keyboard + pointer, submenus, checkbox/radio items, shortcuts, and an animated panel.";
 

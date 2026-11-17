@@ -11,6 +11,10 @@ import tailwindcss from "@tailwindcss/vite";
 // the built bundle imports the packaged output.
 export default defineConfig({
   plugins: [react({compiler: true}), tailwindcss()],
+  test: {
+    environment: "jsdom",
+    include: ["src/**/__tests__/**/*.test.{ts,tsx}"],
+  },
   server: {
     port: 5176,
   },
