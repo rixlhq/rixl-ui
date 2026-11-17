@@ -1,19 +1,20 @@
 import {useCallback, useState, type ReactNode} from "react";
 import {CalendarIcon} from "lucide-react";
-import {labelDayButton, type DateRange, type Matcher, type PropsBase} from "react-day-picker";
+import {type DateRange, type Matcher, type PropsBase} from "react-day-picker";
 import {cn} from "cn";
 import {Button} from "../button/button";
-import {Calendar} from "../calendar/calendar";
 import {Popover, PopoverContent, PopoverTrigger} from "../popover/popover";
+import {DatePickerPanel, formatDatePickerLabel} from "./panel";
 
 /**
- * Rixl DatePicker — a date trigger over the base Calendar, in a Popover.
+ * Rixl DatePicker — the unified date-selection component.
  *
- * Settings on the existing Calendar, not a block: the trigger (outline
- * Button + calendar glyph + label slot) and the panel (Calendar in
- * `mode="single" | "multiple" | "range"`) live here. Presets, custom footers and
- * Apply buttons stay with the consumer — dashboard keeps its
- * `PresetsPanel`/`CustomRangeFooter` and composes them around this.
+ * Two setups via the `setup` setting: `popover` (default) renders the date
+ * trigger over the calendar panel in a Popover; `bare` renders just the
+ * panel — the Kumo-style grid with `mode="single" | "multiple" | "range"`,
+ * `min`/`max`, `captionLayout="dropdown"` and a `footer` slot for presets
+ * and usage hints. The `@rixl/ui/calendar` entry is a deprecated thin alias
+ * over the same grid (`DatePickerCalendar`).
  *
  * The panel inherits the Popover motion language: origin-aware
  * `origin-(--transform-origin)`, transform/opacity only, `duration-rixl-base`
@@ -30,6 +31,12 @@ import {Popover, PopoverContent, PopoverTrigger} from "../popover/popover";
  * display when both are provided.
  */
 type DatePickerBaseProps = {
+  /**
+   * `popover` renders the trigger + panel in a Popover; `bare` renders just
+   * the calendar panel with no trigger chrome. Trigger and Popover props
+   * below only apply to `popover`. Defaults to `popover`.
+   */
+  setup?: "popover" | "bare";
   /** Placeholder label while nothing is selected. Defaults per mode. */
   placeholder?: string;
   /** Custom label slot — rendered in the trigger instead of the formatted date. */
@@ -120,38 +127,11 @@ export type DatePickerMultipleProps = DatePickerBaseProps & {
 
 export type DatePickerProps = DatePickerSingleProps | DatePickerRangeProps | DatePickerMultipleProps;
 
-function formatDay(date: Date): string {
-  return date.toLocaleDateString(undefined, {day: "numeric", month: "short", year: "numeric"});
-}
-
-function formatDateArrayLabel(dates: Date[], placeholder: string): string {
-  if (dates.length === 0) return placeholder;
-  if (dates.length === 1) return formatDay(dates[0]);
-  return `${dates.length} dates`;
-}
-
-function formatDateRangeLabel(range: DateRange, placeholder: string): string {
-  if (range.from && range.to) return `${formatDay(range.from)} – ${formatDay(range.to)}`;
-  if (range.from) return formatDay(range.from);
-  return placeholder;
-}
-
-function formatDatePickerLabel(value: Date | DateRange | Date[] | undefined, placeholder: string): string {
-  if (value instanceof Date) return formatDay(value);
-  if (Array.isArray(value)) return formatDateArrayLabel(value, placeholder);
-  if (value) return formatDateRangeLabel(value, placeholder);
-  return placeholder;
-}
-
 function resolveDatePickerPlaceholder(mode: DatePickerProps["mode"], placeholder: string | undefined): string {
   if (placeholder) return placeholder;
   if (mode === "range") return "Pick a date range";
   if (mode === "multiple") return "Pick dates";
   return "Pick a date";
-}
-
-function isSameCalendarDay(a: Date, b: Date): boolean {
-  return a.getFullYear() === b.getFullYear() && a.getMonth() === b.getMonth() && a.getDate() === b.getDate();
 }
 
 function useDatePickerOpen(
@@ -171,140 +151,23 @@ function useDatePickerOpen(
   return [isControlled ? open : internalOpen, setOpen];
 }
 
-/**
- * Day-button naming for the panel. react-day-picker's default
- * `labelDayButton` reads "Monday, June 15th, 2026" while the button shows
- * "15" — axe tokenises both, so "15" is not contained in "15th" and the panel
- * fails WCAG 2.5.3 Label in Name. Prefixing the bare day number keeps the
- * full context for screen readers and the visible label as a name token.
- * Scoped to the panel: the shared Calendar keeps react-day-picker defaults.
- */
-const panelLabels: PropsBase["labels"] = {
-  // oxlint-disable-next-line max-params -- react-day-picker invokes labels with (date, modifiers, options, dateLib); all four are forwarded below.
-  labelDayButton: (date, modifiers, options, dateLib) => `${date.getDate()}, ${labelDayButton(date, modifiers, options, dateLib)}`,
-};
-
-type PanelSharedProps = {
-  numberOfMonths: number;
-  disabled?: Matcher | Matcher[];
-  defaultMonth?: Date;
-  month?: Date;
-  onMonthChange?: (month: Date) => void;
-  startMonth?: Date;
-  endMonth?: Date;
-  captionLayout?: "label" | "dropdown" | "dropdown-months" | "dropdown-years";
-  footer?: ReactNode;
-  locale?: PropsBase["locale"];
-  fixedWeeks?: boolean;
-  showOutsideDays?: boolean;
-  labels: PropsBase["labels"];
-  className?: string;
-};
-
-function panelSharedProps(picker: DatePickerProps): PanelSharedProps {
-  const {
-    numberOfMonths = 1,
-    disabled,
-    defaultMonth,
-    month,
-    onMonthChange,
-    startMonth,
-    endMonth,
-    captionLayout,
-    footer,
-    locale,
-    fixedWeeks,
-    showOutsideDays,
-    calendarClassName,
-  } = picker;
-  return {
-    numberOfMonths,
-    disabled,
-    defaultMonth,
-    month,
-    onMonthChange,
-    startMonth,
-    endMonth,
-    captionLayout,
-    footer,
-    locale,
-    fixedWeeks,
-    // Kumo parity: outside days duplicate across panels, so multi-month
-    // views hide them unless the consumer opts back in.
-    showOutsideDays: showOutsideDays ?? numberOfMonths === 1,
-    labels: panelLabels,
-    className: calendarClassName,
-  };
-}
-
-function SingleDatePanel({picker, shared, onCommit}: {picker: DatePickerSingleProps; shared: PanelSharedProps; onCommit: () => void}) {
-  return (
-    <Calendar
-      mode="single"
-      {...shared}
-      selected={picker.value ?? picker.selected}
-      onSelect={(date) => {
-        picker.onSelect?.(date);
-        picker.onChange?.(date);
-        if (date) {
-          picker.onApply?.(date);
-          onCommit();
-        }
-      }}
-    />
-  );
-}
-
-function MultipleDatePanel({picker, shared}: {picker: DatePickerMultipleProps; shared: PanelSharedProps}) {
-  return (
-    <Calendar
-      mode="multiple"
-      {...shared}
-      min={picker.min}
-      max={picker.max}
-      selected={picker.value ?? picker.selected}
-      onSelect={(dates) => {
-        picker.onSelect?.(dates);
-        picker.onChange?.(dates);
-      }}
-    />
-  );
-}
-
-function RangeDatePanel({picker, shared, onCommit}: {picker: DatePickerRangeProps; shared: PanelSharedProps; onCommit: () => void}) {
-  return (
-    <Calendar
-      mode="range"
-      {...shared}
-      min={picker.min}
-      max={picker.max}
-      selected={picker.value ?? picker.selected}
-      onSelect={(range) => {
-        picker.onSelect?.(range);
-        picker.onChange?.(range);
-        if (range?.from && range?.to && !isSameCalendarDay(range.from, range.to)) {
-          picker.onApply?.(range);
-          onCommit();
-        }
-      }}
-    />
-  );
-}
-
-function DatePickerPanel({picker, onCommit}: {picker: DatePickerProps; onCommit: () => void}) {
-  const shared = panelSharedProps(picker);
-  if (picker.mode === "range") {
-    return <RangeDatePanel picker={picker} shared={shared} onCommit={onCommit} />;
-  }
-  if (picker.mode === "multiple") {
-    return <MultipleDatePanel picker={picker} shared={shared} />;
-  }
-  return <SingleDatePanel picker={picker} shared={shared} onCommit={onCommit} />;
-}
-
 function DatePicker(props: DatePickerProps) {
-  const {placeholder, align = "start", side = "bottom", triggerClassName, contentClassName, triggerDisabled, children} = props;
+  const {
+    setup = "popover",
+    placeholder,
+    align = "start",
+    side = "bottom",
+    triggerClassName,
+    contentClassName,
+    triggerDisabled,
+    children,
+  } = props;
   const [isOpen, setOpen] = useDatePickerOpen(props.open, props.defaultOpen, props.onOpenChange);
+
+  if (setup === "bare") {
+    return <DatePickerPanel picker={props} onCommit={() => {}} />;
+  }
+
   const resolvedPlaceholder = resolveDatePickerPlaceholder(props.mode, placeholder);
   const label = children ?? formatDatePickerLabel(props.value ?? props.selected, resolvedPlaceholder);
   const isEmpty = children == null && label === resolvedPlaceholder;
@@ -332,5 +195,5 @@ function DatePicker(props: DatePickerProps) {
   );
 }
 
-export {DatePicker, DatePickerPanel, formatDatePickerLabel};
+export {DatePicker, formatDatePickerLabel};
 export type {DateRange};
