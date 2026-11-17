@@ -95,6 +95,11 @@
       "development": "./src/components/input-group/index.ts",
       "import": "./dist/input-group.js"
     },
+    "./input-area": {
+      "types": "./dist/input-area.d.ts",
+      "development": "./src/components/input-area/index.ts",
+      "import": "./dist/input-area.js"
+    },
     "./textarea": {
       "types": "./dist/textarea.d.ts",
       "development": "./src/components/textarea/index.ts",
@@ -204,6 +209,11 @@
       "types": "./dist/copy-block.d.ts",
       "development": "./src/components/copy-block/index.ts",
       "import": "./dist/copy-block.js"
+    },
+    "./empty": {
+      "types": "./dist/empty.d.ts",
+      "development": "./src/components/empty/index.ts",
+      "import": "./dist/empty.js"
     },
     "./empty-state": {
       "types": "./dist/empty-state.d.ts",

@@ -19,6 +19,7 @@ export * from "./components/alert";
 export * from "./components/input";
 export * from "./components/field";
 export * from "./components/input-group";
+export * from "./components/input-area";
 export * from "./components/textarea";
 export * from "./components/checkbox";
 export * from "./components/radio-group";
@@ -41,6 +42,7 @@ export * from "./components/pagination";
 export * from "./components/calendar";
 export * from "./components/date-picker";
 export * from "./components/copy-block";
+export * from "./components/empty";
 export * from "./components/empty-state";
 export * from "./components/toaster";
 
