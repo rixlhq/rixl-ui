@@ -1,6 +1,6 @@
 import {Label} from "@rixl/ui/label";
 import {RadioGroup, RadioGroupItem} from "@rixl/ui/radio-group";
-import type {ControlValue, Example} from "./registry";
+import type {Example} from "./registry";
 import {Group} from "../components/showcase-layout";
 
 export const path = "radio-group";
@@ -20,30 +20,45 @@ export function Showcase() {
   );
 }
 
-function LiveExample({state}: {state: Record<string, ControlValue>}) {
-  const disabled = state.disabled as boolean;
-  const invalid = state.invalid as boolean;
-
+function BasicExample() {
   return (
-    <RadioGroup defaultValue="comfortable" name="live" disabled={disabled}>
+    <RadioGroup defaultValue="comfortable" name="density">
       <div className="flex items-center gap-2">
-        <RadioGroupItem id="l-compact" value="compact" aria-invalid={invalid} />
-        <Label htmlFor="l-compact">Compact</Label>
+        <RadioGroupItem id="d-compact" value="compact" />
+        <Label htmlFor="d-compact">Compact</Label>
       </div>
       <div className="flex items-center gap-2">
-        <RadioGroupItem id="l-comfortable" value="comfortable" aria-invalid={invalid} />
-        <Label htmlFor="l-comfortable">Comfortable</Label>
+        <RadioGroupItem id="d-comfortable" value="comfortable" />
+        <Label htmlFor="d-comfortable">Comfortable</Label>
       </div>
       <div className="flex items-center gap-2">
-        <RadioGroupItem id="l-spacious" value="spacious" aria-invalid={invalid} />
-        <Label htmlFor="l-spacious">Spacious</Label>
+        <RadioGroupItem id="d-spacious" value="spacious" />
+        <Label htmlFor="d-spacious">Spacious</Label>
       </div>
     </RadioGroup>
   );
 }
 
-function DisabledOptionsExample(props: {state: Record<string, ControlValue>}) {
-  void props;
+function InvalidExample() {
+  return (
+    <Group label="Invalid">
+      <RadioGroup defaultValue="comfortable" name="density-invalid">
+        <div className="flex items-center gap-2">
+          <RadioGroupItem id="i-compact" value="compact" aria-invalid />
+          <Label htmlFor="i-compact">Compact</Label>
+        </div>
+        <div className="flex items-center gap-2">
+          <RadioGroupItem id="i-comfortable" value="comfortable" aria-invalid />
+          <Label htmlFor="i-comfortable" className="text-rixl-danger">
+            Comfortable
+          </Label>
+        </div>
+      </RadioGroup>
+    </Group>
+  );
+}
+
+function DisabledOptionsExample() {
   return (
     <Group label="Disabled options">
       <RadioGroup defaultValue="pro" name="plan">
@@ -66,20 +81,21 @@ function DisabledOptionsExample(props: {state: Record<string, ControlValue>}) {
 
 export const examples: Example[] = [
   {
-    id: "live",
-    title: "Interactive",
-    description: "Tweak disabled and invalid states live.",
-    render: LiveExample,
-    controls: [
-      {name: "disabled", label: "Disabled", type: "boolean", defaultValue: false},
-      {name: "invalid", label: "Invalid", type: "boolean", defaultValue: false},
-    ],
+    id: "basic",
+    title: "Basic",
+    render: BasicExample,
     code: `<RadioGroup defaultValue="comfortable" name="density">
   <div className="flex items-center gap-2">
     <RadioGroupItem id="d-comfortable" value="comfortable" />
     <Label htmlFor="d-comfortable">Comfortable</Label>
   </div>
 </RadioGroup>`,
+  },
+  {
+    id: "invalid",
+    title: "Invalid",
+    render: InvalidExample,
+    code: `<RadioGroupItem id="d-compact" value="compact" aria-invalid />`,
   },
   {id: "disabled-options", title: "Disabled options", render: DisabledOptionsExample},
 ];
