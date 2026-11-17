@@ -1,6 +1,6 @@
 import {Button} from "@rixl/ui/button";
 import {Card, CardAction, CardContent, CardDescription, CardFooter, CardHeader, CardTitle} from "@rixl/ui/card";
-import type {ControlValue, Example} from "./registry";
+import type {Example} from "./registry";
 import {Group} from "../components/showcase-layout";
 
 export const path = "card";
@@ -20,8 +20,7 @@ export function Showcase() {
   );
 }
 
-function BasicExample(props: {state: Record<string, ControlValue>}) {
-  void props;
+function BasicExample() {
   return (
     <Card className="w-full max-w-md">
       <CardHeader>
@@ -39,8 +38,7 @@ function BasicExample(props: {state: Record<string, ControlValue>}) {
   );
 }
 
-function WithActionExample(props: {state: Record<string, ControlValue>}) {
-  void props;
+function WithActionExample() {
   return (
     <Card className="w-full max-w-md">
       <CardHeader>
@@ -59,25 +57,7 @@ function WithActionExample(props: {state: Record<string, ControlValue>}) {
   );
 }
 
-function LiveExample({state}: {state: Record<string, ControlValue>}) {
-  const variant = state.variant as "default" | "outline" | "ghost";
-  const interactive = state.interactive as boolean;
-  const selected = state.selected as boolean;
-  return (
-    <Card className="w-full max-w-md" variant={variant} interactive={interactive} selected={selected}>
-      <CardHeader>
-        <CardTitle>Card title</CardTitle>
-        <CardDescription>Tweak variant, interactive, and selected.</CardDescription>
-      </CardHeader>
-      <CardContent>
-        <p className="text-sm text-rixl-fg">Hover an interactive card to see border emphasis; press to feel it depress.</p>
-      </CardContent>
-    </Card>
-  );
-}
-
-function VariantsExample(props: {state: Record<string, ControlValue>}) {
-  void props;
+function VariantsExample() {
   return (
     <Group label="Variants">
       <div className="grid w-full gap-4 sm:grid-cols-3">
@@ -94,8 +74,7 @@ function VariantsExample(props: {state: Record<string, ControlValue>}) {
   );
 }
 
-function InteractiveExample(props: {state: Record<string, ControlValue>}) {
-  void props;
+function InteractiveExample() {
   return (
     <Group label="Interactive & selected">
       <div className="grid w-full gap-4 sm:grid-cols-2">
@@ -117,36 +96,22 @@ function InteractiveExample(props: {state: Record<string, ControlValue>}) {
 }
 
 export const examples: Example[] = [
-  {
-    id: "live",
-    title: "Interactive",
-    description: "Tweak variant and state live.",
-    render: LiveExample,
-    controls: [
-      {
-        name: "variant",
-        label: "Variant",
-        type: "select",
-        options: [
-          {value: "default", label: "Default"},
-          {value: "outline", label: "Outline"},
-          {value: "ghost", label: "Ghost"},
-        ],
-        defaultValue: "default",
-      },
-      {name: "interactive", label: "Interactive", type: "boolean", defaultValue: false},
-      {name: "selected", label: "Selected", type: "boolean", defaultValue: false},
-    ],
-    code: `<Card variant="outline" interactive selected>
-  <CardHeader>
-    <CardTitle>Card title</CardTitle>
-    <CardDescription>Card description</CardDescription>
-  </CardHeader>
-</Card>`,
-  },
   {id: "basic", title: "Basic", render: BasicExample},
-  {id: "variants", title: "Variants", render: VariantsExample},
-  {id: "interactive", title: "Interactive & selected", render: InteractiveExample},
+  {
+    id: "variants",
+    title: "Variants",
+    render: VariantsExample,
+    code: `<Card>Default</Card>
+<Card variant="outline">Outline</Card>
+<Card variant="ghost">Ghost</Card>`,
+  },
+  {
+    id: "interactive",
+    title: "Interactive & selected",
+    render: InteractiveExample,
+    code: `<Card interactive>Clickable</Card>
+<Card interactive selected>Selected</Card>`,
+  },
   {id: "action", title: "With action", render: WithActionExample},
 ];
 
