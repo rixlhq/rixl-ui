@@ -5,15 +5,20 @@ import {Group} from "../components/showcase-layout";
 
 export const path = "radio-group";
 export const title = "Radio Group";
-export const description =
+export const description = "Choose one option from a group.";
+export const notes =
   "Single-selection group. Hover-strengthened border, primary border when selected, and a dot that pops in. Compose each item with a Label for accessible labelling.";
 
 export function Showcase() {
   return (
-    <RadioGroup defaultValue="comfortable" name="showcase">
+    <RadioGroup defaultValue="monthly" name="overview-billing" className="w-full max-w-56 gap-3" aria-label="Billing frequency">
       <div className="flex items-center gap-2">
-        <RadioGroupItem id="d-comfortable" value="comfortable" />
-        <Label htmlFor="d-comfortable">Comfortable</Label>
+        <RadioGroupItem id="overview-monthly" value="monthly" />
+        <Label htmlFor="overview-monthly">Monthly billing</Label>
+      </div>
+      <div className="flex items-center gap-2">
+        <RadioGroupItem id="overview-yearly" value="yearly" />
+        <Label htmlFor="overview-yearly">Yearly billing</Label>
       </div>
     </RadioGroup>
   );

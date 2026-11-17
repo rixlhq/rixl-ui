@@ -8,7 +8,6 @@ import {Tabs, TabsList, TabsTrigger} from "@rixl/ui/tabs";
 import {toast} from "@rixl/ui/toaster";
 import {showcases} from "../showcases/registry";
 import {CodePreview} from "./code-preview";
-import {ResetIcon} from "./icons";
 import type {Control, ControlValue, Example, Showcase} from "../showcases/registry";
 
 export const Detail = memo(function Detail({showcase}: {showcase: Showcase}) {
@@ -37,11 +36,33 @@ export const Detail = memo(function Detail({showcase}: {showcase: Showcase}) {
           <code>@rixl/ui/{showcase.path}</code>
           <CopyButton text={`@rixl/ui/${showcase.path}`} label="Copy import path" />
         </div>
+        {examples.length > 1 ? (
+          <div className="docs-example-picker">
+            <Select value={null} onValueChange={jumpToExample}>
+              <SelectTrigger aria-label="Jump to example" className="w-full">
+                <SelectValue placeholder="Jump to example" />
+              </SelectTrigger>
+              <SelectContent>
+                {examples.map((example) => (
+                  <SelectItem key={example.id} value={example.id}>
+                    {example.title}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+        ) : null}
         <div className="docs-examples">
           {examples.map((example) => (
             <ExampleCard key={example.id} example={example} />
           ))}
         </div>
+        {showcase.notes ? (
+          <section className="docs-notes">
+            <h2>Implementation notes</h2>
+            <p>{showcase.notes}</p>
+          </section>
+        ) : null}
         <nav aria-label="Adjacent components" className="docs-pagination">
           {previous ? (
             <a href={`#/${previous.path}`}>
@@ -65,9 +86,7 @@ export const Detail = memo(function Detail({showcase}: {showcase: Showcase}) {
             key={example.id}
             type="button"
             onClick={() => {
-              const section = document.getElementById(`example-${example.id}`);
-              section?.scrollIntoView({block: "start"});
-              section?.focus({preventScroll: true});
+              jumpToExample(example.id);
             }}
           >
             {example.title}
@@ -81,7 +100,6 @@ export const Detail = memo(function Detail({showcase}: {showcase: Showcase}) {
 
 function ExampleCard({example}: {example: Example}) {
   const [mode, setMode] = useState<"preview" | "code">("preview");
-  const [revision, setRevision] = useState(0);
   const [state, setState] = useState<Record<string, ControlValue>>(() => defaultState(example.controls));
   const Render = example.render;
   const hasCode = Boolean(example.code?.trim());
@@ -110,26 +128,11 @@ function ExampleCard({example}: {example: Example}) {
           ) : (
             <span className="text-xs text-rixl-fg-muted">Preview</span>
           )}
-          <div className="flex items-center gap-1">
-            {mode === "preview" ? (
-              <Button
-                variant="ghost"
-                size="icon-sm"
-                aria-label={`Reset ${example.title}`}
-                onClick={() => {
-                  setState(defaultState(example.controls));
-                  setRevision((value) => value + 1);
-                }}
-              >
-                <ResetIcon />
-              </Button>
-            ) : null}
-            {mode === "code" && example.code ? <CopyButton text={example.code} /> : null}
-          </div>
+          <div className="flex items-center gap-1">{mode === "code" && example.code ? <CopyButton text={example.code} /> : null}</div>
         </div>
         {mode === "preview" ? (
           <div className="docs-example-stage">
-            <Render key={revision} state={state} />
+            <Render state={state} />
           </div>
         ) : (
           <CodePreview code={example.code ?? ""} />
@@ -217,4 +220,11 @@ function CopyButton({text, label = "Copy code"}: {text: string; label?: string})
       {label}
     </Button>
   );
+}
+
+function jumpToExample(id: string | null) {
+  if (!id) return;
+  const section = document.getElementById(`example-${id}`);
+  section?.scrollIntoView({block: "start"});
+  section?.focus({preventScroll: true});
 }

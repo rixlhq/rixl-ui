@@ -3,7 +3,7 @@ import type {ControlValue, Example} from "./registry";
 
 export const path = "empty-state";
 export const title = "Empty State";
-export const description = "Placeholder for empty content, with an optional primary action and custom icon.";
+export const description = "Explain why a view is empty and offer a next step.";
 
 export function Showcase() {
   return <EmptyState title="No media" description="Upload your first asset." className="min-h-24 p-4" />;

@@ -4,7 +4,7 @@ import type {ControlValue, Example} from "./registry";
 
 export const path = "label";
 export const title = "Label";
-export const description = "Form-field label. Dims automatically when a peer or ancestor field is disabled.";
+export const description = "Give a form control a clear, visible name.";
 
 export function Showcase() {
   return (

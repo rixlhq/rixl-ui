@@ -5,7 +5,8 @@ import {Group} from "../components/showcase-layout";
 
 export const path = "tooltip";
 export const title = "Tooltip";
-export const description =
+export const description = "Explain a control with a short contextual label.";
+export const notes =
   "Portalled contextual label anchored to a trigger. Scales from its trigger origin and skips transition duration on adjacent hovers (`data-instant:duration-0`).";
 
 export function Showcase() {

@@ -4,7 +4,8 @@ import {Group} from "../components/showcase-layout";
 
 export const path = "skeleton";
 export const title = "Skeleton";
-export const description =
+export const description = "Reserve space for content while it loads.";
+export const notes =
   "Placeholder for loading UI. Shape and size come from consumer classes; animation is pulse (default), shimmer, or none — all reduced-motion safe.";
 
 export function Showcase() {

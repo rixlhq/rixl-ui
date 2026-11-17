@@ -3,7 +3,7 @@ import type {ControlValue, Example} from "./registry";
 
 export const path = "copy-block";
 export const title = "Copy Block";
-export const description = "Inline label + value with a morphing copy/check icon and tooltip feedback. Copies the value to the clipboard.";
+export const description = "Display a value that can be copied to the clipboard.";
 
 export function Showcase() {
   return <CopyBlock title="API Key" value="sk_live_51H3xQ9kP2e0R8m" className="w-full max-w-md" />;

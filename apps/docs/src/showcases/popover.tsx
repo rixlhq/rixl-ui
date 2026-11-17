@@ -8,8 +8,7 @@ import {Group} from "../components/showcase-layout";
 
 export const path = "popover";
 export const title = "Popover";
-export const description =
-  "Floating, dismissible surface anchored to a trigger. Base UI Popover; open on click, close on outside press / Escape / scroll.";
+export const description = "Show supporting content beside its trigger.";
 
 export function Showcase() {
   return (

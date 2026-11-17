@@ -4,7 +4,7 @@ import {Group} from "../components/showcase-layout";
 
 export const path = "separator";
 export const title = "Separator";
-export const description = "Themed divider. Horizontal by default; pass orientation='vertical' inside a flex row.";
+export const description = "Visually separate related groups of content.";
 
 export function Showcase() {
   return (

@@ -67,6 +67,8 @@ export type Showcase = {
   title: string;
   /** Optional overview description for the component. */
   description?: string;
+  /** Technical details shown after the examples. */
+  notes?: string;
   /** Legacy single-example showcase. Kept until every module migrates. */
   Showcase: ComponentType;
   /** Multiple examples. When present, the detail page renders ExampleCards. */

@@ -5,11 +5,11 @@ import {Group} from "../components/showcase-layout";
 
 export const path = "input-otp";
 export const title = "Input OTP";
-export const description = "One-time-password / verification-code input. Fixed number of slots with a blinking caret on the active slot.";
+export const description = "Enter a verification code one digit at a time.";
 
 export function Showcase() {
   return (
-    <InputOTP maxLength={6}>
+    <InputOTP maxLength={6} aria-label="Verification code">
       <InputOTPGroup>
         <InputOTPSlot index={0} />
         <InputOTPSlot index={1} />

@@ -13,8 +13,7 @@ import type {ControlValue, Example} from "./registry";
 
 export const path = "collapsible";
 export const title = "Collapsible";
-export const description =
-  "Expand/collapse region built on Base UI Collapsible. Animates height and opacity smoothly via --collapsible-panel-height.";
+export const description = "Show or hide a section of content.";
 
 export function Showcase() {
   return (

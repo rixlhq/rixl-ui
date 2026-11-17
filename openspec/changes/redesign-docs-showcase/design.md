@@ -19,9 +19,9 @@ Create a restrained, dense documentation workspace. Do not redesign the publishe
 
 ### Detail navigation
 
-**Chosen:** Keep hash routes, use example buttons with scrollIntoView, key details by component, add unique control IDs and reset buttons.
+**Chosen:** Keep hash routes, use example buttons with scrollIntoView, key details by component, add unique control IDs and a compact example selector on narrow layouts.
 **Alternatives considered:** Nested hash anchors collide with existing routing. A router dependency is unnecessary.
-**Dropped:** None.
+**Dropped:** Reset buttons; the user prefers ordinary demo state reset on navigation without a dedicated toolbar action.
 **Evidence:** Verified against use-hash-route.ts and detail.tsx.
 
 ### Presentation

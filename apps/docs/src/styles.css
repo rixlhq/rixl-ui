@@ -205,6 +205,10 @@ body {
   font-size: 0.75rem;
   overflow-wrap: anywhere;
 }
+.docs-example-picker {
+  display: none;
+  margin-bottom: 2rem;
+}
 .docs-examples {
   display: flex;
   flex-direction: column;
@@ -340,6 +344,9 @@ body {
   outline-offset: 3px;
 }
 @media (max-width: 1200px) {
+  .docs-example-picker {
+    display: block;
+  }
   .docs-detail-layout {
     grid-template-columns: minmax(0, 1fr);
   }
@@ -468,5 +475,20 @@ body {
   font-weight: 600;
 }
 .docs-code-keyword {
+  color: var(--rixl-fg-muted);
+}
+.docs-notes {
+  margin-top: 3rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--rixl-border);
+}
+.docs-notes h2 {
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+.docs-notes p {
+  margin-top: 0.5rem;
+  font-size: 0.8125rem;
+  line-height: 1.8;
   color: var(--rixl-fg-muted);
 }

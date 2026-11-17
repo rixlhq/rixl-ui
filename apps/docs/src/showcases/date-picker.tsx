@@ -7,7 +7,8 @@ import {Group} from "../components/showcase-layout";
 
 export const path = "date-picker";
 export const title = "Date Picker";
-export const description =
+export const description = "Choose a date, several dates, or a date range.";
+export const notes =
   "Bare calendar grid with single, multiple, and range modes. Number of months, disabled matchers, min/max, dropdown captions, and footers stay on the grid; popover behaviour is consumer composition (trigger Button + Popover + DatePicker). Kumo mapping: selected and onChange are accepted as deprecated aliases for value and onSelect.";
 
 export function Showcase() {

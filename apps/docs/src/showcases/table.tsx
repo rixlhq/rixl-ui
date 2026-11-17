@@ -4,7 +4,8 @@ import type {ControlValue, Example} from "./registry";
 
 export const path = "table";
 export const title = "Table";
-export const description =
+export const description = "Present structured information in rows and columns.";
+export const notes =
   "Plain HTML table styled as a data grid. Row hover + selected states; opt-in sticky header (`sticky`) and opt-in scroll via `containerClassName`.";
 
 export function Showcase() {

@@ -5,7 +5,8 @@ import {Group} from "../components/showcase-layout";
 
 export const path = "card";
 export const title = "Card";
-export const description =
+export const description = "Group related content and actions in a single surface.";
+export const notes =
   "Surface container for grouping related content. Header/title/description/action/content/footer slots, three variants (default, outline, ghost), plus interactive and selected states.";
 
 export function Showcase() {

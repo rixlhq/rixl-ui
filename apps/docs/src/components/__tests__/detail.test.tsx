@@ -31,14 +31,11 @@ afterEach(async () => {
   vi.unstubAllGlobals();
 });
 describe("example playground", () => {
-  it("resets uncontrolled demo state without changing another example", async () => {
-    const inputs = container.querySelectorAll<HTMLInputElement>('input[aria-label="Example value"]');
-    inputs[0].value = "Changed";
-    inputs[1].value = "Keep this";
-    const reset = container.querySelector<HTMLButtonElement>('button[aria-label="Reset First"]');
-    await act(async () => reset?.click());
-    const updated = container.querySelectorAll<HTMLInputElement>('input[aria-label="Example value"]');
-    expect([updated[0].value, updated[1].value]).toEqual(["Initial", "Keep this"]);
+  it("does not add reset actions to the demo toolbar", () => {
+    expect(container.querySelector('button[aria-label^="Reset"]')).toBeNull();
+  });
+  it("offers an example selector alongside the full example list", () => {
+    expect(container.querySelector('button[aria-label="Jump to example"]')).not.toBeNull();
   });
   it("gives controls unique label targets across examples", () => {
     const labels = [...container.querySelectorAll("label")];

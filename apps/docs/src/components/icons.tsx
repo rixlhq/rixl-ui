@@ -75,11 +75,3 @@ export function ArrowUpRightIcon() {
     </svg>
   );
 }
-
-export function ResetIcon() {
-  return (
-    <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.25" aria-hidden="true" className="size-3.5">
-      <path d="M3 6a5 5 0 1 1 0 4M3 2v4h4" />
-    </svg>
-  );
-}

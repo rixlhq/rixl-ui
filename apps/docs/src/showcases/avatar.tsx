@@ -4,7 +4,7 @@ import {Group} from "../components/showcase-layout";
 
 export const path = "avatar";
 export const title = "Avatar";
-export const description = "Image with graceful fallback. Composed of Avatar (root), AvatarImage, and AvatarFallback.";
+export const description = "Represent a person with an image or their initials.";
 
 export function Showcase() {
   return (

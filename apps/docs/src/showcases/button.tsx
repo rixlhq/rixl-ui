@@ -4,7 +4,8 @@ import {Group} from "../components/showcase-layout";
 
 export const path = "button";
 export const title = "Button";
-export const description =
+export const description = "Trigger an action or navigate to another page.";
+export const notes =
   "Primary action primitive. Six variants, six sizes, token-driven press feedback, and a fumadocs-compatible `color` alias so dashboard, docs and landing share one button.";
 
 export function Showcase() {

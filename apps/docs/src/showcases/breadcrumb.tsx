@@ -12,7 +12,7 @@ import {Group} from "../components/showcase-layout";
 
 export const path = "breadcrumb";
 export const title = "Breadcrumb";
-export const description = "Navigation trail. Built on Base UI useRender; links are polymorphic via the render prop.";
+export const description = "Show the path to the current page.";
 
 export function Showcase() {
   return (

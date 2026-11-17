@@ -7,7 +7,8 @@ import type {Example} from "./registry";
 
 export const path = "tabs";
 export const title = "Tabs";
-export const description =
+export const description = "Switch between related views in the same space.";
+export const notes =
   "Tabbed content built on Base UI Tabs. Hovering an inactive tab changes text intensity only while a single indicator glides across tabs over 300ms. Overflowing tab lists scroll in one row with fade + chevron controls, drag-to-scroll, and smooth scrollIntoView.";
 
 const CLOUDFLARE = ["Overview", "Metrics", "Deployments", "Bindings", "Observability", "Domains", "Access", "Settings"];
