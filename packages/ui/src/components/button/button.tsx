@@ -38,6 +38,12 @@ const press = cn(
 /** Shadow collapses as the surface depresses, so it reads as pushed in rather than merely smaller. */
 const pressShadow = "shadow-rixl-xs active:shadow-none";
 
+/**
+ * Shared press feedback, also consumed by pressables that cannot wrap Button
+ * (e.g. tab triggers, where Button's own surface would fight the indicator).
+ */
+export const buttonPressClasses = press;
+
 const variantClasses = {
   default: cn("bg-rixl-primary text-rixl-primary-fg hover:bg-rixl-primary-hover active:bg-rixl-primary-active", pressShadow),
   destructive: cn(

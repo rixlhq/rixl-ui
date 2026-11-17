@@ -214,15 +214,16 @@ describe("Tabs", () => {
   });
 
   describe("interaction states", () => {
-    it("changes text intensity on hover without a background wash or scale jump", () => {
+    it("changes text intensity on hover and shares Button press feedback without a background wash", () => {
       render(<Basic />);
       const cls = screen.getByTestId("tab-password").className;
       expect(cls).toContain("text-rixl-fg-muted");
       expect(cls).toContain("hover:text-rixl-fg");
       expect(cls).toContain("data-active:text-rixl-fg");
-      expect(cls).toContain("transition-colors");
+      expect(cls).toContain("transition-[scale,background-color,box-shadow,border-color,color]");
+      expect(cls).toContain("active:scale-[var(--rixl-press-scale)]");
+      expect(cls).toContain("motion-reduce:active:scale-100");
       expect(cls).not.toContain("hover:bg-rixl-fg/5");
-      expect(cls).not.toContain("active:scale-");
     });
 
     it("renders overflow scroll controls when scrollable is enabled", () => {
