@@ -1,6 +1,6 @@
 import {Label} from "@rixl/ui/label";
 import {Switch} from "@rixl/ui/switch";
-import type {ControlValue, Example} from "./registry";
+import type {Example} from "./registry";
 import {Group} from "../components/showcase-layout";
 
 export const path = "switch";
@@ -18,22 +18,16 @@ export function Showcase() {
   );
 }
 
-function LiveExample({state}: {state: Record<string, ControlValue>}) {
-  const disabled = state.disabled as boolean;
-  const invalid = state.invalid as boolean;
-
+function BasicExample() {
   return (
     <div className="flex items-center gap-2">
-      <Switch id="live-switch" defaultChecked disabled={disabled} aria-invalid={invalid} />
-      <Label htmlFor="live-switch" className={invalid ? "text-rixl-danger" : undefined}>
-        Enable notifications
-      </Label>
+      <Switch id="basic-switch" defaultChecked />
+      <Label htmlFor="basic-switch">Enable notifications</Label>
     </div>
   );
 }
 
-function StatesExample(props: {state: Record<string, ControlValue>}) {
-  void props;
+function StatesExample() {
   return (
     <Group label="States">
       <div className="flex flex-col gap-2">
@@ -52,14 +46,9 @@ function StatesExample(props: {state: Record<string, ControlValue>}) {
 
 export const examples: Example[] = [
   {
-    id: "live",
-    title: "Interactive",
-    description: "Tweak disabled and invalid states live.",
-    render: LiveExample,
-    controls: [
-      {name: "disabled", label: "Disabled", type: "boolean", defaultValue: false},
-      {name: "invalid", label: "Invalid", type: "boolean", defaultValue: false},
-    ],
+    id: "basic",
+    title: "Basic",
+    render: BasicExample,
     code: `<div className="flex items-center gap-2">
   <Switch id="notifs" defaultChecked />
   <Label htmlFor="notifs">Enable notifications</Label>
