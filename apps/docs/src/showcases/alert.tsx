@@ -1,5 +1,5 @@
-import {Alert, AlertDescription, AlertTitle, type AlertProps} from "@rixl/ui/alert";
-import type {ControlValue, Example} from "./registry";
+import {Alert, AlertDescription, AlertTitle} from "@rixl/ui/alert";
+import type {Example} from "./registry";
 
 export const path = "alert";
 export const title = "Alert";
@@ -17,7 +17,9 @@ export function Showcase() {
   );
 }
 
-const ALERT_COPY: Record<NonNullable<AlertProps["variant"]>, {title: string; description: string; icon: () => React.JSX.Element}> = {
+const VARIANTS = ["default", "success", "warning", "destructive"] as const;
+
+const ALERT_COPY: Record<(typeof VARIANTS)[number], {title: string; description: string; icon: () => React.JSX.Element}> = {
   default: {
     title: "New release available",
     description: "v2.3.0 is ready to install. It includes performance improvements and bug fixes.",
@@ -40,25 +42,10 @@ const ALERT_COPY: Record<NonNullable<AlertProps["variant"]>, {title: string; des
   },
 };
 
-function LiveExample({state}: {state: Record<string, ControlValue>}) {
-  const variant = (state.variant as NonNullable<AlertProps["variant"]>) || "default";
-  const copy = ALERT_COPY[variant];
-  const Icon = copy.icon;
-
-  return (
-    <Alert variant={variant} className="max-w-xl">
-      <Icon />
-      <AlertTitle>{copy.title}</AlertTitle>
-      <AlertDescription>{copy.description}</AlertDescription>
-    </Alert>
-  );
-}
-
-function AllVariantsExample(props: {state: Record<string, ControlValue>}) {
-  void props;
+function AllVariantsExample() {
   return (
     <div className="grid max-w-xl gap-3">
-      {(["default", "success", "warning", "destructive"] as const).map((variant) => {
+      {VARIANTS.map((variant) => {
         const copy = ALERT_COPY[variant];
         const Icon = copy.icon;
         return (
@@ -75,35 +62,15 @@ function AllVariantsExample(props: {state: Record<string, ControlValue>}) {
 
 export const examples: Example[] = [
   {
-    id: "live",
-    title: "Interactive",
-    description: "Switch between default, success, warning, and destructive variants.",
-    render: LiveExample,
-    controls: [
-      {
-        name: "variant",
-        label: "Variant",
-        type: "select",
-        options: [
-          {value: "default", label: "Default"},
-          {value: "success", label: "Success"},
-          {value: "warning", label: "Warning"},
-          {value: "destructive", label: "Destructive"},
-        ],
-        defaultValue: "default",
-      },
-    ],
+    id: "variants",
+    title: "Variants",
+    description: "Default, success, warning, and destructive status banners.",
+    render: AllVariantsExample,
     code: `<Alert variant="success">
   <CheckCircleIcon />
   <AlertTitle>Deployment succeeded</AlertTitle>
   <AlertDescription>Production environment is live.</AlertDescription>
 </Alert>`,
-  },
-  {
-    id: "all",
-    title: "All semantic variants",
-    description: "Default, success, warning, and destructive status banners.",
-    render: AllVariantsExample,
   },
 ];
 
