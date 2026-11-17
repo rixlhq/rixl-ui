@@ -196,4 +196,42 @@ describe("DatePicker", () => {
     expect(grids[1].className).toContain("p-6");
     expect(grids[1].className).toContain("bg-rixl-bg");
   });
+
+  it("groups the month navigation at the inline end instead of splitting it across both edges", () => {
+    render(<SingleHarness />);
+    const nav = document.querySelector("[data-slot='calendar'] .rdp-nav")!;
+    expect(nav.className).toContain("end-0");
+    expect(nav.className).not.toContain("justify-between");
+    expect(nav.className).not.toContain("inset-x-0");
+  });
+
+  it("left-aligns the month caption with end clearing for the grouped nav", () => {
+    render(<SingleHarness />);
+    const caption = document.querySelector("[data-slot='calendar'] .rdp-month_caption")!;
+    expect(caption.className).toContain("justify-start");
+    expect(caption.className).not.toContain("justify-center");
+    expect(caption.className).toContain("pe-[calc(var(--cell-size)*2+0.5rem)]");
+  });
+
+  it("left-aligns the dropdown caption with end clearing for the grouped nav", () => {
+    render(
+      <DatePicker
+        mode="single"
+        defaultMonth={JUNE_2026}
+        captionLayout="dropdown"
+        startMonth={new Date(2020, 0)}
+        endMonth={new Date(2030, 11)}
+      />
+    );
+    const dropdowns = document.querySelector("[data-slot='calendar'] .rdp-dropdowns")!;
+    expect(dropdowns.className).toContain("justify-start");
+    expect(dropdowns.className).not.toContain("justify-center");
+  });
+
+  it("keeps the chevron mirroring rules for RTL after the nav regroup", () => {
+    render(<SingleHarness />);
+    const grid = document.querySelector("[data-slot='calendar']")!;
+    expect(grid.className).toContain("rtl:**:[.rdp-button\\_next>svg]:rotate-180");
+    expect(grid.className).toContain("rtl:**:[.rdp-button\\_previous>svg]:rotate-180");
+  });
 });
