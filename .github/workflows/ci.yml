@@ -51,8 +51,8 @@ jobs:
           - name: 📦 Pack UI package
             run: vpr pack
 
-          - name: 🏗️ Build docs app
-            run: vpr docs
+      - name: 🏗️ Build docs app
+        run: vpr docs
 
       - name: 🧪 Test UI package with coverage
         run: vp test --coverage --run
