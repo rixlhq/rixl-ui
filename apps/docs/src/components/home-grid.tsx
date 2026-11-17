@@ -53,7 +53,6 @@ export function HomeGrid({showcases, query, onClearQuery}: {showcases: Showcase[
 }
 
 const Cell = memo(function Cell({showcase}: {showcase: Showcase}) {
-  const count = showcase.examples?.length ?? 1;
   return (
     <li className="docs-demo-cell">
       <a href={`#/${showcase.path}`} className="docs-demo-caption">
@@ -79,14 +78,6 @@ const Cell = memo(function Cell({showcase}: {showcase: Showcase}) {
           )}
         </div>
       </div>
-      <a
-        className="docs-demo-meta"
-        href={`#/${showcase.path}`}
-        aria-label={`${showcase.title}: ${count} ${count === 1 ? "example" : "examples"}`}
-      >
-        {count} {count === 1 ? "example" : "examples"}
-        <span aria-hidden="true"> →</span>
-      </a>
     </li>
   );
 });

@@ -143,16 +143,15 @@ body {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr));
   gap: 1px;
-  padding: 1px;
+  border: 1px solid var(--rixl-border);
   border-radius: var(--rixl-radius-lg);
-  background: var(--rixl-border);
   overflow: clip;
 }
 .docs-demo-cell {
   min-width: 0;
   display: flex;
   flex-direction: column;
-  background: var(--rixl-surface);
+  box-shadow: 0 0 0 1px var(--rixl-border);
   position: relative;
 }
 .docs-demo-cell:focus-within {
@@ -181,15 +180,6 @@ body {
   padding: 1.125rem 1.25rem 0;
   font-size: 0.8125rem;
   font-weight: 500;
-}
-.docs-demo-meta {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 0.5rem;
-  padding: 0 1.25rem 1rem;
-  font-size: 0.6875rem;
-  color: var(--rixl-fg-muted);
 }
 .docs-demo-caption svg {
   color: var(--rixl-fg-muted);
@@ -242,7 +232,6 @@ body {
   border: 1px solid var(--rixl-border);
   border-radius: var(--rixl-radius-lg);
   overflow: clip;
-  background: var(--rixl-surface);
 }
 .docs-example-toolbar {
   min-height: 3rem;
@@ -268,7 +257,6 @@ body {
 }
 .docs-example-controls {
   border-top: 1px solid var(--rixl-border);
-  background: var(--rixl-surface-muted);
   padding: 0.875rem 1rem;
   display: flex;
   flex-wrap: wrap;
@@ -452,39 +440,21 @@ body {
   height: 2rem;
   font-size: 0.8125rem;
 }
-.docs-demo-meta > span {
-  opacity: 0;
-}
-.docs-demo-cell:focus-within .docs-demo-meta > span {
-  opacity: 1;
-}
 @media (hover: hover) and (pointer: fine) {
-  .docs-demo-cell:hover {
-    background: color-mix(in srgb, var(--rixl-surface-muted) 20%, var(--rixl-surface));
-  }
-  .docs-demo-cell:hover .docs-demo-meta > span {
-    opacity: 1;
-  }
-  .docs-demo-caption:hover > span,
-  .docs-demo-meta:hover {
+  .docs-demo-caption:hover > span {
     text-decoration: underline;
     text-underline-offset: 4px;
   }
 }
-.docs-demo-caption:active,
-.docs-demo-meta:active {
+.docs-demo-caption:active {
   color: var(--rixl-fg-subtle);
 }
 @media (max-width: 767px) {
   .docs-search input {
     font-size: 1rem;
   }
-  .docs-demo-caption,
-  .docs-demo-meta {
+  .docs-demo-caption {
     min-height: 2.75rem;
-  }
-  .docs-demo-meta > span {
-    opacity: 1;
   }
 }
 .docs-code-comment {
