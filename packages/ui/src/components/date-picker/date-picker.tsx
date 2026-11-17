@@ -33,9 +33,9 @@ type DatePickerBaseProps = {
   /** Keep a fixed 6-week grid. Pairs with a single month; leave unset for multi-month views. */
   fixedWeeks?: boolean;
   /**
-   * Show days outside the month. Defaults to false when `numberOfMonths`
-   * is greater than 1 (Kumo parity: outside days would duplicate across
-   * panels), true for a single month.
+   * Show days outside the month, dimmed. Defaults to true: leading and
+   * trailing cells always render (slightly off in color), so the grid never
+   * reflows between months with different week coverage.
    */
   showOutsideDays?: boolean;
   /** className for the grid (consumer wins via `cn`). */
@@ -106,7 +106,7 @@ function sharedGridProps(picker: DatePickerProps) {
     footer: picker.footer,
     locale: picker.locale,
     fixedWeeks: picker.fixedWeeks,
-    showOutsideDays: picker.showOutsideDays ?? numberOfMonths === 1,
+    showOutsideDays: picker.showOutsideDays ?? true,
     labels: datePickerLabels,
     className: picker.className,
   };
