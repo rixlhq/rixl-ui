@@ -177,6 +177,28 @@ function SizesExample(props: {state: Record<string, ControlValue>}) {
   );
 }
 
+function AlertExample() {
+  return (
+    <Group label="Alert (role=alertdialog) — destructive confirm, explicit close only">
+      <Dialog role="alertdialog">
+        <DialogTrigger render={<Button variant="destructive">Delete account</Button>} />
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Are you absolutely sure?</DialogTitle>
+            <DialogDescription>
+              This action cannot be undone. This will permanently delete your account and remove your data from our servers.
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter>
+            <DialogClose render={<Button variant="outline">Cancel</Button>} />
+            <DialogClose render={<Button className="bg-rixl-danger text-rixl-danger-fg hover:bg-rixl-danger">Continue</Button>} />
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+    </Group>
+  );
+}
+
 function LongContentExample() {
   return (
     <Dialog>
@@ -207,6 +229,7 @@ function LongContentExample() {
 
 export const examples: Example[] = [
   {id: "basic", title: "Basic", render: BasicExample},
+  {id: "alert", title: "Alert confirm", render: AlertExample},
   {id: "long-content", title: "Long content on mobile", render: LongContentExample},
   {id: "sizes", title: "Sizes", render: SizesExample},
   {id: "no-close", title: "Without close button", render: NoCloseExample},

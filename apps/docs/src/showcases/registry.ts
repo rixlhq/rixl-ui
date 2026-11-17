@@ -8,6 +8,8 @@ import * as skeleton from "./skeleton";
 import * as progress from "./progress";
 import * as alert from "./alert";
 import * as input from "./input";
+import * as field from "./field";
+import * as inputGroup from "./input-group";
 import * as textarea from "./textarea";
 import * as checkbox from "./checkbox";
 import * as radioGroup from "./radio-group";
@@ -17,7 +19,6 @@ import * as inputOtp from "./input-otp";
 import * as tooltip from "./tooltip";
 import * as popover from "./popover";
 import * as dialog from "./dialog";
-import * as alertDialog from "./alert-dialog";
 import * as sheet from "./sheet";
 import * as dropdownMenu from "./dropdown-menu";
 import * as collapsible from "./collapsible";
@@ -26,7 +27,8 @@ import * as breadcrumb from "./breadcrumb";
 import * as sidebar from "./sidebar";
 import * as card from "./card";
 import * as table from "./table";
-import * as calendar from "./calendar";
+import * as pagination from "./pagination";
+import * as datePicker from "./date-picker";
 import * as copyBlock from "./copy-block";
 import * as emptyState from "./empty-state";
 import * as toaster from "./toaster";
@@ -92,6 +94,8 @@ export const showcases: Showcase[] = [
   progress,
   alert,
   input,
+  field,
+  inputGroup,
   textarea,
   checkbox,
   radioGroup,
@@ -101,7 +105,6 @@ export const showcases: Showcase[] = [
   tooltip,
   popover,
   dialog,
-  alertDialog,
   sheet,
   dropdownMenu,
   collapsible,
@@ -110,7 +113,8 @@ export const showcases: Showcase[] = [
   sidebar,
   card,
   table,
-  calendar,
+  pagination,
+  datePicker,
   copyBlock,
   emptyState,
   toaster,
