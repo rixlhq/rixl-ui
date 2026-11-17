@@ -265,6 +265,20 @@ describe("Input", () => {
       expect(screen.getByRole("button", {name: "More information"})).toBeInTheDocument();
     });
 
+    it("renders description without a label row when only help text is set", () => {
+      render(<Input aria-label="Search" placeholder="Search" description="Search by name or email." />);
+      expect(screen.getByText("Search by name or email.")).toBeInTheDocument();
+      expect(document.querySelector('[data-slot="field-label"]')).not.toBeInTheDocument();
+    });
+
+    it("renders the tooltip without a visible label", () => {
+      render(
+        <Input aria-label="API key" placeholder="sk_live_..." labelTooltip="Find this in settings." description="Used for API calls." />
+      );
+      expect(screen.getByRole("button", {name: "More information"})).toBeInTheDocument();
+      expect(document.querySelector('[data-slot="field-label"]')).toBeInTheDocument();
+    });
+
     it("warns in dev when a bare input has no accessible name", () => {
       const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
       render(<Input placeholder="Search" />);
