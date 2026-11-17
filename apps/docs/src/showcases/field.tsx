@@ -11,26 +11,22 @@ export const notes =
 
 export function Showcase() {
   return (
-    <div className="w-full max-w-sm">
-      <FieldRoot>
-        <FieldLabel>Email address</FieldLabel>
-        <Input type="email" placeholder="you@example.com" />
-        <FieldDescription>We never share your address.</FieldDescription>
-      </FieldRoot>
-    </div>
+    <FieldRoot className="w-full max-w-sm">
+      <FieldLabel>Email address</FieldLabel>
+      <Input type="email" placeholder="you@example.com" />
+      <FieldDescription>We never share your address.</FieldDescription>
+    </FieldRoot>
   );
 }
 
 function DescriptionExample(props: {state: Record<string, ControlValue>}) {
   void props;
   return (
-    <div className="w-full max-w-sm">
-      <FieldRoot>
-        <FieldLabel>Username</FieldLabel>
-        <Input placeholder="Ada" />
-        <FieldDescription>Letters and numbers only, at least 3 characters.</FieldDescription>
-      </FieldRoot>
-    </div>
+    <FieldRoot className="w-full max-w-sm">
+      <FieldLabel>Username</FieldLabel>
+      <Input placeholder="Ada" />
+      <FieldDescription>Letters and numbers only, at least 3 characters.</FieldDescription>
+    </FieldRoot>
   );
 }
 
@@ -41,13 +37,11 @@ function InvalidExample(props: {state: Record<string, ControlValue>}) {
     actionsRef.current?.validate();
   }, []);
   return (
-    <div className="w-full max-w-sm">
-      <FieldRoot actionsRef={actionsRef} validate={() => "Enter an email address."}>
-        <FieldLabel>Email address</FieldLabel>
-        <Input type="email" placeholder="you@example.com" />
-        <FieldError />
-      </FieldRoot>
-    </div>
+    <FieldRoot actionsRef={actionsRef} validate={() => "Enter an email address."} className="w-full max-w-sm">
+      <FieldLabel>Email address</FieldLabel>
+      <Input type="email" placeholder="you@example.com" />
+      <FieldError />
+    </FieldRoot>
   );
 }
 

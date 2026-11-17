@@ -1,7 +1,6 @@
 import {Badge} from "@rixl/ui/badge";
 import {Button} from "@rixl/ui/button";
 import {Input} from "@rixl/ui/input";
-import {Label} from "@rixl/ui/label";
 import {Sheet, SheetContent, SheetDescription, SheetFooter, SheetHeader, SheetTitle, SheetTrigger} from "@rixl/ui/sheet";
 import type {Example} from "./registry";
 
@@ -26,12 +25,7 @@ export function Showcase() {
           <SheetTitle>Edit profile</SheetTitle>
           <SheetDescription>Make changes to your profile here.</SheetDescription>
         </SheetHeader>
-        <div className="grid gap-3 px-4">
-          <div className="grid gap-1.5">
-            <Label htmlFor="sheet-name-preview">Name</Label>
-            <Input id="sheet-name-preview" defaultValue="Alex Morgan" />
-          </div>
-        </div>
+        <Input label="Name" defaultValue="Alex Morgan" />
       </SheetContent>
     </Sheet>
   );
@@ -48,16 +42,9 @@ function SidesExample() {
               <SheetTitle>Edit profile</SheetTitle>
               <SheetDescription>Make changes to your profile here. Click save when you are done.</SheetDescription>
             </SheetHeader>
-            <div className="grid gap-3 px-4">
-              <div className="grid gap-1.5">
-                <Label htmlFor={`sheet-name-${side}`}>Display name</Label>
-                <Input id={`sheet-name-${side}`} defaultValue="Alex Morgan" />
-              </div>
-            </div>
+            <Input label="Display name" defaultValue="Alex Morgan" />
             <SheetFooter>
-              <Button size="sm" className="w-full">
-                Save changes
-              </Button>
+              <Button size="sm">Save changes</Button>
             </SheetFooter>
           </SheetContent>
         </Sheet>
@@ -94,7 +81,7 @@ function WithBodyExample() {
           ))}
         </div>
         <SheetFooter>
-          <Button className="w-full">Upload files</Button>
+          <Button>Upload files</Button>
         </SheetFooter>
       </SheetContent>
     </Sheet>

@@ -105,7 +105,7 @@ function SizesExample(props: {state: Record<string, ControlValue>}) {
         <DropdownMenu>
           <DropdownMenuTrigger
             render={
-              <Button size="icon" className="size-10" aria-label="More deploy options">
+              <Button size="icon-lg" aria-label="More deploy options">
                 <CaretDownIcon />
               </Button>
             }

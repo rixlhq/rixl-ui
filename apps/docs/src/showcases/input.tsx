@@ -1,5 +1,4 @@
 import {Input} from "@rixl/ui/input";
-import {Label} from "@rixl/ui/label";
 import type {ControlValue, Example} from "./registry";
 import {Group} from "../components/showcase-layout";
 
@@ -45,7 +44,7 @@ function EyeIcon() {
 
 export function Showcase() {
   return (
-    <div className="w-full max-w-64 space-y-3">
+    <div className="grid gap-3">
       <Input placeholder="Search anything…" aria-label="Demo search" startIcon={<SearchIcon />} />
       <Input placeholder="you@example.com" aria-label="Demo email" type="email" />
     </div>
@@ -61,21 +60,19 @@ function LiveExample({state}: {state: Record<string, ControlValue>}) {
   const withIcon = state.withIcon as boolean;
 
   return (
-    <div className="flex w-full max-w-sm flex-col gap-1.5">
-      <Label htmlFor="live-input">{type === "email" ? "Email" : "Label"}</Label>
-      <Input
-        id="live-input"
-        type={type}
-        inputSize={inputSize}
-        placeholder={`${type} placeholder`}
-        disabled={disabled}
-        readOnly={readOnly}
-        aria-invalid={invalid}
-        defaultValue={readOnly ? "read-only value" : undefined}
-        startIcon={withIcon ? <SearchIcon /> : undefined}
-      />
-      {invalid ? <p className="text-xs text-rixl-danger">Please correct the value.</p> : null}
-    </div>
+    <Input
+      label={type === "email" ? "Email" : "Label"}
+      type={type}
+      inputSize={inputSize}
+      placeholder={`${type} placeholder`}
+      disabled={disabled}
+      readOnly={readOnly}
+      error={invalid ? "Please correct the value." : undefined}
+      defaultValue={readOnly ? "read-only value" : undefined}
+      startIcon={withIcon ? <SearchIcon /> : undefined}
+      className="w-full max-w-sm"
+      wrapperClassName="w-full max-w-sm"
+    />
   );
 }
 
@@ -83,11 +80,9 @@ function SizesExample(props: {state: Record<string, ControlValue>}) {
   void props;
   return (
     <Group label="Sizes">
-      <div className="grid w-full max-w-sm grid-cols-1 gap-3">
-        <Input inputSize="sm" placeholder="Small" />
-        <Input inputSize="default" placeholder="Default" />
-        <Input inputSize="lg" placeholder="Large" />
-      </div>
+      <Input inputSize="sm" placeholder="Small" className="w-full max-w-sm" />
+      <Input inputSize="default" placeholder="Default" className="w-full max-w-sm" />
+      <Input inputSize="lg" placeholder="Large" className="w-full max-w-sm" />
     </Group>
   );
 }
@@ -96,11 +91,15 @@ function IconsExample(props: {state: Record<string, ControlValue>}) {
   void props;
   return (
     <Group label="With icons">
-      <div className="grid w-full max-w-sm grid-cols-1 gap-3">
-        <Input placeholder="Search" startIcon={<SearchIcon />} />
-        <Input type="password" placeholder="Password" endIcon={<EyeIcon />} />
-        <Input placeholder="Both" startIcon={<SearchIcon />} endIcon={<EyeIcon />} />
-      </div>
+      <Input placeholder="Search" startIcon={<SearchIcon />} className="w-full max-w-sm" wrapperClassName="w-full max-w-sm" />
+      <Input type="password" placeholder="Password" endIcon={<EyeIcon />} className="w-full max-w-sm" wrapperClassName="w-full max-w-sm" />
+      <Input
+        placeholder="Both"
+        startIcon={<SearchIcon />}
+        endIcon={<EyeIcon />}
+        className="w-full max-w-sm"
+        wrapperClassName="w-full max-w-sm"
+      />
     </Group>
   );
 }
@@ -109,10 +108,8 @@ function FieldExample(props: {state: Record<string, ControlValue>}) {
   void props;
   return (
     <Group label="Built-in field">
-      <div className="grid w-full max-w-sm grid-cols-1 gap-3">
-        <Input label="Email" placeholder="you@example.com" description="We'll never share your address." />
-        <Input label="Phone" required={false} placeholder="+1 (555) 000-0000" />
-      </div>
+      <Input label="Email" placeholder="you@example.com" description="We'll never share your address." className="w-full max-w-sm" />
+      <Input label="Phone" required={false} placeholder="+1 (555) 000-0000" className="w-full max-w-sm" />
     </Group>
   );
 }
@@ -121,9 +118,13 @@ function ErrorExample(props: {state: Record<string, ControlValue>}) {
   void props;
   return (
     <Group label="Error">
-      <div className="grid w-full max-w-sm grid-cols-1 gap-3">
-        <Input label="Email" placeholder="you@example.com" defaultValue="not-an-email" error="Enter a valid email." />
-      </div>
+      <Input
+        label="Email"
+        placeholder="you@example.com"
+        defaultValue="not-an-email"
+        error="Enter a valid email."
+        className="w-full max-w-sm"
+      />
     </Group>
   );
 }
@@ -132,12 +133,10 @@ function StatesExample(props: {state: Record<string, ControlValue>}) {
   void props;
   return (
     <Group label="States">
-      <div className="grid w-full max-w-sm grid-cols-1 gap-3">
-        <Input placeholder="Default" />
-        <Input placeholder="Disabled" disabled />
-        <Input readOnly defaultValue="Read-only" />
-        <Input aria-invalid placeholder="Invalid" defaultValue="not-an-email" />
-      </div>
+      <Input placeholder="Default" className="w-full max-w-sm" />
+      <Input placeholder="Disabled" disabled className="w-full max-w-sm" />
+      <Input readOnly defaultValue="Read-only" className="w-full max-w-sm" />
+      <Input aria-invalid placeholder="Invalid" defaultValue="not-an-email" className="w-full max-w-sm" />
     </Group>
   );
 }
@@ -146,15 +145,13 @@ function TypesExample(props: {state: Record<string, ControlValue>}) {
   void props;
   return (
     <Group label="Types">
-      <div className="grid w-full max-w-sm grid-cols-1 gap-3">
-        <Input placeholder="Text" />
-        <Input type="email" placeholder="Email" />
-        <Input type="password" placeholder="Password" />
-        <Input type="number" placeholder="Number" />
-        <Input type="tel" placeholder="Phone" />
-        <Input type="url" placeholder="URL" />
-        <Input type="file" />
-      </div>
+      <Input placeholder="Text" className="w-full max-w-sm" />
+      <Input type="email" placeholder="Email" className="w-full max-w-sm" />
+      <Input type="password" placeholder="Password" className="w-full max-w-sm" />
+      <Input type="number" placeholder="Number" className="w-full max-w-sm" />
+      <Input type="tel" placeholder="Phone" className="w-full max-w-sm" />
+      <Input type="url" placeholder="URL" className="w-full max-w-sm" />
+      <Input type="file" className="w-full max-w-sm" />
     </Group>
   );
 }
@@ -196,10 +193,7 @@ export const examples: Example[] = [
       {name: "readOnly", label: "Read-only", type: "boolean", defaultValue: false},
       {name: "invalid", label: "Invalid", type: "boolean", defaultValue: false},
     ],
-    code: `<div className="flex flex-col gap-1.5">
-  <Label htmlFor="email">Email</Label>
-  <Input id="email" type="email" placeholder="you@example.com" />
-</div>`,
+    code: `<Input label="Email" id="email" type="email" placeholder="you@example.com" />`,
   },
   {
     id: "sizes",

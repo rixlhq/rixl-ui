@@ -11,7 +11,6 @@ import {
   DialogTrigger,
 } from "@rixl/ui/dialog";
 import {Input} from "@rixl/ui/input";
-import {Label} from "@rixl/ui/label";
 import type {ControlValue, Example} from "./registry";
 import {Group} from "../components/showcase-layout";
 
@@ -36,12 +35,7 @@ export function Showcase() {
           <DialogTitle>Edit profile</DialogTitle>
           <DialogDescription>Make changes to your profile here. Click save when you are done.</DialogDescription>
         </DialogHeader>
-        <div className="grid gap-3">
-          <div className="grid gap-1.5">
-            <Label htmlFor="dialog-name-preview">Name</Label>
-            <Input id="dialog-name-preview" defaultValue="Alex Morgan" />
-          </div>
-        </div>
+        <Input label="Name" defaultValue="Alex Morgan" />
         <DialogFooter>
           <DialogClose render={<Button variant="outline">Cancel</Button>} />
           <Button>Save changes</Button>
@@ -62,14 +56,8 @@ function BasicExample(props: {state: Record<string, ControlValue>}) {
           <DialogDescription>Make changes to your profile here. Click save when you are done.</DialogDescription>
         </DialogHeader>
         <div className="grid gap-3">
-          <div className="grid gap-1.5">
-            <Label htmlFor="dialog-name">Display name</Label>
-            <Input id="dialog-name" defaultValue="Alex Morgan" />
-          </div>
-          <div className="grid gap-1.5">
-            <Label htmlFor="dialog-handle">Username</Label>
-            <Input id="dialog-handle" defaultValue="@alex" />
-          </div>
+          <Input label="Display name" defaultValue="Alex Morgan" />
+          <Input label="Username" defaultValue="@alex" />
         </div>
         <DialogFooter>
           <DialogClose render={<Button variant="outline">Cancel</Button>} />
@@ -103,7 +91,7 @@ function CustomContentExample(props: {state: Record<string, ControlValue>}) {
   return (
     <Dialog>
       <DialogTrigger render={<Button variant="outline">Notifications</Button>} />
-      <DialogContent className="sm:max-w-md">
+      <DialogContent size="sm">
         <DialogHeader>
           <DialogTitle>Notifications</DialogTitle>
           <DialogDescription>You have 3 unread notifications.</DialogDescription>
@@ -151,20 +139,15 @@ function CustomContentExample(props: {state: Record<string, ControlValue>}) {
 
 function SizesExample(props: {state: Record<string, ControlValue>}) {
   void props;
+  const labels = {sm: "Sm", default: "Default", lg: "Lg", xl: "Xl"} as const;
   return (
     <Group label="Sizes">
       {(["sm", "default", "lg", "xl"] as const).map((size) => (
         <Dialog key={size}>
-          <DialogTrigger
-            render={
-              <Button variant="outline" className="capitalize">
-                {size}
-              </Button>
-            }
-          />
+          <DialogTrigger render={<Button variant="outline">{labels[size]}</Button>} />
           <DialogContent size={size}>
             <DialogHeader>
-              <DialogTitle className="capitalize">{size} dialog</DialogTitle>
+              <DialogTitle>{labels[size]} dialog</DialogTitle>
               <DialogDescription>This dialog uses the “{size}” size variant.</DialogDescription>
             </DialogHeader>
             <DialogFooter>
@@ -191,7 +174,7 @@ function AlertExample() {
           </DialogHeader>
           <DialogFooter>
             <DialogClose render={<Button variant="outline">Cancel</Button>} />
-            <DialogClose render={<Button className="bg-rixl-danger text-rixl-danger-fg hover:bg-rixl-danger">Continue</Button>} />
+            <DialogClose render={<Button variant="destructive">Continue</Button>} />
           </DialogFooter>
         </DialogContent>
       </Dialog>

@@ -11,13 +11,11 @@ export const notes =
 
 export function Showcase() {
   return (
-    <div className="w-full max-w-sm">
-      <InputGroup>
-        <InputGroupAddon>https://</InputGroupAddon>
-        <Input placeholder="example.com" aria-label="Website address" />
-        <InputGroupButton>Go</InputGroupButton>
-      </InputGroup>
-    </div>
+    <InputGroup className="w-full max-w-sm">
+      <InputGroupAddon>https://</InputGroupAddon>
+      <Input placeholder="example.com" aria-label="Website address" />
+      <InputGroupButton>Go</InputGroupButton>
+    </InputGroup>
   );
 }
 
@@ -25,16 +23,14 @@ function AddonsExample(props: {state: Record<string, ControlValue>}) {
   void props;
   return (
     <Group label="Text addons">
-      <div className="grid w-full max-w-sm grid-cols-1 gap-3">
-        <InputGroup>
-          <InputGroupAddon>https://</InputGroupAddon>
-          <Input placeholder="example.com" aria-label="Website address" />
-        </InputGroup>
-        <InputGroup>
-          <Input placeholder="0.00" aria-label="Amount" />
-          <InputGroupAddon>USD</InputGroupAddon>
-        </InputGroup>
-      </div>
+      <InputGroup className="w-full max-w-sm">
+        <InputGroupAddon>https://</InputGroupAddon>
+        <Input placeholder="example.com" aria-label="Website address" />
+      </InputGroup>
+      <InputGroup className="w-full max-w-sm">
+        <Input placeholder="0.00" aria-label="Amount" />
+        <InputGroupAddon>USD</InputGroupAddon>
+      </InputGroup>
     </Group>
   );
 }
@@ -43,21 +39,19 @@ function ButtonExample(props: {state: Record<string, ControlValue>}) {
   void props;
   return (
     <Group label="With action">
-      <div className="grid w-full max-w-sm grid-cols-1 gap-3">
-        <InputGroup>
-          <Input placeholder="Search components" aria-label="Search components" />
-          <InputGroupButton variant="secondary">Search</InputGroupButton>
-        </InputGroup>
-        <InputGroup>
-          <Input placeholder="Copy this value" aria-label="Copy this value" defaultValue="rixl-ui" readOnly />
-          <InputGroupButton variant="ghost" size="icon-xs" aria-label="Copy value">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
-              <rect width="14" height="14" x="8" y="8" rx="2" />
-              <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" />
-            </svg>
-          </InputGroupButton>
-        </InputGroup>
-      </div>
+      <InputGroup className="w-full max-w-sm">
+        <Input placeholder="Search components" aria-label="Search components" />
+        <InputGroupButton variant="secondary">Search</InputGroupButton>
+      </InputGroup>
+      <InputGroup className="w-full max-w-sm">
+        <Input placeholder="Copy this value" aria-label="Copy this value" defaultValue="rixl-ui" readOnly />
+        <InputGroupButton variant="ghost" size="icon-xs" aria-label="Copy value">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+            <rect width="14" height="14" x="8" y="8" rx="2" />
+            <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" />
+          </svg>
+        </InputGroupButton>
+      </InputGroup>
     </Group>
   );
 }
@@ -66,20 +60,18 @@ function SizesExample(props: {state: Record<string, ControlValue>}) {
   void props;
   return (
     <Group label="Sizes">
-      <div className="grid w-full max-w-sm grid-cols-1 gap-3">
-        <InputGroup inputSize="sm">
-          <InputGroupAddon>@</InputGroupAddon>
-          <Input placeholder="Small" aria-label="Small" />
-        </InputGroup>
-        <InputGroup inputSize="default">
-          <InputGroupAddon>@</InputGroupAddon>
-          <Input placeholder="Default" aria-label="Default" />
-        </InputGroup>
-        <InputGroup inputSize="lg">
-          <InputGroupAddon>@</InputGroupAddon>
-          <Input placeholder="Large" aria-label="Large" />
-        </InputGroup>
-      </div>
+      <InputGroup inputSize="sm" className="w-full max-w-sm">
+        <InputGroupAddon>@</InputGroupAddon>
+        <Input placeholder="Small" aria-label="Small" />
+      </InputGroup>
+      <InputGroup inputSize="default" className="w-full max-w-sm">
+        <InputGroupAddon>@</InputGroupAddon>
+        <Input placeholder="Default" aria-label="Default" />
+      </InputGroup>
+      <InputGroup inputSize="lg" className="w-full max-w-sm">
+        <InputGroupAddon>@</InputGroupAddon>
+        <Input placeholder="Large" aria-label="Large" />
+      </InputGroup>
     </Group>
   );
 }
@@ -88,12 +80,10 @@ function InvalidExample(props: {state: Record<string, ControlValue>}) {
   void props;
   return (
     <Group label="Invalid">
-      <div className="w-full max-w-sm">
-        <InputGroup>
-          <InputGroupAddon>https://</InputGroupAddon>
-          <Input placeholder="example.com" aria-label="Website address" aria-invalid="true" />
-        </InputGroup>
-      </div>
+      <InputGroup className="w-full max-w-sm">
+        <InputGroupAddon>https://</InputGroupAddon>
+        <Input placeholder="example.com" aria-label="Website address" aria-invalid="true" />
+      </InputGroup>
     </Group>
   );
 }

@@ -9,7 +9,7 @@ export const description = "Let people select one or more independent options.";
 
 export function Showcase() {
   return (
-    <div className="w-full max-w-56 space-y-3">
+    <div className="grid gap-3">
       <div className="flex items-center gap-2">
         <Checkbox id="overview-checkbox" defaultChecked />
         <Label htmlFor="overview-checkbox">Email updates</Label>

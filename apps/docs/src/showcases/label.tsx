@@ -8,9 +8,9 @@ export const description = "Give a form control a clear, visible name.";
 
 export function Showcase() {
   return (
-    <div className="flex w-full max-w-xs flex-col gap-1.5">
+    <div className="flex flex-col gap-1.5">
       <Label htmlFor="showcase-email">Email address</Label>
-      <Input id="showcase-email" type="email" placeholder="you@example.com" />
+      <Input id="showcase-email" type="email" placeholder="you@example.com" className="w-full max-w-xs" />
     </div>
   );
 }
@@ -18,9 +18,9 @@ export function Showcase() {
 function WiredExample(props: {state: Record<string, ControlValue>}) {
   void props;
   return (
-    <div className="flex w-full max-w-sm flex-col gap-1.5">
+    <div className="flex flex-col gap-1.5">
       <Label htmlFor="playground-email">Email address</Label>
-      <Input id="playground-email" type="email" placeholder="you@example.com" />
+      <Input id="playground-email" type="email" placeholder="you@example.com" className="w-full max-w-sm" />
     </div>
   );
 }
@@ -28,8 +28,8 @@ function WiredExample(props: {state: Record<string, ControlValue>}) {
 function DisabledExample(props: {state: Record<string, ControlValue>}) {
   void props;
   return (
-    <div className="flex w-full max-w-sm flex-col gap-1.5">
-      <Input id="playground-disabled" type="text" disabled defaultValue="Read only" className="peer" />
+    <div className="flex flex-col gap-1.5">
+      <Input id="playground-disabled" type="text" disabled defaultValue="Read only" className="peer w-full max-w-sm" />
       <Label htmlFor="playground-disabled">Field label (dims via peer-disabled)</Label>
     </div>
   );
@@ -38,9 +38,9 @@ function DisabledExample(props: {state: Record<string, ControlValue>}) {
 function GroupDisabledExample(props: {state: Record<string, ControlValue>}) {
   void props;
   return (
-    <div data-disabled="true" className="group flex w-full max-w-sm flex-col gap-1.5">
+    <div data-disabled="true" className="group flex flex-col gap-1.5">
       <Label htmlFor="playground-group">Grouped label (dims via group-data-[disabled])</Label>
-      <Input id="playground-group" type="text" disabled defaultValue="Under a disabled group" />
+      <Input id="playground-group" type="text" disabled defaultValue="Under a disabled group" className="w-full max-w-sm" />
     </div>
   );
 }

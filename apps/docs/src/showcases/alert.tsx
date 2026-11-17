@@ -9,7 +9,7 @@ export const notes =
 
 export function Showcase() {
   return (
-    <Alert className="w-full">
+    <Alert>
       <InfoIcon />
       <AlertTitle>New release available</AlertTitle>
       <AlertDescription>v2.3.0 is ready to install.</AlertDescription>
