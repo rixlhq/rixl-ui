@@ -52,6 +52,7 @@ function captionClassNames(defaultClassNames: CalendarClassNames, buttonVariant:
     ),
     dropdown_root: cn(
       "relative has-focus:border-rixl-ring border border-rixl-border shadow-rixl-xs has-focus:ring-rixl-ring/50 has-focus:ring-[3px] rounded-rixl-md",
+      "min-w-[5.5ch] first:min-w-[9ch] justify-center",
       defaultClassNames.dropdown_root
     ),
     dropdown: cn("absolute bg-rixl-surface inset-0 opacity-0", defaultClassNames.dropdown),
