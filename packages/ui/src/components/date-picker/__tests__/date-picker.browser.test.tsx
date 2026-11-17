@@ -1,5 +1,5 @@
-import {describe, it, expect, afterEach} from "vitest";
-import {useState} from "react";
+import {describe, it, expect, afterEach, vi} from "vitest";
+import {useState, type CSSProperties} from "react";
 import {page, userEvent} from "vitest/browser";
 import {render, cleanup} from "@testing-library/react";
 import type {DateRange} from "react-day-picker";
@@ -177,6 +177,23 @@ describe("DatePicker Browser Mode", () => {
     await expect.element(page.getByRole("button", {name: /June 20th, 2026/})).toHaveAttribute("data-range-end", "true");
   });
 
+  it("slides the weeks on month navigation, including the very first click", async () => {
+    // Slow-motion so the 260ms cross-slide is observable; the animation
+    // classes are added by DayPicker's snapshot pass and removed on cleanup.
+    render(
+      <div style={{"--rixl-motion-slow": "10s"} as CSSProperties}>
+        <SingleHarness />
+      </div>
+    );
+    await expect.element(page.getByRole("grid")).toBeVisible();
+
+    await userEvent.click(page.getByRole("button", {name: "Go to the Next Month"}));
+    await vi.waitFor(() => {
+      expect(document.querySelector(".rixl-anim-weeks-after-enter")).not.toBeNull();
+    });
+    await expect.element(page.getByRole("button", {name: /July 1st, 2026/})).toBeVisible();
+  });
+
   it("keeps the preset popover anchored while switching presets", async () => {
     render(<PresetsInPopoverHarness />);
     await userEvent.click(page.getByTestId("presets-trigger"));
@@ -213,6 +230,11 @@ describe("DatePicker Browser Mode", () => {
     widths.push(monthGridWidth());
 
     expect(Math.max(...widths) - Math.min(...widths)).toBeLessThanOrEqual(1);
+    // The native cross-slide keeps the outgoing month snapshot (aria-hidden)
+    // in the DOM until its exit animation ends — let it clean up first.
+    await vi.waitFor(() => {
+      expect(document.querySelector('.rdp-month[aria-hidden="true"]')).toBeNull();
+    });
     expect(await axeViolations(document.body)).toEqual([]);
   });
 });

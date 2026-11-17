@@ -14,13 +14,17 @@ type ButtonVariant = React.ComponentProps<typeof Button>["variant"];
 type CaptionLayout = React.ComponentProps<typeof DayPicker>["captionLayout"];
 
 /**
- * Month-switch motion gate (animate skill sequence): navigating months fires
- * tens of times per session over functional date data users read, and it is
- * often keyboard-initiated — so the call is explicit no-animation. No
- * transform or opacity fade on captions/grids, no remount-by-key (it would
- * drop keyboard focus), and DayPicker's `animate` prop stays off. The
- * popover-level fade is the only motion on this surface, and it already
- * ships motion-reduce safe.
+ * Month-switch motion gate (animate skill sequence): navigating months is
+ * tens-of-times-per-day, so the budget is one short directional slide —
+ * implemented with DayPicker's native snapshot cross-slide (`animate`), the
+ * same mechanism Kumo uses: the old weeks slide out while the new weeks
+ * slide in, captions crossfade, direction-aware with RTL mirroring from the
+ * framework. Keyframes below ride on `--rixl-motion-slow` +
+ * `--ease-rixl-out` and are fully disabled under reduced motion. No WAAPI,
+ * no remount-by-key (it would drop keyboard focus and skip the first
+ * navigation — the native snapshot handles the first click like the rest).
+ * The framework itself skips the slide while a day holds focus, so keyboard
+ * month navigation stays instant for free.
  */
 
 /**
@@ -63,6 +67,22 @@ function captionClassNames(defaultClassNames: CalendarClassNames, buttonVariant:
         : "rounded-rixl-md ps-2 pe-1 flex items-center gap-1 text-sm h-8 [&>svg]:text-rixl-fg-muted [&>svg]:size-3.5",
       defaultClassNames.caption_label
     ),
+  };
+}
+
+function animationClassNames() {
+  // Single tokens only: DayPicker applies these via classList.add, which
+  // throws on whitespace-joined strings — so no cn() merge with rdp
+  // defaults here (our keyframes carry the full motion).
+  return {
+    weeks_before_enter: "rixl-anim-weeks-before-enter",
+    weeks_before_exit: "rixl-anim-weeks-before-exit",
+    weeks_after_enter: "rixl-anim-weeks-after-enter",
+    weeks_after_exit: "rixl-anim-weeks-after-exit",
+    caption_before_enter: "rixl-anim-caption-enter",
+    caption_before_exit: "rixl-anim-caption-exit",
+    caption_after_enter: "rixl-anim-caption-enter",
+    caption_after_exit: "rixl-anim-caption-exit",
   };
 }
 
@@ -133,6 +153,7 @@ function Calendar({
   return (
     <DayPicker
       showOutsideDays={showOutsideDays}
+      animate
       className={cn(
         "bg-rixl-bg group/calendar p-3 [--cell-size:--spacing(8)] [[data-slot=card-content]_&]:bg-transparent [[data-slot=popover-content]_&]:bg-transparent",
         "rtl:**:[.rdp-button\\_next>svg]:rotate-180",
@@ -149,6 +170,7 @@ function Calendar({
       classNames={{
         ...captionClassNames(defaultClassNames, buttonVariant, captionLayout),
         ...gridClassNames(defaultClassNames),
+        ...animationClassNames(),
         ...classNames,
       }}
       components={{

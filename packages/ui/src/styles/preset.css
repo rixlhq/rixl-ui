@@ -292,6 +292,87 @@
   }
 }
 
+/*
+ * DatePicker month-switch (DayPicker `animate` snapshot cross-slide, Kumo
+ * parity). DayPicker clones the outgoing month and cross-slides the week
+ * grids while captions fade; direction classes come from the framework.
+ * transform/opacity only, slow token + ease-out, fully off under reduced
+ * motion. RTL mirrors via the document direction.
+ */
+@keyframes rixl-cal-weeks-in-right {
+  from {
+    transform: translateX(100%);
+  }
+}
+@keyframes rixl-cal-weeks-out-left {
+  to {
+    transform: translateX(-100%);
+  }
+}
+@keyframes rixl-cal-weeks-in-left {
+  from {
+    transform: translateX(-100%);
+  }
+}
+@keyframes rixl-cal-weeks-out-right {
+  to {
+    transform: translateX(100%);
+  }
+}
+@keyframes rixl-cal-caption-in {
+  from {
+    opacity: 0;
+  }
+}
+@keyframes rixl-cal-caption-out {
+  to {
+    opacity: 0;
+  }
+}
+
+.rixl-anim-weeks-after-enter {
+  animation: rixl-cal-weeks-in-right var(--rixl-motion-slow) var(--rixl-ease-out) forwards;
+}
+.rixl-anim-weeks-after-exit {
+  animation: rixl-cal-weeks-out-left var(--rixl-motion-slow) var(--rixl-ease-out) forwards;
+}
+.rixl-anim-weeks-before-enter {
+  animation: rixl-cal-weeks-in-left var(--rixl-motion-slow) var(--rixl-ease-out) forwards;
+}
+.rixl-anim-weeks-before-exit {
+  animation: rixl-cal-weeks-out-right var(--rixl-motion-slow) var(--rixl-ease-out) forwards;
+}
+.rixl-anim-caption-enter {
+  animation: rixl-cal-caption-in var(--rixl-motion-slow) var(--rixl-ease-out) forwards;
+}
+.rixl-anim-caption-exit {
+  animation: rixl-cal-caption-out var(--rixl-motion-slow) var(--rixl-ease-out) forwards;
+}
+
+:where([dir="rtl"]) .rixl-anim-weeks-after-enter {
+  animation-name: rixl-cal-weeks-in-left;
+}
+:where([dir="rtl"]) .rixl-anim-weeks-after-exit {
+  animation-name: rixl-cal-weeks-out-right;
+}
+:where([dir="rtl"]) .rixl-anim-weeks-before-enter {
+  animation-name: rixl-cal-weeks-in-right;
+}
+:where([dir="rtl"]) .rixl-anim-weeks-before-exit {
+  animation-name: rixl-cal-weeks-out-left;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rixl-anim-weeks-after-enter,
+  .rixl-anim-weeks-after-exit,
+  .rixl-anim-weeks-before-enter,
+  .rixl-anim-weeks-before-exit,
+  .rixl-anim-caption-enter,
+  .rixl-anim-caption-exit {
+    animation: none;
+  }
+}
+
 @utility animate-in {
   animation-name: rixl-enter;
   animation-duration: var(--tw-duration, var(--rixl-motion-base));
