@@ -1,6 +1,6 @@
 import {Label} from "@rixl/ui/label";
 import {Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectSeparator, SelectTrigger, SelectValue} from "@rixl/ui/select";
-import type {ControlValue, Example} from "./registry";
+import type {Example} from "./registry";
 import {Group} from "../components/showcase-layout";
 
 export const path = "select";
@@ -23,32 +23,64 @@ export function Showcase() {
   );
 }
 
-function LiveExample({state}: {state: Record<string, ControlValue>}) {
-  const size = state.size as "sm" | "default";
-  const disabled = state.disabled as boolean;
-  const invalid = state.invalid as boolean;
-
+function SizesExample() {
   return (
-    <div className="flex w-full max-w-sm flex-col gap-1.5">
-      <Label htmlFor="live-select">Favourite fruit</Label>
-      <Select disabled={disabled}>
-        <SelectTrigger id="live-select" size={size} aria-invalid={invalid}>
-          <SelectValue>{(v) => (v ? String(v) : "Pick one")}</SelectValue>
-        </SelectTrigger>
-        <SelectContent>
-          <SelectItem value="apple">Apple</SelectItem>
-          <SelectItem value="banana">Banana</SelectItem>
-          <SelectItem value="cherry">Cherry</SelectItem>
-          <SelectItem value="date">Date</SelectItem>
-        </SelectContent>
-      </Select>
-      {invalid ? <p className="text-xs text-rixl-danger">Please make a selection.</p> : null}
-    </div>
+    <Group label="Trigger sizes">
+      <div className="flex w-full max-w-sm flex-col gap-3">
+        <Select>
+          <SelectTrigger size="sm">
+            <SelectValue>{(v) => (v ? String(v) : "Small")}</SelectValue>
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="apple">Apple</SelectItem>
+            <SelectItem value="banana">Banana</SelectItem>
+          </SelectContent>
+        </Select>
+        <Select>
+          <SelectTrigger>
+            <SelectValue>{(v) => (v ? String(v) : "Default")}</SelectValue>
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="apple">Apple</SelectItem>
+            <SelectItem value="banana">Banana</SelectItem>
+          </SelectContent>
+        </Select>
+      </div>
+    </Group>
   );
 }
 
-function GroupedExample(props: {state: Record<string, ControlValue>}) {
-  void props;
+function StatesExample() {
+  return (
+    <Group label="States">
+      <div className="flex w-full max-w-sm flex-col gap-3">
+        <Select disabled>
+          <SelectTrigger>
+            <SelectValue>{(v) => (v ? String(v) : "Disabled")}</SelectValue>
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="apple">Apple</SelectItem>
+          </SelectContent>
+        </Select>
+        <div className="flex flex-col gap-1.5">
+          <Label htmlFor="invalid-select">Favourite fruit</Label>
+          <Select>
+            <SelectTrigger id="invalid-select" aria-invalid>
+              <SelectValue>{(v) => (v ? String(v) : "Pick one")}</SelectValue>
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="apple">Apple</SelectItem>
+              <SelectItem value="banana">Banana</SelectItem>
+            </SelectContent>
+          </Select>
+          <p className="text-xs text-rixl-danger">Please make a selection.</p>
+        </div>
+      </div>
+    </Group>
+  );
+}
+
+function GroupedExample() {
   return (
     <Group label="Grouped options with separator">
       <Select>
@@ -73,8 +105,7 @@ function GroupedExample(props: {state: Record<string, ControlValue>}) {
   );
 }
 
-function DisabledOptionExample(props: {state: Record<string, ControlValue>}) {
-  void props;
+function DisabledOptionExample() {
   return (
     <Group label="Disabled option">
       <Select defaultValue="pro">
@@ -95,31 +126,28 @@ function DisabledOptionExample(props: {state: Record<string, ControlValue>}) {
 
 export const examples: Example[] = [
   {
-    id: "live",
-    title: "Interactive",
-    description: "Tweak trigger size, disabled, and invalid states live.",
-    render: LiveExample,
-    controls: [
-      {
-        name: "size",
-        label: "Size",
-        type: "select",
-        options: [
-          {value: "sm", label: "Small"},
-          {value: "default", label: "Default"},
-        ],
-        defaultValue: "default",
-      },
-      {name: "disabled", label: "Disabled", type: "boolean", defaultValue: false},
-      {name: "invalid", label: "Invalid", type: "boolean", defaultValue: false},
-    ],
+    id: "sizes",
+    title: "Sizes",
+    description: "Small and default trigger sizes.",
+    render: SizesExample,
     code: `<Select>
-  <SelectTrigger>
+  <SelectTrigger size="sm">
     <SelectValue>{(v) => (v ? String(v) : "Pick one")}</SelectValue>
   </SelectTrigger>
   <SelectContent>
     <SelectItem value="apple">Apple</SelectItem>
   </SelectContent>
+</Select>`,
+  },
+  {
+    id: "states",
+    title: "States",
+    description: "Disabled trigger and invalid with an error message.",
+    render: StatesExample,
+    code: `<Select disabled>
+  <SelectTrigger>
+    <SelectValue>{(v) => (v ? String(v) : "Pick one")}</SelectValue>
+  </SelectTrigger>
 </Select>`,
   },
   {id: "grouped", title: "Grouped options", render: GroupedExample},
