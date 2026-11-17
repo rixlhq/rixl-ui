@@ -72,9 +72,9 @@ type InputSize = NonNullable<VariantProps<typeof inputVariants>["inputSize"]>;
 
 /** Kumo-style size aliases resolved onto the `inputSize` scale. */
 const sizeAliases = {xs: "sm", sm: "sm", base: "default", lg: "lg"} as const;
-type SizeAlias = keyof typeof sizeAliases;
+export type SizeAlias = keyof typeof sizeAliases;
 
-function resolveInputSize(inputSize: InputSize | null | undefined, size: SizeAlias | undefined): InputSize {
+export function resolveInputSize(inputSize: InputSize | null | undefined, size: SizeAlias | undefined): InputSize {
   return inputSize ?? (size ? sizeAliases[size] : undefined) ?? "default";
 }
 
