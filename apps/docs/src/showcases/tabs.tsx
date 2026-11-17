@@ -3,7 +3,7 @@ import {Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPa
 import {Button} from "@rixl/ui/button";
 import {Tabs, TabsContent, TabsList, TabsTrigger, type TabsProps} from "@rixl/ui/tabs";
 import {Group} from "../components/showcase-layout";
-import type {ControlValue, Example} from "./registry";
+import type {Example} from "./registry";
 
 export const path = "tabs";
 export const title = "Tabs";
@@ -46,8 +46,7 @@ function Row({labels, ...rest}: {labels: string[]} & Partial<TabsProps>) {
   );
 }
 
-function SlideExample(props: {state: Record<string, ControlValue>}) {
-  void props;
+function SlideExample() {
   return (
     <div className="space-y-4">
       <Row labels={CLOUDFLARE} />
@@ -59,8 +58,7 @@ function SlideExample(props: {state: Record<string, ControlValue>}) {
   );
 }
 
-function OverflowExample(props: {state: Record<string, ControlValue>}) {
-  void props;
+function OverflowExample() {
   return (
     <div className="space-y-6">
       <div className="max-w-sm space-y-2">
@@ -101,19 +99,7 @@ function OverflowExample(props: {state: Record<string, ControlValue>}) {
   );
 }
 
-function VariantsExample({state}: {state: Record<string, ControlValue>}) {
-  const variant = state.variant as TabsProps["variant"];
-  const size = state.size as TabsProps["size"];
-  const fullWidth = state.fullWidth as boolean;
-  return (
-    <div className="w-full">
-      <Row labels={["Overview", "Metrics", "Deployments", "Settings"]} variant={variant} size={size} fullWidth={fullWidth} />
-    </div>
-  );
-}
-
-function AllVariantsExample(props: {state: Record<string, ControlValue>}) {
-  void props;
+function AllVariantsExample() {
   return (
     <div className="space-y-6">
       <Group label="Segmented — pill indicator on a muted track">
@@ -129,8 +115,7 @@ function AllVariantsExample(props: {state: Record<string, ControlValue>}) {
   );
 }
 
-function SizesExample(props: {state: Record<string, ControlValue>}) {
-  void props;
+function SizesExample() {
   return (
     <div className="space-y-6">
       <Group label="md — 32px triggers">
@@ -164,36 +149,6 @@ export const examples: Example[] = [
     description:
       "When tabs exceed the container width, TabsList scrolls horizontally with start/end fade controls, mouse drag-to-scroll, and auto-scrollIntoView on click.",
     render: OverflowExample,
-  },
-  {
-    id: "variants",
-    title: "Playground",
-    description: "Cycle variant, size and layout live.",
-    render: VariantsExample,
-    controls: [
-      {
-        name: "variant",
-        label: "Variant",
-        type: "select",
-        options: [
-          {value: "segmented", label: "Segmented"},
-          {value: "underline", label: "Underline"},
-          {value: "ghost", label: "Ghost"},
-        ],
-        defaultValue: "segmented",
-      },
-      {
-        name: "size",
-        label: "Size",
-        type: "select",
-        options: [
-          {value: "sm", label: "Small"},
-          {value: "md", label: "Medium"},
-        ],
-        defaultValue: "md",
-      },
-      {name: "fullWidth", label: "Full width", type: "boolean", defaultValue: false},
-    ],
   },
   {id: "all-variants", title: "Variants", render: AllVariantsExample},
   {id: "sizes", title: "Sizes", render: SizesExample},
