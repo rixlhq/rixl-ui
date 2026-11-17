@@ -24,6 +24,10 @@ import {Popover, PopoverContent, PopoverTrigger} from "../popover/popover";
  * complete, so closing on any complete range would make multi-day ranges
  * unreachable. `onSelect` fires on every day click, `onApply` only on the
  * commit that closes the panel.
+ *
+ * Kumo mapping: `selected` is a deprecated alias for `value`, `onChange` for
+ * `onSelect`. Both fire together when set; `value`/`onSelect` win for
+ * display when both are provided.
  */
 type DatePickerBaseProps = {
   /** Placeholder label while nothing is selected. Defaults per mode. */
@@ -78,14 +82,22 @@ type DatePickerBaseProps = {
 export type DatePickerSingleProps = DatePickerBaseProps & {
   mode?: "single";
   value?: Date;
+  /** Kumo alias for `value`. Deprecated: prefer `value`. */
+  selected?: Date;
   onSelect?: (date: Date | undefined) => void;
+  /** Kumo alias for `onSelect`. Deprecated: prefer `onSelect`. */
+  onChange?: (date: Date | undefined) => void;
   onApply?: (date: Date | undefined) => void;
 };
 
 export type DatePickerRangeProps = DatePickerBaseProps & {
   mode: "range";
   value?: DateRange;
+  /** Kumo alias for `value`. Deprecated: prefer `value`. */
+  selected?: DateRange;
   onSelect?: (range: DateRange | undefined) => void;
+  /** Kumo alias for `onSelect`. Deprecated: prefer `onSelect`. */
+  onChange?: (range: DateRange | undefined) => void;
   onApply?: (range: DateRange | undefined) => void;
   /** Min/max range length in days. */
   min?: number;
@@ -95,7 +107,11 @@ export type DatePickerRangeProps = DatePickerBaseProps & {
 export type DatePickerMultipleProps = DatePickerBaseProps & {
   mode: "multiple";
   value?: Date[];
+  /** Kumo alias for `value`. Deprecated: prefer `value`. */
+  selected?: Date[];
   onSelect?: (dates: Date[] | undefined) => void;
+  /** Kumo alias for `onSelect`. Deprecated: prefer `onSelect`. */
+  onChange?: (dates: Date[] | undefined) => void;
   onApply?: (dates: Date[] | undefined) => void;
   /** Min/max selected days. */
   min?: number;
@@ -226,9 +242,10 @@ function SingleDatePanel({picker, shared, onCommit}: {picker: DatePickerSinglePr
     <Calendar
       mode="single"
       {...shared}
-      selected={picker.value}
+      selected={picker.value ?? picker.selected}
       onSelect={(date) => {
         picker.onSelect?.(date);
+        picker.onChange?.(date);
         if (date) {
           picker.onApply?.(date);
           onCommit();
@@ -245,9 +262,10 @@ function MultipleDatePanel({picker, shared}: {picker: DatePickerMultipleProps; s
       {...shared}
       min={picker.min}
       max={picker.max}
-      selected={picker.value}
+      selected={picker.value ?? picker.selected}
       onSelect={(dates) => {
         picker.onSelect?.(dates);
+        picker.onChange?.(dates);
       }}
     />
   );
@@ -260,9 +278,10 @@ function RangeDatePanel({picker, shared, onCommit}: {picker: DatePickerRangeProp
       {...shared}
       min={picker.min}
       max={picker.max}
-      selected={picker.value}
+      selected={picker.value ?? picker.selected}
       onSelect={(range) => {
         picker.onSelect?.(range);
+        picker.onChange?.(range);
         if (range?.from && range?.to && !isSameCalendarDay(range.from, range.to)) {
           picker.onApply?.(range);
           onCommit();
@@ -287,7 +306,7 @@ function DatePicker(props: DatePickerProps) {
   const {placeholder, align = "start", side = "bottom", triggerClassName, contentClassName, triggerDisabled, children} = props;
   const [isOpen, setOpen] = useDatePickerOpen(props.open, props.defaultOpen, props.onOpenChange);
   const resolvedPlaceholder = resolveDatePickerPlaceholder(props.mode, placeholder);
-  const label = children ?? formatDatePickerLabel(props.value, resolvedPlaceholder);
+  const label = children ?? formatDatePickerLabel(props.value ?? props.selected, resolvedPlaceholder);
   const isEmpty = children == null && label === resolvedPlaceholder;
 
   return (
