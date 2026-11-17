@@ -10,6 +10,7 @@ export function ComponentSearch() {
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState("");
   const navigated = useRef(false);
+  const triggerRef = useRef<HTMLButtonElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const resultsRef = useRef<HTMLElement>(null);
   const results = showcases.filter((showcase) => matchesShowcase(showcase, query)).sort((a, b) => a.title.localeCompare(b.title));
@@ -38,7 +39,7 @@ export function ComponentSearch() {
     >
       <PopoverTrigger
         render={
-          <Button variant="outline" size="sm" className="docs-search-trigger" aria-label="Search components">
+          <Button ref={triggerRef} variant="outline" size="sm" className="docs-search-trigger" aria-label="Search components">
             <SearchIcon />
             <span>Search components</span>
             <kbd aria-hidden="true">⌘ K</kbd>
@@ -51,7 +52,7 @@ export function ComponentSearch() {
         sideOffset={8}
         initialFocus={inputRef}
         finalFocus={() => {
-          if (!navigated.current) return true;
+          if (!navigated.current) return triggerRef.current;
           return document.querySelector<HTMLElement>("#docs-main h1") ?? true;
         }}
         className="docs-search-popup p-0 transition-none"
