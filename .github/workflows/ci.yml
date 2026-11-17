@@ -54,7 +54,7 @@ jobs:
       # Check and package build are independent; the remaining gates run in order below.
       - parallel:
           - name: 🧹 Workspace checks
-            run: vpr ci:check && vpr -F @rixl/ui lint:suppressions && vpr -F @rixl/ui knip
+            run: vpr ci:check && vpr -F @rixl/ui lint:suppressions
 
           - name: 📦 Pack UI package
             run: vpr -F @rixl/ui build

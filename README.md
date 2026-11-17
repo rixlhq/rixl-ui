@@ -63,7 +63,6 @@ vp dev                 # watch build
 vp test                # Vitest (watch)
 vp test --run          # single pass: unit (jsdom) and browser (Chromium, axe) projects
 vp test --coverage     # with coverage; fails under the floor in vite.config.ts
-vpr knip               # unused files, exports and dependencies
 vpr ci                 # standalone UI package gate
 vp check               # oxlint + tsc, zero warnings
 vp fmt                 # oxfmt (write)
