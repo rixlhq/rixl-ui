@@ -85,6 +85,16 @@
       "development": "./src/components/input/index.ts",
       "import": "./dist/input.js"
     },
+    "./field": {
+      "types": "./dist/field.d.ts",
+      "development": "./src/components/field/index.ts",
+      "import": "./dist/field.js"
+    },
+    "./input-group": {
+      "types": "./dist/input-group.d.ts",
+      "development": "./src/components/input-group/index.ts",
+      "import": "./dist/input-group.js"
+    },
     "./textarea": {
       "types": "./dist/textarea.d.ts",
       "development": "./src/components/textarea/index.ts",
@@ -175,10 +185,20 @@
       "development": "./src/components/table/index.ts",
       "import": "./dist/table.js"
     },
+    "./pagination": {
+      "types": "./dist/pagination.d.ts",
+      "development": "./src/components/pagination/index.ts",
+      "import": "./dist/pagination.js"
+    },
     "./calendar": {
       "types": "./dist/calendar.d.ts",
       "development": "./src/components/calendar/index.ts",
       "import": "./dist/calendar.js"
+    },
+    "./date-picker": {
+      "types": "./dist/date-picker.d.ts",
+      "development": "./src/components/date-picker/index.ts",
+      "import": "./dist/date-picker.js"
     },
     "./copy-block": {
       "types": "./dist/copy-block.d.ts",
