@@ -24,7 +24,7 @@ export function DropdownMenuContent({
         <MenuPrimitive.Popup
           data-slot="dropdown-menu-content"
           className={cn(
-            "bg-rixl-surface text-rixl-fg z-50 max-h-(--available-height) min-w-[8rem] max-w-[calc(100dvw-2rem)] origin-(--transform-origin) overflow-x-hidden overflow-y-auto overscroll-contain rounded-rixl-md border-rixl-border border p-1 shadow-rixl-md outline-hidden",
+            "bg-rixl-surface text-rixl-fg z-50 max-h-(--available-height) min-w-[8rem] max-w-[calc(100dvw-2rem)] origin-(--transform-origin) overflow-x-hidden overflow-y-auto overscroll-contain wrap-anywhere rounded-rixl-md border-rixl-border border p-1 shadow-rixl-md outline-hidden",
             "transition-[scale,opacity] duration-rixl-fast ease-rixl-out motion-reduce:transition-none",
             "data-starting-style:scale-95 data-starting-style:opacity-0 data-ending-style:scale-95 data-ending-style:opacity-0",
             className

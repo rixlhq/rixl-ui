@@ -160,16 +160,16 @@ describe("Dialog", () => {
   });
 });
 
-it("constrains height and scrolls internally while keeping compact close button sizing", async () => {
+it("fills phones and scrolls internally with larger mobile close targets", async () => {
   render(<Basic open />);
   await act(async () => {});
   const content = screen.getByTestId("content");
-  expect(content.className).toContain("max-w-[calc(100%-2rem)]");
-  expect(content.className).toContain("max-h-[calc(100dvh-2rem)]");
+  expect(content.className).toContain("h-dvh");
+  expect(content.className).toContain("sm:h-auto");
+  expect(content.className).toContain("sm:max-h-[calc(100dvh-2rem)]");
   expect(content.className).toContain("overflow-y-auto");
-  expect(content.className).not.toContain("max-sm:h-dvh");
   const closes = document.querySelectorAll("[data-slot='dialog-close']");
   const close = closes[closes.length - 1];
   expect(close?.className).toContain("size-7");
-  expect(close?.className).not.toContain("size-11");
+  expect(close?.className).toContain("size-11");
 });

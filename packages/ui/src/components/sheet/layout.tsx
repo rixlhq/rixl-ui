@@ -6,7 +6,7 @@ export type SheetTitleProps = SheetPrimitive.Title.Props;
 export type SheetDescriptionProps = SheetPrimitive.Description.Props;
 
 export function SheetHeader({className, ...props}: React.ComponentProps<"div">) {
-  return <div data-slot="sheet-header" className={cn("flex min-w-0 flex-col gap-1.5 p-4", className)} {...props} />;
+  return <div data-slot="sheet-header" className={cn("flex min-w-0 flex-col gap-1.5 p-4 pe-16", className)} {...props} />;
 }
 
 export function SheetFooter({className, ...props}: React.ComponentProps<"div">) {

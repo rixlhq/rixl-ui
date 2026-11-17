@@ -45,7 +45,7 @@ export function DropdownMenuSubContent({
   return (
     <DropdownMenuContent
       data-slot="dropdown-menu-sub-content"
-      className={cn("min-w-[8rem] overflow-hidden shadow-rixl-lg", className)}
+      className={cn("min-w-[8rem] shadow-rixl-lg", className)}
       align={align}
       alignOffset={alignOffset}
       side={side}
