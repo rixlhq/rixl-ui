@@ -9,6 +9,7 @@
 // pulls in every component, which is fine for prototyping but not for
 // production bundles.
 export * from "./components/button";
+export * from "./components/button-group";
 export * from "./components/label";
 export * from "./components/separator";
 export * from "./components/badge";

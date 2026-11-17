@@ -1,5 +1,6 @@
 import type {ComponentType, ReactNode} from "react";
 import * as button from "./button";
+import * as buttonGroup from "./button-group";
 import * as label from "./label";
 import * as separator from "./separator";
 import * as badge from "./badge";
@@ -86,6 +87,7 @@ export type Showcase = {
  */
 export const showcases: Showcase[] = [
   button,
+  buttonGroup,
   label,
   separator,
   badge,

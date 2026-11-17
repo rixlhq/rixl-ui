@@ -45,6 +45,11 @@
       "development": "./src/components/button/index.ts",
       "import": "./dist/button.js"
     },
+    "./button-group": {
+      "types": "./dist/button-group.d.ts",
+      "development": "./src/components/button-group/index.ts",
+      "import": "./dist/button-group.js"
+    },
     "./label": {
       "types": "./dist/label.d.ts",
       "development": "./src/components/label/index.ts",
