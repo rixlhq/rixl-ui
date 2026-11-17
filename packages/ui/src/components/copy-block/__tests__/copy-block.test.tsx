@@ -22,8 +22,8 @@ describe("CopyBlock", () => {
     render(<CopyBlock title="API Key" value="sk_live_123" />);
     const btn = screen.getByRole("button");
     expect(btn).not.toHaveAttribute("data-copied");
-    act(() => {
-      screen.getByText("sk_live_123").click();
+    await act(async () => {
+      screen.getByRole("button").click();
     });
     expect(writeText).toHaveBeenCalledWith("sk_live_123");
     expect(btn).toHaveAttribute("data-copied", "true");
