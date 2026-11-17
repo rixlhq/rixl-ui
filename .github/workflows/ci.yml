@@ -48,13 +48,20 @@ jobs:
         run: vpx playwright install chromium
         working-directory: packages/ui
 
-      # Check and package gates are independent; docs builds after the UI pack.
+      # Check and package build are independent; the remaining gates run in order below.
       - parallel:
           - name: 🧹 Workspace checks
-            run: vpr ci:check
+            run: vpr ci:check && vpr -F @rixl/ui lint:suppressions && vpr -F @rixl/ui knip
 
-          - name: 🧪 UI package gate
-            run: vpr ci:ui
+          - name: 📦 Pack UI package
+            run: vpr -F @rixl/ui build
+
+      - name: 🧪 Test UI package with coverage
+        run: vp test --coverage --run
+        working-directory: packages/ui
+
+      - name: 🔎 Check package budget and exports
+        run: vpr -F @rixl/ui budget && vpr -F @rixl/ui publint
 
       - name: 🏗️ Build docs app
         run: vpr ci:docs
