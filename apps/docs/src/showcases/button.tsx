@@ -1,5 +1,5 @@
-import {Button, type ButtonProps} from "@rixl/ui/button";
-import type {ControlValue, Example} from "./registry";
+import {Button} from "@rixl/ui/button";
+import type {Example} from "./registry";
 import {Group} from "../components/showcase-layout";
 
 export const path = "button";
@@ -13,23 +13,7 @@ export function Showcase() {
   return <Button>Button</Button>;
 }
 
-function VariantsExample({state}: {state: Record<string, ControlValue>}) {
-  const variant = state.variant as ButtonProps["variant"];
-  const size = state.size as ButtonProps["size"];
-  const loading = state.loading as boolean;
-  const disabled = state.disabled as boolean;
-
-  return (
-    <Group label="Live preview — hold the mouse down to feel the press">
-      <Button variant={variant} size={size} loading={loading} disabled={disabled}>
-        {loading ? "Saving…" : disabled ? "Disabled" : "Button"}
-      </Button>
-    </Group>
-  );
-}
-
-function PressExample(props: {state: Record<string, ControlValue>}) {
-  void props;
+function PressExample() {
   return (
     <div className="space-y-6">
       <Group label="Press — every variant depresses and drops its shadow">
@@ -60,8 +44,7 @@ function PressExample(props: {state: Record<string, ControlValue>}) {
   );
 }
 
-function VariantGridExample(props: {state: Record<string, ControlValue>}) {
-  void props;
+function VariantGridExample() {
   return (
     <Group label="All six variants">
       <Button>Default</Button>
@@ -74,8 +57,7 @@ function VariantGridExample(props: {state: Record<string, ControlValue>}) {
   );
 }
 
-function SizesExample(props: {state: Record<string, ControlValue>}) {
-  void props;
+function SizesExample() {
   return (
     <div className="space-y-6">
       <Group label="Text sizes">
@@ -98,8 +80,7 @@ function SizesExample(props: {state: Record<string, ControlValue>}) {
   );
 }
 
-function CrossAppExample(props: {state: Record<string, ControlValue>}) {
-  void props;
+function CrossAppExample() {
   return (
     <div className="space-y-6">
       <Group label="Same button, two naming conventions">
@@ -117,8 +98,7 @@ function CrossAppExample(props: {state: Record<string, ControlValue>}) {
   );
 }
 
-function StatesExample(props: {state: Record<string, ControlValue>}) {
-  void props;
+function StatesExample() {
   return (
     <div className="space-y-6">
       <Group label="Loading — disables clicks, sets aria-busy, and renders an inline spinner">
@@ -152,8 +132,7 @@ function StatesExample(props: {state: Record<string, ControlValue>}) {
   );
 }
 
-function PolymorphicExample(props: {state: Record<string, ControlValue>}) {
-  void props;
+function PolymorphicExample() {
   return (
     <Group label="Polymorphic (render={<a/>})">
       <Button render={<a href="https://rixl.com" target="_blank" rel="noreferrer" aria-label="Open rixl.com" />} variant="link">
@@ -173,43 +152,14 @@ export const examples: Example[] = [
   {
     id: "variants",
     title: "Variants",
-    description: "Cycle through the six button looks and six sizes live.",
-    render: VariantsExample,
-    controls: [
-      {
-        name: "variant",
-        label: "Variant",
-        type: "select",
-        options: [
-          {value: "default", label: "Default"},
-          {value: "secondary", label: "Secondary"},
-          {value: "outline", label: "Outline"},
-          {value: "ghost", label: "Ghost"},
-          {value: "destructive", label: "Destructive"},
-          {value: "link", label: "Link"},
-        ],
-        defaultValue: "default",
-      },
-      {
-        name: "size",
-        label: "Size",
-        type: "select",
-        options: [
-          {value: "sm", label: "Small"},
-          {value: "default", label: "Default"},
-          {value: "lg", label: "Large"},
-          {value: "icon", label: "Icon"},
-          {value: "icon-sm", label: "Icon small"},
-          {value: "icon-xs", label: "Icon extra small"},
-        ],
-        defaultValue: "default",
-      },
-      {name: "loading", label: "Loading", type: "boolean", defaultValue: false},
-      {name: "disabled", label: "Disabled", type: "boolean", defaultValue: false},
-    ],
-    code: `<Button variant="default" size="default">
-  Button
-</Button>`,
+    description: "All six variants side by side.",
+    render: VariantGridExample,
+    code: `<Button>Default</Button>
+<Button variant="secondary">Secondary</Button>
+<Button variant="outline">Outline</Button>
+<Button variant="ghost">Ghost</Button>
+<Button variant="destructive">Destructive</Button>
+<Button variant="link">Link</Button>`,
   },
   {
     id: "press",
@@ -226,17 +176,6 @@ motion-reduce:active:scale-100
 shadow-rixl-xs active:shadow-none
 transition-[scale,background-color,box-shadow,border-color,color]
 duration-rixl-fast ease-rixl-out`,
-  },
-  {
-    id: "variant-grid",
-    title: "All variants",
-    render: VariantGridExample,
-    code: `<Button>Default</Button>
-<Button variant="secondary">Secondary</Button>
-<Button variant="outline">Outline</Button>
-<Button variant="ghost">Ghost</Button>
-<Button variant="destructive">Destructive</Button>
-<Button variant="link">Link</Button>`,
   },
   {
     id: "sizes",
