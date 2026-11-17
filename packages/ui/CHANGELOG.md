@@ -1,5 +1,22 @@
 # Changelog
 
+## [0.4.0](https://github.com/rixlhq/rixl-ui/compare/@rixl/ui-v0.3.0...@rixl/ui-v0.4.0) (2026-11-17)
+
+
+### ⚠ BREAKING CHANGES
+
+* **card:** make card a passive surface
+
+### Features
+
+* **empty:** add canonical empty with empty-state adapter ([20fc0f6](https://github.com/rixlhq/rixl-ui/commit/20fc0f602c9d3488bf858c54f537be90aca854db))
+* **pagination:** add normalized composable parts and page entry ([38c00c1](https://github.com/rixlhq/rixl-ui/commit/38c00c1fb078ce7599fbce9609e5f089157935d4))
+
+
+### Code Refactoring
+
+* **card:** make card a passive surface ([4e2942e](https://github.com/rixlhq/rixl-ui/commit/4e2942e6613fd07f35fd9d53a3c7180898d3085a))
+
 ## [0.3.0](https://github.com/rixlhq/rixl-ui/compare/@rixl/ui-v0.2.2...@rixl/ui-v0.3.0) (2026-11-17)
 
 
