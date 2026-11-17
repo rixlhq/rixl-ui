@@ -154,9 +154,13 @@ function startOfDay(date: Date): Date {
   return new Date(date.getFullYear(), date.getMonth(), date.getDate());
 }
 
+function startOfMonth(date: Date): Date {
+  return new Date(date.getFullYear(), date.getMonth(), 1);
+}
+
 function PresetsExample() {
   const [range, setRange] = useState<DateRange | undefined>();
-  const [month, setMonth] = useState<Date>(TODAY);
+  const [month, setMonth] = useState<Date>(startOfMonth(TODAY));
   const presets: {label: string; range: DateRange}[] = [
     {label: "Today", range: {from: TODAY, to: TODAY}},
     {
@@ -176,7 +180,8 @@ function PresetsExample() {
     <Group label="Range in a popover with presets">
       <Popover>
         <PopoverTrigger render={<Button variant="outline">{formatRangeLabel(range, "Select dates")}</Button>} />
-        <PopoverContent className="w-auto p-0">
+        {/* align="start": the trigger label changes width with the range, and a centered popover would recenter a few px on every preset click. */}
+        <PopoverContent align="start" className="w-auto p-0">
           <div className="flex flex-col gap-3 p-3 sm:flex-row">
             <div className="flex flex-row gap-1 sm:flex-col">
               {presets.map((preset) => (
@@ -185,7 +190,7 @@ function PresetsExample() {
                   type="button"
                   onClick={() => {
                     setRange(preset.range);
-                    if (preset.range.from) setMonth(preset.range.from);
+                    if (preset.range.from) setMonth(startOfMonth(preset.range.from));
                   }}
                   data-active={isActive(preset.range)}
                   className="rounded-rixl-md px-3 py-1.5 text-left text-sm whitespace-nowrap text-rixl-fg-muted hover:bg-rixl-surface-muted data-[active=true]:bg-rixl-primary data-[active=true]:text-rixl-primary-fg"
@@ -201,6 +206,7 @@ function PresetsExample() {
               onSelect={(next) => setRange(next)}
               month={month}
               onMonthChange={setMonth}
+              showOutsideDays={false}
             />
           </div>
         </PopoverContent>
