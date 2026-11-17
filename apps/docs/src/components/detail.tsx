@@ -1,4 +1,4 @@
-import {memo, useId, useMemo, useState} from "react";
+import {memo, useId, useMemo, useRef, useState} from "react";
 import type {ComponentType, ReactNode} from "react";
 import {Button} from "@rixl/ui/button";
 import {Label} from "@rixl/ui/label";
@@ -20,6 +20,7 @@ export const Detail = memo(function Detail({showcase}: {showcase: Showcase}) {
     return [{id: "default", title: "Preview", render: Legacy}];
   }, [showcase]);
 
+  const jumpTarget = useRef<HTMLElement>(null);
   const sorted = [...showcases].sort((a, b) => a.title.localeCompare(b.title));
   const index = sorted.findIndex((item) => item.path === showcase.path);
   const previous = sorted[index - 1];
@@ -38,11 +39,20 @@ export const Detail = memo(function Detail({showcase}: {showcase: Showcase}) {
         </div>
         {examples.length > 1 ? (
           <div className="docs-example-picker">
-            <Select value={null} onValueChange={jumpToExample}>
+            <Select
+              value={null}
+              onOpenChange={(open) => {
+                if (open) jumpTarget.current = null;
+              }}
+              onValueChange={(id: string | null) => {
+                jumpTarget.current = id ? document.getElementById(`example-${id}`) : null;
+                jumpToExample(id);
+              }}
+            >
               <SelectTrigger aria-label="Jump to example" className="w-full">
                 <SelectValue placeholder="Jump to example" />
               </SelectTrigger>
-              <SelectContent>
+              <SelectContent finalFocus={() => jumpTarget.current ?? true}>
                 {examples.map((example) => (
                   <SelectItem key={example.id} value={example.id}>
                     {example.title}

@@ -14,21 +14,11 @@ import {
   SidebarMenuItem,
   SidebarRail,
 } from "@rixl/ui/sidebar";
-import {matchesShowcase} from "../hooks/use-hash-route";
 import type {Showcase} from "../showcases/registry";
 
-export const AppSidebar = memo(function AppSidebar({
-  showcases,
-  query,
-  activePath,
-}: {
-  showcases: Showcase[];
-  query: string;
-  activePath?: string;
-}) {
+export const AppSidebar = memo(function AppSidebar({showcases, activePath}: {showcases: Showcase[]; activePath?: string}) {
   const {setOpenMobile} = useSidebar();
-  const filtered = useMemo(() => showcases.filter((s) => matchesShowcase(s, query)), [showcases, query]);
-  const items = useMemo(() => [...filtered].sort((a, b) => a.title.localeCompare(b.title)), [filtered]);
+  const items = useMemo(() => [...showcases].sort((a, b) => a.title.localeCompare(b.title)), [showcases]);
 
   return (
     <Sidebar collapsible="offcanvas">

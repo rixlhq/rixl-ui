@@ -1,4 +1,5 @@
 import {defineConfig} from "vite-plus";
+import {playwright} from "vite-plus/test/browser-playwright";
 import react from "@vitejs/plugin-react";
 import tailwindcss from "@tailwindcss/vite";
 
@@ -12,8 +13,20 @@ import tailwindcss from "@tailwindcss/vite";
 export default defineConfig({
   plugins: [react({compiler: true}), tailwindcss()],
   test: {
-    environment: "jsdom",
-    include: ["src/**/__tests__/**/*.test.{ts,tsx}"],
+    projects: [
+      {
+        extends: true,
+        test: {name: "unit", environment: "jsdom", include: ["src/**/__tests__/**/*.test.{ts,tsx}"], exclude: ["**/*.browser.test.tsx"]},
+      },
+      {
+        extends: true,
+        test: {
+          name: "browser",
+          include: ["src/**/__tests__/**/*.browser.test.tsx"],
+          browser: {enabled: true, headless: true, provider: playwright(), instances: [{browser: "chromium"}]},
+        },
+      },
+    ],
   },
   server: {
     port: 5176,

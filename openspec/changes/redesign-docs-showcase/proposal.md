@@ -9,8 +9,8 @@ The showcase needs better demo composition, visual hierarchy and example browsin
 - Rework the overview into a continuous grid of demos with shared dividers and clearly separated navigation links.
 - Improve the actual demo compositions and use compact previews where full examples crowd the grid.
 - Refine the existing sidebar's typography without changing its structure.
-- Show search matches in the main pane from every route.
-- Add example navigation, reset controls, code highlighting, copy feedback and adjacent component links.
+- Show search matches in a keyboard-accessible popover while keeping the current page visible.
+- Add example navigation with a compact selector on narrow screens, code highlighting, copy feedback and adjacent component links.
 
 ## Capabilities
 
@@ -24,11 +24,11 @@ None.
 
 ## Non-goals
 
-No changes to packages/ui, public component APIs, dependencies, or the sidebar's information architecture. No curated dashboard or replacement of the demo grid with an index.
+No changes to packages/ui, public component APIs, runtime dependencies, or the sidebar's information architecture. No curated dashboard or replacement of the demo grid with an index.
 
 ## Acceptance
 
-All registered demos remain in the overview. Search ignores surrounding whitespace. Example reset restores the preview without changing other examples. Both themes and narrow layouts work.
+All registered demos remain in the overview. Search ignores surrounding whitespace. Search leaves the current demo visible; demo toolbars have no reset action. Both themes and narrow layouts work.
 
 ## Impact
 

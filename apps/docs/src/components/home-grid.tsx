@@ -1,53 +1,24 @@
 import {memo, useMemo} from "react";
 import {SidebarTrigger} from "@rixl/ui/sidebar";
-import {EmptyState} from "@rixl/ui/empty-state";
-import {matchesShowcase} from "../hooks/use-hash-route";
 import type {Showcase} from "../showcases/registry";
 import {ArrowUpRightIcon} from "./icons";
 
-export function HomeGrid({showcases, query, onClearQuery}: {showcases: Showcase[]; query: string; onClearQuery: () => void}) {
-  const filtered = useMemo(
-    () => [...showcases].filter((s) => matchesShowcase(s, query)).sort((a, b) => a.title.localeCompare(b.title)),
-    [showcases, query]
-  );
-  const searching = Boolean(query.trim());
-
+export function HomeGrid({showcases}: {showcases: Showcase[]}) {
+  const sorted = useMemo(() => [...showcases].sort((a, b) => a.title.localeCompare(b.title)), [showcases]);
   return (
     <div>
       <div className="docs-page-heading">
-        <p className="docs-eyebrow">@rixl/ui</p>
-        <h1>{searching ? "Search results" : "Components"}</h1>
-        <p>
-          {searching
-            ? `Matching “${query.trim()}”`
-            : "A collection of the building blocks in @rixl/ui. Interact with any preview to try it."}
-        </p>
+        <h1>Components</h1>
+        <p>Interactive previews of the Rixl design system.</p>
       </div>
       <div className="docs-index-bar">
-        <span aria-live="polite">
-          {filtered.length} {filtered.length === 1 ? "component" : "components"}
-        </span>
-        {searching ? (
-          <button type="button" onClick={onClearQuery}>
-            Clear search ×
-          </button>
-        ) : (
-          <span className="docs-index-hint">Select a component for examples and code</span>
-        )}
+        <span>{showcases.length} components</span>
       </div>
-      {filtered.length === 0 ? (
-        <EmptyState
-          title="No components found"
-          description="Try a component name or a shorter search."
-          action={{label: "Clear search", onClick: onClearQuery}}
-        />
-      ) : (
-        <ul className="docs-demo-grid">
-          {filtered.map((showcase) => (
-            <Cell key={showcase.path} showcase={showcase} />
-          ))}
-        </ul>
-      )}
+      <ul className="docs-demo-grid">
+        {sorted.map((showcase) => (
+          <Cell key={showcase.path} showcase={showcase} />
+        ))}
+      </ul>
     </div>
   );
 }

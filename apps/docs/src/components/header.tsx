@@ -1,41 +1,13 @@
-import {useEffect, useRef} from "react";
 import {Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator} from "@rixl/ui/breadcrumb";
-import {Input} from "@rixl/ui/input";
 import {Separator} from "@rixl/ui/separator";
 import {SidebarTrigger} from "@rixl/ui/sidebar";
 import {Tabs, TabsList, TabsTrigger} from "@rixl/ui/tabs";
+import {ComponentSearch} from "./component-search";
 import type {Theme} from "../hooks/use-theme";
 import type {Showcase} from "../showcases/registry";
-import {MonitorIcon, MoonIcon, SearchIcon, SunIcon} from "./icons";
+import {MonitorIcon, MoonIcon, SunIcon} from "./icons";
 
-export function Header({
-  theme,
-  onThemeChange,
-  query,
-  onQueryChange,
-  active,
-}: {
-  theme: Theme;
-  onThemeChange: (next: Theme) => void;
-  query: string;
-  onQueryChange: (value: string) => void;
-  active: Showcase | null;
-}) {
-  const searchRef = useRef<HTMLInputElement>(null);
-  useEffect(() => {
-    const onKeyDown = (event: KeyboardEvent) => {
-      if ((event.metaKey || event.ctrlKey) && event.key === "k") {
-        event.preventDefault();
-        searchRef.current?.focus();
-      }
-      if (event.key === "Escape" && document.activeElement === searchRef.current) {
-        onQueryChange("");
-        searchRef.current?.blur();
-      }
-    };
-    window.addEventListener("keydown", onKeyDown);
-    return () => window.removeEventListener("keydown", onKeyDown);
-  }, [onQueryChange]);
+export function Header({theme, onThemeChange, active}: {theme: Theme; onThemeChange: (next: Theme) => void; active: Showcase | null}) {
   return (
     <header className="docs-header">
       <div className="flex min-w-0 items-center gap-3">
@@ -59,18 +31,7 @@ export function Header({
       </div>
 
       <div className="flex items-center gap-2 sm:gap-3">
-        <div className="docs-search">
-          <Input
-            ref={searchRef}
-            aria-label="Search components"
-            inputSize="sm"
-            value={query}
-            onChange={(e) => onQueryChange(e.target.value)}
-            placeholder="Search components"
-            startIcon={<SearchIcon />}
-          />
-          <kbd aria-hidden="true">⌘ K</kbd>
-        </div>
+        <ComponentSearch />
         <ThemeToggle theme={theme} onChange={onThemeChange} />
       </div>
     </header>

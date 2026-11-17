@@ -24,6 +24,13 @@ Create a restrained, dense documentation workspace. Do not redesign the publishe
 **Dropped:** Reset buttons; the user prefers ordinary demo state reset on navigation without a dedicated toolbar action.
 **Evidence:** Verified against use-hash-route.ts and detail.tsx.
 
+### Search
+
+**Chosen:** Keep search state inside a header popover, show native links as results and preserve the content underneath. Use Cmd/Ctrl+K, arrow navigation, Enter, Escape and ordinary Tab navigation.
+**Alternatives considered:** Filtering the sidebar and replacing the detail page hides context and destroys the current demo when typing.
+**Dropped:** Main-pane search results, replaced following user feedback.
+**Evidence:** Chromium interaction tests in navigation.browser.test.tsx, including axe checks.
+
 ### Presentation
 
 **Chosen:** Transparent showcase containers, typographic hierarchy, thin dividers and functional link hover feedback. Home tiles show the component name without example counts; components retain their own surfaces. Keep frequent navigation instant.
@@ -33,7 +40,7 @@ Create a restrained, dense documentation workspace. Do not redesign the publishe
 
 ## Risks / Trade-offs
 
-Curated previews cover fewer components at once → the full searchable index retains every route.
+Search popovers add a focus boundary → use the existing Base UI popover, with browser tests for dismissal, focus restoration and axe checks.
 
 ## Migration Plan
 

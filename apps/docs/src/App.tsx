@@ -1,4 +1,4 @@
-import {useDeferredValue, useEffect, useState} from "react";
+import {useEffect} from "react";
 import {SidebarInset, SidebarProvider} from "@rixl/ui/sidebar";
 import {Toaster} from "@rixl/ui/toaster";
 import {Detail} from "./components/detail";
@@ -11,16 +11,8 @@ import {showcases} from "./showcases/registry";
 
 export function App() {
   const [theme, setTheme] = useTheme();
-  const [query, setQuery] = useState("");
-  const deferredQuery = useDeferredValue(query);
   const active = useHashRoute(showcases);
   const isHome = active === null;
-
-  useEffect(() => {
-    const clearSearch = () => setQuery("");
-    window.addEventListener("hashchange", clearSearch);
-    return () => window.removeEventListener("hashchange", clearSearch);
-  }, []);
 
   useEffect(() => {
     window.scrollTo({top: 0});
@@ -39,15 +31,11 @@ export function App() {
       >
         Skip to content
       </a>
-      <AppSidebar showcases={showcases} query={deferredQuery} activePath={active?.path} />
+      <AppSidebar showcases={showcases} activePath={active?.path} />
       <SidebarInset>
-        <Header theme={theme} onThemeChange={setTheme} query={query} onQueryChange={setQuery} active={query.trim() ? null : active} />
+        <Header theme={theme} onThemeChange={setTheme} active={active} />
         <main id="docs-main" className="docs-main" tabIndex={-1}>
-          {isHome || query.trim() ? (
-            <HomeGrid showcases={showcases} query={deferredQuery} onClearQuery={() => setQuery("")} />
-          ) : (
-            <Detail key={active.path} showcase={active} />
-          )}
+          {isHome ? <HomeGrid showcases={showcases} /> : <Detail key={active.path} showcase={active} />}
         </main>
       </SidebarInset>
       <Toaster />
