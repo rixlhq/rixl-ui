@@ -28,13 +28,3 @@ export function matchesShowcase(showcase: Showcase, query: string): boolean {
     (showcase.description?.toLowerCase().includes(q) ?? false)
   );
 }
-
-export function groupShowcasesByCategory(items: Showcase[]): [string, Showcase[]][] {
-  const map = new Map<string, Showcase[]>();
-  for (const item of items) {
-    const bucket = map.get(item.group) ?? [];
-    bucket.push(item);
-    map.set(item.group, bucket);
-  }
-  return Array.from(map.entries());
-}
