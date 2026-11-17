@@ -5,13 +5,19 @@ import {Group} from "../components/showcase-layout";
 
 export const path = "checkbox";
 export const title = "Checkbox";
-export const description = "Boolean form control. Composes with Label; supports indeterminate and controlled state.";
+export const description = "Let people select one or more independent options.";
 
 export function Showcase() {
   return (
-    <div className="flex items-center gap-2">
-      <Checkbox id="showcase" />
-      <Label htmlFor="showcase">Accept terms</Label>
+    <div className="w-full max-w-56 space-y-3">
+      <div className="flex items-center gap-2">
+        <Checkbox id="overview-checkbox" defaultChecked />
+        <Label htmlFor="overview-checkbox">Email updates</Label>
+      </div>
+      <div className="flex items-center gap-2">
+        <Checkbox id="overview-marketing" />
+        <Label htmlFor="overview-marketing">Product announcements</Label>
+      </div>
     </div>
   );
 }

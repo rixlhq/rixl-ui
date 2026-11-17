@@ -1,12 +1,13 @@
-import {memo, useMemo, useState} from "react";
+import {memo, useId, useMemo, useRef, useState} from "react";
 import type {ComponentType, ReactNode} from "react";
 import {Button} from "@rixl/ui/button";
-import {Card, CardAction, CardContent, CardDescription, CardHeader, CardTitle} from "@rixl/ui/card";
 import {Label} from "@rixl/ui/label";
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@rixl/ui/select";
 import {Switch} from "@rixl/ui/switch";
 import {Tabs, TabsList, TabsTrigger} from "@rixl/ui/tabs";
-import {Tooltip, TooltipContent, TooltipTrigger} from "@rixl/ui/tooltip";
+import {toast} from "@rixl/ui/toaster";
+import {showcases} from "../showcases/registry";
+import {CodePreview} from "./code-preview";
 import type {Control, ControlValue, Example, Showcase} from "../showcases/registry";
 
 export const Detail = memo(function Detail({showcase}: {showcase: Showcase}) {
@@ -19,67 +20,142 @@ export const Detail = memo(function Detail({showcase}: {showcase: Showcase}) {
     return [{id: "default", title: "Preview", render: Legacy}];
   }, [showcase]);
 
-  return (
-    <div className="space-y-8">
-      <div className="space-y-2 border-b border-rixl-border pb-6">
-        <code className="text-xs text-rixl-fg-muted">@rixl/ui/{showcase.path}</code>
-        <h1 className="text-2xl font-semibold tracking-tight text-rixl-fg">{showcase.title}</h1>
-        {showcase.description ? <p className="max-w-3xl text-sm leading-relaxed text-rixl-fg-muted">{showcase.description}</p> : null}
-      </div>
+  const jumpTarget = useRef<HTMLElement>(null);
+  const sorted = [...showcases].sort((a, b) => a.title.localeCompare(b.title));
+  const index = sorted.findIndex((item) => item.path === showcase.path);
+  const previous = sorted[index - 1];
+  const next = sorted[index + 1];
 
-      <div className="space-y-6">
-        {examples.map((example) => (
-          <ExampleCard key={example.id} example={example} />
-        ))}
+  return (
+    <div className="docs-detail-layout">
+      <div className="min-w-0">
+        <div className="docs-page-heading">
+          <h1>{showcase.title}</h1>
+          {showcase.description ? <p>{showcase.description}</p> : null}
+        </div>
+        <div className="docs-import">
+          <code>@rixl/ui/{showcase.path}</code>
+          <CopyButton text={`@rixl/ui/${showcase.path}`} label="Copy import path" />
+        </div>
+        {examples.length > 1 ? (
+          <div className="docs-example-picker">
+            <Select
+              value={null}
+              onOpenChange={(open) => {
+                if (open) jumpTarget.current = null;
+              }}
+              onValueChange={(id: string | null) => {
+                jumpTarget.current = id ? document.getElementById(`example-${id}`) : null;
+                jumpToExample(id);
+              }}
+            >
+              <SelectTrigger aria-label="Jump to example" className="w-full">
+                <SelectValue placeholder="Jump to example" />
+              </SelectTrigger>
+              <SelectContent finalFocus={() => jumpTarget.current ?? true}>
+                {examples.map((example) => (
+                  <SelectItem key={example.id} value={example.id}>
+                    {example.title}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+        ) : null}
+        <div className="docs-examples">
+          {examples.map((example) => (
+            <ExampleCard key={example.id} example={example} />
+          ))}
+        </div>
+        {showcase.notes ? (
+          <section className="docs-notes">
+            <h2>Implementation notes</h2>
+            <p>{showcase.notes}</p>
+          </section>
+        ) : null}
+        <nav aria-label="Adjacent components" className="docs-pagination">
+          {previous ? (
+            <a href={`#/${previous.path}`}>
+              <span>Previous</span>← {previous.title}
+            </a>
+          ) : (
+            <span />
+          )}
+          {next ? (
+            <a href={`#/${next.path}`} className="text-right">
+              <span>Next</span>
+              {next.title} →
+            </a>
+          ) : null}
+        </nav>
       </div>
+      <aside className="docs-outline" aria-label="On this page">
+        <p>On this page</p>
+        {examples.map((example) => (
+          <button
+            key={example.id}
+            type="button"
+            onClick={() => {
+              jumpToExample(example.id);
+            }}
+          >
+            {example.title}
+          </button>
+        ))}
+        <a href="#/">← All components</a>
+      </aside>
     </div>
   );
 });
 
 function ExampleCard({example}: {example: Example}) {
   const [mode, setMode] = useState<"preview" | "code">("preview");
-  const hasCode = Boolean(example.code?.trim());
   const [state, setState] = useState<Record<string, ControlValue>>(() => defaultState(example.controls));
   const Render = example.render;
+  const hasCode = Boolean(example.code?.trim());
 
   return (
-    <Card className="gap-0 overflow-hidden py-0">
-      <CardHeader className="border-b border-rixl-border px-4 sm:px-5 py-3.5 [.border-b]:pb-3.5">
-        <CardTitle className="text-sm">{example.title}</CardTitle>
-        {example.description ? <CardDescription className="text-xs">{example.description}</CardDescription> : null}
-        {hasCode ? (
-          <CardAction>
-            <Tabs value={mode} onValueChange={(value) => setMode(value as "preview" | "code")} variant="segmented" size="sm">
-              <TabsList>
+    <section id={`example-${example.id}`} className="docs-example" tabIndex={-1} aria-labelledby={`heading-${example.id}`}>
+      <div className="docs-example-heading">
+        <h2 id={`heading-${example.id}`}>{example.title}</h2>
+        {example.description ? <p>{example.description}</p> : null}
+      </div>
+      <div className="docs-example-frame">
+        <div className="docs-example-toolbar">
+          {hasCode ? (
+            <Tabs
+              value={mode}
+              onValueChange={(value) => {
+                if (value === "preview" || value === "code") setMode(value);
+              }}
+              size="sm"
+            >
+              <TabsList aria-label={`${example.title} view`}>
                 <TabsTrigger value="preview">Preview</TabsTrigger>
                 <TabsTrigger value="code">Code</TabsTrigger>
               </TabsList>
             </Tabs>
-          </CardAction>
-        ) : null}
-      </CardHeader>
-
-      {example.controls && mode === "preview" ? (
-        <div className="flex flex-wrap items-center gap-3 sm:gap-5 border-b border-rixl-border bg-rixl-surface-muted/50 px-4 sm:px-5 py-3">
-          {example.controls.map((control) => (
-            <ControlField key={control.name} control={control} state={state} onChange={setState} />
-          ))}
+          ) : (
+            <span className="text-xs text-rixl-fg-muted">Preview</span>
+          )}
+          <div className="flex items-center gap-1">{mode === "code" && example.code ? <CopyButton text={example.code} /> : null}</div>
         </div>
-      ) : null}
-
-      <CardContent className="p-4 sm:p-6">
         {mode === "preview" ? (
-          <Render state={state} />
-        ) : hasCode ? (
-          <div className="relative">
-            <pre className="overflow-x-auto rounded-rixl-md border border-rixl-border bg-rixl-bg p-4 font-mono text-xs leading-relaxed text-rixl-fg">
-              {example.code}
-            </pre>
-            <CopyButton text={example.code!} />
+          <div className="docs-example-stage">
+            <Render state={state} />
+          </div>
+        ) : (
+          <CodePreview code={example.code ?? ""} />
+        )}
+        {example.controls && mode === "preview" ? (
+          <div className="docs-example-controls">
+            {example.controls.map((control) => (
+              <ControlField key={control.name} control={control} state={state} onChange={setState} />
+            ))}
           </div>
         ) : null}
-      </CardContent>
-    </Card>
+      </div>
+    </section>
   );
 }
 
@@ -93,7 +169,7 @@ function ControlField({
   onChange: (next: Record<string, ControlValue>) => void;
 }) {
   const value = state[control.name];
-  const controlId = `ctrl-${control.name}`;
+  const controlId = useId();
 
   if (control.type === "select") {
     return (
@@ -101,7 +177,7 @@ function ControlField({
         <Label htmlFor={controlId} className="text-xs text-rixl-fg-muted">
           {control.label}
         </Label>
-        <Select value={value as string} onValueChange={(next) => onChange({...state, [control.name]: next})}>
+        <Select value={typeof value === "string" ? value : ""} onValueChange={(next) => onChange({...state, [control.name]: next})}>
           <SelectTrigger id={controlId} size="sm" aria-label={control.label}>
             <SelectValue />
           </SelectTrigger>
@@ -140,29 +216,25 @@ function defaultState(controls?: Control[]): Record<string, ControlValue> {
   return state;
 }
 
-function CopyButton({text}: {text: string}) {
-  const [copied, setCopied] = useState(false);
-
+function CopyButton({text, label = "Copy code"}: {text: string; label?: string}) {
   const handleCopy = async () => {
     try {
       await navigator.clipboard.writeText(text);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 1500);
+      toast.success("Copied to clipboard");
     } catch {
-      /* ignore */
+      toast.error("Could not copy. Select the text to copy it manually.");
     }
   };
-
   return (
-    <Tooltip>
-      <TooltipTrigger
-        render={
-          <Button variant="outline" size="sm" className="absolute top-2.5 end-2.5" onClick={handleCopy}>
-            {copied ? "Copied!" : "Copy"}
-          </Button>
-        }
-      />
-      <TooltipContent>{copied ? "Copied!" : "Copy code"}</TooltipContent>
-    </Tooltip>
+    <Button variant="ghost" size="sm" onClick={handleCopy}>
+      {label}
+    </Button>
   );
+}
+
+function jumpToExample(id: string | null) {
+  if (!id) return;
+  const section = document.getElementById(`example-${id}`);
+  section?.scrollIntoView({block: "start"});
+  section?.focus({preventScroll: true});
 }

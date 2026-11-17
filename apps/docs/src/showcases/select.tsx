@@ -5,7 +5,8 @@ import {Group} from "../components/showcase-layout";
 
 export const path = "select";
 export const title = "Select";
-export const description =
+export const description = "Choose one value from a list of options.";
+export const notes =
   "Portalled Base UI Select. Trigger with hover/open states and a chevron that flips on open; options highlight on keyboard + pointer; the popup animates in and out.";
 
 export function Showcase() {

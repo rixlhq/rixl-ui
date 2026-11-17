@@ -5,7 +5,8 @@ import type {ControlValue, Example} from "./registry";
 
 export const path = "field";
 export const title = "Field";
-export const description =
+export const description = "Connect a form control with its label, hint, and validation message.";
+export const notes =
   "Accessible form-field wrapper on Base UI Field. Label, description, and error read the field state from context, so the control is wired with aria-labelledby and aria-describedby automatically.";
 
 export function Showcase() {

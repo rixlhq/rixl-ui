@@ -7,19 +7,29 @@ import type {Example} from "./registry";
 
 export const path = "tabs";
 export const title = "Tabs";
-export const description =
+export const description = "Switch between related views in the same space.";
+export const notes =
   "Tabbed content built on Base UI Tabs. Hovering an inactive tab changes text intensity only while a single indicator glides across tabs over 300ms. Overflowing tab lists scroll in one row with fade + chevron controls, drag-to-scroll, and smooth scrollIntoView.";
 
 const CLOUDFLARE = ["Overview", "Metrics", "Deployments", "Bindings", "Observability", "Domains", "Access", "Settings"];
 
 export function Showcase() {
   return (
-    <Tabs defaultValue="overview">
-      <TabsList>
+    <Tabs defaultValue="overview" variant="segmented" className="w-full max-w-64">
+      <TabsList aria-label="Demo sections">
         <TabsTrigger value="overview">Overview</TabsTrigger>
         <TabsTrigger value="activity">Activity</TabsTrigger>
         <TabsTrigger value="settings">Settings</TabsTrigger>
       </TabsList>
+      <TabsContent value="overview" className="pt-4 text-xs text-rixl-fg-muted">
+        Everything in your workspace, at a glance.
+      </TabsContent>
+      <TabsContent value="activity" className="pt-4 text-xs text-rixl-fg-muted">
+        You're all caught up. No recent activity.
+      </TabsContent>
+      <TabsContent value="settings" className="pt-4 text-xs text-rixl-fg-muted">
+        Manage your workspace preferences.
+      </TabsContent>
     </Tabs>
   );
 }

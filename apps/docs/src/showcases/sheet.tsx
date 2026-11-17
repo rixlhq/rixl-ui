@@ -7,7 +7,8 @@ import type {Example} from "./registry";
 
 export const path = "sheet";
 export const title = "Sheet";
-export const description =
+export const description = "Open a supporting panel from the edge of the screen.";
+export const notes =
   "Edge-anchored slide-in panel. Base UI Dialog; slides from top/right/bottom/left using the Vaul/iOS drawer curve (`ease-rixl-drawer`), closes on Escape / backdrop.";
 
 export function Showcase() {

@@ -1,42 +1,21 @@
 import {memo, useMemo} from "react";
-import {Badge} from "@rixl/ui/badge";
-import {EmptyState} from "@rixl/ui/empty-state";
-import {matchesShowcase} from "../hooks/use-hash-route";
+import {SidebarTrigger} from "@rixl/ui/sidebar";
 import type {Showcase} from "../showcases/registry";
+import {ArrowUpRightIcon} from "./icons";
 
-export function HomeGrid({showcases, query, onClearQuery}: {showcases: Showcase[]; query: string; onClearQuery: () => void}) {
-  const filtered = useMemo(() => {
-    const items = showcases.filter((s) => matchesShowcase(s, query));
-    items.sort((a, b) => a.title.localeCompare(b.title));
-    return items;
-  }, [showcases, query]);
-
-  if (filtered.length === 0) {
-    return (
-      <EmptyState
-        title="No components found"
-        description={`No components matched "${query}". Try a different search term.`}
-        action={{label: "Clear search", onClick: onClearQuery}}
-      />
-    );
-  }
-
+export function HomeGrid({showcases}: {showcases: Showcase[]}) {
+  const sorted = useMemo(() => [...showcases].sort((a, b) => a.title.localeCompare(b.title)), [showcases]);
   return (
-    <div className="space-y-6">
-      <div className="flex flex-wrap items-baseline justify-between gap-4">
-        <div>
-          <h1 className="text-2xl font-semibold tracking-tight text-rixl-fg">Components</h1>
-          <p className="mt-1 text-sm text-rixl-fg-muted">
-            Live primitives rendered directly from <code className="text-rixl-fg">@rixl/ui</code> workspace source.
-          </p>
-        </div>
-        <Badge variant="outline">
-          {filtered.length} {filtered.length === 1 ? "component" : "components"}
-        </Badge>
+    <div>
+      <div className="docs-page-heading">
+        <h1>Components</h1>
+        <p>Interactive previews of the Rixl design system.</p>
       </div>
-
-      <ul className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
-        {filtered.map((showcase) => (
+      <div className="docs-index-bar">
+        <span>{showcases.length} components</span>
+      </div>
+      <ul className="docs-demo-grid">
+        {sorted.map((showcase) => (
           <Cell key={showcase.path} showcase={showcase} />
         ))}
       </ul>
@@ -46,14 +25,29 @@ export function HomeGrid({showcases, query, onClearQuery}: {showcases: Showcase[
 
 const Cell = memo(function Cell({showcase}: {showcase: Showcase}) {
   return (
-    <li className="overflow-hidden rounded-rixl-lg border border-rixl-border bg-rixl-surface transition-[border-color] duration-rixl-fast ease-rixl-out hover:border-rixl-border-strong motion-reduce:transition-none">
-      <div className="flex min-h-44 min-w-0 items-center justify-center overflow-hidden p-6">
-        {showcase.path === "sidebar" ? <Badge variant="outline">App shell · ⌘B</Badge> : <showcase.Showcase />}
-      </div>
-      <div className="border-t border-rixl-border px-4 py-2.5">
-        <a href={`#/${showcase.path}`} className="text-sm font-medium text-rixl-fg underline-offset-4 hover:underline">
-          {showcase.title}
-        </a>
+    <li className="docs-demo-cell">
+      <a href={`#/${showcase.path}`} className="docs-demo-caption">
+        <span>{showcase.title}</span>
+        <ArrowUpRightIcon />
+      </a>
+      <div className="docs-demo-preview">
+        <div className="docs-demo-content">
+          {showcase.path === "sidebar" ? (
+            <div className="docs-mini-shell">
+              <div className="docs-mini-sidebar" aria-hidden="true">
+                <span />
+                <span />
+                <span />
+              </div>
+              <div className="docs-mini-main">
+                <SidebarTrigger aria-label="Toggle app sidebar" />
+                <span className="text-xs text-rixl-fg-muted">Toggle sidebar</span>
+              </div>
+            </div>
+          ) : (
+            <showcase.Showcase />
+          )}
+        </div>
       </div>
     </li>
   );

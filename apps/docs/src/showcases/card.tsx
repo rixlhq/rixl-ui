@@ -5,16 +5,21 @@ import {Group} from "../components/showcase-layout";
 
 export const path = "card";
 export const title = "Card";
-export const description =
+export const description = "Group related content and actions in a single surface.";
+export const notes =
   "Surface container for grouping related content. Header/title/description/action/content/footer slots, three variants (default, outline, ghost), plus interactive and selected states.";
 
 export function Showcase() {
   return (
-    <Card className="w-full max-w-md py-4 gap-3">
+    <Card className="w-full max-w-64 gap-4 py-4 shadow-rixl-sm">
       <CardHeader className="px-4">
-        <CardTitle className="text-sm">Edge Worker</CardTitle>
-        <CardDescription className="text-xs">Deployed 2m ago</CardDescription>
+        <CardTitle className="text-sm">Production</CardTitle>
+        <CardDescription className="text-xs">Your latest deployment is live.</CardDescription>
       </CardHeader>
+      <CardFooter className="justify-between px-4">
+        <code className="text-xs text-rixl-fg-muted">main · 8f2a1c</code>
+        <span className="text-xs font-medium text-rixl-success">Ready</span>
+      </CardFooter>
     </Card>
   );
 }

@@ -5,14 +5,19 @@ import {Group} from "../components/showcase-layout";
 
 export const path = "switch";
 export const title = "Switch";
-export const description =
-  "A two-state toggle with a sliding thumb, hover-deepened track, and focus ring. Composes with Label for accessible labelling.";
+export const description = "Turn a setting on or off.";
 
 export function Showcase() {
   return (
-    <div className="flex items-center gap-2">
-      <Switch id="showcase" />
-      <Label htmlFor="showcase">Enable notifications</Label>
+    <div className="w-full max-w-56 space-y-4">
+      <div className="flex items-center justify-between gap-3">
+        <Label htmlFor="overview-switch">Notifications</Label>
+        <Switch id="overview-switch" defaultChecked />
+      </div>
+      <div className="flex items-center justify-between gap-3">
+        <Label htmlFor="overview-digest">Weekly digest</Label>
+        <Switch id="overview-digest" />
+      </div>
     </div>
   );
 }

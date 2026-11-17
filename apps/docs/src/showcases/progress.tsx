@@ -5,10 +5,19 @@ import {Group} from "../components/showcase-layout";
 
 export const path = "progress";
 export const title = "Progress";
-export const description = "Determinate horizontal progress bar. Pass null for indeterminate.";
+export const description = "Show how far a task has progressed.";
 
 export function Showcase() {
-  return <Progress value={50} className="w-full" />;
+  return (
+    <div className="w-full max-w-64 space-y-3">
+      <div className="flex justify-between text-xs">
+        <span>Uploading assets</span>
+        <span className="text-rixl-fg-muted">64%</span>
+      </div>
+      <Progress value={64} aria-label="Uploading assets" />
+      <p className="text-xs text-rixl-fg-muted">16 of 25 files</p>
+    </div>
+  );
 }
 
 function IndeterminateExample() {

@@ -4,10 +4,22 @@ import {Group} from "../components/showcase-layout";
 
 export const path = "separator";
 export const title = "Separator";
-export const description = "Themed divider. Horizontal by default; pass orientation='vertical' inside a flex row.";
+export const description = "Visually separate related groups of content.";
 
 export function Showcase() {
-  return <Separator className="my-3" />;
+  return (
+    <div className="w-full max-w-56 space-y-3 text-xs">
+      <span className="font-medium">Workspace</span>
+      <Separator />
+      <div className="flex h-4 items-center gap-3 text-rixl-fg-muted">
+        <span>Settings</span>
+        <Separator orientation="vertical" />
+        <span>Members</span>
+        <Separator orientation="vertical" />
+        <span>Billing</span>
+      </div>
+    </div>
+  );
 }
 
 function HorizontalExample() {

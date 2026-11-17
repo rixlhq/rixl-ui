@@ -1,27 +1,15 @@
 import {Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator} from "@rixl/ui/breadcrumb";
-import {Input} from "@rixl/ui/input";
 import {Separator} from "@rixl/ui/separator";
 import {SidebarTrigger} from "@rixl/ui/sidebar";
 import {Tabs, TabsList, TabsTrigger} from "@rixl/ui/tabs";
+import {ComponentSearch} from "./component-search";
 import type {Theme} from "../hooks/use-theme";
 import type {Showcase} from "../showcases/registry";
-import {MonitorIcon, MoonIcon, SearchIcon, SunIcon} from "./icons";
+import {MonitorIcon, MoonIcon, SunIcon} from "./icons";
 
-export function Header({
-  theme,
-  onThemeChange,
-  query,
-  onQueryChange,
-  active,
-}: {
-  theme: Theme;
-  onThemeChange: (next: Theme) => void;
-  query: string;
-  onQueryChange: (value: string) => void;
-  active: Showcase | null;
-}) {
+export function Header({theme, onThemeChange, active}: {theme: Theme; onThemeChange: (next: Theme) => void; active: Showcase | null}) {
   return (
-    <header className="sticky top-0 z-20 flex h-14 items-center justify-between gap-3 sm:gap-4 border-b border-rixl-border bg-rixl-bg/85 px-4 sm:px-6 backdrop-blur-md lg:px-10">
+    <header className="docs-header">
       <div className="flex min-w-0 items-center gap-3">
         <SidebarTrigger aria-label="Toggle sidebar" />
         <Separator orientation="vertical" className="h-4" />
@@ -43,15 +31,7 @@ export function Header({
       </div>
 
       <div className="flex items-center gap-2 sm:gap-3">
-        <div className="w-28 xs:w-36 sm:w-64">
-          <Input
-            inputSize="sm"
-            value={query}
-            onChange={(e) => onQueryChange(e.target.value)}
-            placeholder="Search components…"
-            startIcon={<SearchIcon />}
-          />
-        </div>
+        <ComponentSearch />
         <ThemeToggle theme={theme} onChange={onThemeChange} />
       </div>
     </header>
@@ -60,7 +40,14 @@ export function Header({
 
 function ThemeToggle({theme, onChange}: {theme: Theme; onChange: (next: Theme) => void}) {
   return (
-    <Tabs value={theme} onValueChange={(value) => onChange(value as Theme)} variant="segmented" size="sm">
+    <Tabs
+      value={theme}
+      onValueChange={(value) => {
+        if (value === "light" || value === "dark" || value === "system") onChange(value);
+      }}
+      variant="segmented"
+      size="sm"
+    >
       <TabsList aria-label="Theme">
         <TabsTrigger value="system" aria-label="System theme">
           <MonitorIcon />

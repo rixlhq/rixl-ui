@@ -4,20 +4,18 @@ import type {ControlValue, Example} from "./registry";
 
 export const path = "pagination";
 export const title = "Pagination";
-export const description =
+export const description = "Move between pages of a longer list.";
+export const notes =
   "First/prev/next/last pager with an optional page-size selector. Unstyled by locale: every string arrives via props, so consumers wire their own message layer.";
 
 export function Showcase() {
   const [page, setPage] = useState(2);
-  const [limit, setLimit] = useState(20);
   return (
     <div className="w-full">
       <Pagination
         currentPage={page}
         totalPages={8}
         onPageChange={setPage}
-        limit={limit}
-        setLimit={setLimit}
         firstLabel="Go to first page"
         prevLabel="Go to previous page"
         nextLabel="Go to next page"

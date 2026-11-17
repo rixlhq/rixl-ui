@@ -17,7 +17,8 @@ import {Group} from "../components/showcase-layout";
 
 export const path = "dialog";
 export const title = "Dialog";
-export const description =
+export const description = "Open a focused task above the current page.";
+export const notes =
   "Fullscreen below 640px; centered with four size variants on larger screens. Long content scrolls within the dialog. Use Table for horizontally scrollable data and include an explicit close action after long content.";
 
 export function Showcase() {
