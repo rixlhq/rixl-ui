@@ -1,5 +1,5 @@
 import {Calendar} from "@rixl/ui/calendar";
-import type {ControlValue, Example} from "./registry";
+import type {Example} from "./registry";
 import {Group} from "../components/showcase-layout";
 
 export const path = "calendar";
@@ -11,13 +11,7 @@ export function Showcase() {
   return <Calendar mode="single" />;
 }
 
-function LiveExample({state}: {state: Record<string, ControlValue>}) {
-  const mode = state.mode as "single" | "range";
-  return mode === "range" ? <Calendar mode="range" numberOfMonths={2} /> : <Calendar mode="single" />;
-}
-
-function SingleExample(props: {state: Record<string, ControlValue>}) {
-  void props;
+function SingleExample() {
   return (
     <Group label="Single selection">
       <Calendar mode="single" />
@@ -25,8 +19,7 @@ function SingleExample(props: {state: Record<string, ControlValue>}) {
   );
 }
 
-function RangeExample(props: {state: Record<string, ControlValue>}) {
-  void props;
+function RangeExample() {
   return (
     <Group label="Range selection">
       <Calendar mode="range" numberOfMonths={2} />
@@ -36,25 +29,15 @@ function RangeExample(props: {state: Record<string, ControlValue>}) {
 
 export const examples: Example[] = [
   {
-    id: "live",
-    title: "Interactive",
-    description: "Switch between single and range selection.",
-    render: LiveExample,
-    controls: [
-      {
-        name: "mode",
-        label: "Mode",
-        type: "select",
-        options: [
-          {value: "single", label: "Single"},
-          {value: "range", label: "Range"},
-        ],
-        defaultValue: "single",
-      },
-    ],
-    code: `<Calendar mode="single" />
-<Calendar mode="range" numberOfMonths={2} />`,
+    id: "single",
+    title: "Single",
+    render: SingleExample,
+    code: `<Calendar mode="single" />`,
   },
-  {id: "single", title: "Single", render: SingleExample},
-  {id: "range", title: "Range", render: RangeExample},
+  {
+    id: "range",
+    title: "Range",
+    render: RangeExample,
+    code: `<Calendar mode="range" numberOfMonths={2} />`,
+  },
 ];
