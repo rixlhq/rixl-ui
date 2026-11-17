@@ -1,0 +1,8 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "ui",
+  "compatibility_date": "2026-11-17",
+  "assets": {
+    "directory": "./dist",
+  },
+}

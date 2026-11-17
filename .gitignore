@@ -8,6 +8,7 @@ coverage
 .turbo
 .idea
 .vitest
+.wrangler
 reports
 .stryker-tmp
 .stryker-cache
