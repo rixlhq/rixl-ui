@@ -253,7 +253,18 @@ describe("DatePicker", () => {
     expect(weekday.className).toContain("w-(--cell-size)");
     expect(weekday.className).toContain("shrink-0");
     const dayButton = document.querySelector("[data-slot='calendar'] button[data-day]")!;
-    expect(dayButton.className).toContain("size-(--cell-size)");
+    expect(dayButton.className).toContain("size-[calc(var(--cell-size)-6px)]");
+    expect(dayButton.className).not.toContain("size-(--cell-size)");
     expect(dayButton.className).toContain("tabular-nums");
+  });
+
+  it("keeps range bands continuous with pill-sized buttons on band-colored cells", () => {
+    render(<DatePicker mode="range" defaultMonth={JUNE_2026} value={{from: new Date(2026, 5, 10), to: new Date(2026, 5, 20)}} />);
+    const startButton = document.querySelector('button[data-range-start="true"]')!;
+    expect(startButton.className).toContain("size-[calc(var(--cell-size)-6px)]");
+    const startCell = startButton.closest("td")!;
+    expect(startCell.className).toContain("bg-rixl-primary");
+    const middleCell = document.querySelector('button[data-range-middle="true"]')!.closest("td")!;
+    expect(middleCell.className).toContain("bg-rixl-surface-muted");
   });
 });
