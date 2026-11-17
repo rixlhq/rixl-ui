@@ -1,5 +1,5 @@
-import {Badge, type BadgeProps} from "@rixl/ui/badge";
-import type {ControlValue, Example} from "./registry";
+import {Badge} from "@rixl/ui/badge";
+import type {Example} from "./registry";
 import {Group} from "../components/showcase-layout";
 
 export const path = "badge";
@@ -19,17 +19,7 @@ export function Showcase() {
   );
 }
 
-function LiveExample({state}: {state: Record<string, ControlValue>}) {
-  const variant = state.variant as BadgeProps["variant"];
-  return (
-    <Group label="Live preview">
-      <Badge variant={variant}>{variant} badge</Badge>
-    </Group>
-  );
-}
-
-function AllVariantsExample(props: {state: Record<string, ControlValue>}) {
-  void props;
+function AllVariantsExample() {
   return (
     <Group label="All six variants">
       <Badge>Default</Badge>
@@ -48,8 +38,7 @@ function AllVariantsExample(props: {state: Record<string, ControlValue>}) {
   );
 }
 
-function AsLinkExample(props: {state: Record<string, ControlValue>}) {
-  void props;
+function AsLinkExample() {
   return (
     <Group label="As a link (render={<a/>})">
       <Badge render={<a href="https://rixl.com" target="_blank" rel="noreferrer" aria-label="Docs" />}>Docs →</Badge>
@@ -62,30 +51,23 @@ function AsLinkExample(props: {state: Record<string, ControlValue>}) {
 
 export const examples: Example[] = [
   {
-    id: "live",
-    title: "Interactive",
-    description: "Cycle through the six badge variants.",
-    render: LiveExample,
-    controls: [
-      {
-        name: "variant",
-        label: "Variant",
-        type: "select",
-        options: [
-          {value: "default", label: "Default"},
-          {value: "secondary", label: "Secondary"},
-          {value: "success", label: "Success"},
-          {value: "warning", label: "Warning"},
-          {value: "destructive", label: "Destructive"},
-          {value: "outline", label: "Outline"},
-        ],
-        defaultValue: "default",
-      },
-    ],
-    code: `<Badge variant="success">Healthy</Badge>`,
+    id: "variants",
+    title: "Variants",
+    description: "All six variants with icon slots.",
+    render: AllVariantsExample,
+    code: `<Badge>Default</Badge>
+<Badge variant="secondary">Secondary</Badge>
+<Badge variant="success">Healthy</Badge>
+<Badge variant="warning">Degraded</Badge>
+<Badge variant="destructive">Failed</Badge>
+<Badge variant="outline">Outline</Badge>`,
   },
-  {id: "variants", title: "All variants & icons", render: AllVariantsExample},
-  {id: "link", title: "As a link", render: AsLinkExample},
+  {
+    id: "link",
+    title: "As a link",
+    render: AsLinkExample,
+    code: `<Badge render={<a href="https://rixl.com" />}>Docs →</Badge>`,
+  },
 ];
 
 function CheckIcon() {
