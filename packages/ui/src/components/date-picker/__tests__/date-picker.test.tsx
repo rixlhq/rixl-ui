@@ -151,16 +151,16 @@ describe("DatePicker", () => {
     expect(document.querySelector("[data-slot='calendar'] td[data-outside='true']:not([data-hidden='true'])")).toBeInTheDocument();
   });
 
-  it("hides outside days by default when showing multiple months", () => {
+  it("shows outside days by default, dimmed, in single and multiple months", () => {
     render(<DatePicker mode="range" defaultMonth={JUNE_2026} numberOfMonths={2} />);
+    expect(document.querySelector("[data-slot='calendar'] td[data-outside='true']:not([data-hidden='true'])")).toBeInTheDocument();
+  });
+
+  it("hides outside days when showOutsideDays is false", () => {
+    render(<DatePicker mode="range" defaultMonth={JUNE_2026} numberOfMonths={2} showOutsideDays={false} />);
     const outside = document.querySelectorAll("[data-slot='calendar'] td[data-outside='true']");
     expect(outside.length).toBeGreaterThan(0);
     expect(document.querySelector("[data-slot='calendar'] td[data-outside='true']:not([data-hidden='true'])")).not.toBeInTheDocument();
-  });
-
-  it("shows outside days across months when showOutsideDays is set", () => {
-    render(<DatePicker mode="range" defaultMonth={JUNE_2026} numberOfMonths={2} showOutsideDays />);
-    expect(document.querySelector("[data-slot='calendar'] td[data-outside='true']:not([data-hidden='true'])")).toBeInTheDocument();
   });
 
   it("renders month and year dropdowns with the dropdown caption", () => {
