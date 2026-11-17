@@ -86,6 +86,30 @@ function PresetsInPopoverHarness() {
   );
 }
 
+const FEB_2026 = new Date(2026, 1, 1);
+const OCT_2026 = new Date(2026, 9, 1);
+
+/** Controlled month so the test can swing between digit mixes (Feb vs a full 1–31 October). */
+function StabilityHarness() {
+  const [month, setMonth] = useState<Date>(FEB_2026);
+  const [range, setRange] = useState<DateRange | undefined>();
+  return (
+    <div>
+      <button type="button" onClick={() => setMonth(FEB_2026)}>
+        Show February
+      </button>
+      <button type="button" onClick={() => setMonth(OCT_2026)}>
+        Show October
+      </button>
+      <DatePicker mode="range" month={month} onMonthChange={setMonth} value={range} onSelect={setRange} />
+    </div>
+  );
+}
+
+function monthGridWidth(): number {
+  return document.querySelector('[data-slot="calendar"] .rdp-month_grid')!.getBoundingClientRect().width;
+}
+
 type BoxRect = {x: number; width: number; height: number};
 
 function contentBox(): BoxRect {
@@ -168,5 +192,27 @@ describe("DatePicker Browser Mode", () => {
     const widths = boxes.map((box) => box.width);
     expect(Math.max(...xs) - Math.min(...xs)).toBeLessThanOrEqual(1);
     expect(Math.max(...widths) - Math.min(...widths)).toBeLessThanOrEqual(1);
+  });
+
+  it("keeps the month-grid width constant across digit mixes and single→range selection", async () => {
+    render(<StabilityHarness />);
+    await expect.element(page.getByRole("grid")).toBeVisible();
+
+    const widths: number[] = [];
+    widths.push(monthGridWidth());
+
+    await userEvent.click(page.getByRole("button", {name: "Show October"}));
+    widths.push(monthGridWidth());
+
+    await userEvent.click(page.getByRole("button", {name: /October 5th, 2026/}));
+    await userEvent.click(page.getByRole("button", {name: /October 20th, 2026/}));
+    await expect.element(page.getByRole("button", {name: /October 20th, 2026/})).toHaveAttribute("data-range-end", "true");
+    widths.push(monthGridWidth());
+
+    await userEvent.click(page.getByRole("button", {name: "Show February"}));
+    widths.push(monthGridWidth());
+
+    expect(Math.max(...widths) - Math.min(...widths)).toBeLessThanOrEqual(1);
+    expect(await axeViolations(document.body)).toEqual([]);
   });
 });

@@ -234,4 +234,19 @@ describe("DatePicker", () => {
     expect(grid.className).toContain("rtl:**:[.rdp-button\\_next>svg]:rotate-180");
     expect(grid.className).toContain("rtl:**:[.rdp-button\\_previous>svg]:rotate-180");
   });
+
+  it("fixes day and weekday cells to the cell size so digit count cannot shift the grid", () => {
+    render(<SingleHarness />);
+    const day = document.querySelector("[data-slot='calendar'] .rdp-day")!;
+    expect(day.className).toContain("size-(--cell-size)");
+    expect(day.className).toContain("shrink-0");
+    expect(day.className).toContain("tabular-nums");
+    expect(day.className).not.toContain("w-full");
+    const weekday = document.querySelector("[data-slot='calendar'] .rdp-weekday")!;
+    expect(weekday.className).toContain("w-(--cell-size)");
+    expect(weekday.className).toContain("shrink-0");
+    const dayButton = document.querySelector("[data-slot='calendar'] button[data-day]")!;
+    expect(dayButton.className).toContain("size-(--cell-size)");
+    expect(dayButton.className).toContain("tabular-nums");
+  });
 });
