@@ -53,7 +53,6 @@ vp test --project browser  # Real Chromium with the preset built; axe accessibil
 vpr test:coverage          # Tests with coverage; fails under the floor in vite.config.ts
 vpr test:mutation          # Stryker (CI only, weekly: .github/workflows/mutation.yml)
 vpr lint:suppressions      # Fails on a lint suppression without a reason
-vpr knip                   # Unused files, exports and dependencies
 vp pack                    # Build dist/ (ESM + .d.ts)
 vpr budget                 # Size budget (.size-limit.json), after vp pack
 vpr publint                # Checks the package.json exports map
@@ -73,7 +72,7 @@ packages/ui/                   — @rixl/ui, the published package
   src/index.ts                 — barrel; consumers should prefer subpath imports
   test/                        — browser test setup, CSS and the axe helper
   vite.config.ts               — build entries, lint caps, test projects, coverage floor
-  knip.jsonc, stryker.config.mjs, .size-limit.json
+  stryker.config.mjs, .size-limit.json
 apps/docs/                     — Vite+ app showcasing @rixl/ui (workspace:*)
 openspec/                      — specs and changes
 .agents/                       — rules, skills, commands and the git-hook guard
