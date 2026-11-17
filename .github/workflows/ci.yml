@@ -26,6 +26,8 @@ jobs:
     steps:
       - name: 📥 Checkout
         uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
 
       - name: ⚙️ Setup Vite+
         uses: voidzero-dev/setup-vp@v1.22.0
@@ -98,31 +100,3 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-  react-doctor:
-    if: ${{ github.event_name == 'pull_request' || (github.event_name == 'push' && github.ref == 'refs/heads/main') }}
-    runs-on: ubuntu-latest
-    timeout-minutes: 10
-    permissions:
-      contents: read
-      issues: write
-      pull-requests: write
-      statuses: write
-    steps:
-      - name: 📥 Checkout full history
-        uses: actions/checkout@v7
-        with:
-          fetch-depth: 0
-
-      # The action uses npm/npx, which rejects this checkout's Bun devEngines pin.
-      # Remove the metadata only in this job's isolated checkout.
-      - name: Prepare checkout for React Doctor
-        run: |
-          for file in package.json packages/ui/package.json; do
-            jq 'del(.devEngines)' "$file" > "$file.tmp" && mv "$file.tmp" "$file"
-          done
-
-      - name: 🩺 React Doctor
-        uses: millionco/react-doctor@v2
-        with:
-          directory: packages/ui

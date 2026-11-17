@@ -117,5 +117,5 @@ Behaviour changes start as an OpenSpec change (`/opsx:propose`); `openspec/specs
 ## CI and release
 
 - `.github/workflows/ci.yml` runs workspace checks and the UI package build in parallel, then tests with coverage, reports coverage on PRs, checks package budget/exports, and builds docs. On `main`, Release Please and npm publishing run only after those gates succeed. Chromium is installed for the browser project.
-- `.github/workflows/ci.yml` runs React Doctor as an advisory job alongside CI, commenting on PRs and tracking the score on `main`.
+- React Doctor runs from the workspace check script and the pre-commit hook; its CLI reports locally and in CI without a separate GitHub action.
 - `.github/workflows/mutation.yml` runs Stryker every Monday and opens a `mutation-report` issue.
