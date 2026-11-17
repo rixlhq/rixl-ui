@@ -14,7 +14,7 @@ function Textarea({className, ...props}: ComponentProps<"textarea">) {
     <textarea
       data-slot="textarea"
       className={cn(
-        "border-rixl-border placeholder:text-rixl-fg-muted flex field-sizing-content min-h-16 w-full rounded-rixl-md border bg-transparent px-3 py-2 text-sm shadow-rixl-xs outline-none",
+        "border-rixl-border placeholder:text-rixl-fg-muted flex field-sizing-content min-h-16 w-full rounded-rixl-md border bg-transparent px-3 py-2 text-base sm:text-sm shadow-rixl-xs outline-none",
         "transition-[color,box-shadow,border-color] duration-rixl-fast ease-rixl-out",
         "hover:border-rixl-border-strong",
         "read-only:bg-rixl-surface-muted read-only:cursor-default read-only:hover:border-rixl-border",

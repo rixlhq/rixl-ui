@@ -19,7 +19,7 @@ export const path = "dialog";
 export const title = "Dialog";
 export const group = "Overlays";
 export const description =
-  "Modal surface over a blurred backdrop. Base UI Dialog; modal (focus-trapped), closes on Escape / backdrop / scroll. Interruptible scale-and-fade entrance and four size variants.";
+  "Fullscreen below 640px; centered with four size variants on larger screens. Long content scrolls within the dialog. Use Table for horizontally scrollable data and include an explicit close action after long content.";
 
 export function Showcase() {
   return (
@@ -177,8 +177,37 @@ function SizesExample(props: {state: Record<string, ControlValue>}) {
   );
 }
 
+function LongContentExample() {
+  return (
+    <Dialog>
+      <DialogTrigger render={<Button variant="outline">Review activity</Button>} />
+      <DialogContent size="lg">
+        <DialogHeader>
+          <DialogTitle>Workspace activity</DialogTitle>
+          <DialogDescription>Scroll through the activity and close the review when you are done.</DialogDescription>
+        </DialogHeader>
+        <div className="space-y-4">
+          {Array.from({length: 20}, (_, index) => (
+            <div key={index} className="rounded-rixl-md border border-rixl-border p-4">
+              <p className="text-sm font-medium">Activity {index + 1}</p>
+              <p className="text-sm text-rixl-fg-muted">
+                A workspace member updated the project settings. Review the changes with your team before the next release.
+              </p>
+              <p className="mt-2 text-xs text-rixl-fg-muted">Reference: workspace_activity_2026_project_settings_revision_{index + 1}</p>
+            </div>
+          ))}
+        </div>
+        <DialogFooter>
+          <DialogClose render={<Button>Finish review</Button>} />
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+  );
+}
+
 export const examples: Example[] = [
   {id: "basic", title: "Basic", render: BasicExample},
+  {id: "long-content", title: "Long content on mobile", render: LongContentExample},
   {id: "sizes", title: "Sizes", render: SizesExample},
   {id: "no-close", title: "Without close button", render: NoCloseExample},
   {id: "custom", title: "Custom content", render: CustomContentExample},
