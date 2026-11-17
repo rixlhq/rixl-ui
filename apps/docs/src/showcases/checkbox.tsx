@@ -1,6 +1,6 @@
 import {Checkbox} from "@rixl/ui/checkbox";
 import {Label} from "@rixl/ui/label";
-import type {ControlValue, Example} from "./registry";
+import type {Example} from "./registry";
 import {Group} from "../components/showcase-layout";
 
 export const path = "checkbox";
@@ -17,22 +17,16 @@ export function Showcase() {
   );
 }
 
-function LiveExample({state}: {state: Record<string, ControlValue>}) {
-  const disabled = state.disabled as boolean;
-  const invalid = state.invalid as boolean;
-
+function BasicExample() {
   return (
     <div className="flex items-center gap-2">
-      <Checkbox id="live-checkbox" defaultChecked disabled={disabled} aria-invalid={invalid} />
-      <Label htmlFor="live-checkbox" className={invalid ? "text-rixl-danger" : undefined}>
-        Accept the terms and conditions
-      </Label>
+      <Checkbox id="basic-checkbox" defaultChecked />
+      <Label htmlFor="basic-checkbox">Accept the terms and conditions</Label>
     </div>
   );
 }
 
-function StatesExample(props: {state: Record<string, ControlValue>}) {
-  void props;
+function StatesExample() {
   return (
     <Group label="States">
       <div className="flex flex-col gap-2">
@@ -61,14 +55,9 @@ function StatesExample(props: {state: Record<string, ControlValue>}) {
 
 export const examples: Example[] = [
   {
-    id: "live",
-    title: "Interactive",
-    description: "Tweak disabled and invalid states live.",
-    render: LiveExample,
-    controls: [
-      {name: "disabled", label: "Disabled", type: "boolean", defaultValue: false},
-      {name: "invalid", label: "Invalid", type: "boolean", defaultValue: false},
-    ],
+    id: "basic",
+    title: "Basic",
+    render: BasicExample,
     code: `<div className="flex items-center gap-2">
   <Checkbox id="terms" defaultChecked />
   <Label htmlFor="terms">Accept the terms and conditions</Label>
