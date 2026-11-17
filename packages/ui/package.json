@@ -207,7 +207,7 @@
     "prepublishOnly": "vpr build",
     "ci": "vp check && vpr ci:package",
     "ci:package": "vpr lint:suppressions && vpr knip && vp test --coverage --run && vp pack && vpr budget && vpr publint",
-    "check": "vp check",
+    "check": "vp check && vpr react-doctor",
     "lint": "vp lint",
     "lint:suppressions": "! grep -rnE '(eslint|oxlint)-disable' src test --include='*.ts' --include='*.tsx' | grep -v ' -- '",
     "knip": "knip --no-progress",
