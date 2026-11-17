@@ -17,3 +17,5 @@ export {
   CalendarDayButton as DatePickerCalendarDayButton,
   type CalendarDayButtonProps as DatePickerCalendarDayButtonProps,
 } from "./calendar";
+
+export {DatePickerDayButton, type DatePickerDayButtonProps} from "./date-picker-day-button";

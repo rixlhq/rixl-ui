@@ -4,8 +4,8 @@ import type {PropsBase} from "react-day-picker";
 
 const {seenLocales} = vi.hoisted(() => ({seenLocales: [] as unknown[]}));
 
-vi.mock("../calendar", () => ({
-  Calendar: ({locale}: {locale?: unknown}) => {
+vi.mock("../date-picker-grid", () => ({
+  DatePickerGrid: ({locale}: {locale?: unknown}) => {
     seenLocales.push(locale);
     return <div data-slot="calendar" />;
   },
