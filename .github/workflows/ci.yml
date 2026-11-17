@@ -85,7 +85,7 @@ jobs:
 
       - name: 📦 Publish to npm
         if: ${{ steps.release.outputs.releases_created == 'true' }}
-        run: npm publish
+        run: rm -f ./*.tgz && vp pm pack && npm_config_force=true npm publish ./*.tgz --access public --tag latest
         working-directory: packages/ui
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
