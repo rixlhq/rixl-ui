@@ -30,9 +30,7 @@ const indicatorVariants = cva(
     "translate-x-[var(--active-tab-left)] translate-y-[var(--active-tab-top)]",
     "h-[var(--active-tab-height)] w-[var(--active-tab-width)]",
     // Smooth 300ms glide so the eye follows the indicator across tabs.
-    // Press scale rides along on its own fast timing: momentary depress on
-    // mousedown, independent of the `translate` the glide runs on.
-    "transition-[translate_300ms_cubic-bezier(0.4,0,0.2,1),width_300ms_cubic-bezier(0.4,0,0.2,1),height_300ms_cubic-bezier(0.4,0,0.2,1),scale_120ms_var(--rixl-ease-out)] motion-reduce:transition-none"
+    "transition-[translate,width,height] duration-300 ease-[cubic-bezier(0.4,0,0.2,1)] motion-reduce:transition-none"
   ),
   {
     variants: {
@@ -54,16 +52,6 @@ export type TabsListProps = TabsPrimitive.List.Props & {
   scrollable?: boolean;
 };
 
-/**
- * Pressing any trigger depresses the indicator with it (the trigger scales
- * via its own press feedback). `scale` is independent of the `translate`
- * the glide runs on, so the two compose instead of fighting. Gated behind
- * no-preference so reduced motion gets no movement; the indicator's own
- * motion-reduce:transition-none covers the release.
- */
-const indicatorPress =
-  "[@media(prefers-reduced-motion:no-preference)]:[&:has([data-slot=tabs-trigger]:active)_[data-slot=tabs-indicator]]:scale-[var(--rixl-press-scale)]";
-
 export function TabsList({className, children, scrollable = true, ...props}: TabsListProps) {
   const {variant, size, fullWidth} = useContext(TabsStyleContext);
   const {ref: listRef, isOverflowing, canScrollStart, canScrollEnd} = useOverflowDetect(scrollable);
@@ -78,12 +66,7 @@ export function TabsList({className, children, scrollable = true, ...props}: Tab
         data-overflow-start={canScrollStart ? "" : undefined}
         data-overflow-end={canScrollEnd ? "" : undefined}
         {...dragHandlers}
-        className={cn(
-          listVariants({variant, fullWidth, scrollable}),
-          isOverflowing && "cursor-grab active:cursor-grabbing",
-          indicatorPress,
-          className
-        )}
+        className={cn(listVariants({variant, fullWidth, scrollable}), isOverflowing && "cursor-grab active:cursor-grabbing", className)}
         {...props}
       >
         {children}

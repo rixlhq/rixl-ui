@@ -11,15 +11,10 @@ const triggerVariants = cva(
     "outline-none select-none touch-manipulation disabled:pointer-events-none disabled:opacity-50",
     "[&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
     "focus-visible:ring-rixl-ring/50 focus-visible:ring-[3px]",
-    // Hover changes text intensity only (no background wash), so the
-    // travelling indicator pill is the only surface that moves across the
-    // bar on hover. Press still depresses like every other pressable
-    // (`active:scale`), which is momentary and never fights the indicator.
-    // Fast press clock, same as the Button and the indicator's own press
-    // scale, so trigger and pill depress and release as one piece.
+    // Hover changes text intensity only (no background wash or scale), so the
+    // travelling indicator pill is the only surface that moves across the bar.
     "text-rixl-fg-muted hover:text-rixl-fg data-active:text-rixl-fg",
-    "active:scale-[var(--rixl-press-scale)] motion-reduce:active:scale-100",
-    "transition-[color,scale] duration-rixl-fast ease-rixl-out"
+    "transition-colors duration-rixl-base ease-rixl-out"
   ),
   {
     variants: {

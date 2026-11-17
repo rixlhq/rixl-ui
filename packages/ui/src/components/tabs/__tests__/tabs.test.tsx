@@ -105,27 +105,12 @@ describe("Tabs", () => {
       expect(cls).toContain("w-[var(--active-tab-width)]");
     });
 
-    // Translate and scale are composited; animating left/top would lay out
-    // every frame. Scale rides along on its own fast timing for press
-    // feedback while the glide keeps its slower curve.
+    // Translate is composited; animating left/top would lay out every frame.
     it("transitions translate and size, not layout properties", () => {
       render(<Basic />);
       const cls = indicator()!.className;
-      expect(cls).toContain("transition-[translate_300ms");
-      expect(cls).toContain("scale_120ms");
+      expect(cls).toContain("transition-[translate,width,height]");
       expect(cls).toContain("motion-reduce:transition-none");
-    });
-
-    // Pressing any trigger (including the already-active one, whose glide
-    // is long finished) depresses the pill with it. `scale` is independent
-    // of the `translate` the glide runs on, so the two compose.
-    it("depresses the indicator while a trigger is pressed", () => {
-      render(<Basic />);
-      const list = document.querySelector("[data-slot='tabs-list']")!;
-      expect(list.className).toContain("[data-slot=tabs-trigger]:active");
-      expect(list.className).toContain("[data-slot=tabs-indicator]");
-      expect(list.className).toContain("scale-[var(--rixl-press-scale)]");
-      expect(list.className).toContain("prefers-reduced-motion:no-preference");
     });
 
     it("draws a bar rather than a pill for the underline variant", () => {
@@ -229,16 +214,15 @@ describe("Tabs", () => {
   });
 
   describe("interaction states", () => {
-    it("changes text intensity on hover without a background wash, and depresses on press like every pressable", () => {
+    it("changes text intensity on hover without a background wash or scale jump", () => {
       render(<Basic />);
       const cls = screen.getByTestId("tab-password").className;
       expect(cls).toContain("text-rixl-fg-muted");
       expect(cls).toContain("hover:text-rixl-fg");
       expect(cls).toContain("data-active:text-rixl-fg");
-      expect(cls).toContain("transition-[color,scale]");
+      expect(cls).toContain("transition-colors");
       expect(cls).not.toContain("hover:bg-rixl-fg/5");
-      expect(cls).toContain("active:scale-[var(--rixl-press-scale)]");
-      expect(cls).toContain("motion-reduce:active:scale-100");
+      expect(cls).not.toContain("active:scale-");
     });
 
     it("renders overflow scroll controls when scrollable is enabled", () => {
