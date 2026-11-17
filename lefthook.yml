@@ -1,36 +1,16 @@
-lefthook: node_modules/.bin/lefthook
-min_version: 2.2.2
-
 pre-commit:
-  parallel: true
   commands:
     check:
-      root: "packages/ui/"
-      glob:
-        - "*.{js,mjs,ts,tsx}"
-        - "*.{json,md,yaml,yml,css}"
       run: vp check --fix {staged_files} < /dev/null
       stage_fixed: true
-    suppressions:
-      root: "packages/ui/"
-      glob: "*.{ts,tsx}"
-      run: vpr lint:suppressions < /dev/null
 
 pre-push:
-  parallel: true
   commands:
     pack:
-      root: "packages/ui/"
       glob: "*.{js,ts,jsx,tsx}"
-      run: vp pack < /dev/null
-      timeout: 3m
-    test:
-      root: "packages/ui/"
-      glob: "*.{js,ts,jsx,tsx}"
-      run: vp test related {push_files} --project unit --run --bail=1 < /dev/null
+      run: vpr pack < /dev/null
       timeout: 2m
-    react-doctor:
-      root: "packages/ui/"
-      glob: "*.{jsx,tsx}"
-      run: vpr react-doctor < /dev/null
+    test:
+      glob: "*.{js,ts,jsx,tsx}"
+      run: vp test related {push_files} --run --bail=1 < /dev/null
       timeout: 2m
