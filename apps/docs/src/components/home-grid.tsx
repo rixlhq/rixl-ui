@@ -1,13 +1,26 @@
-/* oxlint-disable jsx-a11y/prefer-tag-over-role -- Card can't render an anchor and its preview can contain interactive controls. */
-import {memo, useMemo} from "react";
+import {memo, useMemo, useState} from "react";
 import {Badge} from "@rixl/ui/badge";
-import {Card, CardAction, CardContent, CardDescription, CardHeader, CardTitle} from "@rixl/ui/card";
 import {EmptyState} from "@rixl/ui/empty-state";
-import {matchesShowcase} from "../hooks/use-hash-route";
+import {groupShowcasesByCategory, matchesShowcase} from "../hooks/use-hash-route";
 import type {Showcase} from "../showcases/registry";
 
 export function HomeGrid({showcases, query, onClearQuery}: {showcases: Showcase[]; query: string; onClearQuery: () => void}) {
   const filtered = useMemo(() => showcases.filter((s) => matchesShowcase(s, query)), [showcases, query]);
+  const groups = useMemo(() => {
+    const grouped = groupShowcasesByCategory(filtered);
+    for (const [, items] of grouped) items.sort((a, b) => a.title.localeCompare(b.title));
+    grouped.sort(([a], [b]) => a.localeCompare(b));
+    return grouped;
+  }, [filtered]);
+
+  const [selectedPath, setSelectedPath] = useState<string | null>(null);
+  const selected = useMemo(() => {
+    if (selectedPath !== null) {
+      const found = filtered.find((s) => s.path === selectedPath);
+      if (found) return found;
+    }
+    return filtered[0] ?? null;
+  }, [filtered, selectedPath]);
 
   if (filtered.length === 0) {
     return (
@@ -33,59 +46,54 @@ export function HomeGrid({showcases, query, onClearQuery}: {showcases: Showcase[
         </Badge>
       </div>
 
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
-        {filtered.map((s) => (
-          <ComponentCard key={s.path} showcase={s} />
-        ))}
+      <div className="grid gap-10 lg:grid-cols-[minmax(0,16rem)_minmax(0,1fr)]">
+        <nav aria-label="Components" className="min-w-0">
+          <div className="space-y-8">
+            {groups.map(([group, items]) => (
+              <section key={group} aria-labelledby={`overview-group-${group}`}>
+                <h2 id={`overview-group-${group}`} className="text-xs font-medium tracking-wide text-rixl-fg-muted uppercase">
+                  {group}
+                </h2>
+                <ul className="mt-2 space-y-0.5">
+                  {items.map((s) => {
+                    const isActive = selected !== null && s.path === selected.path;
+                    return (
+                      <li key={s.path}>
+                        <a
+                          href={`#/${s.path}`}
+                          aria-current={isActive ? "true" : undefined}
+                          data-active={isActive ? "" : undefined}
+                          onMouseEnter={() => setSelectedPath(s.path)}
+                          onFocus={() => setSelectedPath(s.path)}
+                          className="block rounded-rixl-sm px-2 py-1 text-sm text-rixl-fg-muted transition-colors duration-150 ease hover:text-rixl-fg data-[active]:bg-rixl-surface-muted data-[active]:font-medium data-[active]:text-rixl-fg"
+                        >
+                          {s.title}
+                        </a>
+                      </li>
+                    );
+                  })}
+                </ul>
+              </section>
+            ))}
+          </div>
+        </nav>
+
+        <div className="hidden min-w-0 lg:block">{selected ? <OverviewPreview showcase={selected} /> : null}</div>
       </div>
     </div>
   );
 }
 
-const ComponentCard = memo(function ComponentCard({showcase}: {showcase: Showcase}) {
+const OverviewPreview = memo(function OverviewPreview({showcase}: {showcase: Showcase}) {
   return (
-    <Card
-      interactive
-      onClick={() => {
-        window.location.hash = `#/${showcase.path}`;
-      }}
-      onKeyDown={(e) => {
-        if (e.key === "Enter" || e.key === " ") {
-          e.preventDefault();
-          window.location.hash = `#/${showcase.path}`;
-        }
-      }}
-      role="link"
-      tabIndex={0}
-      className="justify-between gap-4 py-5"
-    >
-      <CardHeader className="px-5">
-        <CardTitle className="text-base">{showcase.title}</CardTitle>
-        <CardDescription className="line-clamp-2 text-xs">{showcase.description ?? `${showcase.title} component`}</CardDescription>
-        <CardAction>
-          <Badge variant="secondary">{showcase.group}</Badge>
-        </CardAction>
-      </CardHeader>
-
-      <CardContent className="px-5">
-        <div
-          onClick={(e) => e.stopPropagation()}
-          onKeyDown={(e) => e.stopPropagation()}
-          role="presentation"
-          className="flex min-h-28 w-full items-center justify-center overflow-hidden rounded-rixl-lg border border-rixl-border bg-rixl-bg p-4"
-        >
-          <PreviewThumbnail showcase={showcase} />
-        </div>
-      </CardContent>
-    </Card>
+    <div className="sticky top-6 overflow-hidden rounded-rixl-lg border border-rixl-border bg-rixl-surface">
+      <div className="flex items-center gap-2 border-b border-rixl-border px-4 py-3">
+        <span className="text-sm font-medium text-rixl-fg">{showcase.title}</span>
+        <code className="text-xs text-rixl-fg-muted">@rixl/ui/{showcase.path}</code>
+      </div>
+      <div className="flex min-h-64 items-center justify-center p-8">
+        {showcase.path === "sidebar" ? <Badge variant="outline">App shell · ⌘B</Badge> : <showcase.Showcase />}
+      </div>
+    </div>
   );
 });
-
-function PreviewThumbnail({showcase}: {showcase: Showcase}) {
-  // Sidebar's full shell is too large for a small grid thumbnail; render a compact summary badge.
-  if (showcase.path === "sidebar") {
-    return <Badge variant="outline">App shell · ⌘B</Badge>;
-  }
-  const Preview = showcase.Showcase;
-  return <Preview />;
-}
