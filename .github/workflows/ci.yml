@@ -2,13 +2,9 @@ name: CI
 
 on:
   pull_request:
-    types: [opened, synchronize, reopened, closed]
   push:
     branches: [main]
   workflow_dispatch:
-
-permissions:
-  contents: read
 
 concurrency:
   group: ci-${{ github.event.pull_request.number || github.ref }}
@@ -20,12 +16,11 @@ concurrency:
 # startup). docs, the other public repo, does the same.
 jobs:
   ci:
-    # Run for merged pull requests too, so the merge commit is checked on its base branch.
-    if: ${{ github.event_name != 'pull_request' || github.event.action != 'closed' || github.event.pull_request.merged == true }}
     runs-on: ubuntu-latest
     timeout-minutes: 15
     permissions:
-      contents: read
+      contents: write # Release Please branch, tags and releases
+      id-token: write # npm trusted publishing
       pull-requests: write # coverage report comment
     steps:
       - name: 📥 Checkout
@@ -65,8 +60,33 @@ jobs:
         run: vpr ci:docs
 
       - name: 📊 Report coverage to PR
-        if: ${{ !cancelled() && github.event_name == 'pull_request' && github.event.action != 'closed' && github.event.pull_request.head.repo.fork == false && hashFiles('packages/ui/coverage/coverage-summary.json') != '' }}
+        if: ${{ !cancelled() && github.event_name == 'pull_request' && github.event.pull_request.head.repo.fork == false && hashFiles('packages/ui/coverage/coverage-summary.json') != '' }}
         uses: davelosert/vitest-coverage-report-action@v2
         with:
           working-directory: packages/ui
           vite-config-path: ./vite.config.ts
+
+      - name: 🚀 Run Release Please
+        id: release
+        if: ${{ github.ref == 'refs/heads/main' }}
+        uses: googleapis/release-please-action@v5
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          config-file: release-please-config.json
+          manifest-file: .release-please-manifest.json
+
+      # Bun does not support npm trusted publishing yet; use Node only to publish.
+      - name: ⚙️ Setup Node for npm publish
+        if: ${{ steps.release.outputs.releases_created == 'true' }}
+        uses: actions/setup-node@v7
+        with:
+          node-version-file: .node-version
+          registry-url: https://registry.npmjs.org
+
+      - name: 📦 Publish to npm
+        if: ${{ steps.release.outputs.releases_created == 'true' }}
+        run: npm publish
+        working-directory: packages/ui
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
