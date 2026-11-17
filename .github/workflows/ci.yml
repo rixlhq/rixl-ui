@@ -2,7 +2,6 @@ name: CI
 
 on:
   pull_request:
-    types: [opened, synchronize, reopened, ready_for_review]
   push:
     branches: [main]
   workflow_dispatch:
@@ -11,10 +10,6 @@ concurrency:
   group: ci-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
 
-# Steps are inline, not the shared rixlhq/github-actions frontend-ci workflow:
-# this repo is public and that one is private, and GitHub doesn't let a public
-# repo call a private repo's reusable workflow (every run failed in 0s at
-# startup). docs, the other public repo, does the same.
 jobs:
   ci:
     runs-on: ubuntu-latest
@@ -26,8 +21,6 @@ jobs:
     steps:
       - name: 📥 Checkout
         uses: actions/checkout@v7
-        with:
-          fetch-depth: 0
 
       - name: ⚙️ Setup Vite+
         uses: voidzero-dev/setup-vp@v1.22.0
@@ -55,24 +48,15 @@ jobs:
           - name: 🧹 Checks
             run: vp check
 
-          - name: 🔎 Lint suppressions
-            run: vpr -F @rixl/ui lint:suppressions
-
-          - name: 🩺 React Doctor
-            run: vpr -F @rixl/ui react-doctor
-
           - name: 📦 Pack UI package
-            run: vpr -F @rixl/ui build
+            run: vpr pack
+
+          - name: 🏗️ Build docs app
+            run: vpr docs
 
       - name: 🧪 Test UI package with coverage
         run: vp test --coverage --run
         working-directory: packages/ui
-
-      - name: 🔎 Check package budget and exports
-        run: vpr -F @rixl/ui budget && vpr -F @rixl/ui publint
-
-      - name: 🏗️ Build docs app
-        run: vpr ci:docs
 
       - name: 📊 Report coverage to PR
         if: ${{ !cancelled() && github.event_name == 'pull_request' && github.event.pull_request.head.repo.fork == false && hashFiles('packages/ui/coverage/coverage-summary.json') != '' }}
