@@ -14,6 +14,16 @@ type ButtonVariant = React.ComponentProps<typeof Button>["variant"];
 type CaptionLayout = React.ComponentProps<typeof DayPicker>["captionLayout"];
 
 /**
+ * Month-switch motion gate (animate skill sequence): navigating months fires
+ * tens of times per session over functional date data users read, and it is
+ * often keyboard-initiated — so the call is explicit no-animation. No
+ * transform or opacity fade on captions/grids, no remount-by-key (it would
+ * drop keyboard focus), and DayPicker's `animate` prop stays off. The
+ * popover-level fade is the only motion on this surface, and it already
+ * ships motion-reduce safe.
+ */
+
+/**
  * End padding keeping captions clear of the grouped nav cluster: two
  * cell-sized buttons plus their gap, with a little breathing room.
  */
