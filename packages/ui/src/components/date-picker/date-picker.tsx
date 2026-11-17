@@ -48,9 +48,13 @@ type DatePickerBaseProps = {
   footer?: ReactNode;
   /** date-fns locale for month and weekday names, forwarded to the Calendar. */
   locale?: PropsBase["locale"];
-  /** Keep a fixed 6-week grid. */
+  /** Keep a fixed 6-week grid. Pairs with a single month; leave unset for multi-month views. */
   fixedWeeks?: boolean;
-  /** Show days outside the month. */
+  /**
+   * Show days outside the month. Defaults to false when `numberOfMonths`
+   * is greater than 1 (Kumo parity: outside days would duplicate across
+   * panels), true for a single month.
+   */
   showOutsideDays?: boolean;
   /** Controlled open state. */
   open?: boolean;
@@ -209,7 +213,9 @@ function panelSharedProps(picker: DatePickerProps): PanelSharedProps {
     footer,
     locale,
     fixedWeeks,
-    showOutsideDays,
+    // Kumo parity: outside days duplicate across panels, so multi-month
+    // views hide them unless the consumer opts back in.
+    showOutsideDays: showOutsideDays ?? numberOfMonths === 1,
     labels: panelLabels,
     className: calendarClassName,
   };
