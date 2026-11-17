@@ -7,7 +7,7 @@ export const path = "date-picker";
 export const title = "DatePicker";
 export const group = "Overlays";
 export const description =
-  "Date trigger over the base Calendar in a Popover. Single, multiple, and range modes; presets and footers stay with the consumer. Kumo mapping: selected maps to value, onChange maps to onSelect; bare-calendar Popover composition via DatePickerPanel.";
+  "Date trigger over the base Calendar in a Popover. Single, multiple, and range modes; presets and footers stay with the consumer. Kumo mapping: selected and onChange are accepted as deprecated aliases for value and onSelect; bare-calendar Popover composition via DatePickerPanel.";
 
 export function Showcase() {
   const [value, setValue] = useState<Date | undefined>();

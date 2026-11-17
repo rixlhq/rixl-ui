@@ -189,6 +189,32 @@ describe("DatePicker", () => {
     expect(document.querySelector("[data-slot='calendar'] td[data-outside='true']:not([data-hidden='true'])")).toBeInTheDocument();
   });
 
+  it("accepts the selected alias for the initial value", () => {
+    render(<DatePicker mode="single" defaultMonth={JUNE_2026} selected={new Date(2026, 5, 15)} />);
+    expect(screen.getByRole("button", {name: formatDay(new Date(2026, 5, 15))})).toBeInTheDocument();
+  });
+
+  it("notifies the onChange alias when a date is picked", async () => {
+    const onChange = vi.fn();
+    render(<DatePicker mode="single" defaultOpen defaultMonth={JUNE_2026} onChange={onChange} />);
+    await act(async () => {});
+    act(() => dayButton(new Date(2026, 5, 15)).click());
+    await act(async () => {});
+    expect(onChange).toHaveBeenCalledOnce();
+    expect((onChange.mock.calls[0] as Date[])[0]?.getTime()).toBe(new Date(2026, 5, 15).getTime());
+  });
+
+  it("notifies the onChange alias on each range click", async () => {
+    const onChange = vi.fn();
+    render(<DatePicker mode="range" defaultOpen defaultMonth={JUNE_2026} onChange={onChange} />);
+    await act(async () => {});
+    act(() => dayButton(new Date(2026, 5, 10)).click());
+    await act(async () => {});
+    act(() => dayButton(new Date(2026, 5, 20)).click());
+    await act(async () => {});
+    expect(onChange).toHaveBeenCalledTimes(2);
+  });
+
   it("merges consumer trigger and content classes without dropping the base ones", async () => {
     render(<SingleHarness triggerClassName="w-44" contentClassName="max-h-80" />);
     const trigger = screen.getByRole("button", {name: "Pick a date"});
