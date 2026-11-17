@@ -296,8 +296,16 @@
  * DatePicker month-switch (DayPicker `animate` snapshot cross-slide, Kumo
  * parity). DayPicker clones the outgoing month and cross-slides the week
  * grids while captions fade; direction classes come from the framework.
- * transform/opacity only, slow token + ease-out, fully off under reduced
- * motion. RTL mirrors via the document direction.
+ * transform/opacity only, fully off under reduced motion. RTL mirrors via
+ * the document direction.
+ *
+ * Timing deliberately mirrors the stock DayPicker curve
+ * (var(--rixl-cal-slide-duration, 300ms), cubic-bezier(0.4, 0, 0.2, 1))
+ * instead of --ease-rixl-out: a full-panel traverse with a fast-start
+ * traverse with a fast-start ease-out reads as teleport-then-settle (the
+ * old month appears "removed" while the new one slides in). The sustained
+ * traverse is what makes both months visibly share the frame mid-flight.
+ * Reduced motion still kills it entirely.
  */
 @keyframes rixl-cal-weeks-in-right {
   from {
@@ -331,35 +339,35 @@
 }
 
 .rixl-anim-weeks-after-enter {
-  animation: rixl-cal-weeks-in-right var(--rixl-motion-slow) var(--rixl-ease-out) forwards;
+  animation: rixl-cal-weeks-in-right var(--rixl-cal-slide-duration, 300ms) cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
 .rixl-anim-weeks-after-exit {
-  animation: rixl-cal-weeks-out-left var(--rixl-motion-slow) var(--rixl-ease-out) forwards;
+  animation: rixl-cal-weeks-out-right var(--rixl-cal-slide-duration, 300ms) cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
 .rixl-anim-weeks-before-enter {
-  animation: rixl-cal-weeks-in-left var(--rixl-motion-slow) var(--rixl-ease-out) forwards;
+  animation: rixl-cal-weeks-in-left var(--rixl-cal-slide-duration, 300ms) cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
 .rixl-anim-weeks-before-exit {
-  animation: rixl-cal-weeks-out-right var(--rixl-motion-slow) var(--rixl-ease-out) forwards;
+  animation: rixl-cal-weeks-out-left var(--rixl-cal-slide-duration, 300ms) cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
 .rixl-anim-caption-enter {
-  animation: rixl-cal-caption-in var(--rixl-motion-slow) var(--rixl-ease-out) forwards;
+  animation: rixl-cal-caption-in var(--rixl-cal-slide-duration, 300ms) cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
 .rixl-anim-caption-exit {
-  animation: rixl-cal-caption-out var(--rixl-motion-slow) var(--rixl-ease-out) forwards;
+  animation: rixl-cal-caption-out var(--rixl-cal-slide-duration, 300ms) cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
 
 :where([dir="rtl"]) .rixl-anim-weeks-after-enter {
   animation-name: rixl-cal-weeks-in-left;
 }
 :where([dir="rtl"]) .rixl-anim-weeks-after-exit {
-  animation-name: rixl-cal-weeks-out-right;
+  animation-name: rixl-cal-weeks-out-left;
 }
 :where([dir="rtl"]) .rixl-anim-weeks-before-enter {
   animation-name: rixl-cal-weeks-in-right;
 }
 :where([dir="rtl"]) .rixl-anim-weeks-before-exit {
-  animation-name: rixl-cal-weeks-out-left;
+  animation-name: rixl-cal-weeks-out-right;
 }
 
 @media (prefers-reduced-motion: reduce) {

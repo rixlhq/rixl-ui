@@ -19,8 +19,8 @@ type CaptionLayout = React.ComponentProps<typeof DayPicker>["captionLayout"];
  * implemented with DayPicker's native snapshot cross-slide (`animate`), the
  * same mechanism Kumo uses: the old weeks slide out while the new weeks
  * slide in, captions crossfade, direction-aware with RTL mirroring from the
- * framework. Keyframes below ride on `--rixl-motion-slow` +
- * `--ease-rixl-out` and are fully disabled under reduced motion. No WAAPI,
+ * framework. Keyframes below ride on the DayPicker-stock traverse timing
+ * and are fully disabled under reduced motion. No WAAPI,
  * no remount-by-key (it would drop keyboard focus and skip the first
  * navigation — the native snapshot handles the first click like the rest).
  * The framework itself skips the slide while a day holds focus, so keyboard

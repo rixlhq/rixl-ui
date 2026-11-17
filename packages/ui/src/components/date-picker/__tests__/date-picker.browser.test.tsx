@@ -181,7 +181,7 @@ describe("DatePicker Browser Mode", () => {
     // Slow-motion so the 260ms cross-slide is observable; the animation
     // classes are added by DayPicker's snapshot pass and removed on cleanup.
     render(
-      <div style={{"--rixl-motion-slow": "10s"} as CSSProperties}>
+      <div style={{"--rixl-cal-slide-duration": "10s"} as CSSProperties}>
         <SingleHarness />
       </div>
     );
