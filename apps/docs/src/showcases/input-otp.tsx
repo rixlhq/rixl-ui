@@ -1,7 +1,6 @@
 import {useState} from "react";
 import {InputOTP, InputOTPGroup, InputOTPSeparator, InputOTPSlot} from "@rixl/ui/input-otp";
-import {Label} from "@rixl/ui/label";
-import type {ControlValue, Example} from "./registry";
+import type {Example} from "./registry";
 import {Group} from "../components/showcase-layout";
 
 export const path = "input-otp";
@@ -27,33 +26,76 @@ export function Showcase() {
   );
 }
 
-function LiveExample({state}: {state: Record<string, ControlValue>}) {
-  const maxLength = Number(state.maxLength);
-  const disabled = state.disabled as boolean;
-
-  const firstHalf = Math.ceil(maxLength / 2);
+function LengthsExample() {
   return (
-    <div className="flex flex-col gap-1.5">
-      <Label htmlFor="live-otp">Verification code</Label>
-      <InputOTP id="live-otp" maxLength={maxLength} disabled={disabled}>
-        <InputOTPGroup>
-          {Array.from({length: firstHalf}).map((_, i) => (
-            <InputOTPSlot key={i} index={i} />
-          ))}
-        </InputOTPGroup>
-        <InputOTPSeparator />
-        <InputOTPGroup>
-          {Array.from({length: maxLength - firstHalf}).map((_, i) => (
-            <InputOTPSlot key={i} index={firstHalf + i} />
-          ))}
-        </InputOTPGroup>
-      </InputOTP>
+    <div className="flex flex-col gap-4">
+      <Group label="4 digits">
+        <InputOTP maxLength={4}>
+          <InputOTPGroup>
+            <InputOTPSlot index={0} />
+            <InputOTPSlot index={1} />
+            <InputOTPSlot index={2} />
+            <InputOTPSlot index={3} />
+          </InputOTPGroup>
+        </InputOTP>
+      </Group>
+      <Group label="6 digits, split">
+        <InputOTP maxLength={6}>
+          <InputOTPGroup>
+            <InputOTPSlot index={0} />
+            <InputOTPSlot index={1} />
+            <InputOTPSlot index={2} />
+          </InputOTPGroup>
+          <InputOTPSeparator />
+          <InputOTPGroup>
+            <InputOTPSlot index={3} />
+            <InputOTPSlot index={4} />
+            <InputOTPSlot index={5} />
+          </InputOTPGroup>
+        </InputOTP>
+      </Group>
+      <Group label="8 digits, split">
+        <InputOTP maxLength={8}>
+          <InputOTPGroup>
+            <InputOTPSlot index={0} />
+            <InputOTPSlot index={1} />
+            <InputOTPSlot index={2} />
+            <InputOTPSlot index={3} />
+          </InputOTPGroup>
+          <InputOTPSeparator />
+          <InputOTPGroup>
+            <InputOTPSlot index={4} />
+            <InputOTPSlot index={5} />
+            <InputOTPSlot index={6} />
+            <InputOTPSlot index={7} />
+          </InputOTPGroup>
+        </InputOTP>
+      </Group>
     </div>
   );
 }
 
-function ContiguousExample(props: {state: Record<string, ControlValue>}) {
-  void props;
+function DisabledExample() {
+  return (
+    <Group label="Disabled">
+      <InputOTP maxLength={6} disabled>
+        <InputOTPGroup>
+          <InputOTPSlot index={0} />
+          <InputOTPSlot index={1} />
+          <InputOTPSlot index={2} />
+        </InputOTPGroup>
+        <InputOTPSeparator />
+        <InputOTPGroup>
+          <InputOTPSlot index={3} />
+          <InputOTPSlot index={4} />
+          <InputOTPSlot index={5} />
+        </InputOTPGroup>
+      </InputOTP>
+    </Group>
+  );
+}
+
+function ContiguousExample() {
   return (
     <Group label="Contiguous (4 digits, single group)">
       <InputOTP maxLength={4}>
@@ -68,8 +110,7 @@ function ContiguousExample(props: {state: Record<string, ControlValue>}) {
   );
 }
 
-function PrefilledExample(props: {state: Record<string, ControlValue>}) {
-  void props;
+function PrefilledExample() {
   return (
     <Group label="Prefilled (defaultValue)">
       <InputOTP maxLength={6} defaultValue="123456">
@@ -89,8 +130,7 @@ function PrefilledExample(props: {state: Record<string, ControlValue>}) {
   );
 }
 
-function ControlledExample(props: {state: Record<string, ControlValue>}) {
-  void props;
+function ControlledExample() {
   const [value, setValue] = useState<string>("");
   return (
     <Group label="Controlled">
@@ -119,24 +159,10 @@ function ControlledExample(props: {state: Record<string, ControlValue>}) {
 
 export const examples: Example[] = [
   {
-    id: "live",
-    title: "Interactive",
-    description: "Tweak max length and disabled live.",
-    render: LiveExample,
-    controls: [
-      {
-        name: "maxLength",
-        label: "Length",
-        type: "select",
-        options: [
-          {value: "4", label: "4"},
-          {value: "6", label: "6"},
-          {value: "8", label: "8"},
-        ],
-        defaultValue: "6",
-      },
-      {name: "disabled", label: "Disabled", type: "boolean", defaultValue: false},
-    ],
+    id: "lengths",
+    title: "Lengths",
+    description: "4, 6 and 8 digit codes; longer codes split into groups.",
+    render: LengthsExample,
     code: `<InputOTP maxLength={6}>
   <InputOTPGroup>
     <InputOTPSlot index={0} />
@@ -148,6 +174,16 @@ export const examples: Example[] = [
     <InputOTPSlot index={3} />
     <InputOTPSlot index={4} />
     <InputOTPSlot index={5} />
+  </InputOTPGroup>
+</InputOTP>`,
+  },
+  {
+    id: "disabled",
+    title: "Disabled",
+    render: DisabledExample,
+    code: `<InputOTP maxLength={6} disabled>
+  <InputOTPGroup>
+    <InputOTPSlot index={0} />
   </InputOTPGroup>
 </InputOTP>`,
   },
