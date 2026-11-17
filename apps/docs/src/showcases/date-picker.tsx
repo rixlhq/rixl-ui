@@ -7,7 +7,7 @@ export const path = "date-picker";
 export const title = "DatePicker";
 export const group = "Overlays";
 export const description =
-  "Date trigger over the base Calendar in a Popover. Single, multiple, and range modes; presets and footers stay with the consumer. Kumo mapping: selected and onChange are accepted as deprecated aliases for value and onSelect; bare-calendar Popover composition via DatePickerPanel.";
+  'Date trigger over the calendar panel in a Popover. Single, multiple, and range modes; presets and footers stay with the consumer. `setup="bare"` renders just the panel (Kumo-style grid composition); `DatePickerPanel` stays for custom Popover layouts. Kumo mapping: selected and onChange are accepted as deprecated aliases for value and onSelect.';
 
 export function Showcase() {
   const [value, setValue] = useState<Date | undefined>();
@@ -66,6 +66,16 @@ function MultipleExample(props: {state: Record<string, ControlValue>}) {
   return (
     <Group label="Multiple dates (max 5)">
       <DatePicker mode="multiple" max={5} value={value} onSelect={(next) => setValue(next)} />
+    </Group>
+  );
+}
+
+function BareExample(props: {state: Record<string, ControlValue>}) {
+  void props;
+  const [value, setValue] = useState<Date | undefined>();
+  return (
+    <Group label="Bare panel, no trigger (same grid as Calendar)">
+      <DatePicker mode="single" setup="bare" value={value} onSelect={(next) => setValue(next)} />
     </Group>
   );
 }
@@ -169,6 +179,7 @@ export const examples: Example[] = [
 <DatePicker mode="range" numberOfMonths={2} value={range} onSelect={setRange} />`,
   },
   {id: "single", title: "Single", render: SingleExample},
+  {id: "bare", title: "Bare", render: BareExample},
   {id: "multiple", title: "Multiple", render: MultipleExample},
   {id: "dropdown", title: "Dropdowns", render: DropdownExample},
   {id: "range", title: "Range", render: RangeExample},
