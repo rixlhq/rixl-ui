@@ -1,5 +1,8 @@
-import {useContext} from "react";
+import {forwardRef, useContext, useMemo} from "react";
 import {Tabs as TabsPrimitive} from "@base-ui/react/tabs";
+import {mergeProps} from "@base-ui/react/merge-props";
+import {mergeTabsListRefs} from "./merge-tabs-list-refs";
+import {TabsIndicator} from "./tabs-indicator";
 import {cva} from "class-variance-authority";
 import {cn} from "cn";
 
@@ -24,57 +27,39 @@ const listVariants = cva("relative isolate flex min-w-0 max-w-full items-stretch
   defaultVariants: {variant: "segmented", fullWidth: false, scrollable: true},
 });
 
-const indicatorVariants = cva(
-  cn(
-    "pointer-events-none absolute top-0 left-0 z-0",
-    "translate-x-[var(--active-tab-left)] translate-y-[var(--active-tab-top)]",
-    "h-[var(--active-tab-height)] w-[var(--active-tab-width)]",
-    // Smooth 300ms glide so the eye follows the indicator across tabs.
-    "transition-[translate,width,height] duration-300 ease-[cubic-bezier(0.4,0,0.2,1)] motion-reduce:transition-none"
-  ),
-  {
-    variants: {
-      variant: {
-        // The border carries most of the separation: the pill and its container
-        // are only a few percent apart in lightness, so colour alone does not
-        // read as raised.
-        segmented: "bg-rixl-surface-raised border-rixl-border shadow-rixl-sm rounded-rixl-md border",
-        underline: "border-rixl-primary border-b-2",
-        ghost: "bg-rixl-surface-raised border-rixl-border shadow-rixl-xs rounded-rixl-md border",
-      },
-    },
-    defaultVariants: {variant: "segmented"},
-  }
-);
-
 export type TabsListProps = TabsPrimitive.List.Props & {
   /** Let the row scroll instead of wrapping when the tabs overflow. */
   scrollable?: boolean;
 };
 
-export function TabsList({className, children, scrollable = true, ...props}: TabsListProps) {
+export const TabsList = forwardRef<HTMLDivElement, TabsListProps>(function TabsList(
+  {className, children, scrollable = true, ...props},
+  forwardedRef
+) {
   const {variant, size, fullWidth} = useContext(TabsStyleContext);
-  const {ref: listRef, isOverflowing, canScrollStart, canScrollEnd} = useOverflowDetect(scrollable);
+  const {ref: listRef, isOverflowing, canScrollStart, canScrollEnd, isRtl} = useOverflowDetect(scrollable);
   const dragHandlers = useHorizontalDragScroll(listRef, isOverflowing);
+  const mergedRef = useMemo(() => mergeTabsListRefs(listRef, forwardedRef), [listRef, forwardedRef]);
 
   return (
     <div data-slot="tabs-list-wrapper" className={cn("relative flex min-w-0 max-w-full items-center", fullWidth ? "w-full" : "w-fit")}>
       <TabsPrimitive.List
-        ref={listRef}
+        ref={mergedRef}
         data-slot="tabs-list"
         data-overflowing={isOverflowing ? "" : undefined}
         data-overflow-start={canScrollStart ? "" : undefined}
         data-overflow-end={canScrollEnd ? "" : undefined}
-        {...dragHandlers}
+
         className={cn(listVariants({variant, fullWidth, scrollable}), isOverflowing && "cursor-grab active:cursor-grabbing", className)}
-        {...props}
+        {...mergeProps(dragHandlers, props)}
       >
         {children}
-        <TabsPrimitive.Indicator data-slot="tabs-indicator" renderBeforeHydration className={indicatorVariants({variant})} />
+        <TabsIndicator />
       </TabsPrimitive.List>
       {scrollable ? (
         <>
           <TabsOverflowControl
+            isRtl={isRtl}
             side="start"
             visible={canScrollStart}
             variant={variant}
@@ -82,6 +67,7 @@ export function TabsList({className, children, scrollable = true, ...props}: Tab
             onClick={() => scrollTabsByPage(listRef.current, "start")}
           />
           <TabsOverflowControl
+            isRtl={isRtl}
             side="end"
             visible={canScrollEnd}
             variant={variant}
@@ -92,4 +78,5 @@ export function TabsList({className, children, scrollable = true, ...props}: Tab
       ) : null}
     </div>
   );
-}
+});
+TabsList.displayName = "TabsList";

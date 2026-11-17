@@ -1,3 +1,4 @@
+import {forwardRef} from "react";
 import {Tabs as TabsPrimitive} from "@base-ui/react/tabs";
 import {cva} from "class-variance-authority";
 import {cn} from "cn";
@@ -16,6 +17,7 @@ const contentVariants = cva(
   )
 );
 
-export function TabsContent({className, ...props}: TabsContentProps) {
-  return <TabsPrimitive.Panel data-slot="tabs-content" className={cn(contentVariants(), className)} {...props} />;
-}
+export const TabsContent = forwardRef<HTMLDivElement, TabsContentProps>(function TabsContent({className, ...props}, ref) {
+  return <TabsPrimitive.Panel ref={ref} data-slot="tabs-content" className={cn(contentVariants(), className)} {...props} />;
+});
+TabsContent.displayName = "TabsContent";

@@ -1,8 +1,9 @@
-import {useContext} from "react";
+import {forwardRef, useContext} from "react";
 import {Tabs as TabsPrimitive} from "@base-ui/react/tabs";
 import {cva} from "class-variance-authority";
 import {cn} from "cn";
 
+import {getScrollBehavior} from "./get-scroll-behavior";
 import {TabsStyleContext} from "./context";
 
 const triggerVariants = cva(
@@ -35,15 +36,17 @@ const triggerVariants = cva(
 
 export type TabsTriggerProps = TabsPrimitive.Tab.Props;
 
-export function TabsTrigger({className, onClick, ...props}: TabsTriggerProps) {
+export const TabsTrigger = forwardRef<HTMLButtonElement, TabsTriggerProps>(function TabsTrigger({className, onClick, ...props}, ref) {
   const {variant, size, fullWidth} = useContext(TabsStyleContext);
   return (
     <TabsPrimitive.Tab
+      ref={ref}
       data-slot="tabs-trigger"
       onClick={(event) => {
         onClick?.(event);
+        if (event.defaultPrevented) return;
         event.currentTarget.scrollIntoView?.({
-          behavior: "smooth",
+          behavior: getScrollBehavior(event.detail === 0),
           block: "nearest",
           inline: "nearest",
         });
@@ -52,4 +55,5 @@ export function TabsTrigger({className, onClick, ...props}: TabsTriggerProps) {
       {...props}
     />
   );
-}
+});
+TabsTrigger.displayName = "TabsTrigger";
