@@ -17,13 +17,13 @@ export function Showcase() {
     <Popover>
       <PopoverTrigger
         render={
-          <Button variant="outline" className="min-w-44 justify-between">
+          <Button variant="outline">
             {value ? value.toLocaleDateString(undefined, {month: "short", day: "numeric", year: "numeric"}) : "Pick a date"}
             <span aria-hidden="true">⌄</span>
           </Button>
         }
       />
-      <PopoverContent className="w-auto p-2">
+      <PopoverContent>
         <DatePicker mode="single" value={value} onSelect={setValue} />
       </PopoverContent>
     </Popover>
@@ -131,7 +131,7 @@ function WithPopoverExample() {
     <Group label="Single in a popover">
       <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger render={<Button variant="outline">{date ? date.toLocaleDateString() : "Pick a date"}</Button>} />
-        <PopoverContent className="w-auto p-0">
+        <PopoverContent>
           <DatePicker
             mode="single"
             value={date}
@@ -152,7 +152,7 @@ function RangePopoverExample() {
     <Group label="Range in a popover (two months)">
       <Popover>
         <PopoverTrigger render={<Button variant="outline">{formatRangeLabel(range, "Select dates")}</Button>} />
-        <PopoverContent className="w-auto p-0">
+        <PopoverContent>
           <DatePicker mode="range" numberOfMonths={2} value={range} onSelect={(next) => setRange(next)} />
         </PopoverContent>
       </Popover>
@@ -191,7 +191,7 @@ function PresetsExample() {
       <Popover>
         <PopoverTrigger render={<Button variant="outline">{formatRangeLabel(range, "Select dates")}</Button>} />
         {/* align="start": the trigger label changes width with the range, and a centered popover would recenter a few px on every preset click. */}
-        <PopoverContent align="start" className="w-auto p-0">
+        <PopoverContent align="start">
           <div className="flex flex-col gap-3 p-3 sm:flex-row">
             <div className="flex flex-row gap-1 sm:flex-col">
               {presets.map((preset) => (

@@ -42,7 +42,7 @@ function SidesExample(props: {state: Record<string, ControlValue>}) {
       {(["top", "right", "bottom", "left"] as const).map((side) => (
         <Popover key={side}>
           <PopoverTrigger render={<Button variant="outline">{side}</Button>} />
-          <PopoverContent side={side} className="w-56">
+          <PopoverContent side={side}>
             <p className="text-sm font-medium">Side: {side}</p>
             <p className="mt-1 text-sm text-rixl-fg-muted">Popover on the {side}.</p>
           </PopoverContent>
@@ -59,7 +59,7 @@ function AlignmentsExample(props: {state: Record<string, ControlValue>}) {
       {(["start", "center", "end"] as const).map((align) => (
         <Popover key={align}>
           <PopoverTrigger render={<Button variant="outline">align={align}</Button>} />
-          <PopoverContent align={align} className="w-56">
+          <PopoverContent align={align}>
             <p className="text-sm font-medium">Align: {align}</p>
             <p className="mt-1 text-sm text-rixl-fg-muted">Aligned {align} to the trigger.</p>
           </PopoverContent>
@@ -74,21 +74,14 @@ function FormInsideExample(props: {state: Record<string, ControlValue>}) {
   return (
     <Popover>
       <PopoverTrigger render={<Button variant="outline">Customize</Button>} />
-      <PopoverContent className="w-80">
+      <PopoverContent>
         <div className="space-y-4">
-          <div className="space-y-1.5">
-            <Label htmlFor="popover-dimensions">Dimensions</Label>
-            <Input id="popover-dimensions" defaultValue="1000×1000" />
-          </div>
+          <Input label="Dimensions" defaultValue="1000×1000" />
           <div className="flex items-center justify-between gap-2">
-            <Label htmlFor="popover-crop" className="text-rixl-fg-muted font-normal">
-              Automatically crop to source
-            </Label>
+            <Label htmlFor="popover-crop">Automatically crop to source</Label>
             <Switch id="popover-crop" defaultChecked />
           </div>
-          <Button size="sm" className="w-full">
-            Update image
-          </Button>
+          <Button size="sm">Update image</Button>
         </div>
       </PopoverContent>
     </Popover>

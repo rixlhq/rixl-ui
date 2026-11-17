@@ -6,28 +6,22 @@ export const title = "Empty State";
 export const description = "Explain why a view is empty and offer a next step.";
 
 export function Showcase() {
-  return <EmptyState title="No media" description="Upload your first asset." className="min-h-24 p-4" />;
+  return <EmptyState title="No media" description="Upload your first asset." size="compact" />;
 }
 
 function WithoutActionExample(props: {state: Record<string, ControlValue>}) {
   void props;
-  return (
-    <div className="w-full">
-      <EmptyState title="No media" description="Upload your first asset to see it here." />
-    </div>
-  );
+  return <EmptyState title="No media" description="Upload your first asset to see it here." />;
 }
 
 function WithActionExample(props: {state: Record<string, ControlValue>}) {
   void props;
   return (
-    <div className="w-full">
-      <EmptyState
-        title="No projects"
-        description="Create a project to organize your work."
-        action={{label: "New project", onClick: () => {}}}
-      />
-    </div>
+    <EmptyState
+      title="No projects"
+      description="Create a project to organize your work."
+      action={{label: "New project", onClick: () => {}}}
+    />
   );
 }
 

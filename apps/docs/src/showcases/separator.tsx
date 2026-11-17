@@ -1,7 +1,6 @@
 import {Separator} from "@rixl/ui/separator";
 import type {Example} from "./registry";
 import {Group} from "../components/showcase-layout";
-
 export const path = "separator";
 export const title = "Separator";
 export const description = "Visually separate related groups of content.";
@@ -46,16 +45,6 @@ function VerticalExample() {
   );
 }
 
-function CustomClassExample() {
-  return (
-    <Group label="Custom className (last-write-wins via cn)">
-      <div className="w-full">
-        <Separator className="my-2 h-0.5 bg-rixl-primary" />
-      </div>
-    </Group>
-  );
-}
-
 export const examples: Example[] = [
   {
     id: "horizontal",
@@ -76,5 +65,4 @@ export const examples: Example[] = [
   <span>Guides</span>
 </div>`,
   },
-  {id: "custom", title: "Custom className", render: CustomClassExample},
 ];

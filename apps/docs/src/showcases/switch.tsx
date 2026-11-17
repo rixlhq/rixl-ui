@@ -9,12 +9,12 @@ export const description = "Turn a setting on or off.";
 
 export function Showcase() {
   return (
-    <div className="w-full max-w-56 space-y-4">
-      <div className="flex items-center justify-between gap-3">
+    <div className="grid gap-4">
+      <div className="flex w-full max-w-56 items-center justify-between gap-3">
         <Label htmlFor="overview-switch">Notifications</Label>
         <Switch id="overview-switch" defaultChecked />
       </div>
-      <div className="flex items-center justify-between gap-3">
+      <div className="flex w-full max-w-56 items-center justify-between gap-3">
         <Label htmlFor="overview-digest">Weekly digest</Label>
         <Switch id="overview-digest" />
       </div>

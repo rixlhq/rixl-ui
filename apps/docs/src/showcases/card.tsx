@@ -11,12 +11,12 @@ export const notes =
 
 export function Showcase() {
   return (
-    <Card className="w-full max-w-64 gap-4 py-4 shadow-rixl-sm">
-      <CardHeader className="px-4">
-        <CardTitle className="text-sm">Production</CardTitle>
-        <CardDescription className="text-xs">Your latest deployment is live.</CardDescription>
+    <Card className="w-full max-w-64">
+      <CardHeader>
+        <CardTitle>Production</CardTitle>
+        <CardDescription>Your latest deployment is live.</CardDescription>
       </CardHeader>
-      <CardFooter className="justify-between px-4">
+      <CardFooter className="justify-between">
         <code className="text-xs text-rixl-fg-muted">main · 8f2a1c</code>
         <span className="text-xs font-medium text-rixl-success">Ready</span>
       </CardFooter>
@@ -65,11 +65,17 @@ function VariantsExample() {
   return (
     <Group label="Variants">
       <div className="grid w-full gap-4 sm:grid-cols-3">
-        {(["default", "outline", "ghost"] as const).map((variant) => (
+        {(
+          [
+            {variant: "default", label: "Default"},
+            {variant: "outline", label: "Outline"},
+            {variant: "ghost", label: "Ghost"},
+          ] as const
+        ).map(({variant, label}) => (
           <Card key={variant} variant={variant}>
             <CardHeader>
-              <CardTitle className="capitalize">{variant}</CardTitle>
-              <CardDescription>{variant} surface</CardDescription>
+              <CardTitle>{label}</CardTitle>
+              <CardDescription>{label} surface</CardDescription>
             </CardHeader>
           </Card>
         ))}

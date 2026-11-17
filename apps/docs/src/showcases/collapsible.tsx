@@ -27,8 +27,8 @@ export function Showcase() {
       />
       <CollapsibleContent>
         <div className="pt-2">
-          <Card className="py-3">
-            <CardContent className="px-3 text-xs text-rixl-fg-muted">Expandable panel content.</CardContent>
+          <Card>
+            <CardContent>Expandable panel content.</CardContent>
           </Card>
         </div>
       </CollapsibleContent>
@@ -43,8 +43,8 @@ function UncontrolledExample(props: {state: Record<string, ControlValue>}) {
       <CollapsibleTrigger render={<Button variant="outline">Toggle section</Button>} />
       <CollapsibleContent>
         <div className="pt-2.5">
-          <Card className="py-4">
-            <CardContent className="space-y-1.5 px-4">
+          <Card>
+            <CardContent>
               <p className="text-sm font-medium text-rixl-fg">Smooth height & opacity transition</p>
               <p className="text-xs text-rixl-fg-muted">
                 Driven by Base UI&apos;s <code>--collapsible-panel-height</code> CSS variable.
@@ -61,9 +61,9 @@ function ControlledExample(props: {state: Record<string, ControlValue>}) {
   void props;
   const [open, setOpen] = useState(false);
   return (
-    <div className="w-full max-w-sm space-y-2">
+    <div className="grid gap-2">
       <div className="flex items-center gap-3">
-        <Collapsible open={open} onOpenChange={setOpen} className="w-full">
+        <Collapsible open={open} onOpenChange={setOpen} className="w-full max-w-sm">
           <div className="flex items-center justify-between gap-2">
             <CollapsibleTrigger
               render={
@@ -76,8 +76,8 @@ function ControlledExample(props: {state: Record<string, ControlValue>}) {
           </div>
           <CollapsibleContent>
             <div className="pt-2.5">
-              <Card className="py-4">
-                <CardContent className="px-4 text-sm text-rixl-fg-muted">
+              <Card>
+                <CardContent>
                   Controlled from a <code>useState</code> hook with interruptible height animation.
                 </CardContent>
               </Card>
@@ -105,9 +105,9 @@ const multipleItems = [
 function MultipleItemsExample(props: {state: Record<string, ControlValue>}) {
   void props;
   return (
-    <div className="w-full max-w-sm space-y-2">
+    <div className="grid gap-2">
       {multipleItems.map((item) => (
-        <Collapsible key={item.title} className="rounded-rixl-md border border-rixl-border px-1 py-1">
+        <Collapsible key={item.title} className="w-full max-w-sm rounded-rixl-md border border-rixl-border px-1 py-1">
           <CollapsibleDefaultTrigger>{item.title}</CollapsibleDefaultTrigger>
           <CollapsibleDefaultPanel>
             <p className="py-2 text-sm text-rixl-fg-muted">{item.body}</p>
@@ -122,13 +122,13 @@ function AccordionExample(props: {state: Record<string, ControlValue>}) {
   void props;
   const [activeIndex, setActiveIndex] = useState<number | null>(0);
   return (
-    <div className="w-full max-w-sm space-y-2">
+    <div className="grid gap-2">
       {multipleItems.map((item, index) => (
         <Collapsible
           key={item.title}
           open={activeIndex === index}
           onOpenChange={(open: boolean) => setActiveIndex(open ? index : null)}
-          className="rounded-rixl-md border border-rixl-border px-1 py-1"
+          className="w-full max-w-sm rounded-rixl-md border border-rixl-border px-1 py-1"
         >
           <CollapsibleDefaultTrigger>{item.title}</CollapsibleDefaultTrigger>
           <CollapsibleDefaultPanel keepMounted>

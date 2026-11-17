@@ -23,7 +23,7 @@ export function Showcase() {
 function IndeterminateExample() {
   return (
     <Group label="Indeterminate (value=null)">
-      <Progress value={null} className="w-full" />
+      <Progress value={null} />
     </Group>
   );
 }
@@ -58,7 +58,7 @@ function AnimatedExample() {
   const animated = useAnimatedValue();
   return (
     <Group label="Animated (loops 0→100)">
-      <Progress value={animated} className="w-full" />
+      <Progress value={animated} />
     </Group>
   );
 }
@@ -69,7 +69,7 @@ export const examples: Example[] = [
     title: "Indeterminate",
     description: "Pass null while the duration is unknown.",
     render: IndeterminateExample,
-    code: `<Progress value={null} className="w-full" />`,
+    code: `<Progress value={null} />`,
   },
   {id: "static", title: "Static values", render: StaticValuesExample},
   {id: "heights", title: "Custom heights", render: CustomHeightExample},

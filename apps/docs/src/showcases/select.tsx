@@ -26,26 +26,24 @@ export function Showcase() {
 function SizesExample() {
   return (
     <Group label="Trigger sizes">
-      <div className="flex w-full max-w-sm flex-col gap-3">
-        <Select>
-          <SelectTrigger size="sm">
-            <SelectValue>{(v) => (v ? String(v) : "Small")}</SelectValue>
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="apple">Apple</SelectItem>
-            <SelectItem value="banana">Banana</SelectItem>
-          </SelectContent>
-        </Select>
-        <Select>
-          <SelectTrigger>
-            <SelectValue>{(v) => (v ? String(v) : "Default")}</SelectValue>
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="apple">Apple</SelectItem>
-            <SelectItem value="banana">Banana</SelectItem>
-          </SelectContent>
-        </Select>
-      </div>
+      <Select>
+        <SelectTrigger size="sm">
+          <SelectValue>{(v) => (v ? String(v) : "Small")}</SelectValue>
+        </SelectTrigger>
+        <SelectContent>
+          <SelectItem value="apple">Apple</SelectItem>
+          <SelectItem value="banana">Banana</SelectItem>
+        </SelectContent>
+      </Select>
+      <Select>
+        <SelectTrigger>
+          <SelectValue>{(v) => (v ? String(v) : "Default")}</SelectValue>
+        </SelectTrigger>
+        <SelectContent>
+          <SelectItem value="apple">Apple</SelectItem>
+          <SelectItem value="banana">Banana</SelectItem>
+        </SelectContent>
+      </Select>
     </Group>
   );
 }
@@ -53,28 +51,26 @@ function SizesExample() {
 function StatesExample() {
   return (
     <Group label="States">
-      <div className="flex w-full max-w-sm flex-col gap-3">
-        <Select disabled>
-          <SelectTrigger>
-            <SelectValue>{(v) => (v ? String(v) : "Disabled")}</SelectValue>
+      <Select disabled>
+        <SelectTrigger>
+          <SelectValue>{(v) => (v ? String(v) : "Disabled")}</SelectValue>
+        </SelectTrigger>
+        <SelectContent>
+          <SelectItem value="apple">Apple</SelectItem>
+        </SelectContent>
+      </Select>
+      <div className="flex flex-col gap-1.5">
+        <Label htmlFor="invalid-select">Favourite fruit</Label>
+        <Select>
+          <SelectTrigger id="invalid-select" aria-invalid>
+            <SelectValue>{(v) => (v ? String(v) : "Pick one")}</SelectValue>
           </SelectTrigger>
           <SelectContent>
             <SelectItem value="apple">Apple</SelectItem>
+            <SelectItem value="banana">Banana</SelectItem>
           </SelectContent>
         </Select>
-        <div className="flex flex-col gap-1.5">
-          <Label htmlFor="invalid-select">Favourite fruit</Label>
-          <Select>
-            <SelectTrigger id="invalid-select" aria-invalid>
-              <SelectValue>{(v) => (v ? String(v) : "Pick one")}</SelectValue>
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="apple">Apple</SelectItem>
-              <SelectItem value="banana">Banana</SelectItem>
-            </SelectContent>
-          </Select>
-          <p className="text-xs text-rixl-danger">Please make a selection.</p>
-        </div>
+        <p className="text-xs text-rixl-danger">Please make a selection.</p>
       </div>
     </Group>
   );
