@@ -141,6 +141,13 @@ describe("DatePicker", () => {
     expect(early).toBeDisabled();
   });
 
+  it("paints range and selection backgrounds instantly instead of fading them", () => {
+    render(<DatePicker mode="single" defaultMonth={JUNE_2026} />);
+    const button = dayButton(new Date(2026, 5, 15));
+    expect(button.className).toContain("transition-[scale,color,box-shadow,border-color]");
+    expect(button.className).not.toContain("background-color");
+  });
+
   it("names day buttons with the visible day number first for Label in Name", () => {
     render(<DatePicker mode="single" defaultMonth={JUNE_2026} />);
     expect(dayButton(new Date(2026, 5, 15)).getAttribute("aria-label")).toMatch(/^15, /);
