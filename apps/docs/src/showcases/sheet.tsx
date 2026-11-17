@@ -3,7 +3,7 @@ import {Button} from "@rixl/ui/button";
 import {Input} from "@rixl/ui/input";
 import {Label} from "@rixl/ui/label";
 import {Sheet, SheetContent, SheetDescription, SheetFooter, SheetHeader, SheetTitle, SheetTrigger} from "@rixl/ui/sheet";
-import type {ControlValue, Example} from "./registry";
+import type {Example} from "./registry";
 
 export const path = "sheet";
 export const title = "Sheet";
@@ -37,34 +37,36 @@ export function Showcase() {
   );
 }
 
-function LiveExample({state}: {state: Record<string, ControlValue>}) {
-  const side = state.side as "top" | "right" | "bottom" | "left";
+function SidesExample() {
   return (
-    <Sheet>
-      <SheetTrigger render={<Button variant="outline">Open from {side}</Button>} />
-      <SheetContent side={side}>
-        <SheetHeader>
-          <SheetTitle>Edit profile</SheetTitle>
-          <SheetDescription>Make changes to your profile here. Click save when you are done.</SheetDescription>
-        </SheetHeader>
-        <div className="grid gap-3 px-4">
-          <div className="grid gap-1.5">
-            <Label htmlFor="sheet-name">Display name</Label>
-            <Input id="sheet-name" defaultValue="Alex Morgan" />
-          </div>
-        </div>
-        <SheetFooter>
-          <Button size="sm" className="w-full">
-            Save changes
-          </Button>
-        </SheetFooter>
-      </SheetContent>
-    </Sheet>
+    <div className="flex flex-wrap gap-3">
+      {(["top", "right", "bottom", "left"] as const).map((side) => (
+        <Sheet key={side}>
+          <SheetTrigger render={<Button variant="outline">Open from {side}</Button>} />
+          <SheetContent side={side}>
+            <SheetHeader>
+              <SheetTitle>Edit profile</SheetTitle>
+              <SheetDescription>Make changes to your profile here. Click save when you are done.</SheetDescription>
+            </SheetHeader>
+            <div className="grid gap-3 px-4">
+              <div className="grid gap-1.5">
+                <Label htmlFor={`sheet-name-${side}`}>Display name</Label>
+                <Input id={`sheet-name-${side}`} defaultValue="Alex Morgan" />
+              </div>
+            </div>
+            <SheetFooter>
+              <Button size="sm" className="w-full">
+                Save changes
+              </Button>
+            </SheetFooter>
+          </SheetContent>
+        </Sheet>
+      ))}
+    </div>
   );
 }
 
-function WithBodyExample(props: {state: Record<string, ControlValue>}) {
-  void props;
+function WithBodyExample() {
   return (
     <Sheet>
       <SheetTrigger render={<Button variant="outline">Side panel (right)</Button>} />
@@ -101,24 +103,10 @@ function WithBodyExample(props: {state: Record<string, ControlValue>}) {
 
 export const examples: Example[] = [
   {
-    id: "live",
-    title: "Interactive",
-    description: "Pick the edge the sheet slides in from.",
-    render: LiveExample,
-    controls: [
-      {
-        name: "side",
-        label: "Side",
-        type: "select",
-        options: [
-          {value: "right", label: "Right"},
-          {value: "left", label: "Left"},
-          {value: "top", label: "Top"},
-          {value: "bottom", label: "Bottom"},
-        ],
-        defaultValue: "right",
-      },
-    ],
+    id: "sides",
+    title: "Sides",
+    description: "One trigger per edge the sheet slides in from.",
+    render: SidesExample,
     code: `<Sheet>
   <SheetTrigger render={<Button variant="outline">Open</Button>} />
   <SheetContent side="right">
