@@ -1,5 +1,47 @@
 # Changelog
 
+## [0.3.0](https://github.com/rixlhq/rixl-ui/compare/@rixl/ui-v0.2.2...@rixl/ui-v0.3.0) (2026-11-17)
+
+
+### Features
+
+* **collapsible:** DefaultTrigger and DefaultPanel with accordion pattern ([ac6d729](https://github.com/rixlhq/rixl-ui/commit/ac6d7293d96cbeff567697fae36684e22f0a60d1))
+* **collapsible:** DefaultTrigger and DefaultPanel with accordion pattern ([c584ec2](https://github.com/rixlhq/rixl-ui/commit/c584ec2404fa0331151f1c4e6fff543c7621ffe7))
+* **date-picker:** accept selected and onChange as deprecated Kumo aliases ([de638d5](https://github.com/rixlhq/rixl-ui/commit/de638d5b023b6163e9536645d3e9205b938df4d4))
+* **date-picker:** forward locale to the Calendar ([b2a79b1](https://github.com/rixlhq/rixl-ui/commit/b2a79b10d35604b61df737ff79da659290772af1))
+* **date-picker:** hide outside days in multi-month views by default ([5c78e69](https://github.com/rixlhq/rixl-ui/commit/5c78e690f4e058243641defe02879a6de78e48c6))
+* **date-picker:** unify calendar grid under the date-picker entry ([a77a4b0](https://github.com/rixlhq/rixl-ui/commit/a77a4b0fbf0af0370758c3fca399a7489276e094))
+* **dialog:** accept role + disablePointerDismissal on Root ([7667379](https://github.com/rixlhq/rixl-ui/commit/7667379d2b6c16592468019d55c7069248061383))
+* **field:** add normalizeFieldError helper and FieldErrorMatch type ([31b4c1b](https://github.com/rixlhq/rixl-ui/commit/31b4c1bd7380562ff4b1380d908290d0a4b3ad47))
+* **input-group:** add built-in Field label/description/error props ([00ed7ce](https://github.com/rixlhq/rixl-ui/commit/00ed7ce1cab95e51026939d074fcc10a505f679a))
+* **ui:** wire date-picker, field, input-group and pagination subpath exports ([2ffeeae](https://github.com/rixlhq/rixl-ui/commit/2ffeeaead99116e00118bf6f5c88e90c38b8a878))
+
+
+### Bug Fixes
+
+* **date-picker:** anchor presets popover to the trigger start edge ([d149510](https://github.com/rixlhq/rixl-ui/commit/d1495103cae9b1f6f665998708b2284a370fe427))
+* **date-picker:** full month names in caption dropdowns ([f9f5b15](https://github.com/rixlhq/rixl-ui/commit/f9f5b1508e269dddc11278f323b0cb9c7de1f936))
+* **date-picker:** group month navigation at the inline end, Kumo-style ([839e4b9](https://github.com/rixlhq/rixl-ui/commit/839e4b96e86a0aca0cb1324598e8c8ff1f79a46b))
+* **date-picker:** instant range paint, drop background-color from day transition ([dedec00](https://github.com/rixlhq/rixl-ui/commit/dedec0068262a9cebacb46a84f350e0f0275b718))
+* **date-picker:** lock day and weekday cells to fixed cell-size geometry ([2135b07](https://github.com/rixlhq/rixl-ui/commit/2135b073cef000ea25298661e8ffc3ce83068252))
+* **date-picker:** native snapshot cross-slide for month navigation ([5c37f29](https://github.com/rixlhq/rixl-ui/commit/5c37f296197fa604cbcccc190df3e799de6365d1))
+* **date-picker:** one pill size everywhere, band continuity on cells ([243afa0](https://github.com/rixlhq/rixl-ui/commit/243afa0c3b49cb66c492afa1004287685c823b62))
+* **date-picker:** pill-inset day buttons, brighter weekday names over dim outside days ([a9626eb](https://github.com/rixlhq/rixl-ui/commit/a9626eb1a48915a5a9808ed09d056ac601c41ed5))
+* **date-picker:** pin caption dropdown widths so month text never jumps ([041da82](https://github.com/rixlhq/rixl-ui/commit/041da82a2c816d363bcd007ee28cf001b38c04e3))
+* **date-picker:** show outside days by default, dimmed ([56222c4](https://github.com/rixlhq/rixl-ui/commit/56222c43ca5cbfb8c968525bcd09e10336d91ebc))
+* **date-picker:** true cross-slide with correct exit directions and traverse easing ([094e731](https://github.com/rixlhq/rixl-ui/commit/094e7317498b60e2d30b1fc487aff374ab2f4e86))
+* **sidebar:** paint desktop edge in sidebar-border token ([72c6b40](https://github.com/rixlhq/rixl-ui/commit/72c6b408ababeac2a182bb5a7087a41bca9ad832))
+* **sidebar:** style nav scrollbar in rixl tokens with stable gutter ([89f5518](https://github.com/rixlhq/rixl-ui/commit/89f5518507ebec4a1e55a58afe13551a2692e3dd))
+* **slider:** focus hidden input directly in ArrowRight/ArrowLeft browser test ([ce0b95f](https://github.com/rixlhq/rixl-ui/commit/ce0b95f411cc59d9fe0329e0dacc0d8041295ff4))
+* **tabs:** indicator press scale on the fast clock, depressed with trigger ([62956f7](https://github.com/rixlhq/rixl-ui/commit/62956f7425db4e73f870bb4137f7bf4c4c3f79ba))
+* **tabs:** press depress on triggers; fix(docs): restore breadcrumb separator ([f93d2f9](https://github.com/rixlhq/rixl-ui/commit/f93d2f99ffa620d202fbf41954221389cf156360))
+* **tabs:** sync trigger and pill press on the fast clock; fix(docs): breadcrumb separator ([1159656](https://github.com/rixlhq/rixl-ui/commit/11596563e0da82833f15960e55c8e750279075d1))
+
+
+### Reverts
+
+* **tabs:** remove trigger press and indicator press-sync experiment ([1dc9ef9](https://github.com/rixlhq/rixl-ui/commit/1dc9ef9df62acb507b48073ff5da7335ee3fb272))
+
 ## [0.2.2](https://github.com/rixlhq/rixl-ui/compare/@rixl/ui-v0.2.1...@rixl/ui-v0.2.2) (2026-11-17)
 
 
