@@ -76,8 +76,8 @@ From the repo root, use the workspace scripts:
 vpr build              # → packages/ui $ vp pack
 vpr test:run           # → packages/ui $ vp test --run
 vp check
-vpr docs               # start the docs app
-vpr docs:build         # build the library and docs app
+vpr pack               # build the library before the docs production build
+vpr docs               # build the docs app
 vpr ci                 # CI/release gate across the workspace
 ```
 
@@ -87,8 +87,6 @@ To see components render live while you edit source:
 
 ```bash
 vp install             # once, from repo root — links the workspace
-vpr docs                # from repo root
-# — or —
 cd apps/docs && vpr dev
 ```
 
@@ -103,6 +101,38 @@ imports fall through to `packages/ui/dist/**`.
 Toggle dark mode with the header button — that flips
 `document.documentElement.dataset.theme` so all `--rixl-*` tokens
 re-evaluate.
+
+### Cloudflare deployment
+
+CI builds the library and docs, then hands `apps/docs/dist` to a separate
+deployment job after CI succeeds. Pushes and manual workflow runs on `main`
+deploy to the Cloudflare Worker `ui`; PRs and other branches only validate.
+Docs deployment does not require a new npm release or the manual `publish` input.
+The existing library release flow is unchanged. A failed CI job, including a
+failed npm publish, blocks docs deployment; a failed docs deployment does not
+block a library release.
+
+Configure these GitHub repository settings using credentials for the existing
+`ui` project, following dashboard's naming:
+
+- Secret `CLOUDFLARE_API_TOKEN`: an API token authorized to deploy Workers in the account.
+- Variable `CLOUDFLARE_ACCOUNT_ID`: the Cloudflare account containing `ui`.
+
+The docs Wrangler config serves static files directly, with no Worker script.
+Custom domains remain managed in Cloudflare. Disable any duplicate Cloudflare
+Git build for this project when using the GitHub Actions deployment.
+
+To build and deploy locally with those environment variables set:
+
+```bash
+vpr pack
+vpr docs
+cd apps/docs
+vpr cf:deploy --dry-run   # validate the static deployment without publishing
+vpr cf:deploy            # publish to ui
+```
+
+The asset directory is configured relative to `apps/docs/wrangler.jsonc`.
 
 Add a new component showcase by importing it in
 `apps/docs/src/App.tsx` and adding a new section for it. The docs app is not part of the published package
