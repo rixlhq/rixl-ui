@@ -1,5 +1,5 @@
-import {Separator, type SeparatorProps} from "@rixl/ui/separator";
-import type {ControlValue, Example} from "./registry";
+import {Separator} from "@rixl/ui/separator";
+import type {Example} from "./registry";
 import {Group} from "../components/showcase-layout";
 
 export const path = "separator";
@@ -11,29 +11,31 @@ export function Showcase() {
   return <Separator className="my-3" />;
 }
 
-function LiveExample({state}: {state: Record<string, ControlValue>}) {
-  const orientation = state.orientation as SeparatorProps["orientation"];
+function HorizontalExample() {
   return (
-    <Group label="Live preview">
-      {orientation === "vertical" ? (
-        <div className="flex h-6 items-center gap-3 text-sm text-rixl-fg">
-          <span>Docs</span>
-          <Separator orientation="vertical" />
-          <span>Guides</span>
-        </div>
-      ) : (
-        <div className="w-full">
-          <p className="text-sm text-rixl-fg">Above the line</p>
-          <Separator className="my-3" />
-          <p className="text-sm text-rixl-fg-muted">Below the line</p>
-        </div>
-      )}
+    <Group label="Horizontal (default)">
+      <div className="w-full">
+        <p className="text-sm text-rixl-fg">Above the line</p>
+        <Separator className="my-3" />
+        <p className="text-sm text-rixl-fg-muted">Below the line</p>
+      </div>
     </Group>
   );
 }
 
-function CustomClassExample(props: {state: Record<string, ControlValue>}) {
-  void props;
+function VerticalExample() {
+  return (
+    <Group label="Vertical (inside a flex row)">
+      <div className="flex h-6 items-center gap-3 text-sm text-rixl-fg">
+        <span>Docs</span>
+        <Separator orientation="vertical" />
+        <span>Guides</span>
+      </div>
+    </Group>
+  );
+}
+
+function CustomClassExample() {
   return (
     <Group label="Custom className (last-write-wins via cn)">
       <div className="w-full">
@@ -45,25 +47,19 @@ function CustomClassExample(props: {state: Record<string, ControlValue>}) {
 
 export const examples: Example[] = [
   {
-    id: "live",
-    title: "Interactive",
-    description: "Toggle between horizontal and vertical orientation.",
-    render: LiveExample,
-    controls: [
-      {
-        name: "orientation",
-        label: "Orientation",
-        type: "select",
-        options: [
-          {value: "horizontal", label: "Horizontal"},
-          {value: "vertical", label: "Vertical"},
-        ],
-        defaultValue: "horizontal",
-      },
-    ],
-    code: `<Separator className="my-3" />
-
-<div className="flex h-6 items-center gap-3">
+    id: "horizontal",
+    title: "Horizontal",
+    render: HorizontalExample,
+    code: `<p className="text-sm text-rixl-fg">Above the line</p>
+<Separator className="my-3" />
+<p className="text-sm text-rixl-fg-muted">Below the line</p>`,
+  },
+  {
+    id: "vertical",
+    title: "Vertical",
+    description: "Pass orientation='vertical' inside a flex row.",
+    render: VerticalExample,
+    code: `<div className="flex h-6 items-center gap-3">
   <span>Docs</span>
   <Separator orientation="vertical" />
   <span>Guides</span>
