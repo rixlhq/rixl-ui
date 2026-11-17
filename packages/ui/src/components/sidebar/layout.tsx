@@ -46,7 +46,26 @@ export function SidebarContent({className, ...props}: React.ComponentProps<"div"
     <div
       data-slot="sidebar-content"
       data-sidebar="content"
-      className={cn("flex min-h-0 flex-1 flex-col gap-2 overflow-auto group-data-[collapsible=icon]:overflow-hidden", className)}
+      className={cn(
+        "flex min-h-0 flex-1 flex-col gap-2 overflow-auto group-data-[collapsible=icon]:overflow-hidden",
+        // Thin tokenized scrollbar: `border-strong` stays visible against the
+        // sidebar fill in both themes, `fg-subtle` on hover. `scrollbar-gutter`
+        // reserves the gutter so content never shifts when overflow appears;
+        // overlay-scrollbar platforms are unaffected. No scroll animation, so
+        // keyboard scrolling and reduced-motion behavior are unchanged.
+        "[scrollbar-width:thin]",
+        "[scrollbar-color:var(--rixl-border-strong)_transparent]",
+        "[scrollbar-gutter:stable]",
+        "[&::-webkit-scrollbar]:w-2",
+        "[&::-webkit-scrollbar-track]:bg-transparent",
+        "[&::-webkit-scrollbar-thumb]:rounded-full",
+        "[&::-webkit-scrollbar-thumb]:border-2",
+        "[&::-webkit-scrollbar-thumb]:border-transparent",
+        "[&::-webkit-scrollbar-thumb]:bg-clip-content",
+        "[&::-webkit-scrollbar-thumb]:bg-rixl-border-strong",
+        "[&::-webkit-scrollbar-thumb:hover]:bg-rixl-fg-subtle",
+        className
+      )}
       {...props}
     />
   );

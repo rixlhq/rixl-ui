@@ -203,4 +203,17 @@ describe("Sidebar", () => {
     expect(cls).toContain("group-data-[side=right]:border-s");
     expect(cls).toContain("border-rixl-sidebar-border");
   });
+
+  it("gives the nav a thin tokenized scrollbar with a stable gutter", () => {
+    render(<Shell />);
+    const cls = document.querySelector("[data-slot='sidebar-content']")?.className ?? "";
+    expect(cls).toContain("[scrollbar-width:thin]");
+    expect(cls).toContain("[scrollbar-color:var(--rixl-border-strong)_transparent]");
+    expect(cls).toContain("[scrollbar-gutter:stable]");
+    expect(cls).toContain("[&::-webkit-scrollbar]:w-2");
+    expect(cls).toContain("[&::-webkit-scrollbar-track]:bg-transparent");
+    expect(cls).toContain("[&::-webkit-scrollbar-thumb]:bg-rixl-border-strong");
+    expect(cls).toContain("[&::-webkit-scrollbar-thumb:hover]:bg-rixl-fg-subtle");
+    expect(cls).not.toContain("scroll-smooth");
+  });
 });

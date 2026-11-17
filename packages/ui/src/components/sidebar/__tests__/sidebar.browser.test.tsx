@@ -1,0 +1,146 @@
+import {describe, it, expect, afterEach} from "vitest";
+import {page, userEvent} from "vitest/browser";
+import {render, cleanup} from "@testing-library/react";
+import {axeViolations} from "../../../../test/a11y";
+import {
+  Sidebar,
+  SidebarContent,
+  SidebarGroup,
+  SidebarGroupContent,
+  SidebarInset,
+  SidebarMenu,
+  SidebarMenuButton,
+  SidebarMenuItem,
+  SidebarProvider,
+} from "../index";
+
+function TestSidebar({items = 40}: {items?: number} = {}) {
+  return (
+    <SidebarProvider defaultOpen>
+      <Sidebar>
+        {/* flex-none keeps the fixed height so `items` controls overflow. */}
+        <SidebarContent data-testid="nav" className="h-64 flex-none">
+          <SidebarGroup>
+            <SidebarGroupContent>
+              <SidebarMenu>
+                {Array.from({length: items}, (_, i) => (
+                  <SidebarMenuItem key={i}>
+                    <SidebarMenuButton data-testid={`item-${i}`}>Item {i}</SidebarMenuButton>
+                  </SidebarMenuItem>
+                ))}
+              </SidebarMenu>
+            </SidebarGroupContent>
+          </SidebarGroup>
+        </SidebarContent>
+      </Sidebar>
+      <SidebarInset>
+        <div data-testid="inset" className="text-rixl-fg">
+          Content
+        </div>
+      </SidebarInset>
+    </SidebarProvider>
+  );
+}
+
+async function renderDesktop(options?: {items?: number}) {
+  // The browser project defaults to a mobile-width viewport, which renders
+  // the sheet variant. Widen first so the desktop shell under test mounts.
+  await page.viewport(1280, 800);
+  return render(<TestSidebar {...options} />);
+}
+
+function setTheme(theme: "light" | "dark") {
+  document.documentElement.dataset.theme = theme;
+}
+
+function sidebarBorderToken() {
+  return getComputedStyle(document.documentElement).getPropertyValue("--rixl-sidebar-border").trim();
+}
+
+function nav() {
+  const el = document.querySelector("[data-slot='sidebar-content']");
+  if (!(el instanceof HTMLElement)) throw new Error("sidebar content not found");
+  return el;
+}
+
+function container() {
+  const el = document.querySelector("[data-slot='sidebar-container']");
+  if (!(el instanceof HTMLElement)) throw new Error("sidebar container not found");
+  return el;
+}
+
+describe("Sidebar Browser Mode", () => {
+  afterEach(() => {
+    cleanup();
+    document.documentElement.removeAttribute("data-theme");
+  });
+
+  it.each(["light", "dark"] as const)("paints the desktop edge in --rixl-sidebar-border (%s)", async (theme) => {
+    await renderDesktop();
+    setTheme(theme);
+
+    const style = getComputedStyle(container());
+    const edge = style.borderInlineEndColor;
+    expect(edge).toBe(sidebarBorderToken());
+    expect(edge).not.toBe(style.color);
+  });
+
+  it("resolves the edge token differently per theme", async () => {
+    await renderDesktop();
+    setTheme("light");
+    const light = getComputedStyle(container()).borderInlineEndColor;
+    setTheme("dark");
+    const dark = getComputedStyle(container()).borderInlineEndColor;
+    expect(light).not.toBe(dark);
+  });
+
+  it("styles the nav scrollbar thin with a transparent track and stable gutter", async () => {
+    await renderDesktop();
+    setTheme("light");
+    expect(nav().scrollHeight).toBeGreaterThan(nav().clientHeight);
+
+    const style = getComputedStyle(nav());
+    expect(style.scrollbarWidth).toBe("thin");
+    expect(style.scrollbarGutter).toBe("stable");
+    expect(style.scrollbarColor).not.toBe("auto");
+    expect(style.scrollBehavior).toBe("auto");
+  });
+
+  it("keeps menu-button width stable when overflow appears", async () => {
+    const {rerender} = await renderDesktop({items: 3});
+    const before = document.querySelector("[data-testid='item-0']")?.getBoundingClientRect().width;
+
+    rerender(<TestSidebar items={40} />);
+    expect(nav().scrollHeight).toBeGreaterThan(nav().clientHeight);
+    const after = document.querySelector("[data-testid='item-0']")?.getBoundingClientRect().width;
+
+    expect(before).toBeGreaterThan(0);
+    expect(after).toBe(before);
+  });
+
+  it("still scrolls with the keyboard", async () => {
+    const {getByTestId} = await renderDesktop();
+    setTheme("light");
+    const scrollable = nav();
+    expect(scrollable.scrollHeight).toBeGreaterThan(scrollable.clientHeight);
+
+    // Tab through the menu exactly as a keyboard user would; the nav must
+    // follow focus instead of leaving it out of view.
+    await userEvent.click(getByTestId("item-0"));
+    for (let i = 0; i < 12; i++) {
+      await userEvent.tab();
+    }
+
+    expect(scrollable.scrollTop).toBeGreaterThan(0);
+  });
+
+  it("has no WCAG 2.2 AA violations in light or dark", async () => {
+    await renderDesktop();
+
+    setTheme("light");
+    expect(await axeViolations(document.body)).toEqual([]);
+
+    setTheme("dark");
+    expect(await axeViolations(document.body)).toEqual([]);
+  });
+});
