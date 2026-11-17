@@ -46,6 +46,8 @@ type DatePickerBaseProps = {
   captionLayout?: "label" | "dropdown" | "dropdown-months" | "dropdown-years";
   /** Footer rendered below the calendar (usage limits, hints). */
   footer?: ReactNode;
+  /** date-fns locale for month and weekday names, forwarded to the Calendar. */
+  locale?: PropsBase["locale"];
   /** Keep a fixed 6-week grid. */
   fixedWeeks?: boolean;
   /** Show days outside the month. */
@@ -172,6 +174,7 @@ type PanelSharedProps = {
   endMonth?: Date;
   captionLayout?: "label" | "dropdown" | "dropdown-months" | "dropdown-years";
   footer?: ReactNode;
+  locale?: PropsBase["locale"];
   fixedWeeks?: boolean;
   showOutsideDays?: boolean;
   labels: PropsBase["labels"];
@@ -189,6 +192,7 @@ function panelSharedProps(picker: DatePickerProps): PanelSharedProps {
     endMonth,
     captionLayout,
     footer,
+    locale,
     fixedWeeks,
     showOutsideDays,
     calendarClassName,
@@ -203,6 +207,7 @@ function panelSharedProps(picker: DatePickerProps): PanelSharedProps {
     endMonth,
     captionLayout,
     footer,
+    locale,
     fixedWeeks,
     showOutsideDays,
     labels: panelLabels,
