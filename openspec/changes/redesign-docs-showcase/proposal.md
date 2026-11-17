@@ -10,7 +10,7 @@ The showcase needs better demo composition, visual hierarchy and example browsin
 - Improve the actual demo compositions and use compact previews where full examples crowd the grid.
 - Refine the existing sidebar's typography without changing its structure.
 - Show search matches in a keyboard-accessible popover while keeping the current page visible.
-- Add example navigation with a compact selector on narrow screens, code highlighting, copy feedback and adjacent component links.
+- Add example navigation with a compact selector on narrow screens, code highlighting, inline copy feedback and adjacent component links.
 
 ## Capabilities
 
@@ -24,7 +24,7 @@ None.
 
 ## Non-goals
 
-No changes to packages/ui, public component APIs, runtime dependencies, or the sidebar's information architecture. No curated dashboard or replacement of the demo grid with an index.
+No changes to packages/ui, public component APIs, runtime dependencies, or the sidebar's information architecture. No curated dashboard, replacement of the demo grid with an index, or individual example URLs.
 
 ## Acceptance
 

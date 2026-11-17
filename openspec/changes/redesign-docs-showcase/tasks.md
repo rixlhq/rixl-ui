@@ -16,8 +16,14 @@
 
 ## 4. Integration
 
-- [x] 4.1 Run checks and confirm scope. Evidence: root `vp check` and docs TypeScript check pass; apps/docs `vp test run` passes 9 tests across unit and Chromium projects; packages/ui `vp test run` passes 578 tests; docs `vpr build` passes with its bundle-size warning. React Doctor reports only the existing showcase metadata/component-export pattern (33 warnings). `git diff --name-only packages/ui` is empty. OpenSpec validation passes. Physical phone testing is outside this session.
+- [x] 4.1 Run checks and confirm scope. Evidence: root `vp check` and docs TypeScript check pass; apps/docs `vp test run` passes 14 tests across unit and Chromium projects; packages/ui `vp test run` passes 578 tests; docs `vpr build` passes with its bundle-size warning. React Doctor reports 100/100 with no issues for this follow-up. `git diff --name-only packages/ui` is empty. OpenSpec validation passes. Physical phone testing is outside this session.
 
 ## 5. Overview proportions
 
 - [x] 5.1 Make overview tiles square. Evidence: `navigation.browser.test.tsx` verifies all 33 tiles have equal width and height (within one pixel) without horizontal or vertical preview overflow at 390, 768 and 1440px. Docs production build and shared lint checks pass.
+
+## 6. Interaction refinements
+
+- [x] 6.1 Use right-facing arrows for internal navigation and center demos within the whole square. Evidence: Chromium verifies centered content and square tiles at 390, 768 and 1440px with no preview overflow.
+- [x] 6.2 Replace copy toasts with inline live feedback. Evidence: copy-button.test.tsx covers clipboard success, failure, label restoration and repeated clicks.
+- [x] 6.3 Focus component headings after navigation, including after search and mobile sidebar dismissal. Evidence: navigation.browser.test.tsx covers desktop navigation, mobile drawer dismissal, search selection, and Escape restoration. Individual example URLs remain excluded as requested.

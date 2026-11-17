@@ -1,12 +1,11 @@
 import {memo, useId, useMemo, useRef, useState} from "react";
 import type {ComponentType, ReactNode} from "react";
-import {Button} from "@rixl/ui/button";
 import {Label} from "@rixl/ui/label";
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@rixl/ui/select";
 import {Switch} from "@rixl/ui/switch";
 import {Tabs, TabsList, TabsTrigger} from "@rixl/ui/tabs";
-import {toast} from "@rixl/ui/toaster";
 import {showcases} from "../showcases/registry";
+import {CopyButton} from "./copy-button";
 import {CodePreview} from "./code-preview";
 import type {Control, ControlValue, Example, Showcase} from "../showcases/registry";
 
@@ -30,7 +29,7 @@ export const Detail = memo(function Detail({showcase}: {showcase: Showcase}) {
     <div className="docs-detail-layout">
       <div className="min-w-0">
         <div className="docs-page-heading">
-          <h1>{showcase.title}</h1>
+          <h1 tabIndex={-1}>{showcase.title}</h1>
           {showcase.description ? <p>{showcase.description}</p> : null}
         </div>
         <div className="docs-import">
@@ -214,22 +213,6 @@ function defaultState(controls?: Control[]): Record<string, ControlValue> {
     }
   }
   return state;
-}
-
-function CopyButton({text, label = "Copy code"}: {text: string; label?: string}) {
-  const handleCopy = async () => {
-    try {
-      await navigator.clipboard.writeText(text);
-      toast.success("Copied to clipboard");
-    } catch {
-      toast.error("Could not copy. Select the text to copy it manually.");
-    }
-  };
-  return (
-    <Button variant="ghost" size="sm" onClick={handleCopy}>
-      {label}
-    </Button>
-  );
 }
 
 function jumpToExample(id: string | null) {
