@@ -33,6 +33,7 @@ export default defineConfig({
     entry: {
       index: "src/index.ts",
       button: "src/components/button/index.ts",
+      "button-group": "src/components/button-group/index.ts",
       label: "src/components/label/index.ts",
       separator: "src/components/separator/index.ts",
       badge: "src/components/badge/index.ts",
