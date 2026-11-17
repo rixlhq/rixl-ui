@@ -169,6 +169,26 @@ describe("DatePicker", () => {
     expect(dayButton(new Date(2026, 5, 15)).getAttribute("aria-label")).toMatch(/^15, /);
   });
 
+  it("shows outside days by default for a single month", async () => {
+    render(<DatePicker mode="single" defaultOpen defaultMonth={JUNE_2026} />);
+    await act(async () => {});
+    expect(document.querySelector("[data-slot='calendar'] td[data-outside='true']:not([data-hidden='true'])")).toBeInTheDocument();
+  });
+
+  it("hides outside days by default when showing multiple months", async () => {
+    render(<DatePicker mode="range" defaultOpen defaultMonth={JUNE_2026} numberOfMonths={2} />);
+    await act(async () => {});
+    const outside = document.querySelectorAll("[data-slot='calendar'] td[data-outside='true']");
+    expect(outside.length).toBeGreaterThan(0);
+    expect(document.querySelector("[data-slot='calendar'] td[data-outside='true']:not([data-hidden='true'])")).not.toBeInTheDocument();
+  });
+
+  it("shows outside days across months when showOutsideDays is set", async () => {
+    render(<DatePicker mode="range" defaultOpen defaultMonth={JUNE_2026} numberOfMonths={2} showOutsideDays />);
+    await act(async () => {});
+    expect(document.querySelector("[data-slot='calendar'] td[data-outside='true']:not([data-hidden='true'])")).toBeInTheDocument();
+  });
+
   it("merges consumer trigger and content classes without dropping the base ones", async () => {
     render(<SingleHarness triggerClassName="w-44" contentClassName="max-h-80" />);
     const trigger = screen.getByRole("button", {name: "Pick a date"});
