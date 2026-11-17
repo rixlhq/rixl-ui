@@ -32,3 +32,31 @@ The showcase SHALL provide example navigation and isolated example state per com
 
 - **WHEN** a user views an example
 - **THEN** the toolbar offers preview and code without a reset action
+
+### Requirement: Copy feedback
+
+Copy actions SHALL report success or failure inline without opening a toast.
+
+#### Scenario: Successful copy
+
+- **WHEN** the clipboard accepts the snippet
+- **THEN** the button briefly reads Copied before returning to its original label
+
+#### Scenario: Clipboard unavailable
+
+- **WHEN** copying fails
+- **THEN** the button reports Copy failed and remains available to retry
+
+### Requirement: Focus after navigation
+
+Component navigation SHALL move keyboard focus to the destination heading.
+
+#### Scenario: Select a component
+
+- **WHEN** a user chooses a component from the sidebar or search results
+- **THEN** the destination heading receives focus after the navigation surface closes
+
+#### Scenario: Dismiss search
+
+- **WHEN** a user dismisses search without navigating
+- **THEN** focus returns to the search trigger

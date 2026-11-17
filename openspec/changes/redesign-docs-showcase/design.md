@@ -33,10 +33,17 @@ Create a restrained, dense documentation workspace. Do not redesign the publishe
 
 ### Presentation
 
-**Chosen:** Transparent showcase containers, typographic hierarchy, thin dividers and functional link hover feedback. Home tiles use a square aspect ratio and show the component name without example counts; components retain their own surfaces. Keep frequent navigation instant.
+**Chosen:** Right-facing arrows for internal navigation; equal grid tracks above and below the preview to center it within the whole square. Transparent showcase containers, typographic hierarchy, thin dividers and functional link hover feedback. Home tiles use a square aspect ratio and show the component name without example counts; components retain their own surfaces. Keep frequent navigation instant.
 **Alternatives considered:** Animated card entrances add latency to repeated documentation use.
 **Dropped:** None.
 **Evidence:** Emil Kowalski and Apple design skill principles; Kumo and shadcn documentation references.
+
+### Feedback and focus
+
+**Chosen:** Copy actions show a brief live inline status with cleaned-up feedback timers and stable label width. Route changes focus the destination heading; dismissing search without navigation restores its trigger.
+**Alternatives considered:** Global copy toasts interrupt a small action; leaving focus in navigation obscures the new page for keyboard users.
+**Dropped:** Links to individual examples, explicitly excluded by the user. Existing in-page selectors remain unchanged.
+**Evidence:** Clipboard unit tests and Chromium focus tests in apps/docs.
 
 ## Risks / Trade-offs
 

@@ -31,11 +31,27 @@ describe("showcase navigation", () => {
       for (const cell of cells) {
         const bounds = cell.getBoundingClientRect();
         expect(Math.abs(bounds.width - bounds.height), `${width}px: ${cell.querySelector("a")?.textContent}`).toBeLessThanOrEqual(1);
+        const content = cell.querySelector<HTMLElement>(".docs-demo-content")!.getBoundingClientRect();
+        expect(Math.abs(content.y + content.height / 2 - bounds.y - bounds.height / 2), "preview center").toBeLessThanOrEqual(1);
         const preview = cell.querySelector<HTMLElement>(".docs-demo-preview")!;
         expect(preview.scrollWidth).toBeLessThanOrEqual(preview.clientWidth);
         expect(preview.scrollHeight).toBeLessThanOrEqual(preview.clientHeight);
       }
     }
+  });
+  it("moves focus to the component heading after sidebar navigation", async () => {
+    await page.viewport(1440, 900);
+    await page.getByRole("link", {name: "Checkbox", exact: true}).click();
+    await expect.element(page.getByRole("heading", {name: "Checkbox", exact: true})).toHaveFocus();
+    await page.getByRole("link", {name: "Overview", exact: true}).click();
+    await expect.element(page.getByRole("heading", {name: "Components", exact: true})).toHaveFocus();
+  });
+  it("focuses the new page after the mobile sidebar closes", async () => {
+    await page.viewport(390, 900);
+    await page.getByRole("button", {name: "Toggle sidebar", exact: true}).click();
+    await page.getByRole("link", {name: "Checkbox", exact: true}).click();
+    await expect.element(page.getByRole("dialog")).not.toBeInTheDocument();
+    await expect.element(page.getByRole("heading", {name: "Checkbox", exact: true})).toHaveFocus();
   });
   it("searches without replacing the current demo and restores focus on Escape", async () => {
     const trigger = page.getByRole("button", {name: "Search components", exact: true});
@@ -58,6 +74,11 @@ describe("showcase navigation", () => {
     await userEvent.keyboard("{Enter}");
     await expect.element(page.getByRole("heading", {name: "Switch", exact: true})).toBeVisible();
     await expect.element(page.getByRole("dialog", {name: "Component search"})).not.toBeInTheDocument();
+    await expect.element(page.getByRole("heading", {name: "Switch", exact: true})).toHaveFocus();
+    await userEvent.keyboard("{Control>}k{/Control}");
+    await expect.element(input).toHaveFocus();
+    await userEvent.keyboard("{Escape}");
+    await expect.element(page.getByRole("button", {name: "Search components", exact: true})).toHaveFocus();
   });
   it("shows an empty result without changing the page and dismisses on outside press", async () => {
     await page.getByRole("button", {name: "Search components", exact: true}).click();

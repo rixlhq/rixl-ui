@@ -4,11 +4,12 @@ import {Input} from "@rixl/ui/input";
 import {Popover, PopoverContent, PopoverTrigger} from "@rixl/ui/popover";
 import {matchesShowcase} from "../hooks/use-hash-route";
 import {showcases} from "../showcases/registry";
-import {SearchIcon} from "./icons";
+import {ArrowRightIcon, SearchIcon} from "./icons";
 
 export function ComponentSearch() {
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState("");
+  const navigated = useRef(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const resultsRef = useRef<HTMLElement>(null);
   const results = showcases.filter((showcase) => matchesShowcase(showcase, query)).sort((a, b) => a.title.localeCompare(b.title));
@@ -17,6 +18,7 @@ export function ComponentSearch() {
     const onKeyDown = (event: KeyboardEvent) => {
       if ((event.metaKey || event.ctrlKey) && event.key === "k") {
         event.preventDefault();
+        navigated.current = false;
         setOpen(true);
         inputRef.current?.focus();
       }
@@ -30,6 +32,7 @@ export function ComponentSearch() {
       open={open}
       onOpenChange={(next) => {
         setOpen(next);
+        if (next) navigated.current = false;
         if (!next) setQuery("");
       }}
     >
@@ -47,6 +50,10 @@ export function ComponentSearch() {
         align="end"
         sideOffset={8}
         initialFocus={inputRef}
+        finalFocus={() => {
+          if (!navigated.current) return true;
+          return document.querySelector<HTMLElement>("#docs-main h1") ?? true;
+        }}
         className="docs-search-popup p-0 transition-none"
       >
         <div className="p-3 border-b border-rixl-border">
@@ -85,12 +92,13 @@ export function ComponentSearch() {
                   else links[Math.min(next, links.length - 1)]?.focus();
                 }}
                 onClick={() => {
+                  navigated.current = true;
                   setOpen(false);
                   setQuery("");
                 }}
               >
                 <span>{showcase.title}</span>
-                <span aria-hidden="true">↗</span>
+                <ArrowRightIcon />
               </a>
             ))
           ) : (

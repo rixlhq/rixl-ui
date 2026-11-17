@@ -68,10 +68,10 @@ export function MoonIcon() {
   );
 }
 
-export function ArrowUpRightIcon() {
+export function ArrowRightIcon() {
   return (
     <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.25" aria-hidden="true" className="size-3.5">
-      <path d="M4 12 12 4M4 4h8v8" />
+      <path d="M3 8h10M9 4l4 4-4 4" />
     </svg>
   );
 }

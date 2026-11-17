@@ -1,14 +1,14 @@
 import {memo, useMemo} from "react";
 import {SidebarTrigger} from "@rixl/ui/sidebar";
 import type {Showcase} from "../showcases/registry";
-import {ArrowUpRightIcon} from "./icons";
+import {ArrowRightIcon} from "./icons";
 
 export function HomeGrid({showcases}: {showcases: Showcase[]}) {
   const sorted = useMemo(() => [...showcases].sort((a, b) => a.title.localeCompare(b.title)), [showcases]);
   return (
     <div>
       <div className="docs-page-heading">
-        <h1>Components</h1>
+        <h1 tabIndex={-1}>Components</h1>
         <p>Interactive previews of the Rixl design system.</p>
       </div>
       <div className="docs-index-bar">
@@ -28,7 +28,7 @@ const Cell = memo(function Cell({showcase}: {showcase: Showcase}) {
     <li className="docs-demo-cell">
       <a href={`#/${showcase.path}`} className="docs-demo-caption">
         <span>{showcase.title}</span>
-        <ArrowUpRightIcon />
+        <ArrowRightIcon />
       </a>
       <div className="docs-demo-preview">
         <div className="docs-demo-content">
