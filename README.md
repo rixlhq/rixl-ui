@@ -116,7 +116,7 @@ Configure these GitHub repository settings using credentials for the existing
 `ui` project, following dashboard's naming:
 
 - Secret `CLOUDFLARE_API_TOKEN`: an API token authorized to deploy Workers in the account.
-- Variable `CLOUDFLARE_ACCOUNT_ID`: the Cloudflare account containing `ui`.
+- Secret `CLOUDFLARE_ACCOUNT_ID`: the Cloudflare account containing `ui`.
 
 The docs Wrangler config serves static files directly, with no Worker script.
 Custom domains remain managed in Cloudflare. Disable any duplicate Cloudflare
