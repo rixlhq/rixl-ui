@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.2.1](https://github.com/rixlhq/rixl-ui/compare/@rixl/ui-v0.2.0...@rixl/ui-v0.2.1) (2026-11-17)
+
+
+### Bug Fixes
+
+* **ci:** run React Doctor from package scripts ([3cd7cbc](https://github.com/rixlhq/rixl-ui/commit/3cd7cbce944e77e5cdcab7e400687aadd7b7f20d))
+* proper project setup ([e722882](https://github.com/rixlhq/rixl-ui/commit/e722882f886a541063a3cf045933ef3157ee29b2))
+* **tooling:** simplify hooks and remove knip ([358315f](https://github.com/rixlhq/rixl-ui/commit/358315feb8294796b02c50127c9ccca9de0e0b7c))
+
 ## [0.2.0](https://github.com/rixlhq/rixl-ui/compare/@rixl/ui-v0.1.6...@rixl/ui-v0.2.0) (2026-11-17)
 
 
