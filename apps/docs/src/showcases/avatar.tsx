@@ -1,5 +1,5 @@
 import {Avatar, AvatarFallback, AvatarImage} from "@rixl/ui/avatar";
-import type {ControlValue, Example} from "./registry";
+import type {Example} from "./registry";
 import {Group} from "../components/showcase-layout";
 
 export const path = "avatar";
@@ -16,20 +16,20 @@ export function Showcase() {
   );
 }
 
-function LiveExample({state}: {state: Record<string, ControlValue>}) {
-  const size = state.size as string;
+function SizesExample() {
   return (
-    <Group label="Live preview">
-      <Avatar className={size}>
-        <AvatarImage src="https://i.pravatar.cc/64?img=2" alt="Ben" />
-        <AvatarFallback>BN</AvatarFallback>
-      </Avatar>
+    <Group label="Sizes">
+      {["size-6", "size-8", "size-12", "size-16"].map((size) => (
+        <Avatar key={size} className={size}>
+          <AvatarImage src="https://i.pravatar.cc/64?img=2" alt="Ben" />
+          <AvatarFallback>BN</AvatarFallback>
+        </Avatar>
+      ))}
     </Group>
   );
 }
 
-function WithImageExample(props: {state: Record<string, ControlValue>}) {
-  void props;
+function WithImageExample() {
   return (
     <Group label="With image">
       <Avatar>
@@ -44,8 +44,7 @@ function WithImageExample(props: {state: Record<string, ControlValue>}) {
   );
 }
 
-function FallbackOnlyExample(props: {state: Record<string, ControlValue>}) {
-  void props;
+function FallbackOnlyExample() {
   return (
     <Group label="Fallback only (missing / broken image)">
       <Avatar>
@@ -61,8 +60,7 @@ function FallbackOnlyExample(props: {state: Record<string, ControlValue>}) {
   );
 }
 
-function StackedGroupExample(props: {state: Record<string, ControlValue>}) {
-  void props;
+function StackedGroupExample() {
   return (
     <Group label="Stacked group">
       <div className="flex -space-x-2">
@@ -84,27 +82,13 @@ function StackedGroupExample(props: {state: Record<string, ControlValue>}) {
 
 export const examples: Example[] = [
   {
-    id: "live",
-    title: "Interactive",
-    description: "Resize the avatar with a live className control.",
-    render: LiveExample,
-    controls: [
-      {
-        name: "size",
-        label: "Size class",
-        type: "select",
-        options: [
-          {value: "size-6", label: "Small"},
-          {value: "size-8", label: "Default"},
-          {value: "size-12", label: "Large"},
-          {value: "size-16", label: "Extra large"},
-        ],
-        defaultValue: "size-8",
-      },
-    ],
-    code: `<Avatar>
-  <AvatarImage src="https://i.pravatar.cc/64?img=1" alt="Ava" />
-  <AvatarFallback>AV</AvatarFallback>
+    id: "sizes",
+    title: "Sizes",
+    description: "Avatar scales with consumer size classes.",
+    render: SizesExample,
+    code: `<Avatar className="size-12">
+  <AvatarImage src="https://i.pravatar.cc/64?img=2" alt="Ben" />
+  <AvatarFallback>BN</AvatarFallback>
 </Avatar>`,
   },
   {id: "image", title: "With image", render: WithImageExample},
