@@ -11,6 +11,7 @@ import {
   DialogTitle,
   DialogTrigger,
   dialogContentVariants,
+  type DialogRole,
 } from "../dialog";
 
 function Basic({open, defaultOpen}: {open?: boolean; defaultOpen?: boolean} = {}) {
@@ -157,6 +158,82 @@ describe("Dialog", () => {
     it("dialogContentVariants is exported and produces size classes", () => {
       expect(dialogContentVariants({size: "xl"})).toContain("sm:max-w-4xl");
     });
+  });
+});
+
+describe("role", () => {
+  function RoleDialog({
+    role,
+    contentProps,
+  }: {role?: DialogRole; contentProps?: {size?: "sm" | "default" | "lg" | "xl"; showCloseButton?: boolean; className?: string}} = {}) {
+    return (
+      <Dialog open role={role}>
+        <DialogTrigger data-testid="trigger" render={<button type="button">Open</button>} />
+        <DialogContent data-testid="content" {...contentProps}>
+          <DialogTitle>Title</DialogTitle>
+          <DialogDescription>Description</DialogDescription>
+        </DialogContent>
+      </Dialog>
+    );
+  }
+
+  it("renders role='dialog' by default", async () => {
+    render(<RoleDialog />);
+    await act(async () => {});
+    expect(screen.getByTestId("content")).toHaveAttribute("role", "dialog");
+    expect(screen.getByTestId("trigger")).toHaveAttribute("aria-haspopup", "dialog");
+  });
+
+  it("renders role='alertdialog' when role='alertdialog'", async () => {
+    render(<RoleDialog role="alertdialog" />);
+    await act(async () => {});
+    expect(screen.getByTestId("content")).toHaveAttribute("role", "alertdialog");
+    // Base UI hardcodes aria-haspopup="dialog" on the trigger (its
+    // AlertDialogTrigger is the same component); the alert semantics live on
+    // the popup role, which is what axe checks.
+    expect(screen.getByTestId("trigger")).toHaveAttribute("aria-haspopup", "dialog");
+  });
+
+  it("uses the centered inset alert presentation for alertdialog instead of the fullscreen dialog sheet", async () => {
+    render(<RoleDialog role="alertdialog" />);
+    await act(async () => {});
+    const cls = screen.getByTestId("content").className;
+    expect(cls).toContain("max-w-[calc(100%-2rem)]");
+    expect(cls).toContain("translate-x-[-50%]");
+    expect(cls).toContain("rounded-rixl-lg");
+    expect(cls).not.toContain("h-dvh");
+  });
+
+  it("hides the X close button for alertdialog unless showCloseButton", async () => {
+    render(<RoleDialog role="alertdialog" />);
+    await act(async () => {});
+    expect(document.querySelector("[data-slot='dialog-close']")).toBeNull();
+  });
+
+  it("shows the X close button for alertdialog when showCloseButton", async () => {
+    render(<RoleDialog role="alertdialog" contentProps={{showCloseButton: true}} />);
+    await act(async () => {});
+    expect(document.querySelector("[data-slot='dialog-close']")).not.toBeNull();
+  });
+
+  it("respects size in alertdialog mode, defaulting to the dialog default width", async () => {
+    render(<RoleDialog role="alertdialog" />);
+    await act(async () => {});
+    expect(screen.getByTestId("content").className).toContain("sm:max-w-lg");
+  });
+
+  it("applies the requested size in alertdialog mode", async () => {
+    render(<RoleDialog role="alertdialog" contentProps={{size: "lg"}} />);
+    await act(async () => {});
+    expect(screen.getByTestId("content").className).toContain("sm:max-w-2xl");
+  });
+
+  it("lets a consumer className win over the alert defaults", async () => {
+    render(<RoleDialog role="alertdialog" contentProps={{className: "sm:max-w-sm"}} />);
+    await act(async () => {});
+    const cls = screen.getByTestId("content").className;
+    expect(cls).toContain("sm:max-w-sm");
+    expect(cls).not.toContain("sm:max-w-lg");
   });
 });
 

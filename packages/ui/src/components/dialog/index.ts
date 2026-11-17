@@ -11,6 +11,7 @@ export {
   DialogTrigger,
   dialogContentVariants,
   type DialogProps,
+  type DialogRole,
   type DialogTriggerProps,
   type DialogPortalProps,
   type DialogCloseProps,
