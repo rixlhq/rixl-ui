@@ -16,4 +16,8 @@
 
 ## 4. Integration
 
-- [x] 4.1 Run checks and confirm scope. Evidence: root `vp check` and docs TypeScript check pass; apps/docs `vp test run` passes 8 tests across unit and Chromium projects; packages/ui `vp test run` passes 578 tests; docs `vpr build` passes with its bundle-size warning. React Doctor reports only the existing showcase metadata/component-export pattern (33 warnings). `git diff --name-only packages/ui` is empty. OpenSpec validation passes. Physical phone testing is outside this session.
+- [x] 4.1 Run checks and confirm scope. Evidence: root `vp check` and docs TypeScript check pass; apps/docs `vp test run` passes 9 tests across unit and Chromium projects; packages/ui `vp test run` passes 578 tests; docs `vpr build` passes with its bundle-size warning. React Doctor reports only the existing showcase metadata/component-export pattern (33 warnings). `git diff --name-only packages/ui` is empty. OpenSpec validation passes. Physical phone testing is outside this session.
+
+## 5. Overview proportions
+
+- [x] 5.1 Make overview tiles square. Evidence: `navigation.browser.test.tsx` verifies all 33 tiles have equal width and height (within one pixel) without horizontal or vertical preview overflow at 390, 768 and 1440px. Docs production build and shared lint checks pass.

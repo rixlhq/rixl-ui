@@ -33,7 +33,7 @@ Create a restrained, dense documentation workspace. Do not redesign the publishe
 
 ### Presentation
 
-**Chosen:** Transparent showcase containers, typographic hierarchy, thin dividers and functional link hover feedback. Home tiles show the component name without example counts; components retain their own surfaces. Keep frequent navigation instant.
+**Chosen:** Transparent showcase containers, typographic hierarchy, thin dividers and functional link hover feedback. Home tiles use a square aspect ratio and show the component name without example counts; components retain their own surfaces. Keep frequent navigation instant.
 **Alternatives considered:** Animated card entrances add latency to repeated documentation use.
 **Dropped:** None.
 **Evidence:** Emil Kowalski and Apple design skill principles; Kumo and shadcn documentation references.

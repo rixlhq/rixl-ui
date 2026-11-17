@@ -21,6 +21,22 @@ afterEach(() => {
 });
 
 describe("showcase navigation", () => {
+  it("keeps overview tiles square without overflowing previews", async () => {
+    window.location.hash = "/";
+    await expect.element(page.getByRole("heading", {name: "Components", exact: true})).toBeVisible();
+    for (const width of [1440, 768, 390]) {
+      await page.viewport(width, 900);
+      const cells = [...document.querySelectorAll<HTMLElement>(".docs-demo-cell")];
+      expect(cells).toHaveLength(33);
+      for (const cell of cells) {
+        const bounds = cell.getBoundingClientRect();
+        expect(Math.abs(bounds.width - bounds.height), `${width}px: ${cell.querySelector("a")?.textContent}`).toBeLessThanOrEqual(1);
+        const preview = cell.querySelector<HTMLElement>(".docs-demo-preview")!;
+        expect(preview.scrollWidth).toBeLessThanOrEqual(preview.clientWidth);
+        expect(preview.scrollHeight).toBeLessThanOrEqual(preview.clientHeight);
+      }
+    }
+  });
   it("searches without replacing the current demo and restores focus on Escape", async () => {
     const trigger = page.getByRole("button", {name: "Search components", exact: true});
     await trigger.click();
