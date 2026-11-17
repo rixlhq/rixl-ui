@@ -125,7 +125,7 @@ describe("Dialog", () => {
     render(<Basic open />);
     await act(async () => {});
     const overlay = document.querySelector("[data-slot='dialog-overlay']");
-    expect(overlay!.className).toContain("bg-black/50");
+    expect(overlay!.className).toContain("bg-rixl-overlay");
     expect(overlay!.className).toContain("backdrop-blur-sm");
     expect(overlay!.className).toContain("data-starting-style:opacity-0");
     expect(overlay!.className).toContain("data-ending-style:opacity-0");

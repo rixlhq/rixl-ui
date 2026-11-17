@@ -1,7 +1,11 @@
 import * as React from "react";
 import {cn} from "cn";
 
-import {Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle} from "../sheet";
+import {Dialog} from "../dialog/dialog-root";
+import {DialogContent} from "../dialog/dialog-content";
+import {DialogDescription} from "../dialog/dialog-description";
+import {DialogHeader} from "../dialog/dialog-header";
+import {DialogTitle} from "../dialog/dialog-title";
 import {SidebarSideContext, useSidebar} from "./context";
 
 const SIDEBAR_WIDTH_MOBILE = "18rem";
@@ -27,12 +31,12 @@ function StaticSidebar({className, children, ...props}: React.ComponentProps<"di
 }
 
 // className styles the desktop container; the mobile sheet keeps its own classes, as before the split.
-function MobileSidebar({side, className: _className, children, ...props}: PanelProps) {
+function MobileSidebar({side, children}: PanelProps) {
   const {openMobile, setOpenMobile} = useSidebar();
 
   return (
-    <Sheet open={openMobile} onOpenChange={setOpenMobile} {...props}>
-      <SheetContent
+    <Dialog open={openMobile} onOpenChange={setOpenMobile}>
+      <DialogContent
         data-sidebar="sidebar"
         data-slot="sidebar"
         data-mobile="true"
@@ -44,13 +48,13 @@ function MobileSidebar({side, className: _className, children, ...props}: PanelP
         }
         side={side}
       >
-        <SheetHeader className="sr-only">
-          <SheetTitle>Sidebar</SheetTitle>
-          <SheetDescription>Displays the mobile sidebar.</SheetDescription>
-        </SheetHeader>
+        <DialogHeader className="sr-only">
+          <DialogTitle>Sidebar</DialogTitle>
+          <DialogDescription>Displays the mobile sidebar.</DialogDescription>
+        </DialogHeader>
         <div className="flex h-full w-full flex-col">{children}</div>
-      </SheetContent>
-    </Sheet>
+      </DialogContent>
+    </Dialog>
   );
 }
 

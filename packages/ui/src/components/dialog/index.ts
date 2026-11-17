@@ -1,22 +1,13 @@
-export {
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogOverlay,
-  DialogPortal,
-  DialogTitle,
-  DialogTrigger,
-  dialogContentVariants,
-  type DialogProps,
-  type DialogRole,
-  type DialogTriggerProps,
-  type DialogPortalProps,
-  type DialogCloseProps,
-  type DialogOverlayProps,
-  type DialogContentProps,
-  type DialogTitleProps,
-  type DialogDescriptionProps,
-} from "./dialog";
+export {DialogTrigger, type DialogTriggerProps} from "./dialog-trigger";
+export {DialogClose, type DialogCloseProps} from "./dialog-close";
+export {DialogTitle, type DialogTitleProps} from "./dialog-title";
+export {DialogDescription, type DialogDescriptionProps} from "./dialog-description";
+export {DialogOverlay, type DialogOverlayProps} from "./dialog-overlay";
+export {DialogHeader, type DialogHeaderProps} from "./dialog-header";
+export {DialogFooter, type DialogFooterProps} from "./dialog-footer";
+export {DialogPortal, type DialogPortalProps} from "./dialog-portal";
+export {DialogContent, type DialogContentProps} from "./dialog-content";
+export {DialogCloseButton, type DialogCloseButtonProps} from "./dialog-close-button";
+export {Dialog, type DialogProps} from "./dialog-root";
+export type {DialogRole} from "./dialog-context";
+export {dialogContentVariants} from "./dialog-variants";

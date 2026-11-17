@@ -1,22 +1,11 @@
-export {
-  AlertDialog,
-  AlertDialogPortal,
-  AlertDialogOverlay,
-  AlertDialogTrigger,
-  AlertDialogContent,
-  AlertDialogHeader,
-  AlertDialogFooter,
-  AlertDialogTitle,
-  AlertDialogDescription,
-  AlertDialogAction,
-  AlertDialogCancel,
-  type AlertDialogProps,
-  type AlertDialogTriggerProps,
-  type AlertDialogPortalProps,
-  type AlertDialogOverlayProps,
-  type AlertDialogContentProps,
-  type AlertDialogTitleProps,
-  type AlertDialogDescriptionProps,
-  type AlertDialogActionProps,
-  type AlertDialogCancelProps,
-} from "./alert-dialog";
+export {AlertDialog, type AlertDialogProps} from "./alert-dialog-root";
+export {AlertDialogTrigger, type AlertDialogTriggerProps} from "./alert-dialog-trigger";
+export {AlertDialogTitle, type AlertDialogTitleProps} from "./alert-dialog-title";
+export {AlertDialogDescription, type AlertDialogDescriptionProps} from "./alert-dialog-description";
+export {AlertDialogOverlay, type AlertDialogOverlayProps} from "./alert-dialog-overlay";
+export {AlertDialogHeader, type AlertDialogHeaderProps} from "./alert-dialog-header";
+export {AlertDialogFooter, type AlertDialogFooterProps} from "./alert-dialog-footer";
+export {AlertDialogContent, type AlertDialogContentProps} from "./alert-dialog-content";
+export {AlertDialogPortal, type AlertDialogPortalProps} from "./alert-dialog-portal";
+export {AlertDialogAction, type AlertDialogActionProps} from "./alert-dialog-action";
+export {AlertDialogCancel, type AlertDialogCancelProps} from "./alert-dialog-cancel";
