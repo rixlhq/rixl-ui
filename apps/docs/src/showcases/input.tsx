@@ -7,7 +7,7 @@ export const path = "input";
 export const title = "Input";
 export const group = "Forms";
 export const description =
-  "Single-line text input. Base UI Input on rixl tokens, with three sizes, leading/trailing icon slots, and hover/focus/disabled/read-only/invalid states.";
+  "Single-line text input. Base UI Input on rixl tokens, with three sizes, leading/trailing icon slots, hover/focus/disabled/read-only/invalid states, and built-in Field props (label, description, error).";
 
 function SearchIcon() {
   return (
@@ -95,6 +95,29 @@ function IconsExample(props: {state: Record<string, ControlValue>}) {
         <Input placeholder="Search" startIcon={<SearchIcon />} />
         <Input type="password" placeholder="Password" endIcon={<EyeIcon />} />
         <Input placeholder="Both" startIcon={<SearchIcon />} endIcon={<EyeIcon />} />
+      </div>
+    </Group>
+  );
+}
+
+function FieldExample(props: {state: Record<string, ControlValue>}) {
+  void props;
+  return (
+    <Group label="Built-in field">
+      <div className="grid w-full max-w-sm grid-cols-1 gap-3">
+        <Input label="Email" placeholder="you@example.com" description="We'll never share your address." />
+        <Input label="Phone" required={false} placeholder="+1 (555) 000-0000" />
+      </div>
+    </Group>
+  );
+}
+
+function ErrorExample(props: {state: Record<string, ControlValue>}) {
+  void props;
+  return (
+    <Group label="Error">
+      <div className="grid w-full max-w-sm grid-cols-1 gap-3">
+        <Input label="Email" placeholder="you@example.com" defaultValue="not-an-email" error="Enter a valid email." />
       </div>
     </Group>
   );
@@ -188,6 +211,21 @@ export const examples: Example[] = [
     render: IconsExample,
     code: `<Input placeholder="Search" startIcon={<SearchIcon />} />
 <Input type="password" placeholder="Password" endIcon={<EyeIcon />} />`,
+  },
+  {
+    id: "field",
+    title: "Built-in field",
+    description: "label, description and required wire through the Field wrapper; required={false} shows (optional).",
+    render: FieldExample,
+    code: `<Input label="Email" placeholder="you@example.com" description="We'll never share your address." />
+<Input label="Phone" required={false} placeholder="+1 (555) 000-0000" />`,
+  },
+  {
+    id: "error",
+    title: "Error",
+    description: "A string error always shows; an object shows while the native validity matches.",
+    render: ErrorExample,
+    code: `<Input label="Email" placeholder="you@example.com" defaultValue="not-an-email" error="Enter a valid email." />`,
   },
   {
     id: "states",
