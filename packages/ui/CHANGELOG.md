@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.2](https://github.com/rixlhq/rixl-ui/compare/@rixl/ui-v0.2.1...@rixl/ui-v0.2.2) (2026-11-17)
+
+
+### Bug Fixes
+
+* **dialog:** adapt overlays and forms to mobile viewports ([f30001a](https://github.com/rixlhq/rixl-ui/commit/f30001ae7a257f56ebd80e861d7d4e761fafe004))
+
 ## [0.2.1](https://github.com/rixlhq/rixl-ui/compare/@rixl/ui-v0.2.0...@rixl/ui-v0.2.1) (2026-11-17)
 
 
