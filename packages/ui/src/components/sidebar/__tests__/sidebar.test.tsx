@@ -180,4 +180,27 @@ describe("Sidebar", () => {
     expect(cls).toContain("shadow-[0_0_0_1px_var(--rixl-sidebar-border)]");
     expect(cls).not.toContain("hsl(");
   });
+
+  it("paints the desktop edge in the sidebar-border token, not the text color", () => {
+    render(<Shell />);
+    const cls = document.querySelector("[data-slot='sidebar-container']")?.className ?? "";
+    expect(cls).toContain("group-data-[side=left]:border-e");
+    expect(cls).toContain("border-rixl-sidebar-border");
+  });
+
+  it("paints the right-side desktop edge in the same token", () => {
+    render(
+      <SidebarProvider>
+        <Sidebar side="right">
+          <SidebarContent>Nav</SidebarContent>
+        </Sidebar>
+        <SidebarInset>
+          <div>Content</div>
+        </SidebarInset>
+      </SidebarProvider>
+    );
+    const cls = document.querySelector("[data-slot='sidebar-container']")?.className ?? "";
+    expect(cls).toContain("group-data-[side=right]:border-s");
+    expect(cls).toContain("border-rixl-sidebar-border");
+  });
 });
