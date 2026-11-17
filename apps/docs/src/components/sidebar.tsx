@@ -13,7 +13,7 @@ import {
   SidebarMenuItem,
   SidebarRail,
 } from "@rixl/ui/sidebar";
-import {groupShowcasesByCategory, matchesShowcase} from "../hooks/use-hash-route";
+import {matchesShowcase} from "../hooks/use-hash-route";
 import type {Showcase} from "../showcases/registry";
 
 export const AppSidebar = memo(function AppSidebar({
@@ -26,7 +26,7 @@ export const AppSidebar = memo(function AppSidebar({
   activePath?: string;
 }) {
   const filtered = useMemo(() => showcases.filter((s) => matchesShowcase(s, query)), [showcases, query]);
-  const groups = useMemo(() => groupShowcasesByCategory(filtered), [filtered]);
+  const items = useMemo(() => [...filtered].sort((a, b) => a.title.localeCompare(b.title)), [filtered]);
 
   return (
     <Sidebar collapsible="offcanvas">
@@ -55,22 +55,20 @@ export const AppSidebar = memo(function AppSidebar({
           </SidebarGroupContent>
         </SidebarGroup>
 
-        {groups.map(([group, items]) => (
-          <SidebarGroup key={group}>
-            <SidebarGroupLabel>{group}</SidebarGroupLabel>
-            <SidebarGroupContent>
-              <SidebarMenu>
-                {items.map((s) => (
-                  <SidebarMenuItem key={s.path}>
-                    <SidebarMenuButton isActive={s.path === activePath} render={<a href={`#/${s.path}`} aria-label={s.title} />}>
-                      {s.title}
-                    </SidebarMenuButton>
-                  </SidebarMenuItem>
-                ))}
-              </SidebarMenu>
-            </SidebarGroupContent>
-          </SidebarGroup>
-        ))}
+        <SidebarGroup>
+          <SidebarGroupLabel>Components</SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              {items.map((s) => (
+                <SidebarMenuItem key={s.path}>
+                  <SidebarMenuButton isActive={s.path === activePath} render={<a href={`#/${s.path}`} aria-label={s.title} />}>
+                    {s.title}
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              ))}
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
       </SidebarContent>
 
       <SidebarFooter className="border-t border-rixl-sidebar-border px-4 py-3">
