@@ -1,5 +1,34 @@
 # Changelog
 
+## [0.2.0](https://github.com/rixlhq/rixl-ui/compare/@rixl/ui-v0.1.6...@rixl/ui-v0.2.0) (2026-11-17)
+
+
+### Features
+
+* **alert,badge:** add success and warning semantic variants ([7ed323a](https://github.com/rixlhq/rixl-ui/commit/7ed323a1784bee6253ddefebdf513fd9f3daa9a6))
+* **button:** remove hover jump, add loading state with spinner, and add property tests ([c156974](https://github.com/rixlhq/rixl-ui/commit/c1569743b0ff409f949210562c18f3a74e63cc32))
+* **copy-block:** add morphing copy-to-clipboard icon and tooltip confirmation ([96e6a17](https://github.com/rixlhq/rixl-ui/commit/96e6a178b1ac49099f0564833b18cb1758521ca6))
+* **tabs:** restore compact trigger heights, add directional panel transitions, and stabilize indicator measurement ([dab166b](https://github.com/rixlhq/rixl-ui/commit/dab166b480afd70e53380bd8ff2a73c35dbe5947))
+* **tabs:** smooth travelling indicator glide and add kumo-style horizontal overflow scrolling ([04e62e7](https://github.com/rixlhq/rixl-ui/commit/04e62e706fc3551392b40e454de3ae161b87afe2))
+* **tokens:** refine motion curves, WCAG AA danger contrast, dark shadows, and enter/exit keyframes ([00439de](https://github.com/rixlhq/rixl-ui/commit/00439de82d034ab5e59e30574c2a375932dc2b30))
+* **ui:** design engineering polish, animation refinement, and component modularization ([7d9f075](https://github.com/rixlhq/rixl-ui/commit/7d9f07509bf0da9c81d2b60a9c149e9bd072303e))
+
+
+### Bug Fixes
+
+* **button:** ignore inherited names passed as color ([262e03f](https://github.com/rixlhq/rixl-ui/commit/262e03f82338f1626b416988bc16e6b6c497db24))
+* **card:** remove hover translation jump and prevent flex/grid text overflow ([30018ea](https://github.com/rixlhq/rixl-ui/commit/30018ea80037039f3b1ccbb92116547c15e7d683))
+* **checkbox,radio-group,switch:** use interruptible indicator transitions and prevent color flash on check ([9d1ab97](https://github.com/rixlhq/rixl-ui/commit/9d1ab97601de8c09359bf75a8d8ce991743a0f87))
+* **config:** collect browser coverage and keep vp pack building ([4fc2ef7](https://github.com/rixlhq/rixl-ui/commit/4fc2ef76541c110d0b777a31d0a88ad8f53cf984))
+* **tokens:** darken light-theme danger to meet WCAG AA contrast ([33acad8](https://github.com/rixlhq/rixl-ui/commit/33acad8f737147800410416b470ec2b073fded5c))
+* **ui:** polish avatar object-cover, tabular-nums, sticky table blur, and token transitions ([c881cda](https://github.com/rixlhq/rixl-ui/commit/c881cdaec0e9a4382603f3aa000f0d1a674cb3a4))
+* **ui:** polish mobile responsiveness and viewport bounds across overlays and tables ([2dd9958](https://github.com/rixlhq/rixl-ui/commit/2dd99586be6cacb7fd034cc8ebd0ea41ca6a59be))
+
+
+### Performance Improvements
+
+* **overlays:** use pure interruptible CSS transitions, drawer easing, and tooltip sideOffset/instant hover ([7c6d904](https://github.com/rixlhq/rixl-ui/commit/7c6d904e196d9471e09be4240144bc912c96e011))
+
 ## [0.1.6](https://github.com/rixlhq/rixl-ui/compare/@rixl/ui-v0.1.5...@rixl/ui-v0.1.6) (2026-10-26)
 
 
