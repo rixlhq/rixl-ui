@@ -9,10 +9,10 @@
 
 - **Toaster theming**: the Toaster sets Sonner's `--normal-*`, `--success-*`, `--error-*`, `--warning-*` and `--info-*` variables (and the `--gray*` ones Sonner reads for the close-button hover and spinner) from `--rixl-*` tokens, so it follows `[data-theme="dark"]` through the tokens with no React state. `richColors` defaults to `true`, so success, error and warning toasts take the rixl success, danger and warning colours.
 - **Toaster parts**: action and cancel buttons take `Button`'s `sm` height, radius and focus ring; the close button gets a visible focus ring; the description inherits the toast colour at reduced strength. Overrides that cannot go through a variable use Tailwind's `!` modifier, because Sonner's stylesheet is unlayered.
-- **Select indicator**: `SelectItem`'s indicator scales and fades in and out with the same classes as the `DropdownMenu` indicators.
+- **Select indicator**: `SelectItem`'s indicator stays mounted and scales and fades with the item's selected state, on the same duration and ease tokens as the `DropdownMenu` indicators (Base UI never starts its own transition on this indicator; see design.md).
 - **Select refs**: `SelectTrigger`, `SelectContent`, `SelectItem`, `SelectLabel`, `SelectSeparator`, `SelectScrollUpButton`, `SelectScrollDownButton` and `SelectGroup` forward their ref and have a `displayName`.
 - **Select cursor**: `SelectItem` uses `cursor-default`, as the menu items do.
-- Found while there (see design.md): details recorded there.
+- Found while there: recorded in design.md.
 
 **Breaking status**: Not breaking. No export, prop or variant is removed. `richColors` becomes `true` by default on `Toaster`; a consumer who wants the neutral look passes `richColors={false}`.
 
@@ -33,5 +33,5 @@
 
 - In a browser, a success, error and warning toast take different background, border and text colours in light and in dark, and those colours change when `data-theme` changes without remounting the Toaster.
 - axe reports no violations with a toast of each type open, in light and in dark.
-- `SelectItem` indicator has the menu indicator's transition classes; every `Select*` leaf forwards a ref.
+- `SelectItem` check transitions `scale` and `opacity` on selection; every `Select*` leaf forwards a ref and has a `displayName`.
 - `vp check`, `vp test run`, `vp pack`, `vpx size-limit` and `vpr docs` pass.

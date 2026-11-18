@@ -50,12 +50,17 @@ The Toaster's action, cancel and close buttons SHALL show a focus ring on keyboa
 
 ### Requirement: Select item indicator transitions
 
-`SelectItem` SHALL scale and fade its check indicator in and out with the same transition as the `DropdownMenu` checkbox and radio indicators, and SHALL drop the transition under reduced motion.
+`SelectItem` SHALL keep its check indicator mounted and scale and fade it in and out from the item's selected state, on the fast motion duration and ease-out tokens, with the transition removed under reduced motion.
 
-#### Scenario: Indicator classes
+#### Scenario: Unselected option
 
-- **WHEN** a `Select` is open with a selected value
-- **THEN** the indicator has `transition-[scale,opacity]`, `data-starting-style:scale-50`, `data-starting-style:opacity-0` and `motion-reduce:transition-none`
+- **WHEN** a `Select` is open with `banana` selected
+- **THEN** the check on `apple` has computed opacity 0 and the check on `banana` has computed opacity 1
+
+#### Scenario: Option becomes selected
+
+- **WHEN** an option of an open multiple Select is selected
+- **THEN** its check runs CSS transitions on `scale` and `opacity` with a duration of 120ms
 
 ### Requirement: Select item cursor
 
