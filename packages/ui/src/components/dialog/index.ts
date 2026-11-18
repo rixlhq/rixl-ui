@@ -7,7 +7,6 @@ export {DialogHeader, type DialogHeaderProps} from "./dialog-header";
 export {DialogFooter, type DialogFooterProps} from "./dialog-footer";
 export {DialogPortal, type DialogPortalProps} from "./dialog-portal";
 export {DialogContent, type DialogContentProps} from "./dialog-content";
-export {DialogCloseButton, type DialogCloseButtonProps} from "./dialog-close-button";
 export {Dialog, type DialogProps} from "./dialog-root";
 export type {DialogRole} from "./dialog-context";
 export {dialogContentVariants} from "./dialog-variants";

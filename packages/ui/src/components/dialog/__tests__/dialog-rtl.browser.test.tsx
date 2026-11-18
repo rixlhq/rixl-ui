@@ -24,14 +24,6 @@ async function openDialog() {
 }
 
 describe("Dialog in RTL", () => {
-  it.each([320, 1280])("puts the close button on the left of the content at a %i px viewport", async (width) => {
-    await page.viewport(width, 720);
-    await openDialog();
-    const content = page.getByRole("dialog").element().getBoundingClientRect();
-    const close = page.getByRole("button", {name: "Close"}).element().getBoundingClientRect();
-    expect(close.left - content.left).toBeLessThan(content.right - close.right);
-  });
-
   it("keeps the content centred", async () => {
     await openDialog();
     const content = page.getByRole("dialog").element().getBoundingClientRect();

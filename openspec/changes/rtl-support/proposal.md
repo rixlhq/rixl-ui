@@ -12,7 +12,6 @@ Kumo's own sidebar is physical (`left-0`, `border-r`, https://github.com/cloudfl
 ## What Changes
 
 - **Logical mobile sidebar.** `side="left"` pins the sheet to the inline start (`start-0 border-e`), `side="right"` to the inline end, and the sheet slides out toward that edge in both directions. The prop values stay `"left" | "right"` (Kumo's API); they already meant start and end on desktop.
-- **Dialog close button** uses the safe-area inset of the edge `end` resolves to.
 - **One flip class.** `rtlFlip` (`rtl:-scale-x-100`) joins `src/lib/classes.ts` and replaces the four copies: pagination, tabs overflow, dropdown sub-menu, and the breadcrumb separator, which gains it. The date picker's descendant-selector rotation moves into `DatePickerChevron` and uses the same class.
 - **New `@rixl/ui/direction-provider` subpath** re-exporting Base UI's `DirectionProvider`, as Kumo does.
 - **Left physical on purpose:** dialog `left-1/2` plus `translate-x` centring and its `pl`/`pr` safe-area padding (insets are physical), the tabs indicator's `left-0` plus `--active-tab-left` (Base UI measures a physical offset), `bg-linear-to-r`/`-l` fades (flipped with `rtl:`), and sonner's physical `position` prop.

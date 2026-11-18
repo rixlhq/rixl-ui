@@ -7,7 +7,7 @@
 ## 2. Logical positions
 
 - [x] 2.1 Mobile sidebar sheet: `start-0 border-e` / `end-0 border-s`, slide toward the edge in both directions. Evidence: `sidebar-rtl.browser.test.tsx` failed on the right-edge, left-edge and border cases (32 px off the viewport), then passed.
-- [x] 2.2 `DialogCloseButton` safe-area inset follows `end`. Evidence: `dialog-rtl.test.tsx` failed on both inset classes, then passed. Chromium has no safe-area inset to simulate, so geometry is covered by `dialog-rtl.browser.test.tsx` (close button on the left, content centred).
+- [x] 2.2 Dialog close button: superseded by `app-supplied-names`, which removes the built-in close button; `dialog-rtl.browser.test.tsx` keeps the centring check.
 
 ## 3. Direction provider
 

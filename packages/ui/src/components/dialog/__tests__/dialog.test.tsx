@@ -1,6 +1,6 @@
 import {describe, it, expect} from "vitest";
 import {useState} from "react";
-import {act, render, screen} from "@testing-library/react";
+import {act, fireEvent, render, screen, waitFor} from "@testing-library/react";
 import {
   Dialog,
   DialogClose,
@@ -70,7 +70,7 @@ describe("Dialog", () => {
     expect(screen.getByText("Title")).toHaveAttribute("data-slot", "dialog-title");
   });
 
-  it("applies base classes to the popup and renders the close button by default", async () => {
+  it("applies base classes to the popup", async () => {
     render(<Basic open />);
     await act(async () => {});
     const cls = screen.getByTestId("content").className;
@@ -78,22 +78,32 @@ describe("Dialog", () => {
     expect(cls).toContain("rounded-rixl-lg");
     expect(cls).toContain("border-rixl-border");
     expect(cls).toContain("shadow-rixl-lg");
-    // Default close (X) button present with sr-only label.
-    expect(screen.queryAllByText("Close").length).toBeGreaterThan(0);
   });
 
-  it("omits the close button when showCloseButton=false", async () => {
+  it.each<DialogRole>(["dialog", "alertdialog"])("renders no close button of its own for role=%s", async (role) => {
     render(
-      <Dialog open>
-        <DialogTrigger render={<button type="button">Open</button>} />
-        <DialogContent data-testid="content" showCloseButton={false}>
-          <DialogTitle>Title</DialogTitle>
+      <Dialog open role={role}>
+        <DialogContent>
+          <DialogTitle>Plain</DialogTitle>
         </DialogContent>
       </Dialog>
     );
     await act(async () => {});
-    expect(screen.getByText("Title")).toBeInTheDocument();
-    expect(document.querySelector("[data-slot='dialog-close']")).toBeNull();
+    expect(screen.queryAllByRole("button")).toEqual([]);
+  });
+
+  it("closes through a DialogClose the app names", async () => {
+    render(
+      <Dialog defaultOpen>
+        <DialogContent data-testid="content">
+          <DialogTitle>Title</DialogTitle>
+          <DialogClose aria-label="Dismiss" />
+        </DialogContent>
+      </Dialog>
+    );
+    await act(async () => {});
+    fireEvent.click(screen.getByRole("button", {name: "Dismiss"}));
+    await waitFor(() => expect(screen.queryByTestId("content")).toBeNull());
   });
 
   it("closes (unmounts) when controlled open flips false", async () => {
@@ -175,7 +185,7 @@ describe("role", () => {
   function RoleDialog({
     role,
     contentProps,
-  }: {role?: DialogRole; contentProps?: {size?: "sm" | "default" | "lg" | "xl"; showCloseButton?: boolean; className?: string}} = {}) {
+  }: {role?: DialogRole; contentProps?: {size?: "sm" | "default" | "lg" | "xl"; className?: string}} = {}) {
     return (
       <Dialog open role={role}>
         <DialogTrigger data-testid="trigger" render={<button type="button">Open</button>} />
@@ -222,18 +232,6 @@ describe("role", () => {
     expect(cls).toContain("data-ending-style:duration-rixl-fast");
   });
 
-  it("hides the X close button for alertdialog unless showCloseButton", async () => {
-    render(<RoleDialog role="alertdialog" />);
-    await act(async () => {});
-    expect(document.querySelector("[data-slot='dialog-close']")).toBeNull();
-  });
-
-  it("shows the X close button for alertdialog when showCloseButton", async () => {
-    render(<RoleDialog role="alertdialog" contentProps={{showCloseButton: true}} />);
-    await act(async () => {});
-    expect(document.querySelector("[data-slot='dialog-close']")).not.toBeNull();
-  });
-
   it("respects size in alertdialog mode, defaulting to the dialog default width", async () => {
     render(<RoleDialog role="alertdialog" />);
     await act(async () => {});
@@ -255,7 +253,7 @@ describe("role", () => {
   });
 });
 
-it("fills phones and scrolls internally with larger mobile close targets", async () => {
+it("fills phones and scrolls internally", async () => {
   render(<Basic open />);
   await act(async () => {});
   const content = screen.getByTestId("content");
@@ -263,8 +261,4 @@ it("fills phones and scrolls internally with larger mobile close targets", async
   expect(content.className).toContain("sm:h-auto");
   expect(content.className).toContain("sm:max-h-[calc(100dvh-2rem)]");
   expect(content.className).toContain("overflow-y-auto");
-  const closes = document.querySelectorAll("[data-slot='dialog-close']");
-  const close = closes[closes.length - 1];
-  expect(close?.className).toContain("size-7");
-  expect(close?.className).toContain("size-11");
 });

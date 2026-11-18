@@ -26,20 +26,15 @@ Layout that follows the reading direction SHALL use logical utilities (`ms-`, `m
 - **WHEN** `Tabs` renders inside `dir="rtl"` with the second tab active
 - **THEN** the indicator overlaps the active tab horizontally (`tabs-rtl.browser.test.tsx`)
 
-#### Scenario: Dialog close button
+#### Scenario: Dialog centring
 
 - **WHEN** `DialogContent` renders inside `dir="rtl"`
-- **THEN** the close button sits at the left edge of the content (`dialog-rtl.browser.test.tsx`)
+- **THEN** the content stays centred in the viewport (`dialog-rtl.browser.test.tsx`)
 
 #### Scenario: Flip class
 
 - **WHEN** a directional icon applies `rtlFlip`
 - **THEN** its class list keeps `rtl:-scale-x-100` after `cn` merging with a consumer class (`classes.test.tsx`)
-
-#### Scenario: Dialog close button safe-area inset
-
-- **WHEN** `DialogCloseButton` renders
-- **THEN** its inset is the right safe-area inset where `end` is the right edge and the left one where `end` is the left edge (`dialog-rtl.test.tsx`)
 
 #### Scenario: Form controls and menus
 

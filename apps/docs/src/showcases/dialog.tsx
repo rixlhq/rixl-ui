@@ -18,7 +18,7 @@ export const path = "dialog";
 export const title = "Dialog";
 export const description = "Open a focused task above the current page.";
 export const notes =
-  'Fullscreen below 640px; centered with four size variants on larger screens. Long content scrolls within the dialog. Use Table for horizontally scrollable data and include an explicit close action after long content. `role="alertdialog"` gives a confirmation that ignores outside clicks. DialogCloseButton takes labels.close (through closeButtonProps on DialogContent). Strings you leave out come from RixlLocaleProvider (@rixl/ui/locale), then English.';
+  'Fullscreen below 640px; centered with four size variants on larger screens. Long content scrolls within the dialog. Use Table for horizontally scrollable data and include an explicit close action after long content. `role="alertdialog"` gives a confirmation that ignores outside clicks. DialogContent draws no close button: render DialogClose yourself, and name an icon-only one with aria-label. Accessible names: the app supplies them (aria-label, aria-labelledby or a visible label) and the library warns in development when one is missing, the way Kumo asks for a label on every Input.';
 
 export function Showcase() {
   return (
@@ -68,19 +68,26 @@ function BasicExample(props: {state: Record<string, ControlValue>}) {
   );
 }
 
-function NoCloseExample(props: {state: Record<string, ControlValue>}) {
+function CloseButtonExample(props: {state: Record<string, ControlValue>}) {
   void props;
   return (
     <Dialog>
-      <DialogTrigger render={<Button variant="outline">No X button</Button>} />
-      <DialogContent showCloseButton={false}>
-        <DialogHeader>
-          <DialogTitle>Custom close</DialogTitle>
-          <DialogDescription>Only the explicit buttons below close this dialog.</DialogDescription>
+      <DialogTrigger render={<Button variant="outline">Close button</Button>} />
+      <DialogContent>
+        <DialogHeader className="flex-row items-start justify-between gap-4">
+          <div className="flex flex-col gap-1.5">
+            <DialogTitle>Custom close</DialogTitle>
+            <DialogDescription>An icon-only close action needs a name from the app.</DialogDescription>
+          </div>
+          <DialogClose
+            aria-label="Close"
+            render={
+              <Button variant="ghost" size="icon">
+                <span aria-hidden="true">×</span>
+              </Button>
+            }
+          />
         </DialogHeader>
-        <DialogFooter>
-          <DialogClose render={<Button variant="outline">Got it</Button>} />
-        </DialogFooter>
       </DialogContent>
     </Dialog>
   );
@@ -233,6 +240,19 @@ export const examples: Example[] = [
   },
   {id: "long-content", title: "Long content on mobile", render: LongContentExample},
   {id: "sizes", title: "Sizes", render: SizesExample},
-  {id: "no-close", title: "Without close button", render: NoCloseExample},
+  {
+    id: "close-button",
+    title: "Close button",
+    description: "DialogContent has no automatic close button. Render DialogClose and name it.",
+    render: CloseButtonExample,
+    code: `<DialogClose
+  aria-label="Close"
+  render={
+    <Button variant="ghost" size="icon">
+      <XIcon aria-hidden="true" />
+    </Button>
+  }
+/>`,
+  },
   {id: "custom", title: "Custom content", render: CustomContentExample},
 ];

@@ -17,10 +17,6 @@ export type RixlTranslations = {
     copied: string;
     error: string;
   };
-  dialog: {
-    /** Screen-reader text of the close button. */
-    close: string;
-  };
   empty: {
     /** Title of the block that shows `commandLine`. */
     command: string;
@@ -73,7 +69,6 @@ export type RixlTranslationsPartial = {[Group in keyof RixlTranslations]?: Parti
 export const DEFAULT_TRANSLATIONS: RixlTranslations = {
   breadcrumb: {label: "breadcrumb", more: "More"},
   copyBlock: {copy: (title) => `Copy ${title}`, copying: "Copying", copied: "Copied!", error: "Unable to copy. Try again."},
-  dialog: {close: "Close"},
   empty: {command: "Command"},
   input: {optional: "(optional)", moreInformation: "More information"},
   pagination: {
