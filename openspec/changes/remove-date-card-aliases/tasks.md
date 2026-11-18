@@ -6,8 +6,8 @@
 
 ## 2. Card
 
-- [ ] 2.1 Remove the `interactive` variant and prop; delete the tests that only pinned it and keep the passive-surface tests.
-- [ ] 2.2 Update the Card showcase to stop passing `interactive`.
+- [x] 2.1 Remove the `interactive` variant and prop; delete the tests that only pinned it and keep the passive-surface tests. Evidence: `card.test.tsx` "has no click affordance by default" and "has no interactive variant" (`@ts-expect-error`), `passive-card.test.tsx` "leaves actions to children" pass.
+- [x] 2.2 Update the Card showcase to stop passing `interactive`. Evidence: `git grep -w interactive apps/docs/src/showcases/card.tsx` finds nothing.
 
 ## 3. Gate
 

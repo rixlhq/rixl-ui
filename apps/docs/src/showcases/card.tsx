@@ -7,7 +7,7 @@ export const path = "card";
 export const title = "Card";
 export const description = "Group related content and actions in a single surface.";
 export const notes =
-  "Surface container for grouping related content. Header/title/description/action/content/footer slots, three variants (default, outline, ghost), plus interactive and selected states.";
+  "Surface container for grouping related content. Header/title/description/action/content/footer slots, three variants (default, outline, ghost), plus a selected state. Cards are passive: put actions on children.";
 
 export function Showcase() {
   return (
@@ -84,17 +84,17 @@ function VariantsExample() {
   );
 }
 
-function InteractiveExample() {
+function SelectedExample() {
   return (
-    <Group label="Interactive & selected">
+    <Group label="Selected">
       <div className="grid w-full gap-4 sm:grid-cols-2">
-        <Card interactive tabIndex={0} className="max-w-md">
+        <Card className="max-w-md">
           <CardHeader>
-            <CardTitle>Clickable</CardTitle>
-            <CardDescription>Hover to emphasize, press to depress, tab to focus.</CardDescription>
+            <CardTitle>Default</CardTitle>
+            <CardDescription>A passive surface; actions belong to its children.</CardDescription>
           </CardHeader>
         </Card>
-        <Card interactive selected tabIndex={0} className="max-w-md">
+        <Card selected className="max-w-md">
           <CardHeader>
             <CardTitle>Selected</CardTitle>
             <CardDescription>Ring highlight for the chosen item.</CardDescription>
@@ -116,11 +116,11 @@ export const examples: Example[] = [
 <Card variant="ghost">Ghost</Card>`,
   },
   {
-    id: "interactive",
-    title: "Interactive & selected",
-    render: InteractiveExample,
-    code: `<Card interactive>Clickable</Card>
-<Card interactive selected>Selected</Card>`,
+    id: "selected",
+    title: "Selected",
+    render: SelectedExample,
+    code: `<Card>Default</Card>
+<Card selected>Selected</Card>`,
   },
   {id: "action", title: "With action", render: WithActionExample},
 ];

@@ -38,5 +38,5 @@
 
 #### Scenario: No interactive variant
 
-- **WHEN** `cardVariants()` is called
-- **THEN** its variant options are `variant` and `selected` only (`card.test.tsx`)
+- **WHEN** a consumer passes `interactive` to `Card` or `cardVariants`
+- **THEN** the compiler rejects it (`card.test.tsx`, `has no interactive variant`)

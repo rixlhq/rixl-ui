@@ -89,16 +89,9 @@ describe("Card", () => {
     });
   });
 
-  describe("interactive", () => {
-    it("keeps the deprecated interactive option passive", () => {
-      render(<Card data-testid="card" interactive />);
-      expect(screen.getByTestId("card").className).not.toMatch(/cursor-pointer|active:scale|hover:shadow|focus-visible:ring/);
-    });
-
-    it("is not interactive by default", () => {
-      render(<Card data-testid="card" />);
-      expect(screen.getByTestId("card").className).not.toContain("cursor-pointer");
-    });
+  it("has no click affordance by default", () => {
+    render(<Card data-testid="card" />);
+    expect(screen.getByTestId("card").className).not.toMatch(/cursor-pointer|active:scale|hover:shadow|focus-visible:ring/);
   });
 
   describe("selected", () => {
@@ -119,6 +112,10 @@ describe("Card", () => {
   describe("cardVariants", () => {
     it("is exported and produces variant classes", () => {
       expect(cardVariants({variant: "outline"})).toContain("shadow-none");
+    });
+
+    it("has no interactive variant", () => {
+      // @ts-expect-error `interactive` was removed from the variants; the compiler must reject it.
       expect(cardVariants({interactive: true})).not.toContain("cursor-pointer");
     });
   });

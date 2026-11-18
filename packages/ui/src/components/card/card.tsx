@@ -23,23 +23,22 @@ export const cardVariants = cva(cn("bg-rixl-surface text-rixl-fg flex flex-col g
       outline: "border border-rixl-border shadow-none",
       ghost: "border border-transparent shadow-none",
     },
-    interactive: {true: "", false: ""},
     selected: {
       true: "border-rixl-ring ring-rixl-ring/50 ring-[3px]",
       false: "",
     },
   },
-  defaultVariants: {variant: "default", interactive: false, selected: false},
+  defaultVariants: {variant: "default", selected: false},
 });
 
 export type CardProps = ComponentProps<"div"> & VariantProps<typeof cardVariants>;
 
-export const Card = forwardRef<HTMLDivElement, CardProps>(({className, variant, interactive, selected, ...props}, ref) => (
+export const Card = forwardRef<HTMLDivElement, CardProps>(({className, variant, selected, ...props}, ref) => (
   <div
     ref={ref}
     data-slot="card"
     data-selected={selected || undefined}
-    className={cn(cardVariants({variant, interactive, selected}), className)}
+    className={cn(cardVariants({variant, selected}), className)}
     {...props}
   />
 ));
