@@ -2,6 +2,7 @@ import {forwardRef, type ComponentProps} from "react";
 import {Select as SelectPrimitive} from "@base-ui/react/select";
 import {ChevronDown, ChevronUp} from "lucide-react";
 import {cn} from "../../lib/cn";
+import {popupSurface} from "../../lib/classes";
 
 export type SelectContentProps = SelectPrimitive.Popup.Props &
   Pick<SelectPrimitive.Positioner.Props, "align" | "alignOffset" | "side" | "sideOffset" | "alignItemWithTrigger">;
@@ -23,12 +24,7 @@ export const SelectContent = forwardRef<HTMLDivElement, SelectContentProps>(func
         <SelectPrimitive.Popup
           ref={ref}
           data-slot="select-content"
-          className={cn(
-            "bg-rixl-surface text-rixl-fg relative z-50 max-h-(--available-height) min-w-[8rem] max-w-[calc(100dvw-2rem)] origin-(--transform-origin) overflow-x-hidden overflow-y-auto overscroll-contain wrap-anywhere rounded-rixl-md border border-rixl-border shadow-rixl-md",
-            "transition-[scale,opacity] duration-rixl-fast ease-rixl-out motion-reduce:transition-none",
-            "data-starting-style:scale-95 data-starting-style:opacity-0 data-ending-style:scale-95 data-ending-style:opacity-0",
-            className
-          )}
+          className={cn(popupSurface, "relative min-w-[8rem]", className)}
           {...props}
         >
           <SelectScrollUpButton />

@@ -1,6 +1,7 @@
 import {forwardRef} from "react";
 import {Popover as PopoverPrimitive} from "@base-ui/react/popover";
 import {cn} from "../../lib/cn";
+import {popupSurface} from "../../lib/classes";
 
 /**
  * Rixl Popover — a floating, dismissible surface anchored to a trigger.
@@ -31,17 +32,7 @@ const PopoverContent = forwardRef<HTMLDivElement, PopoverContentProps>(function 
   return (
     <PopoverPrimitive.Portal>
       <PopoverPrimitive.Positioner align={align} alignOffset={alignOffset} side={side} sideOffset={sideOffset} className="isolate z-50">
-        <PopoverPrimitive.Popup
-          ref={ref}
-          data-slot="popover-content"
-          className={cn(
-            "bg-rixl-surface text-rixl-fg z-50 w-72 max-h-(--available-height) max-w-[calc(100dvw-2rem)] overflow-x-hidden overflow-y-auto overscroll-contain wrap-anywhere origin-(--transform-origin) rounded-rixl-md border-rixl-border border p-4 shadow-rixl-md outline-hidden",
-            "transition-[scale,opacity] duration-rixl-fast ease-rixl-out motion-reduce:transition-none",
-            "data-starting-style:scale-95 data-starting-style:opacity-0 data-ending-style:scale-95 data-ending-style:opacity-0",
-            className
-          )}
-          {...props}
-        />
+        <PopoverPrimitive.Popup ref={ref} data-slot="popover-content" className={cn(popupSurface, "w-72 p-4", className)} {...props} />
       </PopoverPrimitive.Positioner>
     </PopoverPrimitive.Portal>
   );

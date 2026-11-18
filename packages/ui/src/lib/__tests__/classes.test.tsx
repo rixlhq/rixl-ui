@@ -1,15 +1,18 @@
 import {describe, expect, it} from "vitest";
-import {render, screen} from "@testing-library/react";
+import {act, render, screen} from "@testing-library/react";
 import {Badge} from "../../components/badge";
 import {BreadcrumbLink} from "../../components/breadcrumb";
 import {Button} from "../../components/button";
 import {Checkbox} from "../../components/checkbox";
 import {Collapsible, CollapsibleDefaultTrigger} from "../../components/collapsible";
+import {DropdownMenu, DropdownMenuContent, DropdownMenuTrigger} from "../../components/dropdown-menu";
+import {Popover, PopoverContent, PopoverTrigger} from "../../components/popover";
 import {RadioGroup, RadioGroupItem} from "../../components/radio-group";
+import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "../../components/select";
 import {Switch} from "../../components/switch";
 import {Tabs, TabsContent, TabsList, TabsTrigger} from "../../components/tabs";
 import {cn} from "../cn";
-import {focusRing, focusRingBorderless} from "../classes";
+import {focusRing, focusRingBorderless, popupSurface} from "../classes";
 
 const tokens = (classes: string) => classes.split(" ");
 const hasEvery = (element: Element, classes: string) => tokens(classes).every((token) => element.classList.contains(token));
@@ -95,5 +98,68 @@ describe("focusRingBorderless", () => {
     const element = screen.getByTestId("el");
     expect(hasEvery(element, focusRingBorderless)).toBe(true);
     expect(element.classList.contains("focus-visible:border-rixl-ring")).toBe(false);
+  });
+});
+
+describe("popupSurface", () => {
+  it("fades and scales in and out, and holds still under reduced motion", () => {
+    expect(tokens(popupSurface)).toEqual(
+      expect.arrayContaining([
+        "transition-[scale,opacity]",
+        "motion-reduce:transition-none",
+        "data-starting-style:scale-95",
+        "data-starting-style:opacity-0",
+        "data-ending-style:scale-95",
+        "data-ending-style:opacity-0",
+        "origin-(--transform-origin)",
+      ])
+    );
+  });
+
+  it("loses to a consumer class that sets the radius", () => {
+    const merged = cn(popupSurface, "rounded-rixl-lg");
+    expect(tokens(merged)).toContain("rounded-rixl-lg");
+    expect(tokens(merged)).not.toContain("rounded-rixl-md");
+  });
+
+  it.each([
+    [
+      "PopoverContent",
+      "popover-content",
+      () => (
+        <Popover defaultOpen>
+          <PopoverTrigger render={<button type="button">Open</button>} />
+          <PopoverContent>Panel</PopoverContent>
+        </Popover>
+      ),
+    ],
+    [
+      "DropdownMenuContent",
+      "dropdown-menu-content",
+      () => (
+        <DropdownMenu open>
+          <DropdownMenuTrigger render={<button type="button">Open</button>} />
+          <DropdownMenuContent>Menu</DropdownMenuContent>
+        </DropdownMenu>
+      ),
+    ],
+    [
+      "SelectContent",
+      "select-content",
+      () => (
+        <Select defaultOpen defaultValue="a">
+          <SelectTrigger>
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="a">A</SelectItem>
+          </SelectContent>
+        </Select>
+      ),
+    ],
+  ])("%s carries it", async (_name, slot, ui) => {
+    render(ui());
+    await act(async () => {});
+    expect(hasEvery(document.querySelector(`[data-slot='${slot}']`)!, popupSurface)).toBe(true);
   });
 });
