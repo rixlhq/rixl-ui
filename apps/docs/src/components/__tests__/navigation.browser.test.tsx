@@ -4,6 +4,7 @@ import {afterEach, beforeEach, describe, expect, it} from "vite-plus/test";
 import {page, userEvent} from "vite-plus/test/browser";
 import axe from "axe-core";
 import {App} from "../../App";
+import {showcases} from "../../showcases/registry";
 import "../../styles.css";
 
 let container: HTMLDivElement;
@@ -27,7 +28,7 @@ describe("showcase navigation", () => {
     for (const width of [1440, 768, 390]) {
       await page.viewport(width, 900);
       const cells = [...document.querySelectorAll<HTMLElement>(".docs-demo-cell")];
-      expect(cells).toHaveLength(33);
+      expect(cells).toHaveLength(showcases.length);
       for (const cell of cells) {
         const bounds = cell.getBoundingClientRect();
         expect(Math.abs(bounds.width - bounds.height), `${width}px: ${cell.querySelector("a")?.textContent}`).toBeLessThanOrEqual(1);
