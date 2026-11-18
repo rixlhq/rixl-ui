@@ -1,3 +1,4 @@
+import {forwardRef} from "react";
 import {Select as SelectPrimitive} from "@base-ui/react/select";
 import {cva, type VariantProps} from "class-variance-authority";
 import {cn} from "../../lib/cn";
@@ -26,9 +27,13 @@ export const selectTriggerVariants = cva(
 
 export type SelectTriggerProps = SelectPrimitive.Trigger.Props & VariantProps<typeof selectTriggerVariants>;
 
-export function SelectTrigger({className, size = "default", children, ...props}: SelectTriggerProps) {
+export const SelectTrigger = forwardRef<HTMLButtonElement, SelectTriggerProps>(function SelectTrigger(
+  {className, size = "default", children, ...props},
+  ref
+) {
   return (
     <SelectPrimitive.Trigger
+      ref={ref}
       data-slot="select-trigger"
       data-size={size}
       className={cn(selectTriggerVariants({size}), className)}
@@ -43,10 +48,12 @@ export function SelectTrigger({className, size = "default", children, ...props}:
       />
     </SelectPrimitive.Trigger>
   );
-}
+});
+SelectTrigger.displayName = "SelectTrigger";
 
 export type SelectValueProps = SelectPrimitive.Value.Props;
 
-export function SelectValue({...props}: SelectValueProps) {
-  return <SelectPrimitive.Value data-slot="select-value" {...props} />;
-}
+export const SelectValue = forwardRef<HTMLSpanElement, SelectValueProps>(function SelectValue(props, ref) {
+  return <SelectPrimitive.Value ref={ref} data-slot="select-value" {...props} />;
+});
+SelectValue.displayName = "SelectValue";

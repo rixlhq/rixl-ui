@@ -1,4 +1,5 @@
 import {describe, it, expect} from "vitest";
+import {createRef, type RefObject} from "react";
 import {render, screen} from "@testing-library/react";
 import {
   Select,
@@ -6,6 +7,8 @@ import {
   SelectGroup,
   SelectItem,
   SelectLabel,
+  SelectScrollDownButton,
+  SelectScrollUpButton,
   SelectSeparator,
   SelectTrigger,
   SelectValue,
@@ -116,5 +119,63 @@ describe("Select", () => {
     const el = screen.getByTestId("lbl");
     expect(el).toHaveAttribute("data-slot", "select-label");
     expect(el.className).toContain("text-rixl-fg-muted");
+  });
+});
+
+function OpenSelect({refs}: {refs: Record<string, React.Ref<HTMLElement>>}) {
+  return (
+    <Select defaultOpen defaultValue="apple">
+      <SelectTrigger ref={refs.trigger as React.Ref<HTMLButtonElement>} aria-label="Fruit">
+        <SelectValue ref={refs.value as React.Ref<HTMLSpanElement>} />
+      </SelectTrigger>
+      <SelectContent ref={refs.content as React.Ref<HTMLDivElement>}>
+        <SelectGroup ref={refs.group as React.Ref<HTMLDivElement>}>
+          <SelectLabel ref={refs.label as React.Ref<HTMLDivElement>}>Fruits</SelectLabel>
+          <SelectItem ref={refs.item as React.Ref<HTMLDivElement>} value="apple">
+            Apple
+          </SelectItem>
+          <SelectSeparator ref={refs.separator as React.Ref<HTMLDivElement>} />
+          <SelectItem value="banana">Banana</SelectItem>
+        </SelectGroup>
+      </SelectContent>
+    </Select>
+  );
+}
+
+describe("Select open popup", () => {
+  it("forwards refs to the element carrying each part's data-slot", () => {
+    const refs = Object.fromEntries(
+      ["trigger", "value", "content", "group", "label", "item", "separator"].map((name) => [name, createRef<HTMLElement>()])
+    );
+    render(<OpenSelect refs={refs as Record<string, React.Ref<HTMLElement>>} />);
+    const slots = {
+      trigger: "select-trigger",
+      value: "select-value",
+      content: "select-content",
+      group: "select-group",
+      label: "select-label",
+      item: "select-item",
+      separator: "select-separator",
+    };
+    for (const [name, slot] of Object.entries(slots)) {
+      expect((refs[name] as RefObject<HTMLElement>).current, name).toHaveAttribute("data-slot", slot);
+    }
+  });
+
+  it("names every forwarding part for React DevTools", () => {
+    const parts = {
+      SelectTrigger,
+      SelectValue,
+      SelectContent,
+      SelectGroup,
+      SelectLabel,
+      SelectItem,
+      SelectSeparator,
+      SelectScrollUpButton,
+      SelectScrollDownButton,
+    };
+    for (const [name, part] of Object.entries(parts)) {
+      expect((part as {displayName?: string}).displayName, name).toBe(name);
+    }
   });
 });

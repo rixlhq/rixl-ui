@@ -1,4 +1,4 @@
-import type {ComponentProps} from "react";
+import {forwardRef, type ComponentProps} from "react";
 import {Select as SelectPrimitive} from "@base-ui/react/select";
 import {cn} from "../../lib/cn";
 
@@ -6,9 +6,10 @@ import {CheckIcon} from "./icons";
 
 export type SelectItemProps = SelectPrimitive.Item.Props;
 
-export function SelectItem({className, children, ...props}: SelectItemProps) {
+export const SelectItem = forwardRef<HTMLDivElement, SelectItemProps>(function SelectItem({className, children, ...props}, ref) {
   return (
     <SelectPrimitive.Item
+      ref={ref}
       data-slot="select-item"
       className={cn(
         // Base UI highlights the active option via data-highlighted (keyboard and
@@ -27,28 +28,33 @@ export function SelectItem({className, children, ...props}: SelectItemProps) {
       <SelectPrimitive.ItemText>{children}</SelectPrimitive.ItemText>
     </SelectPrimitive.Item>
   );
-}
+});
+SelectItem.displayName = "SelectItem";
 
 export type SelectGroupProps = SelectPrimitive.Group.Props;
 
-export function SelectGroup({...props}: SelectGroupProps) {
-  return <SelectPrimitive.Group data-slot="select-group" {...props} />;
-}
+export const SelectGroup = forwardRef<HTMLDivElement, SelectGroupProps>(function SelectGroup(props, ref) {
+  return <SelectPrimitive.Group ref={ref} data-slot="select-group" {...props} />;
+});
+SelectGroup.displayName = "SelectGroup";
 
 export type SelectLabelProps = ComponentProps<"div">;
 
-export function SelectLabel({className, ...props}: SelectLabelProps) {
-  return <div data-slot="select-label" className={cn("text-rixl-fg-muted px-2 py-1.5 text-xs", className)} {...props} />;
-}
+export const SelectLabel = forwardRef<HTMLDivElement, SelectLabelProps>(function SelectLabel({className, ...props}, ref) {
+  return <div ref={ref} data-slot="select-label" className={cn("text-rixl-fg-muted px-2 py-1.5 text-xs", className)} {...props} />;
+});
+SelectLabel.displayName = "SelectLabel";
 
 export type SelectSeparatorProps = SelectPrimitive.Separator.Props;
 
-export function SelectSeparator({className, ...props}: SelectSeparatorProps) {
+export const SelectSeparator = forwardRef<HTMLDivElement, SelectSeparatorProps>(function SelectSeparator({className, ...props}, ref) {
   return (
     <SelectPrimitive.Separator
+      ref={ref}
       data-slot="select-separator"
       className={cn("bg-rixl-border pointer-events-none -mx-1 my-1 h-px", className)}
       {...props}
     />
   );
-}
+});
+SelectSeparator.displayName = "SelectSeparator";
