@@ -6,13 +6,14 @@ import {Toaster, toast} from "../toaster";
 
 const THEMES = ["light", "dark"] as const;
 
+// On <html>, where consumers put it: Tailwind resolves the --color-rixl-* utilities once at :root, so a nested scope would not re-theme them.
 function renderToaster(theme: (typeof THEMES)[number], props: Parameters<typeof Toaster>[0] = {}) {
-  const view = render(
-    <div data-theme={theme} data-testid="theme-root" className="bg-rixl-bg h-96">
+  document.documentElement.setAttribute("data-theme", theme);
+  return render(
+    <div data-testid="theme-root" className="bg-rixl-bg h-96">
       <Toaster closeButton duration={Infinity} {...props} />
     </div>
   );
-  return view;
 }
 
 // Sonner leaves data-type off a plain toast.
@@ -57,6 +58,7 @@ describe("Toaster Browser Mode", () => {
   afterEach(() => {
     toast.dismiss();
     cleanup();
+    document.documentElement.removeAttribute("data-theme");
   });
 
   for (const theme of THEMES) {
@@ -105,7 +107,7 @@ describe("Toaster Browser Mode", () => {
     renderToaster("light");
     const element = await openToast("default");
     const light = getComputedStyle(element).backgroundColor;
-    document.querySelector("[data-testid=theme-root]")!.setAttribute("data-theme", "dark");
+    document.documentElement.setAttribute("data-theme", "dark");
     expect(getComputedStyle(element).backgroundColor).not.toBe(light);
   });
 
@@ -115,8 +117,8 @@ describe("Toaster Browser Mode", () => {
     expect(success).toBe(resolveColor("--rixl-surface"));
   });
 
-  it("styles the action button like a small Button", async () => {
-    renderToaster("light");
+  it.each(THEMES)("styles the action button like a small Button in the %s theme", async (theme) => {
+    renderToaster(theme);
     toast("Archived", {action: {label: "Undo", onClick: () => undefined}});
     await expect.poll(() => document.querySelector("[data-button]")).not.toBeNull();
     const style = getComputedStyle(document.querySelector("[data-button]")!);
@@ -126,8 +128,8 @@ describe("Toaster Browser Mode", () => {
     expect(style.color).toBe(resolveColor("--rixl-primary-fg", "color"));
   });
 
-  it("styles the cancel button from the secondary tokens", async () => {
-    renderToaster("light");
+  it.each(THEMES)("styles the cancel button from the secondary tokens in the %s theme", async (theme) => {
+    renderToaster(theme);
     toast("Archived", {cancel: {label: "Dismiss", onClick: () => undefined}});
     await expect.poll(() => document.querySelector("[data-cancel]")).not.toBeNull();
     const style = getComputedStyle(document.querySelector("[data-cancel]")!);
