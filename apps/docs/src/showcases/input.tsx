@@ -6,46 +6,12 @@ export const path = "input";
 export const title = "Input";
 export const description = "Enter a single line of text.";
 export const notes =
-  "Single-line text input. Base UI Input on rixl tokens, with three sizes, leading/trailing icon slots, hover/focus/disabled/read-only/invalid states, and built-in Field props (label, description, error).";
-
-function SearchIcon() {
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden="true"
-    >
-      <circle cx="11" cy="11" r="8" />
-      <path d="m21 21-4.3-4.3" />
-    </svg>
-  );
-}
-
-function EyeIcon() {
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden="true"
-    >
-      <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z" />
-      <circle cx="12" cy="12" r="3" />
-    </svg>
-  );
-}
+  "Single-line text input. Base UI Input on rixl tokens, with sizes, hover/focus/disabled/read-only/invalid states, and a built-in field: label, labelTooltip, description, error and required wire the label, aria-describedby and aria-invalid for you. For icons, text addons or buttons around the input use InputGroup.";
 
 export function Showcase() {
   return (
     <div className="grid gap-3">
-      <Input placeholder="Search anything…" aria-label="Demo search" startIcon={<SearchIcon />} />
+      <Input placeholder="Search anything…" aria-label="Demo search" />
       <Input placeholder="you@example.com" aria-label="Demo email" type="email" />
     </div>
   );
@@ -57,7 +23,6 @@ function LiveExample({state}: {state: Record<string, ControlValue>}) {
   const disabled = state.disabled as boolean;
   const readOnly = state.readOnly as boolean;
   const invalid = state.invalid as boolean;
-  const withIcon = state.withIcon as boolean;
 
   return (
     <Input
@@ -69,9 +34,7 @@ function LiveExample({state}: {state: Record<string, ControlValue>}) {
       readOnly={readOnly}
       error={invalid ? "Please correct the value." : undefined}
       defaultValue={readOnly ? "read-only value" : undefined}
-      startIcon={withIcon ? <SearchIcon /> : undefined}
       className="w-full max-w-sm"
-      wrapperClassName="w-full max-w-sm"
     />
   );
 }
@@ -83,23 +46,6 @@ function SizesExample(props: {state: Record<string, ControlValue>}) {
       <Input inputSize="sm" placeholder="Small" className="w-full max-w-sm" />
       <Input inputSize="default" placeholder="Default" className="w-full max-w-sm" />
       <Input inputSize="lg" placeholder="Large" className="w-full max-w-sm" />
-    </Group>
-  );
-}
-
-function IconsExample(props: {state: Record<string, ControlValue>}) {
-  void props;
-  return (
-    <Group label="With icons">
-      <Input placeholder="Search" startIcon={<SearchIcon />} className="w-full max-w-sm" wrapperClassName="w-full max-w-sm" />
-      <Input type="password" placeholder="Password" endIcon={<EyeIcon />} className="w-full max-w-sm" wrapperClassName="w-full max-w-sm" />
-      <Input
-        placeholder="Both"
-        startIcon={<SearchIcon />}
-        endIcon={<EyeIcon />}
-        className="w-full max-w-sm"
-        wrapperClassName="w-full max-w-sm"
-      />
     </Group>
   );
 }
@@ -188,7 +134,6 @@ export const examples: Example[] = [
         ],
         defaultValue: "text",
       },
-      {name: "withIcon", label: "Start icon", type: "boolean", defaultValue: false},
       {name: "disabled", label: "Disabled", type: "boolean", defaultValue: false},
       {name: "readOnly", label: "Read-only", type: "boolean", defaultValue: false},
       {name: "invalid", label: "Invalid", type: "boolean", defaultValue: false},
@@ -204,17 +149,9 @@ export const examples: Example[] = [
 <Input inputSize="lg" placeholder="Large" />`,
   },
   {
-    id: "icons",
-    title: "With icons",
-    description: "startIcon / endIcon wrap the field and auto-pad to clear the glyph.",
-    render: IconsExample,
-    code: `<Input placeholder="Search" startIcon={<SearchIcon />} />
-<Input type="password" placeholder="Password" endIcon={<EyeIcon />} />`,
-  },
-  {
     id: "field",
     title: "Built-in field",
-    description: "label, description and required wire through the Field wrapper; required={false} shows (optional).",
+    description: "label, description and required are props of Input; required={false} shows (optional).",
     render: FieldExample,
     code: `<Input label="Email" placeholder="you@example.com" description="We'll never share your address." />
 <Input label="Phone" required={false} placeholder="+1 (555) 000-0000" />`,

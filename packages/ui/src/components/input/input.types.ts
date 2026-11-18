@@ -7,13 +7,7 @@ import type {SizeAlias} from "./resolve-input-size";
 
 export type InputProps = Omit<ComponentProps<"input">, "size"> &
   VariantProps<typeof inputVariants> & {
-    /** Decorative or interactive node pinned to the leading edge (e.g. a search glyph). */
-    startIcon?: ReactNode;
-    /** Node pinned to the trailing edge (e.g. a password-visibility toggle). */
-    endIcon?: ReactNode;
-    /** className for the wrapper rendered when `startIcon`/`endIcon` are present. */
-    wrapperClassName?: string;
-    /** Label content (enables the built-in Field wrapper); a string or any React node. */
+    /** Label content (enables the built-in field); a string or any React node. */
     label?: ReactNode;
     /** Tooltip content shown next to the label via an info icon. */
     labelTooltip?: ReactNode;

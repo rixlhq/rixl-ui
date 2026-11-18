@@ -2,7 +2,7 @@ import {createRef} from "react";
 import {describe, expect, it} from "vitest";
 import {render, screen} from "@testing-library/react";
 import {Input} from "../input";
-import {InputGroup} from "../../input-group/input-group";
+import {InputGroup, InputGroupInput} from "../../input-group/input-group";
 import {InputArea} from "../input-area";
 import {Checkbox} from "../../checkbox/checkbox";
 import {RadioGroup, RadioGroupItem} from "../../radio-group/radio-group";
@@ -17,7 +17,7 @@ describe("shared form contracts", () => {
   it("propagates required from an adorned group to its input", () => {
     render(
       <InputGroup required>
-        <Input aria-label="Email" />
+        <InputGroupInput aria-label="Email" />
       </InputGroup>
     );
     expect(screen.getByRole("textbox")).toBeRequired();
@@ -25,7 +25,7 @@ describe("shared form contracts", () => {
   it("propagates disabled without a built-in label", () => {
     render(
       <InputGroup disabled>
-        <Input aria-label="Email" />
+        <InputGroupInput aria-label="Email" />
       </InputGroup>
     );
     expect(screen.getByRole("textbox")).toBeDisabled();

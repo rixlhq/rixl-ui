@@ -1,6 +1,6 @@
 import {forwardRef, type ComponentProps, type ReactNode} from "react";
 import type {VariantProps} from "class-variance-authority";
-import {inputVariants} from "../input/input";
+import {inputVariants, resolveInputSize} from "../input/input";
 import {InputField} from "../input/input-field";
 import {normalizeInputError, type InputErrorProp} from "../input/input-field-error";
 import {InputGroupContext} from "./input-group-context";
@@ -33,9 +33,12 @@ export type InputGroupProps = ComponentProps<"div"> &
 const InputGroup = forwardRef<HTMLDivElement, InputGroupProps>(
   ({className, inputSize, size, label, labelTooltip, description, error, required, disabled, ...props}, ref) => {
     const normalizedError = normalizeInputError(error);
-    const group = <div ref={ref} data-slot="input-group" className={inputGroupClassName(inputSize, size, className)} {...props} />;
+    const group = (
+      // oxlint-disable-next-line jsx-a11y/prefer-tag-over-role -- a <fieldset> adds legend and min-width defaults to a single-row control
+      <div ref={ref} role="group" data-slot="input-group" className={inputGroupClassName(inputSize, size, className)} {...props} />
+    );
     return (
-      <InputGroupContext.Provider value={{required, disabled}}>
+      <InputGroupContext.Provider value={{required, disabled, labelled: Boolean(label), inputSize: resolveInputSize(inputSize, size)}}>
         <InputField
           label={label}
           required={required}
@@ -54,4 +57,5 @@ InputGroup.displayName = "InputGroup";
 
 export {InputGroup};
 export {InputGroupAddon, type InputGroupAddonProps} from "./input-group-addon";
+export {InputGroupInput, type InputGroupInputProps} from "./input-group-input";
 export {InputGroupButton, type InputGroupButtonProps} from "./input-group-button";

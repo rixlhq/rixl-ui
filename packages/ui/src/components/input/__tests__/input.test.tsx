@@ -103,45 +103,6 @@ describe("Input", () => {
     });
   });
 
-  describe("icons", () => {
-    it("renders a lone <input> with no wrapper when no icons are set", () => {
-      render(<Input placeholder="Email" />);
-      expect(screen.getByPlaceholderText("Email").parentElement).not.toHaveAttribute("data-slot", "input-wrapper");
-    });
-
-    it("wraps and pads for a startIcon", () => {
-      render(<Input placeholder="Email" startIcon={<svg data-testid="start" />} />);
-      const el = screen.getByPlaceholderText("Email");
-      expect(el.className).toContain("ps-9");
-      expect(el.parentElement).toHaveAttribute("data-slot", "input-wrapper");
-      expect(screen.getByTestId("start")).toBeInTheDocument();
-    });
-
-    it("wraps and pads for an endIcon", () => {
-      render(<Input placeholder="Email" endIcon={<svg data-testid="end" />} />);
-      const el = screen.getByPlaceholderText("Email");
-      expect(el.className).toContain("pe-9");
-      expect(screen.getByTestId("end")).toBeInTheDocument();
-    });
-
-    it("scales icon padding with inputSize", () => {
-      render(<Input placeholder="Email" inputSize="lg" startIcon={<svg />} />);
-      expect(screen.getByPlaceholderText("Email").className).toContain("ps-10");
-    });
-
-    it("uses logical spacing and insets in RTL", () => {
-      render(
-        <div dir="rtl">
-          <Input placeholder="Email" startIcon={<svg data-testid="start" />} endIcon={<svg data-testid="end" />} />
-        </div>
-      );
-      expect(screen.getByPlaceholderText("Email").className).toContain("ps-9");
-      expect(screen.getByPlaceholderText("Email").className).toContain("pe-9");
-      expect(screen.getByTestId("start").parentElement?.className).toContain("start-3");
-      expect(screen.getByTestId("end").parentElement?.className).toContain("end-3");
-    });
-  });
-
   describe("inputVariants", () => {
     it("is exported and produces the size class", () => {
       expect(inputVariants({inputSize: "sm"})).toContain("h-8");
