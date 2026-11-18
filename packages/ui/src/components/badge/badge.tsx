@@ -3,6 +3,7 @@ import {mergeProps} from "@base-ui/react/merge-props";
 import {useRender} from "@base-ui/react/use-render";
 import {cva, type VariantProps} from "class-variance-authority";
 import {cn} from "../../lib/cn";
+import {focusRing} from "../../lib/classes";
 
 /**
  * Rixl Badge — a compact status / count label.
@@ -18,7 +19,8 @@ import {cn} from "../../lib/cn";
 const badgeVariants = cva(
   cn(
     "inline-flex items-center justify-center rounded-rixl-md border border-rixl-border px-2 py-0.5 text-xs font-semibold w-fit whitespace-nowrap shrink-0 [&>svg]:size-3 gap-1 [&>svg]:pointer-events-none",
-    "outline-none focus-visible:border-rixl-ring focus-visible:ring-rixl-ring/50 focus-visible:ring-[3px] aria-invalid:focus-visible:ring-0",
+    "outline-none aria-invalid:focus-visible:ring-0",
+    focusRing,
     "transition-[color,background-color,border-color,box-shadow] duration-rixl-fast ease-rixl-out"
   ),
   {

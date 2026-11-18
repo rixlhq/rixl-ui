@@ -1,6 +1,7 @@
 import {forwardRef} from "react";
 import {Switch as SwitchPrimitive} from "@base-ui/react/switch";
 import {cn} from "../../lib/cn";
+import {focusRing} from "../../lib/classes";
 
 /**
  * Rixl Switch — a two-state toggle.
@@ -20,7 +21,7 @@ const Switch = forwardRef<HTMLElement, SwitchPrimitive.Root.Props>(function Swit
         "enabled:active:scale-[var(--rixl-press-scale)] motion-reduce:active:scale-100",
         "data-checked:bg-rixl-primary data-unchecked:bg-rixl-border",
         "data-checked:enabled:hover:bg-rixl-primary-hover data-unchecked:enabled:hover:bg-rixl-border-strong",
-        "focus-visible:border-rixl-ring focus-visible:ring-rixl-ring/50 focus-visible:ring-[3px]",
+        focusRing,
         "data-disabled:cursor-not-allowed data-disabled:opacity-50",
         className
       )}

@@ -1,6 +1,7 @@
 import {forwardRef} from "react";
 import {ChevronDown} from "lucide-react";
 import {cn} from "../../lib/cn";
+import {focusRing} from "../../lib/classes";
 import {Button} from "../button";
 import {CollapsibleTrigger, type CollapsibleTriggerProps} from "./collapsible-trigger";
 
@@ -18,7 +19,7 @@ export const CollapsibleDefaultTrigger = forwardRef<HTMLButtonElement, Collapsib
       className={cn(
         "group flex w-full items-center justify-between gap-2 rounded-rixl-sm px-3 py-2 text-sm font-medium text-rixl-fg outline-none select-none",
         "hover:bg-rixl-secondary",
-        "focus-visible:border-rixl-ring focus-visible:ring-rixl-ring/50 focus-visible:ring-[3px]",
+        focusRing,
         "disabled:cursor-not-allowed disabled:opacity-50",
         className
       )}

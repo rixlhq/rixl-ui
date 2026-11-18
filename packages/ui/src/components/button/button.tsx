@@ -3,6 +3,7 @@ import {Button as ButtonPrimitive} from "@base-ui/react/button";
 import {cva, type VariantProps} from "class-variance-authority";
 import {LoaderCircle} from "lucide-react";
 import {cn} from "../../lib/cn";
+import {focusRing} from "../../lib/classes";
 
 /**
  * Rixl Button — the primary action primitive.
@@ -73,7 +74,8 @@ const buttonVariants = cva(
     "inline-flex items-center cursor-pointer justify-center gap-2 whitespace-nowrap rounded-rixl-md text-sm font-medium select-none touch-manipulation",
     "disabled:pointer-events-none disabled:opacity-50",
     "[&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0",
-    "outline-none focus-visible:border-rixl-ring focus-visible:ring-rixl-ring/50 focus-visible:ring-[3px]",
+    "outline-none",
+    focusRing,
     "aria-invalid:ring-rixl-danger/20 aria-invalid:border-rixl-danger",
     press
   ),

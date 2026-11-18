@@ -3,6 +3,7 @@ import {Radio as RadioPrimitive} from "@base-ui/react/radio";
 import {RadioGroup as RadioGroupPrimitive} from "@base-ui/react/radio-group";
 import {Circle} from "lucide-react";
 import {cn} from "../../lib/cn";
+import {focusRing} from "../../lib/classes";
 
 /**
  * Rixl RadioGroup — single-selection group of radio inputs.
@@ -31,7 +32,7 @@ const RadioGroupItem = forwardRef<HTMLElement, RadioPrimitive.Root.Props>(functi
         "transition-[scale,box-shadow,border-color] duration-rixl-fast ease-rixl-out",
         "enabled:active:scale-[var(--rixl-press-scale)] motion-reduce:active:scale-100",
         "data-unchecked:enabled:hover:border-rixl-border-strong data-checked:border-rixl-primary",
-        "focus-visible:border-rixl-ring focus-visible:ring-rixl-ring/50 focus-visible:ring-[3px]",
+        focusRing,
         "aria-invalid:ring-rixl-danger/20 aria-invalid:border-rixl-danger",
         "disabled:cursor-not-allowed disabled:opacity-50",
         className

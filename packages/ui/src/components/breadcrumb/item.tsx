@@ -2,6 +2,7 @@ import {forwardRef, type ComponentProps} from "react";
 import {mergeProps} from "@base-ui/react/merge-props";
 import {useRender} from "@base-ui/react/use-render";
 import {cn} from "../../lib/cn";
+import {focusRingBorderless} from "../../lib/classes";
 
 export type BreadcrumbItemProps = ComponentProps<"li">;
 export type BreadcrumbLinkProps = useRender.ComponentProps<"a">;
@@ -18,7 +19,8 @@ export const BreadcrumbLink = forwardRef<HTMLAnchorElement, BreadcrumbLinkProps>
     props: mergeProps<"a">(
       {
         className: cn(
-          "rounded-rixl-sm outline-none hover:text-rixl-fg focus-visible:ring-rixl-ring/50 focus-visible:ring-[3px] transition-[color,box-shadow] duration-rixl-fast ease-rixl-out",
+          "rounded-rixl-sm outline-none hover:text-rixl-fg transition-[color,box-shadow] duration-rixl-fast ease-rixl-out",
+          focusRingBorderless,
           className
         ),
       },

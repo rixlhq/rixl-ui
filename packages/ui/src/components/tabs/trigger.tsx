@@ -2,6 +2,7 @@ import {forwardRef, useContext} from "react";
 import {Tabs as TabsPrimitive} from "@base-ui/react/tabs";
 import {cva} from "class-variance-authority";
 import {cn} from "../../lib/cn";
+import {focusRingBorderless} from "../../lib/classes";
 import {buttonPressClasses} from "../button";
 
 import {getScrollBehavior} from "./get-scroll-behavior";
@@ -12,7 +13,7 @@ const triggerVariants = cva(
     "relative z-10 inline-flex shrink-0 cursor-pointer items-center justify-center gap-1.5 font-medium whitespace-nowrap",
     "outline-none select-none touch-manipulation disabled:pointer-events-none disabled:opacity-50",
     "[&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
-    "focus-visible:ring-rixl-ring/50 focus-visible:ring-[3px]",
+    focusRingBorderless,
     // Hover changes text intensity only (no background wash or scale), so the
     // travelling indicator pill is the only surface that moves across the bar.
     "text-rixl-fg-muted hover:text-rixl-fg data-active:text-rixl-fg",

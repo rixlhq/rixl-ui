@@ -2,6 +2,7 @@ import {forwardRef} from "react";
 import {Checkbox as CheckboxPrimitive} from "@base-ui/react/checkbox";
 import {Check, Minus} from "lucide-react";
 import {cn} from "../../lib/cn";
+import {focusRing} from "../../lib/classes";
 
 /**
  * Rixl Checkbox — a boolean form control.
@@ -26,7 +27,7 @@ const Checkbox = forwardRef<HTMLElement, CheckboxPrimitive.Root.Props>(function 
         "data-indeterminate:bg-rixl-primary data-indeterminate:text-rixl-primary-fg data-indeterminate:border-rixl-primary",
         "data-checked:enabled:hover:bg-rixl-primary-hover data-checked:enabled:hover:border-rixl-primary-hover",
         "data-indeterminate:enabled:hover:bg-rixl-primary-hover data-indeterminate:enabled:hover:border-rixl-primary-hover",
-        "focus-visible:border-rixl-ring focus-visible:ring-rixl-ring/50 focus-visible:ring-[3px]",
+        focusRing,
         "aria-invalid:ring-rixl-danger/20 aria-invalid:border-rixl-danger",
         "disabled:cursor-not-allowed disabled:opacity-50",
         className
