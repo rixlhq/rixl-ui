@@ -15,7 +15,7 @@ export type PaginationProps = ComponentProps<"nav"> &
     setPage: (page: number) => void;
     /** `full` renders first, previous, a page input, next and last; `simple` renders previous and next. Default layout only. */
     controls?: PaginationControlsProps["controls"];
-    /** Names for the landmark and the controls. Each defaults to English. */
+    /** Names for the landmark and the controls, and the default info text. Each defaults to the locale provider's string, then English. */
     labels?: Partial<PaginationLabels>;
     /** Info text for the default layout. Compose `PaginationInfo` instead when you pass `children`. */
     text?: PaginationInfoProps["children"];

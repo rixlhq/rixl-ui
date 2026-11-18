@@ -1,7 +1,7 @@
 import {forwardRef, type ComponentProps, type ReactNode} from "react";
 import {cn} from "../../lib/cn";
 import {usePaginationContext} from "./use-pagination-context";
-import type {PaginationContextValue} from "./pagination-context";
+import type {PaginationContextValue, PaginationLabels} from "./pagination-context";
 
 export type PaginationInfoState = Pick<PaginationContextValue, "page" | "perPage" | "totalCount" | "totalPages" | "pageShowingRange">;
 
@@ -10,14 +10,14 @@ export type PaginationInfoProps = Omit<ComponentProps<"span">, "children"> & {
   children?: ReactNode | ((state: PaginationInfoState) => ReactNode);
 };
 
-function getDefaultText({page, totalCount, pageShowingRange}: PaginationInfoState) {
-  return pageShowingRange === undefined ? `Page ${page}` : `Showing ${pageShowingRange} of ${totalCount}`;
+function getDefaultText({page, totalCount, pageShowingRange}: PaginationInfoState, labels: PaginationLabels) {
+  return pageShowingRange === undefined || totalCount === undefined ? labels.page(page) : labels.showing(pageShowingRange, totalCount);
 }
 
 export const PaginationInfo = forwardRef<HTMLSpanElement, PaginationInfoProps>(({className, children, ...props}, ref) => {
-  const {page, perPage, totalCount, totalPages, pageShowingRange} = usePaginationContext();
+  const {page, perPage, totalCount, totalPages, pageShowingRange, labels} = usePaginationContext();
   const state = {page, perPage, totalCount, totalPages, pageShowingRange};
-  const content = typeof children === "function" ? children(state) : (children ?? getDefaultText(state));
+  const content = typeof children === "function" ? children(state) : (children ?? getDefaultText(state, labels));
   return (
     <span
       ref={ref}
