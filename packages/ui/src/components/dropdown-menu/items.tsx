@@ -1,6 +1,7 @@
 import {forwardRef, type ComponentProps} from "react";
 import {Menu as MenuPrimitive} from "@base-ui/react/menu";
 import {cn} from "../../lib/cn";
+import {menuItem} from "../../lib/classes";
 
 import {Check, Circle} from "lucide-react";
 
@@ -20,9 +21,8 @@ export const DropdownMenuItem = forwardRef<HTMLElement, DropdownMenuItemProps>(f
       data-inset={inset}
       data-variant={variant}
       className={cn(
-        // Base UI highlights via data-highlighted (keyboard + pointer), not :focus.
-        // No transition-colors on menu rows: instant highlight prevents a fading trail on fast hover/arrow keys.
-        "data-highlighted:bg-rixl-surface-muted data-highlighted:text-rixl-fg data-[variant=destructive]:text-rixl-danger data-[variant=destructive]:data-highlighted:bg-rixl-danger/10 data-[variant=destructive]:data-highlighted:text-rixl-danger data-[variant=destructive]:*:[svg]:!text-rixl-danger [&_svg:not([class*='text-'])]:text-rixl-fg-muted relative flex cursor-default items-center gap-2 rounded-rixl-sm px-2 py-1.5 text-sm outline-hidden select-none data-disabled:pointer-events-none data-disabled:opacity-50 data-[inset]:ps-8 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
+        menuItem,
+        "px-2 data-[variant=destructive]:text-rixl-danger data-[variant=destructive]:data-highlighted:bg-rixl-danger/10 data-[variant=destructive]:data-highlighted:text-rixl-danger data-[variant=destructive]:*:[svg]:!text-rixl-danger [&_svg:not([class*='text-'])]:text-rixl-fg-muted data-[inset]:ps-8",
         className
       )}
       {...props}
@@ -41,10 +41,7 @@ export const DropdownMenuCheckboxItem = forwardRef<HTMLElement, DropdownMenuChec
     <MenuPrimitive.CheckboxItem
       ref={ref}
       data-slot="dropdown-menu-checkbox-item"
-      className={cn(
-        "data-highlighted:bg-rixl-surface-muted data-highlighted:text-rixl-fg relative flex cursor-default items-center gap-2 rounded-rixl-sm py-1.5 pe-2 ps-8 text-sm outline-hidden select-none data-disabled:pointer-events-none data-disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
-        className
-      )}
+      className={cn(menuItem, "pe-2 ps-8", className)}
       checked={checked}
       {...props}
     >
@@ -73,15 +70,7 @@ export const DropdownMenuRadioItem = forwardRef<HTMLElement, DropdownMenuRadioIt
   ref
 ) {
   return (
-    <MenuPrimitive.RadioItem
-      ref={ref}
-      data-slot="dropdown-menu-radio-item"
-      className={cn(
-        "data-highlighted:bg-rixl-surface-muted data-highlighted:text-rixl-fg relative flex cursor-default items-center gap-2 rounded-rixl-sm py-1.5 pe-2 ps-8 text-sm outline-hidden select-none data-disabled:pointer-events-none data-disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
-        className
-      )}
-      {...props}
-    >
+    <MenuPrimitive.RadioItem ref={ref} data-slot="dropdown-menu-radio-item" className={cn(menuItem, "pe-2 ps-8", className)} {...props}>
       <span className="pointer-events-none absolute start-2 flex size-3.5 items-center justify-center">
         <MenuPrimitive.RadioItemIndicator className="transition-[scale,opacity] duration-rixl-fast ease-rixl-out motion-reduce:transition-none data-starting-style:scale-50 data-starting-style:opacity-0 data-ending-style:scale-50 data-ending-style:opacity-0">
           <Circle className="size-2 fill-current" />

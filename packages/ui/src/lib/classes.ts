@@ -21,3 +21,16 @@ export const popupSurface = cn(
   "transition-[scale,opacity] duration-rixl-fast ease-rixl-out motion-reduce:transition-none",
   "data-starting-style:scale-95 data-starting-style:opacity-0 data-ending-style:scale-95 data-ending-style:opacity-0"
 );
+
+/**
+ * A selectable row in a menu or listbox: highlight on `data-highlighted` (keyboard and pointer, not
+ * `:focus`), dimmed and inert when disabled, and svg children sized and kept from shrinking. No
+ * transition on the highlight, so fast hover or arrow keys leave no fading trail. Each row adds its
+ * own horizontal padding.
+ */
+export const menuItem = cn(
+  "data-highlighted:bg-rixl-surface-muted data-highlighted:text-rixl-fg",
+  "relative flex cursor-default items-center gap-2 rounded-rixl-sm py-1.5 text-sm outline-hidden select-none",
+  "data-disabled:pointer-events-none data-disabled:opacity-50",
+  "[&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4"
+);

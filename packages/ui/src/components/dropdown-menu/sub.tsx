@@ -2,6 +2,7 @@ import {forwardRef, type ComponentProps} from "react";
 import {Menu as MenuPrimitive} from "@base-ui/react/menu";
 import {ChevronRight} from "lucide-react";
 import {cn} from "../../lib/cn";
+import {menuItem} from "../../lib/classes";
 
 import {DropdownMenuContent} from "./content";
 
@@ -24,10 +25,7 @@ export const DropdownMenuSubTrigger = forwardRef<HTMLElement, DropdownMenuSubTri
       ref={ref}
       data-slot="dropdown-menu-sub-trigger"
       data-inset={inset}
-      className={cn(
-        "data-highlighted:bg-rixl-surface-muted data-highlighted:text-rixl-fg data-popup-open:bg-rixl-surface-muted data-popup-open:text-rixl-fg flex cursor-default items-center rounded-rixl-sm px-2 py-1.5 text-sm outline-hidden select-none data-[inset]:ps-8",
-        className
-      )}
+      className={cn(menuItem, "data-popup-open:bg-rixl-surface-muted data-popup-open:text-rixl-fg px-2 data-[inset]:ps-8", className)}
       {...props}
     >
       {children}

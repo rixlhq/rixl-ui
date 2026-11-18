@@ -5,14 +5,24 @@ import {BreadcrumbLink} from "../../components/breadcrumb";
 import {Button} from "../../components/button";
 import {Checkbox} from "../../components/checkbox";
 import {Collapsible, CollapsibleDefaultTrigger} from "../../components/collapsible";
-import {DropdownMenu, DropdownMenuContent, DropdownMenuTrigger} from "../../components/dropdown-menu";
+import {
+  DropdownMenu,
+  DropdownMenuCheckboxItem,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
+  DropdownMenuSub,
+  DropdownMenuSubTrigger,
+  DropdownMenuTrigger,
+} from "../../components/dropdown-menu";
 import {Popover, PopoverContent, PopoverTrigger} from "../../components/popover";
 import {RadioGroup, RadioGroupItem} from "../../components/radio-group";
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "../../components/select";
 import {Switch} from "../../components/switch";
 import {Tabs, TabsContent, TabsList, TabsTrigger} from "../../components/tabs";
 import {cn} from "../cn";
-import {focusRing, focusRingBorderless, popupSurface} from "../classes";
+import {focusRing, focusRingBorderless, menuItem, popupSurface} from "../classes";
 
 const tokens = (classes: string) => classes.split(" ");
 const hasEvery = (element: Element, classes: string) => tokens(classes).every((token) => element.classList.contains(token));
@@ -161,5 +171,62 @@ describe("popupSurface", () => {
     render(ui());
     await act(async () => {});
     expect(hasEvery(document.querySelector(`[data-slot='${slot}']`)!, popupSurface)).toBe(true);
+  });
+});
+
+describe("menuItem", () => {
+  it("highlights on data-highlighted and dims when disabled", () => {
+    expect(tokens(menuItem)).toEqual(
+      expect.arrayContaining([
+        "data-highlighted:bg-rixl-surface-muted",
+        "data-highlighted:text-rixl-fg",
+        "data-disabled:pointer-events-none",
+        "data-disabled:opacity-50",
+      ])
+    );
+  });
+
+  it("loses to a consumer class that sets the vertical padding", () => {
+    const merged = cn(menuItem, "py-3");
+    expect(tokens(merged)).toContain("py-3");
+    expect(tokens(merged)).not.toContain("py-1.5");
+  });
+
+  it("is carried by every menu and listbox row", async () => {
+    render(
+      <>
+        <DropdownMenu open>
+          <DropdownMenuTrigger render={<button type="button">Open</button>} />
+          <DropdownMenuContent>
+            <DropdownMenuItem data-testid="item">Item</DropdownMenuItem>
+            <DropdownMenuCheckboxItem data-testid="checkbox-item" checked>
+              Checkbox
+            </DropdownMenuCheckboxItem>
+            <DropdownMenuRadioGroup value="a">
+              <DropdownMenuRadioItem data-testid="radio-item" value="a">
+                Radio
+              </DropdownMenuRadioItem>
+            </DropdownMenuRadioGroup>
+            <DropdownMenuSub>
+              <DropdownMenuSubTrigger data-testid="sub-trigger">Sub</DropdownMenuSubTrigger>
+            </DropdownMenuSub>
+          </DropdownMenuContent>
+        </DropdownMenu>
+        <Select defaultOpen defaultValue="a">
+          <SelectTrigger>
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem data-testid="select-item" value="a">
+              A
+            </SelectItem>
+          </SelectContent>
+        </Select>
+      </>
+    );
+    await act(async () => {});
+    for (const id of ["item", "checkbox-item", "radio-item", "sub-trigger", "select-item"]) {
+      expect(hasEvery(screen.getByTestId(id), menuItem), id).toBe(true);
+    }
   });
 });
