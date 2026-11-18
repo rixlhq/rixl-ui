@@ -46,8 +46,6 @@ import {
  * Class names swapped to `--rixl-*` tokens. There is no `accent` token
  * in rixl, so hover/focus highlight maps to `bg-rixl-surface-muted`
  * with `text-rixl-fg`; destructive maps to `text-rixl-danger`.
- * Indicator/submenu icons are inlined local SVGs to keep the library
- * icon-dep-free.
  */
 export type DropdownMenuProps = MenuPrimitive.Root.Props;
 export type DropdownMenuPortalProps = MenuPrimitive.Portal.Props;

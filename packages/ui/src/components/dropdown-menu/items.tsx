@@ -2,7 +2,7 @@ import {forwardRef, type ComponentProps} from "react";
 import {Menu as MenuPrimitive} from "@base-ui/react/menu";
 import {cn} from "../../lib/cn";
 
-import {CheckIcon, CircleIcon} from "./icons";
+import {Check, Circle} from "lucide-react";
 
 export type DropdownMenuItemProps = MenuPrimitive.Item.Props & {
   inset?: boolean;
@@ -50,7 +50,7 @@ export const DropdownMenuCheckboxItem = forwardRef<HTMLElement, DropdownMenuChec
     >
       <span className="pointer-events-none absolute start-2 flex size-3.5 items-center justify-center">
         <MenuPrimitive.CheckboxItemIndicator className="transition-[scale,opacity] duration-rixl-fast ease-rixl-out motion-reduce:transition-none data-starting-style:scale-50 data-starting-style:opacity-0 data-ending-style:scale-50 data-ending-style:opacity-0">
-          <CheckIcon className="size-4" />
+          <Check className="size-4" />
         </MenuPrimitive.CheckboxItemIndicator>
       </span>
       {children}
@@ -84,7 +84,7 @@ export const DropdownMenuRadioItem = forwardRef<HTMLElement, DropdownMenuRadioIt
     >
       <span className="pointer-events-none absolute start-2 flex size-3.5 items-center justify-center">
         <MenuPrimitive.RadioItemIndicator className="transition-[scale,opacity] duration-rixl-fast ease-rixl-out motion-reduce:transition-none data-starting-style:scale-50 data-starting-style:opacity-0 data-ending-style:scale-50 data-ending-style:opacity-0">
-          <CircleIcon className="size-2 fill-current" />
+          <Circle className="size-2 fill-current" />
         </MenuPrimitive.RadioItemIndicator>
       </span>
       {children}

@@ -1,9 +1,9 @@
 import {forwardRef, type ComponentProps} from "react";
 import {Menu as MenuPrimitive} from "@base-ui/react/menu";
+import {ChevronRight} from "lucide-react";
 import {cn} from "../../lib/cn";
 
 import {DropdownMenuContent} from "./content";
-import {ChevronRightIcon} from "./icons";
 
 export type DropdownMenuSubProps = MenuPrimitive.SubmenuRoot.Props;
 
@@ -31,7 +31,7 @@ export const DropdownMenuSubTrigger = forwardRef<HTMLElement, DropdownMenuSubTri
       {...props}
     >
       {children}
-      <ChevronRightIcon className="ms-auto size-4 rtl:-scale-x-100" />
+      <ChevronRight className="ms-auto size-4 rtl:-scale-x-100" />
     </MenuPrimitive.SubmenuTrigger>
   );
 });

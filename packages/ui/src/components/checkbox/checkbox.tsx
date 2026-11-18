@@ -1,5 +1,6 @@
 import {forwardRef} from "react";
 import {Checkbox as CheckboxPrimitive} from "@base-ui/react/checkbox";
+import {Check, Minus} from "lucide-react";
 import {cn} from "../../lib/cn";
 
 /**
@@ -10,8 +11,6 @@ import {cn} from "../../lib/cn";
  * - the check/dash pops in (`zoom-in`), reduced-motion safe;
  * - `indeterminate` is supported — the root's `data-indeterminate` swaps the
  *   check for a dash and fills the box like a checked one.
- *
- * Icons are inlined local SVGs to keep `@rixl/ui` icon-dep-free.
  */
 const Checkbox = forwardRef<HTMLElement, CheckboxPrimitive.Root.Props>(function Checkbox({className, ...props}, ref) {
   return (
@@ -38,49 +37,13 @@ const Checkbox = forwardRef<HTMLElement, CheckboxPrimitive.Root.Props>(function 
         data-slot="checkbox-indicator"
         className="text-rixl-primary-fg flex items-center justify-center transition-[scale,opacity] duration-rixl-fast ease-rixl-out motion-reduce:transition-none data-starting-style:scale-50 data-starting-style:opacity-0 data-ending-style:scale-50 data-ending-style:opacity-0"
       >
-        <CheckIcon className="size-3.5 [[data-indeterminate]_&]:hidden" />
-        <MinusIcon className="hidden size-3.5 [[data-indeterminate]_&]:block" />
+        <Check data-slot="checkbox-icon" strokeWidth={3} className="size-3.5 [[data-indeterminate]_&]:hidden" />
+        <Minus data-slot="checkbox-icon" strokeWidth={3} className="hidden size-3.5 [[data-indeterminate]_&]:block" />
       </CheckboxPrimitive.Indicator>
     </CheckboxPrimitive.Root>
   );
 });
 Checkbox.displayName = "Checkbox";
-
-function CheckIcon({className}: {className?: string}) {
-  return (
-    <svg
-      data-slot="checkbox-icon"
-      className={className}
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="3"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden="true"
-    >
-      <path d="M20 6 9 17l-5-5" />
-    </svg>
-  );
-}
-
-function MinusIcon({className}: {className?: string}) {
-  return (
-    <svg
-      data-slot="checkbox-icon"
-      className={className}
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="3"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden="true"
-    >
-      <path d="M5 12h14" />
-    </svg>
-  );
-}
 
 export {Checkbox};
 export type CheckboxProps = CheckboxPrimitive.Root.Props;

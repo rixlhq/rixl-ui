@@ -12,8 +12,7 @@ import {InputOTPSeparator, type InputOTPSeparatorProps} from "./separator";
  * Ported from dashboard's shadcn InputOTP (built on the `input-otp`
  * package). Composition: `<InputOTP>` root, `<InputOTPGroup>` wrapper,
  * `<InputOTPSlot index={n} />` per digit, `<InputOTPSeparator />` for
- * visual dashes between groups. Lucide `MinusIcon` inlined so
- * `@rixl/ui` stays icon-dep-free.
+ * visual dashes between groups.
  *
  * Class names swapped to `--rixl-*` tokens; `dark:*` variants dropped.
  * The blinking caret uses `animate-caret-blink`, registered in

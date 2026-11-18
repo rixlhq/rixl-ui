@@ -1,8 +1,7 @@
 import {forwardRef, type ComponentProps} from "react";
 import {Select as SelectPrimitive} from "@base-ui/react/select";
+import {ChevronDown, ChevronUp} from "lucide-react";
 import {cn} from "../../lib/cn";
-
-import {ChevronDownIcon, ChevronUpIcon} from "./icons";
 
 export type SelectContentProps = SelectPrimitive.Popup.Props &
   Pick<SelectPrimitive.Positioner.Props, "align" | "alignOffset" | "side" | "sideOffset" | "alignItemWithTrigger">;
@@ -55,7 +54,7 @@ export const SelectScrollUpButton = forwardRef<HTMLDivElement, SelectScrollUpBut
       className={cn("flex cursor-default items-center justify-center py-1", className)}
       {...props}
     >
-      <ChevronUpIcon className="size-4" />
+      <ChevronUp className="size-4" />
     </SelectPrimitive.ScrollUpArrow>
   );
 });
@@ -74,7 +73,7 @@ export const SelectScrollDownButton = forwardRef<HTMLDivElement, SelectScrollDow
       className={cn("flex cursor-default items-center justify-center py-1", className)}
       {...props}
     >
-      <ChevronDownIcon className="size-4" />
+      <ChevronDown className="size-4" />
     </SelectPrimitive.ScrollDownArrow>
   );
 });

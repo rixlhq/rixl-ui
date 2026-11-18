@@ -1,15 +1,15 @@
 import {forwardRef} from "react";
 import {Radio as RadioPrimitive} from "@base-ui/react/radio";
 import {RadioGroup as RadioGroupPrimitive} from "@base-ui/react/radio-group";
+import {Circle} from "lucide-react";
 import {cn} from "../../lib/cn";
 
 /**
  * Rixl RadioGroup — single-selection group of radio inputs.
  *
  * Ported from dashboard's shadcn RadioGroup (Base UI Radio +
- * RadioGroup). Lucide `<CircleIcon />` inlined as a local SVG so the
- * library stays icon-dep-free. Class names swapped to `--rixl-*`
- * tokens; `dark:*` variants dropped.
+ * RadioGroup). Class names swapped to `--rixl-*` tokens; `dark:*`
+ * variants dropped.
  *
  * Composition:
  * - `<RadioGroup>` — the fieldset-like container.
@@ -42,20 +42,13 @@ const RadioGroupItem = forwardRef<HTMLElement, RadioPrimitive.Root.Props>(functi
         data-slot="radio-group-indicator"
         className="flex items-center justify-center transition-[scale,opacity] duration-rixl-fast ease-rixl-out motion-reduce:transition-none data-starting-style:scale-50 data-starting-style:opacity-0 data-ending-style:scale-50 data-ending-style:opacity-0"
       >
-        <CircleIcon />
+        {/* A dot, not a ring: fill with no stroke, so it stays the size the dot was drawn at. */}
+        <Circle strokeWidth={0} className="fill-rixl-primary size-2" />
       </RadioPrimitive.Indicator>
     </RadioPrimitive.Root>
   );
 });
 RadioGroupItem.displayName = "RadioGroupItem";
-
-function CircleIcon() {
-  return (
-    <svg className="fill-rixl-primary size-2" viewBox="0 0 24 24" aria-hidden="true">
-      <circle cx="12" cy="12" r="10" />
-    </svg>
-  );
-}
 
 export {RadioGroup, RadioGroupItem};
 export type RadioGroupProps = RadioGroupPrimitive.Props;

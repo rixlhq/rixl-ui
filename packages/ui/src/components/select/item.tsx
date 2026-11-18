@@ -1,8 +1,7 @@
 import {forwardRef, type ComponentProps} from "react";
 import {Select as SelectPrimitive} from "@base-ui/react/select";
+import {Check} from "lucide-react";
 import {cn} from "../../lib/cn";
-
-import {CheckIcon} from "./icons";
 
 export type SelectItemProps = SelectPrimitive.Item.Props;
 
@@ -32,7 +31,7 @@ export const SelectItem = forwardRef<HTMLDivElement, SelectItemProps>(function S
           keepMounted
           className="scale-50 opacity-0 transition-[scale,opacity] duration-rixl-fast ease-rixl-out in-data-selected:scale-100 in-data-selected:opacity-100 motion-reduce:transition-none"
         >
-          <CheckIcon className="size-4" />
+          <Check className="size-4" />
         </SelectPrimitive.ItemIndicator>
       </span>
       <SelectPrimitive.ItemText>{children}</SelectPrimitive.ItemText>

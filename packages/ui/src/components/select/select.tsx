@@ -24,9 +24,7 @@ import {SelectTrigger, SelectValue, selectTriggerVariants, type SelectTriggerPro
 /**
  * Rixl Select — an accessible, portalled select composition.
  *
- * Ported from dashboard's shadcn Select (Base UI Select). Lucide
- * icons (CheckIcon, ChevronUpIcon, ChevronDownIcon) inlined as local
- * SVGs so `@rixl/ui` stays icon-dep-free. Class names swapped to
+ * Ported from dashboard's shadcn Select (Base UI Select). Class names swapped to
  * `--rixl-*` tokens; `dark:*` variants dropped.
  *
  * Composition:
