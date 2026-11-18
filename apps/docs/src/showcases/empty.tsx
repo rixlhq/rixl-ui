@@ -6,7 +6,7 @@ export const path = "empty";
 export const title = "Empty";
 export const description = "Explain why a view is empty and offer a next step.";
 export const notes =
-  "labels.command titles the command block. Strings you leave out come from RixlLocaleProvider (@rixl/ui/locale), then English.";
+  "commandLine comes with commandTitle, the title of the copy block that shows the command; it also names the copy button, so the app supplies it (omitting it warns in development).";
 
 export function Showcase() {
   return <Empty title="No media" description="Upload your first asset." size="sm" />;
@@ -27,7 +27,14 @@ function WithActionExample(props: {state: Record<string, ControlValue>}) {
 
 function WithCommandExample(props: {state: Record<string, ControlValue>}) {
   void props;
-  return <Empty title="No apps yet" description="Create your first app from the terminal." commandLine="npm create rixl" />;
+  return (
+    <Empty
+      title="No apps yet"
+      description="Create your first app from the terminal."
+      commandLine="npm create rixl"
+      commandTitle="Install command"
+    />
+  );
 }
 
 export const examples: Example[] = [
@@ -62,6 +69,6 @@ export const examples: Example[] = [
     title: "With command line",
     description: "A copyable command for onboarding states.",
     render: WithCommandExample,
-    code: `<Empty title="No apps yet" commandLine="npm create rixl" />`,
+    code: `<Empty title="No apps yet" commandLine="npm create rixl" commandTitle="Install command" />`,
   },
 ];

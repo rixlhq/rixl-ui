@@ -7,7 +7,7 @@ export const path = "toaster";
 export const title = "Toaster";
 export const description = "Give brief feedback after an action.";
 export const notes =
-  "The region and close-button names default to the provider's toaster strings; sonner's containerAriaLabel and toastOptions.closeButtonAriaLabel win. Strings you leave out come from RixlLocaleProvider (@rixl/ui/locale), then English.";
+  "The region and close-button names are sonner's own props, containerAriaLabel and toastOptions.closeButtonAriaLabel; sonner's English defaults apply until you set them, so pass your translated strings there.";
 
 export function Showcase() {
   return (

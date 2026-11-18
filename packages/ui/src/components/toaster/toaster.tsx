@@ -3,7 +3,6 @@ import type {ToasterProps, ToastT} from "sonner";
 import {Toaster as SonnerToaster, toast, type ExternalToast} from "sonner";
 
 import {cn} from "../../lib/cn";
-import {useTranslations} from "../locale/use-translations";
 
 const FEEDBACK_BACKGROUND_SHARE = "10%";
 const FEEDBACK_BORDER_SHARE = "30%";
@@ -81,20 +80,18 @@ function mergeClassNames(consumer: ToastClassNames = {}): ToastClassNames {
  * success, error and warning toasts. Sonner's own enter, exit and stack motion
  * is left as it ships.
  *
- * The region and close-button names default to the locale provider's strings;
- * sonner's `containerAriaLabel` and `toastOptions.closeButtonAriaLabel` win.
+ * The region and close-button names are sonner's own props,
+ * `containerAriaLabel` and `toastOptions.closeButtonAriaLabel`; sonner's English
+ * defaults apply until the app sets them.
  */
-function Toaster({className, style, toastOptions, richColors = true, containerAriaLabel, ...props}: ToasterProps) {
-  const t = useTranslations("toaster");
+function Toaster({className, style, toastOptions, richColors = true, ...props}: ToasterProps) {
   return (
     <SonnerToaster
       className={cn("toaster group", className)}
       richColors={richColors}
       style={{...toasterVariables, ...style} as CSSProperties}
-      containerAriaLabel={containerAriaLabel ?? t.notifications}
       toastOptions={{
         ...toastOptions,
-        closeButtonAriaLabel: toastOptions?.closeButtonAriaLabel ?? t.closeToast,
         classNames: mergeClassNames(toastOptions?.classNames),
       }}
       {...props}

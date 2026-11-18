@@ -3,7 +3,6 @@ import {act, render, screen} from "@testing-library/react";
 import {describe, expect, it, vi} from "vitest";
 import {Empty} from "../empty";
 import {Button} from "../../button";
-import {RixlLocaleProvider} from "../../locale";
 
 describe("Empty", () => {
   it("renders the title as a heading", () => {
@@ -94,31 +93,32 @@ describe("Empty", () => {
   });
 
   it("renders the command line", () => {
-    render(<Empty title="No apps" commandLine="npm create rixl" />);
+    render(<Empty title="No apps" commandLine="npm create rixl" commandTitle="Install command" />);
     expect(screen.getByText("npm create rixl")).toBeInTheDocument();
   });
 
-  it("titles the command block in English by default", () => {
+  it("titles the command block, and names its copy button, from commandTitle", () => {
+    const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
+    render(<Empty title="No apps" commandLine="npm create rixl" commandTitle="Install command" />);
+    expect(screen.getByText("Install command:")).toBeInTheDocument();
+    expect(screen.getByRole("button", {name: "Copy Install command"})).toBeInTheDocument();
+    expect(warn).not.toHaveBeenCalled();
+    warn.mockRestore();
+  });
+
+  it("warns, naming commandTitle, when commandLine has no commandTitle", () => {
+    const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
+    // @ts-expect-error -- commandLine requires commandTitle; the omission is the case under test.
     render(<Empty title="No apps" commandLine="npm create rixl" />);
-    expect(screen.getByText("Command:")).toBeInTheDocument();
+    expect(warn).toHaveBeenCalledExactlyOnceWith(expect.stringMatching(/\[Rixl Empty\].*must have an accessible name.*commandTitle/));
+    warn.mockRestore();
   });
 
-  it("titles the command block from the provider", () => {
-    render(
-      <RixlLocaleProvider translations={{empty: {command: "Befehl"}}}>
-        <Empty title="No apps" commandLine="npm create rixl" />
-      </RixlLocaleProvider>
-    );
-    expect(screen.getByText("Befehl:")).toBeInTheDocument();
-  });
-
-  it("lets the labels prop beat the provider for the command title", () => {
-    render(
-      <RixlLocaleProvider translations={{empty: {command: "Befehl"}}}>
-        <Empty title="No apps" commandLine="npm create rixl" labels={{command: "Comando"}} />
-      </RixlLocaleProvider>
-    );
-    expect(screen.getByText("Comando:")).toBeInTheDocument();
+  it("does not warn without a command line", () => {
+    const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
+    render(<Empty title="No apps" />);
+    expect(warn).not.toHaveBeenCalled();
+    warn.mockRestore();
   });
 
   it("renders no copy button without a command line", () => {
@@ -129,7 +129,7 @@ describe("Empty", () => {
   it("copies exactly the command line", async () => {
     const writeText = vi.fn().mockResolvedValue(undefined);
     vi.stubGlobal("navigator", {...navigator, clipboard: {writeText}});
-    render(<Empty title="No apps" commandLine="npm create rixl" />);
+    render(<Empty title="No apps" commandLine="npm create rixl" commandTitle="Install command" />);
     await act(async () => {
       screen.getByRole("button", {name: /copy/i}).click();
     });

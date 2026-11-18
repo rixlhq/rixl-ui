@@ -15,10 +15,6 @@ export type RixlTranslations = {
     copied: string;
     error: string;
   };
-  empty: {
-    /** Title of the block that shows `commandLine`. */
-    command: string;
-  };
   input: {
     /** Shown after the label when `required` is `false`. */
     optional: string;
@@ -39,12 +35,6 @@ export type RixlTranslations = {
     /** Default info text for a known total; `range` is already formatted, for example `21–25`. */
     showing: (range: string, total: number) => string;
   };
-  toaster: {
-    /** Name of the toast region. */
-    notifications: string;
-    /** Name of each toast's close button. */
-    closeToast: string;
-  };
 };
 
 /** `RixlTranslations` with every group and every string optional; unspecified keys fall back to English. */
@@ -53,7 +43,6 @@ export type RixlTranslationsPartial = {[Group in keyof RixlTranslations]?: Parti
 export const DEFAULT_TRANSLATIONS: RixlTranslations = {
   breadcrumb: {label: "breadcrumb"},
   copyBlock: {copy: (title) => `Copy ${title}`, copying: "Copying", copied: "Copied!", error: "Unable to copy. Try again."},
-  empty: {command: "Command"},
   input: {optional: "(optional)"},
   pagination: {
     navigation: "Pagination",
@@ -66,5 +55,4 @@ export const DEFAULT_TRANSLATIONS: RixlTranslations = {
     page: (page) => `Page ${page}`,
     showing: (range, total) => `Showing ${range} of ${total}`,
   },
-  toaster: {notifications: "Notifications", closeToast: "Close toast"},
 };

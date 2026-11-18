@@ -18,6 +18,7 @@ describe("Empty Browser Mode", () => {
         description="Create your first app from the terminal."
         icon={<InboxIcon />}
         commandLine="npm create rixl"
+        commandTitle="Install command"
         action={<Button>Read the docs</Button>}
       />
     );
@@ -25,8 +26,10 @@ describe("Empty Browser Mode", () => {
   });
 
   it("exposes the command copy button and the action by role", async () => {
-    render(<Empty title="No apps yet" commandLine="npm create rixl" action={<Button>Read the docs</Button>} />);
-    await expect.element(page.getByRole("button", {name: /copy command/i})).toBeVisible();
+    render(
+      <Empty title="No apps yet" commandLine="npm create rixl" commandTitle="Install command" action={<Button>Read the docs</Button>} />
+    );
+    await expect.element(page.getByRole("button", {name: "Copy Install command"})).toBeVisible();
     await expect.element(page.getByRole("button", {name: "Read the docs"})).toBeVisible();
   });
 });
