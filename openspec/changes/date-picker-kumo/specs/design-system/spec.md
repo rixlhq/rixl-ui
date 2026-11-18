@@ -56,7 +56,7 @@
 #### Scenario: color does not restyle
 
 - **WHEN** a `Button` gets `color="destructive"`
-- **THEN** it renders the default variant (`button.test.tsx`)
+- **THEN** it renders the default variant (`button.test.tsx`, `does not restyle for the native color attribute`)
 
 ## REMOVED Requirements
 

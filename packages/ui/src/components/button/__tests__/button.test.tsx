@@ -164,35 +164,7 @@ describe("Button", () => {
     });
   });
 
-  describe("fumadocs-compatible API", () => {
-    it("accepts `color` as an alias for `variant`", () => {
-      render(<Button color="destructive">Delete</Button>);
-      expect(screen.getByRole("button").className).toContain("bg-rixl-danger");
-    });
-
-    it("maps fumadocs `primary` onto the default variant", () => {
-      render(<Button color="primary">Go</Button>);
-      expect(screen.getByRole("button").className).toContain("bg-rixl-primary");
-    });
-
-    it("prefers `variant` when both are supplied", () => {
-      render(
-        <Button variant="destructive" color="primary">
-          Delete
-        </Button>
-      );
-      expect(screen.getByRole("button").className).toContain("bg-rixl-danger");
-    });
-
-    // <button> has a deprecated HTML `color` attribute, so components that
-    // spread native button props (DatePicker's day button) can pass anything.
-    it("ignores a `color` value that is not a known variant", () => {
-      render(<Button color="#ff0000">Save</Button>);
-      const btn = screen.getByRole("button");
-      expect(btn.className).toContain("bg-rixl-primary");
-      expect(btn).not.toHaveAttribute("color");
-    });
-
+  describe("sizes", () => {
     it("supports the icon-sm size", () => {
       render(<Button size="icon-sm" aria-label="Search" />);
       expect(screen.getByRole("button").className).toContain("size-8");
@@ -204,6 +176,11 @@ describe("Button", () => {
     });
   });
 
+  it("does not restyle for the native color attribute", () => {
+    render(<Button color="destructive">Delete</Button>);
+    expect(screen.getByRole("button").className).not.toContain("bg-rixl-danger");
+  });
+
   it("exports a buttonVariants helper that returns a class string", () => {
     expect(typeof buttonVariants({variant: "ghost", size: "lg"})).toBe("string");
   });
@@ -211,7 +188,6 @@ describe("Button", () => {
 
 describe("[property] Button class resolution", () => {
   const variants = ["default", "destructive", "outline", "secondary", "ghost", "link"] as const;
-  const knownColors = new Set<string>([...variants, "primary"]);
   const classOf = (element: React.ReactElement) => {
     const {getByRole, unmount} = render(element);
     const className = getByRole("button").className;
@@ -219,23 +195,11 @@ describe("[property] Button class resolution", () => {
     return className;
   };
 
-  it("variant wins over any color", {timeout: 10000}, () => {
+  it("a native color attribute never changes the classes", {timeout: 10000}, () => {
     fc.assert(
       fc.property(fc.constantFrom(...variants), fc.string(), (variant, color) => {
         expect(classOf(<Button variant={variant} color={color} />)).toBe(classOf(<Button variant={variant} />));
       }),
-      {numRuns: 30}
-    );
-  });
-
-  it("an unknown color falls back to the default variant", {timeout: 10000}, () => {
-    fc.assert(
-      fc.property(
-        fc.string().filter((color) => !knownColors.has(color)),
-        (color) => {
-          expect(classOf(<Button color={color} />)).toBe(classOf(<Button />));
-        }
-      ),
       {numRuns: 30}
     );
   });

@@ -8,7 +8,7 @@
 
 ## 2. Button
 
-- [ ] 2.1 Remove `color`, `colorClasses`, `isButtonColor` and the `color`/`primary`/`icon-*` alias wording; update tests and the showcase. Evidence: `button.test.tsx` "does not restyle for `color`"; `git grep colorClasses` empty.
+- [x] 2.1 Remove `color`, `colorClasses`, `isButtonColor` and the `color`/`primary`/`icon-*` alias wording; update tests and the showcase. Evidence: `button.test.tsx` "does not restyle for the native color attribute" failed before and passes after; `git grep "colorClasses\|isButtonColor\|fumadocs"` over packages and apps is empty.
 
 ## 3. Table
 

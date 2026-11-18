@@ -5,8 +5,7 @@ import {Group} from "../components/showcase-layout";
 export const path = "button";
 export const title = "Button";
 export const description = "Trigger an action or navigate to another page.";
-export const notes =
-  "Primary action primitive. Six variants, six sizes, token-driven press feedback, and a fumadocs-compatible `color` alias so dashboard, docs and landing share one button.";
+export const notes = "Primary action primitive. Six variants, seven sizes, token-driven press feedback, and a loading state.";
 
 export function Showcase() {
   return (
@@ -76,7 +75,7 @@ function SizesExample() {
         <Button size="default">Default</Button>
         <Button size="lg">Large</Button>
       </Group>
-      <Group label="Icon sizes — icon-sm and icon-xs exist for docs/landing density">
+      <Group label="Icon sizes">
         <Button size="icon" aria-label="Search">
           <SearchIcon />
         </Button>
@@ -87,24 +86,6 @@ function SizesExample() {
           <SearchIcon />
         </Button>
       </Group>
-    </div>
-  );
-}
-
-function CrossAppExample() {
-  return (
-    <div className="space-y-6">
-      <Group label="Same button, two naming conventions">
-        <Button variant="default">variant=&quot;default&quot;</Button>
-        <Button color="primary">color=&quot;primary&quot;</Button>
-      </Group>
-      <p className="text-sm text-rixl-fg-muted">
-        Dashboard call sites say <code className="text-rixl-fg">variant</code>; fumadocs — which docs and landing are built on — passes{" "}
-        <code className="text-rixl-fg">color</code> from its own internals. Both render identically, and{" "}
-        <code className="text-rixl-fg">variant</code> wins when both are supplied. A <code className="text-rixl-fg">color</code> that is not
-        a known variant (the deprecated HTML <code className="text-rixl-fg">color</code> attribute, which DatePicker&apos;s day button
-        spreads) is ignored rather than applied.
-      </p>
     </div>
   );
 }
@@ -199,20 +180,6 @@ duration-rixl-fast ease-rixl-out`,
 <Button size="icon" aria-label="Search"><SearchIcon /></Button>
 <Button size="icon-sm" aria-label="Search"><SearchIcon /></Button>
 <Button size="icon-xs" aria-label="Search"><SearchIcon /></Button>`,
-  },
-  {
-    id: "cross-app",
-    title: "Cross-app API",
-    description: "One button for dashboard, docs and landing.",
-    render: CrossAppExample,
-    code: `// dashboard (shadcn-shaped)
-<Button variant="default">Save</Button>
-
-// docs / landing (fumadocs passes \`color\`)
-<Button color="primary">Save</Button>
-
-// \`variant\` wins when both are given
-<Button variant="destructive" color="primary">Delete</Button>`,
   },
   {
     id: "states",
