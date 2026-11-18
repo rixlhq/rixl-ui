@@ -209,8 +209,17 @@
   "scripts": {
     "dev": "vp pack --watch",
     "pack": "vp pack",
+    "ci": "vp check && vpr ci:package",
+    "ci:package": "vpr lint:suppressions && vpr knip && vp test --coverage --run && vp pack && vpr budget && vpr publint",
+    "lint:suppressions": "! grep -rnE '(eslint|oxlint)-disable' src test --include='*.ts' --include='*.tsx' | grep -v ' -- '",
+    "knip": "knip --no-progress",
+    "budget": "size-limit",
+    "publint": "publint --strict",
+    "react-doctor": "react-doctor -y --verbose --scope changed --no-score",
+    "test:coverage": "vp test --coverage",
+    "test:mutation": "stryker run",
     "cn:tables": "cn build --full --css src/styles/preset.css --config cn.config.mjs --out src/lib/cn-tables.ts",
-    "clean": "rimraf dist node_modules"
+    "clean": "rm -rf dist node_modules"
   },
   "dependencies": {
     "class-variance-authority": "^0.7.1",
@@ -239,8 +248,11 @@
     "axe-core": "^4.14.1",
     "fast-check": "^4.10.2",
     "jsdom": "^31.0.1",
+    "knip": "^6.45.1",
     "playwright": "^1.65.1",
+    "publint": "^0.3.25",
     "react": "^19.3.1",
+    "react-doctor": "^0.9.23",
     "react-dom": "^19.3.1",
     "size-limit": "^14.3.0",
     "tailwindcss": "^4.3.5",
