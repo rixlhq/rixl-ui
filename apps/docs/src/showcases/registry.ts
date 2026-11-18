@@ -32,6 +32,7 @@ import * as copyBlock from "./copy-block";
 import * as empty from "./empty";
 import * as toaster from "./toaster";
 import * as locale from "./locale";
+import * as direction from "./direction";
 
 export type ControlValue = string | boolean;
 
@@ -114,4 +115,5 @@ export const showcases: Showcase[] = [
   empty,
   toaster,
   locale,
+  direction,
 ];

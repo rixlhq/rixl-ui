@@ -1,13 +1,23 @@
 import {Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator} from "@rixl/ui/breadcrumb";
+import {Button} from "@rixl/ui/button";
 import {Separator} from "@rixl/ui/separator";
 import {SidebarTrigger} from "@rixl/ui/sidebar";
 import {Tabs, TabsList, TabsTrigger} from "@rixl/ui/tabs";
 import {ComponentSearch} from "./component-search";
+import type {Direction} from "../hooks/use-direction";
 import type {Theme} from "../hooks/use-theme";
 import type {Showcase} from "../showcases/registry";
 import {MonitorIcon, MoonIcon, SunIcon} from "./icons";
 
-export function Header({theme, onThemeChange, active}: {theme: Theme; onThemeChange: (next: Theme) => void; active: Showcase | null}) {
+type HeaderProps = {
+  theme: Theme;
+  onThemeChange: (next: Theme) => void;
+  direction: Direction;
+  onDirectionChange: (next: Direction) => void;
+  active: Showcase | null;
+};
+
+export function Header({theme, onThemeChange, direction, onDirectionChange, active}: HeaderProps) {
   return (
     <header className="docs-header">
       <div className="flex min-w-0 items-center gap-3">
@@ -32,6 +42,15 @@ export function Header({theme, onThemeChange, active}: {theme: Theme; onThemeCha
 
       <div className="flex items-center gap-2 sm:gap-3">
         <ComponentSearch />
+        <Button
+          variant="ghost"
+          size="sm"
+          aria-label="RTL layout"
+          aria-pressed={direction === "rtl"}
+          onClick={() => onDirectionChange(direction === "rtl" ? "ltr" : "rtl")}
+        >
+          RTL
+        </Button>
         <ThemeToggle theme={theme} onChange={onThemeChange} />
       </div>
     </header>

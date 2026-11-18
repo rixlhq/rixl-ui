@@ -420,7 +420,7 @@ body {
 }
 .docs-mini-sidebar {
   width: 30%;
-  border-right: 1px solid var(--rixl-border);
+  border-inline-end: 1px solid var(--rixl-border);
   background: var(--rixl-bg);
   padding: 1rem 0.75rem;
 }

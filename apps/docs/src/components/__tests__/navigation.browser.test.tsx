@@ -19,6 +19,8 @@ beforeEach(() => {
 afterEach(() => {
   flushSync(() => root.unmount());
   container.remove();
+  document.documentElement.removeAttribute("dir");
+  localStorage.removeItem("rixl-ui-playground-direction");
 });
 
 describe("showcase navigation", () => {
@@ -88,6 +90,26 @@ describe("showcase navigation", () => {
     await page.getByRole("heading", {name: "Variants", exact: true}).click();
     await expect.element(page.getByRole("dialog", {name: "Component search"})).not.toBeInTheDocument();
     await expect.element(page.getByRole("heading", {name: "Button", exact: true})).toBeVisible();
+  });
+  it("mirrors the whole page when the direction toggle is set to RTL", async () => {
+    await page.viewport(1440, 900);
+    const toggle = page.getByRole("button", {name: "RTL layout", exact: true});
+    await expect.element(toggle).toHaveAttribute("aria-pressed", "false");
+    await toggle.click();
+    await expect.element(toggle).toHaveAttribute("aria-pressed", "true");
+    expect(document.documentElement.dir).toBe("rtl");
+    const sidebar = document.querySelector("[data-slot='sidebar-container']")!.getBoundingClientRect();
+    expect(Math.round(sidebar.right)).toBe(window.innerWidth);
+    // axe on the whole page takes over 10 s, and the header's search trigger has an unrelated name mismatch.
+    expect(await axeViolations(toggle.element())).toEqual([]);
+    expect(await axeViolations(document.querySelector("[data-slot='sidebar-container']")!)).toEqual([]);
+    await toggle.click();
+    expect(document.documentElement.dir).toBe("ltr");
+  });
+  it("keeps the header inside a phone viewport with the direction toggle", async () => {
+    await page.viewport(390, 900);
+    await expect.element(page.getByRole("button", {name: "RTL layout", exact: true})).toBeVisible();
+    expect(document.documentElement.scrollWidth).toBeLessThanOrEqual(window.innerWidth);
   });
   it("jumps to an example from the compact selector", async () => {
     await page.viewport(768, 900);
