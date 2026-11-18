@@ -1,5 +1,6 @@
 import {cva} from "class-variance-authority";
 import {cn} from "../../lib/cn";
+import {focusRing} from "../../lib/classes";
 
 /**
  * Border, hover, focus, disabled and invalid states shared by every bordered form control (Input, InputArea, the Select trigger, OTP slots).
@@ -11,7 +12,7 @@ export const controlSurface = cn(
   "transition-[color,box-shadow,border-color] duration-rixl-fast ease-rixl-out",
   "hover:border-rixl-border-strong",
   "disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50",
-  "focus-visible:border-rixl-ring focus-visible:ring-rixl-ring/50 focus-visible:ring-[3px]",
+  focusRing,
   "aria-invalid:border-rixl-danger aria-invalid:ring-rixl-danger/20 aria-invalid:ring-[3px]",
   "aria-invalid:bg-rixl-danger/10 aria-invalid:hover:border-rixl-danger"
 );

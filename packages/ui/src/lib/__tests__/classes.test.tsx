@@ -4,6 +4,7 @@ import {Badge} from "../../components/badge";
 import {BreadcrumbLink} from "../../components/breadcrumb";
 import {Button} from "../../components/button";
 import {Checkbox} from "../../components/checkbox";
+import {Input} from "../../components/input";
 import {Collapsible, CollapsibleDefaultTrigger} from "../../components/collapsible";
 import {
   DropdownMenu,
@@ -53,6 +54,17 @@ describe("focusRing", () => {
     ["Switch", () => <Switch data-testid="el" />],
     ["Badge", () => <Badge data-testid="el">New</Badge>],
     ["Button", () => <Button data-testid="el">Save</Button>],
+    ["Input", () => <Input aria-label="Name" data-testid="el" />],
+    [
+      "SelectTrigger",
+      () => (
+        <Select>
+          <SelectTrigger aria-label="Fruit" data-testid="el">
+            <SelectValue />
+          </SelectTrigger>
+        </Select>
+      ),
+    ],
     [
       "CollapsibleDefaultTrigger",
       () => (
