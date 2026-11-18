@@ -86,15 +86,30 @@ describe("Pagination", () => {
     expect(screen.queryByLabelText("Rows per page")).toBeNull();
   });
 
-  it("renders limit options and reports selection", () => {
-    const setLimit = vi.fn();
-    render(<Pagination currentPage={1} totalPages={5} onPageChange={() => {}} limit={20} setLimit={setLimit} {...labels()} />);
-    const select = screen.getByLabelText("Rows per page");
-    expect(select).toHaveValue("20");
-    expect(screen.getByRole("option", {name: "10"})).toBeInTheDocument();
-    (select as HTMLSelectElement).value = "50";
-    select.dispatchEvent(new Event("change", {bubbles: true}));
-    expect(setLimit).toHaveBeenCalledWith(50);
+  it("renders the page-size control as a labelled Select, not a native select", () => {
+    const {container} = render(
+      <Pagination currentPage={1} totalPages={5} onPageChange={() => {}} limit={20} setLimit={() => {}} {...labels()} />
+    );
+    const trigger = screen.getByRole("combobox", {name: "Rows per page"});
+    expect(trigger).toHaveTextContent("20");
+    expect(trigger).toHaveAttribute("data-slot", "select-trigger");
+    expect(screen.getByText("Rows per page")).toBeVisible();
+    expect(container.querySelector("select")).toBeNull();
+  });
+
+  it("uses the limitLabel as the visible and accessible name", () => {
+    render(
+      <Pagination
+        currentPage={1}
+        totalPages={5}
+        onPageChange={() => {}}
+        limit={20}
+        setLimit={() => {}}
+        limitLabel="Per page"
+        {...labels()}
+      />
+    );
+    expect(screen.getByRole("combobox", {name: "Per page"})).toBeInTheDocument();
   });
 
   it("opts out of the limit selector and renders a custom slot instead", () => {

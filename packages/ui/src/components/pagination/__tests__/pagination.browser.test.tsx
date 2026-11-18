@@ -50,8 +50,29 @@ describe("Pagination Browser Mode", () => {
       />
     );
 
-    await userEvent.selectOptions(page.getByLabelText("Rows per page"), "50");
+    await userEvent.click(page.getByRole("combobox", {name: "Rows per page"}));
+    await userEvent.click(page.getByRole("option", {name: "50"}));
     expect(limit).toBe(50);
+  });
+
+  it("has no WCAG 2.2 AA violations with the page-size popup open", async () => {
+    render(
+      <Pagination
+        currentPage={2}
+        totalPages={5}
+        onPageChange={() => {}}
+        limit={20}
+        setLimit={() => {}}
+        firstLabel="First"
+        prevLabel="Prev"
+        nextLabel="Next"
+        lastLabel="Last"
+      />
+    );
+    await userEvent.click(page.getByRole("combobox", {name: "Rows per page"}));
+    await expect.element(page.getByRole("option", {name: "50"})).toBeVisible();
+
+    expect(await axeViolations(document.body)).toEqual([]);
   });
 
   it("has no WCAG 2.2 AA violations", async () => {

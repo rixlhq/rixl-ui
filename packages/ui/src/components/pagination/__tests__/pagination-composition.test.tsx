@@ -24,8 +24,8 @@ describe("Pagination composition", () => {
     );
     expect(ref.current).toHaveTextContent("Showing 11–20 of 25");
     expect(screen.getAllByRole("button")).toHaveLength(2);
-    fireEvent.change(screen.getByLabelText("Rows per page"), {target: {value: "50"}});
-    expect(sizeChange).toHaveBeenCalledWith(50);
+    expect(screen.getByRole("combobox", {name: "Rows per page"})).toHaveTextContent("10");
+    expect(sizeChange).not.toHaveBeenCalled();
   });
 
   it("commits whole page drafts, clamps bounds and restores invalid or escaped drafts", () => {

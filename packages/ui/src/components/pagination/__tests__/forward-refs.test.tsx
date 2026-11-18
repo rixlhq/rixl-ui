@@ -51,7 +51,7 @@ describeForwardRefs([
     name: "PaginationPageSize",
     component: PaginationPageSize,
     element: (ref) => <PaginationPageSize ref={ref} value={10} onPageSizeChange={noop} />,
-    slot: "pagination-page-size",
-    selector: '[data-slot="pagination-page-size"] select',
+    slot: "select-trigger",
+    selector: '[data-slot="pagination-page-size"] [data-slot="select-trigger"]',
   },
 ]);
