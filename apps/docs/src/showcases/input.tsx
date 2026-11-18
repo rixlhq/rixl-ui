@@ -43,10 +43,10 @@ function SizesExample(props: {state: Record<string, ControlValue>}) {
   void props;
   return (
     <Group label="Sizes">
-      <Input size="xs" placeholder="Extra small" className="w-full max-w-sm" />
-      <Input size="sm" placeholder="Small" className="w-full max-w-sm" />
-      <Input size="base" placeholder="Base" className="w-full max-w-sm" />
-      <Input size="lg" placeholder="Large" className="w-full max-w-sm" />
+      <Input size="xs" placeholder="Extra small" aria-label="Extra small" className="w-full max-w-sm" />
+      <Input size="sm" placeholder="Small" aria-label="Small" className="w-full max-w-sm" />
+      <Input size="base" placeholder="Base" aria-label="Base" className="w-full max-w-sm" />
+      <Input size="lg" placeholder="Large" aria-label="Large" className="w-full max-w-sm" />
     </Group>
   );
 }
@@ -57,6 +57,22 @@ function FieldExample(props: {state: Record<string, ControlValue>}) {
     <Group label="Built-in field">
       <Input label="Email" placeholder="you@example.com" description="We'll never share your address." className="w-full max-w-sm" />
       <Input label="Phone" required={false} placeholder="+1 (555) 000-0000" className="w-full max-w-sm" />
+    </Group>
+  );
+}
+
+function AccessibleNamesExample(props: {state: Record<string, ControlValue>}) {
+  void props;
+  return (
+    <Group label="Accessible names">
+      <Input
+        label="Email"
+        placeholder="you@example.com"
+        labelTooltip="We only use it for receipts."
+        labelTooltipAriaLabel="About email"
+        className="w-full max-w-sm"
+      />
+      <Input placeholder="Search..." aria-label="Search products" className="w-full max-w-sm" />
     </Group>
   );
 }
@@ -80,10 +96,10 @@ function StatesExample(props: {state: Record<string, ControlValue>}) {
   void props;
   return (
     <Group label="States">
-      <Input placeholder="Default" className="w-full max-w-sm" />
-      <Input placeholder="Disabled" disabled className="w-full max-w-sm" />
-      <Input readOnly defaultValue="Read-only" className="w-full max-w-sm" />
-      <Input aria-invalid placeholder="Invalid" defaultValue="not-an-email" className="w-full max-w-sm" />
+      <Input placeholder="Default" aria-label="Default" className="w-full max-w-sm" />
+      <Input placeholder="Disabled" aria-label="Disabled" disabled className="w-full max-w-sm" />
+      <Input readOnly defaultValue="Read-only" aria-label="Read-only" className="w-full max-w-sm" />
+      <Input aria-invalid aria-label="Invalid" placeholder="Invalid" defaultValue="not-an-email" className="w-full max-w-sm" />
     </Group>
   );
 }
@@ -92,13 +108,13 @@ function TypesExample(props: {state: Record<string, ControlValue>}) {
   void props;
   return (
     <Group label="Types">
-      <Input placeholder="Text" className="w-full max-w-sm" />
-      <Input type="email" placeholder="Email" className="w-full max-w-sm" />
-      <Input type="password" placeholder="Password" className="w-full max-w-sm" />
-      <Input type="number" placeholder="Number" className="w-full max-w-sm" />
-      <Input type="tel" placeholder="Phone" className="w-full max-w-sm" />
-      <Input type="url" placeholder="URL" className="w-full max-w-sm" />
-      <Input type="file" className="w-full max-w-sm" />
+      <Input placeholder="Text" aria-label="Text" className="w-full max-w-sm" />
+      <Input type="email" placeholder="Email" aria-label="Email" className="w-full max-w-sm" />
+      <Input type="password" placeholder="Password" aria-label="Password" className="w-full max-w-sm" />
+      <Input type="number" placeholder="Number" aria-label="Number" className="w-full max-w-sm" />
+      <Input type="tel" placeholder="Phone" aria-label="Phone" className="w-full max-w-sm" />
+      <Input type="url" placeholder="URL" aria-label="URL" className="w-full max-w-sm" />
+      <Input type="file" aria-label="File" className="w-full max-w-sm" />
     </Group>
   );
 }
@@ -146,10 +162,10 @@ export const examples: Example[] = [
     id: "sizes",
     title: "Sizes",
     render: SizesExample,
-    code: `<Input size="xs" placeholder="Extra small" />
-<Input size="sm" placeholder="Small" />
-<Input size="base" placeholder="Base" />
-<Input size="lg" placeholder="Large" />`,
+    code: `<Input size="xs" placeholder="Extra small" aria-label="Extra small" />
+<Input size="sm" placeholder="Small" aria-label="Small" />
+<Input size="base" placeholder="Base" aria-label="Base" />
+<Input size="lg" placeholder="Large" aria-label="Large" />`,
   },
   {
     id: "field",
@@ -158,6 +174,15 @@ export const examples: Example[] = [
     render: FieldExample,
     code: `<Input label="Email" placeholder="you@example.com" description="We'll never share your address." />
 <Input label="Phone" required={false} placeholder="+1 (555) 000-0000" />`,
+  },
+  {
+    id: "accessible-names",
+    title: "Accessible names",
+    description:
+      "Every input needs a name: a label prop, an aria-label or aria-labelledby. The icon-only tooltip button needs labelTooltipAriaLabel. The library supplies no hidden text and warns in development when a name is missing.",
+    render: AccessibleNamesExample,
+    code: `<Input label="Email" labelTooltip="We only use it for receipts." labelTooltipAriaLabel="About email" />
+<Input placeholder="Search..." aria-label="Search products" />`,
   },
   {
     id: "error",
@@ -170,17 +195,17 @@ export const examples: Example[] = [
     id: "states",
     title: "States",
     render: StatesExample,
-    code: `<Input placeholder="Default" />
-<Input placeholder="Disabled" disabled />
-<Input readOnly defaultValue="Read-only" />
-<Input aria-invalid defaultValue="not-an-email" />`,
+    code: `<Input placeholder="Default" aria-label="Default" />
+<Input placeholder="Disabled" aria-label="Disabled" disabled />
+<Input readOnly defaultValue="Read-only" aria-label="Read-only" />
+<Input aria-invalid defaultValue="not-an-email" aria-label="Email" />`,
   },
   {
     id: "types",
     title: "Types",
     render: TypesExample,
-    code: `<Input placeholder="Text" />
-<Input type="email" placeholder="Email" />
-<Input type="password" placeholder="Password" />`,
+    code: `<Input placeholder="Text" aria-label="Text" />
+<Input type="email" placeholder="Email" aria-label="Email" />
+<Input type="password" placeholder="Password" aria-label="Password" />`,
   },
 ];

@@ -1,7 +1,9 @@
 /**
- * Every string the library renders on its own. A value is a plain string, or a
- * function for a string with interpolated values, so an app can pass compiled
- * message functions (for example Paraglide's `m.copy_copied()`) straight in.
+ * The copy the library draws itself. Names for parts only the app can name (an
+ * icon-only close button, a sidebar toggle) are props such as `aria-label`, not
+ * translations. A value is a plain string, or a function for a string with
+ * interpolated values, so an app can pass compiled message functions (for
+ * example Paraglide's `m.copy_copied()`) straight in.
  */
 export type RixlTranslations = {
   breadcrumb: {
