@@ -1,5 +1,6 @@
 import {forwardRef, type ComponentProps} from "react";
 
+import {useTranslations} from "../locale/use-translations";
 import {BreadcrumbList, type BreadcrumbListProps} from "./list";
 import {
   BreadcrumbItem,
@@ -17,9 +18,10 @@ export type BreadcrumbProps = ComponentProps<"nav">;
  * Rixl Breadcrumb — navigation trail built on Base UI `useRender`.
  * Ported verbatim from dashboard; token-mapped to rixl tokens.
  */
-export const Breadcrumb = forwardRef<HTMLElement, BreadcrumbProps>((props, ref) => (
-  <nav ref={ref} aria-label="breadcrumb" data-slot="breadcrumb" {...props} />
-));
+export const Breadcrumb = forwardRef<HTMLElement, BreadcrumbProps>((props, ref) => {
+  const {label} = useTranslations("breadcrumb");
+  return <nav ref={ref} aria-label={label} data-slot="breadcrumb" {...props} />;
+});
 Breadcrumb.displayName = "Breadcrumb";
 
 export {
