@@ -1,10 +1,12 @@
 import {ChevronLeftIcon, ChevronRightIcon} from "lucide-react";
 import {cn} from "../../lib/cn";
 import {Button} from "../button";
+import type {RixlTranslations} from "../locale";
 import type {TabsSize, TabsVariant} from "./context";
 
 type TabsOverflowControlProps = {
   isRtl: boolean;
+  labels: RixlTranslations["tabs"];
   side: "start" | "end";
   visible: boolean;
   variant: TabsVariant;
@@ -12,8 +14,8 @@ type TabsOverflowControlProps = {
   onClick: () => void;
 };
 
-function overflowLabel(isStart: boolean, isRtl: boolean) {
-  return isStart !== isRtl ? "Scroll tabs left" : "Scroll tabs right";
+function overflowLabel(isStart: boolean, isRtl: boolean, labels: RixlTranslations["tabs"]) {
+  return isStart !== isRtl ? labels.scrollLeft : labels.scrollRight;
 }
 
 function overflowPositionClasses(side: "start" | "end") {
@@ -33,7 +35,7 @@ function overflowToneBackground(variant: TabsVariant) {
     : "from-rixl-bg via-rixl-bg/95 to-transparent";
 }
 
-export function TabsOverflowControl({side, visible, variant, size, isRtl, onClick}: TabsOverflowControlProps) {
+export function TabsOverflowControl({side, visible, variant, size, isRtl, labels, onClick}: TabsOverflowControlProps) {
   const isStart = side === "start";
   const Icon = isStart ? ChevronLeftIcon : ChevronRightIcon;
   return (
@@ -42,7 +44,7 @@ export function TabsOverflowControl({side, visible, variant, size, isRtl, onClic
       variant="ghost"
       data-slot="tabs-overflow-control"
       data-side={side}
-      aria-label={overflowLabel(isStart, isRtl)}
+      aria-label={overflowLabel(isStart, isRtl, labels)}
       aria-hidden={!visible}
       tabIndex={visible ? 0 : -1}
       onClick={onClick}
