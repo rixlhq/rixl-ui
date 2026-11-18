@@ -20,4 +20,4 @@
 
 ## 5. Gate
 
-- [ ] 5.1 `vp check`, `vp test run`, `vp pack`, `vpx size-limit`, `vpr docs`. Evidence: the summary lines recorded here when run.
+- [x] 5.1 `vp check`, `vp test run`, `vp pack`, `vpx size-limit`, `vpr docs`. Evidence: `vp check` no warnings, lint or type errors; `vp test run` in `packages/ui` 93 files, 878 tests passed; `vp pack` build complete; `vpx size-limit` 54.27 kB of 58 kB, preset 3.49 kB of 3.5 kB; `vpr docs` built. Not caused by this change: `apps/docs` `navigation.browser.test.tsx` expects 33 overview tiles and the registry has 32.
