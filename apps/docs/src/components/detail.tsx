@@ -1,5 +1,4 @@
-import {memo, useId, useMemo, useRef, useState} from "react";
-import type {ComponentType, ReactNode} from "react";
+import {memo, useId, useRef, useState} from "react";
 import {Label} from "@rixl/ui/label";
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@rixl/ui/select";
 import {Switch} from "@rixl/ui/switch";
@@ -10,14 +9,7 @@ import {CodePreview} from "./code-preview";
 import type {Control, ControlValue, Example, Showcase} from "../showcases/registry";
 
 export const Detail = memo(function Detail({showcase}: {showcase: Showcase}) {
-  const examples = useMemo<Example[]>(() => {
-    if (showcase.examples && showcase.examples.length > 0) return showcase.examples;
-    const Legacy: ComponentType<{
-      state: Record<string, ControlValue>;
-      children?: ReactNode;
-    }> = () => <showcase.Showcase />;
-    return [{id: "default", title: "Preview", render: Legacy}];
-  }, [showcase]);
+  const {examples} = showcase;
 
   const jumpTarget = useRef<HTMLElement>(null);
   const sorted = [...showcases].sort((a, b) => a.title.localeCompare(b.title));

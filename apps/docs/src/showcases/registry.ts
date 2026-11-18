@@ -68,20 +68,16 @@ export type Showcase = {
   description?: string;
   /** Technical details shown after the examples. */
   notes?: string;
-  /** Legacy single-example showcase. Kept until every module migrates. */
+  /** Compact preview rendered on the home grid card. */
   Showcase: ComponentType;
-  /** Multiple examples. When present, the detail page renders ExampleCards. */
-  examples?: Example[];
+  /** The examples the detail page renders as ExampleCards. */
+  examples: Example[];
 };
 
 /**
  * Ordered registry. Add a new component: create `showcases/<name>.tsx` and
  * append an entry here. The sidebar, routing, and content pane all read from
  * this array.
- *
- * Migration: older showcases export a single `Showcase` component. Newer ones
- * can export `examples: Example[]` instead. If `examples` is missing, the
- * single `Showcase` is treated as the default example.
  */
 export const showcases: Showcase[] = [
   button,

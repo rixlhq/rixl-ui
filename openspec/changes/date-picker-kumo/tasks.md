@@ -16,7 +16,7 @@
 
 ## 4. Docs app
 
-- [ ] 4.1 Make `Showcase.examples` required and delete the `Detail` fallback. Evidence: `detail.test.tsx`, `vp check`.
+- [x] 4.1 Make `Showcase.examples` required and delete the `Detail` fallback. Evidence: `vp check` type-checks every showcase against the required `examples`; `detail.test.tsx` and `discovery.test.ts` pass.
 
 ## 5. Gate
 
