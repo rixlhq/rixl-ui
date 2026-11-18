@@ -3,6 +3,7 @@ import {act, render, screen} from "@testing-library/react";
 import {describe, expect, it, vi} from "vitest";
 import {Empty} from "../empty";
 import {Button} from "../../button";
+import {RixlLocaleProvider} from "../../locale";
 
 describe("Empty", () => {
   it("renders the title as a heading", () => {
@@ -95,6 +96,29 @@ describe("Empty", () => {
   it("renders the command line", () => {
     render(<Empty title="No apps" commandLine="npm create rixl" />);
     expect(screen.getByText("npm create rixl")).toBeInTheDocument();
+  });
+
+  it("titles the command block in English by default", () => {
+    render(<Empty title="No apps" commandLine="npm create rixl" />);
+    expect(screen.getByText("Command:")).toBeInTheDocument();
+  });
+
+  it("titles the command block from the provider", () => {
+    render(
+      <RixlLocaleProvider translations={{empty: {command: "Befehl"}}}>
+        <Empty title="No apps" commandLine="npm create rixl" />
+      </RixlLocaleProvider>
+    );
+    expect(screen.getByText("Befehl:")).toBeInTheDocument();
+  });
+
+  it("lets the labels prop beat the provider for the command title", () => {
+    render(
+      <RixlLocaleProvider translations={{empty: {command: "Befehl"}}}>
+        <Empty title="No apps" commandLine="npm create rixl" labels={{command: "Comando"}} />
+      </RixlLocaleProvider>
+    );
+    expect(screen.getByText("Comando:")).toBeInTheDocument();
   });
 
   it("renders no copy button without a command line", () => {

@@ -2,6 +2,8 @@ import {forwardRef, type ComponentProps, type ReactNode} from "react";
 import {cva, type VariantProps} from "class-variance-authority";
 import {cn} from "../../lib/cn";
 import {CopyBlock} from "../copy-block";
+import type {RixlTranslations} from "../locale";
+import {useTranslations} from "../locale/use-translations";
 
 const emptyVariants = cva("flex flex-col items-center justify-center rounded-rixl-lg border border-dashed border-rixl-border text-center", {
   variants: {size: {sm: "gap-2 p-4", default: "gap-3 p-8", lg: "gap-4 p-12"}},
@@ -18,9 +20,12 @@ export type EmptyProps = Omit<ComponentProps<"div">, "title"> &
     action?: ReactNode;
     /** Heading level of the title, so it fits the host page's outline. */
     headingLevel?: 1 | 2 | 3 | 4 | 5 | 6;
+    /** The command block's title. Defaults to the provider's string, then English. */
+    labels?: Partial<RixlTranslations["empty"]>;
   };
 export const Empty = forwardRef<HTMLDivElement, EmptyProps>(
-  ({title, description, icon, commandLine, action, children, size, headingLevel = 3, className, ...props}, ref) => {
+  ({title, description, icon, commandLine, action, children, size, headingLevel = 3, labels, className, ...props}, ref) => {
+    const t = useTranslations("empty", labels);
     const Heading = `h${headingLevel}` as const;
     return (
       <div ref={ref} data-slot="empty" className={cn(emptyVariants({size}), className)} {...props}>
@@ -36,7 +41,7 @@ export const Empty = forwardRef<HTMLDivElement, EmptyProps>(
           <Heading className="text-lg font-semibold tracking-tight text-rixl-fg">{title}</Heading>
           {description && <p className="text-sm text-balance text-rixl-fg-muted">{description}</p>}
         </div>
-        {commandLine && <CopyBlock title="Command" value={commandLine} className="w-full max-w-sm" />}
+        {commandLine && <CopyBlock title={t.command} value={commandLine} className="w-full max-w-sm" />}
         {children}
         {action}
       </div>
