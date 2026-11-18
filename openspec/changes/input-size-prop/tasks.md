@@ -1,0 +1,19 @@
+# Tasks
+
+## 1. One size prop
+
+- [ ] 1.1 Rename the `cva` variant key to `size` with `xs | sm | base | lg`, default `base`, for `Input` and `InputArea` (test first)
+- [ ] 1.2 Apply `size` to `InputGroup` and `InputGroupInput` through the group context
+- [ ] 1.3 Delete `resolve-input-size.ts` and `inputSize`
+
+## 2. Drop the deprecated variant
+
+- [ ] 2.1 Remove `variant="error"` from `Input` and its development warning; keep the accessible-name warning
+
+## 3. Callers and docs
+
+- [ ] 3.1 Update internal callers and the input, input-area and input-group showcases
+
+## 4. Verify
+
+- [ ] 4.1 `vp check`, `vp test run`, `vp pack`, `vpx size-limit`, `vpr docs`
