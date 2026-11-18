@@ -215,7 +215,7 @@ describe("Sidebar Browser Mode", () => {
         .toBe(true);
     });
 
-    it.each(["left", "right"] as const)("anchors the %s panel to its physical edge", async (side) => {
+    it.each(["left", "right"] as const)("anchors the %s panel to its matching edge in LTR", async (side) => {
       const panel = (await openMobile(side)).element();
       await expect
         .poll(() => {

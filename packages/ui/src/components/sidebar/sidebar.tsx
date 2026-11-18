@@ -19,12 +19,16 @@ const MOBILE_PANEL_CLASSES = cn(
   "shadow-rixl-lg transition-transform duration-rixl-slow data-ending-style:duration-rixl-base ease-rixl-drawer motion-reduce:transition-none"
 );
 
+// `left` and `right` mean the inline start and end, as on the desktop panel, so the sheet pins to
+// and slides toward the edge that reading direction puts it on. Tailwind has no logical translate.
 const MOBILE_PANEL_SIDE_CLASSES = {
-  left: "left-0 border-r data-starting-style:-translate-x-full data-ending-style:-translate-x-full",
-  right: "right-0 border-l data-starting-style:translate-x-full data-ending-style:translate-x-full",
+  left: "start-0 border-e ltr:data-starting-style:-translate-x-full ltr:data-ending-style:-translate-x-full rtl:data-starting-style:translate-x-full rtl:data-ending-style:translate-x-full",
+  right:
+    "end-0 border-s ltr:data-starting-style:translate-x-full ltr:data-ending-style:translate-x-full rtl:data-starting-style:-translate-x-full rtl:data-ending-style:-translate-x-full",
 } as const;
 
 export type SidebarProps = React.ComponentProps<"div"> & {
+  /** The inline edge the sidebar sits on: `left` is the start (the left in LTR, the right in RTL) and `right` the end. Default `left`. */
   side?: "left" | "right";
   variant?: "sidebar" | "floating" | "inset";
   collapsible?: "offcanvas" | "icon" | "none";
