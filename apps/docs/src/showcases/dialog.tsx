@@ -189,7 +189,7 @@ function SideSheetExample() {
         <Dialog key={side}>
           <DialogTrigger render={<Button variant="outline">Open from {side}</Button>} />
           <DialogContent side={side}>
-            <DialogHeader className="p-4 pe-16">
+            <DialogHeader className="gap-1.5 p-4 pe-16">
               <DialogTitle>Edit profile</DialogTitle>
               <DialogDescription>Make changes to your profile here. Click save when you are done.</DialogDescription>
             </DialogHeader>
@@ -263,7 +263,7 @@ export const examples: Example[] = [
     code: `<Dialog>
   <DialogTrigger render={<Button variant="outline">Open</Button>} />
   <DialogContent side="right">
-    <DialogHeader className="p-4 pe-16">
+    <DialogHeader className="gap-1.5 p-4 pe-16">
       <DialogTitle>Edit profile</DialogTitle>
       <DialogDescription>Make changes to your profile here.</DialogDescription>
     </DialogHeader>

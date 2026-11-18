@@ -10,7 +10,7 @@ function TestSheet({defaultOpen = false}: {defaultOpen?: boolean} = {}) {
       <Dialog defaultOpen={defaultOpen}>
         <DialogTrigger data-testid="trigger" render={<button type="button">Open sheet</button>} />
         <DialogContent data-testid="content" side="right">
-          <DialogHeader className="p-4 pe-16">
+          <DialogHeader className="gap-1.5 p-4 pe-16">
             <DialogTitle data-testid="title">Navigation Menu</DialogTitle>
             <DialogDescription>Explore site sections.</DialogDescription>
           </DialogHeader>

@@ -8,7 +8,7 @@ function Sheet({side}: {side?: Side} = {}) {
   return (
     <Dialog open>
       <DialogContent data-testid="content" side={side}>
-        <DialogHeader className="p-4 pe-16">
+        <DialogHeader className="gap-1.5 p-4 pe-16">
           <DialogTitle>Title</DialogTitle>
           <DialogDescription>Description</DialogDescription>
         </DialogHeader>
@@ -74,12 +74,14 @@ describe("edge sheet", () => {
     expect(screen.getByText("Close")).toBeInTheDocument();
   });
 
-  it("lets the header take consumer padding", async () => {
+  it("lets the header take consumer padding and a tighter gap", async () => {
     render(<Sheet side="right" />);
     await act(async () => {});
-    const header = document.querySelector("[data-slot='dialog-header']");
-    expect(header!.className).toContain("p-4");
-    expect(header!.className).toContain("pe-16");
+    const cls = document.querySelector("[data-slot='dialog-header']")!.className;
+    expect(cls).toContain("p-4");
+    expect(cls).toContain("pe-16");
+    expect(cls).toContain("gap-1.5");
+    expect(cls).not.toContain("gap-2");
   });
 
   it("lets the footer stack, pin to the bottom and take padding", async () => {
