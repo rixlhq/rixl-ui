@@ -1,3 +1,4 @@
+import {createRef} from "react";
 import {describe, it, expect} from "vitest";
 import {render, screen} from "@testing-library/react";
 import {Separator} from "../separator";
@@ -42,5 +43,15 @@ describe("Separator", () => {
     const cls = screen.getByRole("separator").className;
     expect(cls).toContain("bg-red-500");
     expect(cls).not.toContain("bg-rixl-border");
+  });
+
+  it("forwards a ref to the separator element", () => {
+    const ref = createRef<HTMLDivElement>();
+    render(<Separator ref={ref} />);
+    expect(ref.current).toBe(screen.getByRole("separator"));
+  });
+
+  it("has a displayName for devtools", () => {
+    expect(Separator.displayName).toBe("Separator");
   });
 });
