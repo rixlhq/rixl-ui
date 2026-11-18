@@ -50,7 +50,7 @@ Parts that render no element of their own have nothing for a ref to point at:
 
 **Dropped:** None.
 
-**Evidence:** the marker test fails before each change and passes after it (recorded in tasks.md).
+**Evidence:** measured while implementing: on React 19 the `ref.current` check passed before every change and only the marker check failed, which is why the marker is needed; the one place a ref actually went missing on React 19 was the mobile `Sidebar` sheet, which took no props. Per-folder results are in tasks.md.
 
 ### React 18 verification
 
