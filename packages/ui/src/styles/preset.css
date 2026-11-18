@@ -68,8 +68,9 @@
     --rixl-danger-fg: oklch(1 0 0);
 
     /* ── Success / warning (feedback) ─────────────────────── */
-    --rixl-success: oklch(0.65 0.16 145);
-    --rixl-warning: oklch(0.78 0.16 80);
+    /* Text on a tint of themselves: 0.48 and 0.5 keep 4.5:1 (WCAG AA) on light. */
+    --rixl-success: oklch(0.48 0.12 145);
+    --rixl-warning: oklch(0.5 0.11 80);
 
     /* ── Focus ring ───────────────────────────────────────── */
     --rixl-ring: oklch(0.21 0 0 / 0.4);
@@ -150,6 +151,9 @@
     --rixl-danger-active: oklch(0.76 0.2 25);
     --rixl-danger-fg: oklch(0.14 0.01 265);
 
+    --rixl-success: oklch(0.65 0.16 145);
+    --rixl-warning: oklch(0.78 0.16 80);
+
     --rixl-ring: oklch(0.83 0 0 / 0.5);
 
     --rixl-sidebar: oklch(0.17 0.01 265);
@@ -170,9 +174,8 @@
  * Register tokens with Tailwind 4's @theme directive so consumers can
  * write `bg-rixl-primary`, `text-rixl-fg`, `rounded-rixl-md`, etc.,
  * anywhere in their app — not just inside @rixl/ui components.
- * `inline` makes a utility read `var(--rixl-*)` itself instead of a
- * `--color-rixl-*` copy resolved once at :root, so `data-theme` on any
- * ancestor re-themes it.
+ * `inline` makes utilities read `var(--rixl-*)` on the element, not a
+ * `--color-rixl-*` copy resolved at :root, so any ancestor can set the theme.
  */
 @theme inline {
   --color-rixl-bg: var(--rixl-bg);

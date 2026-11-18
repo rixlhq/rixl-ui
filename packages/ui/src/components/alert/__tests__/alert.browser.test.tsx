@@ -16,6 +16,7 @@ function renderLongTitle() {
 describe("Alert Browser Mode", () => {
   afterEach(() => {
     cleanup();
+    document.documentElement.removeAttribute("data-theme");
   });
 
   it("wraps a long title onto more than one line", () => {
@@ -43,20 +44,31 @@ describe("Alert Browser Mode", () => {
     expect(title.scrollWidth).toBeLessThanOrEqual(title.clientWidth);
   });
 
-  it("has no WCAG 2.2 AA violations for the default and destructive variants", async () => {
-    render(
-      <div className="flex flex-col gap-4 p-4">
-        <Alert>
-          <AlertTitle>Heads up</AlertTitle>
-          <AlertDescription>You can add components to your app.</AlertDescription>
-        </Alert>
-        <Alert variant="destructive" role="alert">
-          <AlertTitle>Upload failed</AlertTitle>
-          <AlertDescription>The file is larger than 10 MB.</AlertDescription>
-        </Alert>
-      </div>
-    );
+  for (const theme of ["light", "dark"]) {
+    it(`has no WCAG 2.2 AA violations across every variant in the ${theme} theme`, async () => {
+      document.documentElement.setAttribute("data-theme", theme);
+      render(
+        <div className="flex flex-col gap-4 bg-rixl-bg p-4">
+          <Alert>
+            <AlertTitle>Heads up</AlertTitle>
+            <AlertDescription>You can add components to your app.</AlertDescription>
+          </Alert>
+          <Alert variant="destructive" role="alert">
+            <AlertTitle>Upload failed</AlertTitle>
+            <AlertDescription>The file is larger than 10 MB.</AlertDescription>
+          </Alert>
+          <Alert variant="success">
+            <AlertTitle>Saved</AlertTitle>
+            <AlertDescription>Your changes are live.</AlertDescription>
+          </Alert>
+          <Alert variant="warning">
+            <AlertTitle>Storage almost full</AlertTitle>
+            <AlertDescription>You have used 90% of your plan.</AlertDescription>
+          </Alert>
+        </div>
+      );
 
-    expect(await axeViolations(document.body)).toEqual([]);
-  });
+      expect(await axeViolations(document.body)).toEqual([]);
+    });
+  }
 });

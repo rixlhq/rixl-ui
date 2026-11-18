@@ -32,6 +32,7 @@ async function focusRing(element: HTMLElement) {
 describe("Badge Browser Mode", () => {
   afterEach(() => {
     cleanup();
+    document.documentElement.removeAttribute("data-theme");
   });
 
   it("draws the outline variant's border in the border token colour", () => {
@@ -66,17 +67,21 @@ describe("Badge Browser Mode", () => {
     expect((await focusRing(getByText("Tag"))).outlineStyle).toBe("none");
   });
 
-  // success and warning are left out: their text tokens fail AA contrast on the tinted surface (openspec/changes/surface-polish/tasks.md, 6.2).
-  it("has no WCAG 2.2 AA violations across the other variants", async () => {
-    render(
-      <div className="flex gap-2 p-4">
-        <Badge>Default</Badge>
-        <Badge variant="secondary">Secondary</Badge>
-        <Badge variant="destructive">Destructive</Badge>
-        <Badge variant="outline">Outline</Badge>
-      </div>
-    );
+  for (const theme of ["light", "dark"]) {
+    it(`has no WCAG 2.2 AA violations across every variant in the ${theme} theme`, async () => {
+      document.documentElement.setAttribute("data-theme", theme);
+      render(
+        <div className="flex flex-wrap gap-2 bg-rixl-bg p-4">
+          <Badge>Default</Badge>
+          <Badge variant="secondary">Secondary</Badge>
+          <Badge variant="destructive">Destructive</Badge>
+          <Badge variant="success">Success</Badge>
+          <Badge variant="warning">Warning</Badge>
+          <Badge variant="outline">Outline</Badge>
+        </div>
+      );
 
-    expect(await axeViolations(document.body)).toEqual([]);
-  });
+      expect(await axeViolations(document.body)).toEqual([]);
+    });
+  }
 });
