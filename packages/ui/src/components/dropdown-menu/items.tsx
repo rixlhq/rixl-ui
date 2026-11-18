@@ -1,7 +1,7 @@
 import {forwardRef, type ComponentProps} from "react";
 import {Menu as MenuPrimitive} from "@base-ui/react/menu";
 import {cn} from "../../lib/cn";
-import {menuItem} from "../../lib/classes";
+import {indicatorPop, menuItem} from "../../lib/classes";
 
 import {Check, Circle} from "lucide-react";
 
@@ -46,7 +46,7 @@ export const DropdownMenuCheckboxItem = forwardRef<HTMLElement, DropdownMenuChec
       {...props}
     >
       <span className="pointer-events-none absolute start-2 flex size-3.5 items-center justify-center">
-        <MenuPrimitive.CheckboxItemIndicator className="transition-[scale,opacity] duration-rixl-fast ease-rixl-out motion-reduce:transition-none data-starting-style:scale-50 data-starting-style:opacity-0 data-ending-style:scale-50 data-ending-style:opacity-0">
+        <MenuPrimitive.CheckboxItemIndicator className={indicatorPop}>
           <Check className="size-4" />
         </MenuPrimitive.CheckboxItemIndicator>
       </span>
@@ -72,7 +72,7 @@ export const DropdownMenuRadioItem = forwardRef<HTMLElement, DropdownMenuRadioIt
   return (
     <MenuPrimitive.RadioItem ref={ref} data-slot="dropdown-menu-radio-item" className={cn(menuItem, "pe-2 ps-8", className)} {...props}>
       <span className="pointer-events-none absolute start-2 flex size-3.5 items-center justify-center">
-        <MenuPrimitive.RadioItemIndicator className="transition-[scale,opacity] duration-rixl-fast ease-rixl-out motion-reduce:transition-none data-starting-style:scale-50 data-starting-style:opacity-0 data-ending-style:scale-50 data-ending-style:opacity-0">
+        <MenuPrimitive.RadioItemIndicator className={indicatorPop}>
           <Circle className="size-2 fill-current" />
         </MenuPrimitive.RadioItemIndicator>
       </span>

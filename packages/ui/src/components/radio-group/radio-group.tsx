@@ -3,6 +3,7 @@ import {Radio as RadioPrimitive} from "@base-ui/react/radio";
 import {RadioGroup as RadioGroupPrimitive} from "@base-ui/react/radio-group";
 import {Circle} from "lucide-react";
 import {cn} from "../../lib/cn";
+import {indicatorPop} from "../../lib/classes";
 import {focusRing} from "../../lib/classes";
 
 /**
@@ -39,10 +40,7 @@ const RadioGroupItem = forwardRef<HTMLElement, RadioPrimitive.Root.Props>(functi
       )}
       {...props}
     >
-      <RadioPrimitive.Indicator
-        data-slot="radio-group-indicator"
-        className="flex items-center justify-center transition-[scale,opacity] duration-rixl-fast ease-rixl-out motion-reduce:transition-none data-starting-style:scale-50 data-starting-style:opacity-0 data-ending-style:scale-50 data-ending-style:opacity-0"
-      >
+      <RadioPrimitive.Indicator data-slot="radio-group-indicator" className={cn("flex items-center justify-center", indicatorPop)}>
         {/* A dot, not a ring: fill with no stroke, so it stays the size the dot was drawn at. */}
         <Circle strokeWidth={0} className="fill-rixl-primary size-2" />
       </RadioPrimitive.Indicator>

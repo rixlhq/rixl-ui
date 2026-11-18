@@ -22,7 +22,7 @@ import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "../
 import {Switch} from "../../components/switch";
 import {Tabs, TabsContent, TabsList, TabsTrigger} from "../../components/tabs";
 import {cn} from "../cn";
-import {focusRing, focusRingBorderless, menuItem, popupSurface} from "../classes";
+import {focusRing, focusRingBorderless, indicatorPop, menuItem, popupSurface} from "../classes";
 
 const tokens = (classes: string) => classes.split(" ");
 const hasEvery = (element: Element, classes: string) => tokens(classes).every((token) => element.classList.contains(token));
@@ -227,6 +227,55 @@ describe("menuItem", () => {
     await act(async () => {});
     for (const id of ["item", "checkbox-item", "radio-item", "sub-trigger", "select-item"]) {
       expect(hasEvery(screen.getByTestId(id), menuItem), id).toBe(true);
+    }
+  });
+});
+
+describe("indicatorPop", () => {
+  it("scales and fades on mount and unmount, and holds still under reduced motion", () => {
+    expect(tokens(indicatorPop)).toEqual(
+      expect.arrayContaining([
+        "transition-[scale,opacity]",
+        "motion-reduce:transition-none",
+        "data-starting-style:scale-50",
+        "data-starting-style:opacity-0",
+        "data-ending-style:scale-50",
+        "data-ending-style:opacity-0",
+      ])
+    );
+  });
+
+  it("is carried by the Checkbox, RadioGroup and DropdownMenu indicators", async () => {
+    render(
+      <>
+        <Checkbox defaultChecked />
+        <RadioGroup defaultValue="a">
+          <RadioGroupItem value="a" />
+        </RadioGroup>
+        <DropdownMenu open>
+          <DropdownMenuTrigger render={<button type="button">Open</button>} />
+          <DropdownMenuContent>
+            <DropdownMenuCheckboxItem data-testid="checkbox-item" checked>
+              Checkbox
+            </DropdownMenuCheckboxItem>
+            <DropdownMenuRadioGroup value="a">
+              <DropdownMenuRadioItem data-testid="radio-item" value="a">
+                Radio
+              </DropdownMenuRadioItem>
+            </DropdownMenuRadioGroup>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </>
+    );
+    await act(async () => {});
+    const indicators = {
+      checkbox: document.querySelector("[data-slot='checkbox-indicator']"),
+      radio: document.querySelector("[data-slot='radio-group-indicator']"),
+      "dropdown checkbox item": screen.getByTestId("checkbox-item").querySelector("svg")?.parentElement,
+      "dropdown radio item": screen.getByTestId("radio-item").querySelector("svg")?.parentElement,
+    };
+    for (const [name, indicator] of Object.entries(indicators)) {
+      expect(indicator && hasEvery(indicator, indicatorPop), name).toBe(true);
     }
   });
 });

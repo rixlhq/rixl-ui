@@ -34,3 +34,13 @@ export const menuItem = cn(
   "data-disabled:pointer-events-none data-disabled:opacity-50",
   "[&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4"
 );
+
+/**
+ * Scale-and-fade for an indicator that Base UI mounts and unmounts with the checked state
+ * (Checkbox, RadioGroup, the DropdownMenu checked and radio items). Select's item indicator is kept
+ * mounted and driven by `data-selected`, so it has its own classes.
+ */
+export const indicatorPop = cn(
+  "transition-[scale,opacity] duration-rixl-fast ease-rixl-out motion-reduce:transition-none",
+  "data-starting-style:scale-50 data-starting-style:opacity-0 data-ending-style:scale-50 data-ending-style:opacity-0"
+);

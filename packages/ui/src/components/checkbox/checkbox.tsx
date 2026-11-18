@@ -2,6 +2,7 @@ import {forwardRef} from "react";
 import {Checkbox as CheckboxPrimitive} from "@base-ui/react/checkbox";
 import {Check, Minus} from "lucide-react";
 import {cn} from "../../lib/cn";
+import {indicatorPop} from "../../lib/classes";
 import {focusRing} from "../../lib/classes";
 
 /**
@@ -36,7 +37,7 @@ const Checkbox = forwardRef<HTMLElement, CheckboxPrimitive.Root.Props>(function 
     >
       <CheckboxPrimitive.Indicator
         data-slot="checkbox-indicator"
-        className="text-rixl-primary-fg flex items-center justify-center transition-[scale,opacity] duration-rixl-fast ease-rixl-out motion-reduce:transition-none data-starting-style:scale-50 data-starting-style:opacity-0 data-ending-style:scale-50 data-ending-style:opacity-0"
+        className={cn("text-rixl-primary-fg flex items-center justify-center", indicatorPop)}
       >
         <Check data-slot="checkbox-icon" strokeWidth={3} className="size-3.5 [[data-indeterminate]_&]:hidden" />
         <Minus data-slot="checkbox-icon" strokeWidth={3} className="hidden size-3.5 [[data-indeterminate]_&]:block" />
