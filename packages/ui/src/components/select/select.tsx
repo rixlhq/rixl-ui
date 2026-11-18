@@ -1,7 +1,7 @@
 import {Children, isValidElement, useMemo, type ReactNode} from "react";
 import {Select as SelectPrimitive} from "@base-ui/react/select";
 
-import {InputField} from "../input/input-field";
+import {InputField, type InputFieldLabels} from "../input/input-field";
 import {normalizeInputError, type InputErrorProp} from "../input/input-field-error";
 
 import {
@@ -63,6 +63,8 @@ export type SelectProps<Value = string> = Omit<SelectPrimitive.Root.Props<Value>
   description?: ReactNode;
   /** Error message, or `{message, match}` shown while the native validity matches. */
   error?: InputErrorProp;
+  /** Names for the field chrome (`(optional)`, the tooltip trigger). Each defaults to the provider's string, then English. */
+  labels?: InputFieldLabels;
 };
 
 export function Select<Value = string>({
@@ -73,6 +75,7 @@ export function Select<Value = string>({
   labelTooltip,
   description,
   error,
+  labels,
   ...props
 }: SelectProps<Value>) {
   // Base UI resolves the trigger label from `items` when the popup is unmounted,
@@ -92,6 +95,7 @@ export function Select<Value = string>({
       error={normalizeInputError(error)}
       required={props.required}
       disabled={props.disabled}
+      labels={labels}
     >
       <SelectPrimitive.Root
         items={resolvedItems}

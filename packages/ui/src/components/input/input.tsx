@@ -5,7 +5,7 @@ import {normalizeInputError} from "./input-field-error";
 import {warnInputProps} from "./warn-input-props";
 import type {InputProps} from "./input.types";
 
-const Input = forwardRef<HTMLInputElement, InputProps>(({label, labelTooltip, description, error, ...props}, ref) => {
+const Input = forwardRef<HTMLInputElement, InputProps>(({label, labelTooltip, description, error, labels, ...props}, ref) => {
   const normalizedError = normalizeInputError(error);
   warnInputProps({component: "Input", label, ariaLabel: props["aria-label"], ariaLabelledBy: props["aria-labelledby"]});
   const invalid = normalizedError?.match === true ? true : undefined;
@@ -17,6 +17,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(({label, labelTooltip, de
       error={normalizedError}
       description={description}
       disabled={props.disabled}
+      labels={labels}
     >
       <InputControl ref={ref} aria-invalid={invalid} {...props} />
     </InputField>

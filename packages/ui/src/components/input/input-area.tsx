@@ -2,7 +2,7 @@ import {forwardRef, type ComponentProps, type ReactNode} from "react";
 import type {VariantProps} from "class-variance-authority";
 import {Field} from "@base-ui/react/field";
 import {cn} from "../../lib/cn";
-import {InputField} from "./input-field";
+import {InputField, type InputFieldLabels} from "./input-field";
 import {normalizeInputError, type InputErrorProp} from "./input-field-error";
 import {inputAreaVariants} from "./input-variants";
 import {warnInputProps} from "./warn-input-props";
@@ -17,12 +17,14 @@ export type InputAreaProps = Omit<ComponentProps<"textarea">, "size"> &
     description?: ReactNode;
     /** Error message, or `{message, match}` shown while the native validity matches. */
     error?: InputErrorProp;
+    /** Names for the field chrome (`(optional)`, the tooltip trigger). Each defaults to the provider's string, then English. */
+    labels?: InputFieldLabels;
     /** Base UI convenience handler receiving the value directly. */
     onValueChange?: ComponentProps<typeof Field.Control>["onValueChange"];
   };
 
 export const InputArea = forwardRef<HTMLTextAreaElement, InputAreaProps>(
-  ({label, labelTooltip, description, error, size, className, onValueChange, ...props}, ref) => {
+  ({label, labelTooltip, description, error, labels, size, className, onValueChange, ...props}, ref) => {
     warnInputProps({component: "InputArea", label, ariaLabel: props["aria-label"], ariaLabelledBy: props["aria-labelledby"]});
     return (
       <InputField
@@ -32,6 +34,7 @@ export const InputArea = forwardRef<HTMLTextAreaElement, InputAreaProps>(
         error={normalizeInputError(error)}
         required={props.required}
         disabled={props.disabled}
+        labels={labels}
       >
         <Field.Control
           render={<textarea {...props} />}

@@ -1,6 +1,7 @@
 import type {ComponentProps, ReactNode} from "react";
 import type {Input as InputPrimitive} from "@base-ui/react/input";
 import type {VariantProps} from "class-variance-authority";
+import type {InputFieldLabels} from "./input-field";
 import type {InputErrorProp} from "./input-field-error";
 import {inputVariants} from "./input-variants";
 
@@ -14,6 +15,8 @@ export type InputProps = Omit<ComponentProps<"input">, "size"> &
     description?: ReactNode;
     /** Error message, or `{message, match}` shown while the native validity matches. */
     error?: InputErrorProp;
+    /** Names for the field chrome (`(optional)`, the tooltip trigger). Each defaults to the provider's string, then English. */
+    labels?: InputFieldLabels;
     /** Opts non-credential fields out of password-manager overlays. */
     passwordManagerIgnore?: boolean;
     /** Base UI convenience handler receiving the value directly. */

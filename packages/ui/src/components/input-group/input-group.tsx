@@ -1,7 +1,7 @@
 import {forwardRef, type ComponentProps, type ReactNode} from "react";
 import type {VariantProps} from "class-variance-authority";
 import type {inputVariants} from "../input/input-variants";
-import {InputField} from "../input/input-field";
+import {InputField, type InputFieldLabels} from "../input/input-field";
 import {normalizeInputError, type InputErrorProp} from "../input/input-field-error";
 import {InputGroupContext} from "./input-group-context";
 import {inputGroupClassName} from "./input-group-class-name";
@@ -16,6 +16,8 @@ export type InputGroupProps = ComponentProps<"div"> &
     description?: ReactNode;
     /** Error message, or `{message, match}` shown while the native validity matches. */
     error?: InputErrorProp;
+    /** Names for the field chrome (`(optional)`, the tooltip trigger). Each defaults to the provider's string, then English. */
+    labels?: InputFieldLabels;
     /**
      * Whether the field is required. Passed to the inner control through
      * field state; `false` renders a muted `(optional)` marker after the label.
@@ -29,7 +31,7 @@ export type InputGroupProps = ComponentProps<"div"> &
   };
 
 const InputGroup = forwardRef<HTMLDivElement, InputGroupProps>(
-  ({className, size, label, labelTooltip, description, error, required, disabled, ...props}, ref) => {
+  ({className, size, label, labelTooltip, description, error, labels, required, disabled, ...props}, ref) => {
     const normalizedError = normalizeInputError(error);
     const group = (
       // oxlint-disable-next-line jsx-a11y/prefer-tag-over-role -- a <fieldset> adds legend and min-width defaults to a single-row control
@@ -44,6 +46,7 @@ const InputGroup = forwardRef<HTMLDivElement, InputGroupProps>(
           error={normalizedError}
           description={description}
           disabled={disabled}
+          labels={labels}
         >
           {group}
         </InputField>
