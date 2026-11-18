@@ -76,6 +76,18 @@ describe("CollapsibleDefaultTrigger", () => {
     expect(caretClass).toContain("motion-reduce:transition-none");
   });
 
+  it("keeps Button's press transition so the scale on press animates", () => {
+    render(
+      <Collapsible>
+        <CollapsibleDefaultTrigger data-testid="trigger">Details</CollapsibleDefaultTrigger>
+        <CollapsibleContent>body</CollapsibleContent>
+      </Collapsible>
+    );
+    const cls = screen.getByTestId("trigger").className;
+    expect(cls).toContain("active:scale-[var(--rixl-press-scale)]");
+    expect(cls).toMatch(/transition-\[[^\]]*\bscale\b[^\]]*\]/);
+  });
+
   it("keeps a visible focus ring and lets a consumer className win", () => {
     render(
       <Collapsible>

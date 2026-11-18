@@ -17,7 +17,6 @@ export const CollapsibleDefaultTrigger = forwardRef<HTMLButtonElement, Collapsib
       data-slot="collapsible-default-trigger"
       className={cn(
         "group flex w-full items-center justify-between gap-2 rounded-rixl-sm px-3 py-2 text-sm font-medium text-rixl-fg outline-none select-none",
-        "transition-colors duration-rixl-base ease-rixl-out motion-reduce:transition-none",
         "hover:bg-rixl-secondary",
         "focus-visible:border-rixl-ring focus-visible:ring-rixl-ring/50 focus-visible:ring-[3px]",
         "disabled:cursor-not-allowed disabled:opacity-50",
