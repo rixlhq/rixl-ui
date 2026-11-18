@@ -34,7 +34,7 @@ Kumo's `KumoLocaleProvider` takes a partial translations object and falls back t
 
 ### D5. Strings the library does not own stay with their owner
 
-`DatePicker` passes through react-day-picker's `labels` and `locale`; we only add the previous and next month names (`labelPrevious`, `labelNext`), which react-day-picker returns in English whatever the `locale`. `Toaster` leaves `containerAriaLabel` and `toastOptions.closeButtonAriaLabel` to sonner and supplies the provider's strings as defaults. Day names and "Today" stay react-day-picker's.
+`DatePicker` takes no provider strings, as in Kumo: every calendar string (month and weekday names, month navigation, day buttons, "today", "selected") comes from the react-day-picker `locale` (`react-day-picker/locale`, date-fns locales extended with translated `labels`), and its `labels` prop overrides one string. A label passed as a prop beats the locale's (`getLabels` in react-day-picker), so Rixl passes none that would mask it; `labelDayButton` only prefixes the visible day number to the locale's label. `Toaster` leaves `containerAriaLabel` and `toastOptions.closeButtonAriaLabel` to sonner and supplies the provider's strings as defaults.
 
 ## Dropped
 

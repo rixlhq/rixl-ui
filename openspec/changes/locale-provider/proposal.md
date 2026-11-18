@@ -11,7 +11,7 @@ Kumo solves this with `KumoLocaleProvider` (a partial translations object, unspe
 - **Per-component `labels` (partial) on `CopyBlock`, `Input`, `InputArea`, `InputGroup`, `Select`, `SidebarTrigger`, `SidebarRail`, `Sidebar`, `BreadcrumbEllipsis`, `DialogCloseButton`, `TabsList`, `Empty`.** Precedence: per-instance prop, then provider, then English default.
 - **Breadcrumb landmark.** Default name from the provider; the `aria-label` prop still wins.
 - **Pagination.** `labels` keeps its prop name and its seven keys; the default info text (`Showing <range> of <total>`, `Page <n>`) joins it as the functions `showing` and `page`, and its defaults come from the provider.
-- **DatePicker.** `labelPrevious` and `labelNext` default to the provider's `datePicker` strings; react-day-picker's `labels` prop wins.
+- **DatePicker.** No provider strings: calendar text comes from the react-day-picker `locale`, whose labels Rixl must not mask; its `labels` prop overrides one string.
 - **Toaster.** Sonner's `containerAriaLabel` and `toastOptions.closeButtonAriaLabel` default to the provider's strings; passing them still wins.
 - **Breaking: `CopyBlock`.** `tooltipText` is removed. The idle tooltip text is `labels.copy(title)`, the same string as the button's accessible name (Kumo's `ClipboardText` takes `labels`, not a second tooltip string).
 - **Docs app.** A Locale showcase with the Paraglide wiring pattern (no Paraglide dependency in the repo) and a `labels` note on each affected component page.
@@ -31,7 +31,7 @@ Migration:
 ## Non-goals
 
 - No translated strings other than English, no locale detection, no formatting of dates or numbers.
-- No `react-day-picker` work beyond month navigation: `DatePicker` already takes its `locale` and `labels` props, and day and month names follow `locale`.
+- No provider keys for `DatePicker`: it already takes react-day-picker's `locale` and `labels` props.
 - No change to sonner's own props; `labels` is not added to `Toaster`, whose strings are already sonner props.
 - No Paraglide dependency, adapter or plugin.
 

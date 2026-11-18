@@ -1,7 +1,6 @@
 import * as React from "react";
 import {DayPicker, getDefaultClassNames} from "react-day-picker";
 import {cn} from "../../lib/cn";
-import {useTranslations} from "../locale/use-translations";
 import {captionClassNames} from "./date-picker-caption-class-names";
 import {gridClassNames} from "./date-picker-grid-class-names";
 import {animationClassNames} from "./date-picker-animation-class-names";
@@ -25,7 +24,6 @@ const DatePickerGrid = React.forwardRef<HTMLDivElement, DatePickerGridProps>(
     ref
   ) => {
     const defaultClassNames = getDefaultClassNames();
-    const t = useTranslations("datePicker");
 
     return (
       <DatePickerRootContext.Provider value={ref}>
@@ -40,7 +38,7 @@ const DatePickerGrid = React.forwardRef<HTMLDivElement, DatePickerGridProps>(
             className
           )}
           captionLayout={captionLayout}
-          labels={{...datePickerLabels, labelPrevious: () => t.previousMonth, labelNext: () => t.nextMonth, ...labels}}
+          labels={{...datePickerLabels, ...labels}}
           classNames={{
             ...captionClassNames(defaultClassNames, captionLayout),
             ...gridClassNames(defaultClassNames),

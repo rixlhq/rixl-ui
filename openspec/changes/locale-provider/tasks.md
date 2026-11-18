@@ -12,7 +12,7 @@
 - [x] 2.3 Sidebar, SidebarTrigger, SidebarRail. Evidence: `sidebar-labels.test.tsx` (9).
 - [x] 2.4 Breadcrumb, BreadcrumbEllipsis, DialogCloseButton, TabsList. Evidence: `breadcrumb-labels.test.tsx`, `dialog-labels.test.tsx`, `tabs-labels.test.tsx`.
 - [x] 2.5 Pagination on the provider, plus `page` and `showing`. Evidence: `pagination-labels.test.tsx` (6); the existing 51 pagination tests still pass.
-- [x] 2.6 Toaster, DatePicker month navigation. Evidence: `toaster-labels.test.tsx`, `date-picker-labels.test.tsx`.
+- [x] 2.6 Toaster; DatePicker calendar strings follow the react-day-picker `locale` unmasked. Evidence: `toaster-labels.test.tsx`, `date-picker-labels.test.tsx`.
 
 ## 3. Docs app
 

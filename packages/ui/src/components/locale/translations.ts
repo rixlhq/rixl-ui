@@ -17,10 +17,6 @@ export type RixlTranslations = {
     copied: string;
     error: string;
   };
-  datePicker: {
-    previousMonth: string;
-    nextMonth: string;
-  };
   dialog: {
     /** Screen-reader text of the close button. */
     close: string;
@@ -77,7 +73,6 @@ export type RixlTranslationsPartial = {[Group in keyof RixlTranslations]?: Parti
 export const DEFAULT_TRANSLATIONS: RixlTranslations = {
   breadcrumb: {label: "breadcrumb", more: "More"},
   copyBlock: {copy: (title) => `Copy ${title}`, copying: "Copying", copied: "Copied!", error: "Unable to copy. Try again."},
-  datePicker: {previousMonth: "Go to the Previous Month", nextMonth: "Go to the Next Month"},
   dialog: {close: "Close"},
   empty: {command: "Command"},
   input: {optional: "(optional)", moreInformation: "More information"},

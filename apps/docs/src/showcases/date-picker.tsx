@@ -9,7 +9,7 @@ export const path = "date-picker";
 export const title = "Date Picker";
 export const description = "Choose a date, several dates, or a date range.";
 export const notes =
-  "Bare calendar grid with single, multiple, and range modes. Number of months, disabled matchers, min/max, dropdown captions, and footers stay on the grid; popover behaviour is consumer composition (trigger Button + Popover + DatePicker). The API follows Kumo: `mode` is required, the selection is `selected` and `onChange`, and every other prop goes to react-day-picker. Multi-month views hide outside days unless `showOutsideDays` is set. Month navigation names come from the provider's datePicker strings; react-day-picker's labels prop wins. Strings you leave out come from RixlLocaleProvider (@rixl/ui/locale), then English.";
+  "Bare calendar grid with single, multiple, and range modes. Number of months, disabled matchers, min/max, dropdown captions, and footers stay on the grid; popover behaviour is consumer composition (trigger Button + Popover + DatePicker). The API follows Kumo: `mode` is required, the selection is `selected` and `onChange`, and every other prop goes to react-day-picker. Multi-month views hide outside days unless `showOutsideDays` is set. Localize it with a react-day-picker locale (`import {fr} from 'react-day-picker/locale'`, then `locale={fr}`): month and weekday names, navigation and day-button labels all follow it, and the `labels` prop overrides one string.";
 
 export function Showcase() {
   const [value, setValue] = useState<Date | undefined>();
