@@ -5,7 +5,7 @@ export const path = "alert";
 export const title = "Alert";
 export const description = "Draw attention to a status, warning, or important message.";
 export const notes =
-  "Inline banner for status and instructive messages. Supports default, success, warning, and destructive variants; optional leading icon aligns via grid.";
+  'Inline banner for status and instructive messages. Supports default, success, warning, and destructive variants; optional leading icon aligns via grid. An Alert has no role of its own, so a banner shown at page load is not announced; pass role="alert" for an urgent message that appears later, or role="status" for a polite one. Long titles wrap.';
 
 export function Showcase() {
   return (
@@ -42,6 +42,24 @@ const ALERT_COPY: Record<(typeof VARIANTS)[number], {title: string; description:
   },
 };
 
+function RoleExample() {
+  return (
+    <div className="grid max-w-xl gap-3">
+      <Alert variant="destructive" role="alert">
+        <XCircleIcon />
+        <AlertTitle>Upload failed</AlertTitle>
+        <AlertDescription>The file is larger than 10 MB. Announced immediately.</AlertDescription>
+      </Alert>
+      {/* oxlint-disable-next-line jsx-a11y/prefer-tag-over-role -- Alert renders a div; the role is what this example shows */}
+      <Alert variant="success" role="status">
+        <CheckCircleIcon />
+        <AlertTitle>Draft saved</AlertTitle>
+        <AlertDescription>Announced politely, after the current speech.</AlertDescription>
+      </Alert>
+    </div>
+  );
+}
+
 function AllVariantsExample() {
   return (
     <div className="grid max-w-xl gap-3">
@@ -70,6 +88,23 @@ export const examples: Example[] = [
   <CheckCircleIcon />
   <AlertTitle>Deployment succeeded</AlertTitle>
   <AlertDescription>Production environment is live.</AlertDescription>
+</Alert>`,
+  },
+  {
+    id: "role",
+    title: "Announcing a message",
+    description:
+      'No role by default, so a banner on the page at load is not announced. Pass role="alert" for an urgent message that appears after load, role="status" for a polite one.',
+    render: RoleExample,
+    code: `<Alert variant="destructive" role="alert">
+  <XCircleIcon />
+  <AlertTitle>Upload failed</AlertTitle>
+  <AlertDescription>The file is larger than 10 MB.</AlertDescription>
+</Alert>
+
+<Alert variant="success" role="status">
+  <CheckCircleIcon />
+  <AlertTitle>Draft saved</AlertTitle>
 </Alert>`,
   },
 ];
