@@ -18,7 +18,7 @@ export default defineConfig({
     },
     overrides: [
       {
-        files: ["packages/ui/**/*.test.{ts,tsx}", "packages/ui/vitest.setup.ts"],
+        files: ["packages/ui/**/*.test.{ts,tsx}", "packages/ui/vitest.setup.ts", "packages/ui/test/forward-ref.ts"],
         rules: {"vite-plus/prefer-vite-plus-imports": "off"},
       },
       {
