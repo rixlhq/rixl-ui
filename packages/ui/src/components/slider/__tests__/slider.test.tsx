@@ -50,8 +50,15 @@ describe("Slider", () => {
   it("transitions the border colour that hover and drag change, not the text colour", () => {
     render(<Basic />);
     const cls = screen.getByTestId("thumb").className;
-    expect(cls).toContain("transition-[border-color,box-shadow]");
+    expect(cls).toContain("transition-[border-color,box-shadow,scale]");
     expect(cls).toContain("hover:border-rixl-border-strong");
+  });
+
+  it("presses the thumb in while dragging, except under reduced motion", () => {
+    render(<Basic />);
+    const cls = screen.getByTestId("thumb").className;
+    expect(cls).toContain("data-dragging:scale-[var(--rixl-press-scale)]");
+    expect(cls).toContain("motion-reduce:data-dragging:scale-100");
   });
 
   it("forwards a consumer className without dropping base classes", () => {

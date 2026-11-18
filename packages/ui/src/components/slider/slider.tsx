@@ -16,8 +16,8 @@ import {cn} from "../../lib/cn";
  * Motion: the thumb and indicator are repositioned by Base UI on every
  * pointer move, so they carry **no transform transition** — the thumb tracks
  * the pointer 1:1 with no lag or spring overshoot. Only colour/shadow
- * transitions (`duration-rixl-fast ease-rixl-out`) remain, honouring
- * reduced motion via the token-driven defaults.
+ * transitions (`duration-rixl-fast ease-rixl-out`) remain, plus the thumb's
+ * press-in `scale` while dragging, which is off under reduced motion.
  */
 
 export type SliderProps<Value extends number | readonly number[] = number | readonly number[]> = SliderPrimitive.Root.Props<Value>;
@@ -120,12 +120,14 @@ export const SliderThumb = forwardRef<HTMLDivElement, SliderThumbProps>(function
       data-slot="slider-thumb"
       className={cn(
         // No transform transition: the thumb must track the pointer 1:1 while
-        // dragging. The nested range input takes focus, so ring on focus-within.
+        // dragging. Base UI positions it with inset and the `translate` property, so
+        // the separate `scale` property can ease on press without lagging it.
+        // The nested range input takes focus, so ring on focus-within.
         "border-rixl-border bg-rixl-surface block size-4 shrink-0 rounded-full border shadow-rixl-xs",
-        "transition-[border-color,box-shadow] duration-rixl-fast ease-rixl-out",
+        "transition-[border-color,box-shadow,scale] duration-rixl-fast ease-rixl-out",
         "hover:border-rixl-border-strong",
         "focus-visible:outline-none focus-within:border-rixl-ring focus-within:ring-rixl-ring/50 focus-within:ring-[3px]",
-        "data-dragging:border-rixl-ring data-disabled:pointer-events-none data-disabled:opacity-50",
+        "data-dragging:border-rixl-ring data-dragging:scale-[var(--rixl-press-scale)] motion-reduce:data-dragging:scale-100 data-disabled:pointer-events-none data-disabled:opacity-50",
         className
       )}
       {...props}

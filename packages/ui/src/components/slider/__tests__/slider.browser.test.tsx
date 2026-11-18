@@ -47,6 +47,33 @@ describe("Slider Browser Mode", () => {
     await expect.element(slider).toHaveAttribute("aria-valuenow", "30");
   });
 
+  it("scales the thumb while dragging without moving it off the pointer", async () => {
+    render(<TestSlider defaultValue={30} />);
+
+    const control = document.querySelector<HTMLElement>("[data-slot='slider-control']")!;
+    const thumb = document.querySelector<HTMLElement>("[data-slot='slider-thumb']")!;
+    const rect = control.getBoundingClientRect();
+    const pointerX = rect.left + rect.width * 0.7;
+    const pointer = {
+      pointerId: 1,
+      pointerType: "mouse",
+      button: 0,
+      buttons: 1,
+      bubbles: true,
+      clientX: pointerX,
+      clientY: rect.top + rect.height / 2,
+    };
+    control.dispatchEvent(new PointerEvent("pointerdown", pointer));
+    await expect.poll(() => thumb.hasAttribute("data-dragging")).toBe(true);
+
+    // The transition on `scale` is separate from Base UI's inline `translate`, so the thumb's centre stays under the pointer even mid-transition.
+    await expect.poll(() => getComputedStyle(thumb).scale).not.toBe("none");
+    const thumbRect = thumb.getBoundingClientRect();
+    expect(Math.abs(thumbRect.left + thumbRect.width / 2 - pointerX)).toBeLessThan(1);
+
+    document.dispatchEvent(new PointerEvent("pointerup", {...pointer, buttons: 0}));
+  });
+
   it("has no WCAG 2.2 AA violations", async () => {
     render(<TestSlider />);
 
