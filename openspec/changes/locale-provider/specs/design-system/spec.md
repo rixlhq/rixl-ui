@@ -8,13 +8,18 @@
 
 #### Scenario: Defaults need no provider
 
-- **WHEN** a consumer renders `<Breadcrumb>` with no provider
-- **THEN** the landmark is named `breadcrumb` (`locale-provider.test.tsx`)
+- **WHEN** a consumer renders a component with no provider
+- **THEN** it shows the English default (`locale-provider.test.tsx`; `breadcrumb-labels.test.tsx`)
 
 #### Scenario: Provider overrides one key and keeps the rest
 
-- **WHEN** a consumer wraps `<CopyBlock>` in `<RixlLocaleProvider translations={{copyBlock: {copied: "Kopiert!"}}}>` and copies
-- **THEN** the status reads `Kopiert!` and the button is still named `Copy <title>` (`locale-provider.test.tsx`)
+- **WHEN** a consumer wraps a component in `<RixlLocaleProvider translations={{copyBlock: {copied: "Kopiert!"}}}>`
+- **THEN** that string changes and the group's other strings stay English (`locale-provider.test.tsx`; `copy-block-labels.test.tsx`)
+
+#### Scenario: Function strings receive their values
+
+- **WHEN** a provider sets `copyBlock.copy` to `(title) => \`Copiar ${title}\``
+- **THEN** the button is named `Copiar <title>` (`locale-provider.test.tsx`; `copy-block-labels.test.tsx`)
 
 #### Scenario: Locale switch
 
@@ -33,12 +38,12 @@
 
 ### Requirement: Components with built-in strings take `labels`
 
-`CopyBlock`, `Input`, `InputArea`, `InputGroup`, `Select`, `SidebarTrigger`, `SidebarRail`, `Sidebar`, `BreadcrumbEllipsis`, `DialogCloseButton`, `TabsList`, `Empty` and `Pagination` SHALL take a `labels` prop, a partial of their group in `RixlTranslations`. Precedence SHALL be the `labels` prop, then the provider, then the English default. `Breadcrumb` SHALL name its landmark from the provider, and an `aria-label` prop SHALL win. `Toaster` SHALL default sonner's `containerAriaLabel` and `toastOptions.closeButtonAriaLabel` to the provider's strings, and those props SHALL win.
+`CopyBlock`, `Input`, `InputArea`, `InputGroup`, `Select`, `SidebarTrigger`, `SidebarRail`, `Sidebar`, `BreadcrumbEllipsis`, `DialogCloseButton`, `TabsList`, `Empty` and `Pagination` SHALL take a `labels` prop, a partial of their group in `RixlTranslations`. Precedence SHALL be the `labels` prop, then the provider, then the English default. `Breadcrumb` SHALL name its landmark from the provider, and an `aria-label` prop SHALL win. `DatePicker` SHALL name its month navigation from the provider, and react-day-picker's `labels` SHALL win. `Toaster` SHALL default sonner's `containerAriaLabel` and `toastOptions.closeButtonAriaLabel` to the provider's strings, and those props SHALL win.
 
 #### Scenario: Instance beats provider beats default
 
 - **WHEN** a component renders with no override, then inside a provider that overrides one key, then with a `labels` prop for the same key
-- **THEN** it shows the English default, the provider string, then the `labels` string (one test per component: `copy-block.test.tsx`, `input-field-labels.test.tsx`, `sidebar-labels.test.tsx`, `breadcrumb.test.tsx`, `dialog.test.tsx`, `tabs-labels.test.tsx`, `empty.test.tsx`, `pagination.test.tsx`, `toaster.test.tsx`)
+- **THEN** it shows the English default, the provider string, then the `labels` string (`copy-block-labels.test.tsx`, `input-field-labels.test.tsx`, `sidebar-labels.test.tsx`, `breadcrumb-labels.test.tsx`, `dialog-labels.test.tsx`, `tabs-labels.test.tsx`, `empty.test.tsx`, `pagination-labels.test.tsx`, `toaster-labels.test.tsx`, `date-picker-labels.test.tsx`)
 
 #### Scenario: Partial labels keep the other defaults
 
@@ -48,7 +53,7 @@
 #### Scenario: Breadcrumb aria-label wins
 
 - **WHEN** `<Breadcrumb aria-label="Trail">` renders inside a provider that sets `breadcrumb.label`
-- **THEN** the landmark is named `Trail` (`breadcrumb.test.tsx`)
+- **THEN** the landmark is named `Trail` (`breadcrumb-labels.test.tsx`)
 
 ### Requirement: CopyBlock strings come from labels
 
@@ -57,12 +62,12 @@
 #### Scenario: Interpolated label
 
 - **WHEN** a consumer passes `labels={{copy: (title) => \`Copiar ${title}\`}}`with`title="Token"`
-- **THEN** the button is named `Copiar Token` (`copy-block.test.tsx`)
+- **THEN** the button is named `Copiar Token` (`copy-block-labels.test.tsx`)
 
 #### Scenario: tooltipText is rejected
 
 - **WHEN** a consumer passes `tooltipText`
-- **THEN** the compiler rejects it (`copy-block.test.tsx`, `@ts-expect-error`)
+- **THEN** the compiler rejects it (`copy-block-labels.test.tsx`, `@ts-expect-error`)
 
 ### Requirement: Pagination's default info text is a label
 
@@ -71,4 +76,4 @@
 #### Scenario: Translated info
 
 - **WHEN** a consumer passes `labels={{showing: (range, total) => \`\${range} de \${total}\`}}`
-- **THEN** the info reads `21–25 de 25` (`pagination.test.tsx`)
+- **THEN** the info reads `21–25 de 25` (`pagination-labels.test.tsx`)

@@ -26,13 +26,15 @@ Kumo's `KumoLocaleProvider` takes a partial translations object and falls back t
 
 **Alternatives considered**: `useMemo` on the `translations` prop. An inline object changes identity every render anyway, and a stable object cannot carry new strings, so the memo would save nothing and risk a stale locale. Rejected.
 
-### D4. The provider lives in one module both entries import
+### D4. One context instance across entries
 
-`locale/` owns the context, and component entries import it by relative path, so the bundler emits one shared chunk and a provider from `@rixl/ui/locale` reaches components imported from `@rixl/ui/copy-block`. Verified by a test that mounts the built entries is not possible in jsdom; the browser project resolves the `development` condition to source, so the check is the `vp pack` output listing one context chunk (see tasks).
+`locale/` owns the context, and components import it by relative path, so the bundler puts `LocaleContext` in one shared chunk that both `dist/locale.js` and every component entry import. Without that, a provider from `@rixl/ui/locale` would not reach `@rixl/ui/copy-block`.
+
+**Evidence**: after `vp pack`, `createContext(null)` for `LocaleContext` appears only in `dist/merge-translations-*.js`; `dist/locale-*.js` and `dist/use-translations-*.js` import it from there.
 
 ### D5. Strings the library does not own stay with their owner
 
-`DatePicker` passes through react-day-picker's `labels` and `locale`; we only add the previous and next month names, which react-day-picker would otherwise render in English. `Toaster` leaves `containerAriaLabel` and `toastOptions.closeButtonAriaLabel` to sonner and supplies the provider's strings as defaults.
+`DatePicker` passes through react-day-picker's `labels` and `locale`; we only add the previous and next month names (`labelPrevious`, `labelNext`), which react-day-picker returns in English whatever the `locale`. `Toaster` leaves `containerAriaLabel` and `toastOptions.closeButtonAriaLabel` to sonner and supplies the provider's strings as defaults. Day names and "Today" stay react-day-picker's.
 
 ## Dropped
 
