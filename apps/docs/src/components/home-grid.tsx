@@ -12,7 +12,7 @@ export function HomeGrid({showcases}: {showcases: Showcase[]}) {
         <p>Interactive previews of the Rixl design system.</p>
       </div>
       <div className="docs-index-bar">
-        <span>{showcases.length} components</span>
+        <span>{showcases.filter((s) => !s.group).length} components</span>
       </div>
       <ul className="docs-demo-grid">
         {sorted.map((showcase) => (

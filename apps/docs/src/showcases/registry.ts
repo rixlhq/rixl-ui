@@ -66,6 +66,8 @@ export type Showcase = {
   path: string;
   /** Human-readable name shown in the sidebar. */
   title: string;
+  /** Sidebar group; components omit it, context providers set `"providers"`. */
+  group?: "providers";
   /** Optional overview description for the component. */
   description?: string;
   /** Technical details shown after the examples. */

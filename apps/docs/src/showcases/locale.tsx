@@ -7,7 +7,8 @@ import {Group} from "../components/showcase-layout";
 import type {Control, ControlValue, Example} from "./registry";
 
 export const path = "locale";
-export const title = "Locale Provider";
+export const title = "Locale";
+export const group = "providers";
 export const description = "Replace the English copy @rixl/ui draws on its own.";
 export const notes =
   "RixlLocaleProvider covers the copy the library draws itself: the breadcrumb landmark name, CopyBlock, (optional) on fields and Pagination. Every key you leave out stays English, and no provider is needed for English. Values are plain strings, or functions for the strings that interpolate (copyBlock.copy, pagination.page, pagination.showing), so compiled message functions from an i18n library can be passed in directly. CopyBlock and Pagination also take a labels prop, which beats the provider; Breadcrumb's aria-label beats it too. Names for icon buttons and landmarks the library cannot know (a dialog's close button, a field's info icon, the sidebar toggle) are not in the provider: pass your own translated string as aria-label or labelTooltipAriaLabel. The provider computes its value on every render, so passing new strings after a locale switch updates every component. The library ships English only and has no i18n dependency.";

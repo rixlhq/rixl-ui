@@ -9,7 +9,8 @@ import {Group} from "../components/showcase-layout";
 import type {Example} from "./registry";
 
 export const path = "direction";
-export const title = "Direction (RTL)";
+export const title = "Direction";
+export const group = "providers";
 export const description = 'Layouts and icons mirror under dir="rtl".';
 export const notes =
   'Set dir on the document (or any ancestor) and every component lays out from the inline start: spacing, edges and borders use logical utilities, and directional chevrons carry rtl:-scale-x-100. Base UI reads direction from its own DirectionProvider, not from the DOM, so render DirectionProvider from @rixl/ui/direction-provider with the same value; it makes arrow keys, the slider and popup alignment follow. Popups render in a portal outside the example, so they only inherit dir from the document: the RTL button in the header sets it on <html>. Sidebar side="left" and side="right" mean the inline start and end. A few things stay physical on purpose: dialog centring, safe-area padding, and the Toaster position prop.';

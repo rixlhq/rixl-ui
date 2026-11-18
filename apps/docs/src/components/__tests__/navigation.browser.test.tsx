@@ -121,6 +121,17 @@ describe("showcase navigation", () => {
     await expect.element(page.getByRole("heading", {name: "Sizes", exact: true})).toBeInViewport();
     await expect.poll(() => page.getByRole("region", {name: "Sizes", exact: true}).element().contains(document.activeElement)).toBe(true);
   });
+  it("lists the providers in their own sidebar group, apart from the components", async () => {
+    await page.viewport(1280, 900);
+    const groupLinks = (label: string) => {
+      const group = [...document.querySelectorAll("[data-slot='sidebar-group']")].find((el) => el.firstElementChild?.textContent === label);
+      return [...(group?.querySelectorAll("a") ?? [])].map((a) => a.textContent);
+    };
+    await expect.poll(() => groupLinks("Components").length).toBeGreaterThan(0);
+    expect(groupLinks("Providers")).toEqual(["Direction", "Locale"]);
+    expect(groupLinks("Components")).not.toContain("Direction");
+    expect(groupLinks("Components")).not.toContain("Locale");
+  });
 });
 
 async function axeViolations(element: Element) {

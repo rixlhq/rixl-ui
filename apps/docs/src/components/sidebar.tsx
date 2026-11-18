@@ -18,7 +18,10 @@ import type {Showcase} from "../showcases/registry";
 
 export const AppSidebar = memo(function AppSidebar({showcases, activePath}: {showcases: Showcase[]; activePath?: string}) {
   const {setOpenMobile} = useSidebar();
-  const items = useMemo(() => [...showcases].sort((a, b) => a.title.localeCompare(b.title)), [showcases]);
+  const [components, providers] = useMemo(() => {
+    const sorted = [...showcases].sort((a, b) => a.title.localeCompare(b.title));
+    return [sorted.filter((s) => !s.group), sorted.filter((s) => s.group === "providers")];
+  }, [showcases]);
 
   return (
     <Sidebar collapsible="offcanvas" aria-label="Components">
@@ -30,7 +33,7 @@ export const AppSidebar = memo(function AppSidebar({showcases, activePath}: {sho
             </span>
             <span className="text-sm font-semibold tracking-tight">Rixl UI</span>
           </div>
-          <Badge variant="secondary">{showcases.length}</Badge>
+          <Badge variant="secondary">{components.length}</Badge>
         </a>
       </SidebarHeader>
 
@@ -57,30 +60,8 @@ export const AppSidebar = memo(function AppSidebar({showcases, activePath}: {sho
           </SidebarGroupContent>
         </SidebarGroup>
 
-        <SidebarGroup>
-          <SidebarGroupLabel>Components</SidebarGroupLabel>
-          <SidebarGroupContent>
-            <SidebarMenu>
-              {items.map((s) => (
-                <SidebarMenuItem key={s.path}>
-                  <SidebarMenuButton
-                    isActive={s.path === activePath}
-                    render={
-                      <a
-                        href={`#/${s.path}`}
-                        aria-label={s.title}
-                        aria-current={s.path === activePath ? "page" : undefined}
-                        onClick={() => setOpenMobile(false)}
-                      />
-                    }
-                  >
-                    {s.title}
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
+        <NavGroup label="Components" items={components} activePath={activePath} onNavigate={() => setOpenMobile(false)} />
+        <NavGroup label="Providers" items={providers} activePath={activePath} onNavigate={() => setOpenMobile(false)} />
       </SidebarContent>
 
       <SidebarFooter className="docs-sidebar-footer">
@@ -90,3 +71,32 @@ export const AppSidebar = memo(function AppSidebar({showcases, activePath}: {sho
     </Sidebar>
   );
 });
+
+function NavGroup({label, items, activePath, onNavigate}: {label: string; items: Showcase[]; activePath?: string; onNavigate: () => void}) {
+  return (
+    <SidebarGroup>
+      <SidebarGroupLabel>{label}</SidebarGroupLabel>
+      <SidebarGroupContent>
+        <SidebarMenu>
+          {items.map((s) => (
+            <SidebarMenuItem key={s.path}>
+              <SidebarMenuButton
+                isActive={s.path === activePath}
+                render={
+                  <a
+                    href={`#/${s.path}`}
+                    aria-label={s.title}
+                    aria-current={s.path === activePath ? "page" : undefined}
+                    onClick={onNavigate}
+                  />
+                }
+              >
+                {s.title}
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+          ))}
+        </SidebarMenu>
+      </SidebarGroupContent>
+    </SidebarGroup>
+  );
+}
