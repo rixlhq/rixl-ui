@@ -188,7 +188,7 @@ describe("InputGroup field integration", () => {
         <Input placeholder="Search" aria-label="Search" />
       </InputGroup>
     );
-    expect(screen.getByTestId("group").closest('[data-slot="field"]')).toBeNull();
+    expect(screen.getByTestId("group").closest('[data-slot="input-field"]')).toBeNull();
   });
 
   it("wraps the group in a field with an associated label", () => {
@@ -199,7 +199,7 @@ describe("InputGroup field integration", () => {
     );
     const input = screen.getByPlaceholderText("you@example.com");
     const label = screen.getByText("Email").closest("label");
-    expect(label?.closest('[data-slot="field"]')).toBe(input.closest('[data-slot="field"]'));
+    expect(label?.closest('[data-slot="input-field"]')).toBe(input.closest('[data-slot="input-field"]'));
     expect(label?.getAttribute("for")).toBe(input.getAttribute("id"));
   });
 
@@ -220,7 +220,7 @@ describe("InputGroup field integration", () => {
         <Input placeholder="you@example.com" defaultValue="not-an-email" />
       </InputGroup>
     );
-    expect(screen.getByText("Enter a valid email.")).toHaveAttribute("data-slot", "field-error");
+    expect(screen.getByText("Enter a valid email.")).toHaveAttribute("data-slot", "input-error");
     expect(screen.getByPlaceholderText("you@example.com")).toHaveAttribute("aria-invalid", "true");
   });
 

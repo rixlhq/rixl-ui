@@ -15,8 +15,7 @@ import {
   DropdownMenuSubTrigger,
   DropdownMenuSubContent,
 } from "../../dropdown-menu";
-import {Input} from "../../input";
-import {Textarea} from "../../textarea";
+import {Input, InputArea} from "../../input";
 import {Table, TableBody, TableRow, TableCell} from "../../table";
 
 import {Select, SelectTrigger, SelectValue, SelectContent, SelectItem} from "../../select";
@@ -263,7 +262,7 @@ describe("mobile overlay layout", () => {
           <DialogDescription>Edit details</DialogDescription>
           <Input aria-label="Name" />
           <Input inputSize="sm" aria-label="Code" />
-          <Textarea aria-label="Notes" />
+          <InputArea aria-label="Notes" />
         </DialogContent>
       </Dialog>
     );

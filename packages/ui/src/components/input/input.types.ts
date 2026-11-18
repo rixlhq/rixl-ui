@@ -1,7 +1,7 @@
 import type {ComponentProps, ReactNode} from "react";
 import type {Input as InputPrimitive} from "@base-ui/react/input";
 import type {VariantProps} from "class-variance-authority";
-import type {FieldErrorProp} from "../field/field";
+import type {InputErrorProp} from "./input-field-error";
 import {inputVariants} from "./input-variants";
 import type {SizeAlias} from "./resolve-input-size";
 
@@ -20,7 +20,7 @@ export type InputProps = Omit<ComponentProps<"input">, "size"> &
     /** Help text below the input (hidden while `error` is present). */
     description?: ReactNode;
     /** Error message, or `{message, match}` shown while the native validity matches. */
-    error?: FieldErrorProp;
+    error?: InputErrorProp;
     /** Kumo-style size alias; `inputSize` wins when both are set. */
     size?: SizeAlias;
     /** @deprecated Error styling now applies automatically when `error` is truthy. */

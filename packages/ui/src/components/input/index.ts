@@ -1,1 +1,2 @@
-export {Input, inputVariants, type InputProps} from "./input";
+export {Input, InputArea, inputVariants, type InputProps, type InputAreaProps} from "./input";
+export type {InputErrorMatch, InputErrorProp} from "./input-field-error";

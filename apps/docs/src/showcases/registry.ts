@@ -9,9 +9,8 @@ import * as skeleton from "./skeleton";
 import * as progress from "./progress";
 import * as alert from "./alert";
 import * as input from "./input";
-import * as field from "./field";
 import * as inputGroup from "./input-group";
-import * as textarea from "./textarea";
+import * as inputArea from "./input-area";
 import * as checkbox from "./checkbox";
 import * as radioGroup from "./radio-group";
 import * as switchShowcase from "./switch";
@@ -96,9 +95,8 @@ export const showcases: Showcase[] = [
   progress,
   alert,
   input,
-  field,
   inputGroup,
-  textarea,
+  inputArea,
   checkbox,
   radioGroup,
   switchShowcase,

@@ -90,25 +90,10 @@
       "development": "./src/components/input/index.ts",
       "import": "./dist/input.js"
     },
-    "./field": {
-      "types": "./dist/field.d.ts",
-      "development": "./src/components/field/index.ts",
-      "import": "./dist/field.js"
-    },
     "./input-group": {
       "types": "./dist/input-group.d.ts",
       "development": "./src/components/input-group/index.ts",
       "import": "./dist/input-group.js"
-    },
-    "./input-area": {
-      "types": "./dist/input-area.d.ts",
-      "development": "./src/components/input-area/index.ts",
-      "import": "./dist/input-area.js"
-    },
-    "./textarea": {
-      "types": "./dist/textarea.d.ts",
-      "development": "./src/components/textarea/index.ts",
-      "import": "./dist/textarea.js"
     },
     "./checkbox": {
       "types": "./dist/checkbox.d.ts",

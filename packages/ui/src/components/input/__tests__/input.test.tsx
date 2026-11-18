@@ -151,21 +151,21 @@ describe("Input", () => {
   describe("built-in field", () => {
     it("renders no field wrapper for a bare input", () => {
       render(<Input placeholder="Email" aria-label="Email" />);
-      expect(screen.getByPlaceholderText("Email").closest('[data-slot="field"]')).toBeNull();
+      expect(screen.getByPlaceholderText("Email").closest('[data-slot="input-field"]')).toBeNull();
     });
 
     it("wraps the input in a field with an associated label", () => {
       render(<Input label="Email" placeholder="you@example.com" />);
       const input = screen.getByPlaceholderText("you@example.com");
       const label = screen.getByText("Email").closest("label");
-      expect(input.closest('[data-slot="field"]')).toBe(label?.closest('[data-slot="field"]'));
+      expect(input.closest('[data-slot="input-field"]')).toBe(label?.closest('[data-slot="input-field"]'));
       expect(label?.getAttribute("for")).toBe(input.getAttribute("id"));
     });
 
     it("renders description and references it from aria-describedby", () => {
       render(<Input label="Email" placeholder="you@example.com" description="We never share your address." />);
       const description = screen.getByText("We never share your address.");
-      expect(description).toHaveAttribute("data-slot", "field-description");
+      expect(description).toHaveAttribute("data-slot", "input-description");
       const describedBy = screen.getByPlaceholderText("you@example.com").getAttribute("aria-describedby") ?? "";
       expect(describedBy.split(" ")).toContain(description.getAttribute("id"));
     });
@@ -174,7 +174,7 @@ describe("Input", () => {
       render(<Input label="Email" placeholder="you@example.com" defaultValue="not-an-email" error="Enter a valid email." />);
       const input = screen.getByPlaceholderText("you@example.com");
       const message = screen.getByText("Enter a valid email.");
-      expect(message).toHaveAttribute("data-slot", "field-error");
+      expect(message).toHaveAttribute("data-slot", "input-error");
       expect(input).toHaveAttribute("aria-invalid", "true");
       const describedBy = input.getAttribute("aria-describedby") ?? "";
       expect(describedBy.split(" ")).toContain(message.getAttribute("id"));
@@ -268,7 +268,7 @@ describe("Input", () => {
     it("renders description without a label row when only help text is set", () => {
       render(<Input aria-label="Search" placeholder="Search" description="Search by name or email." />);
       expect(screen.getByText("Search by name or email.")).toBeInTheDocument();
-      expect(document.querySelector('[data-slot="field-label"]')).not.toBeInTheDocument();
+      expect(document.querySelector('[data-slot="input-label"]')).not.toBeInTheDocument();
     });
 
     it("renders the tooltip without a visible label", () => {
@@ -276,7 +276,7 @@ describe("Input", () => {
         <Input aria-label="API key" placeholder="sk_live_..." labelTooltip="Find this in settings." description="Used for API calls." />
       );
       expect(screen.getByRole("button", {name: "More information"})).toBeInTheDocument();
-      expect(document.querySelector('[data-slot="field-label"]')).toBeInTheDocument();
+      expect(document.querySelector('[data-slot="input-label"]')).toBeInTheDocument();
     });
 
     it("warns in dev when a bare input has no accessible name", () => {

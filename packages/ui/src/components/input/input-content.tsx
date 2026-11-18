@@ -1,5 +1,5 @@
 import type {Ref} from "react";
-import type {NormalizedFieldError} from "../field/field";
+import type {NormalizedInputError} from "./input-field-error";
 import type {InputProps} from "./input.types";
 import {resolveInputSize} from "./resolve-input-size";
 import {InputControl} from "./input-control";
@@ -7,7 +7,7 @@ import {InputIconGroup} from "./input-icon-group";
 
 type InputContentProps = Omit<InputProps, "label" | "labelTooltip" | "description" | "error"> & {
   controlRef: Ref<HTMLInputElement>;
-  normalizedError: NormalizedFieldError | undefined;
+  normalizedError: NormalizedInputError | undefined;
 };
 
 /** The input with its icon group, before the Field wrapper decides bare vs labelled. */
