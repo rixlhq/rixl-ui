@@ -1,4 +1,4 @@
-import {Breadcrumb, BreadcrumbEllipsis, BreadcrumbItem, BreadcrumbList} from "@rixl/ui/breadcrumb";
+import {Breadcrumb, BreadcrumbItem, BreadcrumbList, BreadcrumbPage} from "@rixl/ui/breadcrumb";
 import {CopyBlock} from "@rixl/ui/copy-block";
 import {Input} from "@rixl/ui/input";
 import {RixlLocaleProvider, type RixlTranslationsPartial} from "@rixl/ui/locale";
@@ -8,9 +8,9 @@ import type {Control, ControlValue, Example} from "./registry";
 
 export const path = "locale";
 export const title = "Locale Provider";
-export const description = "Replace the English strings @rixl/ui renders on its own.";
+export const description = "Replace the English copy @rixl/ui draws on its own.";
 export const notes =
-  "RixlLocaleProvider takes a partial translations object; every key you leave out stays English, and no provider is needed for English. Values are plain strings, or functions for the strings that interpolate (copyBlock.copy, pagination.page, pagination.showing), so compiled message functions from an i18n library can be passed in directly. A component's labels prop beats the provider, which beats the English default; Breadcrumb's aria-label beats both. The provider computes its value on every render, so passing new strings after a locale switch updates every component. The library ships English only and has no i18n dependency.";
+  "RixlLocaleProvider covers the copy the library draws itself: the breadcrumb landmark name, CopyBlock, (optional) on fields and Pagination. Every key you leave out stays English, and no provider is needed for English. Values are plain strings, or functions for the strings that interpolate (copyBlock.copy, pagination.page, pagination.showing), so compiled message functions from an i18n library can be passed in directly. CopyBlock and Pagination also take a labels prop, which beats the provider; Breadcrumb's aria-label beats it too. Names for icon buttons and landmarks the library cannot know (a dialog's close button, a field's info icon, the sidebar toggle) are not in the provider: pass your own translated string as aria-label or labelTooltipAriaLabel. The provider computes its value on every render, so passing new strings after a locale switch updates every component. The library ships English only and has no i18n dependency.";
 
 /** What an app would keep in its message files. German and French are demo data, not shipped by the library. */
 const messages = {
@@ -18,7 +18,7 @@ const messages = {
     copied: "Copied!",
     copy_label: (title: string) => `Copy ${title}`,
     optional: "(optional)",
-    more: "More",
+    breadcrumb: "breadcrumb",
     showing: "Showing",
     of: "of",
   },
@@ -26,7 +26,7 @@ const messages = {
     copied: "Kopiert!",
     copy_label: (title: string) => `${title} kopieren`,
     optional: "(optional)",
-    more: "Mehr",
+    breadcrumb: "Brotkrumen",
     showing: "Zeige",
     of: "von",
   },
@@ -34,7 +34,7 @@ const messages = {
     copied: "Copié !",
     copy_label: (title: string) => `Copier ${title}`,
     optional: "(facultatif)",
-    more: "Plus",
+    breadcrumb: "fil d'Ariane",
     showing: "Affichage de",
     of: "sur",
   },
@@ -46,7 +46,7 @@ function toRixlTranslations(m: (typeof messages)[Locale]): RixlTranslationsParti
   return {
     copyBlock: {copy: m.copy_label, copied: m.copied},
     input: {optional: m.optional},
-    breadcrumb: {more: m.more},
+    breadcrumb: {label: m.breadcrumb},
     pagination: {showing: (range, total) => `${m.showing} ${range} ${m.of} ${total}`},
   };
 }
@@ -76,7 +76,7 @@ function Demo({locale}: {locale: Locale}) {
         <Breadcrumb>
           <BreadcrumbList>
             <BreadcrumbItem>
-              <BreadcrumbEllipsis />
+              <BreadcrumbPage>Settings</BreadcrumbPage>
             </BreadcrumbItem>
           </BreadcrumbList>
         </Breadcrumb>
@@ -144,7 +144,7 @@ import type {Locale} from "./paraglide/runtime.js";
 // Paraglide message functions take an optional { locale } as a second argument,
 // so this stays a pure function of the locale you pass.
 export const rixlTranslations = (locale: Locale): RixlTranslationsPartial => ({
-  breadcrumb: {label: m.breadcrumb_label({}, {locale}), more: m.breadcrumb_more({}, {locale})},
+  breadcrumb: {label: m.breadcrumb_label({}, {locale})},
   copyBlock: {
     // The library passes the title; Paraglide takes an object of parameters.
     copy: (title) => m.copy_label({title}, {locale}),
@@ -152,8 +152,7 @@ export const rixlTranslations = (locale: Locale): RixlTranslationsPartial => ({
     copied: m.copy_copied({}, {locale}),
     error: m.copy_error({}, {locale}),
   },
-  dialog: {close: m.dialog_close({}, {locale})},
-  input: {optional: m.input_optional({}, {locale}), moreInformation: m.input_more_information({}, {locale})},
+  input: {optional: m.input_optional({}, {locale})},
   pagination: {
     page: (page) => m.pagination_page({page}, {locale}),
     showing: (range, total) => m.pagination_showing({range, total}, {locale}),

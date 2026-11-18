@@ -6,8 +6,6 @@ import {TabsIndicator} from "./tabs-indicator";
 import {cva} from "class-variance-authority";
 import {cn} from "../../lib/cn";
 
-import type {RixlTranslations} from "../locale";
-import {useTranslations} from "../locale/use-translations";
 import {TabsStyleContext} from "./context";
 import {scrollTabsByPage, TabsOverflowControl, useHorizontalDragScroll, useOverflowDetect} from "./overflow";
 
@@ -32,17 +30,14 @@ const listVariants = cva("relative isolate flex min-w-0 max-w-full items-stretch
 export type TabsListProps = TabsPrimitive.List.Props & {
   /** Let the row scroll instead of wrapping when the tabs overflow. */
   scrollable?: boolean;
-  /** Names of the overflow buttons. Each defaults to the provider's string, then English. */
-  labels?: Partial<RixlTranslations["tabs"]>;
 };
 
 export const TabsList = forwardRef<HTMLDivElement, TabsListProps>(function TabsList(
-  {className, children, scrollable = true, labels, ...props},
+  {className, children, scrollable = true, ...props},
   forwardedRef
 ) {
   const {variant, size, fullWidth} = useContext(TabsStyleContext);
-  const t = useTranslations("tabs", labels);
-  const {ref: listRef, isOverflowing, canScrollStart, canScrollEnd, isRtl} = useOverflowDetect(scrollable);
+  const {ref: listRef, isOverflowing, canScrollStart, canScrollEnd} = useOverflowDetect(scrollable);
   const dragHandlers = useHorizontalDragScroll(listRef, isOverflowing);
   const mergedRef = useMemo(() => mergeTabsListRefs(listRef, forwardedRef), [listRef, forwardedRef]);
 
@@ -64,8 +59,6 @@ export const TabsList = forwardRef<HTMLDivElement, TabsListProps>(function TabsL
       {scrollable ? (
         <>
           <TabsOverflowControl
-            isRtl={isRtl}
-            labels={t}
             side="start"
             visible={canScrollStart}
             variant={variant}
@@ -73,8 +66,6 @@ export const TabsList = forwardRef<HTMLDivElement, TabsListProps>(function TabsL
             onClick={() => scrollTabsByPage(listRef.current, "start")}
           />
           <TabsOverflowControl
-            isRtl={isRtl}
-            labels={t}
             side="end"
             visible={canScrollEnd}
             variant={variant}

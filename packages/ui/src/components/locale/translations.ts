@@ -7,8 +7,6 @@ export type RixlTranslations = {
   breadcrumb: {
     /** Accessible name of the `Breadcrumb` landmark; its `aria-label` prop wins. */
     label: string;
-    /** Screen-reader text of `BreadcrumbEllipsis`. */
-    more: string;
   };
   copyBlock: {
     /** Accessible name of the copy button and its idle tooltip. */
@@ -49,10 +47,6 @@ export type RixlTranslations = {
     /** Description of the mobile sidebar sheet. */
     description: string;
   };
-  tabs: {
-    scrollLeft: string;
-    scrollRight: string;
-  };
   toaster: {
     /** Name of the toast region. */
     notifications: string;
@@ -65,7 +59,7 @@ export type RixlTranslations = {
 export type RixlTranslationsPartial = {[Group in keyof RixlTranslations]?: Partial<RixlTranslations[Group]>};
 
 export const DEFAULT_TRANSLATIONS: RixlTranslations = {
-  breadcrumb: {label: "breadcrumb", more: "More"},
+  breadcrumb: {label: "breadcrumb"},
   copyBlock: {copy: (title) => `Copy ${title}`, copying: "Copying", copied: "Copied!", error: "Unable to copy. Try again."},
   empty: {command: "Command"},
   input: {optional: "(optional)"},
@@ -81,6 +75,5 @@ export const DEFAULT_TRANSLATIONS: RixlTranslations = {
     showing: (range, total) => `Showing ${range} of ${total}`,
   },
   sidebar: {toggle: "Toggle Sidebar", title: "Sidebar", description: "Displays the mobile sidebar."},
-  tabs: {scrollLeft: "Scroll tabs left", scrollRight: "Scroll tabs right"},
   toaster: {notifications: "Notifications", closeToast: "Close toast"},
 };

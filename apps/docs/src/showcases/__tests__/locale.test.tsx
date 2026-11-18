@@ -31,6 +31,11 @@ describe("locale showcase", () => {
     expect(container.textContent).toContain("(optional)");
   });
 
+  it("names the breadcrumb landmark in the chosen locale", async () => {
+    await renderLocale("fr");
+    expect(container.querySelector('nav[aria-label="fil d\'Ariane"]')).not.toBeNull();
+  });
+
   it("leaves unset keys in English", async () => {
     await renderLocale("de");
     expect(container.querySelector('[aria-label="Go to last page"]')).not.toBeNull();

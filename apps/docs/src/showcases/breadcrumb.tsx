@@ -14,7 +14,7 @@ export const path = "breadcrumb";
 export const title = "Breadcrumb";
 export const description = "Show the path to the current page.";
 export const notes =
-  "The landmark name comes from the provider (the aria-label prop wins); BreadcrumbEllipsis takes labels.more. Strings you leave out come from RixlLocaleProvider (@rixl/ui/locale), then English.";
+  "The landmark is named breadcrumb by default, a string RixlLocaleProvider (@rixl/ui/locale) can translate and the aria-label prop overrides. BreadcrumbEllipsis is decorative: it is aria-hidden and carries no text.";
 
 export function Showcase() {
   return (

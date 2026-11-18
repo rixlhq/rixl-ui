@@ -46,6 +46,36 @@ it("detects logical RTL bounds and uses reduced-motion scroll requests", () => {
   act(() => fireEvent.scroll(list));
   expect(list).toHaveAttribute("data-overflow-start");
   expect(list).toHaveAttribute("data-overflow-end");
-  screen.getByRole("button", {name: "Scroll tabs right"}).click();
+  const startControl = document.querySelector<HTMLElement>("[data-slot='tabs-overflow-control'][data-side='start']")!;
+  startControl.click();
   expect(scroll).toHaveBeenCalledWith({left: 80, behavior: "instant"});
+});
+
+it("keeps the overflow scroll buttons out of the accessibility tree and the tab order, even while they show", () => {
+  render(
+    <Tabs defaultValue="a">
+      <TabsList>
+        <TabsTrigger value="a">Alpha</TabsTrigger>
+      </TabsList>
+    </Tabs>
+  );
+  const list = screen.getByRole("tablist");
+  Object.defineProperties(list, {
+    scrollWidth: {value: 400, configurable: true},
+    clientWidth: {value: 100, configurable: true},
+    scrollLeft: {value: 50, writable: true, configurable: true},
+  });
+  act(() => fireEvent.scroll(list));
+  expect(list).toHaveAttribute("data-overflow-end");
+  const controls = document.querySelectorAll("[data-slot='tabs-overflow-control']");
+  expect(
+    [...controls].map((control) => [
+      control.getAttribute("aria-hidden"),
+      control.getAttribute("tabindex"),
+      control.hasAttribute("aria-label"),
+    ])
+  ).toEqual([
+    ["true", "-1", false],
+    ["true", "-1", false],
+  ]);
 });

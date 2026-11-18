@@ -97,6 +97,19 @@ describe("Breadcrumb", () => {
     expect(el.querySelector("svg")).not.toBeNull();
   });
 
+  it("hides BreadcrumbEllipsis from assistive technology and ships no text", () => {
+    render(
+      <Breadcrumb>
+        <BreadcrumbList>
+          <BreadcrumbEllipsis data-testid="ellipsis" />
+        </BreadcrumbList>
+      </Breadcrumb>
+    );
+    const el = screen.getByTestId("ellipsis");
+    expect(el).toHaveAttribute("aria-hidden", "true");
+    expect(el).toHaveTextContent("");
+  });
+
   it("forwards a className on BreadcrumbLink", () => {
     render(
       <Breadcrumb>
