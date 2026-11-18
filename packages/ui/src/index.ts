@@ -39,6 +39,7 @@ export * from "./components/date-picker";
 export * from "./components/copy-block";
 export * from "./components/empty";
 export * from "./components/toaster";
+export * from "./components/locale";
 
 /**
  * Shared className utility, re-exported for consumers that want to

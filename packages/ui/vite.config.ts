@@ -63,6 +63,7 @@ export default defineConfig({
       "copy-block": "src/components/copy-block/index.ts",
       empty: "src/components/empty/index.ts",
       toaster: "src/components/toaster/index.ts",
+      locale: "src/components/locale/index.ts",
     },
     // Manage `package.json#exports` by hand — we ship both compiled JS
     // subpaths and a raw CSS subpath (preset.css) that vp's auto-exports

@@ -170,6 +170,11 @@
       "development": "./src/components/table/index.ts",
       "import": "./dist/table.js"
     },
+    "./locale": {
+      "types": "./dist/locale.d.ts",
+      "development": "./src/components/locale/index.ts",
+      "import": "./dist/locale.js"
+    },
     "./pagination": {
       "types": "./dist/pagination.d.ts",
       "development": "./src/components/pagination/index.ts",
