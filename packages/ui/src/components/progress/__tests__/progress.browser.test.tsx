@@ -69,8 +69,6 @@ describe("Progress Browser Mode", () => {
 
   it("has no WCAG 2.2 AA violations when indeterminate", async () => {
     render(<Progress value={null} aria-label="Loading" />);
-    // axeViolations waits for animations to finish, which an infinite loop never does.
-    document.getAnimations().forEach((animation) => animation.cancel());
 
     expect(await axeViolations(document.body)).toEqual([]);
   });
