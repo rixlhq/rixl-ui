@@ -131,11 +131,18 @@ describe("Select Browser Mode", () => {
     await userEvent.click(page.getByTestId("select-trigger"));
     const option = document.querySelector<HTMLElement>("[data-testid=option-apple]")!;
     const indicator = option.querySelector("svg")!.parentElement!;
-    expect(getComputedStyle(indicator).transitionDuration).toBe("0.12s");
+    // Asserting the declared transition plus both end states, not a running CSSTransition:
+    // under a loaded machine the 120ms transition can finish before the next frame.
+    const style = getComputedStyle(indicator);
+    const before = {opacity: style.opacity, scale: style.scale};
     await userEvent.click(page.getByTestId("option-apple"));
-    await new Promise((resolve) => requestAnimationFrame(resolve));
-    const transitions = indicator.getAnimations().filter((animation) => animation instanceof CSSTransition);
-    expect(transitions.map((transition) => (transition as CSSTransition).transitionProperty).sort()).toEqual(["opacity", "scale"]);
+    await expect.poll(() => getComputedStyle(indicator).opacity).toBe("1");
+    expect({
+      property: style.transitionProperty.split(", ").sort(),
+      duration: style.transitionDuration,
+      before,
+      afterScale: getComputedStyle(indicator).scale,
+    }).toEqual({property: ["opacity", "scale"], duration: "0.12s", before: {opacity: "0", scale: "0.5"}, afterScale: "1"});
   });
 
   it("has no WCAG 2.2 AA violations when open", async () => {
