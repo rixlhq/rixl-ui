@@ -186,7 +186,7 @@ describe("DatePicker", () => {
     render(<DatePicker mode="single" defaultMonth={JUNE_2026} className="p-6" />);
     const grids = document.querySelectorAll("[data-slot='calendar']");
     expect(grids[1].className).toContain("p-6");
-    expect(grids[1].className).toContain("bg-rixl-bg");
+    expect(grids[1].className).toContain("bg-rixl-surface");
   });
 
   it("flanks the caption with the month navigation, which lets pointer events through between the buttons", () => {

@@ -5,6 +5,9 @@ import {render, cleanup} from "@testing-library/react";
 import {de, el, fi, ru} from "react-day-picker/locale";
 import {axeViolations} from "../../../../test/a11y";
 import {DatePicker} from "../date-picker";
+import {Popover, PopoverContent, PopoverTrigger} from "../../popover/popover";
+import {Card, CardContent} from "../../card";
+import {Dialog, DialogContent, DialogTitle, DialogTrigger} from "../../dialog/dialog";
 
 type Locale = NonNullable<ComponentProps<typeof DatePicker>["locale"]>;
 type CaptionLayout = NonNullable<ComponentProps<typeof DatePicker>["captionLayout"]>;
@@ -17,6 +20,8 @@ const WIDE_VIEWPORT = {width: 1100, height: 800};
 const NARROW_VIEWPORT = {width: 414, height: 896};
 /** Sub-pixel layout rounding is not an overlap. */
 const TOLERANCE = 0.5;
+/** `--spacing(9)`: the cell is the size of a default Button, and seven of them fit a default `PopoverContent` (`w-72 p-4`). */
+const CELL_SIZE = 36;
 
 type Box = {name: string; left: number; right: number; top: number; bottom: number; width: number};
 
@@ -228,5 +233,113 @@ describe("DatePicker caption layout (Browser Mode)", () => {
     render(<DatePicker mode="single" defaultMonth={SEPTEMBER_2026} />);
     await page.getByRole("button", {name: "Go to the Next Month"}).click();
     await expect.element(page.getByRole("status").first()).toHaveTextContent("October 2026");
+  });
+});
+
+type SurfaceStyle = {border: string; background: string; shadowed: boolean; padding: string; radius: string};
+
+/** `shadow-none` computes to Tailwind's stack of transparent zero-size shadows, not to `none`. */
+function isShadowed(boxShadow: string): boolean {
+  return boxShadow.replaceAll("rgba(0, 0, 0, 0) 0px 0px 0px 0px", "").replaceAll(/[\s,]/g, "") !== "" && boxShadow !== "none";
+}
+
+function surfaceOf(root: Element): SurfaceStyle {
+  const style = getComputedStyle(root);
+  return {
+    border: style.borderTopWidth,
+    background: style.backgroundColor,
+    shadowed: isShadowed(style.boxShadow),
+    padding: style.paddingTop,
+    radius: style.borderTopLeftRadius,
+  };
+}
+
+const NO_SURFACE: SurfaceStyle = {border: "0px", background: "rgba(0, 0, 0, 0)", shadowed: false, padding: "0px", radius: "0px"};
+
+describe("DatePicker surface (Browser Mode)", () => {
+  afterEach(() => {
+    cleanup();
+  });
+
+  it("draws a bordered, padded surface when it stands alone", async () => {
+    render(<DatePicker mode="single" defaultMonth={SEPTEMBER_2026} />);
+    await expect.element(page.getByRole("grid")).toBeVisible();
+    const surface = surfaceOf(calendarRoot());
+    expect(surface.border).toBe("1px");
+    expect(surface.padding).toBe("12px");
+    expect(surface.background).not.toBe(NO_SURFACE.background);
+    expect(surface.shadowed).toBe(true);
+    expect(surface.radius).not.toBe("0px");
+  });
+
+  it("lets a consumer className remove the standalone surface", async () => {
+    render(<DatePicker mode="single" defaultMonth={SEPTEMBER_2026} className="border-0 bg-transparent p-0 shadow-none" />);
+    await expect.element(page.getByRole("grid")).toBeVisible();
+    expect(surfaceOf(calendarRoot())).toMatchObject({border: "0px", background: NO_SURFACE.background, padding: "0px", shadowed: false});
+  });
+
+  it("draws nothing of its own inside a popover, which owns the surface and padding", async () => {
+    render(
+      <Popover defaultOpen>
+        <PopoverTrigger>Pick</PopoverTrigger>
+        <PopoverContent className="w-auto p-3">
+          <DatePicker mode="single" defaultMonth={SEPTEMBER_2026} />
+        </PopoverContent>
+      </Popover>
+    );
+    await expect.element(page.getByRole("grid")).toBeVisible();
+    expect(surfaceOf(calendarRoot())).toEqual(NO_SURFACE);
+    expect(calendarRoot().getBoundingClientRect().width).toBe(7 * CELL_SIZE);
+    expect(await axeViolations(document.body)).toEqual([]);
+  });
+
+  it("fits the default popover width without padding of its own", async () => {
+    render(
+      <Popover defaultOpen>
+        <PopoverTrigger>Pick</PopoverTrigger>
+        <PopoverContent>
+          <DatePicker mode="single" defaultMonth={SEPTEMBER_2026} />
+        </PopoverContent>
+      </Popover>
+    );
+    await expect.element(page.getByRole("grid")).toBeVisible();
+    const popup = document.querySelector('[data-slot="popover-content"]')!;
+    const popupStyle = getComputedStyle(popup);
+    const inner = popup.clientWidth - parseFloat(popupStyle.paddingLeft) - parseFloat(popupStyle.paddingRight);
+    expect(calendarRoot().getBoundingClientRect().width).toBeLessThanOrEqual(inner);
+  });
+
+  it("draws nothing of its own inside a card", async () => {
+    render(
+      <Card>
+        <CardContent>
+          <DatePicker mode="single" defaultMonth={SEPTEMBER_2026} />
+        </CardContent>
+      </Card>
+    );
+    await expect.element(page.getByRole("grid")).toBeVisible();
+    expect(surfaceOf(calendarRoot())).toEqual(NO_SURFACE);
+    expect(await axeViolations(document.body)).toEqual([]);
+  });
+
+  it("draws nothing of its own inside a dialog", async () => {
+    render(
+      <Dialog defaultOpen>
+        <DialogTrigger>Open</DialogTrigger>
+        <DialogContent>
+          <DialogTitle>Pick a date</DialogTitle>
+          <DatePicker mode="single" defaultMonth={SEPTEMBER_2026} />
+        </DialogContent>
+      </Dialog>
+    );
+    await expect.element(page.getByRole("grid")).toBeVisible();
+    expect(surfaceOf(calendarRoot())).toEqual(NO_SURFACE);
+    expect(await axeViolations(document.body)).toEqual([]);
+  });
+
+  it("has no WCAG 2.2 AA violations standalone", async () => {
+    render(<DatePicker mode="single" defaultMonth={SEPTEMBER_2026} />);
+    await expect.element(page.getByRole("grid")).toBeVisible();
+    expect(await axeViolations(document.body)).toEqual([]);
   });
 });
