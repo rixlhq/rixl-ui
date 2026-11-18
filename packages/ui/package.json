@@ -170,6 +170,11 @@
       "development": "./src/components/table/index.ts",
       "import": "./dist/table.js"
     },
+    "./direction-provider": {
+      "types": "./dist/direction-provider.d.ts",
+      "development": "./src/components/direction-provider/index.ts",
+      "import": "./dist/direction-provider.js"
+    },
     "./locale": {
       "types": "./dist/locale.d.ts",
       "development": "./src/components/locale/index.ts",

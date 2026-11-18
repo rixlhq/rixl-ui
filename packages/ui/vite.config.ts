@@ -64,6 +64,7 @@ export default defineConfig({
       empty: "src/components/empty/index.ts",
       toaster: "src/components/toaster/index.ts",
       locale: "src/components/locale/index.ts",
+      "direction-provider": "src/components/direction-provider/index.ts",
     },
     // Manage `package.json#exports` by hand — we ship both compiled JS
     // subpaths and a raw CSS subpath (preset.css) that vp's auto-exports
