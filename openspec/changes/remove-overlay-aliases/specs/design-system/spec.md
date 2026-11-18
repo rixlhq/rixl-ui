@@ -4,7 +4,7 @@
 
 ### Requirement: Open popups meet WCAG 2.2 AA
 
-Dialog (normal, alert and edge-placed), dropdown menu, popover and select SHALL have no axe-detectable WCAG 2.2 AA violations while open, with the preset's light tokens applied.
+Dialog (normal and alert), dropdown menu, popover and select SHALL have no axe-detectable WCAG 2.2 AA violations while open, with the preset's light tokens applied.
 
 #### Scenario: Open in a real browser
 
@@ -23,16 +23,16 @@ Dialog (normal, alert and edge-placed), dropdown menu, popover and select SHALL 
 
 ## ADDED Requirements
 
-### Requirement: Dialog is the only dialog, alert and sheet component
+### Requirement: Dialog is the only dialog and alert component
 
-`Dialog` SHALL be the only dialog, alert-dialog and sheet component. `@rixl/ui/alert-dialog`, `@rixl/ui/sheet` and the `AlertDialog*` and `Sheet*` exports SHALL NOT exist.
+`Dialog` SHALL be the only dialog and alert-dialog component and SHALL NOT offer edge placement. `@rixl/ui/alert-dialog`, `@rixl/ui/sheet`, the `AlertDialog*` and `Sheet*` exports and `DialogContent`'s `side` prop SHALL NOT exist.
 
 #### Scenario: Subpaths removed
 
 - **WHEN** `package.json#exports`, `vite.config.ts#pack.entry` and `src/index.ts` are read
 - **THEN** `./dialog` exists and neither `./alert-dialog` nor `./sheet` does
 
-### Requirement: Alert dialogs ignore outside input and confirm explicitly
+### Requirement: Alert role ignores outside input and confirms explicitly
 
 `<Dialog role="alertdialog">` SHALL stay open on outside pointer input, SHALL close on Escape or on a `DialogClose` with focus restored to its trigger, and SHALL NOT dismiss when a plain `Button` inside it is activated.
 
@@ -51,16 +51,16 @@ Dialog (normal, alert and edge-placed), dropdown menu, popover and select SHALL 
 - **WHEN** a consumer renders `<DialogClose render={<Button variant="outline" />}>Cancel</DialogClose>` inside an alert dialog and activates it
 - **THEN** the dialog closes and the control carries the outline Button classes
 
-### Requirement: Dialog content can be placed at an edge
+### Requirement: The mobile sidebar panel slides in from its side
 
-`DialogContent` SHALL accept `side` (`top`, `right`, `bottom`, `left`) and render an edge sheet: it sets `data-side`, anchors to the physical edge also in RTL, uses the drawer easing and stays within the viewport with its last content reachable by scrolling.
+Below the desktop breakpoint, `Sidebar` SHALL open as a panel anchored to its `side` edge, `--sidebar-width` wide, that scrolls long content within the viewport and closes on Escape or a backdrop click.
 
-#### Scenario: Edge sheet
+#### Scenario: Panel width
 
-- **WHEN** a consumer renders `<DialogContent side="left">`
-- **THEN** the popup has `data-side="left"`, the physical-left anchoring class (also under `dir="rtl"`) and the drawer easing
+- **WHEN** a left or right `Sidebar` opens at a 400px or a 700px viewport
+- **THEN** the panel is exactly `--sidebar-width` wide
 
-#### Scenario: Long edge sheet
+#### Scenario: Long panel
 
-- **WHEN** an edge sheet on each side holds more content than fits in a 320px by 320px viewport
-- **THEN** it stays inside the viewport and its last item is reachable
+- **WHEN** the panel holds more content than fits in a 320px by 320px viewport
+- **THEN** it stays inside the viewport and its last item is reachable by scrolling
