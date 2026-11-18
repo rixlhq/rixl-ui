@@ -53,6 +53,13 @@ describe("Switch", () => {
     expect(thumb!.className).toContain("rounded-full");
   });
 
+  it("mirrors the checked thumb translation under rtl", () => {
+    const {container} = render(<Switch />);
+    const cls = container.querySelector("[data-slot='switch-thumb']")!.className;
+    expect(cls).toContain("data-checked:translate-x-[calc(100%-2px)]");
+    expect(cls).toContain("rtl:data-checked:-translate-x-[calc(100%-2px)]");
+  });
+
   it("forwards additional className without dropping base classes", () => {
     render(<Switch className="ms-2" />);
     const cls = screen.getByRole("switch").className;
