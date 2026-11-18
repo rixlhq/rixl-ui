@@ -12,7 +12,7 @@
 
 ## 3. Table
 
-- [ ] 3.1 Drop `data-[state=selected]` from `TableRow`; update the browser test and the showcase note. Evidence: `table.browser.test.tsx`.
+- [x] 3.1 Drop `data-[state=selected]` from `TableRow`; update the browser test and the showcase note. Evidence: `table.browser.test.tsx` "does not give a row with data-state=selected the selected background" failed with the old class and passes after.
 
 ## 4. Docs app
 

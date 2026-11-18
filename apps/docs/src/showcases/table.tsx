@@ -6,7 +6,7 @@ export const path = "table";
 export const title = "Table";
 export const description = "Present structured information in rows and columns.";
 export const notes =
-  'Plain HTML table styled as a data grid. Row hover + selected states (a row with `aria-selected="true"` or `data-state="selected"` reads as selected); opt-in sticky header (`sticky`) and opt-in scroll via `containerClassName`.';
+  'Plain HTML table styled as a data grid. Row hover + selected states (a row with `aria-selected="true"` reads as selected); opt-in sticky header (`sticky`) and opt-in scroll via `containerClassName`.';
 
 export function Showcase() {
   return (

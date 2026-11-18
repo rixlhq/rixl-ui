@@ -74,14 +74,14 @@ describe("Table Browser Mode", () => {
     expect(selected).not.toBe(getComputedStyle(getPlain("body-row")).backgroundColor);
   });
 
-  it("gives a row with data-state=selected the same background as aria-selected", () => {
-    const {getByTestId} = renderTable({"aria-selected": true});
-    const ariaSelected = getComputedStyle(getByTestId("body-row")).backgroundColor;
+  it("does not give a row with data-state=selected the selected background", () => {
+    const {getByTestId} = renderTable({"data-state": "selected"});
+    const stateOnly = getComputedStyle(getByTestId("body-row")).backgroundColor;
 
     cleanup();
-    const {getByTestId: getByState} = renderTable({"data-state": "selected"});
+    const {getByTestId: getPlain} = renderTable();
 
-    expect(getComputedStyle(getByState("body-row")).backgroundColor).toBe(ariaSelected);
+    expect(stateOnly).toBe(getComputedStyle(getPlain("body-row")).backgroundColor);
   });
 
   it.each([
