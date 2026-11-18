@@ -10,6 +10,14 @@ import {SidebarSideContext, useSidebar} from "./context";
 
 const SIDEBAR_WIDTH_MOBILE = "18rem";
 
+// The dialog edge sets its width under `data-[side=…]` selectors, which outrank a bare
+// `w-*`, so the sheet restates width and max-width under the same selectors.
+const MOBILE_SHEET_CLASSES = cn(
+  "bg-rixl-sidebar text-rixl-sidebar-fg p-0 [&>button]:hidden",
+  "data-[side=left]:w-(--sidebar-width) data-[side=left]:sm:max-w-(--sidebar-width)",
+  "data-[side=right]:w-(--sidebar-width) data-[side=right]:sm:max-w-(--sidebar-width)"
+);
+
 export type SidebarProps = React.ComponentProps<"div"> & {
   side?: "left" | "right";
   variant?: "sidebar" | "floating" | "inset";
@@ -40,7 +48,7 @@ function MobileSidebar({side, children}: PanelProps) {
         data-sidebar="sidebar"
         data-slot="sidebar"
         data-mobile="true"
-        className="bg-rixl-sidebar text-rixl-sidebar-fg w-(--sidebar-width) p-0 [&>button]:hidden"
+        className={MOBILE_SHEET_CLASSES}
         style={
           {
             "--sidebar-width": SIDEBAR_WIDTH_MOBILE,

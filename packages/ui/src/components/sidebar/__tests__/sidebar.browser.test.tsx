@@ -1,4 +1,4 @@
-import {describe, it, expect, afterEach} from "vitest";
+import {describe, it, expect, afterEach, vi} from "vitest";
 import {page, userEvent} from "vitest/browser";
 import {render, cleanup} from "@testing-library/react";
 import {axeViolations} from "../../../../test/a11y";
@@ -12,6 +12,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarProvider,
+  SidebarTrigger,
 } from "../index";
 
 function TestSidebar({items = 40}: {items?: number} = {}) {
@@ -142,5 +143,33 @@ describe("Sidebar Browser Mode", () => {
 
     setTheme("dark");
     expect(await axeViolations(document.body)).toEqual([]);
+  });
+
+  // 400px is below Tailwind's `sm`; 700px is above it but still a mobile viewport
+  // (< 768px), where the dialog edge's `sm:max-w-sm` would otherwise cap the sheet.
+  it.each([
+    {width: 400, side: "left"},
+    {width: 700, side: "left"},
+    {width: 400, side: "right"},
+    {width: 700, side: "right"},
+  ] as const)("sizes the open $side mobile sheet to --sidebar-width at a $width px viewport", async ({width, side}) => {
+    await page.viewport(width, 800);
+    render(
+      <SidebarProvider>
+        <Sidebar side={side}>
+          <SidebarContent>Nav</SidebarContent>
+        </Sidebar>
+        <SidebarTrigger />
+      </SidebarProvider>
+    );
+    await userEvent.click(page.getByRole("button", {name: "Toggle Sidebar"}));
+
+    const sheet = await vi.waitFor(() => {
+      const el = document.querySelector("[data-slot='sidebar'][data-mobile='true']");
+      if (!(el instanceof HTMLElement)) throw new Error("mobile sidebar not open");
+      return el;
+    });
+    const eighteenRem = 18 * Number.parseFloat(getComputedStyle(document.documentElement).fontSize);
+    expect(sheet.offsetWidth).toBe(eighteenRem);
   });
 });
