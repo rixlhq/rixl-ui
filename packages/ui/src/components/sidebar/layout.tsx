@@ -4,9 +4,10 @@ import {cn} from "../../lib/cn";
 import {Input} from "../input";
 import {Separator} from "../separator";
 
-export function SidebarInset({className, ...props}: React.ComponentProps<"main">) {
+export const SidebarInset = React.forwardRef<HTMLElement, SidebarInsetProps>(function SidebarInset({className, ...props}, ref) {
   return (
     <main
+      ref={ref}
       data-slot="sidebar-inset"
       className={cn(
         "bg-rixl-bg relative flex w-full min-w-0 flex-1 flex-col",
@@ -16,34 +17,54 @@ export function SidebarInset({className, ...props}: React.ComponentProps<"main">
       {...props}
     />
   );
-}
+});
+SidebarInset.displayName = "SidebarInset";
 
-export function SidebarInput({className, ...props}: React.ComponentProps<typeof Input>) {
-  return <Input data-slot="sidebar-input" data-sidebar="input" className={cn("bg-rixl-bg h-8 w-full shadow-none", className)} {...props} />;
-}
+export const SidebarInput = React.forwardRef<HTMLInputElement, SidebarInputProps>(function SidebarInput({className, ...props}, ref) {
+  return (
+    <Input
+      ref={ref}
+      data-slot="sidebar-input"
+      data-sidebar="input"
+      className={cn("bg-rixl-bg h-8 w-full shadow-none", className)}
+      {...props}
+    />
+  );
+});
+SidebarInput.displayName = "SidebarInput";
 
-export function SidebarHeader({className, ...props}: React.ComponentProps<"div">) {
-  return <div data-slot="sidebar-header" data-sidebar="header" className={cn("flex flex-col gap-2 p-2", className)} {...props} />;
-}
+export const SidebarHeader = React.forwardRef<HTMLDivElement, SidebarHeaderProps>(function SidebarHeader({className, ...props}, ref) {
+  return <div ref={ref} data-slot="sidebar-header" data-sidebar="header" className={cn("flex flex-col gap-2 p-2", className)} {...props} />;
+});
+SidebarHeader.displayName = "SidebarHeader";
 
-export function SidebarFooter({className, ...props}: React.ComponentProps<"div">) {
-  return <div data-slot="sidebar-footer" data-sidebar="footer" className={cn("flex flex-col gap-2 pb-2", className)} {...props} />;
-}
+export const SidebarFooter = React.forwardRef<HTMLDivElement, SidebarFooterProps>(function SidebarFooter({className, ...props}, ref) {
+  return (
+    <div ref={ref} data-slot="sidebar-footer" data-sidebar="footer" className={cn("flex flex-col gap-2 pb-2", className)} {...props} />
+  );
+});
+SidebarFooter.displayName = "SidebarFooter";
 
-export function SidebarSeparator({className, ...props}: React.ComponentProps<typeof Separator>) {
+export const SidebarSeparator = React.forwardRef<HTMLDivElement, SidebarSeparatorProps>(function SidebarSeparator(
+  {className, ...props},
+  ref
+) {
   return (
     <Separator
+      ref={ref}
       data-slot="sidebar-separator"
       data-sidebar="separator"
       className={cn("bg-rixl-sidebar-border mx-2 w-auto", className)}
       {...props}
     />
   );
-}
+});
+SidebarSeparator.displayName = "SidebarSeparator";
 
-export function SidebarContent({className, ...props}: React.ComponentProps<"div">) {
+export const SidebarContent = React.forwardRef<HTMLDivElement, SidebarContentProps>(function SidebarContent({className, ...props}, ref) {
   return (
     <div
+      ref={ref}
       data-slot="sidebar-content"
       data-sidebar="content"
       className={cn(
@@ -69,7 +90,8 @@ export function SidebarContent({className, ...props}: React.ComponentProps<"div"
       {...props}
     />
   );
-}
+});
+SidebarContent.displayName = "SidebarContent";
 
 export type SidebarInsetProps = React.ComponentProps<"main">;
 export type SidebarInputProps = React.ComponentProps<typeof Input>;

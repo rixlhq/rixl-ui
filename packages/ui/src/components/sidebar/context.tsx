@@ -102,13 +102,17 @@ function useSidebarState(options: OpenState): SidebarContextProps {
   );
 }
 
-export function SidebarProvider({defaultOpen, open, onOpenChange, className, style, children, ...props}: SidebarProviderProps) {
+export const SidebarProvider = React.forwardRef<HTMLDivElement, SidebarProviderProps>(function SidebarProvider(
+  {defaultOpen, open, onOpenChange, className, style, children, ...props},
+  ref
+) {
   const contextValue = useSidebarState({defaultOpen, open, onOpenChange});
 
   return (
     <SidebarContext.Provider value={contextValue}>
       <TooltipProvider delay={0}>
         <div
+          ref={ref}
           data-slot="sidebar-wrapper"
           style={
             {
@@ -125,4 +129,5 @@ export function SidebarProvider({defaultOpen, open, onOpenChange, className, sty
       </TooltipProvider>
     </SidebarContext.Provider>
   );
-}
+});
+SidebarProvider.displayName = "SidebarProvider";

@@ -3,15 +3,26 @@ import {mergeProps} from "@base-ui/react/merge-props";
 import {useRender} from "@base-ui/react/use-render";
 import {cn} from "../../lib/cn";
 
-export function SidebarGroup({className, ...props}: React.ComponentProps<"div">) {
+export const SidebarGroup = React.forwardRef<HTMLDivElement, SidebarGroupProps>(function SidebarGroup({className, ...props}, ref) {
   return (
-    <div data-slot="sidebar-group" data-sidebar="group" className={cn("relative flex w-full min-w-0 flex-col p-2", className)} {...props} />
+    <div
+      ref={ref}
+      data-slot="sidebar-group"
+      data-sidebar="group"
+      className={cn("relative flex w-full min-w-0 flex-col p-2", className)}
+      {...props}
+    />
   );
-}
+});
+SidebarGroup.displayName = "SidebarGroup";
 
-export function SidebarGroupLabel({className, render, ...props}: useRender.ComponentProps<"div">) {
+export const SidebarGroupLabel = React.forwardRef<HTMLDivElement, SidebarGroupLabelProps>(function SidebarGroupLabel(
+  {className, render, ...props},
+  ref
+) {
   return useRender({
     defaultTagName: "div",
+    ref,
     props: mergeProps<"div">(
       {
         className: cn(
@@ -25,11 +36,16 @@ export function SidebarGroupLabel({className, render, ...props}: useRender.Compo
     render,
     state: {slot: "sidebar-group-label", sidebar: "group-label"},
   });
-}
+});
+SidebarGroupLabel.displayName = "SidebarGroupLabel";
 
-export function SidebarGroupAction({className, render, ...props}: useRender.ComponentProps<"button">) {
+export const SidebarGroupAction = React.forwardRef<HTMLButtonElement, SidebarGroupActionProps>(function SidebarGroupAction(
+  {className, render, ...props},
+  ref
+) {
   return useRender({
     defaultTagName: "button",
+    ref,
     props: mergeProps<"button">(
       {
         className: cn(
@@ -45,11 +61,18 @@ export function SidebarGroupAction({className, render, ...props}: useRender.Comp
     render,
     state: {slot: "sidebar-group-action", sidebar: "group-action"},
   });
-}
+});
+SidebarGroupAction.displayName = "SidebarGroupAction";
 
-export function SidebarGroupContent({className, ...props}: React.ComponentProps<"div">) {
-  return <div data-slot="sidebar-group-content" data-sidebar="group-content" className={cn("w-full text-sm", className)} {...props} />;
-}
+export const SidebarGroupContent = React.forwardRef<HTMLDivElement, SidebarGroupContentProps>(function SidebarGroupContent(
+  {className, ...props},
+  ref
+) {
+  return (
+    <div ref={ref} data-slot="sidebar-group-content" data-sidebar="group-content" className={cn("w-full text-sm", className)} {...props} />
+  );
+});
+SidebarGroupContent.displayName = "SidebarGroupContent";
 
 export type SidebarGroupProps = React.ComponentProps<"div">;
 export type SidebarGroupLabelProps = useRender.ComponentProps<"div">;

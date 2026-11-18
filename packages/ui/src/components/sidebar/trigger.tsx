@@ -5,12 +5,16 @@ import {PanelLeftIcon, PanelLeftOpenIcon, PanelRightIcon, PanelRightOpenIcon} fr
 import {Button} from "../button";
 import {useSidebar} from "./context";
 
-export function SidebarTrigger({className, onClick, ...props}: React.ComponentProps<typeof Button>) {
+export const SidebarTrigger = React.forwardRef<HTMLButtonElement, SidebarTriggerProps>(function SidebarTrigger(
+  {className, onClick, ...props},
+  ref
+) {
   const {toggleSidebar, open, isMobile} = useSidebar();
   const [isHovered, setIsHovered] = React.useState(false);
 
   return (
     <Button
+      ref={ref}
       data-sidebar="trigger"
       data-slot="sidebar-trigger"
       variant="ghost"
@@ -28,7 +32,8 @@ export function SidebarTrigger({className, onClick, ...props}: React.ComponentPr
       <span className="sr-only">Toggle Sidebar</span>
     </Button>
   );
-}
+});
+SidebarTrigger.displayName = "SidebarTrigger";
 
 interface SidebarTriggerIconProps {
   isMobile: boolean;
@@ -41,11 +46,12 @@ function SidebarTriggerIcon({isMobile, isHovered, isOpened}: SidebarTriggerIconP
   return isOpened ? isHovered ? <PanelRightOpenIcon /> : <PanelRightIcon /> : isHovered ? <PanelLeftOpenIcon /> : <PanelLeftIcon />;
 }
 
-export function SidebarRail({className, ...props}: React.ComponentProps<"button">) {
+export const SidebarRail = React.forwardRef<HTMLButtonElement, SidebarRailProps>(function SidebarRail({className, ...props}, ref) {
   const {toggleSidebar} = useSidebar();
 
   return (
     <button
+      ref={ref}
       data-sidebar="rail"
       data-slot="sidebar-rail"
       aria-label="Toggle Sidebar"
@@ -62,7 +68,8 @@ export function SidebarRail({className, ...props}: React.ComponentProps<"button"
       {...props}
     />
   );
-}
+});
+SidebarRail.displayName = "SidebarRail";
 
 export type SidebarTriggerProps = React.ComponentProps<typeof Button>;
 export type SidebarRailProps = React.ComponentProps<"button">;

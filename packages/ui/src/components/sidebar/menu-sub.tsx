@@ -3,9 +3,10 @@ import {mergeProps} from "@base-ui/react/merge-props";
 import {useRender} from "@base-ui/react/use-render";
 import {cn} from "../../lib/cn";
 
-export function SidebarMenuSub({className, ...props}: React.ComponentProps<"ul">) {
+export const SidebarMenuSub = React.forwardRef<HTMLUListElement, SidebarMenuSubProps>(function SidebarMenuSub({className, ...props}, ref) {
   return (
     <ul
+      ref={ref}
       data-slot="sidebar-menu-sub"
       data-sidebar="menu-sub"
       className={cn(
@@ -16,31 +17,32 @@ export function SidebarMenuSub({className, ...props}: React.ComponentProps<"ul">
       {...props}
     />
   );
-}
+});
+SidebarMenuSub.displayName = "SidebarMenuSub";
 
-export function SidebarMenuSubItem({className, ...props}: React.ComponentProps<"li">) {
+export const SidebarMenuSubItem = React.forwardRef<HTMLLIElement, SidebarMenuSubItemProps>(function SidebarMenuSubItem(
+  {className, ...props},
+  ref
+) {
   return (
     <li
+      ref={ref}
       data-slot="sidebar-menu-sub-item"
       data-sidebar="menu-sub-item"
       className={cn("group/menu-sub-item relative", className)}
       {...props}
     />
   );
-}
+});
+SidebarMenuSubItem.displayName = "SidebarMenuSubItem";
 
-export function SidebarMenuSubButton({
-  size = "md",
-  isActive = false,
-  className,
-  render,
-  ...props
-}: useRender.ComponentProps<"a"> & {
-  size?: "sm" | "md";
-  isActive?: boolean;
-}) {
+export const SidebarMenuSubButton = React.forwardRef<HTMLAnchorElement, SidebarMenuSubButtonProps>(function SidebarMenuSubButton(
+  {size = "md", isActive = false, className, render, ...props},
+  ref
+) {
   return useRender({
     defaultTagName: "a",
+    ref,
     props: mergeProps<"a">(
       {
         className: cn(
@@ -63,7 +65,8 @@ export function SidebarMenuSubButton({
     render,
     state: {slot: "sidebar-menu-sub-button", sidebar: "menu-sub-button", size, active: isActive},
   });
-}
+});
+SidebarMenuSubButton.displayName = "SidebarMenuSubButton";
 
 export type SidebarMenuSubProps = React.ComponentProps<"ul">;
 export type SidebarMenuSubItemProps = React.ComponentProps<"li">;

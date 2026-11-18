@@ -8,13 +8,19 @@ import {Skeleton} from "../skeleton";
 import {Tooltip, TooltipContent, TooltipTrigger} from "../tooltip";
 import {SidebarSideContext, useSidebar} from "./context";
 
-export function SidebarMenu({className, ...props}: React.ComponentProps<"ul">) {
-  return <ul data-slot="sidebar-menu" data-sidebar="menu" className={cn("flex w-full min-w-0 flex-col gap-1", className)} {...props} />;
-}
+export const SidebarMenu = React.forwardRef<HTMLUListElement, SidebarMenuProps>(function SidebarMenu({className, ...props}, ref) {
+  return (
+    <ul ref={ref} data-slot="sidebar-menu" data-sidebar="menu" className={cn("flex w-full min-w-0 flex-col gap-1", className)} {...props} />
+  );
+});
+SidebarMenu.displayName = "SidebarMenu";
 
-export function SidebarMenuItem({className, ...props}: React.ComponentProps<"li">) {
-  return <li data-slot="sidebar-menu-item" data-sidebar="menu-item" className={cn("group/menu-item relative", className)} {...props} />;
-}
+export const SidebarMenuItem = React.forwardRef<HTMLLIElement, SidebarMenuItemProps>(function SidebarMenuItem({className, ...props}, ref) {
+  return (
+    <li ref={ref} data-slot="sidebar-menu-item" data-sidebar="menu-item" className={cn("group/menu-item relative", className)} {...props} />
+  );
+});
+SidebarMenuItem.displayName = "SidebarMenuItem";
 
 export const sidebarMenuButtonVariants = cva(
   cn(
@@ -49,23 +55,16 @@ export const sidebarMenuButtonVariants = cva(
   }
 );
 
-export function SidebarMenuButton({
-  render,
-  isActive = false,
-  variant = "default",
-  size = "default",
-  tooltip,
-  className,
-  ...props
-}: useRender.ComponentProps<"button"> & {
-  isActive?: boolean;
-  tooltip?: string | React.ComponentProps<typeof TooltipContent>;
-} & VariantProps<typeof sidebarMenuButtonVariants>) {
+export const SidebarMenuButton = React.forwardRef<HTMLButtonElement, SidebarMenuButtonProps>(function SidebarMenuButton(
+  {render, isActive = false, variant = "default", size = "default", tooltip, className, ...props},
+  ref
+) {
   const {isMobile, state} = useSidebar();
   const side = React.useContext(SidebarSideContext);
 
   const button = useRender({
     defaultTagName: "button",
+    ref,
     props: mergeProps<"button">({className: cn(sidebarMenuButtonVariants({variant, size}), className)}, props),
     render,
     state: {slot: "sidebar-menu-button", sidebar: "menu-button", size, active: isActive},
@@ -92,18 +91,16 @@ export function SidebarMenuButton({
       />
     </Tooltip>
   );
-}
+});
+SidebarMenuButton.displayName = "SidebarMenuButton";
 
-export function SidebarMenuAction({
-  className,
-  showOnHover = false,
-  render,
-  ...props
-}: useRender.ComponentProps<"button"> & {
-  showOnHover?: boolean;
-}) {
+export const SidebarMenuAction = React.forwardRef<HTMLButtonElement, SidebarMenuActionProps>(function SidebarMenuAction(
+  {className, showOnHover = false, render, ...props},
+  ref
+) {
   return useRender({
     defaultTagName: "button",
+    ref,
     props: mergeProps<"button">(
       {
         className: cn(
@@ -124,11 +121,16 @@ export function SidebarMenuAction({
     render,
     state: {slot: "sidebar-menu-action", sidebar: "menu-action"},
   });
-}
+});
+SidebarMenuAction.displayName = "SidebarMenuAction";
 
-export function SidebarMenuBadge({className, ...props}: React.ComponentProps<"div">) {
+export const SidebarMenuBadge = React.forwardRef<HTMLDivElement, SidebarMenuBadgeProps>(function SidebarMenuBadge(
+  {className, ...props},
+  ref
+) {
   return (
     <div
+      ref={ref}
       data-slot="sidebar-menu-badge"
       data-sidebar="menu-badge"
       className={cn(
@@ -143,17 +145,16 @@ export function SidebarMenuBadge({className, ...props}: React.ComponentProps<"di
       {...props}
     />
   );
-}
+});
+SidebarMenuBadge.displayName = "SidebarMenuBadge";
 
-export function SidebarMenuSkeleton({
-  className,
-  showIcon = false,
-  ...props
-}: React.ComponentProps<"div"> & {
-  showIcon?: boolean;
-}) {
+export const SidebarMenuSkeleton = React.forwardRef<HTMLDivElement, SidebarMenuSkeletonProps>(function SidebarMenuSkeleton(
+  {className, showIcon = false, ...props},
+  ref
+) {
   return (
     <div
+      ref={ref}
       data-slot="sidebar-menu-skeleton"
       data-sidebar="menu-skeleton"
       className={cn("flex h-8 items-center gap-2 rounded-rixl-md px-2", className)}
@@ -163,7 +164,8 @@ export function SidebarMenuSkeleton({
       <Skeleton className="h-4 w-[70%]" data-sidebar="menu-skeleton-text" />
     </div>
   );
-}
+});
+SidebarMenuSkeleton.displayName = "SidebarMenuSkeleton";
 
 export type SidebarMenuProps = React.ComponentProps<"ul">;
 export type SidebarMenuItemProps = React.ComponentProps<"li">;

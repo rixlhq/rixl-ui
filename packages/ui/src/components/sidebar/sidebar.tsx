@@ -28,11 +28,15 @@ export type SidebarProps = React.ComponentProps<"div"> & {
   collapsible?: "offcanvas" | "icon" | "none";
 };
 
-type PanelProps = Omit<SidebarProps, "side"> & {side: "left" | "right"};
+// The sidebar renders as a static div, a desktop container or a mobile panel; `panelRef` reaches
+// whichever element that is. It is not named `ref` because these internal parts are plain functions.
+type PanelRef = {panelRef: React.Ref<HTMLDivElement>};
+type PanelProps = Omit<SidebarProps, "side" | "ref"> & PanelRef & {side: "left" | "right"};
 
-function StaticSidebar({className, children, ...props}: React.ComponentProps<"div">) {
+function StaticSidebar({className, children, panelRef, ...props}: Omit<React.ComponentProps<"div">, "ref"> & PanelRef) {
   return (
     <div
+      ref={panelRef}
       data-slot="sidebar"
       className={cn("bg-rixl-sidebar text-rixl-sidebar-fg flex h-full w-(--sidebar-width) flex-col", className)}
       {...props}
@@ -43,7 +47,7 @@ function StaticSidebar({className, children, ...props}: React.ComponentProps<"di
 }
 
 // className styles the desktop container; the mobile panel keeps its own classes, as before the split.
-function MobileSidebar({side, children}: PanelProps) {
+function MobileSidebar({side, children, panelRef}: PanelProps) {
   const {openMobile, setOpenMobile} = useSidebar();
 
   return (
@@ -51,6 +55,7 @@ function MobileSidebar({side, children}: PanelProps) {
       <DialogPortal>
         <DialogOverlay />
         <DialogPrimitive.Popup
+          ref={panelRef}
           data-sidebar="sidebar"
           data-slot="sidebar"
           data-mobile="true"
@@ -72,7 +77,7 @@ function MobileSidebar({side, children}: PanelProps) {
   );
 }
 
-function DesktopSidebar({side, variant = "sidebar", collapsible = "offcanvas", className, children, ...props}: PanelProps) {
+function DesktopSidebar({side, variant = "sidebar", collapsible = "offcanvas", className, children, panelRef, ...props}: PanelProps) {
   const {state} = useSidebar();
   const isInset = variant === "floating" || variant === "inset";
 
@@ -96,6 +101,7 @@ function DesktopSidebar({side, variant = "sidebar", collapsible = "offcanvas", c
         )}
       />
       <div
+        ref={panelRef}
         data-slot="sidebar-container"
         className={cn(
           "fixed inset-y-0 z-10 hidden h-svh w-(--sidebar-width) transition-[inset-inline-start,inset-inline-end,width] duration-sidebar ease-curve-sidebar md:flex",
@@ -121,17 +127,18 @@ function DesktopSidebar({side, variant = "sidebar", collapsible = "offcanvas", c
   );
 }
 
-function SidebarPanel({side = "left", collapsible = "offcanvas", variant, ...props}: SidebarProps) {
+function SidebarPanel({side = "left", collapsible = "offcanvas", variant, ...props}: Omit<SidebarProps, "ref"> & PanelRef) {
   const {isMobile} = useSidebar();
   if (collapsible === "none") return <StaticSidebar {...props} />;
   if (isMobile) return <MobileSidebar side={side} {...props} />;
   return <DesktopSidebar side={side} variant={variant} collapsible={collapsible} {...props} />;
 }
 
-export function Sidebar(props: SidebarProps) {
+export const Sidebar = React.forwardRef<HTMLDivElement, SidebarProps>(function Sidebar(props, ref) {
   return (
     <SidebarSideContext.Provider value={props.side ?? "left"}>
-      <SidebarPanel {...props} />
+      <SidebarPanel panelRef={ref} {...props} />
     </SidebarSideContext.Provider>
   );
-}
+});
+Sidebar.displayName = "Sidebar";
