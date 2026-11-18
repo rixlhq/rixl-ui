@@ -1,3 +1,4 @@
+import {forwardRef} from "react";
 import {Popover as PopoverPrimitive} from "@base-ui/react/popover";
 import {cn} from "../../lib/cn";
 
@@ -18,22 +19,20 @@ function Popover({...props}: PopoverPrimitive.Root.Props) {
   return <PopoverPrimitive.Root data-slot="popover" {...props} />;
 }
 
-function PopoverTrigger({...props}: PopoverPrimitive.Trigger.Props) {
-  return <PopoverPrimitive.Trigger data-slot="popover-trigger" {...props} />;
-}
+const PopoverTrigger = forwardRef<HTMLButtonElement, PopoverPrimitive.Trigger.Props>(function PopoverTrigger(props, ref) {
+  return <PopoverPrimitive.Trigger ref={ref} data-slot="popover-trigger" {...props} />;
+});
+PopoverTrigger.displayName = "PopoverTrigger";
 
-function PopoverContent({
-  className,
-  align = "center",
-  alignOffset = 0,
-  side = "bottom",
-  sideOffset = 4,
-  ...props
-}: PopoverPrimitive.Popup.Props & Pick<PopoverPrimitive.Positioner.Props, "align" | "alignOffset" | "side" | "sideOffset">) {
+const PopoverContent = forwardRef<HTMLDivElement, PopoverContentProps>(function PopoverContent(
+  {className, align = "center", alignOffset = 0, side = "bottom", sideOffset = 4, ...props},
+  ref
+) {
   return (
     <PopoverPrimitive.Portal>
       <PopoverPrimitive.Positioner align={align} alignOffset={alignOffset} side={side} sideOffset={sideOffset} className="isolate z-50">
         <PopoverPrimitive.Popup
+          ref={ref}
           data-slot="popover-content"
           className={cn(
             "bg-rixl-surface text-rixl-fg z-50 w-72 max-h-(--available-height) max-w-[calc(100dvw-2rem)] overflow-x-hidden overflow-y-auto overscroll-contain wrap-anywhere origin-(--transform-origin) rounded-rixl-md border-rixl-border border p-4 shadow-rixl-md outline-hidden",
@@ -46,7 +45,8 @@ function PopoverContent({
       </PopoverPrimitive.Positioner>
     </PopoverPrimitive.Portal>
   );
-}
+});
+PopoverContent.displayName = "PopoverContent";
 
 export {Popover, PopoverTrigger, PopoverContent};
 export type PopoverProps = PopoverPrimitive.Root.Props;
