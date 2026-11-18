@@ -4,12 +4,12 @@
 
 ### Requirement: DatePicker caption controls stay inside the calendar
 
-`DatePicker` SHALL lay out its caption as previous, caption, next, with the previous and next buttons at the start and end of the first and last month. Every caption control (previous, next, month and year dropdowns) SHALL lie inside the calendar's box and SHALL NOT overlap another control, for `captionLayout` `label`, `dropdown`, `dropdown-months` and `dropdown-years`, for one or several months, with `showWeekNumber`, and with any `react-day-picker` locale.
+`DatePicker` SHALL lay out its caption as previous, caption, next, with the previous and next buttons at the start and end of the first and last month. Every caption control (previous, next, month and year dropdowns) SHALL lie within the horizontal extent of the day columns and SHALL NOT overlap another control, for `captionLayout` `label`, `dropdown`, `dropdown-months` and `dropdown-years`, for one or several months, with `showWeekNumber`, and with any `react-day-picker` locale.
 
 #### Scenario: Dropdown caption fits the grid
 
 - **WHEN** a consumer renders `captionLayout="dropdown"` with a long-name locale such as German or Russian
-- **THEN** the previous button, next button, month dropdown and year dropdown are inside the root's bounding box and do not overlap (`date-picker-layout.browser.test.tsx`)
+- **THEN** the previous button, next button, month dropdown and year dropdown are inside the day columns and do not overlap (`date-picker-layout.browser.test.tsx`)
 
 #### Scenario: Several months and week numbers
 

@@ -8,7 +8,7 @@ Owner review of `DatePicker` found three layout defects, all in `packages/ui/src
 
 ## What Changes
 
-- **Caption.** Previous and next flank the caption (`prev | caption | next`), each one a `--cell-size` square above the first and last column. The caption is centred between them. The month select takes the remaining width and truncates; the year select keeps its content width, so the row does not shift when the month changes. The same layout serves `label`, `dropdown`, `dropdown-months`, `dropdown-years`, several months and week numbers.
+- **Caption.** Previous and next flank the caption (`prev | caption | next`), each one a `--cell-size` square above the first and last column. The caption is centred between them. The month select takes the remaining width and truncates; the year select keeps its content width, so the row does not shift when the month changes. The same layout serves `label`, `dropdown`, `dropdown-months`, `dropdown-years`, several months and week numbers. The cell grows from 32px to 36px (a default `Button`), which the caption needs for "September" plus a year and which makes one month fit a default `PopoverContent` (`w-72 p-4`).
 - **Surface.** Standalone, the calendar draws a card-like surface (`bg-rixl-surface`, `border-rixl-border`, `rounded-rixl-md`, `shadow-rixl-xs`, `p-3`). Inside `popover-content`, `card-content` or `dialog-content` it draws nothing and has no padding: the container supplies both, as in Kumo's `<Popover.Content className="p-3">`.
 - **Cells.** The day button fills the cell. Today is an outline, not a fill. Range start and end are caps on the button over a muted band on the cell. Focus uses the shared `focusRing`. Weekday labels are muted, weeks are 4px apart, `footer` gets a top gap and muted text.
 - **Docs.** The Date Picker showcase examples follow Kumo's compositions: standalone, `PopoverContent className="w-auto p-3"`, dropdown caption, two months, and presets with a divider.
@@ -30,7 +30,7 @@ Owner review of `DatePicker` found three layout defects, all in `packages/ui/src
 
 ## Acceptance
 
-- In Chromium, every caption control (previous, next, each dropdown) sits inside the calendar root's box and overlaps no other control, for each `captionLayout`, one and two months, `showWeekNumber` and a long-name locale (`date-picker-layout.browser.test.tsx`).
+- In Chromium, every caption control (previous, next, each dropdown) sits inside the columns of day cells and overlaps no other control, for each `captionLayout`, one and two months, `showWeekNumber` and a long-name locale (`date-picker-layout.browser.test.tsx`).
 - A standalone calendar has a border, a `--rixl-surface` background and 12px padding; inside a `Popover` or `Card` it has none of them (`date-picker-surface.test.tsx`, `date-picker-layout.browser.test.tsx`).
 - axe reports no WCAG 2.2 AA violation for each of those compositions.
 - `vp check`, `vp test --run`, coverage floor, `vp pack`, `vpx publint`, `vpx size-limit` (JS 56.4 of 58 kB, preset 3.49 of 3.5 kB, unchanged) and the docs build pass.
