@@ -1,7 +1,7 @@
 import {describe, expect, it} from "vitest";
 import {act, render, screen} from "@testing-library/react";
 import {Badge} from "../../components/badge";
-import {BreadcrumbLink} from "../../components/breadcrumb";
+import {BreadcrumbLink, BreadcrumbSeparator} from "../../components/breadcrumb";
 import {Button} from "../../components/button";
 import {Checkbox} from "../../components/checkbox";
 import {Input} from "../../components/input";
@@ -23,7 +23,7 @@ import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "../
 import {Switch} from "../../components/switch";
 import {Tabs, TabsContent, TabsList, TabsTrigger} from "../../components/tabs";
 import {cn} from "../cn";
-import {focusRing, focusRingBorderless, indicatorPop, menuItem, popupSurface} from "../classes";
+import {focusRing, focusRingBorderless, indicatorPop, menuItem, popupSurface, rtlFlip} from "../classes";
 
 const tokens = (classes: string) => classes.split(" ");
 const hasEvery = (element: Element, classes: string) => tokens(classes).every((token) => element.classList.contains(token));
@@ -289,5 +289,26 @@ describe("indicatorPop", () => {
     for (const [name, indicator] of Object.entries(indicators)) {
       expect(indicator && hasEvery(indicator, indicatorPop), name).toBe(true);
     }
+  });
+});
+
+describe("rtlFlip", () => {
+  it("mirrors the element on the x axis under dir=rtl", () => {
+    expect(rtlFlip).toBe("rtl:-scale-x-100");
+  });
+
+  it("survives a consumer class that sets another scale", () => {
+    expect(tokens(cn(rtlFlip, "scale-110"))).toContain(rtlFlip);
+  });
+
+  it("is carried by the default breadcrumb separator and not by a custom one", () => {
+    render(
+      <>
+        <BreadcrumbSeparator data-testid="default" />
+        <BreadcrumbSeparator data-testid="custom">/</BreadcrumbSeparator>
+      </>
+    );
+    expect(screen.getByTestId("default").querySelector("svg")).toHaveClass(rtlFlip);
+    expect(screen.getByTestId("custom").querySelector("svg")).toBeNull();
   });
 });

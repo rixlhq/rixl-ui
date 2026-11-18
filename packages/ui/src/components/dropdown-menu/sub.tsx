@@ -2,7 +2,7 @@ import {forwardRef, type ComponentProps} from "react";
 import {Menu as MenuPrimitive} from "@base-ui/react/menu";
 import {ChevronRight} from "lucide-react";
 import {cn} from "../../lib/cn";
-import {menuItem} from "../../lib/classes";
+import {menuItem, rtlFlip} from "../../lib/classes";
 
 import {DropdownMenuContent} from "./content";
 
@@ -29,7 +29,7 @@ export const DropdownMenuSubTrigger = forwardRef<HTMLElement, DropdownMenuSubTri
       {...props}
     >
       {children}
-      <ChevronRight className="ms-auto size-4 rtl:-scale-x-100" />
+      <ChevronRight className={cn("ms-auto size-4", rtlFlip)} />
     </MenuPrimitive.SubmenuTrigger>
   );
 });

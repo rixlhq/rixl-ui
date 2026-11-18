@@ -1,5 +1,6 @@
 import {ChevronLeftIcon, ChevronRightIcon} from "lucide-react";
 import {cn} from "../../lib/cn";
+import {rtlFlip} from "../../lib/classes";
 import {Button} from "../button";
 import type {RixlTranslations} from "../locale";
 import type {TabsSize, TabsVariant} from "./context";
@@ -63,7 +64,7 @@ export function TabsOverflowControl({side, visible, variant, size, isRtl, labels
           isStart ? "ms-1" : "me-1"
         )}
       >
-        <Icon className="size-3.5 rtl:-scale-x-100" aria-hidden="true" />
+        <Icon className={cn("size-3.5", rtlFlip)} aria-hidden="true" />
       </span>
     </Button>
   );

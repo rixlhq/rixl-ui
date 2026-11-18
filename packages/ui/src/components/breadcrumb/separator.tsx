@@ -1,6 +1,7 @@
 import {forwardRef, type ComponentProps} from "react";
 import {ChevronRight, MoreHorizontal} from "lucide-react";
 import {cn} from "../../lib/cn";
+import {rtlFlip} from "../../lib/classes";
 import type {RixlTranslations} from "../locale";
 import {useTranslations} from "../locale/use-translations";
 
@@ -19,7 +20,7 @@ export const BreadcrumbSeparator = forwardRef<HTMLLIElement, BreadcrumbSeparator
     className={cn("[&>svg]:size-3.5", className)}
     {...props}
   >
-    {children ?? <ChevronRight />}
+    {children ?? <ChevronRight className={rtlFlip} />}
   </li>
 ));
 BreadcrumbSeparator.displayName = "BreadcrumbSeparator";

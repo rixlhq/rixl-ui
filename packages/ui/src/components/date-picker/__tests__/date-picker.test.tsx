@@ -2,6 +2,7 @@ import {describe, it, expect, vi} from "vitest";
 import {useState} from "react";
 import {act, render, screen} from "@testing-library/react";
 import type {DateRange} from "react-day-picker";
+import {rtlFlip} from "../../../lib/classes";
 import {DatePicker} from "../date-picker";
 
 const JUNE_2026 = new Date(2026, 5, 1);
@@ -219,11 +220,11 @@ describe("DatePicker", () => {
     expect(dropdowns.className).not.toContain("justify-center");
   });
 
-  it("keeps the chevron mirroring rules for RTL after the nav regroup", () => {
+  it("mirrors the previous and next chevrons in RTL", () => {
     render(<SingleHarness />);
-    const grid = document.querySelector("[data-slot='calendar']")!;
-    expect(grid.className).toContain("rtl:**:[.rdp-button\\_next>svg]:rotate-180");
-    expect(grid.className).toContain("rtl:**:[.rdp-button\\_previous>svg]:rotate-180");
+    const flipped = (selector: string) => document.querySelector(`[data-slot='calendar'] ${selector} svg`)?.getAttribute("class");
+    expect(flipped(".rdp-button_previous")).toContain(rtlFlip);
+    expect(flipped(".rdp-button_next")).toContain(rtlFlip);
   });
 
   it("fixes day and weekday cells to the cell size so digit count cannot shift the grid", () => {

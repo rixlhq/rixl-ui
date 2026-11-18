@@ -11,6 +11,9 @@ export const focusRing = "focus-visible:border-rixl-ring focus-visible:ring-rixl
 /** Focus ring for a part with no border of its own, so there is no border colour to change. */
 export const focusRingBorderless = "focus-visible:ring-rixl-ring/50 focus-visible:ring-[3px]";
 
+/** Mirrors a directional icon (chevron, arrow) under `dir="rtl"`. Not for icons that point up or down. */
+export const rtlFlip = "rtl:-scale-x-100";
+
 /**
  * Surface of a floating popup (Popover, DropdownMenu, Select) with its scale-and-fade
  * enter and exit. Each popup adds its own width, padding and positioning.
