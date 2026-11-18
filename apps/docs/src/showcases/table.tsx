@@ -6,7 +6,7 @@ export const path = "table";
 export const title = "Table";
 export const description = "Present structured information in rows and columns.";
 export const notes =
-  "Plain HTML table styled as a data grid. Row hover + selected states; opt-in sticky header (`sticky`) and opt-in scroll via `containerClassName`.";
+  'Plain HTML table styled as a data grid. Row hover + selected states (a row with `aria-selected="true"` or `data-state="selected"` reads as selected); opt-in sticky header (`sticky`) and opt-in scroll via `containerClassName`.';
 
 export function Showcase() {
   return (
@@ -80,4 +80,38 @@ function BasicExample(props: {state: Record<string, ControlValue>}) {
   );
 }
 
-export const examples: Example[] = [{id: "basic", title: "Invoices table", render: BasicExample}];
+function SelectedRowExample() {
+  return (
+    <Table containerClassName="w-full max-w-2xl">
+      <TableHeader>
+        <TableRow>
+          <TableHead>Invoice</TableHead>
+          <TableHead className="text-right">Amount</TableHead>
+        </TableRow>
+      </TableHeader>
+      <TableBody>
+        <TableRow aria-selected="true">
+          <TableCell className="font-medium">INV-001</TableCell>
+          <TableCell className="text-right">$250.00</TableCell>
+        </TableRow>
+        <TableRow>
+          <TableCell className="font-medium">INV-002</TableCell>
+          <TableCell className="text-right">$150.00</TableCell>
+        </TableRow>
+      </TableBody>
+    </Table>
+  );
+}
+
+export const examples: Example[] = [
+  {id: "basic", title: "Invoices table", render: BasicExample},
+  {
+    id: "selected",
+    title: "Selected row",
+    description: 'A row with aria-selected="true" gets the selected background.',
+    render: SelectedRowExample,
+    code: `<TableRow aria-selected="true">
+  <TableCell>INV-001</TableCell>
+</TableRow>`,
+  },
+];
