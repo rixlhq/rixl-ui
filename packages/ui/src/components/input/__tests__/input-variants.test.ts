@@ -27,7 +27,7 @@ describe("controlSurface", () => {
 describe("controlSizes", () => {
   it("steps the height xs, sm, base, lg", () => {
     expect(Object.keys(controlSizes)).toEqual(["xs", "sm", "base", "lg"]);
-    expect(Object.values(controlSizes).map((size) => /\bh-\d+\b/.exec(size)?.[0])).toEqual(["h-7", "h-8", "h-9", "h-10"]);
+    expect(Object.values(controlSizes).map((size) => /(?<![:\w-])h-\d+\b/.exec(size)?.[0])).toEqual(["h-7", "h-8", "h-9", "h-10"]);
   });
 });
 

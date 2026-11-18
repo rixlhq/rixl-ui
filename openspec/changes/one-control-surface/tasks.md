@@ -6,7 +6,7 @@
 
 ## 2. Select
 
-- [ ] 2.1 Trigger composes the surface and the size scale; `xs|sm|base|lg`, no `default` (test first: `select.test.tsx` sizes, parity with `inputVariants`; browser: not read-only styled)
+- [x] 2.1 Trigger composes the surface and the size scale; `xs|sm|base|lg`, no `default` (test first: `select.test.tsx` sizes, parity with `inputVariants`; browser: not read-only styled) — `select.test.tsx` sizes/parity/surface and the browser read-only test pass
 - [ ] 2.2 `Select` built-in field: `label`, `labelTooltip`, `description`, `error` (test first: `select-field.test.tsx`; browser: axe with label and error)
 
 ## 3. Input OTP

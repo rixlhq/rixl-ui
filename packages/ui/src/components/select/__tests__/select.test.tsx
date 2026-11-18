@@ -1,6 +1,7 @@
 import {describe, it, expect} from "vitest";
 import {createRef, type RefObject} from "react";
 import {render, screen} from "@testing-library/react";
+import {inputVariants} from "../../input/input-variants";
 import {
   Select,
   SelectContent,
@@ -15,7 +16,7 @@ import {
   selectTriggerVariants,
 } from "../select";
 
-function Basic({defaultValue, disabled, size}: {defaultValue?: string; disabled?: boolean; size?: "sm" | "default"} = {}) {
+function Basic({defaultValue, disabled, size}: {defaultValue?: string; disabled?: boolean; size?: "xs" | "sm" | "base" | "lg"} = {}) {
   return (
     <Select defaultValue={defaultValue} disabled={disabled}>
       <SelectTrigger size={size} data-testid="trigger">
@@ -56,7 +57,6 @@ describe("Select", () => {
   it("applies hover, press, and open-state affordances to the trigger", () => {
     render(<Basic />);
     const cls = screen.getByTestId("trigger").className;
-    expect(cls).toContain("enabled:hover:border-rixl-border-strong");
     expect(cls).toContain("enabled:active:scale-[var(--rixl-press-scale)]");
     expect(cls).toContain("motion-reduce:active:scale-100");
     expect(cls).toContain("data-[popup-open]:border-rixl-border-strong");
@@ -69,10 +69,18 @@ describe("Select", () => {
     expect(chevron?.getAttribute("class")).toContain("transition-transform");
   });
 
-  it("applies the size height via selectTriggerVariants", () => {
-    render(<Basic size="sm" />);
-    expect(screen.getByTestId("trigger").className).toContain("h-8");
-    expect(selectTriggerVariants({size: "default"})).toContain("h-9");
+  it("applies each size's height to the trigger", () => {
+    const heights = {xs: "h-7", sm: "h-8", base: "h-9", lg: "h-10"} as const;
+    for (const [size, height] of Object.entries(heights)) {
+      expect(selectTriggerVariants({size: size as keyof typeof heights})).toContain(height);
+    }
+  });
+
+  it("has the same height as Input at every size", () => {
+    for (const size of ["xs", "sm", "base", "lg"] as const) {
+      const height = /(?<![:\w-])h-\d+\b/.exec(inputVariants({size}))?.[0];
+      expect(selectTriggerVariants({size}), size).toContain(height);
+    }
   });
 
   it("reflects the size prop via data-size", () => {
@@ -80,9 +88,36 @@ describe("Select", () => {
     expect(screen.getByTestId("trigger")).toHaveAttribute("data-size", "sm");
   });
 
-  it("defaults size to 'default'", () => {
+  it("defaults size to 'base' (h-9)", () => {
     render(<Basic />);
-    expect(screen.getByTestId("trigger")).toHaveAttribute("data-size", "default");
+    const trigger = screen.getByTestId("trigger");
+    expect(trigger).toHaveAttribute("data-size", "base");
+    expect(trigger.className).toContain("h-9");
+  });
+
+  it("shares Input's control surface: hover, invalid and disabled states", () => {
+    render(<Basic />);
+    const cls = screen.getByTestId("trigger").className;
+    expect(cls).toContain("hover:border-rixl-border-strong");
+    expect(cls).toContain("aria-invalid:border-rixl-danger");
+    expect(cls).toContain("aria-invalid:bg-rixl-danger/10");
+    expect(cls).toContain("disabled:opacity-50");
+  });
+
+  it("does not take the text fields' read-only look", () => {
+    render(<Basic />);
+    expect(screen.getByTestId("trigger").className).not.toContain("read-only:");
+  });
+
+  it("lets a consumer's width replace the surface's full width", () => {
+    render(
+      <Select>
+        <SelectTrigger data-testid="trigger" className="w-48" />
+      </Select>
+    );
+    const cls = screen.getByTestId("trigger").className;
+    expect(cls).toContain("w-48");
+    expect(cls).not.toContain("w-full");
   });
 
   it("renders SelectValue with data-slot", () => {

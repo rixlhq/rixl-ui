@@ -145,6 +145,12 @@ describe("Select Browser Mode", () => {
     }).toEqual({property: ["opacity", "scale"], duration: "0.12s", before: {opacity: "0", scale: "0.5"}, afterScale: "1"});
   });
 
+  it("keeps a transparent background, since :read-only would mute any button", async () => {
+    render(<TestSelect />);
+    const trigger = document.querySelector<HTMLElement>("[data-testid=select-trigger]")!;
+    expect(getComputedStyle(trigger).backgroundColor).toBe("rgba(0, 0, 0, 0)");
+  });
+
   it("has no WCAG 2.2 AA violations when open", async () => {
     render(<TestSelect />);
     await userEvent.click(page.getByTestId("select-trigger"));
