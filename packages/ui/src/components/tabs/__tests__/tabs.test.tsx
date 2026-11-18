@@ -113,6 +113,15 @@ describe("Tabs", () => {
       expect(cls).toContain("motion-reduce:transition-none");
     });
 
+    it("glides on the slow in-out motion tokens rather than hardcoded timing", () => {
+      render(<Basic />);
+      const cls = indicator()!.className;
+      expect(cls).toContain("duration-rixl-slow");
+      expect(cls).toContain("ease-rixl-in-out");
+      expect(cls).not.toContain("duration-300");
+      expect(cls).not.toContain("cubic-bezier");
+    });
+
     it("draws a bar rather than a pill for the underline variant", () => {
       render(<Basic variant="underline" />);
       const cls = indicator()!.className;

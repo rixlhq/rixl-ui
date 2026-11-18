@@ -9,8 +9,8 @@ const indicatorVariants = cva(
     "pointer-events-none absolute top-0 left-0 z-0",
     "translate-x-[var(--active-tab-left)] translate-y-[var(--active-tab-top)]",
     "h-[var(--active-tab-height)] w-[var(--active-tab-width)]",
-    // Smooth 300ms glide so the eye follows the indicator across tabs.
-    "transition-[translate,width,height] duration-300 ease-[cubic-bezier(0.4,0,0.2,1)] motion-reduce:transition-none"
+    // On-screen movement, so ease-in-out; the slow token lets the eye follow the indicator across tabs.
+    "transition-[translate,width,height] duration-rixl-slow ease-rixl-in-out motion-reduce:transition-none"
   ),
   {
     variants: {
