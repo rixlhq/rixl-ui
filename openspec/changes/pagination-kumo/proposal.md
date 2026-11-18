@@ -50,5 +50,5 @@ Migration:
 
 ## Acceptance
 
-- `git grep -nE "currentPage|setLimit|limitOptions|renderLimitSelector|PaginationLimitNode|onPageChange|getPageLabel" packages/ui/src apps/docs/src` finds nothing.
+- `git grep -nE "currentPage|setLimit|limitOptions|renderLimitSelector|PaginationLimitNode|onPageChange|getPageLabel" packages/ui/src apps/docs/src` finds only the `@ts-expect-error` cases in `pagination.test.tsx` that prove the removed names are rejected.
 - `vp check`, `vp test run`, `vp pack`, `vpx size-limit` and `vpr docs` pass, and the browser test keeps its axe checks.
