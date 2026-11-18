@@ -16,7 +16,8 @@
  */
 
 @layer rixl-tokens {
-  :root {
+  :root,
+  [data-theme="light"] {
     /* ── Surfaces ─────────────────────────────────────────── */
     --rixl-bg: oklch(0.99 0.002 264);
     --rixl-surface: oklch(1 0 0);
@@ -115,7 +116,7 @@
 
   /*
    * Dark mode: consumers opt in by adding `data-theme="dark"` to <html>
-   * (or any ancestor). We deliberately don't hook into `.dark` or
+   * (or any ancestor); `data-theme="light"` inside it restores the light values. We deliberately don't hook into `.dark` or
    * `prefers-color-scheme` here — dashboard, landing, and docs each
    * pick their own strategy and toggle the attribute themselves.
    */
@@ -169,8 +170,11 @@
  * Register tokens with Tailwind 4's @theme directive so consumers can
  * write `bg-rixl-primary`, `text-rixl-fg`, `rounded-rixl-md`, etc.,
  * anywhere in their app — not just inside @rixl/ui components.
+ * `inline` makes a utility read `var(--rixl-*)` itself instead of a
+ * `--color-rixl-*` copy resolved once at :root, so `data-theme` on any
+ * ancestor re-themes it.
  */
-@theme {
+@theme inline {
   --color-rixl-bg: var(--rixl-bg);
   --color-rixl-surface: var(--rixl-surface);
   --color-rixl-surface-muted: var(--rixl-surface-muted);
@@ -231,7 +235,9 @@
   --shadow-rixl-sm: var(--rixl-shadow-sm);
   --shadow-rixl-md: var(--rixl-shadow-md);
   --shadow-rixl-lg: var(--rixl-shadow-lg);
+}
 
+@theme {
   /* Sidebar collapse/expand motion (used by the Sidebar component). */
   --transition-duration-sidebar: 220ms;
   --ease-curve-sidebar: var(--rixl-ease-drawer);

@@ -6,7 +6,7 @@ import {Toaster, toast} from "../toaster";
 
 const THEMES = ["light", "dark"] as const;
 
-// On <html>, where consumers put it: Tailwind resolves the --color-rixl-* utilities once at :root, so a nested scope would not re-theme them.
+// On <html>, where consumers usually put it; nested scopes are covered in src/styles/__tests__/theme-scope.browser.test.tsx.
 function renderToaster(theme: (typeof THEMES)[number], props: Parameters<typeof Toaster>[0] = {}) {
   document.documentElement.setAttribute("data-theme", theme);
   return render(

@@ -2,9 +2,9 @@
 
 ## 1. Theme scope
 
-- [ ] 1.1 Failing browser test: nested `data-theme="dark"` differs from `<html data-theme="dark">`.
-- [ ] 1.2 Registrations resolve at the element; nested dark and nested light inside dark pass.
-- [ ] 1.3 `vpr cn:tables` regenerated, cn tests pass.
+- [x] 1.1 Failing browser test: nested `data-theme="dark"` differs from `<html data-theme="dark">`.
+- [x] 1.2 Registrations resolve at the element; nested dark and nested light inside dark pass.
+- [x] 1.3 `vpr cn:tables` regenerated, cn tests pass.
 
 ## 2. Status contrast
 
