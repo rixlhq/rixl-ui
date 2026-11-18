@@ -254,12 +254,8 @@
   }
 
   /*
-   * Shimmer sweep for the Skeleton `shimmer` variant. A highlight band (the
-   * `::after` of an `overflow-hidden` root) travels across the placeholder; the
-   * base `--rixl-surface-muted` shows through the transparent stops. It moves
-   * with `translate`, which the compositor handles without repainting. Linear +
-   * infinite reads as a steady metronome. Consumers get `animate-rixl-shimmer`
-   * automatically once they import preset.css.
+   * Skeleton `shimmer`: the root's `::after` band moves with `translate`, so
+   * the compositor runs the sweep without repainting.
    */
   --animate-rixl-shimmer: rixl-shimmer 1.5s linear infinite;
   @keyframes rixl-shimmer {
@@ -272,9 +268,8 @@
   }
 
   /*
-   * Indeterminate Progress: a third-width band slides across the track.
-   * Transform only; linear + infinite keeps the speed constant. The Progress
-   * indicator sets `--rixl-progress-direction: -1` under RTL to mirror the sweep.
+   * Indeterminate Progress band. `--rixl-progress-direction: -1` mirrors it
+   * under RTL.
    */
   --animate-rixl-progress-indeterminate: rixl-progress-indeterminate 1.5s linear infinite;
   @keyframes rixl-progress-indeterminate {
