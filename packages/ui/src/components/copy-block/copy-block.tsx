@@ -1,6 +1,8 @@
 import {forwardRef, type ComponentProps} from "react";
 import {cn} from "../../lib/cn";
 import {Button} from "../button";
+import type {RixlTranslations} from "../locale";
+import {useTranslations} from "../locale/use-translations";
 import {Tooltip, TooltipContent, TooltipTrigger} from "../tooltip";
 import {CopyIndicator} from "./copy-indicator";
 import {useCopyState} from "./use-copy-state";
@@ -8,12 +10,14 @@ import {useCopyState} from "./use-copy-state";
 export type CopyBlockProps = Omit<ComponentProps<"div">, "title"> & {
   title: string;
   value?: string;
-  tooltipText?: string;
+  /** Names for the button, its tooltip and the copy status. Each defaults to the provider's string, then English. */
+  labels?: Partial<RixlTranslations["copyBlock"]>;
 };
-export const CopyBlock = forwardRef<HTMLDivElement, CopyBlockProps>(({title, value, tooltipText, className, children, ...props}, ref) => {
+export const CopyBlock = forwardRef<HTMLDivElement, CopyBlockProps>(({title, value, labels, className, children, ...props}, ref) => {
   const {state, handleCopy} = useCopyState(value);
+  const t = useTranslations("copyBlock", labels);
   const copied = state === "copied";
-  const message = {idle: "", pending: "Copying", copied: "Copied!", error: "Unable to copy. Try again."}[state];
+  const message = {idle: "", pending: t.copying, copied: t.copied, error: t.error}[state];
   return (
     <div
       ref={ref}
@@ -33,7 +37,7 @@ export const CopyBlock = forwardRef<HTMLDivElement, CopyBlockProps>(({title, val
               type="button"
               variant="ghost"
               size="icon-sm"
-              aria-label={`Copy ${title}`}
+              aria-label={t.copy(title)}
               data-copied={copied || undefined}
               disabled={!value || state === "pending"}
               aria-busy={state === "pending" || undefined}
@@ -45,7 +49,7 @@ export const CopyBlock = forwardRef<HTMLDivElement, CopyBlockProps>(({title, val
         >
           <CopyIndicator copied={copied} />
         </TooltipTrigger>
-        <TooltipContent>{message || tooltipText || `Copy ${title}`}</TooltipContent>
+        <TooltipContent>{message || t.copy(title)}</TooltipContent>
       </Tooltip>
       <output className="sr-only">{message}</output>
     </div>
