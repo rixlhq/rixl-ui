@@ -1,3 +1,4 @@
+import {forwardRef} from "react";
 import {Radio as RadioPrimitive} from "@base-ui/react/radio";
 import {RadioGroup as RadioGroupPrimitive} from "@base-ui/react/radio-group";
 import {cn} from "../../lib/cn";
@@ -15,13 +16,15 @@ import {cn} from "../../lib/cn";
  * - `<RadioGroupItem value="…" />` — an individual radio; wire a
  *   `<Label htmlFor="…" />` alongside for accessible labelling.
  */
-function RadioGroup({className, ...props}: RadioGroupPrimitive.Props) {
-  return <RadioGroupPrimitive data-slot="radio-group" className={cn("grid gap-3", className)} {...props} />;
-}
+const RadioGroup = forwardRef<HTMLDivElement, RadioGroupPrimitive.Props>(function RadioGroup({className, ...props}, ref) {
+  return <RadioGroupPrimitive ref={ref} data-slot="radio-group" className={cn("grid gap-3", className)} {...props} />;
+});
+RadioGroup.displayName = "RadioGroup";
 
-function RadioGroupItem({className, ...props}: RadioPrimitive.Root.Props) {
+const RadioGroupItem = forwardRef<HTMLElement, RadioPrimitive.Root.Props>(function RadioGroupItem({className, ...props}, ref) {
   return (
     <RadioPrimitive.Root
+      ref={ref}
       data-slot="radio-group-item"
       className={cn(
         "border-rixl-border text-rixl-primary flex items-center justify-center aspect-square size-4 shrink-0 rounded-full border shadow-rixl-xs outline-none touch-manipulation",
@@ -43,7 +46,8 @@ function RadioGroupItem({className, ...props}: RadioPrimitive.Root.Props) {
       </RadioPrimitive.Indicator>
     </RadioPrimitive.Root>
   );
-}
+});
+RadioGroupItem.displayName = "RadioGroupItem";
 
 function CircleIcon() {
   return (
