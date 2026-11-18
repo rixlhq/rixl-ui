@@ -135,27 +135,6 @@ describe("mobile overlay layout", () => {
     expect(await axeViolations(document.body)).toEqual([]);
   });
 
-  it.each(["left", "right", "top", "bottom"] as const)("scrolls long %s sheets within a short phone viewport", async (side) => {
-    await page.viewport(320, 320);
-    render(
-      <Dialog defaultOpen>
-        <DialogContent side={side}>
-          <DialogHeader>
-            <DialogTitle>Records</DialogTitle>
-            <DialogDescription>Review records</DialogDescription>
-          </DialogHeader>
-          <LongContent />
-          <DialogClose data-testid="end">Done</DialogClose>
-        </DialogContent>
-      </Dialog>
-    );
-    const dialog = page.getByRole("dialog");
-    await expect.element(dialog).toBeVisible();
-    expectContained(dialog.element());
-    await reachEnd(dialog.element());
-    expect(await axeViolations(document.body)).toEqual([]);
-  });
-
   it("bounds tall popovers and reaches their final content", async () => {
     await page.viewport(320, 568);
     render(

@@ -18,7 +18,7 @@ export const path = "dialog";
 export const title = "Dialog";
 export const description = "Open a focused task above the current page.";
 export const notes =
-  'Fullscreen below 640px; centered with four size variants on larger screens. Long content scrolls within the dialog. Use Table for horizontally scrollable data and include an explicit close action after long content. `role="alertdialog"` gives a confirmation that ignores outside clicks; `side` on DialogContent slides it in from an edge as a sheet.';
+  'Fullscreen below 640px; centered with four size variants on larger screens. Long content scrolls within the dialog. Use Table for horizontally scrollable data and include an explicit close action after long content. `role="alertdialog"` gives a confirmation that ignores outside clicks.';
 
 export function Showcase() {
   return (
@@ -182,30 +182,6 @@ function AlertDialogExample() {
   );
 }
 
-function SideSheetExample() {
-  return (
-    <Group label="Side sheet (side on DialogContent) — one trigger per edge">
-      {(["top", "right", "bottom", "left"] as const).map((side) => (
-        <Dialog key={side}>
-          <DialogTrigger render={<Button variant="outline">Open from {side}</Button>} />
-          <DialogContent side={side}>
-            <DialogHeader className="gap-1.5 p-4 pe-16">
-              <DialogTitle>Edit profile</DialogTitle>
-              <DialogDescription>Make changes to your profile here. Click save when you are done.</DialogDescription>
-            </DialogHeader>
-            <div className="px-4">
-              <Input label="Display name" defaultValue="Alex Morgan" />
-            </div>
-            <DialogFooter className="mt-auto flex-col p-4">
-              <Button size="sm">Save changes</Button>
-            </DialogFooter>
-          </DialogContent>
-        </Dialog>
-      ))}
-    </Group>
-  );
-}
-
 function LongContentExample() {
   return (
     <Dialog>
@@ -251,24 +227,6 @@ export const examples: Example[] = [
     <DialogFooter>
       <DialogClose render={<Button variant="outline">Cancel</Button>} />
       <DialogClose render={<Button variant="destructive">Continue</Button>} />
-    </DialogFooter>
-  </DialogContent>
-</Dialog>`,
-  },
-  {
-    id: "side-sheet",
-    title: "Side sheet",
-    description: "Pass side to DialogContent to slide a panel in from an edge. Header and footer take the spacing.",
-    render: SideSheetExample,
-    code: `<Dialog>
-  <DialogTrigger render={<Button variant="outline">Open</Button>} />
-  <DialogContent side="right">
-    <DialogHeader className="gap-1.5 p-4 pe-16">
-      <DialogTitle>Edit profile</DialogTitle>
-      <DialogDescription>Make changes to your profile here.</DialogDescription>
-    </DialogHeader>
-    <DialogFooter className="mt-auto flex-col p-4">
-      <Button size="sm">Save changes</Button>
     </DialogFooter>
   </DialogContent>
 </Dialog>`,

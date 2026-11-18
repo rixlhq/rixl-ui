@@ -145,21 +145,6 @@ describe("Dialog", () => {
     }
   });
 
-  it("slides edge sheets out faster than they slide in", async () => {
-    render(
-      <Dialog open>
-        <DialogContent data-testid="content" side="right">
-          <DialogTitle>Title</DialogTitle>
-          <DialogDescription>Description</DialogDescription>
-        </DialogContent>
-      </Dialog>
-    );
-    await act(async () => {});
-    const cls = screen.getByTestId("content").className;
-    expect(cls).toContain("duration-rixl-slow");
-    expect(cls).toContain("data-ending-style:duration-rixl-base");
-  });
-
   describe("size", () => {
     it("defaults to the lg max-width", async () => {
       render(<Basic open />);
