@@ -189,35 +189,27 @@ describe("DatePicker", () => {
     expect(grids[1].className).toContain("bg-rixl-bg");
   });
 
-  it("groups the month navigation at the inline end instead of splitting it across both edges", () => {
+  it("flanks the caption with the month navigation, which lets pointer events through between the buttons", () => {
     render(<SingleHarness />);
     const nav = document.querySelector("[data-slot='calendar'] .rdp-nav")!;
-    expect(nav.className).toContain("end-0");
-    expect(nav.className).not.toContain("justify-between");
-    expect(nav.className).not.toContain("inset-x-0");
+    expect(nav.className).toContain("inset-x-0");
+    expect(nav.className).toContain("justify-between");
+    expect(nav.className).toContain("pointer-events-none");
+    expect(screen.getByRole("button", {name: "Go to the Next Month"}).className).toContain("pointer-events-auto");
   });
 
-  it("left-aligns the month caption with end clearing for the grouped nav", () => {
+  it("centres the month caption between the navigation buttons", () => {
     render(<SingleHarness />);
     const caption = document.querySelector("[data-slot='calendar'] .rdp-month_caption")!;
-    expect(caption.className).toContain("justify-start");
-    expect(caption.className).not.toContain("justify-center");
-    expect(caption.className).toContain("pe-[calc(var(--cell-size)*2+0.5rem)]");
+    expect(caption.className).toContain("justify-center");
+    expect(caption.className).toContain("px-(--cell-size)");
   });
 
-  it("left-aligns the dropdown caption with end clearing for the grouped nav", () => {
-    render(
-      <DatePicker
-        mode="single"
-        defaultMonth={JUNE_2026}
-        captionLayout="dropdown"
-        startMonth={new Date(2020, 0)}
-        endMonth={new Date(2030, 11)}
-      />
-    );
-    const dropdowns = document.querySelector("[data-slot='calendar'] .rdp-dropdowns")!;
-    expect(dropdowns.className).toContain("justify-start");
-    expect(dropdowns.className).not.toContain("justify-center");
+  it("gives the caption no intrinsic width so a long month name cannot widen the calendar", () => {
+    render(<SingleHarness />);
+    const caption = document.querySelector("[data-slot='calendar'] .rdp-month_caption")!;
+    expect(caption.className).toContain("w-0");
+    expect(caption.className).toContain("min-w-full");
   });
 
   it("mirrors the previous and next chevrons in RTL", () => {

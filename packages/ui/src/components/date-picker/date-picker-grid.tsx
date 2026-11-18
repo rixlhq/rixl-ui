@@ -32,7 +32,7 @@ const DatePickerGrid = React.forwardRef<HTMLDivElement, DatePickerGridProps>(
           showOutsideDays={showOutsideDays}
           animate
           className={cn(
-            "bg-rixl-bg group/calendar p-3 [--cell-size:--spacing(8)] [[data-slot=card-content]_&]:bg-transparent [[data-slot=popover-content]_&]:bg-transparent",
+            "bg-rixl-bg group/calendar p-3 [--cell-size:--spacing(9)] [[data-slot=card-content]_&]:bg-transparent [[data-slot=popover-content]_&]:bg-transparent",
             className
           )}
           captionLayout={captionLayout}
