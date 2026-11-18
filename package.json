@@ -11,16 +11,17 @@
   "scripts": {
     "dev": "vpr --parallel -F './packages/*' dev",
     "pack": "NODE_ENV=production vpr --parallel -F './packages/*' pack",
-    "docs": "NODE_ENV=production vpr --parallel -F './apps/*' build",
+    "check": "vp check && vpr -F @rixl/ui react-doctor",
+    "docs": "vpr -F docs dev",
+    "docs:build": "vpr pack && vpr ci:docs",
+    "ci": "vpr ci:check && vpr ci:ui && vpr ci:docs",
+    "ci:check": "vpr check",
+    "ci:ui": "vpr -F @rixl/ui ci:package",
+    "ci:docs": "NODE_ENV=production vpr -F docs build",
     "clean": "vpr -F './packages/*' clean",
     "prepare": "[ -n \"$CI\" ] || lefthook install --reset-hooks-path",
-    "test": "vp test",
-    "test:prop": "vp test --project unit -t '\\[property\\]'",
-    "test:types": "vp test --run --project types",
-    "test:mutation": "stryker run",
-    "test:ct": "vp test --project 'browser:*' --run",
-    "test:ct:ui": "vp test watch --project 'browser:*' --ui",
-    "test:coverage": "vp test --coverage"
+    "test:coverage": "vpr -F @rixl/ui test:coverage",
+    "test:mutation": "vpr -F @rixl/ui test:mutation"
   },
   "devDependencies": {
     "@fission-ai/openspec": "2.0.0",
