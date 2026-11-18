@@ -122,7 +122,7 @@ export const SliderThumb = forwardRef<HTMLDivElement, SliderThumbProps>(function
         // No transform transition: the thumb must track the pointer 1:1 while
         // dragging. The nested range input takes focus, so ring on focus-within.
         "border-rixl-border bg-rixl-surface block size-4 shrink-0 rounded-full border shadow-rixl-xs",
-        "transition-[color,box-shadow] duration-rixl-fast ease-rixl-out",
+        "transition-[border-color,box-shadow] duration-rixl-fast ease-rixl-out",
         "hover:border-rixl-border-strong",
         "focus-visible:outline-none focus-within:border-rixl-ring focus-within:ring-rixl-ring/50 focus-within:ring-[3px]",
         "data-dragging:border-rixl-ring data-disabled:pointer-events-none data-disabled:opacity-50",

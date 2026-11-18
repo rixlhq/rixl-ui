@@ -41,10 +41,17 @@ describe("Slider", () => {
     render(<Basic />);
     for (const testId of ["thumb", "indicator"]) {
       const cls = screen.getByTestId(testId).className;
-      // `transition-[color,box-shadow]` is fine; anything touching transform would lag the drag.
+      // `transition-[border-color,box-shadow]` is fine; anything touching transform would lag the drag.
       expect(cls).not.toContain("transform");
       expect(cls).not.toContain("transition-all");
     }
+  });
+
+  it("transitions the border colour that hover and drag change, not the text colour", () => {
+    render(<Basic />);
+    const cls = screen.getByTestId("thumb").className;
+    expect(cls).toContain("transition-[border-color,box-shadow]");
+    expect(cls).toContain("hover:border-rixl-border-strong");
   });
 
   it("forwards a consumer className without dropping base classes", () => {
