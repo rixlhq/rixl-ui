@@ -172,4 +172,77 @@ describe("Sidebar Browser Mode", () => {
     const eighteenRem = 18 * Number.parseFloat(getComputedStyle(document.documentElement).fontSize);
     expect(sheet.offsetWidth).toBe(eighteenRem);
   });
+  describe("mobile panel", () => {
+    afterEach(async () => {
+      await page.viewport(1280, 720);
+    });
+
+    async function openMobile(side: "left" | "right", items = 1) {
+      await page.viewport(320, 320);
+      render(
+        <SidebarProvider>
+          <Sidebar side={side}>
+            <SidebarContent>
+              {Array.from({length: items}, (_, i) => (
+                <p key={i} data-testid={i === items - 1 ? "last" : undefined}>
+                  Item {i}
+                </p>
+              ))}
+            </SidebarContent>
+          </Sidebar>
+          <SidebarTrigger />
+        </SidebarProvider>
+      );
+      await userEvent.click(page.getByRole("button", {name: "Toggle Sidebar"}));
+      const panel = page.getByRole("dialog");
+      await expect.element(panel).toBeVisible();
+      return panel;
+    }
+
+    it.each(["left", "right"] as const)("keeps a long %s panel in the viewport and scrolls its content to the last item", async (side) => {
+      const panel = (await openMobile(side, 60)).element();
+      const rect = panel.getBoundingClientRect();
+      expect(rect.top).toBeGreaterThanOrEqual(-1);
+      expect(rect.bottom).toBeLessThanOrEqual(window.innerHeight + 1);
+      const scroller = nav();
+      expect(scroller.scrollHeight).toBeGreaterThan(scroller.clientHeight);
+      scroller.scrollTop = scroller.scrollHeight;
+      await expect
+        .poll(() => {
+          const last = page.getByTestId("last").element().getBoundingClientRect();
+          const bounds = scroller.getBoundingClientRect();
+          return last.top >= bounds.top && last.bottom <= bounds.bottom;
+        })
+        .toBe(true);
+    });
+
+    it.each(["left", "right"] as const)("anchors the %s panel to its physical edge", async (side) => {
+      const panel = (await openMobile(side)).element();
+      await expect
+        .poll(() => {
+          const rect = panel.getBoundingClientRect();
+          return side === "left" ? Math.round(rect.left) : Math.round(rect.right) - window.innerWidth;
+        })
+        .toBe(0);
+    });
+
+    it("closes on Escape and on a backdrop click", async () => {
+      const panel = await openMobile("left");
+      await userEvent.keyboard("{Escape}");
+      await expect.element(panel).not.toBeInTheDocument();
+
+      await userEvent.click(page.getByRole("button", {name: "Toggle Sidebar"}));
+      const reopened = page.getByRole("dialog");
+      await expect.element(reopened).toBeVisible();
+      const overlay = document.querySelector("[data-slot='dialog-overlay']");
+      if (!overlay) throw new Error("overlay not rendered");
+      await userEvent.click(page.elementLocator(overlay), {position: {x: 310, y: 160}});
+      await expect.element(reopened).not.toBeInTheDocument();
+    });
+
+    it("has no WCAG 2.2 AA violations when open", async () => {
+      await openMobile("left");
+      expect(await axeViolations(document.body)).toEqual([]);
+    });
+  });
 });
