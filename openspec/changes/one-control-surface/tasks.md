@@ -24,4 +24,4 @@
 
 ## 6. Verify
 
-- [ ] 6.1 `vp check`, `vp test run`, `vp pack`, `vpx size-limit`, `vpr docs`
+- [x] 6.1 `vp check`, `vp test run`, `vp pack`, `vpx size-limit`, `vpr docs` — see the final gate output in the change report
