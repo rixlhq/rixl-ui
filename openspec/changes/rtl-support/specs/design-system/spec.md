@@ -31,10 +31,20 @@ Layout that follows the reading direction SHALL use logical utilities (`ms-`, `m
 - **WHEN** `DialogContent` renders inside `dir="rtl"`
 - **THEN** the close button sits at the left edge of the content (`dialog-rtl.browser.test.tsx`)
 
-#### Scenario: Flip class [property]
+#### Scenario: Flip class
 
 - **WHEN** a directional icon applies `rtlFlip`
-- **THEN** its class list contains `rtl:-scale-x-100` after `cn` merging with any consumer class (`classes.test.ts`)
+- **THEN** its class list keeps `rtl:-scale-x-100` after `cn` merging with a consumer class (`classes.test.tsx`)
+
+#### Scenario: Dialog close button safe-area inset
+
+- **WHEN** `DialogCloseButton` renders
+- **THEN** its inset is the right safe-area inset where `end` is the right edge and the left one where `end` is the left edge (`dialog-rtl.test.tsx`)
+
+#### Scenario: Form controls and menus
+
+- **WHEN** `InputGroup`, `Switch`, `Slider`, `Select`, `DatePicker` and `DropdownMenu` render inside `dir="rtl"`
+- **THEN** addons swap sides, the switch thumb travels left, a low slider value sits at the right, the select chevron sits at the left, the calendar's previous month is to the right of next, and a sub-menu opens on the left (`*-rtl.browser.test.tsx`)
 
 ### Requirement: `@rixl/ui/direction-provider` re-exports Base UI's `DirectionProvider`
 
@@ -43,4 +53,4 @@ Base UI components read direction from `DirectionProvider`, not from the DOM `di
 #### Scenario: Keyboard navigation follows direction
 
 - **WHEN** `Tabs` renders inside `DirectionProvider direction="rtl"` and the first tab is focused
-- **THEN** `ArrowLeft` moves focus to the second tab (`tabs-rtl.browser.test.tsx`)
+- **THEN** `ArrowLeft` moves focus to the second tab (`direction-provider.browser.test.tsx`, `tabs-rtl.browser.test.tsx`)
