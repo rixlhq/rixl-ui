@@ -3,6 +3,9 @@ import {render, screen, fireEvent} from "@testing-library/react";
 import * as fc from "fast-check";
 import {Slider, SliderControl, SliderTrack, SliderIndicator, SliderThumb} from "../slider";
 
+// 100 generated renders take about 3s alone, and the default 5s limit fails when the unit and browser projects run together.
+const PROPERTY_TEST_TIMEOUT_MS = 20_000;
+
 function Basic({defaultValue = 50, ...props}: {defaultValue?: number | readonly number[]} & Record<string, unknown> = {}) {
   const {onValueChange, ...rest} = props as {onValueChange?: (value: number) => void};
   return (
@@ -89,25 +92,29 @@ describe("Slider", () => {
     expect(container.firstElementChild?.className).toContain("data-disabled:opacity-50");
   });
 
-  it("[property] renders one slider per value in a range", () => {
-    fc.assert(
-      fc.property(fc.array(fc.integer({min: 0, max: 100}), {minLength: 1, maxLength: 3}), (values) => {
-        const sorted = [...values].sort((a, b) => a - b);
-        const {unmount} = render(
-          <Slider defaultValue={sorted.length === 1 ? sorted[0] : sorted}>
-            <SliderControl>
-              <SliderTrack>
-                <SliderIndicator />
-              </SliderTrack>
-              {sorted.map((_, index) => (
-                <SliderThumb key={index} aria-label={`Thumb ${index}`} />
-              ))}
-            </SliderControl>
-          </Slider>
-        );
-        expect(screen.getAllByRole("slider")).toHaveLength(sorted.length);
-        unmount();
-      })
-    );
-  });
+  it(
+    "[property] renders one slider per value in a range",
+    () => {
+      fc.assert(
+        fc.property(fc.array(fc.integer({min: 0, max: 100}), {minLength: 1, maxLength: 3}), (values) => {
+          const sorted = [...values].sort((a, b) => a - b);
+          const {unmount} = render(
+            <Slider defaultValue={sorted.length === 1 ? sorted[0] : sorted}>
+              <SliderControl>
+                <SliderTrack>
+                  <SliderIndicator />
+                </SliderTrack>
+                {sorted.map((_, index) => (
+                  <SliderThumb key={index} aria-label={`Thumb ${index}`} />
+                ))}
+              </SliderControl>
+            </Slider>
+          );
+          expect(screen.getAllByRole("slider")).toHaveLength(sorted.length);
+          unmount();
+        })
+      );
+    },
+    PROPERTY_TEST_TIMEOUT_MS
+  );
 });
