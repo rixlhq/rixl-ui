@@ -1,3 +1,4 @@
+import {forwardRef} from "react";
 import {Switch as SwitchPrimitive} from "@base-ui/react/switch";
 import {cn} from "../../lib/cn";
 
@@ -8,9 +9,10 @@ import {cn} from "../../lib/cn";
  * swapped to `--rixl-*` tokens; `dark:*` variants dropped — rixl
  * re-evaluates every token under `[data-theme="dark"]`.
  */
-function Switch({className, ...props}: SwitchPrimitive.Root.Props) {
+const Switch = forwardRef<HTMLElement, SwitchPrimitive.Root.Props>(function Switch({className, ...props}, ref) {
   return (
     <SwitchPrimitive.Root
+      ref={ref}
       data-slot="switch"
       className={cn(
         "peer inline-flex h-[1.15rem] w-8 shrink-0 items-center rounded-full border border-transparent shadow-rixl-xs outline-none touch-manipulation",
@@ -32,7 +34,8 @@ function Switch({className, ...props}: SwitchPrimitive.Root.Props) {
       />
     </SwitchPrimitive.Root>
   );
-}
+});
+Switch.displayName = "Switch";
 
 export {Switch};
 export type SwitchProps = SwitchPrimitive.Root.Props;
