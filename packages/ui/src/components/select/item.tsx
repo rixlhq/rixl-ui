@@ -14,14 +14,24 @@ export const SelectItem = forwardRef<HTMLDivElement, SelectItemProps>(function S
       className={cn(
         // Base UI highlights the active option via data-highlighted (keyboard and
         // pointer) — not :focus — so drive the highlight from that. Selected rows
-        // get a touch more weight on top of the checkmark.
-        "data-highlighted:bg-rixl-surface-muted data-highlighted:text-rixl-fg data-selected:font-medium [&_svg:not([class*='text-'])]:text-rixl-fg-muted relative flex w-full cursor-pointer items-center gap-2 rounded-rixl-sm py-1.5 pe-8 ps-2 text-sm outline-hidden select-none data-disabled:pointer-events-none data-disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 *:[span]:last:flex *:[span]:last:items-center *:[span]:last:gap-2",
+        // get a touch more weight on top of the checkmark. cursor-default, like the
+        // menu items and a native <option>: a pointer cursor is for links.
+        "data-highlighted:bg-rixl-surface-muted data-highlighted:text-rixl-fg data-selected:font-medium [&_svg:not([class*='text-'])]:text-rixl-fg-muted relative flex w-full cursor-default items-center gap-2 rounded-rixl-sm py-1.5 pe-8 ps-2 text-sm outline-hidden select-none data-disabled:pointer-events-none data-disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 *:[span]:last:flex *:[span]:last:items-center *:[span]:last:gap-2",
         className
       )}
       {...props}
     >
       <span className="absolute end-2 flex size-3.5 items-center justify-center">
-        <SelectPrimitive.ItemIndicator>
+        {/*
+          Same scale and fade as the DropdownMenu indicators. Base UI mounts this
+          indicator only while selected and mounts it already settled, so
+          data-starting-style never fires; keep it mounted and let the item's
+          data-selected drive a plain CSS transition instead.
+        */}
+        <SelectPrimitive.ItemIndicator
+          keepMounted
+          className="scale-50 opacity-0 transition-[scale,opacity] duration-rixl-fast ease-rixl-out in-data-selected:scale-100 in-data-selected:opacity-100 motion-reduce:transition-none"
+        >
           <CheckIcon className="size-4" />
         </SelectPrimitive.ItemIndicator>
       </span>

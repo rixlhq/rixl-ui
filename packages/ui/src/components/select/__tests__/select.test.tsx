@@ -143,6 +143,33 @@ function OpenSelect({refs}: {refs: Record<string, React.Ref<HTMLElement>>}) {
 }
 
 describe("Select open popup", () => {
+  it("scales and fades the check from the item's selected state over the fast motion token", () => {
+    render(<OpenSelect refs={{}} />);
+    const indicator = screen.getByRole("option", {name: "Apple"}).querySelector("svg")!.parentElement!;
+    expect(indicator).toHaveClass(
+      "scale-50",
+      "opacity-0",
+      "in-data-selected:scale-100",
+      "in-data-selected:opacity-100",
+      "transition-[scale,opacity]",
+      "duration-rixl-fast",
+      "ease-rixl-out",
+      "motion-reduce:transition-none"
+    );
+  });
+
+  it("keeps the check mounted on unselected items so selecting one can transition", () => {
+    render(<OpenSelect refs={{}} />);
+    expect(screen.getByRole("option", {name: "Banana"}).querySelector("svg")).not.toBeNull();
+  });
+
+  it("uses the default cursor on options, as menu items do", () => {
+    render(<OpenSelect refs={{}} />);
+    const option = screen.getByRole("option", {name: "Apple"});
+    expect(option).toHaveClass("cursor-default");
+    expect(option).not.toHaveClass("cursor-pointer");
+  });
+
   it("forwards refs to the element carrying each part's data-slot", () => {
     const refs = Object.fromEntries(
       ["trigger", "value", "content", "group", "label", "item", "separator"].map((name) => [name, createRef<HTMLElement>()])
