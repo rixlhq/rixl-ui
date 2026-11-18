@@ -1,3 +1,4 @@
+import {createRef} from "react";
 import {describe, it, expect} from "vitest";
 import {render, screen} from "@testing-library/react";
 import {Label} from "../label";
@@ -50,5 +51,15 @@ describe("Label", () => {
     const label = screen.getByText("Email");
     expect(label).toHaveAttribute("id", "my-label");
     expect(label).toHaveAttribute("title", "Tooltip");
+  });
+
+  it("forwards a ref to the label element", () => {
+    const ref = createRef<HTMLLabelElement>();
+    render(<Label ref={ref}>Email</Label>);
+    expect(ref.current).toBe(screen.getByText("Email"));
+  });
+
+  it("has a displayName for devtools", () => {
+    expect(Label.displayName).toBe("Label");
   });
 });
