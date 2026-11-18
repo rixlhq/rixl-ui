@@ -42,8 +42,11 @@ function SliderBase<Value extends number | readonly number[]>(
   );
 }
 
+const SliderRoot = forwardRef(SliderBase);
+SliderRoot.displayName = "Slider";
+
 // `forwardRef` erases the generic, so the cast restores it: the runtime passes props through untouched.
-export const Slider = forwardRef(SliderBase) as <Value extends number | readonly number[] = number | readonly number[]>(
+export const Slider = SliderRoot as <Value extends number | readonly number[] = number | readonly number[]>(
   props: SliderProps<Value> & {ref?: Ref<HTMLDivElement>}
 ) => ReactElement;
 
