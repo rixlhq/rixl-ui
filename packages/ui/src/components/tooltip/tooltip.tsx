@@ -5,9 +5,12 @@ import {cn} from "../../lib/cn";
  * Rixl Tooltip — a small contextual label anchored to a trigger.
  *
  * Ported from dashboard's shadcn Tooltip (Base UI Tooltip). Composition:
- * - `<TooltipProvider>` — timing context (default delay=0).
- * - `<Tooltip>` — the root; wraps its own Provider so consumers can drop
- *   a single Tooltip anywhere without wiring a provider first.
+ * - `<TooltipProvider>` — timing context shared by the tooltips under it
+ *   (default hover-intent delay of 500ms). While one tooltip is open its
+ *   neighbours open instantly. Pass `delay={0}` for instant tooltips.
+ * - `<Tooltip>` — the root. It does not wrap a provider, so it uses the
+ *   delay of the nearest `TooltipProvider`; without one, Base UI's own
+ *   default delay applies.
  * - `<TooltipTrigger>` — the anchor element.
  * - `<TooltipContent>` — the portalled popup with an arrow. Positioning
  *   props (side/align/offset) are pass-through.
@@ -16,16 +19,14 @@ import {cn} from "../../lib/cn";
  * `bg-rixl-primary` / `text-rixl-primary-fg` for the classic dark chip
  * pattern.
  */
-function TooltipProvider({delay = 0, ...props}: TooltipPrimitive.Provider.Props) {
+const TOOLTIP_DEFAULT_DELAY_MS = 500;
+
+function TooltipProvider({delay = TOOLTIP_DEFAULT_DELAY_MS, ...props}: TooltipPrimitive.Provider.Props) {
   return <TooltipPrimitive.Provider data-slot="tooltip-provider" delay={delay} {...props} />;
 }
 
 function Tooltip({...props}: TooltipPrimitive.Root.Props) {
-  return (
-    <TooltipProvider>
-      <TooltipPrimitive.Root data-slot="tooltip" {...props} />
-    </TooltipProvider>
-  );
+  return <TooltipPrimitive.Root data-slot="tooltip" {...props} />;
 }
 
 function TooltipTrigger({...props}: TooltipPrimitive.Trigger.Props) {

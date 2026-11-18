@@ -1,5 +1,5 @@
-import {describe, it, expect} from "vitest";
-import {act, render, screen} from "@testing-library/react";
+import {afterEach, describe, it, expect, vi} from "vitest";
+import {act, fireEvent, render, screen} from "@testing-library/react";
 import {Tooltip, TooltipContent, TooltipProvider, TooltipTrigger} from "../tooltip";
 
 function Basic({open, defaultOpen}: {open?: boolean; defaultOpen?: boolean} = {}) {
@@ -103,5 +103,49 @@ describe("Tooltip", () => {
     expect(screen.getByText("child")).toBeInTheDocument();
     // If the primitive does forward a wrapper, verify our data-slot lives on it.
     if (provider) expect(provider).toHaveAttribute("data-slot", "tooltip-provider");
+  });
+});
+
+describe("Tooltip delay", () => {
+  afterEach(() => {
+    vi.useRealTimers();
+  });
+
+  function hoverFor(delayProps: {provider?: number; trigger?: number}) {
+    vi.useFakeTimers();
+    const trigger = <TooltipTrigger data-testid="trigger" delay={delayProps.trigger} render={<button type="button">Trigger</button>} />;
+    const tooltip = (
+      <Tooltip>
+        {trigger}
+        <TooltipContent data-testid="content">Hello</TooltipContent>
+      </Tooltip>
+    );
+    render(delayProps.provider === undefined ? tooltip : <TooltipProvider delay={delayProps.provider}>{tooltip}</TooltipProvider>);
+    fireEvent.mouseEnter(screen.getByTestId("trigger"));
+    fireEvent.mouseMove(screen.getByTestId("trigger"));
+  }
+
+  it("waits for the delay of an app-level TooltipProvider", () => {
+    hoverFor({provider: 300});
+    act(() => {
+      vi.advanceTimersByTime(299);
+    });
+    expect(screen.queryByTestId("content")).not.toBeInTheDocument();
+  });
+
+  it("opens once the app-level TooltipProvider delay has elapsed", () => {
+    hoverFor({provider: 300});
+    act(() => {
+      vi.advanceTimersByTime(300);
+    });
+    expect(screen.getByTestId("content")).toBeInTheDocument();
+  });
+
+  it("does not open instantly when no provider delay is set", () => {
+    hoverFor({});
+    act(() => {
+      vi.advanceTimersByTime(100);
+    });
+    expect(screen.queryByTestId("content")).not.toBeInTheDocument();
   });
 });
