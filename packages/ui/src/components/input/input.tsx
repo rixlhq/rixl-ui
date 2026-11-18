@@ -29,6 +29,6 @@ Input.displayName = "Input";
 
 export {Input};
 export {inputVariants} from "./input-variants";
-export {resolveInputSize, type SizeAlias} from "./resolve-input-size";
+export {resolveInputSize} from "./resolve-input-size";
 export type {InputProps} from "./input.types";
 export {InputArea, type InputAreaProps} from "./input-area";

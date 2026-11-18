@@ -5,7 +5,7 @@ import {cn} from "../../lib/cn";
 import {Tooltip, TooltipContent, TooltipTrigger} from "../tooltip";
 import type {NormalizedInputError} from "./input-field-error";
 
-export type InputFieldProps = {
+type InputFieldProps = {
   label?: ReactNode;
   required?: boolean;
   labelTooltip?: ReactNode;
