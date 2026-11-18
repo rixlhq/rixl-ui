@@ -7,12 +7,12 @@
 
 ## 2. Components
 
-- [x] 2.1 CopyBlock (`feat(copy-block)!`), Empty. Evidence: `copy-block-labels.test.tsx` (7, including the `@ts-expect-error` for `tooltipText`), `empty.test.tsx`.
-- [x] 2.2 Input, InputArea, InputGroup, Select field chrome. Evidence: `input-field-labels.test.tsx` (16, four components times four cases).
-- [x] 2.3 Sidebar, SidebarTrigger, SidebarRail. Evidence: `sidebar-labels.test.tsx` (9).
-- [x] 2.4 Breadcrumb, BreadcrumbEllipsis, DialogCloseButton, TabsList. Evidence: `breadcrumb-labels.test.tsx`, `dialog-labels.test.tsx`, `tabs-labels.test.tsx`.
+- [x] 2.1 CopyBlock (`feat(copy-block)!`), Empty. Evidence: `copy-block-labels.test.tsx` (7, including the `@ts-expect-error` for `tooltipText`). `Empty` now takes `commandTitle` (`app-supplied-names`).
+- [x] 2.2 Input, InputArea, InputGroup, Select field chrome. Evidence: `input-field-names.test.tsx` (the `(optional)` provider cases; the per-instance `labels` were removed by `app-supplied-names`).
+- [x] 2.3 Sidebar, SidebarTrigger, SidebarRail. Superseded: names are `aria-label` props now (`sidebar-names.test.tsx`, `app-supplied-names`).
+- [x] 2.4 Breadcrumb landmark (`breadcrumb-labels.test.tsx`). The ellipsis, dialog close button and tabs scroll buttons were removed from the provider by `app-supplied-names`.
 - [x] 2.5 Pagination on the provider, plus `page` and `showing`. Evidence: `pagination-labels.test.tsx` (6); the existing 51 pagination tests still pass.
-- [x] 2.6 Toaster; DatePicker calendar strings follow the react-day-picker `locale` unmasked. Evidence: `toaster-labels.test.tsx`, `date-picker-labels.test.tsx`.
+- [x] 2.6 DatePicker calendar strings follow the react-day-picker `locale` unmasked (`date-picker-labels.test.tsx`). Toaster strings are sonner props (`toaster-names.test.tsx`, `app-supplied-names`).
 
 ## 3. Docs app
 

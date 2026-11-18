@@ -36,19 +36,24 @@
 - **WHEN** any layers of partial translations are merged
 - **THEN** each key takes the last layer that defines it, and a key no layer defines is absent (`merge-translations.test.ts`)
 
-### Requirement: Components with built-in strings take `labels`
+### Requirement: Components with built-in copy take `labels`
 
-`CopyBlock`, `Input`, `InputArea`, `InputGroup`, `Select`, `SidebarTrigger`, `SidebarRail`, `Sidebar`, `BreadcrumbEllipsis`, `DialogCloseButton`, `TabsList`, `Empty` and `Pagination` SHALL take a `labels` prop, a partial of their group in `RixlTranslations`. Precedence SHALL be the `labels` prop, then the provider, then the English default. `Breadcrumb` SHALL name its landmark from the provider, and an `aria-label` prop SHALL win. `DatePicker` SHALL name its month navigation from the provider, and react-day-picker's `labels` SHALL win. `Toaster` SHALL default sonner's `containerAriaLabel` and `toastOptions.closeButtonAriaLabel` to the provider's strings, and those props SHALL win.
+`CopyBlock` and `Pagination` SHALL take a `labels` prop, a partial of their group in `RixlTranslations`. Precedence SHALL be the `labels` prop, then the provider, then the English default. `Input`, `InputArea`, `InputGroup` and `Select` SHALL show `(optional)` from the provider's `input.optional`. `Breadcrumb` SHALL name its landmark from the provider, and an `aria-label` prop SHALL win. `DatePicker` SHALL name its month navigation from the react-day-picker `locale`, and react-day-picker's `labels` SHALL win. Names for parts only the app can name are not provider strings; see `app-supplied-names`.
 
 #### Scenario: Instance beats provider beats default
 
 - **WHEN** a component renders with no override, then inside a provider that overrides one key, then with a `labels` prop for the same key
-- **THEN** it shows the English default, the provider string, then the `labels` string (`copy-block-labels.test.tsx`, `input-field-labels.test.tsx`, `sidebar-labels.test.tsx`, `breadcrumb-labels.test.tsx`, `dialog-labels.test.tsx`, `tabs-labels.test.tsx`, `empty.test.tsx`, `pagination-labels.test.tsx`, `toaster-labels.test.tsx`, `date-picker-labels.test.tsx`)
+- **THEN** it shows the English default, the provider string, then the `labels` string (`copy-block-labels.test.tsx`, `pagination-labels.test.tsx`)
 
 #### Scenario: Partial labels keep the other defaults
 
 - **WHEN** a component renders with `labels` for one key
 - **THEN** its other strings stay at the provider or English default (same files)
+
+#### Scenario: Provider translates (optional)
+
+- **WHEN** a provider sets `input.optional`
+- **THEN** `(optional)` changes in `Input`, `InputArea`, `InputGroup` and `Select` (`input-field-names.test.tsx`)
 
 #### Scenario: Breadcrumb aria-label wins
 

@@ -34,8 +34,8 @@ Kumo's `KumoLocaleProvider` takes a partial translations object and falls back t
 
 ### D5. Strings the library does not own stay with their owner
 
-`DatePicker` takes no provider strings, as in Kumo: every calendar string (month and weekday names, month navigation, day buttons, "today", "selected") comes from the react-day-picker `locale` (`react-day-picker/locale`, date-fns locales extended with translated `labels`), and its `labels` prop overrides one string. A label passed as a prop beats the locale's (`getLabels` in react-day-picker), so Rixl passes none that would mask it; `labelDayButton` only prefixes the visible day number to the locale's label. `Toaster` leaves `containerAriaLabel` and `toastOptions.closeButtonAriaLabel` to sonner and supplies the provider's strings as defaults.
+`DatePicker` takes no provider strings, as in Kumo: every calendar string (month and weekday names, month navigation, day buttons, "today", "selected") comes from the react-day-picker `locale` (`react-day-picker/locale`, date-fns locales extended with translated `labels`), and its `labels` prop overrides one string. A label passed as a prop beats the locale's (`getLabels` in react-day-picker), so Rixl passes none that would mask it; `labelDayButton` only prefixes the visible day number to the locale's label. `Toaster` leaves `containerAriaLabel` and `toastOptions.closeButtonAriaLabel` to sonner, with no provider defaults (`app-supplied-names` D8).
 
 ## Dropped
 
-None yet.
+- Provider keys and per-instance `labels` for screen-reader names the library cannot know: `dialog.close`, `breadcrumb.more`, `input.moreInformation`, `sidebar.*`, `tabs.*`, `toaster.*`, `empty.command`. They turned the library into the author of hidden English. Replaced by app-supplied `aria-label` props and development warnings; see `app-supplied-names`.

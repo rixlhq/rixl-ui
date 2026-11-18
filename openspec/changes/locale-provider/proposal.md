@@ -1,3 +1,5 @@
+> **Scope narrowed by `app-supplied-names`.** The provider now carries only the copy the library draws itself (`breadcrumb.label`, `copyBlock`, `input.optional`, `pagination`). Screen-reader names for parts only the app can name (dialog close, field info icon, breadcrumb ellipsis, sidebar, tabs scroll buttons, toast region, `Empty` command title) were removed from the provider and are props or sonner's own. Bullets below say so where they changed.
+
 ## Why
 
 Every component that ships text hard-codes English: `CopyBlock` ("Copying", "Copied!", "Copy {title}"), the `Input` field chrome ("(optional)", "More information"), `SidebarTrigger` and `SidebarRail` ("Toggle Sidebar"), the mobile sidebar sheet, `Breadcrumb` ("breadcrumb", "More"), the dialog close button ("Close"), the `Tabs` overflow buttons ("Scroll tabs left/right"), `Empty`'s command block title ("Command"), `DatePicker`'s month navigation, the default `Pagination` info text, and sonner's default "Notifications" and "Close toast". Only `Pagination` has a `labels` prop. Consuming apps localize with Paraglide JS (compiled message functions such as `m.copy_copied()`), and today they cannot change most of these strings at all.
@@ -8,11 +10,11 @@ Kumo solves this with `KumoLocaleProvider` (a partial translations object, unspe
 
 - **New `@rixl/ui/locale` subpath.** `RixlLocaleProvider` takes `translations: RixlTranslationsPartial`. Exported types: `RixlTranslations`, `RixlTranslationsPartial`, `RixlLocaleProviderProps`. English defaults live in the library; no other language and no i18n dependency ships. No provider is needed for the defaults.
 - **Plain strings and functions only.** Every value is a `string`, or a function for an interpolated one (`copy: (title) => string`). There are no `{title}` templates, so an app passes compiled Paraglide messages straight in. The provider does not memoize on first mount: an app that re-renders it with new strings after a locale switch gets them.
-- **Per-component `labels` (partial) on `CopyBlock`, `Input`, `InputArea`, `InputGroup`, `Select`, `SidebarTrigger`, `SidebarRail`, `Sidebar`, `BreadcrumbEllipsis`, `DialogCloseButton`, `TabsList`, `Empty`.** Precedence: per-instance prop, then provider, then English default.
+- **Per-component `labels` (partial) on `CopyBlock` and `Pagination`.** Precedence: per-instance prop, then provider, then English default. (Originally also on `Input`, `InputArea`, `InputGroup`, `Select`, `Sidebar*`, `BreadcrumbEllipsis`, `DialogCloseButton`, `TabsList` and `Empty`; removed by `app-supplied-names`.)
 - **Breadcrumb landmark.** Default name from the provider; the `aria-label` prop still wins.
 - **Pagination.** `labels` keeps its prop name and its seven keys; the default info text (`Showing <range> of <total>`, `Page <n>`) joins it as the functions `showing` and `page`, and its defaults come from the provider.
 - **DatePicker.** No provider strings: calendar text comes from the react-day-picker `locale`, whose labels Rixl must not mask; its `labels` prop overrides one string.
-- **Toaster.** Sonner's `containerAriaLabel` and `toastOptions.closeButtonAriaLabel` default to the provider's strings; passing them still wins.
+- **Toaster.** No provider strings: sonner's `containerAriaLabel` and `toastOptions.closeButtonAriaLabel` are the app's API (changed by `app-supplied-names`).
 - **Breaking: `CopyBlock`.** `tooltipText` is removed. The idle tooltip text is `labels.copy(title)`, the same string as the button's accessible name (Kumo's `ClipboardText` takes `labels`, not a second tooltip string).
 - **Docs app.** A Locale showcase with the Paraglide wiring pattern (no Paraglide dependency in the repo) and a `labels` note on each affected component page.
 
@@ -32,11 +34,11 @@ Migration:
 
 - No translated strings other than English, no locale detection, no formatting of dates or numbers.
 - No provider keys for `DatePicker`: it already takes react-day-picker's `locale` and `labels` props.
-- No change to sonner's own props; `labels` is not added to `Toaster`, whose strings are already sonner props.
+- No change to sonner's own props; `labels` is not added to `Toaster`, whose strings are already sonner props, and the provider no longer feeds them.
 - No Paraglide dependency, adapter or plugin.
 
 ## Acceptance
 
-- `git grep -nE "\"(Copying|Copied!|Toggle Sidebar|More information|\(optional\)|Scroll tabs)" packages/ui/src` finds only `locale/translations.ts` (and tests).
+- `git grep -nE "\"(Copying|Copied!|\(optional\))" packages/ui/src` finds only `locale/translations.ts` (and tests).
 - Every `labels` and provider path has a unit test for the default, the provider override, the per-instance override beating the provider, and partial fallback.
 - `vp check`, `vp test --run`, `vp pack`, `vpr publint`, `vpx size-limit` and `vpr docs:build` pass without raising the size budgets or the coverage floor.
