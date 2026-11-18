@@ -10,7 +10,7 @@ The adapters add only names and `data-slot` values:
 - `AlertDialogCancel`: `DialogClose` rendered as an outline `Button`.
 - `AlertDialogAction`: `Button`. Its own doc comment says "Confirmation does not automatically dismiss."
 - `SheetContent`: `DialogContent` with `side` defaulting to `right`, plus `data-slot` overrides for overlay and close button.
-- `SheetHeader`, `SheetFooter`: `DialogHeader` and `DialogFooter` with extra classes (`p-4 pe-16`, `mt-auto flex flex-col gap-2 p-4`).
+- `SheetHeader`, `SheetFooter`: `DialogHeader` and `DialogFooter` with extra classes (`flex min-w-0 flex-col gap-1.5 p-4 pe-16`, `mt-auto flex flex-col gap-2 p-4`).
 
 ## Decisions
 
@@ -26,7 +26,7 @@ The adapters add only names and `data-slot` values:
 
 ### Do not move `SheetHeader`/`SheetFooter` padding into `Dialog`
 
-**Chosen:** document `className="p-4 pe-16"` and `className="mt-auto flex-col p-4"` in the migration table and the docs example.
+**Chosen:** document `className="gap-1.5 p-4 pe-16"` and `className="mt-auto flex-col p-4"` in the migration table and the docs example.
 
 **Alternatives considered:** add padding to `dialogEdgeClasses` or make `DialogHeader`/`DialogFooter` edge-aware (rejected: `Sidebar` uses the same edge and sets its own padding in `sidebar.tsx`, so the change would alter `Sidebar` and `Dialog`, which this change promises not to do).
 
