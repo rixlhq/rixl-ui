@@ -49,8 +49,16 @@ describe("Tooltip", () => {
     await act(async () => {});
     const cls = screen.getByTestId("content").className;
     expect(cls).toContain("data-instant:duration-0");
-    expect(cls).toContain("data-starting-style:scale-95");
+    expect(cls).toContain("data-starting-style:scale-[0.97]");
     expect(cls).not.toContain("data-open:animate-in");
+  });
+
+  it("enters and exits at a barely-there scale", async () => {
+    render(<Basic defaultOpen />);
+    await act(async () => {});
+    const cls = screen.getByTestId("content").className;
+    expect(cls).toContain("data-ending-style:scale-[0.97]");
+    expect(cls).not.toContain("scale-95");
   });
 
   it("positions the arrow with logical sides in RTL", async () => {
