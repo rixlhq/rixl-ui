@@ -26,7 +26,7 @@
 ## 6. Breadcrumb, Label, Separator
 
 - [x] 6.1 Refs forwarded; `BreadcrumbLink` focus ring. Evidence: `breadcrumb.browser.test.tsx` "shows the same focus ring on a link as on a focused Button" and "draws no outline around a focused link" fail before and pass after; `breadcrumb.test.tsx`, `label.test.tsx`, `separator.test.tsx` ref and displayName tests.
-- [ ] 6.2 The `success` and `warning` text colours pass AA contrast. Not done: axe reports `color-contrast` for `Badge` `success` and `warning` (text `--rixl-success` / `--rixl-warning` on the 15% tint), and the same tokens are used as `Alert` text. Fixing it means new or darker tokens in `preset.css`, which is outside this change's folders; the Badge axe test leaves those two variants out until then.
+- [x] 6.2 The `success` and `warning` text colours pass AA contrast. Resolved by `theme-scope-contrast`: light `--rixl-success`/`--rixl-warning` darkened (Badge 2.53→4.84 and 1.79→4.75, Alert 2.8→5.59 and 1.91→5.48), and the Badge axe test now covers every variant.
 
 ## 7. Gate
 
