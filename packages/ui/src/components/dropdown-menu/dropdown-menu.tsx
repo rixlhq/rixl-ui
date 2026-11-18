@@ -1,3 +1,4 @@
+import {forwardRef} from "react";
 import {Menu as MenuPrimitive} from "@base-ui/react/menu";
 
 import {DropdownMenuContent, type DropdownMenuContentProps} from "./content";
@@ -61,13 +62,15 @@ export function DropdownMenuPortal({...props}: DropdownMenuPortalProps) {
   return <MenuPrimitive.Portal data-slot="dropdown-menu-portal" {...props} />;
 }
 
-export function DropdownMenuTrigger({...props}: DropdownMenuTriggerProps) {
-  return <MenuPrimitive.Trigger data-slot="dropdown-menu-trigger" {...props} />;
-}
+export const DropdownMenuTrigger = forwardRef<HTMLButtonElement, DropdownMenuTriggerProps>(function DropdownMenuTrigger(props, ref) {
+  return <MenuPrimitive.Trigger ref={ref} data-slot="dropdown-menu-trigger" {...props} />;
+});
+DropdownMenuTrigger.displayName = "DropdownMenuTrigger";
 
-export function DropdownMenuGroup({...props}: DropdownMenuGroupProps) {
-  return <MenuPrimitive.Group data-slot="dropdown-menu-group" {...props} />;
-}
+export const DropdownMenuGroup = forwardRef<HTMLDivElement, DropdownMenuGroupProps>(function DropdownMenuGroup(props, ref) {
+  return <MenuPrimitive.Group ref={ref} data-slot="dropdown-menu-group" {...props} />;
+});
+DropdownMenuGroup.displayName = "DropdownMenuGroup";
 
 export {
   DropdownMenuContent,

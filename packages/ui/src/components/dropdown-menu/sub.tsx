@@ -1,4 +1,4 @@
-import type {ComponentProps} from "react";
+import {forwardRef, type ComponentProps} from "react";
 import {Menu as MenuPrimitive} from "@base-ui/react/menu";
 import {cn} from "../../lib/cn";
 
@@ -15,9 +15,13 @@ export type DropdownMenuSubTriggerProps = MenuPrimitive.SubmenuTrigger.Props & {
   inset?: boolean;
 };
 
-export function DropdownMenuSubTrigger({className, inset, children, ...props}: DropdownMenuSubTriggerProps) {
+export const DropdownMenuSubTrigger = forwardRef<HTMLElement, DropdownMenuSubTriggerProps>(function DropdownMenuSubTrigger(
+  {className, inset, children, ...props},
+  ref
+) {
   return (
     <MenuPrimitive.SubmenuTrigger
+      ref={ref}
       data-slot="dropdown-menu-sub-trigger"
       data-inset={inset}
       className={cn(
@@ -30,20 +34,18 @@ export function DropdownMenuSubTrigger({className, inset, children, ...props}: D
       <ChevronRightIcon className="ms-auto size-4 rtl:-scale-x-100" />
     </MenuPrimitive.SubmenuTrigger>
   );
-}
+});
+DropdownMenuSubTrigger.displayName = "DropdownMenuSubTrigger";
 
 export type DropdownMenuSubContentProps = ComponentProps<typeof DropdownMenuContent>;
 
-export function DropdownMenuSubContent({
-  className,
-  align = "start",
-  alignOffset = -3,
-  side = "inline-end",
-  sideOffset = 0,
-  ...props
-}: DropdownMenuSubContentProps) {
+export const DropdownMenuSubContent = forwardRef<HTMLDivElement, DropdownMenuSubContentProps>(function DropdownMenuSubContent(
+  {className, align = "start", alignOffset = -3, side = "inline-end", sideOffset = 0, ...props},
+  ref
+) {
   return (
     <DropdownMenuContent
+      ref={ref}
       data-slot="dropdown-menu-sub-content"
       className={cn("min-w-[8rem] shadow-rixl-lg", className)}
       align={align}
@@ -53,4 +55,5 @@ export function DropdownMenuSubContent({
       {...props}
     />
   );
-}
+});
+DropdownMenuSubContent.displayName = "DropdownMenuSubContent";
