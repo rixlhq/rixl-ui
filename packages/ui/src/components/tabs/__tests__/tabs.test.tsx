@@ -241,6 +241,14 @@ describe("Tabs", () => {
       expect(cls).not.toContain("hover:bg-rixl-fg/5");
     });
 
+    it("takes its transition timing from the press classes alone", () => {
+      render(<Basic />);
+      const cls = screen.getByTestId("tab-password").className;
+      expect(cls).toContain("duration-rixl-fast");
+      expect(cls).not.toContain("transition-colors");
+      expect(cls).not.toContain("duration-rixl-base");
+    });
+
     it("renders overflow scroll controls when scrollable is enabled", () => {
       render(<Basic />);
       const controls = document.querySelectorAll("[data-slot='tabs-overflow-control']");

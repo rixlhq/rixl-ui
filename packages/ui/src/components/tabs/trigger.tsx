@@ -16,7 +16,6 @@ const triggerVariants = cva(
     // Hover changes text intensity only (no background wash or scale), so the
     // travelling indicator pill is the only surface that moves across the bar.
     "text-rixl-fg-muted hover:text-rixl-fg data-active:text-rixl-fg",
-    "transition-colors duration-rixl-base ease-rixl-out",
     // Press feedback shared with Button; the indicator still owns the glide.
     buttonPressClasses
   ),
