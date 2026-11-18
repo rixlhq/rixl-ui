@@ -1,4 +1,4 @@
-import type {ComponentProps} from "react";
+import {forwardRef, type ComponentProps} from "react";
 import {cn} from "../../lib/cn";
 
 import {TableHead, TableHeader, type TableHeadProps, type TableHeaderProps} from "./header";
@@ -10,18 +10,17 @@ export type TableProps = ComponentProps<"table"> & {containerClassName?: string}
 /**
  * Rixl Table — plain HTML table styled as a data grid.
  *
- * `containerClassName` targets the wrapper `<div>`, so consumers can opt into
+ * The `ref` is the `<table>`. `containerClassName` targets the wrapper `<div>`, so consumers can opt into
  * horizontal scroll (`overflow-x-auto`) or a self-scrolling body
  * (`overflow-auto max-h-…`) without the primitive forcing a layout that would
  * fight a page-level sticky header.
  */
-export function Table({className, containerClassName, ...props}: TableProps) {
-  return (
-    <div data-slot="table-container" className={cn("relative w-full overflow-x-auto", containerClassName)}>
-      <table data-slot="table" className={cn("w-full caption-bottom text-sm", className)} {...props} />
-    </div>
-  );
-}
+export const Table = forwardRef<HTMLTableElement, TableProps>(({className, containerClassName, ...props}, ref) => (
+  <div data-slot="table-container" className={cn("relative w-full overflow-x-auto", containerClassName)}>
+    <table ref={ref} data-slot="table" className={cn("w-full caption-bottom text-sm", className)} {...props} />
+  </div>
+));
+Table.displayName = "Table";
 
 export {
   TableHeader,

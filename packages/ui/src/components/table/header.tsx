@@ -1,4 +1,4 @@
-import type {ComponentProps} from "react";
+import {forwardRef, type ComponentProps} from "react";
 import {cn} from "../../lib/cn";
 
 export type TableHeaderProps = ComponentProps<"thead"> & {sticky?: boolean};
@@ -10,25 +10,25 @@ export type TableHeadProps = ComponentProps<"th">;
  * A sticky header needs the page (or the container via `containerClassName`
  * `overflow-y`) to be the vertical scroller.
  */
-export function TableHeader({className, sticky, ...props}: TableHeaderProps) {
-  return (
-    <thead
-      data-slot="table-header"
-      className={cn("[&_tr]:border-b", sticky && "sticky top-0 z-10 bg-rixl-bg/90 backdrop-blur-sm", className)}
-      {...props}
-    />
-  );
-}
+export const TableHeader = forwardRef<HTMLTableSectionElement, TableHeaderProps>(({className, sticky, ...props}, ref) => (
+  <thead
+    ref={ref}
+    data-slot="table-header"
+    className={cn("[&_tr]:border-b", sticky && "sticky top-0 z-10 bg-rixl-bg/90 backdrop-blur-sm", className)}
+    {...props}
+  />
+));
+TableHeader.displayName = "TableHeader";
 
-export function TableHead({className, ...props}: TableHeadProps) {
-  return (
-    <th
-      data-slot="table-head"
-      className={cn(
-        "text-rixl-fg-muted h-10 px-2 text-start align-middle font-medium [&:has([role=checkbox])]:pe-0 [&>[role=checkbox]]:translate-y-[2px]",
-        className
-      )}
-      {...props}
-    />
-  );
-}
+export const TableHead = forwardRef<HTMLTableCellElement, TableHeadProps>(({className, ...props}, ref) => (
+  <th
+    ref={ref}
+    data-slot="table-head"
+    className={cn(
+      "text-rixl-fg-muted h-10 px-2 text-start align-middle font-medium [&:has([role=checkbox])]:pe-0 [&>[role=checkbox]]:translate-y-[2px]",
+      className
+    )}
+    {...props}
+  />
+));
+TableHead.displayName = "TableHead";
