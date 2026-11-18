@@ -46,7 +46,7 @@ export function captionClassNames(defaultClassNames: CalendarClassNames, caption
       "select-none truncate",
       captionLayout === "label"
         ? "min-w-0"
-        : "relative block h-full min-w-0 flex-1 ps-2 pe-5 leading-[calc(var(--spacing)*8-2px)] [&>svg]:pointer-events-none [&>svg]:absolute [&>svg]:end-1 [&>svg]:top-1/2 [&>svg]:size-3.5 [&>svg]:-translate-y-1/2 [&>svg]:text-rixl-fg-muted",
+        : "relative block h-full min-w-0 flex-1 ps-2 pe-5 leading-[calc(var(--spacing)*8-2px)] [&>svg]:pointer-events-none [&>svg]:absolute [&>svg]:end-1 [&>svg]:top-1/2 [&>svg]:size-3 [&>svg]:-translate-y-1/2 [&>svg]:text-rixl-fg-muted",
       defaultClassNames.caption_label
     ),
   };

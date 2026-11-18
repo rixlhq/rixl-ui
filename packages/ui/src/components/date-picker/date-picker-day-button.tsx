@@ -27,7 +27,19 @@ const DatePickerDayButton = React.forwardRef<HTMLButtonElement, DatePickerDayBut
       data-range-end={modifiers.range_end}
       data-range-middle={modifiers.range_middle}
       className={cn(
-        "data-[selected-single=true]:bg-rixl-primary data-[selected-single=true]:text-rixl-primary-fg data-[range-middle=true]:bg-rixl-surface-muted data-[range-middle=true]:text-rixl-fg data-[range-start=true]:bg-rixl-primary data-[range-start=true]:text-rixl-primary-fg data-[range-end=true]:bg-rixl-primary data-[range-end=true]:text-rixl-primary-fg group-data-[focused=true]/day:border-rixl-ring group-data-[focused=true]/day:ring-rixl-ring/50 flex size-[calc(var(--cell-size)-6px)] shrink-0 flex-col items-center justify-center gap-1 leading-none font-normal tabular-nums transition-[scale,color,box-shadow,border-color] group-data-[focused=true]/day:relative group-data-[focused=true]/day:z-10 group-data-[focused=true]/day:ring-[3px] data-[range-end=true]:rounded-rixl-md data-[range-end=true]:rounded-e-rixl-md data-[range-middle=true]:rounded-none data-[range-start=true]:rounded-rixl-md data-[range-start=true]:rounded-s-rixl-md [&>span]:text-xs [&>span]:opacity-70",
+        "size-(--cell-size) shrink-0 border border-transparent text-sm leading-none font-normal tabular-nums",
+        // No background-color: a selection or range change repaints many cells at once, and the band on the cell is not animated, so fading the button would lag behind it.
+        "transition-[scale,color,box-shadow,border-color]",
+        // Positioned and raised so the focus ring is not covered by the neighbouring cells.
+        "focus-visible:relative focus-visible:z-10",
+        "[&>span]:text-xs [&>span]:opacity-70",
+        "data-[selected-single=true]:bg-rixl-primary data-[selected-single=true]:text-rixl-primary-fg data-[selected-single=true]:hover:bg-rixl-primary-hover",
+        "data-[range-start=true]:bg-rixl-primary data-[range-start=true]:text-rixl-primary-fg data-[range-start=true]:hover:bg-rixl-primary-hover",
+        "data-[range-end=true]:bg-rixl-primary data-[range-end=true]:text-rixl-primary-fg data-[range-end=true]:hover:bg-rixl-primary-hover",
+        // The band is drawn on the cell so it stays continuous; the hover has to be darker than the band to show.
+        "data-[range-middle=true]:rounded-none data-[range-middle=true]:bg-transparent data-[range-middle=true]:hover:bg-rixl-secondary-hover",
+        // Today is an outline: a fill is the ghost button's hover colour, and a selected today must not show a halo.
+        modifiers.today && !modifiers.selected && "border-rixl-fg-muted font-medium",
         defaultClassNames.day,
         className
       )}

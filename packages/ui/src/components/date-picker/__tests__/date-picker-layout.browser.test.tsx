@@ -1,6 +1,6 @@
 import {describe, it, expect, afterEach, vi} from "vitest";
 import {useState, type ComponentProps} from "react";
-import {page} from "vitest/browser";
+import {page, userEvent} from "vitest/browser";
 import {render, cleanup} from "@testing-library/react";
 import {de, el, fi, ru} from "react-day-picker/locale";
 import {axeViolations} from "../../../../test/a11y";
@@ -339,6 +339,112 @@ describe("DatePicker surface (Browser Mode)", () => {
 
   it("has no WCAG 2.2 AA violations standalone", async () => {
     render(<DatePicker mode="single" defaultMonth={SEPTEMBER_2026} />);
+    await expect.element(page.getByRole("grid")).toBeVisible();
+    expect(await axeViolations(document.body)).toEqual([]);
+  });
+});
+
+/** The colour a token utility such as `bg-rixl-primary` resolves to in the current theme, read from a probe element. */
+function tokenColor(utility: string, property: "backgroundColor" | "borderTopColor" | "color" = "backgroundColor"): string {
+  const probe = document.createElement("div");
+  probe.className = utility;
+  document.body.append(probe);
+  const value = getComputedStyle(probe)[property];
+  probe.remove();
+  return value;
+}
+
+function dayButtonFor(day: number): HTMLButtonElement {
+  const button = Array.from(document.querySelectorAll<HTMLButtonElement>("button[data-day]")).find(
+    (candidate) => candidate.textContent?.startsWith(String(day)) && !candidate.closest("td")?.hasAttribute("data-outside")
+  );
+  if (!button) throw new Error(`no day button for ${day}`);
+  return button;
+}
+
+describe("DatePicker cells (Browser Mode)", () => {
+  afterEach(() => {
+    cleanup();
+  });
+
+  const TODAY = new Date(2026, 8, 15);
+
+  it("fills each cell with its day button", async () => {
+    render(<DatePicker mode="single" defaultMonth={SEPTEMBER_2026} today={TODAY} />);
+    await expect.element(page.getByRole("grid")).toBeVisible();
+    const button = dayButtonFor(10);
+    const cell = button.closest("td")!;
+    expect(button.getBoundingClientRect().width).toBe(cell.getBoundingClientRect().width);
+    expect(button.getBoundingClientRect().height).toBe(cell.getBoundingClientRect().height);
+  });
+
+  it("marks today with an outline, not a fill", async () => {
+    render(<DatePicker mode="single" defaultMonth={SEPTEMBER_2026} today={TODAY} />);
+    await expect.element(page.getByRole("grid")).toBeVisible();
+    const style = getComputedStyle(dayButtonFor(15));
+    expect(style.borderTopWidth).toBe("1px");
+    expect(style.borderTopColor).toBe(tokenColor("border-rixl-fg-muted", "borderTopColor"));
+    expect(style.backgroundColor).toBe("rgba(0, 0, 0, 0)");
+    expect(getComputedStyle(dayButtonFor(16)).borderTopColor).toBe("rgba(0, 0, 0, 0)");
+  });
+
+  it("shows no outline halo around a selected today", async () => {
+    render(<DatePicker mode="single" defaultMonth={SEPTEMBER_2026} today={TODAY} selected={TODAY} />);
+    await expect.element(page.getByRole("grid")).toBeVisible();
+    const style = getComputedStyle(dayButtonFor(15));
+    expect(style.backgroundColor).toBe(tokenColor("bg-rixl-primary"));
+    expect(style.borderTopColor).toBe("rgba(0, 0, 0, 0)");
+  });
+
+  it("draws a continuous muted band behind the days between a range's caps", async () => {
+    render(<DatePicker mode="range" defaultMonth={SEPTEMBER_2026} selected={{from: new Date(2026, 8, 8), to: new Date(2026, 8, 12)}} />);
+    await expect.element(page.getByRole("grid")).toBeVisible();
+    const muted = tokenColor("bg-rixl-surface-muted");
+    const cells = [8, 9, 10, 11, 12].map((day) => dayButtonFor(day).closest("td")!);
+    expect(cells.map((cell) => getComputedStyle(cell).backgroundColor)).toEqual(Array(5).fill(muted));
+    const boxes = cells.map((cell) => cell.getBoundingClientRect());
+    expect(boxes.slice(1).map((box, index) => box.left - boxes[index].right)).toEqual([0, 0, 0, 0]);
+    expect(getComputedStyle(dayButtonFor(8)).backgroundColor).toBe(tokenColor("bg-rixl-primary"));
+    expect(getComputedStyle(dayButtonFor(12)).backgroundColor).toBe(tokenColor("bg-rixl-primary"));
+    expect(getComputedStyle(dayButtonFor(10)).backgroundColor).toBe("rgba(0, 0, 0, 0)");
+  });
+
+  it("shows the shared focus ring on the day that keyboard navigation reaches", async () => {
+    render(<DatePicker mode="single" defaultMonth={SEPTEMBER_2026} today={TODAY} selected={TODAY} />);
+    await expect.element(page.getByRole("grid")).toBeVisible();
+    dayButtonFor(15).focus();
+    await userEvent.keyboard("{ArrowRight}");
+    await vi.waitFor(() => {
+      expect(document.activeElement).toBe(dayButtonFor(16));
+    });
+    // The ring and border colour fade in over the token duration.
+    await vi.waitFor(() => {
+      const style = getComputedStyle(dayButtonFor(16));
+      expect(isShadowed(style.boxShadow)).toBe(true);
+      expect(style.borderTopColor).toBe(tokenColor("border-rixl-ring", "borderTopColor"));
+    });
+  });
+
+  it("keeps the footer a gap below the grid", async () => {
+    render(<DatePicker mode="single" defaultMonth={SEPTEMBER_2026} footer={<p>3 of 5 selected</p>} />);
+    await expect.element(page.getByText("3 of 5 selected")).toBeVisible();
+    const footer = page.getByText("3 of 5 selected").element().getBoundingClientRect();
+    const grid = document.querySelector(".rdp-month_grid")!.getBoundingClientRect();
+    expect(footer.top - grid.bottom).toBeGreaterThanOrEqual(8);
+  });
+
+  it("has no WCAG 2.2 AA violations with a range, today, a disabled day and week numbers", async () => {
+    render(
+      <DatePicker
+        mode="range"
+        defaultMonth={SEPTEMBER_2026}
+        today={TODAY}
+        showWeekNumber
+        disabled={new Date(2026, 8, 20)}
+        selected={{from: new Date(2026, 8, 8), to: new Date(2026, 8, 12)}}
+        footer="Footer"
+      />
+    );
     await expect.element(page.getByRole("grid")).toBeVisible();
     expect(await axeViolations(document.body)).toEqual([]);
   });
