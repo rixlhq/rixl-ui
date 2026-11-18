@@ -108,6 +108,7 @@ describe("DatePicker caption layout (Browser Mode)", () => {
     it.each([
       {name: "one month", props: {}},
       {name: "week numbers", props: {showWeekNumber: true}},
+      {name: "right to left", props: {dir: "rtl" as const}},
       {name: "two months side by side", props: {numberOfMonths: 2}, viewport: WIDE_VIEWPORT},
       {name: "two months stacked", props: {numberOfMonths: 2}, viewport: NARROW_VIEWPORT},
       {name: "two months and week numbers", props: {numberOfMonths: 2, showWeekNumber: true}, viewport: WIDE_VIEWPORT},
