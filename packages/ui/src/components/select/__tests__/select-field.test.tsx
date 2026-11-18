@@ -39,7 +39,7 @@ describe("Select field", () => {
   });
 
   it("puts the label tooltip trigger next to the label", () => {
-    render(<Fruit label="Fruit" labelTooltip="Shown on your profile" />);
+    render(<Fruit label="Fruit" labelTooltip="Shown on your profile" labelTooltipAriaLabel="More information" />);
     expect(screen.getByRole("button", {name: "More information"})).toBeInTheDocument();
   });
 

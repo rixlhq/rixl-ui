@@ -381,7 +381,7 @@ describe("InputGroup field integration", () => {
 
   it("renders the label tooltip trigger", () => {
     render(
-      <InputGroup label="API key" labelTooltip="Find this in settings.">
+      <InputGroup label="API key" labelTooltip="Find this in settings." labelTooltipAriaLabel="More information">
         <InputGroupInput placeholder="sk_live_..." />
       </InputGroup>
     );

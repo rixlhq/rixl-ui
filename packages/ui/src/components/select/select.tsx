@@ -1,7 +1,7 @@
 import {Children, isValidElement, useMemo, type ReactNode} from "react";
 import {Select as SelectPrimitive} from "@base-ui/react/select";
 
-import {InputField, type InputFieldLabels} from "../input/input-field";
+import {InputField} from "../input/input-field";
 import {normalizeInputError, type InputErrorProp} from "../input/input-field-error";
 
 import {
@@ -63,8 +63,8 @@ export type SelectProps<Value = string> = Omit<SelectPrimitive.Root.Props<Value>
   description?: ReactNode;
   /** Error message, or `{message, match}` shown while the native validity matches. */
   error?: InputErrorProp;
-  /** Names for the field chrome (`(optional)`, the tooltip trigger). Each defaults to the provider's string, then English. */
-  labels?: InputFieldLabels;
+  /** Names the `labelTooltip` trigger, which is an icon-only button. The app supplies it; setting `labelTooltip` without it warns in development. */
+  labelTooltipAriaLabel?: string;
 };
 
 export function Select<Value = string>({
@@ -75,7 +75,7 @@ export function Select<Value = string>({
   labelTooltip,
   description,
   error,
-  labels,
+  labelTooltipAriaLabel,
   ...props
 }: SelectProps<Value>) {
   // Base UI resolves the trigger label from `items` when the popup is unmounted,
@@ -89,13 +89,14 @@ export function Select<Value = string>({
 
   return (
     <InputField
+      component="Select"
       label={label}
       labelTooltip={labelTooltip}
       description={description}
       error={normalizeInputError(error)}
       required={props.required}
       disabled={props.disabled}
-      labels={labels}
+      labelTooltipAriaLabel={labelTooltipAriaLabel}
     >
       <SelectPrimitive.Root
         items={resolvedItems}

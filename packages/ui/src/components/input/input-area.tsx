@@ -2,7 +2,7 @@ import {forwardRef, type ComponentProps, type ReactNode} from "react";
 import type {VariantProps} from "class-variance-authority";
 import {Field} from "@base-ui/react/field";
 import {cn} from "../../lib/cn";
-import {InputField, type InputFieldLabels} from "./input-field";
+import {InputField} from "./input-field";
 import {normalizeInputError, type InputErrorProp} from "./input-field-error";
 import {inputAreaVariants} from "./input-variants";
 import {useWarnUnnamedInput} from "./use-warn-unnamed-input";
@@ -17,24 +17,25 @@ export type InputAreaProps = Omit<ComponentProps<"textarea">, "size"> &
     description?: ReactNode;
     /** Error message, or `{message, match}` shown while the native validity matches. */
     error?: InputErrorProp;
-    /** Names for the field chrome (`(optional)`, the tooltip trigger). Each defaults to the provider's string, then English. */
-    labels?: InputFieldLabels;
+    /** Names the `labelTooltip` trigger, which is an icon-only button. The app supplies it; setting `labelTooltip` without it warns in development. */
+    labelTooltipAriaLabel?: string;
     /** Base UI convenience handler receiving the value directly. */
     onValueChange?: ComponentProps<typeof Field.Control>["onValueChange"];
   };
 
 export const InputArea = forwardRef<HTMLTextAreaElement, InputAreaProps>(
-  ({label, labelTooltip, description, error, labels, size, className, onValueChange, ...props}, ref) => {
+  ({label, labelTooltip, description, error, labelTooltipAriaLabel, size, className, onValueChange, ...props}, ref) => {
     useWarnUnnamedInput({component: "InputArea", label, ariaLabel: props["aria-label"], ariaLabelledBy: props["aria-labelledby"]});
     return (
       <InputField
+        component="InputArea"
         label={label}
         labelTooltip={labelTooltip}
         description={description}
         error={normalizeInputError(error)}
         required={props.required}
         disabled={props.disabled}
-        labels={labels}
+        labelTooltipAriaLabel={labelTooltipAriaLabel}
       >
         <Field.Control
           render={<textarea {...props} />}

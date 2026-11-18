@@ -129,7 +129,7 @@ describe("InputArea", () => {
     });
 
     it("renders the label tooltip trigger", () => {
-      render(<InputArea label="Script" labelTooltip="Paste your code." />);
+      render(<InputArea label="Script" labelTooltip="Paste your code." labelTooltipAriaLabel="More information" />);
       expect(screen.getByRole("button", {name: "More information"})).toBeInTheDocument();
     });
 

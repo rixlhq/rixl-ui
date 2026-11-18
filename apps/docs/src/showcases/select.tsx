@@ -6,7 +6,7 @@ export const path = "select";
 export const title = "Select";
 export const description = "Choose one value from a list of options.";
 export const notes =
-  "Portalled Base UI Select on the same control surface and sizes as Input. The root takes label, labelTooltip, description and error for the built-in field; the trigger takes size (xs, sm, base, lg) and fills its container, so set a width with className. A trigger without a label needs an aria-label. labels takes optional and moreInformation (the field chrome). Strings you leave out come from RixlLocaleProvider (@rixl/ui/locale), then English.";
+  "Portalled Base UI Select on the same control surface and sizes as Input. The root takes label, labelTooltip, description and error for the built-in field; the trigger takes size (xs, sm, base, lg) and fills its container, so set a width with className. A trigger without a label needs an aria-label. The info-icon button is icon-only, so name it with labelTooltipAriaLabel; setting labelTooltip without it warns in development. (optional) is built-in copy that RixlLocaleProvider can translate (input.optional).";
 
 const triggerWidth = "w-full max-w-sm";
 
@@ -52,7 +52,7 @@ function FieldExample() {
         </SelectTrigger>
         <SelectContent>{fruits}</SelectContent>
       </Select>
-      <Select label="Snack" required={false} labelTooltip="Only used for team events.">
+      <Select label="Snack" required={false} labelTooltip="Only used for team events." labelTooltipAriaLabel="About snacks">
         <SelectTrigger className={triggerWidth}>
           <SelectValue placeholder="Pick one" />
         </SelectTrigger>

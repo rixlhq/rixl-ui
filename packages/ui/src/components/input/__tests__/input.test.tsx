@@ -214,7 +214,9 @@ describe("Input", () => {
     });
 
     it("renders the label tooltip trigger", () => {
-      render(<Input label="API key" placeholder="sk_live_..." labelTooltip="Find this in settings." />);
+      render(
+        <Input label="API key" placeholder="sk_live_..." labelTooltip="Find this in settings." labelTooltipAriaLabel="More information" />
+      );
       expect(screen.getByRole("button", {name: "More information"})).toBeInTheDocument();
     });
 
@@ -226,7 +228,13 @@ describe("Input", () => {
 
     it("renders the tooltip without a visible label", () => {
       render(
-        <Input aria-label="API key" placeholder="sk_live_..." labelTooltip="Find this in settings." description="Used for API calls." />
+        <Input
+          aria-label="API key"
+          placeholder="sk_live_..."
+          labelTooltip="Find this in settings."
+          labelTooltipAriaLabel="More information"
+          description="Used for API calls."
+        />
       );
       expect(screen.getByRole("button", {name: "More information"})).toBeInTheDocument();
       expect(document.querySelector('[data-slot="input-label"]')).toBeInTheDocument();

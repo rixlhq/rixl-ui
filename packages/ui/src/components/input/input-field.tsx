@@ -2,22 +2,21 @@ import type {ReactElement, ReactNode} from "react";
 import {Field} from "@base-ui/react/field";
 import {InfoIcon} from "lucide-react";
 import {cn} from "../../lib/cn";
-import type {RixlTranslations} from "../locale";
+import {useWarnMissingName} from "../../lib/warn-missing-name";
 import {useTranslations} from "../locale/use-translations";
 import {Tooltip, TooltipContent, TooltipTrigger} from "../tooltip";
 import type {NormalizedInputError} from "./input-field-error";
 
-/** Names for the field chrome, shared by `Input`, `InputArea`, `InputGroup` and `Select`. Each defaults to the provider's string, then English. */
-export type InputFieldLabels = Partial<RixlTranslations["input"]>;
-
 type InputFieldProps = {
+  /** The component the app rendered, named in the missing-name warning. */
+  component: string;
   label?: ReactNode;
   required?: boolean;
   labelTooltip?: ReactNode;
   error?: NormalizedInputError;
   description?: ReactNode;
   disabled?: boolean;
-  labels?: InputFieldLabels;
+  labelTooltipAriaLabel?: string;
   children: ReactElement;
 };
 
@@ -31,8 +30,19 @@ function needsLabelRow({label, labelTooltip, required}: Pick<InputFieldProps, "l
   return Boolean(label || labelTooltip || required === false);
 }
 
-function InputLabelRow({label, required, labelTooltip, labels}: Pick<InputFieldProps, "label" | "required" | "labelTooltip" | "labels">) {
-  const t = useTranslations("input", labels);
+function InputLabelRow({
+  component,
+  label,
+  required,
+  labelTooltip,
+  labelTooltipAriaLabel,
+}: Pick<InputFieldProps, "component" | "label" | "required" | "labelTooltip" | "labelTooltipAriaLabel">) {
+  const t = useTranslations("input");
+  useWarnMissingName(Boolean(labelTooltip) && !labelTooltipAriaLabel, {
+    component,
+    subject: "The labelTooltip trigger",
+    fix: `Set labelTooltipAriaLabel: <${component} labelTooltip='…' labelTooltipAriaLabel='About this field' />.`,
+  });
   return (
     <Field.Label
       data-slot="input-label"
@@ -47,7 +57,7 @@ function InputLabelRow({label, required, labelTooltip, labels}: Pick<InputFieldP
         {labelTooltip ? (
           <Tooltip>
             <TooltipTrigger
-              aria-label={t.moreInformation}
+              aria-label={labelTooltipAriaLabel}
               className="inline-flex items-center text-rixl-fg-muted transition-colors duration-rixl-fast ease-rixl-out hover:text-rixl-fg [&_svg]:size-3.5"
             >
               <InfoIcon aria-hidden="true" />
@@ -84,7 +94,17 @@ function InputFieldMessage({error, description}: Pick<InputFieldProps, "error" |
 }
 
 /** Wraps a control in a Base UI Field with label, description and error; returns the control untouched when none is set. */
-export function InputField({label, required, labelTooltip, error, description, disabled, labels, children}: InputFieldProps) {
+export function InputField({
+  component,
+  label,
+  required,
+  labelTooltip,
+  error,
+  description,
+  disabled,
+  labelTooltipAriaLabel,
+  children,
+}: InputFieldProps) {
   if (!hasChrome({label, labelTooltip, description, error})) return children;
   return (
     <Field.Root
@@ -94,7 +114,13 @@ export function InputField({label, required, labelTooltip, error, description, d
       className="flex w-full flex-col gap-1.5"
     >
       {needsLabelRow({label, labelTooltip, required}) ? (
-        <InputLabelRow label={label} required={required} labelTooltip={labelTooltip} labels={labels} />
+        <InputLabelRow
+          component={component}
+          label={label}
+          required={required}
+          labelTooltip={labelTooltip}
+          labelTooltipAriaLabel={labelTooltipAriaLabel}
+        />
       ) : null}
       {children}
       <InputFieldMessage error={error} description={description} />

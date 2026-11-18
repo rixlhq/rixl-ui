@@ -24,8 +24,6 @@ export type RixlTranslations = {
   input: {
     /** Shown after the label when `required` is `false`. */
     optional: string;
-    /** Accessible name of the `labelTooltip` trigger. */
-    moreInformation: string;
   };
   pagination: {
     /** Accessible name of the nav landmark. */
@@ -70,7 +68,7 @@ export const DEFAULT_TRANSLATIONS: RixlTranslations = {
   breadcrumb: {label: "breadcrumb", more: "More"},
   copyBlock: {copy: (title) => `Copy ${title}`, copying: "Copying", copied: "Copied!", error: "Unable to copy. Try again."},
   empty: {command: "Command"},
-  input: {optional: "(optional)", moreInformation: "More information"},
+  input: {optional: "(optional)"},
   pagination: {
     navigation: "Pagination",
     firstPage: "Go to first page",
