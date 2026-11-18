@@ -7,7 +7,7 @@ export const title = "Empty";
 export const description = "Explain why a view is empty and offer a next step.";
 
 export function Showcase() {
-  return <Empty title="No media" description="Upload your first asset." size="compact" />;
+  return <Empty title="No media" description="Upload your first asset." size="sm" />;
 }
 
 function WithoutActionExample(props: {state: Record<string, ControlValue>}) {

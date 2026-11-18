@@ -20,6 +20,43 @@ describe("Empty", () => {
     expect(container.querySelector("p")).toBeNull();
   });
 
+  it("renders no icon container without an icon", () => {
+    const {container} = render(<Empty title="No results" />);
+    expect(container.querySelector("[aria-hidden]")).toBeNull();
+  });
+
+  it("renders a supplied icon inside a container hidden from assistive technology", () => {
+    render(<Empty title="No results" icon={<svg data-testid="icon" />} />);
+    expect(screen.getByTestId("icon").closest("[aria-hidden='true']")).not.toBeNull();
+  });
+
+  it("renders the title at the requested heading level", () => {
+    render(<Empty title="No results" headingLevel={2} />);
+    expect(screen.getByRole("heading", {level: 2, name: "No results"})).toBeInTheDocument();
+  });
+
+  it("renders the title as an h3 by default", () => {
+    render(<Empty title="No results" />);
+    expect(screen.getByRole("heading", {level: 3})).toBeInTheDocument();
+  });
+
+  it("applies distinct spacing per size", () => {
+    const classes = (size?: "sm" | "default" | "lg") => {
+      const {unmount} = render(<Empty title="x" size={size} data-testid="root" />);
+      const value = screen.getByTestId("root").className;
+      unmount();
+      return value;
+    };
+    expect(new Set([classes("sm"), classes("default"), classes("lg")]).size).toBe(3);
+  });
+
+  it("uses the default size when none is given", () => {
+    const {rerender} = render(<Empty title="x" data-testid="root" />);
+    const implicit = screen.getByTestId("root").className;
+    rerender(<Empty title="x" size="default" data-testid="root" />);
+    expect(screen.getByTestId("root").className).toBe(implicit);
+  });
+
   it("accepts caller-owned actions without injecting a creation icon", () => {
     render(<Empty title="No results" description="Try another search." action={<Button>Clear filters</Button>} />);
     expect(screen.getByRole("button", {name: "Clear filters"})).toBeInTheDocument();
