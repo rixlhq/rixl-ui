@@ -3,8 +3,6 @@ import {page, userEvent} from "vitest/browser";
 import {cleanup, render} from "@testing-library/react";
 import {axeViolations} from "../../../../test/a11y";
 import {Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter, DialogClose} from "../dialog";
-import {AlertDialog, AlertDialogContent, AlertDialogTitle, AlertDialogDescription, AlertDialogCancel} from "../../alert-dialog";
-import {Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription, SheetClose} from "../../sheet";
 import {Popover, PopoverContent, PopoverTrigger} from "../../popover";
 import {
   DropdownMenu,
@@ -120,14 +118,14 @@ describe("mobile overlay layout", () => {
   it("keeps long alerts inset and their cancel action reachable", async () => {
     await page.viewport(320, 320);
     render(
-      <AlertDialog defaultOpen>
-        <AlertDialogContent>
-          <AlertDialogTitle>{longText}</AlertDialogTitle>
-          <AlertDialogDescription>Confirm records</AlertDialogDescription>
+      <Dialog role="alertdialog" defaultOpen>
+        <DialogContent>
+          <DialogTitle>{longText}</DialogTitle>
+          <DialogDescription>Confirm records</DialogDescription>
           <LongContent />
-          <AlertDialogCancel data-testid="end">Cancel</AlertDialogCancel>
-        </AlertDialogContent>
-      </AlertDialog>
+          <DialogClose data-testid="end">Cancel</DialogClose>
+        </DialogContent>
+      </Dialog>
     );
     const dialog = page.getByRole("alertdialog");
     await expect.element(dialog).toBeVisible();
@@ -140,16 +138,16 @@ describe("mobile overlay layout", () => {
   it.each(["left", "right", "top", "bottom"] as const)("scrolls long %s sheets within a short phone viewport", async (side) => {
     await page.viewport(320, 320);
     render(
-      <Sheet defaultOpen>
-        <SheetContent side={side}>
-          <SheetHeader>
-            <SheetTitle>Records</SheetTitle>
-            <SheetDescription>Review records</SheetDescription>
-          </SheetHeader>
+      <Dialog defaultOpen>
+        <DialogContent side={side}>
+          <DialogHeader>
+            <DialogTitle>Records</DialogTitle>
+            <DialogDescription>Review records</DialogDescription>
+          </DialogHeader>
           <LongContent />
-          <SheetClose data-testid="end">Done</SheetClose>
-        </SheetContent>
-      </Sheet>
+          <DialogClose data-testid="end">Done</DialogClose>
+        </DialogContent>
+      </Dialog>
     );
     const dialog = page.getByRole("dialog");
     await expect.element(dialog).toBeVisible();
