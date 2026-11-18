@@ -185,7 +185,7 @@ describe("Button", () => {
     });
 
     // <button> has a deprecated HTML `color` attribute, so components that
-    // spread native button props (Calendar's day button) can pass anything.
+    // spread native button props (DatePicker's day button) can pass anything.
     it("ignores a `color` value that is not a known variant", () => {
       render(<Button color="#ff0000">Save</Button>);
       const btn = screen.getByRole("button");

@@ -107,7 +107,7 @@ const isButtonColor = (value: unknown): value is ButtonColor => typeof value ===
 /**
  * `color` is deliberately widened past the union. `<button>` carries a
  * deprecated HTML `color` attribute, so components that spread native button
- * props onto us (Calendar's day button does) would otherwise fail to typecheck.
+ * props onto us (DatePicker's day button does) would otherwise fail to typecheck.
  * Unknown values are ignored rather than applied.
  */
 export type ButtonProps = Omit<ButtonPrimitive.Props, "color"> & {

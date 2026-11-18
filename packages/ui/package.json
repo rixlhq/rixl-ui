@@ -185,11 +185,6 @@
       "development": "./src/components/pagination/index.ts",
       "import": "./dist/pagination.js"
     },
-    "./calendar": {
-      "types": "./dist/calendar.d.ts",
-      "development": "./src/components/calendar/index.ts",
-      "import": "./dist/calendar.js"
-    },
     "./date-picker": {
       "types": "./dist/date-picker.d.ts",
       "development": "./src/components/date-picker/index.ts",

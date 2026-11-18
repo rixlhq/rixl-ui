@@ -61,7 +61,6 @@ export default defineConfig({
       card: "src/components/card/index.ts",
       table: "src/components/table/index.ts",
       pagination: "src/components/pagination/index.ts",
-      calendar: "src/components/calendar/index.ts",
       "date-picker": "src/components/date-picker/index.ts",
       "copy-block": "src/components/copy-block/index.ts",
       empty: "src/components/empty/index.ts",

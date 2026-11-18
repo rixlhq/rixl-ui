@@ -69,6 +69,12 @@ describe("DatePicker", () => {
     expect(document.querySelector("[data-slot='popover-content']")).not.toBeInTheDocument();
   });
 
+  it("marks its root with data-slot calendar and renders a data-day button per visible day", () => {
+    render(<SingleHarness />);
+    const root = document.querySelector("[data-slot='calendar']")!;
+    expect(root.querySelectorAll("button[data-day]").length).toBeGreaterThanOrEqual(30);
+  });
+
   it("selects a single date and notifies onSelect", () => {
     const onSelect = vi.fn();
     render(<SingleHarness onSelect={onSelect} />);

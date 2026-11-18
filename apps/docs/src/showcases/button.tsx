@@ -102,7 +102,7 @@ function CrossAppExample() {
         Dashboard call sites say <code className="text-rixl-fg">variant</code>; fumadocs — which docs and landing are built on — passes{" "}
         <code className="text-rixl-fg">color</code> from its own internals. Both render identically, and{" "}
         <code className="text-rixl-fg">variant</code> wins when both are supplied. A <code className="text-rixl-fg">color</code> that is not
-        a known variant (the deprecated HTML <code className="text-rixl-fg">color</code> attribute, which Calendar&apos;s day button
+        a known variant (the deprecated HTML <code className="text-rixl-fg">color</code> attribute, which DatePicker&apos;s day button
         spreads) is ignored rather than applied.
       </p>
     </div>

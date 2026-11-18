@@ -2,7 +2,7 @@
 
 ## 1. Date picker and calendar
 
-- [ ] 1.1 Add a `DatePicker` test for the `data-slot="calendar"` root and `button[data-day]` buttons, then delete `calendar/`, `date-picker/calendar.tsx`, the four `DatePickerCalendar*` exports, the `./calendar` export, the pack entry and the barrel line, and the alias-identity tests.
+- [x] 1.1 Add a `DatePicker` test for the `data-slot="calendar"` root and `button[data-day]` buttons, then delete `calendar/`, `date-picker/calendar.tsx`, the four `DatePickerCalendar*` exports, the `./calendar` export, the pack entry and the barrel line, and the alias-identity tests. Evidence: `date-picker.test.tsx` "marks its root with data-slot calendar…" passes; the removed `calendar.test.tsx` checks (root slot, `data-day` buttons, `data-selected-single` after a click) are covered there and by "selects a single date and notifies onSelect".
 
 ## 2. Card
 

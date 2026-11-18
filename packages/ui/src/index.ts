@@ -37,7 +37,6 @@ export * from "./components/sidebar";
 export * from "./components/card";
 export * from "./components/table";
 export * from "./components/pagination";
-export * from "./components/calendar";
 export * from "./components/date-picker";
 export * from "./components/copy-block";
 export * from "./components/empty";
