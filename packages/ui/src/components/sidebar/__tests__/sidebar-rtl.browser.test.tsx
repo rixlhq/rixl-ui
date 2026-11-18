@@ -15,13 +15,13 @@ async function openMobile(side: "left" | "right") {
   await page.viewport(320, 320);
   renderRtl(
     <SidebarProvider>
-      <Sidebar side={side}>
+      <Sidebar side={side} aria-label="Navigation">
         <SidebarContent>Nav</SidebarContent>
       </Sidebar>
-      <SidebarTrigger />
+      <SidebarTrigger aria-label="Toggle sidebar" />
     </SidebarProvider>
   );
-  await userEvent.click(page.getByRole("button", {name: "Toggle Sidebar"}));
+  await userEvent.click(page.getByRole("button", {name: "Toggle sidebar"}));
   const panel = page.getByRole("dialog");
   await expect.element(panel).toBeVisible();
   return panel.element();
@@ -48,7 +48,7 @@ describe("Sidebar in RTL", () => {
     await page.viewport(1280, 800);
     renderRtl(
       <SidebarProvider>
-        <Sidebar side="left">
+        <Sidebar side="left" aria-label="Navigation">
           <SidebarContent>Nav</SidebarContent>
         </Sidebar>
       </SidebarProvider>
