@@ -18,7 +18,7 @@ export const path = "dialog";
 export const title = "Dialog";
 export const description = "Open a focused task above the current page.";
 export const notes =
-  'Fullscreen below 640px; centered with four size variants on larger screens. Long content scrolls within the dialog. Use Table for horizontally scrollable data and include an explicit close action after long content. `role="alertdialog"` gives a confirmation that ignores outside clicks.';
+  'Fullscreen below 640px; centered with four size variants on larger screens. Long content scrolls within the dialog. Use Table for horizontally scrollable data and include an explicit close action after long content. `role="alertdialog"` gives a confirmation that ignores outside clicks. DialogCloseButton takes labels.close (through closeButtonProps on DialogContent). Strings you leave out come from RixlLocaleProvider (@rixl/ui/locale), then English.';
 
 export function Showcase() {
   return (

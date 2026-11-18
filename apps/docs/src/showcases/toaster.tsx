@@ -6,6 +6,8 @@ import {Group} from "../components/showcase-layout";
 export const path = "toaster";
 export const title = "Toaster";
 export const description = "Give brief feedback after an action.";
+export const notes =
+  "The region and close-button names default to the provider's toaster strings; sonner's containerAriaLabel and toastOptions.closeButtonAriaLabel win. Strings you leave out come from RixlLocaleProvider (@rixl/ui/locale), then English.";
 
 export function Showcase() {
   return (

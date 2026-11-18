@@ -6,7 +6,7 @@ export const path = "select";
 export const title = "Select";
 export const description = "Choose one value from a list of options.";
 export const notes =
-  "Portalled Base UI Select on the same control surface and sizes as Input. The root takes label, labelTooltip, description and error for the built-in field; the trigger takes size (xs, sm, base, lg) and fills its container, so set a width with className. A trigger without a label needs an aria-label.";
+  "Portalled Base UI Select on the same control surface and sizes as Input. The root takes label, labelTooltip, description and error for the built-in field; the trigger takes size (xs, sm, base, lg) and fills its container, so set a width with className. A trigger without a label needs an aria-label. labels takes optional and moreInformation (the field chrome). Strings you leave out come from RixlLocaleProvider (@rixl/ui/locale), then English.";
 
 const triggerWidth = "w-full max-w-sm";
 

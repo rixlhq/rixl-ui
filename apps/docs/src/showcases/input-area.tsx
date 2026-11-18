@@ -6,7 +6,7 @@ export const path = "input-area";
 export const title = "Input Area";
 export const description = "Enter and edit multiple lines of text.";
 export const notes =
-  "Multiline input exported from @rixl/ui/input next to Input. It takes the same label, labelTooltip, description, error, required and size props, wired through Base UI Field so the label focuses it and the description and error are announced. It grows with its content.";
+  "Multiline input exported from @rixl/ui/input next to Input. It takes the same label, labelTooltip, description, error, required and size props, wired through Base UI Field so the label focuses it and the description and error are announced. It grows with its content. labels takes optional and moreInformation (the field chrome). Strings you leave out come from RixlLocaleProvider (@rixl/ui/locale), then English.";
 
 export function Showcase() {
   return <InputArea aria-label="Feedback" placeholder="Tell us what you think…" className="w-full max-w-md" />;

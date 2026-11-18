@@ -21,7 +21,7 @@ export const path = "sidebar";
 export const title = "Sidebar";
 export const description = "Navigate between the main sections of an application.";
 export const notes =
-  "Navigation shell with offcanvas / icon / none collapsibility. Context provider tracks open state, mobile detection, and a Cmd/Ctrl+B shortcut. Renders an edge-placed Dialog on mobile.";
+  "Navigation shell with offcanvas / icon / none collapsibility. Context provider tracks open state, mobile detection, and a Cmd/Ctrl+B shortcut. Renders an edge-placed Dialog on mobile. SidebarTrigger and SidebarRail take labels.toggle; Sidebar takes labels.title and labels.description for the mobile sheet. Strings you leave out come from RixlLocaleProvider (@rixl/ui/locale), then English.";
 
 export function Showcase() {
   return <SidebarPreview collapsible="offcanvas" />;

@@ -6,7 +6,7 @@ export const path = "input";
 export const title = "Input";
 export const description = "Enter a single line of text.";
 export const notes =
-  "Single-line text input. Base UI Input on rixl tokens, with sizes, hover/focus/disabled/read-only/invalid states, and a built-in field: label, labelTooltip, description, error and required wire the label, aria-describedby and aria-invalid for you. For icons, text addons or buttons around the input use InputGroup.";
+  "Single-line text input. Base UI Input on rixl tokens, with sizes, hover/focus/disabled/read-only/invalid states, and a built-in field: label, labelTooltip, description, error and required wire the label, aria-describedby and aria-invalid for you. For icons, text addons or buttons around the input use InputGroup. labels takes optional and moreInformation (the field chrome). Strings you leave out come from RixlLocaleProvider (@rixl/ui/locale), then English.";
 
 export function Showcase() {
   return (

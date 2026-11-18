@@ -5,6 +5,8 @@ import type {ControlValue, Example} from "./registry";
 export const path = "empty";
 export const title = "Empty";
 export const description = "Explain why a view is empty and offer a next step.";
+export const notes =
+  "labels.command titles the command block. Strings you leave out come from RixlLocaleProvider (@rixl/ui/locale), then English.";
 
 export function Showcase() {
   return <Empty title="No media" description="Upload your first asset." size="sm" />;

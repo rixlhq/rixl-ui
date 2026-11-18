@@ -31,6 +31,7 @@ import * as datePicker from "./date-picker";
 import * as copyBlock from "./copy-block";
 import * as empty from "./empty";
 import * as toaster from "./toaster";
+import * as locale from "./locale";
 
 export type ControlValue = string | boolean;
 
@@ -112,4 +113,5 @@ export const showcases: Showcase[] = [
   copyBlock,
   empty,
   toaster,
+  locale,
 ];
