@@ -1,3 +1,4 @@
+import {createRef} from "react";
 import {describe, it, expect} from "vitest";
 import {render, screen} from "@testing-library/react";
 import {
@@ -111,5 +112,48 @@ describe("Breadcrumb", () => {
     const cls = screen.getByTestId("link").className;
     expect(cls).toContain("max-w-md");
     expect(cls).toContain("hover:text-rixl-fg");
+  });
+
+  it("forwards a ref from each part to its element", () => {
+    const refs = {
+      nav: createRef<HTMLElement>(),
+      list: createRef<HTMLOListElement>(),
+      item: createRef<HTMLLIElement>(),
+      link: createRef<HTMLAnchorElement>(),
+      page: createRef<HTMLSpanElement>(),
+      separator: createRef<HTMLLIElement>(),
+      ellipsis: createRef<HTMLSpanElement>(),
+    };
+    render(
+      <Breadcrumb ref={refs.nav}>
+        <BreadcrumbList ref={refs.list}>
+          <BreadcrumbItem ref={refs.item}>
+            <BreadcrumbLink ref={refs.link} href="/">
+              Home
+            </BreadcrumbLink>
+          </BreadcrumbItem>
+          <BreadcrumbSeparator ref={refs.separator} />
+          <BreadcrumbEllipsis ref={refs.ellipsis} />
+          <BreadcrumbItem>
+            <BreadcrumbPage ref={refs.page}>Current</BreadcrumbPage>
+          </BreadcrumbItem>
+        </BreadcrumbList>
+      </Breadcrumb>
+    );
+    const tags = Object.fromEntries(Object.entries(refs).map(([name, ref]) => [name, ref.current?.tagName]));
+    expect(tags).toEqual({nav: "NAV", list: "OL", item: "LI", link: "A", page: "SPAN", separator: "LI", ellipsis: "SPAN"});
+  });
+
+  it("names every part for devtools", () => {
+    const parts = [Breadcrumb, BreadcrumbList, BreadcrumbItem, BreadcrumbLink, BreadcrumbPage, BreadcrumbSeparator, BreadcrumbEllipsis];
+    expect(parts.map((part) => part.displayName)).toEqual([
+      "Breadcrumb",
+      "BreadcrumbList",
+      "BreadcrumbItem",
+      "BreadcrumbLink",
+      "BreadcrumbPage",
+      "BreadcrumbSeparator",
+      "BreadcrumbEllipsis",
+    ]);
   });
 });
