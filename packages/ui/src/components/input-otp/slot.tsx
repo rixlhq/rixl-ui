@@ -1,4 +1,4 @@
-import {useContext, type ComponentProps} from "react";
+import {forwardRef, useContext, type ComponentProps} from "react";
 import {OTPInputContext} from "input-otp";
 import {cn} from "../../lib/cn";
 
@@ -6,12 +6,13 @@ export type InputOTPSlotProps = ComponentProps<"div"> & {
   index: number;
 };
 
-export function InputOTPSlot({index, className, ...props}: InputOTPSlotProps) {
+export const InputOTPSlot = forwardRef<HTMLDivElement, InputOTPSlotProps>(function InputOTPSlot({index, className, ...props}, ref) {
   const inputOTPContext = useContext(OTPInputContext);
   const {char, hasFakeCaret, isActive} = inputOTPContext?.slots[index] ?? {};
 
   return (
     <div
+      ref={ref}
       data-slot="input-otp-slot"
       data-active={isActive}
       className={cn(
@@ -28,4 +29,5 @@ export function InputOTPSlot({index, className, ...props}: InputOTPSlotProps) {
       )}
     </div>
   );
-}
+});
+InputOTPSlot.displayName = "InputOTPSlot";

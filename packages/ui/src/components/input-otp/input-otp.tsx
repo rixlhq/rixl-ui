@@ -1,4 +1,4 @@
-import {useState, type ComponentProps} from "react";
+import {forwardRef, useState, type ComponentProps} from "react";
 import {OTPInput} from "input-otp";
 import {cn} from "../../lib/cn";
 
@@ -29,13 +29,17 @@ export type InputOTPProps = OmitFromEach<ComponentProps<typeof OTPInput>, "value
   containerClassName?: string;
 };
 
-export function InputOTP({className, containerClassName, value, defaultValue, onChange, ...props}: InputOTPProps) {
+export const InputOTP = forwardRef<HTMLInputElement, InputOTPProps>(function InputOTP(
+  {className, containerClassName, value, defaultValue, onChange, ...props},
+  ref
+) {
   const [internalValue, setInternalValue] = useState(defaultValue ?? "");
   const isControlled = value !== undefined;
   const hasDefault = defaultValue !== undefined;
 
   return (
     <OTPInput
+      ref={ref}
       data-slot="input-otp"
       containerClassName={cn("flex items-center gap-2 has-disabled:opacity-50", containerClassName)}
       className={cn("disabled:cursor-not-allowed", className)}
@@ -53,6 +57,7 @@ export function InputOTP({className, containerClassName, value, defaultValue, on
       {...props}
     />
   );
-}
+});
+InputOTP.displayName = "InputOTP";
 
 export {InputOTPGroup, InputOTPSlot, InputOTPSeparator, type InputOTPGroupProps, type InputOTPSlotProps, type InputOTPSeparatorProps};

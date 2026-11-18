@@ -1,15 +1,16 @@
-import type {ComponentProps} from "react";
+import {forwardRef, type ComponentProps} from "react";
 
 export type InputOTPSeparatorProps = ComponentProps<"div">;
 
-export function InputOTPSeparator({...props}: InputOTPSeparatorProps) {
+export const InputOTPSeparator = forwardRef<HTMLDivElement, InputOTPSeparatorProps>(function InputOTPSeparator(props, ref) {
   return (
     // oxlint-disable-next-line jsx-a11y/prefer-tag-over-role -- an <hr> can't hold the icon, and the separator is aria-hidden
-    <div data-slot="input-otp-separator" role="separator" aria-hidden="true" {...props}>
+    <div ref={ref} data-slot="input-otp-separator" role="separator" aria-hidden="true" {...props}>
       <MinusIcon />
     </div>
   );
-}
+});
+InputOTPSeparator.displayName = "InputOTPSeparator";
 
 function MinusIcon() {
   return (
