@@ -30,7 +30,7 @@ import * as table from "./table";
 import * as pagination from "./pagination";
 import * as datePicker from "./date-picker";
 import * as copyBlock from "./copy-block";
-import * as emptyState from "./empty-state";
+import * as empty from "./empty";
 import * as toaster from "./toaster";
 
 export type ControlValue = string | boolean;
@@ -116,6 +116,6 @@ export const showcases: Showcase[] = [
   pagination,
   datePicker,
   copyBlock,
-  emptyState,
+  empty,
   toaster,
 ];

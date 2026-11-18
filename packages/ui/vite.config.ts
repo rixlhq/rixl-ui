@@ -65,7 +65,6 @@ export default defineConfig({
       "date-picker": "src/components/date-picker/index.ts",
       "copy-block": "src/components/copy-block/index.ts",
       empty: "src/components/empty/index.ts",
-      "empty-state": "src/components/empty-state/index.ts",
       toaster: "src/components/toaster/index.ts",
     },
     // Manage `package.json#exports` by hand — we ship both compiled JS

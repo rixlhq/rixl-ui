@@ -205,11 +205,6 @@
       "development": "./src/components/empty/index.ts",
       "import": "./dist/empty.js"
     },
-    "./empty-state": {
-      "types": "./dist/empty-state.d.ts",
-      "development": "./src/components/empty-state/index.ts",
-      "import": "./dist/empty-state.js"
-    },
     "./toaster": {
       "types": "./dist/toaster.d.ts",
       "development": "./src/components/toaster/index.ts",

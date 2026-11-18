@@ -41,7 +41,6 @@ export * from "./components/calendar";
 export * from "./components/date-picker";
 export * from "./components/copy-block";
 export * from "./components/empty";
-export * from "./components/empty-state";
 export * from "./components/toaster";
 
 /**
