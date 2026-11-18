@@ -1,13 +1,13 @@
 export {Pagination, type PaginationProps} from "./pagination";
-export {PaginationInfo, type PaginationInfoProps} from "./pagination-info";
+export {PaginationInfo, type PaginationInfoProps, type PaginationInfoState} from "./pagination-info";
 export {PaginationControls, type PaginationControlsProps} from "./pagination-controls";
 export {PaginationNavButton, type PaginationNavButtonProps} from "./pagination-nav-button";
 export {PaginationPageSize, type PaginationPageSizeProps} from "./pagination-page-size";
 export {PaginationPageInput, type PaginationPageInputProps} from "./pagination-page-input";
-export {PaginationContext, type PaginationContextValue} from "./pagination-context";
+export {PaginationSeparator, type PaginationSeparatorProps} from "./pagination-separator";
+export {PaginationContext, type PaginationContextValue, type PaginationLabels} from "./pagination-context";
 export {usePaginationContext} from "./use-pagination-context";
-export {PaginationProvider, type PaginationProviderProps, type PaginationLabels} from "./pagination-provider";
-export {PaginationLimitNode, type PaginationLimitNodeProps} from "./pagination-limit-node";
+export {PaginationProvider, type PaginationProviderProps} from "./pagination-provider";
 export {usePageDraft} from "./use-page-draft";
 export {usePaginationView, type PaginationView} from "./use-pagination-view";
-export {normalizePagination, type NormalizedPagination, type PaginationModel} from "./normalize-pagination";
+export {normalizePagination, type NormalizedPagination, type PaginationModel, type PaginationTotals} from "./normalize-pagination";

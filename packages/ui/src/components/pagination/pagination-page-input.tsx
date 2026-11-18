@@ -15,20 +15,18 @@ function parseStrictPage(draft: string): number | null {
 /** Strict integer page entry with invalid-draft recovery. */
 export const PaginationPageInput = forwardRef<HTMLInputElement, PaginationPageInputProps>(
   ({onChange, onBlur, onKeyDown, className, ...props}, ref) => {
-    const pagination = usePaginationContext();
-    const totalPages = pagination?.totalPages ?? 0;
-    const onPageChange = pagination?.onPageChange ?? (() => {});
-    const {value, setDraft, resetDraft} = usePageDraft(pagination?.page ?? 0);
+    const {page, totalPages, setPage} = usePaginationContext();
+    const {value, setDraft, resetDraft} = usePageDraft(page);
 
     const commit = (raw: string) => {
       const parsed = parseStrictPage(raw);
-      if (parsed === null || totalPages === 0) {
+      if (parsed === null || totalPages === undefined) {
         resetDraft();
         return;
       }
       const target = Math.min(Math.max(1, parsed), totalPages);
       setDraft(String(target));
-      onPageChange(target);
+      setPage(target);
     };
 
     const handleKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {

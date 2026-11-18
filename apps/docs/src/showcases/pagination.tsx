@@ -1,82 +1,104 @@
 import {useState} from "react";
-import {Pagination, PaginationControls, PaginationInfo, PaginationPageInput} from "@rixl/ui/pagination";
-import type {ControlValue, Example} from "./registry";
+import {Pagination, PaginationControls, PaginationInfo, PaginationPageSize, PaginationSeparator} from "@rixl/ui/pagination";
+import type {Example} from "./registry";
 
 export const path = "pagination";
 export const title = "Pagination";
 export const description = "Move between pages of a longer list.";
 export const notes =
-  "First/prev/next/last pager with an optional page-size selector, which is a Select with a visible label, and a page input, which is an Input. Unstyled by locale: every string arrives via props, so consumers wire their own message layer.";
+  "Kumo's props: page and setPage, plus totalCount with perPage, or hasNextPage when the total is unknown. The default layout is info and controls; compose PaginationInfo, PaginationPageSize (a labelled Select), PaginationSeparator and PaginationControls (a page input, or a Select with pageSelector) in any order. Every string arrives through labels or a render function, so consumers wire their own message layer.";
 
 export function Showcase() {
   const [page, setPage] = useState(2);
-  return (
-    <Pagination
-      currentPage={page}
-      totalPages={8}
-      onPageChange={setPage}
-      firstLabel="Go to first page"
-      prevLabel="Go to previous page"
-      nextLabel="Go to next page"
-      lastLabel="Go to last page"
-    />
-  );
+  return <Pagination page={page} setPage={setPage} perPage={10} totalCount={80} />;
 }
 
-function BasicExample(props: {state: Record<string, ControlValue>}) {
-  void props;
+function FullExample() {
   const [page, setPage] = useState(2);
-  const [limit, setLimit] = useState(20);
-  return (
-    <Pagination
-      currentPage={page}
-      totalPages={8}
-      onPageChange={setPage}
-      limit={limit}
-      setLimit={setLimit}
-      firstLabel="Go to first page"
-      prevLabel="Go to previous page"
-      nextLabel="Go to next page"
-      lastLabel="Go to last page"
-    />
-  );
+  return <Pagination page={page} setPage={setPage} perPage={10} totalCount={100} controls="full" />;
 }
 
-function MinimalExample(props: {state: Record<string, ControlValue>}) {
-  void props;
+function SimpleExample() {
   const [page, setPage] = useState(1);
-  return (
-    <Pagination
-      currentPage={page}
-      totalPages={4}
-      onPageChange={setPage}
-      firstLabel="Go to first page"
-      prevLabel="Go to previous page"
-      nextLabel="Go to next page"
-      lastLabel="Go to last page"
-    />
-  );
+  return <Pagination page={page} setPage={setPage} perPage={10} totalCount={100} controls="simple" />;
 }
 
-function PageInputExample(props: {state: Record<string, ControlValue>}) {
-  void props;
-  const [page, setPage] = useState(3);
+function UnknownTotalExample() {
+  const [page, setPage] = useState(1);
+  return <Pagination page={page} setPage={setPage} hasNextPage={page < 3} text={() => `Page ${page}`} />;
+}
+
+function EmptyExample() {
+  const [page, setPage] = useState(1);
+  return <Pagination page={page} setPage={setPage} perPage={10} totalCount={0} />;
+}
+
+function PageSizeExample() {
+  const [page, setPage] = useState(1);
+  const [perPage, setPerPage] = useState(25);
   return (
-    <Pagination page={page} totalPages={8} onPageChange={setPage}>
+    <Pagination page={page} setPage={setPage} perPage={perPage} totalCount={500}>
       <PaginationInfo />
-      <PaginationPageInput aria-label="Go to page" />
+      <PaginationSeparator />
+      <PaginationPageSize
+        value={perPage}
+        onChange={(size) => {
+          setPerPage(size);
+          setPage(1);
+        }}
+      />
       <PaginationControls />
     </Pagination>
   );
 }
 
+function DropdownExample() {
+  const [page, setPage] = useState(3);
+  return (
+    <Pagination page={page} setPage={setPage} perPage={25} totalCount={500}>
+      <PaginationInfo />
+      <PaginationControls pageSelector="dropdown" />
+    </Pagination>
+  );
+}
+
+function LabelsExample() {
+  const [page, setPage] = useState(2);
+  return (
+    <Pagination
+      page={page}
+      setPage={setPage}
+      perPage={10}
+      totalCount={100}
+      labels={{
+        navigation: "Pagination",
+        firstPage: "Première page",
+        previousPage: "Page précédente",
+        nextPage: "Page suivante",
+        lastPage: "Dernière page",
+        pageNumber: "Numéro de page",
+      }}
+      text={({pageShowingRange, totalCount}) => `Affichage de ${pageShowingRange} sur ${totalCount}`}
+    />
+  );
+}
+
 export const examples: Example[] = [
-  {id: "basic", title: "Pager with page-size selector", render: BasicExample},
   {
-    id: "page-input",
-    title: "Pager with a page input",
-    description: "Type a page and press Enter or leave the field; out-of-range pages clamp, invalid text restores the current page.",
-    render: PageInputExample,
+    id: "full",
+    title: "Full controls",
+    description: "First, previous, a page input, next and last. Press Enter or leave the field to go to the page.",
+    render: FullExample,
   },
-  {id: "minimal", title: "Pager without page-size selector", render: MinimalExample},
+  {id: "simple", title: "Simple controls", render: SimpleExample},
+  {
+    id: "unknown-total",
+    title: "Unknown total",
+    description: "hasNextPage replaces totalCount; first, last and the page input are hidden.",
+    render: UnknownTotalExample,
+  },
+  {id: "empty", title: "Empty results", description: "One empty page with every button disabled.", render: EmptyExample},
+  {id: "page-size", title: "Page-size selector", render: PageSizeExample},
+  {id: "dropdown", title: "Page dropdown", render: DropdownExample},
+  {id: "labels", title: "Labels and text", description: "labels names the controls; text sets the info.", render: LabelsExample},
 ];
