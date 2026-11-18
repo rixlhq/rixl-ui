@@ -53,14 +53,16 @@ vp test --project browser  # Real Chromium with the preset built; axe accessibil
 vpr test:coverage          # Tests with coverage; fails under the floor in vite.config.ts
 vpr test:mutation          # Stryker (CI only, weekly: .github/workflows/mutation.yml)
 vpr lint:suppressions      # Fails on a lint suppression without a reason
+vpr knip                   # Unused files, exports and dependencies (knip.jsonc)
+vpr react-doctor           # React Doctor on changed files; reports without failing
 vp pack                    # Build dist/ (ESM + .d.ts)
 vpr budget                 # Size budget (.size-limit.json), after vp pack
 vpr publint                # Checks the package.json exports map
 vpr ci                     # Standalone UI package gate
-vpr ci:package             # UI-only tasks (tests, pack, budget, publint)
+vpr ci:package             # UI-only tasks (suppressions, knip, coverage tests, pack, budget, publint)
 ```
 
-The repository root owns the Bun version pin and workspace installation. Run `vp install` from the root; all CI workflows set up Vite+ there. `vp check` runs shared format and lint checks across the workspaces. UI commands delegate to `@rixl/ui`; `vpr docs` starts the showcase app and `vpr docs:build` builds the library and docs app. From the root, `vpr ci` is the workspace gate used by release; CI runs its `ci:check` and `ci:ui` tasks in parallel, then builds docs with `ci:docs`. Use `vp` for everything; don't call `bun`, `npm` or `npx` directly. Install Chromium from `packages/ui/` with `vpx playwright install chromium`.
+The repository root owns the Bun version pin and workspace installation. Run `vp install` from the root; all CI workflows set up Vite+ there. `vp check` runs shared format and lint checks across the workspaces. UI commands delegate to `@rixl/ui`; `vpr docs` starts the showcase app and `vpr docs:build` builds the library and docs app. `vpr check` is `vp check` plus React Doctor. From the root, `vpr ci` is the workspace gate used by release; CI runs its `ci:check` and `ci:ui` tasks in parallel, then builds docs with `ci:docs`. Use `vp` for everything; don't call `bun`, `npm` or `npx` directly. Install Chromium from `packages/ui/` with `vpx playwright install chromium`.
 
 ## Repository layout
 
@@ -76,7 +78,7 @@ packages/ui/                   — @rixl/ui, the published package
 apps/docs/                     — Vite+ app showcasing @rixl/ui (workspace:*)
 openspec/                      — specs and changes
 .agents/                       — rules, skills, commands and the git-hook guard
-lefthook.yml                   — git hooks, run inside packages/ui
+lefthook.yml                   — git hooks (see .agents/rules/commits.md)
 release-please-config.json     — Release Please config for packages/ui
 ```
 
@@ -115,6 +117,6 @@ Behaviour changes start as an OpenSpec change (`/opsx:propose`); `openspec/specs
 
 ## CI and release
 
-- `.github/workflows/ci.yml` runs workspace checks and the UI package build in parallel, then tests with coverage, reports coverage on PRs, checks package budget/exports, and builds docs. On `main`, Release Please and npm publishing run only after those gates succeed. Chromium is installed for the browser project.
+- `.github/workflows/ci.yml` runs `ci:check` and `ci:ui` (suppressions, Knip, tests with coverage, pack, size budget, publint) in parallel, builds docs with `ci:docs`, then reports coverage on PRs. On `main`, Release Please and npm publishing run only after those gates succeed. Chromium is installed for the browser project.
 - React Doctor runs from the workspace check script and the pre-push hook; its CLI reports locally and in CI without a separate GitHub action.
 - `.github/workflows/mutation.yml` runs Stryker every Monday and opens a `mutation-report` issue.

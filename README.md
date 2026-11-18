@@ -73,11 +73,11 @@ vp env doctor          # diagnose toolchain issues
 From the repo root, use the workspace scripts:
 
 ```bash
-vpr build              # → packages/ui $ vp pack
-vpr test:run           # → packages/ui $ vp test --run
-vp check
-vpr pack               # build the library before the docs production build
-vpr docs               # build the docs app
+vpr pack               # build the library (production)
+vpr test:coverage      # → packages/ui tests with coverage
+vpr check              # vp check + React Doctor
+vpr docs               # start the docs app
+vpr docs:build         # pack the library, then build the docs app
 vpr ci                 # CI/release gate across the workspace
 ```
 
@@ -125,8 +125,7 @@ Git build for this project when using the GitHub Actions deployment.
 To build and deploy locally with those environment variables set:
 
 ```bash
-vpr pack
-vpr docs
+vpr docs:build
 cd apps/docs
 vpr cf:deploy --dry-run   # validate the static deployment without publishing
 vpr cf:deploy            # publish to ui
