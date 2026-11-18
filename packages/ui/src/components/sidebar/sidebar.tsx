@@ -1,22 +1,26 @@
 import * as React from "react";
+import {Dialog as DialogPrimitive} from "@base-ui/react/dialog";
 import {cn} from "../../lib/cn";
 
 import {Dialog} from "../dialog/dialog-root";
-import {DialogContent} from "../dialog/dialog-content";
 import {DialogDescription} from "../dialog/dialog-description";
 import {DialogHeader} from "../dialog/dialog-header";
+import {DialogOverlay} from "../dialog/dialog-overlay";
+import {DialogPortal} from "../dialog/dialog-portal";
 import {DialogTitle} from "../dialog/dialog-title";
 import {SidebarSideContext, useSidebar} from "./context";
 
 const SIDEBAR_WIDTH_MOBILE = "18rem";
 
-// The dialog edge sets its width under `data-[side=…]` selectors, which outrank a bare
-// `w-*`, so the sheet restates width and max-width under the same selectors.
-const MOBILE_SHEET_CLASSES = cn(
-  "bg-rixl-sidebar text-rixl-sidebar-fg p-0 [&>button]:hidden",
-  "data-[side=left]:w-(--sidebar-width) data-[side=left]:sm:max-w-(--sidebar-width)",
-  "data-[side=right]:w-(--sidebar-width) data-[side=right]:sm:max-w-(--sidebar-width)"
+const MOBILE_PANEL_CLASSES = cn(
+  "bg-rixl-sidebar text-rixl-sidebar-fg fixed inset-y-0 z-50 flex h-dvh w-(--sidebar-width) flex-col overflow-x-hidden overflow-y-auto overscroll-contain wrap-anywhere [&>*]:min-w-0 [&>*]:shrink-0",
+  "shadow-rixl-lg transition-transform duration-rixl-slow data-ending-style:duration-rixl-base ease-rixl-drawer motion-reduce:transition-none"
 );
+
+const MOBILE_PANEL_SIDE_CLASSES = {
+  left: "left-0 border-r data-starting-style:-translate-x-full data-ending-style:-translate-x-full",
+  right: "right-0 border-l data-starting-style:translate-x-full data-ending-style:translate-x-full",
+} as const;
 
 export type SidebarProps = React.ComponentProps<"div"> & {
   side?: "left" | "right";
@@ -38,30 +42,32 @@ function StaticSidebar({className, children, ...props}: React.ComponentProps<"di
   );
 }
 
-// className styles the desktop container; the mobile sheet keeps its own classes, as before the split.
+// className styles the desktop container; the mobile panel keeps its own classes, as before the split.
 function MobileSidebar({side, children}: PanelProps) {
   const {openMobile, setOpenMobile} = useSidebar();
 
   return (
     <Dialog open={openMobile} onOpenChange={setOpenMobile}>
-      <DialogContent
-        data-sidebar="sidebar"
-        data-slot="sidebar"
-        data-mobile="true"
-        className={MOBILE_SHEET_CLASSES}
-        style={
-          {
-            "--sidebar-width": SIDEBAR_WIDTH_MOBILE,
-          } as React.CSSProperties
-        }
-        side={side}
-      >
-        <DialogHeader className="sr-only">
-          <DialogTitle>Sidebar</DialogTitle>
-          <DialogDescription>Displays the mobile sidebar.</DialogDescription>
-        </DialogHeader>
-        <div className="flex h-full w-full flex-col">{children}</div>
-      </DialogContent>
+      <DialogPortal>
+        <DialogOverlay />
+        <DialogPrimitive.Popup
+          data-sidebar="sidebar"
+          data-slot="sidebar"
+          data-mobile="true"
+          className={cn(MOBILE_PANEL_CLASSES, MOBILE_PANEL_SIDE_CLASSES[side])}
+          style={
+            {
+              "--sidebar-width": SIDEBAR_WIDTH_MOBILE,
+            } as React.CSSProperties
+          }
+        >
+          <DialogHeader className="sr-only">
+            <DialogTitle>Sidebar</DialogTitle>
+            <DialogDescription>Displays the mobile sidebar.</DialogDescription>
+          </DialogHeader>
+          <div className="flex h-full w-full flex-col">{children}</div>
+        </DialogPrimitive.Popup>
+      </DialogPortal>
     </Dialog>
   );
 }
