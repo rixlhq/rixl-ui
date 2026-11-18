@@ -98,4 +98,26 @@ describe("InputOTP", () => {
     expect(cls).toContain("w-12");
     expect(cls).toContain("border-rixl-border");
   });
+
+  it("shares Input's control surface: hover and the invalid background", () => {
+    render(<Basic />);
+    const cls = screen.getByTestId("s0").className;
+    expect(cls).toContain("hover:border-rixl-border-strong");
+    expect(cls).toContain("aria-invalid:bg-rixl-danger/10");
+    expect(cls).toContain("aria-invalid:ring-rixl-danger/20");
+  });
+
+  it("keeps the slot at its own size, not the surface's full width", () => {
+    render(<Basic />);
+    expect(screen.getByTestId("s0").className).not.toContain("w-full");
+  });
+
+  it("joins slots into one bar: rounded outer edges only, one border between neighbours", () => {
+    render(<Basic />);
+    const cls = screen.getByTestId("s1").className;
+    expect(cls).toContain("rounded-none");
+    expect(cls).toContain("first:rounded-s-rixl-md");
+    expect(cls).toContain("last:rounded-e-rixl-md");
+    expect(cls).toContain("not-first:border-s-0");
+  });
 });

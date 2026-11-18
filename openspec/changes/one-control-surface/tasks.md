@@ -11,7 +11,7 @@
 
 ## 3. Input OTP
 
-- [ ] 3.1 Slot composes the surface and keeps the joined bar (test first: `input-otp.test.tsx`; browser: joined edges and invalid)
+- [x] 3.1 Slot composes the surface and keeps the joined bar (test first: `input-otp.test.tsx`; browser: joined edges and invalid) — `input-otp.test.tsx` and `input-otp.browser.test.tsx` pass; removing `not-first:border-s-0` fails the joined-bar test
 
 ## 4. Pagination
 
