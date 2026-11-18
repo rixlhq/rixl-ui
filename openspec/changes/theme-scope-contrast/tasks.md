@@ -13,4 +13,4 @@
 
 ## 3. Gate
 
-- [ ] 3.1 `vp check`, `vp test run`, `vp pack`, `vpx size-limit` and `vpr docs` pass.
+- [x] 3.1 `vp check`, `vp test run` (74 files, 726 tests), `vp pack`, `vpx size-limit` (preset 3.49 kB of 3.5 kB) and `vpr docs` pass.
