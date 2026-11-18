@@ -1,3 +1,4 @@
+import {forwardRef} from "react";
 import {Checkbox as CheckboxPrimitive} from "@base-ui/react/checkbox";
 import {cn} from "../../lib/cn";
 
@@ -12,9 +13,10 @@ import {cn} from "../../lib/cn";
  *
  * Icons are inlined local SVGs to keep `@rixl/ui` icon-dep-free.
  */
-function Checkbox({className, ...props}: CheckboxPrimitive.Root.Props) {
+const Checkbox = forwardRef<HTMLElement, CheckboxPrimitive.Root.Props>(function Checkbox({className, ...props}, ref) {
   return (
     <CheckboxPrimitive.Root
+      ref={ref}
       data-slot="checkbox"
       className={cn(
         "peer border-rixl-border size-4 shrink-0 rounded-[4px] border shadow-rixl-xs outline-none touch-manipulation",
@@ -41,7 +43,8 @@ function Checkbox({className, ...props}: CheckboxPrimitive.Root.Props) {
       </CheckboxPrimitive.Indicator>
     </CheckboxPrimitive.Root>
   );
-}
+});
+Checkbox.displayName = "Checkbox";
 
 function CheckIcon({className}: {className?: string}) {
   return (
