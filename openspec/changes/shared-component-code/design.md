@@ -22,7 +22,7 @@ Every row has at least three call sites, so extraction meets the rule in `anti-s
 **Chosen:** import `Check`, `Minus`, `Circle`, `ChevronRight`, `ChevronDown`, `ChevronUp` and `LoaderCircle` from `lucide-react`; delete the two `icons.tsx` files.
 **Alternatives considered:** keep the inline SVGs (rejected: `lucide-react` is already a dependency, so the "icon-dep-free" reason is gone and the copies only diverge); one shared `icons.tsx` (rejected: lucide already is that file).
 **Dropped:** nothing.
-**Evidence:** `package.json` lists `lucide-react` under `dependencies`; `breadcrumb`, `collapsible`, `dialog`, `pagination`, `sidebar`, `tabs` and `copy-block` already import it. lucide's `LoaderCircle` path is `M21 12a9 9 0 1 1-6.219-8.56`, the path `ButtonSpinner` drew. Size is measured in `tasks.md`.
+**Evidence:** `package.json` lists `lucide-react` under `dependencies`; `breadcrumb`, `collapsible`, `dialog`, `pagination`, `sidebar`, `tabs` and `copy-block` already import it. lucide's `LoaderCircle` path is `M21 12a9 9 0 1 1-6.219-8.56`, the path `ButtonSpinner` drew. JS bundle, brotlied, `vpx size-limit`: 54.96 kB before, 54.19 kB after the icons, 54.64 kB after the shared classes (limit 58 kB).
 
 Details that keep the look the same:
 
