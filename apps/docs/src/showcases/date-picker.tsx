@@ -9,7 +9,7 @@ export const path = "date-picker";
 export const title = "Date Picker";
 export const description = "Choose a date, several dates, or a date range.";
 export const notes =
-  "Bare calendar grid with single, multiple, and range modes. Number of months, disabled matchers, min/max, dropdown captions, and footers stay on the grid; popover behaviour is consumer composition (trigger Button + Popover + DatePicker). The API follows Kumo: `mode` is required, the selection is `selected` and `onChange`, and every other prop goes to react-day-picker. Multi-month views hide outside days unless `showOutsideDays` is set. Localize it with a react-day-picker locale (`import {fr} from 'react-day-picker/locale'`, then `locale={fr}`): month and weekday names, navigation and day-button labels all follow it, and the `labels` prop overrides one string.";
+  "Calendar grid with single, multiple, and range modes. Number of months, disabled matchers, min/max, dropdown captions, and footers stay on the grid; popover behaviour is consumer composition (trigger Button + Popover + DatePicker). On its own the calendar draws a surface (border, background, shadow, 12px padding); inside a `Popover`, `Card` or `Dialog` it draws neither and the container supplies both, so give the popover `className=\"w-auto p-3\"` as in Kumo. Cells are 36px, so one month fits a default `PopoverContent` (`w-72 p-4`). Previous and next flank the caption, and the month select truncates a name that does not fit, so every `captionLayout` stays inside the grid. The API follows Kumo: `mode` is required, the selection is `selected` and `onChange`, and every other prop goes to react-day-picker. Multi-month views hide outside days unless `showOutsideDays` is set. Localize it with a react-day-picker locale (`import {fr} from 'react-day-picker/locale'`, then `locale={fr}`): month and weekday names, navigation and day-button labels all follow it, and the `labels` prop overrides one string.";
 
 export function Showcase() {
   const [value, setValue] = useState<Date | undefined>();
@@ -23,7 +23,7 @@ export function Showcase() {
           </Button>
         }
       />
-      <PopoverContent>
+      <PopoverContent className="w-auto p-3">
         <DatePicker mode="single" selected={value} onChange={setValue} />
       </PopoverContent>
     </Popover>
@@ -61,14 +61,7 @@ function MinMaxExample() {
   const [value, setValue] = useState<DateRange | undefined>();
   return (
     <Group label="Range with min/max (3–7 nights)">
-      <DatePicker
-        mode="range"
-        min={3}
-        max={7}
-        selected={value}
-        onChange={(next) => setValue(next)}
-        footer={<span className="text-xs text-rixl-fg-muted">Select 3-7 nights</span>}
-      />
+      <DatePicker mode="range" min={3} max={7} selected={value} onChange={(next) => setValue(next)} footer="Select 3-7 nights" />
     </Group>
   );
 }
@@ -108,11 +101,7 @@ function DisabledFooterExample() {
         fixedWeeks
         selected={value}
         onChange={(next) => setValue(next)}
-        footer={
-          <p className="w-full pt-2 text-xs text-rixl-fg-muted">
-            {selectedCount}/{maxDays} days selected. Grayed dates are unavailable.
-          </p>
-        }
+        footer={`${selectedCount}/${maxDays} days selected. Grayed dates are unavailable.`}
       />
     </Group>
   );
@@ -131,7 +120,7 @@ function WithPopoverExample() {
     <Group label="Single in a popover">
       <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger render={<Button variant="outline">{date ? date.toLocaleDateString() : "Pick a date"}</Button>} />
-        <PopoverContent>
+        <PopoverContent className="w-auto p-3">
           <DatePicker
             mode="single"
             selected={date}
@@ -152,7 +141,7 @@ function RangePopoverExample() {
     <Group label="Range in a popover (two months)">
       <Popover>
         <PopoverTrigger render={<Button variant="outline">{formatRangeLabel(range, "Select dates")}</Button>} />
-        <PopoverContent>
+        <PopoverContent className="w-auto p-3">
           <DatePicker mode="range" numberOfMonths={2} selected={range} onChange={setRange} />
         </PopoverContent>
       </Popover>
@@ -168,33 +157,38 @@ function startOfMonth(date: Date): Date {
   return new Date(date.getFullYear(), date.getMonth(), 1);
 }
 
+function daysBefore(date: Date, days: number): Date {
+  return new Date(date.getFullYear(), date.getMonth(), date.getDate() - days);
+}
+
+const PRESETS: {label: string; range: DateRange}[] = [
+  {label: "Today", range: {from: TODAY, to: TODAY}},
+  {label: "Last 7 days", range: {from: daysBefore(TODAY, 6), to: TODAY}},
+  {label: "Last 30 days", range: {from: daysBefore(TODAY, 29), to: TODAY}},
+  {label: "This month", range: {from: startOfMonth(TODAY), to: new Date(TODAY.getFullYear(), TODAY.getMonth() + 1, 0)}},
+  {
+    label: "Last month",
+    range: {from: new Date(TODAY.getFullYear(), TODAY.getMonth() - 1, 1), to: new Date(TODAY.getFullYear(), TODAY.getMonth(), 0)},
+  },
+];
+
+function isSameRange(a: DateRange | undefined, b: DateRange): boolean {
+  if (!a?.from || !a.to || !b.from || !b.to) return false;
+  return a.from.getTime() === b.from.getTime() && a.to.getTime() === b.to.getTime();
+}
+
 function PresetsExample() {
   const [range, setRange] = useState<DateRange | undefined>();
   const [month, setMonth] = useState<Date>(startOfMonth(TODAY));
-  const presets: {label: string; range: DateRange}[] = [
-    {label: "Today", range: {from: TODAY, to: TODAY}},
-    {
-      label: "Last 7 days",
-      range: {from: new Date(TODAY.getTime() - 6 * 24 * 60 * 60 * 1000), to: TODAY},
-    },
-    {
-      label: "Last 30 days",
-      range: {from: new Date(TODAY.getTime() - 29 * 24 * 60 * 60 * 1000), to: TODAY},
-    },
-  ];
-  const isActive = (preset: DateRange): boolean => {
-    if (!range?.from || !range?.to || !preset.from || !preset.to) return false;
-    return range.from.getTime() === preset.from.getTime() && range.to.getTime() === preset.to.getTime();
-  };
   return (
     <Group label="Range in a popover with presets">
       <Popover>
         <PopoverTrigger render={<Button variant="outline">{formatRangeLabel(range, "Select dates")}</Button>} />
         {/* align="start": the trigger label changes width with the range, and a centered popover would recenter a few px on every preset click. */}
-        <PopoverContent align="start">
-          <div className="flex flex-col gap-3 p-3 sm:flex-row">
-            <div className="flex flex-row gap-1 sm:flex-col">
-              {presets.map((preset) => (
+        <PopoverContent align="start" className="w-auto p-0">
+          <div className="flex flex-col sm:flex-row">
+            <div className="flex flex-row flex-wrap gap-1 border-b border-rixl-border p-2 sm:flex-col sm:border-e sm:border-b-0">
+              {PRESETS.map((preset) => (
                 <button
                   key={preset.label}
                   type="button"
@@ -202,14 +196,16 @@ function PresetsExample() {
                     setRange(preset.range);
                     if (preset.range.from) setMonth(startOfMonth(preset.range.from));
                   }}
-                  data-active={isActive(preset.range)}
-                  className="rounded-rixl-md px-3 py-1.5 text-left text-sm whitespace-nowrap text-rixl-fg-muted hover:bg-rixl-surface-muted data-[active=true]:bg-rixl-primary data-[active=true]:text-rixl-primary-fg"
+                  data-active={isSameRange(range, preset.range)}
+                  className="rounded-rixl-md px-3 py-1.5 text-start text-sm whitespace-nowrap text-rixl-fg-muted hover:bg-rixl-surface-muted data-[active=true]:bg-rixl-primary data-[active=true]:text-rixl-primary-fg"
                 >
                   {preset.label}
                 </button>
               ))}
             </div>
-            <DatePicker mode="range" numberOfMonths={2} selected={range} onChange={setRange} month={month} onMonthChange={setMonth} />
+            <div className="p-3">
+              <DatePicker mode="range" numberOfMonths={2} selected={range} onChange={setRange} month={month} onMonthChange={setMonth} />
+            </div>
           </div>
         </PopoverContent>
       </Popover>
