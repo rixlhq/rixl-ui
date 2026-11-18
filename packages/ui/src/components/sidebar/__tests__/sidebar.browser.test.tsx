@@ -155,10 +155,10 @@ describe("Sidebar Browser Mode", () => {
     await page.viewport(width, 800);
     render(
       <SidebarProvider>
-        <Sidebar side={side}>
+        <Sidebar side={side} aria-label="Navigation">
           <SidebarContent>Nav</SidebarContent>
         </Sidebar>
-        <SidebarTrigger />
+        <SidebarTrigger aria-label="Toggle Sidebar" />
       </SidebarProvider>
     );
     await userEvent.click(page.getByRole("button", {name: "Toggle Sidebar"}));
@@ -180,7 +180,7 @@ describe("Sidebar Browser Mode", () => {
       await page.viewport(320, 320);
       render(
         <SidebarProvider>
-          <Sidebar side={side}>
+          <Sidebar side={side} aria-label="Navigation">
             <SidebarContent>
               {Array.from({length: items}, (_, i) => (
                 <p key={i} data-testid={i === items - 1 ? "last" : undefined}>
@@ -189,7 +189,7 @@ describe("Sidebar Browser Mode", () => {
               ))}
             </SidebarContent>
           </Sidebar>
-          <SidebarTrigger />
+          <SidebarTrigger aria-label="Toggle Sidebar" />
         </SidebarProvider>
       );
       await userEvent.click(page.getByRole("button", {name: "Toggle Sidebar"}));

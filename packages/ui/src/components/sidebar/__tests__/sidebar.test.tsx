@@ -52,7 +52,7 @@ function Shell() {
       </Sidebar>
       <SidebarInset>
         <main>
-          <SidebarTrigger data-testid="trigger" />
+          <SidebarTrigger data-testid="trigger" aria-label="Toggle Sidebar" />
         </main>
       </SidebarInset>
     </SidebarProvider>
@@ -137,7 +137,7 @@ describe("Sidebar", () => {
     render(
       <SidebarProvider>
         <Sidebar>
-          <SidebarTrigger data-testid="trigger" />
+          <SidebarTrigger data-testid="trigger" aria-label="Toggle Sidebar" />
         </Sidebar>
       </SidebarProvider>
     );

@@ -3,16 +3,15 @@ import {cn} from "../../lib/cn";
 import {PanelLeftIcon, PanelLeftOpenIcon, PanelRightIcon, PanelRightOpenIcon} from "lucide-react";
 
 import {Button} from "../button";
-import type {RixlTranslations} from "../locale";
-import {useTranslations} from "../locale/use-translations";
+import {useWarnMissingName} from "../../lib/warn-missing-name";
 import {useSidebar} from "./context";
 
 export const SidebarTrigger = React.forwardRef<HTMLButtonElement, SidebarTriggerProps>(function SidebarTrigger(
-  {className, onClick, labels, ...props},
+  {className, onClick, ...props},
   ref
 ) {
   const {toggleSidebar, open, isMobile} = useSidebar();
-  const t = useTranslations("sidebar", labels);
+  useWarnUnnamedSidebarButton("SidebarTrigger", props);
   const [isHovered, setIsHovered] = React.useState(false);
 
   return (
@@ -32,7 +31,6 @@ export const SidebarTrigger = React.forwardRef<HTMLButtonElement, SidebarTrigger
       {...props}
     >
       <SidebarTriggerIcon isMobile={isMobile} isHovered={isHovered} isOpened={open} />
-      <span className="sr-only">{t.toggle}</span>
     </Button>
   );
 });
@@ -49,19 +47,17 @@ function SidebarTriggerIcon({isMobile, isHovered, isOpened}: SidebarTriggerIconP
   return isOpened ? isHovered ? <PanelRightOpenIcon /> : <PanelRightIcon /> : isHovered ? <PanelLeftOpenIcon /> : <PanelLeftIcon />;
 }
 
-export const SidebarRail = React.forwardRef<HTMLButtonElement, SidebarRailProps>(function SidebarRail({className, labels, ...props}, ref) {
+export const SidebarRail = React.forwardRef<HTMLButtonElement, SidebarRailProps>(function SidebarRail({className, ...props}, ref) {
   const {toggleSidebar} = useSidebar();
-  const t = useTranslations("sidebar", labels);
+  useWarnUnnamedSidebarButton("SidebarRail", props);
 
   return (
     <button
       ref={ref}
       data-sidebar="rail"
       data-slot="sidebar-rail"
-      aria-label={t.toggle}
       tabIndex={-1}
       onClick={toggleSidebar}
-      title={t.toggle}
       className={cn(
         "hover:after:bg-rixl-sidebar-border absolute inset-y-0 z-20 hidden w-4 cursor-ew-resize ltr:-translate-x-1/2 rtl:translate-x-1/2 transition-colors duration-rixl-fast ease-rixl-out group-data-[side=left]:-end-4 group-data-[side=right]:start-0 after:absolute after:inset-y-0 after:start-1/2 after:w-[2px] sm:flex",
         "hover:group-data-[collapsible=offcanvas]:bg-rixl-sidebar group-data-[collapsible=offcanvas]:translate-x-0 group-data-[collapsible=offcanvas]:after:end-full",
@@ -75,10 +71,17 @@ export const SidebarRail = React.forwardRef<HTMLButtonElement, SidebarRailProps>
 });
 SidebarRail.displayName = "SidebarRail";
 
-type SidebarLabelsProp = {
-  /** Names the toggle. Defaults to the provider's string, then English. */
-  labels?: Partial<RixlTranslations["sidebar"]>;
-};
+/** Both are icon-only or text-free buttons, so the app names them with `aria-label` or `aria-labelledby`. */
+export type SidebarTriggerProps = React.ComponentProps<typeof Button>;
+export type SidebarRailProps = React.ComponentProps<"button">;
 
-export type SidebarTriggerProps = React.ComponentProps<typeof Button> & SidebarLabelsProp;
-export type SidebarRailProps = React.ComponentProps<"button"> & SidebarLabelsProp;
+function useWarnUnnamedSidebarButton(
+  component: "SidebarTrigger" | "SidebarRail",
+  props: {"aria-label"?: string; "aria-labelledby"?: string}
+) {
+  useWarnMissingName(!props["aria-label"] && !props["aria-labelledby"], {
+    component,
+    subject: component,
+    fix: `Set aria-label: <${component} aria-label='Toggle sidebar' />, or aria-labelledby.`,
+  });
+}

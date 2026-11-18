@@ -73,7 +73,7 @@ describeForwardRefs([
     component: SidebarTrigger,
     element: (ref) => (
       <SidebarProvider>
-        <SidebarTrigger ref={ref} />
+        <SidebarTrigger ref={ref} aria-label="Toggle Sidebar" />
       </SidebarProvider>
     ),
     slot: "sidebar-trigger",
@@ -83,7 +83,7 @@ describeForwardRefs([
     component: SidebarRail,
     element: (ref) => (
       <SidebarProvider>
-        <SidebarRail ref={ref} />
+        <SidebarRail ref={ref} aria-label="Toggle Sidebar" />
       </SidebarProvider>
     ),
     slot: "sidebar-rail",
@@ -305,8 +305,8 @@ describe("Sidebar on a narrow viewport", () => {
     const ref = createRef<HTMLDivElement>();
     render(
       <SidebarProvider>
-        <SidebarTrigger />
-        <Sidebar ref={ref} />
+        <SidebarTrigger aria-label="Toggle Sidebar" />
+        <Sidebar ref={ref} aria-label="Navigation" />
       </SidebarProvider>
     );
     fireEvent.click(screen.getByRole("button", {name: "Toggle Sidebar"}));

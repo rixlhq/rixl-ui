@@ -21,7 +21,7 @@ export const AppSidebar = memo(function AppSidebar({showcases, activePath}: {sho
   const items = useMemo(() => [...showcases].sort((a, b) => a.title.localeCompare(b.title)), [showcases]);
 
   return (
-    <Sidebar collapsible="offcanvas">
+    <Sidebar collapsible="offcanvas" aria-label="Components">
       <SidebarHeader className="docs-brand">
         <a href="#/" className="flex items-center justify-between gap-2 text-rixl-sidebar-fg">
           <div className="flex items-center gap-2.5">
@@ -86,7 +86,7 @@ export const AppSidebar = memo(function AppSidebar({showcases, activePath}: {sho
       <SidebarFooter className="docs-sidebar-footer">
         <p className="text-xs text-rixl-fg-muted">React · Base UI · Tailwind CSS</p>
       </SidebarFooter>
-      <SidebarRail />
+      <SidebarRail aria-label="Toggle sidebar" />
     </Sidebar>
   );
 });

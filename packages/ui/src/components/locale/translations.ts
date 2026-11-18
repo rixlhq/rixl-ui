@@ -39,14 +39,6 @@ export type RixlTranslations = {
     /** Default info text for a known total; `range` is already formatted, for example `21–25`. */
     showing: (range: string, total: number) => string;
   };
-  sidebar: {
-    /** Name of the trigger and the rail. */
-    toggle: string;
-    /** Title of the mobile sidebar sheet, announced by screen readers. */
-    title: string;
-    /** Description of the mobile sidebar sheet. */
-    description: string;
-  };
   toaster: {
     /** Name of the toast region. */
     notifications: string;
@@ -74,6 +66,5 @@ export const DEFAULT_TRANSLATIONS: RixlTranslations = {
     page: (page) => `Page ${page}`,
     showing: (range, total) => `Showing ${range} of ${total}`,
   },
-  sidebar: {toggle: "Toggle Sidebar", title: "Sidebar", description: "Displays the mobile sidebar."},
   toaster: {notifications: "Notifications", closeToast: "Close toast"},
 };

@@ -2,14 +2,10 @@ import * as React from "react";
 import {Dialog as DialogPrimitive} from "@base-ui/react/dialog";
 import {cn} from "../../lib/cn";
 
-import type {RixlTranslations} from "../locale";
-import {useTranslations} from "../locale/use-translations";
+import {useWarnMissingName} from "../../lib/warn-missing-name";
 import {Dialog} from "../dialog/dialog-root";
-import {DialogDescription} from "../dialog/dialog-description";
-import {DialogHeader} from "../dialog/dialog-header";
 import {DialogOverlay} from "../dialog/dialog-overlay";
 import {DialogPortal} from "../dialog/dialog-portal";
-import {DialogTitle} from "../dialog/dialog-title";
 import {SidebarSideContext, useSidebar} from "./context";
 
 const SIDEBAR_WIDTH_MOBILE = "18rem";
@@ -32,15 +28,13 @@ export type SidebarProps = React.ComponentProps<"div"> & {
   side?: "left" | "right";
   variant?: "sidebar" | "floating" | "inset";
   collapsible?: "offcanvas" | "icon" | "none";
-  /** Title and description of the mobile sheet, which screen readers announce. Each defaults to the provider's string, then English. */
-  labels?: Partial<RixlTranslations["sidebar"]>;
 };
 
 // The sidebar renders as a static div, a desktop container or a mobile panel; `panelRef` reaches
 // whichever element that is. It is not named `ref` because these internal parts are plain functions.
 type PanelRef = {panelRef: React.Ref<HTMLDivElement>};
 type PanelProps = Omit<SidebarProps, "side" | "ref"> & PanelRef & {side: "left" | "right"};
-type MobilePanelProps = Pick<PanelProps, "side" | "children" | "panelRef" | "labels">;
+type MobilePanelProps = Pick<PanelProps, "side" | "children" | "panelRef" | "aria-label" | "aria-labelledby">;
 
 function StaticSidebar({className, children, panelRef, ...props}: Omit<React.ComponentProps<"div">, "ref"> & PanelRef) {
   return (
@@ -56,9 +50,13 @@ function StaticSidebar({className, children, panelRef, ...props}: Omit<React.Com
 }
 
 // className styles the desktop container; the mobile panel keeps its own classes, as before the split.
-function MobileSidebar({side, children, panelRef, labels}: MobilePanelProps) {
+function MobileSidebar({side, children, panelRef, "aria-label": ariaLabel, "aria-labelledby": ariaLabelledBy}: MobilePanelProps) {
   const {openMobile, setOpenMobile} = useSidebar();
-  const t = useTranslations("sidebar", labels);
+  useWarnMissingName(!ariaLabel && !ariaLabelledBy, {
+    component: "Sidebar",
+    subject: "The mobile sidebar sheet",
+    fix: "Set aria-label on <Sidebar aria-label='Main navigation' />, or aria-labelledby.",
+  });
 
   return (
     <Dialog open={openMobile} onOpenChange={setOpenMobile}>
@@ -69,6 +67,8 @@ function MobileSidebar({side, children, panelRef, labels}: MobilePanelProps) {
           data-sidebar="sidebar"
           data-slot="sidebar"
           data-mobile="true"
+          aria-label={ariaLabel}
+          aria-labelledby={ariaLabelledBy}
           className={cn(MOBILE_PANEL_CLASSES, MOBILE_PANEL_SIDE_CLASSES[side])}
           style={
             {
@@ -76,10 +76,6 @@ function MobileSidebar({side, children, panelRef, labels}: MobilePanelProps) {
             } as React.CSSProperties
           }
         >
-          <DialogHeader className="sr-only">
-            <DialogTitle>{t.title}</DialogTitle>
-            <DialogDescription>{t.description}</DialogDescription>
-          </DialogHeader>
           <div className="flex h-full w-full flex-col">{children}</div>
         </DialogPrimitive.Popup>
       </DialogPortal>
@@ -137,10 +133,10 @@ function DesktopSidebar({side, variant = "sidebar", collapsible = "offcanvas", c
   );
 }
 
-function SidebarPanel({side = "left", collapsible = "offcanvas", variant, labels, ...props}: Omit<SidebarProps, "ref"> & PanelRef) {
+function SidebarPanel({side = "left", collapsible = "offcanvas", variant, ...props}: Omit<SidebarProps, "ref"> & PanelRef) {
   const {isMobile} = useSidebar();
   if (collapsible === "none") return <StaticSidebar {...props} />;
-  if (isMobile) return <MobileSidebar side={side} labels={labels} {...props} />;
+  if (isMobile) return <MobileSidebar side={side} {...props} />;
   return <DesktopSidebar side={side} variant={variant} collapsible={collapsible} {...props} />;
 }
 
