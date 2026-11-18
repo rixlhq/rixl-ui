@@ -19,7 +19,7 @@ const Checkbox = forwardRef<HTMLElement, CheckboxPrimitive.Root.Props>(function 
       ref={ref}
       data-slot="checkbox"
       className={cn(
-        "peer border-rixl-border size-4 shrink-0 rounded-[4px] border shadow-rixl-xs outline-none touch-manipulation",
+        "peer border-rixl-border inline-flex size-4 shrink-0 items-center justify-center rounded-[4px] border shadow-rixl-xs outline-none touch-manipulation",
         "transition-[scale,box-shadow,border-color,background-color] duration-rixl-fast ease-rixl-out",
         "enabled:active:scale-[var(--rixl-press-scale)] motion-reduce:active:scale-100",
         "data-unchecked:enabled:hover:border-rixl-border-strong",

@@ -93,8 +93,7 @@ describe("Table Browser Mode", () => {
         <TableBody>
           <TableRow>
             <Part>
-              {/* Checkbox renders an unsized inline span, so the box is given a display for the 16px size to apply. */}
-              <Checkbox aria-label="Select row" className="inline-flex" />
+              <Checkbox aria-label="Select row" />
             </Part>
             <TableCell>Alice</TableCell>
           </TableRow>
