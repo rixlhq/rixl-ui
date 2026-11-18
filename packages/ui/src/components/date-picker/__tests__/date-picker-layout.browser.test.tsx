@@ -22,6 +22,7 @@ const NARROW_VIEWPORT = {width: 414, height: 896};
 const TOLERANCE = 0.5;
 /** `--spacing(9)`: the cell is the size of a default Button, and seven of them fit a default `PopoverContent` (`w-72 p-4`). */
 const CELL_SIZE = 36;
+const LONG_FOOTER = "You picked Wednesday, 16 September 2026. Bookings close at midnight in your workspace's time zone.";
 
 type Box = {name: string; left: number; right: number; top: number; bottom: number; width: number};
 
@@ -109,6 +110,7 @@ describe("DatePicker caption layout (Browser Mode)", () => {
       {name: "one month", props: {}},
       {name: "week numbers", props: {showWeekNumber: true}},
       {name: "right to left", props: {dir: "rtl" as const}},
+      {name: "a long footer", props: {footer: LONG_FOOTER}},
       {name: "two months side by side", props: {numberOfMonths: 2}, viewport: WIDE_VIEWPORT},
       {name: "two months stacked", props: {numberOfMonths: 2}, viewport: NARROW_VIEWPORT},
       {name: "two months and week numbers", props: {numberOfMonths: 2, showWeekNumber: true}, viewport: WIDE_VIEWPORT},
@@ -147,6 +149,27 @@ describe("DatePicker caption layout (Browser Mode)", () => {
       );
       await expect.element(page.getByRole("grid")).toBeVisible();
       expectCaptionInside(calendarRoot());
+    });
+
+    it("wraps a long footer to the grid's width instead of widening the calendar", async () => {
+      await page.viewport(NARROW_VIEWPORT.width, NARROW_VIEWPORT.height);
+      render(
+        <DatePicker
+          mode="single"
+          defaultMonth={SEPTEMBER_2026}
+          captionLayout={captionLayout}
+          startMonth={START_MONTH}
+          endMonth={END_MONTH}
+          footer={LONG_FOOTER}
+        />
+      );
+      await expect.element(page.getByRole("grid")).toBeVisible();
+      const root = calendarRoot();
+      const span = gridSpan(root);
+      const footer = boxOf("footer", root.querySelector(".rdp-footer")!);
+      expect(footer.left).toBeGreaterThanOrEqual(span.left - TOLERANCE);
+      expect(footer.right).toBeLessThanOrEqual(span.right + TOLERANCE);
+      expect(footer.bottom - footer.top).toBeGreaterThan(CELL_SIZE);
     });
 
     it("has no WCAG 2.2 AA violations", async () => {

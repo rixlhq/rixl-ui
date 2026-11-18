@@ -24,6 +24,7 @@ export function gridClassNames(defaultClassNames: CalendarClassNames) {
     outside: cn("text-rixl-fg-muted aria-selected:text-rixl-fg-muted", defaultClassNames.outside),
     disabled: cn("text-rixl-fg-muted", defaultClassNames.disabled),
     hidden: cn("invisible", defaultClassNames.hidden),
-    footer: cn("mt-1 pt-2 text-xs text-rixl-fg-muted", defaultClassNames.footer),
+    // `w-0 min-w-full`, as on the caption: the footer takes the grid's width and wraps, so long text cannot widen the `w-fit` root.
+    footer: cn("mt-1 w-0 min-w-full pt-2 text-xs text-pretty text-rixl-fg-muted", defaultClassNames.footer),
   };
 }
