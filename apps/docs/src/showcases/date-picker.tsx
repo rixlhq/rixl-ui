@@ -9,7 +9,7 @@ export const path = "date-picker";
 export const title = "Date Picker";
 export const description = "Choose a date, several dates, or a date range.";
 export const notes =
-  "Bare calendar grid with single, multiple, and range modes. Number of months, disabled matchers, min/max, dropdown captions, and footers stay on the grid; popover behaviour is consumer composition (trigger Button + Popover + DatePicker). Kumo mapping: selected and onChange are accepted as deprecated aliases for value and onSelect.";
+  "Bare calendar grid with single, multiple, and range modes. Number of months, disabled matchers, min/max, dropdown captions, and footers stay on the grid; popover behaviour is consumer composition (trigger Button + Popover + DatePicker). The API follows Kumo: `mode` is required, the selection is `selected` and `onChange`, and every other prop goes to react-day-picker. Multi-month views hide outside days unless `showOutsideDays` is set.";
 
 export function Showcase() {
   const [value, setValue] = useState<Date | undefined>();
@@ -24,7 +24,7 @@ export function Showcase() {
         }
       />
       <PopoverContent>
-        <DatePicker mode="single" value={value} onSelect={setValue} />
+        <DatePicker mode="single" selected={value} onChange={setValue} />
       </PopoverContent>
     </Popover>
   );
@@ -34,7 +34,7 @@ function SingleExample() {
   const [value, setValue] = useState<Date | undefined>();
   return (
     <Group label="Single date">
-      <DatePicker mode="single" value={value} onSelect={(next) => setValue(next)} />
+      <DatePicker mode="single" selected={value} onChange={setValue} />
     </Group>
   );
 }
@@ -43,7 +43,7 @@ function MultipleExample() {
   const [value, setValue] = useState<Date[] | undefined>();
   return (
     <Group label="Multiple dates (max 5)">
-      <DatePicker mode="multiple" max={5} value={value} onSelect={(next) => setValue(next)} />
+      <DatePicker mode="multiple" max={5} selected={value} onChange={setValue} />
     </Group>
   );
 }
@@ -52,7 +52,7 @@ function RangeExample() {
   const [value, setValue] = useState<DateRange | undefined>();
   return (
     <Group label="Date range">
-      <DatePicker mode="range" numberOfMonths={2} value={value} onSelect={(next) => setValue(next)} />
+      <DatePicker mode="range" numberOfMonths={2} selected={value} onChange={setValue} />
     </Group>
   );
 }
@@ -65,8 +65,8 @@ function MinMaxExample() {
         mode="range"
         min={3}
         max={7}
-        value={value}
-        onSelect={(next) => setValue(next)}
+        selected={value}
+        onChange={(next) => setValue(next)}
         footer={<span className="text-xs text-rixl-fg-muted">Select 3-7 nights</span>}
       />
     </Group>
@@ -82,8 +82,8 @@ function DropdownExample() {
         captionLayout="dropdown"
         startMonth={new Date(2020, 0)}
         endMonth={new Date(2030, 11)}
-        value={value}
-        onSelect={(next) => setValue(next)}
+        selected={value}
+        onChange={(next) => setValue(next)}
       />
     </Group>
   );
@@ -106,8 +106,8 @@ function DisabledFooterExample() {
         max={maxDays}
         disabled={UNAVAILABLE}
         fixedWeeks
-        value={value}
-        onSelect={(next) => setValue(next)}
+        selected={value}
+        onChange={(next) => setValue(next)}
         footer={
           <p className="w-full pt-2 text-xs text-rixl-fg-muted">
             {selectedCount}/{maxDays} days selected. Grayed dates are unavailable.
@@ -134,8 +134,8 @@ function WithPopoverExample() {
         <PopoverContent>
           <DatePicker
             mode="single"
-            value={date}
-            onSelect={(next) => {
+            selected={date}
+            onChange={(next) => {
               setDate(next);
               if (next) setOpen(false);
             }}
@@ -153,7 +153,7 @@ function RangePopoverExample() {
       <Popover>
         <PopoverTrigger render={<Button variant="outline">{formatRangeLabel(range, "Select dates")}</Button>} />
         <PopoverContent>
-          <DatePicker mode="range" numberOfMonths={2} value={range} onSelect={(next) => setRange(next)} />
+          <DatePicker mode="range" numberOfMonths={2} selected={range} onChange={setRange} />
         </PopoverContent>
       </Popover>
     </Group>
@@ -209,15 +209,7 @@ function PresetsExample() {
                 </button>
               ))}
             </div>
-            <DatePicker
-              mode="range"
-              numberOfMonths={2}
-              value={range}
-              onSelect={(next) => setRange(next)}
-              month={month}
-              onMonthChange={setMonth}
-              showOutsideDays={false}
-            />
+            <DatePicker mode="range" numberOfMonths={2} selected={range} onChange={setRange} month={month} onMonthChange={setMonth} />
           </div>
         </PopoverContent>
       </Popover>

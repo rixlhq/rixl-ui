@@ -1,27 +1,26 @@
 import type {ComponentProps} from "react";
 import {getDefaultClassNames, type DayPicker} from "react-day-picker";
 import {cn} from "../../lib/cn";
-import {Button, buttonVariants} from "../button";
+import {buttonVariants} from "../button";
 
 type CalendarClassNames = ReturnType<typeof getDefaultClassNames>;
-type ButtonVariant = ComponentProps<typeof Button>["variant"];
 type CaptionLayout = ComponentProps<typeof DayPicker>["captionLayout"];
 
 const NAV_CLEARING = "pe-[calc(var(--cell-size)*2+0.5rem)]";
 
-export function captionClassNames(defaultClassNames: CalendarClassNames, buttonVariant: ButtonVariant, captionLayout: CaptionLayout) {
+export function captionClassNames(defaultClassNames: CalendarClassNames, captionLayout: CaptionLayout) {
   return {
     root: cn("w-fit", defaultClassNames.root),
     months: cn("flex gap-4 flex-col md:flex-row relative", defaultClassNames.months),
     month: cn("flex flex-col w-full gap-4", defaultClassNames.month),
     nav: cn("absolute end-0 top-0 flex items-center gap-1", defaultClassNames.nav),
     button_previous: cn(
-      buttonVariants({variant: buttonVariant}),
+      buttonVariants({variant: "ghost"}),
       "size-(--cell-size) aria-disabled:opacity-50 p-0 select-none",
       defaultClassNames.button_previous
     ),
     button_next: cn(
-      buttonVariants({variant: buttonVariant}),
+      buttonVariants({variant: "ghost"}),
       "size-(--cell-size) aria-disabled:opacity-50 p-0 select-none",
       defaultClassNames.button_next
     ),

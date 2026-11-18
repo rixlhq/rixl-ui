@@ -16,46 +16,46 @@ function dayButton(date: Date): HTMLButtonElement {
   return hit;
 }
 
-function SingleHarness({onSelect}: {onSelect?: (date: Date | undefined) => void}) {
+function SingleHarness({onChange}: {onChange?: (date: Date | undefined) => void}) {
   const [value, setValue] = useState<Date | undefined>();
   return (
     <DatePicker
       mode="single"
       defaultMonth={JUNE_2026}
-      value={value}
-      onSelect={(date) => {
+      selected={value}
+      onChange={(date) => {
         setValue(date);
-        onSelect?.(date);
+        onChange?.(date);
       }}
     />
   );
 }
 
-function RangeHarness({onSelect}: {onSelect?: (range: DateRange | undefined) => void}) {
+function RangeHarness({onChange}: {onChange?: (range: DateRange | undefined) => void}) {
   const [value, setValue] = useState<DateRange | undefined>();
   return (
     <DatePicker
       mode="range"
       defaultMonth={JUNE_2026}
-      value={value}
-      onSelect={(range) => {
+      selected={value}
+      onChange={(range) => {
         setValue(range);
-        onSelect?.(range);
+        onChange?.(range);
       }}
     />
   );
 }
 
-function MultipleHarness({onSelect}: {onSelect?: (dates: Date[] | undefined) => void}) {
+function MultipleHarness({onChange}: {onChange?: (dates: Date[] | undefined) => void}) {
   const [value, setValue] = useState<Date[] | undefined>();
   return (
     <DatePicker
       mode="multiple"
       defaultMonth={JUNE_2026}
-      value={value}
-      onSelect={(dates) => {
+      selected={value}
+      onChange={(dates) => {
         setValue(dates);
-        onSelect?.(dates);
+        onChange?.(dates);
       }}
     />
   );
@@ -75,66 +75,39 @@ describe("DatePicker", () => {
     expect(root.querySelectorAll("button[data-day]").length).toBeGreaterThanOrEqual(30);
   });
 
-  it("selects a single date and notifies onSelect", () => {
-    const onSelect = vi.fn();
-    render(<SingleHarness onSelect={onSelect} />);
-    act(() => dayButton(new Date(2026, 5, 15)).click());
-    expect(onSelect).toHaveBeenCalledOnce();
-    expect((onSelect.mock.calls[0] as Date[])[0]?.getTime()).toBe(new Date(2026, 5, 15).getTime());
-    expect(dayButton(new Date(2026, 5, 15))).toHaveAttribute("data-selected-single", "true");
-  });
-
-  it("accepts the selected alias for the initial value", () => {
-    render(<DatePicker mode="single" defaultMonth={JUNE_2026} selected={new Date(2026, 5, 15)} />);
-    expect(dayButton(new Date(2026, 5, 15))).toHaveAttribute("data-selected-single", "true");
-  });
-
-  it("prefers value over selected when both are set", () => {
-    render(<DatePicker mode="single" defaultMonth={JUNE_2026} value={new Date(2026, 5, 15)} selected={new Date(2026, 5, 20)} />);
-    expect(dayButton(new Date(2026, 5, 15))).toHaveAttribute("data-selected-single", "true");
-    expect(dayButton(new Date(2026, 5, 20))).not.toHaveAttribute("data-selected-single");
-  });
-
-  it("notifies the onChange alias when a date is picked", () => {
+  it("selects a single date and notifies onChange", () => {
     const onChange = vi.fn();
-    render(<DatePicker mode="single" defaultMonth={JUNE_2026} onChange={onChange} />);
+    render(<SingleHarness onChange={onChange} />);
     act(() => dayButton(new Date(2026, 5, 15)).click());
     expect(onChange).toHaveBeenCalledOnce();
     expect((onChange.mock.calls[0] as Date[])[0]?.getTime()).toBe(new Date(2026, 5, 15).getTime());
+    expect(dayButton(new Date(2026, 5, 15))).toHaveAttribute("data-selected-single", "true");
   });
 
   it("completes a range on two distinct days and marks both ends", () => {
-    const onSelect = vi.fn();
-    render(<RangeHarness onSelect={onSelect} />);
+    const onChange = vi.fn();
+    render(<RangeHarness onChange={onChange} />);
     act(() => dayButton(new Date(2026, 5, 10)).click());
     act(() => dayButton(new Date(2026, 5, 20)).click());
-    expect(onSelect).toHaveBeenCalledTimes(2);
+    expect(onChange).toHaveBeenCalledTimes(2);
     expect(dayButton(new Date(2026, 5, 10))).toHaveAttribute("data-range-start", "true");
     expect(dayButton(new Date(2026, 5, 20))).toHaveAttribute("data-range-end", "true");
   });
 
-  it("notifies the onChange alias on each range click", () => {
+  it("selects multiple dates", () => {
     const onChange = vi.fn();
-    render(<DatePicker mode="range" defaultMonth={JUNE_2026} onChange={onChange} />);
+    render(<MultipleHarness onChange={onChange} />);
     act(() => dayButton(new Date(2026, 5, 10)).click());
-    act(() => dayButton(new Date(2026, 5, 20)).click());
+    act(() => dayButton(new Date(2026, 5, 11)).click());
     expect(onChange).toHaveBeenCalledTimes(2);
   });
 
-  it("selects multiple dates", () => {
-    const onSelect = vi.fn();
-    render(<MultipleHarness onSelect={onSelect} />);
-    act(() => dayButton(new Date(2026, 5, 10)).click());
-    act(() => dayButton(new Date(2026, 5, 11)).click());
-    expect(onSelect).toHaveBeenCalledTimes(2);
-  });
-
   it("enforces max selected days in multiple mode", () => {
-    const onSelect = vi.fn();
-    render(<DatePicker mode="multiple" defaultMonth={JUNE_2026} max={1} onSelect={onSelect} />);
+    const onChange = vi.fn();
+    render(<DatePicker mode="multiple" defaultMonth={JUNE_2026} max={1} onChange={onChange} />);
     act(() => dayButton(new Date(2026, 5, 10)).click());
     act(() => dayButton(new Date(2026, 5, 11)).click());
-    const last = onSelect.mock.calls[onSelect.mock.calls.length - 1] as Date[][];
+    const last = onChange.mock.calls[onChange.mock.calls.length - 1] as Date[][];
     expect(last[0]).toHaveLength(1);
   });
 
@@ -164,15 +137,20 @@ describe("DatePicker", () => {
     expect(document.querySelector("[data-slot='calendar'] td[data-outside='true']:not([data-hidden='true'])")).toBeInTheDocument();
   });
 
-  it("shows outside days by default, dimmed, in single and multiple months", () => {
+  it("hides outside days by default in a multi-month view so dates are not duplicated between panels", () => {
     render(<DatePicker mode="range" defaultMonth={JUNE_2026} numberOfMonths={2} />);
+    const outside = document.querySelectorAll("[data-slot='calendar'] td[data-outside='true']");
+    expect(outside.length).toBeGreaterThan(0);
+    expect(document.querySelector("[data-slot='calendar'] td[data-outside='true']:not([data-hidden='true'])")).not.toBeInTheDocument();
+  });
+
+  it("shows outside days in a multi-month view when showOutsideDays is set", () => {
+    render(<DatePicker mode="range" defaultMonth={JUNE_2026} numberOfMonths={2} showOutsideDays />);
     expect(document.querySelector("[data-slot='calendar'] td[data-outside='true']:not([data-hidden='true'])")).toBeInTheDocument();
   });
 
-  it("hides outside days when showOutsideDays is false", () => {
-    render(<DatePicker mode="range" defaultMonth={JUNE_2026} numberOfMonths={2} showOutsideDays={false} />);
-    const outside = document.querySelectorAll("[data-slot='calendar'] td[data-outside='true']");
-    expect(outside.length).toBeGreaterThan(0);
+  it("hides outside days in a single month when showOutsideDays is false", () => {
+    render(<DatePicker mode="single" defaultMonth={JUNE_2026} showOutsideDays={false} />);
     expect(document.querySelector("[data-slot='calendar'] td[data-outside='true']:not([data-hidden='true'])")).not.toBeInTheDocument();
   });
 
@@ -265,12 +243,43 @@ describe("DatePicker", () => {
   });
 
   it("keeps range bands continuous with pill-sized buttons on band-colored cells", () => {
-    render(<DatePicker mode="range" defaultMonth={JUNE_2026} value={{from: new Date(2026, 5, 10), to: new Date(2026, 5, 20)}} />);
+    render(<DatePicker mode="range" defaultMonth={JUNE_2026} selected={{from: new Date(2026, 5, 10), to: new Date(2026, 5, 20)}} />);
     const startButton = document.querySelector('button[data-range-start="true"]')!;
     expect(startButton.className).toContain("size-[calc(var(--cell-size)-6px)]");
     const startCell = startButton.closest("td")!;
     expect(startCell.className).toContain("bg-rixl-primary");
     const middleCell = document.querySelector('button[data-range-middle="true"]')!.closest("td")!;
     expect(middleCell.className).toContain("bg-rixl-surface-muted");
+  });
+
+  it("does not extend a range past its max length", () => {
+    const onChange = vi.fn();
+    render(
+      <DatePicker
+        mode="range"
+        defaultMonth={JUNE_2026}
+        max={3}
+        selected={{from: new Date(2026, 5, 10), to: undefined}}
+        onChange={onChange}
+      />
+    );
+    act(() => dayButton(new Date(2026, 5, 20)).click());
+    const range = (onChange.mock.calls[0] as (DateRange | undefined)[])[0];
+    expect(range?.from?.getTime()).not.toBe(new Date(2026, 5, 10).getTime());
+  });
+
+  it("forwards react-day-picker props it has no wrapper for", () => {
+    render(<DatePicker mode="single" defaultMonth={JUNE_2026} weekStartsOn={1} />);
+    expect(document.querySelector("[data-slot='calendar'] .rdp-weekday")).toHaveTextContent(/^Mo/);
+  });
+
+  it("rejects the removed value and onSelect props and an omitted mode", () => {
+    // @ts-expect-error -- value was removed in favour of selected
+    const withValue = <DatePicker mode="single" value={new Date(2026, 5, 15)} />;
+    // @ts-expect-error -- onSelect was removed in favour of onChange
+    const withOnSelect = <DatePicker mode="single" onSelect={() => undefined} />;
+    // @ts-expect-error -- mode is required, as in Kumo
+    const withoutMode = <DatePicker />;
+    expect([withValue, withOnSelect, withoutMode]).toHaveLength(3);
   });
 });
