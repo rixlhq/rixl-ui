@@ -1,6 +1,6 @@
 import {createRef} from "react";
-import {render, screen} from "@testing-library/react";
-import {describe, expect, it} from "vitest";
+import {act, render, screen} from "@testing-library/react";
+import {describe, expect, it, vi} from "vitest";
 import {Empty} from "../empty";
 import {Button} from "../../button";
 
@@ -90,5 +90,26 @@ describe("Empty", () => {
   it("spreads remaining props onto the root", () => {
     render(<Empty title="No results" data-testid="root" aria-label="Search results" />);
     expect(screen.getByTestId("root")).toHaveAttribute("aria-label", "Search results");
+  });
+
+  it("renders the command line", () => {
+    render(<Empty title="No apps" commandLine="npm create rixl" />);
+    expect(screen.getByText("npm create rixl")).toBeInTheDocument();
+  });
+
+  it("renders no copy button without a command line", () => {
+    render(<Empty title="No apps" />);
+    expect(screen.queryByRole("button")).toBeNull();
+  });
+
+  it("copies exactly the command line", async () => {
+    const writeText = vi.fn().mockResolvedValue(undefined);
+    vi.stubGlobal("navigator", {...navigator, clipboard: {writeText}});
+    render(<Empty title="No apps" commandLine="npm create rixl" />);
+    await act(async () => {
+      screen.getByRole("button", {name: /copy/i}).click();
+    });
+    expect(writeText).toHaveBeenCalledWith("npm create rixl");
+    vi.unstubAllGlobals();
   });
 });
