@@ -18,4 +18,4 @@
 
 ## 5. Verification
 
-- [ ] 5.1 `vp check`, `vp test --run`, coverage floor, `vp pack`, `vpx publint`, `vpx size-limit`, docs build.
+- [x] 5.1 From the repo root, `vp check`: 235 files, no warnings, lint or type errors. From `packages/ui`: `vp test --run` 110 files, 1088 tests passed (unit and browser, with axe checks); `vp test --run --coverage` passes the floor (statements 97.79%, branches 90.43%, functions 98.46%, lines 98.52%); `vp pack` builds; `vpx publint` reports "All good!"; `vpx size-limit` reports 56.88 kB of 58 kB for JS and 3.49 kB of 3.5 kB for the preset, budgets unchanged; `vpr docs` builds. `vpr publint`, `budget` and `docs:build` are not defined on this branch.
