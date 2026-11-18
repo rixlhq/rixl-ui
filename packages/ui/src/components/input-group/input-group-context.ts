@@ -1,6 +1,7 @@
 import {createContext} from "react";
-import type {InputSize} from "../input/resolve-input-size";
+import type {VariantProps} from "class-variance-authority";
+import type {inputVariants} from "../input/input-variants";
 
-type InputGroupState = {required?: boolean; disabled?: boolean; labelled: boolean; inputSize: InputSize};
+type InputGroupState = {required?: boolean; disabled?: boolean; labelled: boolean; size?: VariantProps<typeof inputVariants>["size"]};
 
-export const InputGroupContext = createContext<InputGroupState>({labelled: false, inputSize: "default"});
+export const InputGroupContext = createContext<InputGroupState>({labelled: false});

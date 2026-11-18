@@ -3,7 +3,6 @@ import type {Input as InputPrimitive} from "@base-ui/react/input";
 import type {VariantProps} from "class-variance-authority";
 import type {InputErrorProp} from "./input-field-error";
 import {inputVariants} from "./input-variants";
-import type {SizeAlias} from "./resolve-input-size";
 
 export type InputProps = Omit<ComponentProps<"input">, "size"> &
   VariantProps<typeof inputVariants> & {
@@ -15,10 +14,6 @@ export type InputProps = Omit<ComponentProps<"input">, "size"> &
     description?: ReactNode;
     /** Error message, or `{message, match}` shown while the native validity matches. */
     error?: InputErrorProp;
-    /** Kumo-style size alias; `inputSize` wins when both are set. */
-    size?: SizeAlias;
-    /** @deprecated Error styling now applies automatically when `error` is truthy. */
-    variant?: "default" | "error";
     /** Opts non-credential fields out of password-manager overlays. */
     passwordManagerIgnore?: boolean;
     /** Base UI convenience handler receiving the value directly. */

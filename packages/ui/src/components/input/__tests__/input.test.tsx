@@ -94,18 +94,28 @@ describe("Input", () => {
     });
 
     it.each([
+      ["xs", "h-7"],
       ["sm", "h-8"],
-      ["default", "h-9"],
+      ["base", "h-9"],
       ["lg", "h-10"],
-    ] as const)("inputSize=%s applies %s", (inputSize, expected) => {
-      render(<Input placeholder="Email" inputSize={inputSize} />);
-      expect(screen.getByPlaceholderText("Email").className).toContain(expected);
+    ] as const)("size=%s applies %s", (size, expected) => {
+      render(<Input placeholder="Email" size={size} />);
+      // toHaveClass matches whole tokens; the file: variant also carries h-7
+      expect(screen.getByPlaceholderText("Email")).toHaveClass(expected);
+    });
+
+    it("does not accept the removed inputSize and variant props", () => {
+      // @ts-expect-error -- inputSize was removed in favour of size
+      const legacySize = <Input aria-label="Email" inputSize="sm" />;
+      // @ts-expect-error -- variant="error" was removed; error and aria-invalid drive the styling
+      const legacyVariant = <Input aria-label="Email" variant="error" />;
+      expect([legacySize, legacyVariant]).toHaveLength(2);
     });
   });
 
   describe("inputVariants", () => {
     it("is exported and produces the size class", () => {
-      expect(inputVariants({inputSize: "sm"})).toContain("h-8");
+      expect(inputVariants({size: "sm"})).toContain("h-8");
     });
   });
 
@@ -181,27 +191,9 @@ describe("Input", () => {
       expect(screen.queryByText("(optional)")).not.toBeInTheDocument();
     });
 
-    it.each([
-      ["xs", "h-8"],
-      ["sm", "h-8"],
-      ["base", "h-9"],
-      ["lg", "h-10"],
-    ] as const)("maps size=%s to %s", (size, expected) => {
-      render(<Input label="Email" placeholder="you@example.com" size={size} />);
-      expect(screen.getByPlaceholderText("you@example.com").className).toContain(expected);
-    });
-
-    it("prefers inputSize over the size alias", () => {
-      render(<Input label="Email" placeholder="you@example.com" inputSize="lg" size="sm" />);
-      expect(screen.getByPlaceholderText("you@example.com").className).toContain("h-10");
-    });
-
-    it("variant=error forces invalid styling without an error message", () => {
-      const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
-      render(<Input label="Email" placeholder="you@example.com" variant="error" />);
+    it("marks the control invalid while a message error is set", () => {
+      render(<Input label="Email" placeholder="you@example.com" error="Bad" />);
       expect(screen.getByPlaceholderText("you@example.com")).toHaveAttribute("aria-invalid", "true");
-      expect(screen.queryByRole("alert")).not.toBeInTheDocument();
-      expect(warn).toHaveBeenCalledWith(expect.stringContaining('variant="error" is deprecated'));
     });
 
     it("adds password manager ignore attributes", () => {

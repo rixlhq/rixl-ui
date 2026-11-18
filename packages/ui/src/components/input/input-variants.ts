@@ -18,23 +18,25 @@ export const inputVariants = cva(
   cn(controlSurface, "file:text-rixl-fg py-1", "file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium"),
   {
     variants: {
-      inputSize: {
+      size: {
+        xs: "h-7 px-2 text-base sm:text-xs",
         sm: "h-8 px-2.5 text-base sm:text-xs",
-        default: "h-9 px-3 text-base sm:text-sm",
+        base: "h-9 px-3 text-base sm:text-sm",
         lg: "h-10 px-3.5 text-base",
       },
     },
-    defaultVariants: {inputSize: "default"},
+    defaultVariants: {size: "base"},
   }
 );
 
 export const inputAreaVariants = cva(cn(controlSurface, "field-sizing-content"), {
   variants: {
-    inputSize: {
+    size: {
+      xs: "min-h-12 px-2 py-1 text-base sm:text-xs",
       sm: "min-h-14 px-2.5 py-1.5 text-base sm:text-xs",
-      default: "min-h-16 px-3 py-2 text-base sm:text-sm",
+      base: "min-h-16 px-3 py-2 text-base sm:text-sm",
       lg: "min-h-20 px-3.5 py-2.5 text-base",
     },
   },
-  defaultVariants: {inputSize: "default"},
+  defaultVariants: {size: "base"},
 });

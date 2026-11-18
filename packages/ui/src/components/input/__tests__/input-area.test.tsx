@@ -73,11 +73,11 @@ describe("InputArea", () => {
   });
 
   it.each([
-    ["xs", "min-h-14"],
+    ["xs", "min-h-12"],
     ["sm", "min-h-14"],
     ["base", "min-h-16"],
     ["lg", "min-h-20"],
-  ] as const)("maps size=%s to %s", (size, expected) => {
+  ] as const)("size=%s applies %s", (size, expected) => {
     render(<InputArea aria-label="Notes" size={size} />);
     expect(screen.getByRole("textbox").className).toContain(expected);
   });

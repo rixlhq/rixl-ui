@@ -4,8 +4,8 @@ import fc from "fast-check";
 import {render, screen} from "@testing-library/react";
 import {InputGroup, InputGroupAddon, InputGroupButton, InputGroupInput, type InputGroupProps} from "../input-group";
 
-const sizes = ["sm", "default", "lg"] as const;
-const heights: Record<(typeof sizes)[number], string> = {sm: "h-8", default: "h-9", lg: "h-10"};
+const sizes = ["xs", "sm", "base", "lg"] as const;
+const heights: Record<(typeof sizes)[number], string> = {xs: "h-7", sm: "h-8", base: "h-9", lg: "h-10"};
 
 describe("InputGroup", () => {
   it("renders a grouping <div>", () => {
@@ -48,14 +48,13 @@ describe("InputGroup", () => {
     expect(screen.getByTestId("group").className).toContain("h-9");
   });
 
-  it.each(sizes)("inputSize=%s sizes the group %s", (inputSize, _) => {
-    void _;
+  it.each(sizes)("size=%s sizes the group", (size) => {
     render(
-      <InputGroup data-testid="group" inputSize={inputSize}>
+      <InputGroup data-testid="group" size={size}>
         <InputGroupInput placeholder="Search" />
       </InputGroup>
     );
-    expect(screen.getByTestId("group").className).toContain(heights[inputSize]);
+    expect(screen.getByTestId("group").className).toContain(heights[size]);
   });
 
   it("renders with role=group so assistive tech associates the input with its addons", () => {
@@ -122,16 +121,17 @@ describe("InputGroup", () => {
 
   it("[property] every size maps to exactly one height", () => {
     fc.assert(
-      fc.property(fc.constantFrom(...sizes), (inputSize: InputGroupProps["inputSize"]) => {
+      fc.property(fc.constantFrom(...sizes), (size: InputGroupProps["size"]) => {
         const {unmount} = render(
-          <InputGroup data-testid="group" inputSize={inputSize}>
+          <InputGroup data-testid="group" size={size}>
             <InputGroupInput placeholder="Search" />
           </InputGroup>
         );
-        const cls = screen.getByTestId("group").className;
-        const present = Object.values(heights).filter((h) => cls.includes(h));
+        // whole tokens: the file: variant also carries h-7
+        const classes = screen.getByTestId("group").classList;
+        const present = Object.values(heights).filter((h) => classes.contains(h));
         unmount();
-        expect(present).toEqual([heights[inputSize ?? "default"]]);
+        expect(present).toEqual([heights[size ?? "base"]]);
       })
     );
   });
@@ -392,29 +392,6 @@ describe("InputGroup field integration", () => {
       </InputGroup>
     );
     expect(screen.getByPlaceholderText("you@example.com")).toBeDisabled();
-  });
-
-  it.each([
-    ["xs", "h-8"],
-    ["sm", "h-8"],
-    ["base", "h-9"],
-    ["lg", "h-10"],
-  ] as const)("maps size=%s to %s", (size, expected) => {
-    render(
-      <InputGroup data-testid="group" label="Email" size={size}>
-        <InputGroupInput placeholder="you@example.com" />
-      </InputGroup>
-    );
-    expect(screen.getByTestId("group").className).toContain(expected);
-  });
-
-  it("prefers inputSize over the size alias", () => {
-    render(
-      <InputGroup data-testid="group" label="Email" inputSize="lg" size="sm">
-        <InputGroupInput placeholder="you@example.com" />
-      </InputGroup>
-    );
-    expect(screen.getByTestId("group").className).toContain("h-10");
   });
 });
 

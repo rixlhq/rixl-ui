@@ -1,6 +1,6 @@
 import {forwardRef, type ComponentProps, type ReactNode} from "react";
 import type {VariantProps} from "class-variance-authority";
-import {inputVariants, resolveInputSize} from "../input/input";
+import type {inputVariants} from "../input/input-variants";
 import {InputField} from "../input/input-field";
 import {normalizeInputError, type InputErrorProp} from "../input/input-field-error";
 import {InputGroupContext} from "./input-group-context";
@@ -8,8 +8,6 @@ import {inputGroupClassName} from "./input-group-class-name";
 
 export type InputGroupProps = ComponentProps<"div"> &
   VariantProps<typeof inputVariants> & {
-    /** Kumo-style size alias; `inputSize` wins when both are set. */
-    size?: "xs" | "sm" | "base" | "lg";
     /** Label content (enables the built-in Field wrapper); a string or any React node. */
     label?: ReactNode;
     /** Tooltip content shown next to the label via an info icon. */
@@ -31,14 +29,14 @@ export type InputGroupProps = ComponentProps<"div"> &
   };
 
 const InputGroup = forwardRef<HTMLDivElement, InputGroupProps>(
-  ({className, inputSize, size, label, labelTooltip, description, error, required, disabled, ...props}, ref) => {
+  ({className, size, label, labelTooltip, description, error, required, disabled, ...props}, ref) => {
     const normalizedError = normalizeInputError(error);
     const group = (
       // oxlint-disable-next-line jsx-a11y/prefer-tag-over-role -- a <fieldset> adds legend and min-width defaults to a single-row control
-      <div ref={ref} role="group" data-slot="input-group" className={inputGroupClassName(inputSize, size, className)} {...props} />
+      <div ref={ref} role="group" data-slot="input-group" className={inputGroupClassName(size, className)} {...props} />
     );
     return (
-      <InputGroupContext.Provider value={{required, disabled, labelled: Boolean(label), inputSize: resolveInputSize(inputSize, size)}}>
+      <InputGroupContext.Provider value={{required, disabled, labelled: Boolean(label), size}}>
         <InputField
           label={label}
           required={required}

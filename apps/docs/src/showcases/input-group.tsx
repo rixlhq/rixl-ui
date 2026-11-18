@@ -60,15 +60,19 @@ function SizesExample(props: {state: Record<string, ControlValue>}) {
   void props;
   return (
     <Group label="Sizes">
-      <InputGroup inputSize="sm" className="w-full max-w-sm">
+      <InputGroup size="xs" className="w-full max-w-sm">
+        <InputGroupAddon>@</InputGroupAddon>
+        <InputGroupInput placeholder="Extra small" aria-label="Extra small" />
+      </InputGroup>
+      <InputGroup size="sm" className="w-full max-w-sm">
         <InputGroupAddon>@</InputGroupAddon>
         <InputGroupInput placeholder="Small" aria-label="Small" />
       </InputGroup>
-      <InputGroup inputSize="default" className="w-full max-w-sm">
+      <InputGroup size="base" className="w-full max-w-sm">
         <InputGroupAddon>@</InputGroupAddon>
-        <InputGroupInput placeholder="Default" aria-label="Default" />
+        <InputGroupInput placeholder="Base" aria-label="Base" />
       </InputGroup>
-      <InputGroup inputSize="lg" className="w-full max-w-sm">
+      <InputGroup size="lg" className="w-full max-w-sm">
         <InputGroupAddon>@</InputGroupAddon>
         <InputGroupInput placeholder="Large" aria-label="Large" />
       </InputGroup>
@@ -177,7 +181,7 @@ export const examples: Example[] = [
     id: "sizes",
     title: "Sizes",
     render: SizesExample,
-    code: `<InputGroup inputSize="sm">
+    code: `<InputGroup size="sm">
   <InputGroupAddon>@</InputGroupAddon>
   <InputGroupInput placeholder="Small" />
 </InputGroup>`,

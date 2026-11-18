@@ -11,7 +11,6 @@ export function warnInputProps(named: {
   label: ReactNode;
   ariaLabel: string | undefined;
   ariaLabelledBy: string | undefined;
-  variant?: "default" | "error";
 }): void {
   if (process.env.NODE_ENV === "production") return;
   const {component} = named;
@@ -21,11 +20,6 @@ export function warnInputProps(named: {
         `  - label prop: ${labelHints[component]}\n` +
         `  - aria-label: <${component} aria-label='Email address' />\n` +
         "  - aria-labelledby for custom label association"
-    );
-  }
-  if (named.variant === "error") {
-    console.warn(
-      `[Rixl ${component}]: variant="error" is deprecated. Error styling is now automatically applied when the \`error\` prop is truthy.`
     );
   }
 }

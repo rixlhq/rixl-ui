@@ -261,7 +261,7 @@ describe("mobile overlay layout", () => {
           <DialogTitle>Form</DialogTitle>
           <DialogDescription>Edit details</DialogDescription>
           <Input aria-label="Name" />
-          <Input inputSize="sm" aria-label="Code" />
+          <Input size="sm" aria-label="Code" />
           <InputArea aria-label="Notes" />
         </DialogContent>
       </Dialog>

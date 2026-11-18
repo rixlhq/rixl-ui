@@ -19,7 +19,7 @@ export function Showcase() {
 
 function LiveExample({state}: {state: Record<string, ControlValue>}) {
   const type = state.type as React.HTMLInputTypeAttribute;
-  const inputSize = state.inputSize as "sm" | "default" | "lg";
+  const size = state.size as "xs" | "sm" | "base" | "lg";
   const disabled = state.disabled as boolean;
   const readOnly = state.readOnly as boolean;
   const invalid = state.invalid as boolean;
@@ -28,7 +28,7 @@ function LiveExample({state}: {state: Record<string, ControlValue>}) {
     <Input
       label={type === "email" ? "Email" : "Label"}
       type={type}
-      inputSize={inputSize}
+      size={size}
       placeholder={`${type} placeholder`}
       disabled={disabled}
       readOnly={readOnly}
@@ -43,9 +43,10 @@ function SizesExample(props: {state: Record<string, ControlValue>}) {
   void props;
   return (
     <Group label="Sizes">
-      <Input inputSize="sm" placeholder="Small" className="w-full max-w-sm" />
-      <Input inputSize="default" placeholder="Default" className="w-full max-w-sm" />
-      <Input inputSize="lg" placeholder="Large" className="w-full max-w-sm" />
+      <Input size="xs" placeholder="Extra small" className="w-full max-w-sm" />
+      <Input size="sm" placeholder="Small" className="w-full max-w-sm" />
+      <Input size="base" placeholder="Base" className="w-full max-w-sm" />
+      <Input size="lg" placeholder="Large" className="w-full max-w-sm" />
     </Group>
   );
 }
@@ -110,15 +111,16 @@ export const examples: Example[] = [
     render: LiveExample,
     controls: [
       {
-        name: "inputSize",
+        name: "size",
         label: "Size",
         type: "select",
         options: [
+          {value: "xs", label: "Extra small"},
           {value: "sm", label: "Small"},
-          {value: "default", label: "Default"},
+          {value: "base", label: "Base"},
           {value: "lg", label: "Large"},
         ],
-        defaultValue: "default",
+        defaultValue: "base",
       },
       {
         name: "type",
@@ -144,9 +146,10 @@ export const examples: Example[] = [
     id: "sizes",
     title: "Sizes",
     render: SizesExample,
-    code: `<Input inputSize="sm" placeholder="Small" />
-<Input inputSize="default" placeholder="Default" />
-<Input inputSize="lg" placeholder="Large" />`,
+    code: `<Input size="xs" placeholder="Extra small" />
+<Input size="sm" placeholder="Small" />
+<Input size="base" placeholder="Base" />
+<Input size="lg" placeholder="Large" />`,
   },
   {
     id: "field",
