@@ -3,7 +3,7 @@ import type {Example} from "./registry";
 import {Group} from "../components/showcase-layout";
 
 export const path = "input-area";
-export const title = "InputArea";
+export const title = "Input Area";
 export const description = "Enter and edit multiple lines of text.";
 export const notes =
   "Multiline input exported from @rixl/ui/input next to Input. It takes the same label, labelTooltip, description, error, required and size props, wired through Base UI Field so the label focuses it and the description and error are announced. It grows with its content.";
