@@ -102,6 +102,41 @@ describe("InputGroup Browser Mode", () => {
     expect(await axeViolations(document.body)).toEqual([]);
   });
 
+  it.each([
+    ["directly in the group", false],
+    ["inside an end addon", true],
+  ])("insets an end button evenly on top, bottom and end when it sits %s", async (_, inAddon) => {
+    const button = (
+      <InputGroupButton data-testid="action" variant="secondary">
+        Search
+      </InputGroupButton>
+    );
+    render(
+      <div className="p-8">
+        <InputGroup data-testid="group">
+          <InputGroupInput placeholder="Search" aria-label="Search" />
+          {inAddon ? <InputGroupAddon align="end">{button}</InputGroupAddon> : button}
+        </InputGroup>
+      </div>
+    );
+
+    const group = document.querySelector('[data-testid="group"]')!.getBoundingClientRect();
+    const action = document.querySelector('[data-testid="action"]')!.getBoundingClientRect();
+    const top = action.top - group.top;
+    expect([Math.round(group.bottom - action.bottom), Math.round(group.right - action.right)]).toEqual([Math.round(top), Math.round(top)]);
+  });
+
+  it("nests the button corners inside the group's corners", async () => {
+    render(
+      <InputGroup data-testid="group">
+        <InputGroupInput aria-label="Search" />
+        <InputGroupButton data-testid="action">Go</InputGroupButton>
+      </InputGroup>
+    );
+    const radius = (id: string) => parseFloat(getComputedStyle(document.querySelector(`[data-testid="${id}"]`)!).borderTopRightRadius);
+    expect(radius("action")).toBeLessThan(radius("group"));
+  });
+
   it("places an end addon after the input even when it is written first", async () => {
     render(
       <div className="p-8">

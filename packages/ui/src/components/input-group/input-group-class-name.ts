@@ -9,7 +9,9 @@ export function inputGroupClassName(
 ) {
   return cn(
     inputVariants({inputSize: resolveInputSize(inputSize, size)}),
-    "items-center gap-1.5 px-2.5 py-0",
+    // An even 2px inset on every side, so an edge button sits as far from the
+    // end as from the top and bottom; children own the inner spacing.
+    "items-center gap-0 p-0.5",
     "has-[[data-slot=input-group-input]:focus-visible]:border-rixl-ring",
     "has-[[data-slot=input-group-input]:focus-visible]:ring-rixl-ring/50",
     "has-[[data-slot=input-group-input]:focus-visible]:ring-[3px]",
