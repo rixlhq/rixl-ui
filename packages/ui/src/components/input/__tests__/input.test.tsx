@@ -244,5 +244,11 @@ describe("Input", () => {
       render(<Input placeholder="Search" aria-label="Search products" />);
       expect(warn).not.toHaveBeenCalled();
     });
+
+    it("stays quiet when the input is named by aria-labelledby", () => {
+      const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
+      render(<Input placeholder="Search" aria-labelledby="search-heading" />);
+      expect(warn).not.toHaveBeenCalled();
+    });
   });
 });

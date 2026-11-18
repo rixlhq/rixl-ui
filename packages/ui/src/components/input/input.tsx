@@ -2,12 +2,12 @@ import {forwardRef} from "react";
 import {InputField} from "./input-field";
 import {InputControl} from "./input-control";
 import {normalizeInputError} from "./input-field-error";
-import {warnInputProps} from "./warn-input-props";
+import {useWarnUnnamedInput} from "./use-warn-unnamed-input";
 import type {InputProps} from "./input.types";
 
 const Input = forwardRef<HTMLInputElement, InputProps>(({label, labelTooltip, description, error, labels, ...props}, ref) => {
   const normalizedError = normalizeInputError(error);
-  warnInputProps({component: "Input", label, ariaLabel: props["aria-label"], ariaLabelledBy: props["aria-labelledby"]});
+  useWarnUnnamedInput({component: "Input", label, ariaLabel: props["aria-label"], ariaLabelledBy: props["aria-labelledby"]});
   const invalid = normalizedError?.match === true ? true : undefined;
   return (
     <InputField

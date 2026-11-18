@@ -1,7 +1,7 @@
 import {forwardRef, useContext} from "react";
 import {cn} from "../../lib/cn";
 import {InputControl, type InputControlProps} from "../input/input-control";
-import {warnInputProps} from "../input/warn-input-props";
+import {useWarnUnnamedInput} from "../input/use-warn-unnamed-input";
 import {InputGroupContext} from "./input-group-context";
 
 export type InputGroupInputProps = Omit<InputControlProps, "size">;
@@ -9,7 +9,7 @@ export type InputGroupInputProps = Omit<InputControlProps, "size">;
 /** The text input of an InputGroup: borderless, flexible, and sized, required and disabled by the group. */
 export const InputGroupInput = forwardRef<HTMLInputElement, InputGroupInputProps>(({className, required, disabled, ...props}, ref) => {
   const group = useContext(InputGroupContext);
-  warnInputProps({
+  useWarnUnnamedInput({
     component: "InputGroupInput",
     label: group.labelled,
     ariaLabel: props["aria-label"],

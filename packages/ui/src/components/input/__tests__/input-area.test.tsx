@@ -138,5 +138,17 @@ describe("InputArea", () => {
       render(<InputArea placeholder="Notes" />);
       expect(warn).toHaveBeenCalledWith(expect.stringContaining("must have an accessible name"));
     });
+
+    it("stays quiet when the textarea is named by label, aria-label or aria-labelledby", () => {
+      const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
+      render(
+        <>
+          <InputArea label="Notes" />
+          <InputArea aria-label="Notes" />
+          <InputArea aria-labelledby="notes-heading" />
+        </>
+      );
+      expect(warn).not.toHaveBeenCalled();
+    });
   });
 });

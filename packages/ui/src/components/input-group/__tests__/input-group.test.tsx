@@ -237,6 +237,9 @@ describe("InputGroupInput", () => {
         <InputGroup>
           <InputGroupInput placeholder="b" aria-label="Search" />
         </InputGroup>
+        <InputGroup>
+          <InputGroupInput placeholder="c" aria-labelledby="search-heading" />
+        </InputGroup>
       </>
     );
     expect(warn).not.toHaveBeenCalled();

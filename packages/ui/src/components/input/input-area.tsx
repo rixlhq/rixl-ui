@@ -5,7 +5,7 @@ import {cn} from "../../lib/cn";
 import {InputField, type InputFieldLabels} from "./input-field";
 import {normalizeInputError, type InputErrorProp} from "./input-field-error";
 import {inputAreaVariants} from "./input-variants";
-import {warnInputProps} from "./warn-input-props";
+import {useWarnUnnamedInput} from "./use-warn-unnamed-input";
 
 export type InputAreaProps = Omit<ComponentProps<"textarea">, "size"> &
   VariantProps<typeof inputAreaVariants> & {
@@ -25,7 +25,7 @@ export type InputAreaProps = Omit<ComponentProps<"textarea">, "size"> &
 
 export const InputArea = forwardRef<HTMLTextAreaElement, InputAreaProps>(
   ({label, labelTooltip, description, error, labels, size, className, onValueChange, ...props}, ref) => {
-    warnInputProps({component: "InputArea", label, ariaLabel: props["aria-label"], ariaLabelledBy: props["aria-labelledby"]});
+    useWarnUnnamedInput({component: "InputArea", label, ariaLabel: props["aria-label"], ariaLabelledBy: props["aria-labelledby"]});
     return (
       <InputField
         label={label}
