@@ -1,8 +1,10 @@
-import {forwardRef, type ComponentProps, type KeyboardEvent} from "react";
+import {forwardRef, type KeyboardEvent} from "react";
+import {cn} from "../../lib/cn";
+import {Input, type InputProps} from "../input";
 import {usePaginationContext} from "./use-pagination-context";
 import {usePageDraft} from "./use-page-draft";
 
-export type PaginationPageInputProps = ComponentProps<"input">;
+export type PaginationPageInputProps = InputProps;
 
 function parseStrictPage(draft: string): number | null {
   const trimmed = draft.trim();
@@ -12,7 +14,7 @@ function parseStrictPage(draft: string): number | null {
 
 /** Strict integer page entry with invalid-draft recovery. */
 export const PaginationPageInput = forwardRef<HTMLInputElement, PaginationPageInputProps>(
-  ({onChange, onBlur, onKeyDown, ...props}, ref) => {
+  ({onChange, onBlur, onKeyDown, className, ...props}, ref) => {
     const pagination = usePaginationContext();
     const totalPages = pagination?.totalPages ?? 0;
     const onPageChange = pagination?.onPageChange ?? (() => {});
@@ -36,10 +38,11 @@ export const PaginationPageInput = forwardRef<HTMLInputElement, PaginationPageIn
     };
 
     return (
-      <input
+      <Input
         ref={ref}
         data-slot="pagination-page-input"
         inputMode="numeric"
+        className={cn("w-16", className)}
         value={value}
         onChange={(event) => {
           setDraft(event.target.value);

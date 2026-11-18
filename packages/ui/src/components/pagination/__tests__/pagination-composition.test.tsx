@@ -53,6 +53,29 @@ describe("Pagination composition", () => {
     expect(change).not.toHaveBeenCalled();
   });
 
+  it("renders the page input as an Input with its surface, slot and a default width a consumer can replace", () => {
+    render(
+      <Pagination page={2} pageSize={10} totalCount={50} onPageChange={() => {}}>
+        <PaginationPageInput aria-label="Go to page" />
+        <PaginationPageInput aria-label="Wide" className="w-40" />
+      </Pagination>
+    );
+    const input = screen.getByRole("textbox", {name: "Go to page"});
+    expect(input).toHaveAttribute("data-slot", "pagination-page-input");
+    expect(input).toHaveClass("border-rixl-border", "hover:border-rixl-border-strong", "h-9", "w-16");
+    expect(screen.getByRole("textbox", {name: "Wide"})).toHaveClass("w-40");
+    expect(screen.getByRole("textbox", {name: "Wide"})).not.toHaveClass("w-16");
+  });
+
+  it("takes Input's label prop", () => {
+    render(
+      <Pagination page={2} pageSize={10} totalCount={50} onPageChange={() => {}}>
+        <PaginationPageInput label="Go to page" />
+      </Pagination>
+    );
+    expect(screen.getByRole("textbox", {name: "Go to page"})).toBeInTheDocument();
+  });
+
   it("disables every action on empty results and never requests page zero", () => {
     const change = vi.fn();
     render(<Pagination page={9} pageSize={10} totalCount={0} onPageChange={change} />);

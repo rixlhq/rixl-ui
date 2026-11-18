@@ -15,7 +15,7 @@
 
 ## 4. Pagination
 
-- [ ] 4.1 `PaginationPageInput` renders `Input` (test first: `pagination-composition.test.tsx`)
+- [x] 4.1 `PaginationPageInput` renders `Input` (test first: `pagination-composition.test.tsx`) — `pagination-composition.test.tsx` passes (commit, clamp, Escape, slot, surface, width override)
 - [ ] 4.2 `PaginationPageSize` renders `Select` with a visible label (test first: `pagination.test.tsx`, `pagination.browser.test.tsx`)
 
 ## 5. Docs
