@@ -1,4 +1,4 @@
-import type {ComponentProps} from "react";
+import {forwardRef, type ComponentProps} from "react";
 import {ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight} from "lucide-react";
 import {PaginationNavButton} from "./pagination-nav-button";
 import {usePaginationContext} from "./use-pagination-context";
@@ -49,16 +49,20 @@ function getControlButtons(args: {page: number; totalPages: number; mode: "full"
   ];
 }
 
-export function PaginationControls({mode = "full", firstLabel, prevLabel, nextLabel, lastLabel, ...props}: PaginationControlsProps) {
+export const PaginationControls = forwardRef<HTMLDivElement, PaginationControlsProps>(function PaginationControls(
+  {mode = "full", firstLabel, prevLabel, nextLabel, lastLabel, ...props},
+  ref
+) {
   const pagination = usePaginationContext();
   const labels = resolveControlLabels(pagination, {firstLabel, prevLabel, nextLabel, lastLabel});
   const buttons = getControlButtons({page: pagination?.page ?? 0, totalPages: pagination?.totalPages ?? 0, mode, labels});
   const onPageChange = pagination?.onPageChange ?? (() => {});
   return (
-    <div data-slot="pagination-controls" className="flex items-center gap-3" {...props}>
+    <div ref={ref} data-slot="pagination-controls" className="flex items-center gap-3" {...props}>
       {buttons.map((button) => (
         <PaginationNavButton key={button.label} onPageChange={onPageChange} aria-label={button.label} {...button} />
       ))}
     </div>
   );
-}
+});
+PaginationControls.displayName = "PaginationControls";

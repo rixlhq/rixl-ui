@@ -22,6 +22,8 @@ export type ForwardRefCase = {
   element: (ref: RefObject<null>) => ReactElement;
   /** `data-slot` of the element the ref must land on. */
   slot: string;
+  /** Finds the element when it has no `data-slot` of its own, such as a native `<select>` inside a labelled wrapper. */
+  selector?: string;
 };
 
 /**
@@ -29,12 +31,12 @@ export type ForwardRefCase = {
  * element type, so a single table can mix divs, buttons and spans.
  */
 export function describeForwardRefs(cases: readonly ForwardRefCase[]) {
-  describe.each(cases)("$name", ({name, component, element, slot}) => {
+  describe.each(cases)("$name", ({name, component, element, slot, selector = `[data-slot="${slot}"]`}) => {
     it(`forwards its ref to the ${slot} element`, () => {
       const ref = createRef<never>();
       render(element(ref));
       expect(ref.current).toBeInstanceOf(HTMLElement);
-      expect(ref.current).toBe(document.querySelector(`[data-slot="${slot}"]`));
+      expect(ref.current).toBe(document.querySelector(selector));
     });
 
     it("is a forwardRef component named after its export", () => {

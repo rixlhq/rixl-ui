@@ -1,4 +1,4 @@
-import type {ComponentProps} from "react";
+import {forwardRef, type ComponentProps} from "react";
 import type {LucideIcon} from "lucide-react";
 import {Button} from "../button";
 
@@ -8,10 +8,14 @@ export type PaginationNavButtonProps = Omit<ComponentProps<typeof Button>, "chil
   Icon: LucideIcon;
 };
 
-export function PaginationNavButton({target, onPageChange, Icon, ...props}: PaginationNavButtonProps) {
+export const PaginationNavButton = forwardRef<HTMLButtonElement, PaginationNavButtonProps>(function PaginationNavButton(
+  {target, onPageChange, Icon, ...props},
+  ref
+) {
   return (
-    <Button variant="outline" size="icon" className="min-h-11 min-w-11" onClick={() => onPageChange(target)} {...props}>
+    <Button ref={ref} variant="outline" size="icon" className="min-h-11 min-w-11" onClick={() => onPageChange(target)} {...props}>
       <Icon className="rtl:-scale-x-100" />
     </Button>
   );
-}
+});
+PaginationNavButton.displayName = "PaginationNavButton";

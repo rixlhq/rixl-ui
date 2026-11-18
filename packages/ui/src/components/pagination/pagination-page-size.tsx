@@ -1,4 +1,4 @@
-import type {ComponentProps} from "react";
+import {forwardRef, type ComponentProps} from "react";
 
 export type PaginationPageSizeProps = Omit<ComponentProps<"select">, "value" | "onChange"> & {
   value: number;
@@ -9,14 +9,11 @@ export type PaginationPageSizeProps = Omit<ComponentProps<"select">, "value" | "
   label?: string;
 };
 
-/** Native select so the primitive ships no overlay dependency. */
-export function PaginationPageSize({
-  value,
-  onPageSizeChange,
-  options = [10, 20, 50, 100],
-  label = "Rows per page",
-  ...props
-}: PaginationPageSizeProps) {
+/** Native select so the primitive ships no overlay dependency. The ref reaches the select, which also receives the remaining props. */
+export const PaginationPageSize = forwardRef<HTMLSelectElement, PaginationPageSizeProps>(function PaginationPageSize(
+  {value, onPageSizeChange, options = [10, 20, 50, 100], label = "Rows per page", ...props},
+  ref
+) {
   return (
     <label
       data-slot="pagination-page-size"
@@ -24,6 +21,7 @@ export function PaginationPageSize({
     >
       {label}
       <select
+        ref={ref}
         aria-label={label}
         value={value}
         onChange={(event) => onPageSizeChange(Number(event.target.value))}
@@ -38,4 +36,5 @@ export function PaginationPageSize({
       </select>
     </label>
   );
-}
+});
+PaginationPageSize.displayName = "PaginationPageSize";
