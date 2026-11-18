@@ -7,7 +7,7 @@ export const DialogOverlay = forwardRef<HTMLDivElement, DialogOverlayProps>(({cl
     ref={ref}
     data-slot="dialog-overlay"
     className={cn(
-      "fixed inset-0 z-50 bg-rixl-overlay backdrop-blur-sm transition-opacity duration-rixl-base ease-rixl-out motion-reduce:transition-none data-starting-style:opacity-0 data-ending-style:opacity-0",
+      "fixed inset-0 z-50 bg-rixl-overlay backdrop-blur-sm transition-opacity duration-rixl-base data-ending-style:duration-rixl-fast ease-rixl-out motion-reduce:transition-none data-starting-style:opacity-0 data-ending-style:opacity-0",
       className
     )}
     {...props}

@@ -135,6 +135,31 @@ describe("Dialog", () => {
     expect(content.className).not.toContain("data-open:animate-in");
   });
 
+  it("exits faster than it enters", async () => {
+    render(<Basic open />);
+    await act(async () => {});
+    const overlay = document.querySelector("[data-slot='dialog-overlay']");
+    for (const cls of [overlay!.className, screen.getByTestId("content").className]) {
+      expect(cls).toContain("duration-rixl-base");
+      expect(cls).toContain("data-ending-style:duration-rixl-fast");
+    }
+  });
+
+  it("slides edge sheets out faster than they slide in", async () => {
+    render(
+      <Dialog open>
+        <DialogContent data-testid="content" side="right">
+          <DialogTitle>Title</DialogTitle>
+          <DialogDescription>Description</DialogDescription>
+        </DialogContent>
+      </Dialog>
+    );
+    await act(async () => {});
+    const cls = screen.getByTestId("content").className;
+    expect(cls).toContain("duration-rixl-slow");
+    expect(cls).toContain("data-ending-style:duration-rixl-base");
+  });
+
   describe("size", () => {
     it("defaults to the lg max-width", async () => {
       render(<Basic open />);
@@ -202,6 +227,14 @@ describe("role", () => {
     expect(cls).toContain("translate-x-[-50%]");
     expect(cls).toContain("rounded-rixl-lg");
     expect(cls).not.toContain("h-dvh");
+  });
+
+  it("exits an alertdialog faster than it enters", async () => {
+    render(<RoleDialog role="alertdialog" />);
+    await act(async () => {});
+    const cls = screen.getByTestId("content").className;
+    expect(cls).toContain("duration-rixl-base");
+    expect(cls).toContain("data-ending-style:duration-rixl-fast");
   });
 
   it("hides the X close button for alertdialog unless showCloseButton", async () => {
