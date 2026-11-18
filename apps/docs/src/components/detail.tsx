@@ -169,7 +169,7 @@ function ControlField({
           {control.label}
         </Label>
         <Select value={typeof value === "string" ? value : ""} onValueChange={(next) => onChange({...state, [control.name]: next})}>
-          <SelectTrigger id={controlId} size="sm" aria-label={control.label}>
+          <SelectTrigger id={controlId} size="sm" aria-label={control.label} className="w-36">
             <SelectValue />
           </SelectTrigger>
           <SelectContent>

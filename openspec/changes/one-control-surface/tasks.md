@@ -20,7 +20,7 @@
 
 ## 5. Docs
 
-- [ ] 5.1 Update the select, input-otp and pagination showcases
+- [x] 5.1 Update the select, input-otp and pagination showcases — `vpr docs` builds
 
 ## 6. Verify
 
