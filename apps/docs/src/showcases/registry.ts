@@ -19,7 +19,6 @@ import * as inputOtp from "./input-otp";
 import * as tooltip from "./tooltip";
 import * as popover from "./popover";
 import * as dialog from "./dialog";
-import * as sheet from "./sheet";
 import * as dropdownMenu from "./dropdown-menu";
 import * as collapsible from "./collapsible";
 import * as tabs from "./tabs";
@@ -105,7 +104,6 @@ export const showcases: Showcase[] = [
   tooltip,
   popover,
   dialog,
-  sheet,
   dropdownMenu,
   collapsible,
   tabs,
