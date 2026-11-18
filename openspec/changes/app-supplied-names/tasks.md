@@ -19,4 +19,4 @@
 
 ## 4. Verification
 
-- [ ] 4.1 Full gate (see the result in the final report).
+- [x] 4.1 From the repo root, `vp check`: no warnings, lint errors or type errors in 234 files. From `packages/ui`: `vp test --coverage --run` 107 files, 1034 tests passed (browser axe tests included), above the floor (all files 97.77% statements, 90.44% branches); `vp pack` builds; `vpx publint` "All good!"; `vpx size-limit` 56.28 kB of 58 kB for JS and 3.49 kB of 3.5 kB for the preset, budgets unchanged; `vpr docs` (the docs build) succeeds; `apps/docs` `vp test --run` 184 tests passed.
