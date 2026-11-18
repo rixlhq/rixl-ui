@@ -19,7 +19,7 @@ export const DialogCloseButton = forwardRef<HTMLButtonElement, DialogCloseButton
           variant="ghost"
           size="icon"
           className={cn(
-            "absolute top-[max(0.875rem,env(safe-area-inset-top))] end-[max(0.875rem,env(safe-area-inset-right))] size-11 sm:size-7 rounded-rixl-sm opacity-70 hover:opacity-100 ring-offset-rixl-bg",
+            "absolute top-[max(0.875rem,env(safe-area-inset-top))] ltr:end-[max(0.875rem,env(safe-area-inset-right))] rtl:end-[max(0.875rem,env(safe-area-inset-left))] size-11 sm:size-7 rounded-rixl-sm opacity-70 hover:opacity-100 ring-offset-rixl-bg",
             className
           )}
           {...props}
