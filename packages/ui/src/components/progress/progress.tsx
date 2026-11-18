@@ -1,3 +1,4 @@
+import {forwardRef} from "react";
 import {Progress as ProgressPrimitive} from "@base-ui/react/progress";
 import {cn} from "../../lib/cn";
 
@@ -9,9 +10,10 @@ import {cn} from "../../lib/cn";
  * across the track. Class names swapped to `--rixl-*` tokens per the hybrid
  * policy.
  */
-function Progress({className, value = 0, ...props}: Omit<ProgressPrimitive.Root.Props, "value"> & {value?: number | null}) {
+const Progress = forwardRef<HTMLDivElement, ProgressProps>(function Progress({className, value = 0, ...props}, ref) {
   return (
     <ProgressPrimitive.Root
+      ref={ref}
       data-slot="progress"
       value={value}
       className={cn("bg-rixl-primary/20 relative h-2 w-full overflow-hidden rounded-full", className)}
@@ -29,7 +31,8 @@ function Progress({className, value = 0, ...props}: Omit<ProgressPrimitive.Root.
       />
     </ProgressPrimitive.Root>
   );
-}
+});
+Progress.displayName = "Progress";
 
 export {Progress};
 export type ProgressProps = Omit<ProgressPrimitive.Root.Props, "value"> & {value?: number | null};
