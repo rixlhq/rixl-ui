@@ -158,4 +158,23 @@ describe("Select Browser Mode", () => {
 
     expect(await axeViolations(document.body)).toEqual([]);
   });
+
+  it("has no WCAG 2.2 AA violations with a label, a description and an error, open", async () => {
+    render(
+      <div className="p-8">
+        <Select label="Fruit" description="Pick your favourite" error="Choose a fruit">
+          <SelectTrigger data-testid="select-trigger" className="w-48">
+            <SelectValue placeholder="Choose an option" />
+          </SelectTrigger>
+          <SelectContent data-testid="select-content">
+            <SelectItem value="apple">Apple</SelectItem>
+          </SelectContent>
+        </Select>
+      </div>
+    );
+    await userEvent.click(page.getByRole("combobox", {name: "Fruit"}));
+    await expect.element(page.getByTestId("select-content")).toBeVisible();
+
+    expect(await axeViolations(document.body)).toEqual([]);
+  });
 });
