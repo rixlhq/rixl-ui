@@ -1,7 +1,7 @@
 import {forwardRef, isValidElement} from "react";
 import {Button as ButtonPrimitive} from "@base-ui/react/button";
 import {cva, type VariantProps} from "class-variance-authority";
-import {cn} from "cn";
+import {cn} from "../../lib/cn";
 
 /**
  * Rixl Button — the primary action primitive.

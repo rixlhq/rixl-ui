@@ -2,7 +2,7 @@ import type {CSSProperties} from "react";
 import type {ToasterProps, ToastT} from "sonner";
 import {Toaster as SonnerToaster, toast, type ExternalToast} from "sonner";
 
-import {cn} from "cn";
+import {cn} from "../../lib/cn";
 
 /**
  * Rixl Toaster — sonner wrapper wired to `--rixl-*` design tokens.

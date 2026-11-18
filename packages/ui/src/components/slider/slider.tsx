@@ -1,6 +1,6 @@
 import {forwardRef, type ForwardedRef, type ReactElement, type Ref} from "react";
 import {Slider as SliderPrimitive} from "@base-ui/react/slider";
-import {cn} from "cn";
+import {cn} from "../../lib/cn";
 
 /**
  * Rixl Slider — a draggable value control on `--rixl-*` tokens.

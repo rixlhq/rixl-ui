@@ -1,5 +1,5 @@
 import {Tooltip as TooltipPrimitive} from "@base-ui/react/tooltip";
-import {cn} from "cn";
+import {cn} from "../../lib/cn";
 
 /**
  * Rixl Tooltip — a small contextual label anchored to a trigger.

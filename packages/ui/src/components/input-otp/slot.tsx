@@ -1,6 +1,6 @@
 import {useContext, type ComponentProps} from "react";
 import {OTPInputContext} from "input-otp";
-import {cn} from "cn";
+import {cn} from "../../lib/cn";
 
 export type InputOTPSlotProps = ComponentProps<"div"> & {
   index: number;

@@ -1,6 +1,6 @@
 import {forwardRef, type ComponentProps} from "react";
 import {cva, type VariantProps} from "class-variance-authority";
-import {cn} from "cn";
+import {cn} from "../../lib/cn";
 
 /**
  * Rixl Skeleton — a placeholder for loading UI.

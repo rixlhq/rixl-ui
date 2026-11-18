@@ -2,7 +2,7 @@
 
 ## 1. Broken behaviour
 
-- [ ] 1.1 Configure `cn` for `rixl-*` tokens and use it across components
+- [x] 1.1 Configure `cn` for `rixl-*` tokens and use it across components
 - [ ] 1.2 Mirror the Switch thumb under RTL
 - [ ] 1.3 Animate indeterminate Progress
 - [ ] 1.4 Let Tooltip inherit provider timing with a hover-intent default

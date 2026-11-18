@@ -1,5 +1,5 @@
 import {Menu as MenuPrimitive} from "@base-ui/react/menu";
-import {cn} from "cn";
+import {cn} from "../../lib/cn";
 
 export type DropdownMenuContentProps = MenuPrimitive.Popup.Props &
   Pick<MenuPrimitive.Positioner.Props, "align" | "alignOffset" | "side" | "sideOffset">;

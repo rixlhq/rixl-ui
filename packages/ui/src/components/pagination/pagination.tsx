@@ -1,5 +1,5 @@
 import {forwardRef, type ComponentProps, type ReactNode} from "react";
-import {cn} from "cn";
+import {cn} from "../../lib/cn";
 import {PaginationInfo} from "./pagination-info";
 import {PaginationControls} from "./pagination-controls";
 import {PaginationLimitNode} from "./pagination-limit-node";

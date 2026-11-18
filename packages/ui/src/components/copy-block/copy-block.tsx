@@ -1,5 +1,5 @@
 import {forwardRef, type ComponentProps} from "react";
-import {cn} from "cn";
+import {cn} from "../../lib/cn";
 import {Button} from "../button";
 import {Tooltip, TooltipContent, TooltipTrigger} from "../tooltip";
 import {CopyIndicator} from "./copy-indicator";

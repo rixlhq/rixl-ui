@@ -4,7 +4,7 @@ import {mergeProps} from "@base-ui/react/merge-props";
 import {mergeTabsListRefs} from "./merge-tabs-list-refs";
 import {TabsIndicator} from "./tabs-indicator";
 import {cva} from "class-variance-authority";
-import {cn} from "cn";
+import {cn} from "../../lib/cn";
 
 import {TabsStyleContext} from "./context";
 import {scrollTabsByPage, TabsOverflowControl, useHorizontalDragScroll, useOverflowDetect} from "./overflow";

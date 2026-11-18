@@ -1,7 +1,7 @@
 import {forwardRef, type ComponentProps, type ReactNode} from "react";
 import {InfoIcon} from "lucide-react";
 import {cva, type VariantProps} from "class-variance-authority";
-import {cn} from "cn";
+import {cn} from "../../lib/cn";
 
 const emptyVariants = cva("flex flex-col items-center justify-center rounded-rixl-lg border border-dashed border-rixl-border text-center", {
   variants: {size: {default: "gap-3 p-8", compact: "gap-2 p-4"}},

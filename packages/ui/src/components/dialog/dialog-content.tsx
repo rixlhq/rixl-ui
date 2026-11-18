@@ -1,7 +1,7 @@
 import {forwardRef} from "react";
 import {Dialog as DialogPrimitive} from "@base-ui/react/dialog";
 import type {VariantProps} from "class-variance-authority";
-import {cn} from "cn";
+import {cn} from "../../lib/cn";
 import {DialogPortal} from "./dialog-portal";
 import {DialogOverlay, type DialogOverlayProps} from "./dialog-overlay";
 import {DialogCloseButton, type DialogCloseButtonProps} from "./dialog-close-button";

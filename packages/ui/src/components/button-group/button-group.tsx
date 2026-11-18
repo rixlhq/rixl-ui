@@ -1,5 +1,5 @@
 import {forwardRef, type ComponentProps} from "react";
-import {cn} from "cn";
+import {cn} from "../../lib/cn";
 
 /**
  * Rixl ButtonGroup — joins a small set of tightly-coupled buttons into a

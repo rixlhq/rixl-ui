@@ -1,6 +1,6 @@
 import {forwardRef, type ComponentProps} from "react";
 import {Field} from "@base-ui/react/field";
-import {cn} from "cn";
+import {cn} from "../../lib/cn";
 
 export type InputAreaControlProps = ComponentProps<"textarea">;
 export const InputAreaControl = forwardRef<HTMLTextAreaElement, InputAreaControlProps>(({className, ...props}, ref) => (

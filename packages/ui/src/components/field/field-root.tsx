@@ -1,6 +1,6 @@
 import {forwardRef} from "react";
 import {Field as FieldPrimitive} from "@base-ui/react/field";
-import {cn} from "cn";
+import {cn} from "../../lib/cn";
 import {FieldContext} from "./field-context";
 
 export const FieldRoot = forwardRef<HTMLDivElement, FieldPrimitive.Root.Props>(({className, ...props}, ref) => (

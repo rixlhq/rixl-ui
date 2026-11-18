@@ -1,5 +1,5 @@
 import type {VariantProps} from "class-variance-authority";
-import {cn} from "cn";
+import {cn} from "../../lib/cn";
 import {inputVariants, resolveInputSize} from "../input/input";
 
 export function inputGroupClassName(

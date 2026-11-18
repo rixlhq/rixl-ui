@@ -1,5 +1,5 @@
 import {Progress as ProgressPrimitive} from "@base-ui/react/progress";
-import {cn} from "cn";
+import {cn} from "../../lib/cn";
 
 /**
  * Rixl Progress — a determinate horizontal progress bar.

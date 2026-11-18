@@ -1,5 +1,5 @@
 import {forwardRef} from "react";
-import {cn} from "cn";
+import {cn} from "../../lib/cn";
 import {Button, type ButtonProps} from "../button";
 
 export const InputGroupButton = forwardRef<HTMLButtonElement, ButtonProps>(({className, type = "button", size = "sm", ...props}, ref) => (

@@ -1,6 +1,6 @@
 import {forwardRef} from "react";
 import {Collapsible as CollapsiblePrimitive} from "@base-ui/react/collapsible";
-import {cn} from "cn";
+import {cn} from "../../lib/cn";
 
 export type CollapsiblePanelProps = CollapsiblePrimitive.Panel.Props;
 export const CollapsiblePanel = forwardRef<HTMLDivElement, CollapsiblePanelProps>(function CollapsiblePanel({className, ...props}, ref) {

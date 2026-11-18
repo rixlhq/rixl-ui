@@ -1,5 +1,5 @@
 import {forwardRef, type ComponentProps} from "react";
-import {cn} from "cn";
+import {cn} from "../../lib/cn";
 import {usePaginationContext} from "./use-pagination-context";
 import type {PaginationContextValue} from "./pagination-context";
 

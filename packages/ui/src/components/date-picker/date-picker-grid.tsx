@@ -1,6 +1,6 @@
 import * as React from "react";
 import {DayPicker, getDefaultClassNames} from "react-day-picker";
-import {cn} from "cn";
+import {cn} from "../../lib/cn";
 import type {Button} from "../button";
 import {captionClassNames} from "./date-picker-caption-class-names";
 import {gridClassNames} from "./date-picker-grid-class-names";

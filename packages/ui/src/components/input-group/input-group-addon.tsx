@@ -1,5 +1,5 @@
 import {forwardRef, type ComponentProps} from "react";
-import {cn} from "cn";
+import {cn} from "../../lib/cn";
 
 export const InputGroupAddon = forwardRef<HTMLSpanElement, ComponentProps<"span">>(({className, ...props}, ref) => (
   <span

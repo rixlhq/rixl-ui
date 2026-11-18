@@ -1,6 +1,6 @@
 import {Select as SelectPrimitive} from "@base-ui/react/select";
 import {cva, type VariantProps} from "class-variance-authority";
-import {cn} from "cn";
+import {cn} from "../../lib/cn";
 
 import {ChevronDownIcon} from "./icons";
 

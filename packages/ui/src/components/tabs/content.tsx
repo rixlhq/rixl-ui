@@ -1,7 +1,7 @@
 import {forwardRef} from "react";
 import {Tabs as TabsPrimitive} from "@base-ui/react/tabs";
 import {cva} from "class-variance-authority";
-import {cn} from "cn";
+import {cn} from "../../lib/cn";
 
 export type TabsContentProps = TabsPrimitive.Panel.Props;
 

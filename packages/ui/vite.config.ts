@@ -112,7 +112,16 @@ export default defineConfig({
       reportOnFailure: true,
       cleanOnRerun: true,
       include: ["src/**/*.{ts,tsx}"],
-      exclude: ["node_modules/", "dist/", "**/*.config.{js,ts}", "**/types.ts", "**/*.d.ts", "**/index.ts", "**/__tests__/**"],
+      exclude: [
+        "node_modules/",
+        "dist/",
+        "**/*.config.{js,ts}",
+        "**/types.ts",
+        "**/*.d.ts",
+        "**/index.ts",
+        "**/__tests__/**",
+        "src/lib/cn-tables.ts",
+      ],
       // Measured 88.46 / 79.16 / 88.26 / 89.47 (unit and browser projects) when set, rounded down with at
       // least half a point spare: the figure can move a little between runs. Raise it as tests land; never lower it.
       thresholds: {statements: 87, branches: 78, functions: 87, lines: 88},

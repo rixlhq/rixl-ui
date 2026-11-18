@@ -239,6 +239,7 @@
   "scripts": {
     "dev": "vp pack --watch",
     "pack": "vp pack",
+    "cn:tables": "cn build --full --css src/styles/preset.css --config cn.config.mjs --out src/lib/cn-tables.ts",
     "clean": "rimraf dist node_modules"
   },
   "dependencies": {

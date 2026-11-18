@@ -1,5 +1,5 @@
 import type {ReactElement, ReactNode} from "react";
-import {cn} from "cn";
+import {cn} from "../../lib/cn";
 import type {InputSize} from "./resolve-input-size";
 
 const startInset: Record<InputSize, string> = {sm: "start-2.5", default: "start-3", lg: "start-3.5"};

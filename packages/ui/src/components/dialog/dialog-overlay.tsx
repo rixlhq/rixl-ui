@@ -1,6 +1,6 @@
 import {forwardRef} from "react";
 import {Dialog as DialogPrimitive} from "@base-ui/react/dialog";
-import {cn} from "cn";
+import {cn} from "../../lib/cn";
 export type DialogOverlayProps = DialogPrimitive.Backdrop.Props;
 export const DialogOverlay = forwardRef<HTMLDivElement, DialogOverlayProps>(({className, ...props}, ref) => (
   <DialogPrimitive.Backdrop

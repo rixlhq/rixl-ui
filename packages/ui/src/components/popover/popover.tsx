@@ -1,5 +1,5 @@
 import {Popover as PopoverPrimitive} from "@base-ui/react/popover";
-import {cn} from "cn";
+import {cn} from "../../lib/cn";
 
 /**
  * Rixl Popover — a floating, dismissible surface anchored to a trigger.

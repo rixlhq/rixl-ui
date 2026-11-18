@@ -1,5 +1,5 @@
 import type {ComponentProps} from "react";
-import {cn} from "cn";
+import {cn} from "../../lib/cn";
 
 import {TableHead, TableHeader, type TableHeadProps, type TableHeaderProps} from "./header";
 import {TableCell, TableRow, type TableCellProps, type TableRowProps} from "./row";

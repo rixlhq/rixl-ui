@@ -1,5 +1,5 @@
 import {getDefaultClassNames} from "react-day-picker";
-import {cn} from "cn";
+import {cn} from "../../lib/cn";
 type CalendarClassNames = ReturnType<typeof getDefaultClassNames>;
 
 export function gridClassNames(defaultClassNames: CalendarClassNames) {

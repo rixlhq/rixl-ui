@@ -1,6 +1,6 @@
 import {useState, type ComponentProps} from "react";
 import {OTPInput} from "input-otp";
-import {cn} from "cn";
+import {cn} from "../../lib/cn";
 
 import {InputOTPGroup, type InputOTPGroupProps} from "./group";
 import {InputOTPSlot, type InputOTPSlotProps} from "./slot";

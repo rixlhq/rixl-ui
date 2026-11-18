@@ -1,6 +1,6 @@
 import type {ComponentProps} from "react";
 import {ChevronRight, MoreHorizontal} from "lucide-react";
-import {cn} from "cn";
+import {cn} from "../../lib/cn";
 
 export type BreadcrumbSeparatorProps = ComponentProps<"li">;
 export type BreadcrumbEllipsisProps = ComponentProps<"span">;

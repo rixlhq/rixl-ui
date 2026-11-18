@@ -1,5 +1,5 @@
 import {ChevronLeftIcon, ChevronRightIcon} from "lucide-react";
-import {cn} from "cn";
+import {cn} from "../../lib/cn";
 import {Button} from "../button";
 import type {TabsSize, TabsVariant} from "./context";
 

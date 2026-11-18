@@ -1,6 +1,6 @@
 import type {ComponentProps} from "react";
 import {Menu as MenuPrimitive} from "@base-ui/react/menu";
-import {cn} from "cn";
+import {cn} from "../../lib/cn";
 
 import {DropdownMenuContent} from "./content";
 import {ChevronRightIcon} from "./icons";

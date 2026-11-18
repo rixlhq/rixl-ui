@@ -1,6 +1,6 @@
 import * as React from "react";
 import {DayButton, getDefaultClassNames} from "react-day-picker";
-import {cn} from "cn";
+import {cn} from "../../lib/cn";
 import {Button} from "../button";
 import {mergeDatePickerRefs} from "./merge-date-picker-refs";
 

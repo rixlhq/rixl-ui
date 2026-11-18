@@ -1,6 +1,6 @@
 import {forwardRef, useMemo} from "react";
 import {Tabs as TabsPrimitive} from "@base-ui/react/tabs";
-import {cn} from "cn";
+import {cn} from "../../lib/cn";
 
 import {TabsStyleContext, type TabsSize, type TabsVariant} from "./context";
 

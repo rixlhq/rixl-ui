@@ -1,5 +1,5 @@
 import type {ComponentProps} from "react";
-import {cn} from "cn";
+import {cn} from "../../lib/cn";
 
 export type TableHeaderProps = ComponentProps<"thead"> & {sticky?: boolean};
 export type TableHeadProps = ComponentProps<"th">;

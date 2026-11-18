@@ -1,5 +1,5 @@
 import {CheckIcon, CopyIcon} from "lucide-react";
-import {cn} from "cn";
+import {cn} from "../../lib/cn";
 
 export function CopyIndicator({copied}: {copied: boolean}) {
   return (

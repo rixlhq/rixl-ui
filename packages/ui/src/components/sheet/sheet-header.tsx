@@ -1,6 +1,6 @@
 import {forwardRef} from "react";
 import {DialogHeader, type DialogHeaderProps} from "../dialog/dialog-header";
-import {cn} from "cn";
+import {cn} from "../../lib/cn";
 export type SheetHeaderProps = DialogHeaderProps;
 /** @deprecated Use DialogHeader. */
 export const SheetHeader = forwardRef<HTMLDivElement, SheetHeaderProps>(({className, ...props}, ref) => (

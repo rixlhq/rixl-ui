@@ -1,7 +1,7 @@
 import {useContext} from "react";
 import {Tabs as TabsPrimitive} from "@base-ui/react/tabs";
 import {cva} from "class-variance-authority";
-import {cn} from "cn";
+import {cn} from "../../lib/cn";
 import {TabsStyleContext} from "./context";
 
 const indicatorVariants = cva(

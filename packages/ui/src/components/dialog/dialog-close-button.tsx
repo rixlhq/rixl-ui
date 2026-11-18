@@ -1,6 +1,6 @@
 import {forwardRef, type ComponentProps} from "react";
 import {XIcon} from "lucide-react";
-import {cn} from "cn";
+import {cn} from "../../lib/cn";
 import {Button} from "../button";
 import {DialogClose} from "./dialog-close";
 export type DialogCloseButtonProps = ComponentProps<typeof Button>;

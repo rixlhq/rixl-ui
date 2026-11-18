@@ -1,5 +1,5 @@
 import * as React from "react";
-import {cn} from "cn";
+import {cn} from "../../lib/cn";
 
 import {Input} from "../input";
 import {Separator} from "../separator";

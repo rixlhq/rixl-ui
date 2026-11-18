@@ -1,5 +1,5 @@
 import {cva} from "class-variance-authority";
-import {cn} from "cn";
+import {cn} from "../../lib/cn";
 export const dialogContentSizeClasses = {
   sm: "sm:max-w-sm",
   default: "sm:max-w-lg",

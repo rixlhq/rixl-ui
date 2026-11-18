@@ -26,7 +26,7 @@ Shared lint rules live in the root `vite.config.ts`; UI-specific complexity caps
 ## Styling
 
 - Tailwind 4 utilities only. Inline `style` only for values computed at runtime.
-- Compose classes with `cn` (`import {cn} from "cn"`), so a consumer's `className` wins over the defaults (tailwind-merge, last write wins).
+- Compose classes with `cn` from `src/lib/cn.ts` (relative import), so a consumer's `className` wins over the defaults (tailwind-merge, last write wins). It runs on tables generated from `preset.css`; run `vp run cn:tables` after adding a token, and `src/lib/__tests__/cn.test.ts` fails while they are stale.
 - Variants go through `cva`. Export the helper as `<name>Variants` when consumers need the classes on their own elements.
 - Every colour, radius, shadow and duration reads a `--rixl-*` token registered in `src/styles/preset.css`. A new token gets a light and a dark value.
 

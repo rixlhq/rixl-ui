@@ -1,6 +1,6 @@
 import type {ComponentProps} from "react";
 import {getDefaultClassNames, type DayPicker} from "react-day-picker";
-import {cn} from "cn";
+import {cn} from "../../lib/cn";
 import {Button, buttonVariants} from "../button";
 
 type CalendarClassNames = ReturnType<typeof getDefaultClassNames>;

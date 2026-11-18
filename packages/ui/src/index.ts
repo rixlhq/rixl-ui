@@ -52,4 +52,4 @@ export * from "./components/toaster";
  * compose Tailwind classes the same way @rixl/ui does internally
  * (cn).
  */
-export {cn} from "cn";
+export {cn} from "./lib/cn";

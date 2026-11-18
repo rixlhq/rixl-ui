@@ -1,6 +1,6 @@
 import {forwardRef} from "react";
 import {Field as FieldPrimitive} from "@base-ui/react/field";
-import {cn} from "cn";
+import {cn} from "../../lib/cn";
 
 export const FieldLabel = forwardRef<HTMLElement, FieldPrimitive.Label.Props>(({className, ...props}, ref) => (
   <FieldPrimitive.Label
