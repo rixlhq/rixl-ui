@@ -2,7 +2,7 @@
 
 ## 1. Shared surface
 
-- [ ] 1.1 Export `controlSurface` and `controlSizes`; move `read-only:` into the text-field part (test first: `input-variants.test.ts`, class set of `inputVariants`/`inputAreaVariants` unchanged)
+- [x] 1.1 Export `controlSurface` and `controlSizes`; move `read-only:` into the text-field part (test first: `input-variants.test.ts`, class set of `inputVariants`/`inputAreaVariants` unchanged) — `input-variants.test.ts` passes; `vp test run` 887 passed
 
 ## 2. Select
 
