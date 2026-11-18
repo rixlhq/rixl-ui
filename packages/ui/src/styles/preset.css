@@ -270,6 +270,21 @@
       translate: 100% 0;
     }
   }
+
+  /*
+   * Indeterminate Progress: a third-width band slides across the track.
+   * Transform only; linear + infinite keeps the speed constant. The Progress
+   * indicator sets `--rixl-progress-direction: -1` under RTL to mirror the sweep.
+   */
+  --animate-rixl-progress-indeterminate: rixl-progress-indeterminate 1.5s linear infinite;
+  @keyframes rixl-progress-indeterminate {
+    from {
+      transform: translateX(calc(-100% * var(--rixl-progress-direction, 1)));
+    }
+    to {
+      transform: translateX(calc(300% * var(--rixl-progress-direction, 1)));
+    }
+  }
 }
 
 /*

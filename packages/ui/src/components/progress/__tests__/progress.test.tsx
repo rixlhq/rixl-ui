@@ -53,4 +53,23 @@ describe("Progress", () => {
     // Base UI omits aria-valuenow for indeterminate progress
     expect(screen.getByRole("progressbar")).not.toHaveAttribute("aria-valuenow");
   });
+
+  it("narrows and animates the indicator only while indeterminate", () => {
+    const {container} = render(<Progress value={null} />);
+    const cls = container.querySelector("[data-slot='progress-indicator']")!.className;
+    expect(cls).toContain("data-indeterminate:w-1/3");
+    expect(cls).toContain("motion-safe:data-indeterminate:animate-rixl-progress-indeterminate");
+  });
+
+  it("stops the indeterminate animation under reduced motion and centres the band", () => {
+    const {container} = render(<Progress value={null} />);
+    const cls = container.querySelector("[data-slot='progress-indicator']")!.className;
+    expect(cls).toContain("motion-reduce:data-indeterminate:mx-auto");
+    expect(cls).not.toMatch(/(^|\s)animate-rixl-progress-indeterminate/);
+  });
+
+  it("marks the indicator indeterminate for a null value", () => {
+    const {container} = render(<Progress value={null} />);
+    expect(container.querySelector("[data-slot='progress-indicator']")).toHaveAttribute("data-indeterminate");
+  });
 });
