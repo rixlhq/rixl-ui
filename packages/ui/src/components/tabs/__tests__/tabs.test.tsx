@@ -53,15 +53,21 @@ describe("Tabs", () => {
     expect(screen.getByText("Account panel")).toBeInTheDocument();
   });
 
-  it("animates the content panel according to activation direction, reduced-motion safe", () => {
+  it("fades the content panel in without sliding, reduced-motion safe", () => {
     render(<Basic />);
     const cls = screen.getByTestId("content-account").className;
-    expect(cls).toContain("data-[activation-direction=right]:animate-in");
-    expect(cls).toContain("data-[activation-direction=left]:animate-in");
-    expect(cls).toContain("data-[activation-direction=right]:slide-in-from-right-1");
-    expect(cls).toContain("data-[activation-direction=left]:slide-in-from-left-1");
-    expect(cls).toContain("duration-rixl-base");
+    expect(cls).toContain("animate-in");
+    expect(cls).toContain("fade-in-0");
+    expect(cls).toContain("duration-rixl-fast");
     expect(cls).toContain("motion-reduce:animate-none");
+    expect(cls).not.toContain("slide-in");
+  });
+
+  it("does not play the fade on the initially mounted panel", () => {
+    render(<Basic />);
+    const cls = screen.getByTestId("content-account").className;
+    expect(cls).toContain("not-data-[activation-direction=none]:animate-in");
+    expect(screen.getByTestId("content-account")).toHaveAttribute("data-activation-direction", "none");
   });
 
   describe("travelling indicator", () => {

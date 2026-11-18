@@ -59,6 +59,19 @@ describe("Tabs Browser Mode", () => {
     expect(parseFloat(nextLeft)).toBeGreaterThan(parseFloat(initialLeft));
   });
 
+  it("fades a newly activated panel in with no slide, and leaves the first panel still", async () => {
+    render(<TestTabs />);
+    const initial = getComputedStyle(page.getByTestId("panel-overview").element());
+    expect(initial.animationName).toBe("none");
+
+    await userEvent.click(page.getByTestId("tab-metrics"));
+    const style = getComputedStyle(page.getByTestId("panel-metrics").element());
+    expect(style.animationName).toBe("rixl-enter");
+    expect(style.animationDuration).toBe("0.12s");
+    expect(style.getPropertyValue("--rixl-enter-opacity")).toBe("0");
+    expect(style.getPropertyValue("--rixl-enter-translate-x")).toBe("");
+  });
+
   it("navigates tabs with ArrowRight and ArrowLeft keys", async () => {
     render(<TestTabs />);
 
