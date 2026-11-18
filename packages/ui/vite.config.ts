@@ -51,8 +51,6 @@ export default defineConfig({
       tooltip: "src/components/tooltip/index.ts",
       popover: "src/components/popover/index.ts",
       dialog: "src/components/dialog/index.ts",
-      "alert-dialog": "src/components/alert-dialog/index.ts",
-      sheet: "src/components/sheet/index.ts",
       "dropdown-menu": "src/components/dropdown-menu/index.ts",
       collapsible: "src/components/collapsible/index.ts",
       tabs: "src/components/tabs/index.ts",

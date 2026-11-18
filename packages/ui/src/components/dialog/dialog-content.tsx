@@ -10,7 +10,7 @@ import {useDialogRole} from "./use-dialog-role";
 export type DialogContentProps = DialogPrimitive.Popup.Props &
   VariantProps<typeof dialogContentVariants> & {
     showCloseButton?: boolean;
-    /** Edge placement is retained for legacy panels and the mobile Sidebar. */
+    /** Slides the content in from an edge as a sheet instead of centering it. */
     side?: "top" | "right" | "bottom" | "left";
     closeButtonProps?: DialogCloseButtonProps;
     overlayProps?: DialogOverlayProps;
