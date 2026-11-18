@@ -8,7 +8,7 @@ import {animationClassNames} from "./date-picker-animation-class-names";
 import {datePickerComponents} from "./date-picker-components";
 import {DatePickerRootContext} from "./date-picker-root-context";
 
-export type DatePickerGridProps = React.ComponentProps<typeof DayPicker> & {buttonVariant?: React.ComponentProps<typeof Button>["variant"]};
+type DatePickerGridProps = React.ComponentProps<typeof DayPicker> & {buttonVariant?: React.ComponentProps<typeof Button>["variant"]};
 const DatePickerGrid = React.forwardRef<HTMLDivElement, DatePickerGridProps>(
   (
     {className, classNames, showOutsideDays = true, captionLayout = "label", buttonVariant = "ghost", formatters, components, ...props},

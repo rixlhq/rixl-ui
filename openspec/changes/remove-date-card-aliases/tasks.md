@@ -11,4 +11,4 @@
 
 ## 3. Gate
 
-- [ ] 3.1 `vp check`, `vp test run`, `vp pack`, `vpx size-limit`, `vpx knip` and `vpr docs` pass.
+- [x] 3.1 `vp check`, `vp test run` (69 files, 678 tests), `vp pack`, `vpx size-limit` (54.9 kB of 58 kB; preset 3.36 kB of 3.5 kB), `vpx knip` (nothing in `date-picker/` or `card/`) and `vpr docs` pass.
