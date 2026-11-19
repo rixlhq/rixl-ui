@@ -18,15 +18,13 @@ export type InputControlProps = Omit<ComponentProps<typeof InputPrimitive>, "siz
   };
 
 /** The bare Base UI `<input>` shared by Input and InputGroupInput. */
-export const InputControl = forwardRef<HTMLInputElement, InputControlProps>(
-  ({size, surface, passwordManagerIgnore, className, ...props}, ref) => (
-    <InputPrimitive
-      ref={ref}
-      data-slot="input"
-      className={cn(inputVariants({size, surface}), passwordManagerIgnore && "keeper-ignore", className)}
-      {...(passwordManagerIgnore ? passwordManagerAttributes : null)}
-      {...props}
-    />
-  )
-);
+export const InputControl = forwardRef<HTMLInputElement, InputControlProps>(({size, passwordManagerIgnore, className, ...props}, ref) => (
+  <InputPrimitive
+    ref={ref}
+    data-slot="input"
+    className={cn(inputVariants({size}), passwordManagerIgnore && "keeper-ignore", className)}
+    {...(passwordManagerIgnore ? passwordManagerAttributes : null)}
+    {...props}
+  />
+));
 InputControl.displayName = "InputControl";

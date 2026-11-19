@@ -4,12 +4,11 @@ import {cva, type VariantProps} from "class-variance-authority";
 import {ChevronDown} from "lucide-react";
 import {cn} from "../../lib/cn";
 
-import {controlRadius, controlSizes, controlSurface} from "../input/input-variants";
+import {controlSizes, controlSurface} from "../input/input-variants";
 
 export const selectTriggerVariants = cva(
   cn(
     controlSurface,
-    controlRadius,
     "data-[placeholder]:text-rixl-fg-muted [&_svg:not([class*='text-'])]:text-rixl-fg-muted",
     "items-center justify-between gap-2 whitespace-nowrap select-none touch-manipulation",
     // Adds `scale` to the control surface's transition, which already sets the duration and easing.

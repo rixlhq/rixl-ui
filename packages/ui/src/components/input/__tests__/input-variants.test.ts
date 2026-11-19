@@ -1,5 +1,5 @@
 import {describe, expect, it} from "vitest";
-import {controlRadius, controlSizes, controlSurface, inputAreaVariants, inputVariants} from "../input-variants";
+import {controlSizes, controlSurface, inputAreaVariants, inputVariants} from "../input-variants";
 
 const classSet = (classes: string) => new Set(classes.split(/\s+/).filter(Boolean));
 
@@ -21,10 +21,6 @@ describe("controlSurface", () => {
 
   it("has no read-only look, since :read-only matches every non-editable element such as a button", () => {
     expect(controlSurface).not.toContain("read-only:");
-  });
-
-  it("sets no radius, so a part that shapes its own corners adds none to undo", () => {
-    expect(controlSurface).not.toMatch(/(?<![:\w-])rounded-/);
   });
 });
 
@@ -62,24 +58,5 @@ describe("text field variants", () => {
       ].join(" ")
     );
     expect(classSet(inputVariants())).toEqual(before);
-  });
-});
-
-describe("inputVariants surface", () => {
-  it("raised is the default: border, radius and shadow", () => {
-    const classes = classSet(inputVariants());
-    expect(classes).toContain(controlRadius);
-    expect(classes).toContain("shadow-xs");
-  });
-
-  it("flat keeps the border and radius but draws no shadow", () => {
-    const classes = classSet(inputVariants({surface: "flat"}));
-    expect(classes).toContain(controlRadius);
-    expect(classes).not.toContain("shadow-xs");
-  });
-
-  it("bare draws no border, radius, shadow or invalid and focus chrome", () => {
-    const classes = [...classSet(inputVariants({surface: "bare"}))];
-    expect(classes.filter((cls) => /^(border|rounded|shadow)-|^border$|^(hover|focus-visible|aria-invalid):/.test(cls))).toEqual([]);
   });
 });

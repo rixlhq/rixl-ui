@@ -7,7 +7,7 @@ import {InputGroupContext} from "./input-group-context";
 import {inputGroupClassName} from "./input-group-class-name";
 
 export type InputGroupProps = ComponentProps<"div"> &
-  Pick<VariantProps<typeof inputVariants>, "size"> & {
+  VariantProps<typeof inputVariants> & {
     /** Label content (enables the built-in Field wrapper); a string or any React node. */
     label?: ReactNode;
     /** Tooltip content shown next to the label via an info icon. */

@@ -149,18 +149,19 @@ describe("InputGroupInput", () => {
     expect(el).toHaveAttribute("data-slot", "input-group-input");
   });
 
-  it("adjoins the group: no box of its own, inset by its own padding, full-height and flexible", () => {
+  it("adjoins the group: borderless, inset by its own padding, full-height, flexible, and without its own invalid ring", () => {
     render(
       <InputGroup>
         <InputGroupInput placeholder="Search" />
       </InputGroup>
     );
     const cls = screen.getByPlaceholderText("Search").className;
-    expect(cls).not.toMatch(/(?<![:\w-])(border|rounded-md|shadow-xs)(?![\w-])/);
-    expect(cls).not.toContain("aria-invalid:ring");
+    expect(cls).toContain("border-0");
     expect(cls).toContain("px-2");
+    expect(cls).toContain("shadow-none");
     expect(cls).toContain("flex-1");
     expect(cls).toContain("h-full");
+    expect(cls).toContain("aria-invalid:ring-0");
     expect(cls).not.toContain("px-3");
     expect(cls).not.toContain("h-9");
   });
