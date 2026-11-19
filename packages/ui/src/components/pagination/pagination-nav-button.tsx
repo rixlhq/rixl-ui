@@ -18,7 +18,7 @@ export const PaginationNavButton = forwardRef<HTMLButtonElement, PaginationNavBu
       ref={ref}
       data-slot="pagination-nav-button"
       variant="outline"
-      size="icon"
+      shape="square"
       className="min-h-11 min-w-11"
       onClick={() => setPage(target)}
       {...props}

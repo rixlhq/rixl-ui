@@ -49,7 +49,7 @@ function WithActionExample() {
         <CardTitle>Settings</CardTitle>
         <CardDescription>Configure your workspace.</CardDescription>
         <CardAction>
-          <Button variant="ghost" size="icon-sm" aria-label="Edit">
+          <Button variant="ghost" shape="square" size="sm" aria-label="Edit">
             <PencilIcon />
           </Button>
         </CardAction>

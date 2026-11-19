@@ -48,28 +48,40 @@ const buttonVariants = cva(
     variants: {
       variant: variantClasses,
       size: {
-        default: "h-9 px-4 py-2 has-[>svg]:px-3",
+        xs: "h-7 gap-1 px-2.5 text-xs has-[>svg]:px-2 [&_svg:not([class*='size-'])]:size-3.5",
         sm: "h-8 gap-1.5 px-3 has-[>svg]:px-2.5",
+        base: "h-9 px-4 py-2 has-[>svg]:px-3",
         // Wider surface, shallower press: same ratio reads as more travel.
         lg: "h-10 px-6 has-[>svg]:px-4 active:scale-[var(--rixl-press-scale-lg)]",
-        icon: "size-9",
-        "icon-sm": "size-8 [&_svg:not([class*='size-'])]:size-4",
-        "icon-xs": "size-7 [&_svg:not([class*='size-'])]:size-3.5",
-        "icon-lg": "size-10 [&_svg:not([class*='size-'])]:size-4",
+      },
+      shape: {
+        base: "",
+        square: "p-0 has-[>svg]:p-0",
+        circle: "rounded-full p-0 has-[>svg]:p-0",
       },
     },
+    compoundVariants: [
+      {shape: ["square", "circle"], size: "xs", className: "size-7"},
+      {shape: ["square", "circle"], size: "sm", className: "size-8"},
+      {shape: ["square", "circle"], size: "base", className: "size-9"},
+      {shape: ["square", "circle"], size: "lg", className: "size-10"},
+    ],
     defaultVariants: {
-      size: "default",
+      size: "base",
+      shape: "base",
     },
   }
 );
 
 type ButtonVariant = keyof typeof variantClasses;
 type ButtonSize = NonNullable<VariantProps<typeof buttonVariants>["size"]>;
+type ButtonShape = NonNullable<VariantProps<typeof buttonVariants>["shape"]>;
 
 export type ButtonProps = ButtonPrimitive.Props & {
   variant?: ButtonVariant | null;
   size?: ButtonSize | null;
+  /** `square` and `circle` are fixed-size boxes for icon-only buttons; give them an accessible name. */
+  shape?: ButtonShape | null;
   loading?: boolean;
 };
 
@@ -78,7 +90,7 @@ function ButtonSpinner() {
 }
 
 const Button = forwardRef<HTMLButtonElement, ButtonProps>(
-  ({className, variant, size, loading, disabled, nativeButton, render, children, ...props}, ref) => {
+  ({className, variant, size, shape, loading, disabled, nativeButton, render, children, ...props}, ref) => {
     // When rendered as a non-<button> element (e.g. render={<Link/>}), tell Base UI so it drops native button semantics.
     const isNativeButton = nativeButton ?? (isValidElement(render) ? render.type === "button" : true);
     // Falling back to `primary` keeps a bare <Button> styled.
@@ -92,7 +104,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         disabled={disabled || loading}
         nativeButton={isNativeButton}
         render={render}
-        className={cn(buttonVariants({variant: resolved, size, className}))}
+        className={cn(buttonVariants({variant: resolved, size, shape, className}))}
         {...props}
       >
         {loading && <ButtonSpinner />}

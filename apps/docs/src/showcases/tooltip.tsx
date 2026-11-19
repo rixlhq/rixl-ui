@@ -93,7 +93,7 @@ function IconTriggerExample(props: {state: Record<string, ControlValue>}) {
       <Tooltip>
         <TooltipTrigger
           render={
-            <Button variant="outline" size="icon-sm" aria-label="Info">
+            <Button variant="outline" shape="square" size="sm" aria-label="Info">
               <InfoIcon />
             </Button>
           }

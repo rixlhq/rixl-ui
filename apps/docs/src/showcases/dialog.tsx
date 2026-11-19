@@ -82,7 +82,7 @@ function CloseButtonExample(props: {state: Record<string, ControlValue>}) {
           <DialogClose
             aria-label="Close"
             render={
-              <Button variant="ghost" size="icon">
+              <Button variant="ghost" shape="square">
                 <span aria-hidden="true">×</span>
               </Button>
             }
@@ -245,7 +245,7 @@ export const examples: Example[] = [
     code: `<DialogClose
   aria-label="Close"
   render={
-    <Button variant="ghost" size="icon">
+    <Button variant="ghost" shape="square">
       <XIcon aria-hidden="true" />
     </Button>
   }

@@ -5,7 +5,7 @@ import {Group} from "../components/showcase-layout";
 export const path = "button";
 export const title = "Button";
 export const description = "Trigger an action or navigate to another page.";
-export const notes = "Primary action primitive. Six variants, seven sizes, token-driven press feedback, and a loading state.";
+export const notes = "Primary action primitive. Six variants, four sizes, three shapes, token-driven press feedback, and a loading state.";
 
 export function Showcase() {
   return (
@@ -37,7 +37,7 @@ function PressExample() {
 
       <Group label="Amplitude by size — lg presses shallower so the travel reads the same">
         <Button size="sm">Small · 0.97</Button>
-        <Button>Default · 0.97</Button>
+        <Button>Base · 0.97</Button>
         <Button size="lg">Large · 0.98</Button>
       </Group>
 
@@ -67,20 +67,32 @@ function VariantGridExample() {
 function SizesExample() {
   return (
     <div className="space-y-6">
-      <Group label="Text sizes">
+      <Group label="Sizes">
+        <Button size="xs">Extra small</Button>
         <Button size="sm">Small</Button>
-        <Button size="default">Default</Button>
+        <Button size="base">Base</Button>
         <Button size="lg">Large</Button>
       </Group>
-      <Group label="Icon sizes">
-        <Button size="icon" aria-label="Search">
+      <Group label="Square — one box per size, for icon-only buttons">
+        <Button shape="square" size="xs" variant="ghost" aria-label="Search">
           <SearchIcon />
         </Button>
-        <Button size="icon-sm" variant="outline" aria-label="Search">
+        <Button shape="square" size="sm" variant="outline" aria-label="Search">
           <SearchIcon />
         </Button>
-        <Button size="icon-xs" variant="ghost" aria-label="Search">
+        <Button shape="square" aria-label="Search">
           <SearchIcon />
+        </Button>
+        <Button shape="square" size="lg" aria-label="Search">
+          <SearchIcon />
+        </Button>
+      </Group>
+      <Group label="Circle">
+        <Button shape="circle" variant="outline" aria-label="Add">
+          <PlusIcon />
+        </Button>
+        <Button shape="circle" aria-label="Add">
+          <PlusIcon />
         </Button>
       </Group>
     </div>
@@ -169,14 +181,15 @@ duration-(--rixl-motion-fast) ease-out`,
   {
     id: "sizes",
     title: "Sizes",
-    description: "All six supported sizes side-by-side.",
+    description: "Four sizes, plus square and circle shapes for icon-only buttons.",
     render: SizesExample,
-    code: `<Button size="sm">Small</Button>
-<Button size="default">Default</Button>
+    code: `<Button size="xs">Extra small</Button>
+<Button size="sm">Small</Button>
+<Button size="base">Base</Button>
 <Button size="lg">Large</Button>
-<Button size="icon" aria-label="Search"><SearchIcon /></Button>
-<Button size="icon-sm" aria-label="Search"><SearchIcon /></Button>
-<Button size="icon-xs" aria-label="Search"><SearchIcon /></Button>`,
+<Button shape="square" aria-label="Search"><SearchIcon /></Button>
+<Button shape="square" size="sm" aria-label="Search"><SearchIcon /></Button>
+<Button shape="circle" aria-label="Add"><PlusIcon /></Button>`,
   },
   {
     id: "states",

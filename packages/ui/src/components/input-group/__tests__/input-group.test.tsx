@@ -297,6 +297,18 @@ describe("InputGroupAddon", () => {
     expect(screen.getByText("", {selector: '[data-slot="input-group-addon"]'}).className).toContain("[&_svg]:size-4");
   });
 
+  it("keeps a square group button square against the row height", () => {
+    render(
+      <InputGroup>
+        <InputGroupInput aria-label="Search" />
+        <InputGroupButton shape="square" size="xs" aria-label="Clear" />
+        <InputGroupButton>Go</InputGroupButton>
+      </InputGroup>
+    );
+    expect(screen.getByRole("button", {name: "Clear"}).className).toContain("aspect-square");
+    expect(screen.getByRole("button", {name: "Go"}).className).not.toContain("aspect-square");
+  });
+
   it("forwards the ref to the <span>", () => {
     const ref = createRef<HTMLSpanElement>();
     render(

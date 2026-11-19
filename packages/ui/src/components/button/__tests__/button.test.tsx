@@ -48,9 +48,14 @@ describe("Button", () => {
     expect(screen.getByRole("button").className).toContain("h-10");
   });
 
-  it("respects the icon size", () => {
-    render(<Button size="icon" aria-label="Search" />);
-    expect(screen.getByRole("button").className).toContain("size-9");
+  it("defaults to the base size", () => {
+    render(<Button>Save</Button>);
+    expect(screen.getByRole("button").className).toContain("h-9");
+  });
+
+  it("respects the xs size", () => {
+    render(<Button size="xs">Save</Button>);
+    expect(screen.getByRole("button").className).toContain("h-7");
   });
 
   it("forwards additional className without dropping variant classes", () => {
@@ -68,7 +73,7 @@ describe("Button", () => {
   });
 
   it("is rounded with the medium radius at every size", () => {
-    for (const size of ["default", "sm", "lg", "icon"] as const) {
+    for (const size of ["xs", "sm", "base", "lg"] as const) {
       const {unmount} = render(<Button size={size}>Save</Button>);
       expect(screen.getByRole("button").className).toMatch(/(?<![:\w-])rounded-md(?![\w-])/);
       unmount();
@@ -77,7 +82,7 @@ describe("Button", () => {
 
   it("last-write-wins on conflicting Tailwind utilities via cn", () => {
     render(
-      <Button size="default" className="h-14">
+      <Button size="base" className="h-14">
         Tall
       </Button>
     );
@@ -180,15 +185,55 @@ describe("Button", () => {
     });
   });
 
-  describe("sizes", () => {
-    it("supports the icon-sm size", () => {
-      render(<Button size="icon-sm" aria-label="Search" />);
-      expect(screen.getByRole("button").className).toContain("size-8");
+  describe("shape", () => {
+    it("is a rectangle with padding by default", () => {
+      render(<Button>Save</Button>);
+      const cls = screen.getByRole("button").className;
+      expect(cls).toContain("px-4");
+      expect(cls).not.toContain("size-9");
     });
 
-    it("supports the icon-xs size", () => {
-      render(<Button size="icon-xs" aria-label="Search" />);
-      expect(screen.getByRole("button").className).toContain("size-7");
+    it("makes a square the size's height on both axes with no padding", () => {
+      for (const [size, box] of [
+        ["xs", "size-7"],
+        ["sm", "size-8"],
+        ["base", "size-9"],
+        ["lg", "size-10"],
+      ] as const) {
+        const {unmount} = render(<Button shape="square" size={size} aria-label="Search" />);
+        const cls = screen.getByRole("button").className;
+        expect(cls).toContain(box);
+        expect(cls).toContain("p-0");
+        expect(cls).not.toMatch(/(?<![:\w-])px-\d/);
+        unmount();
+      }
+    });
+
+    it("squares the base size when no size is given", () => {
+      render(<Button shape="square" aria-label="Search" />);
+      expect(screen.getByRole("button").className).toContain("size-9");
+    });
+
+    it("rounds a circle fully instead of with the medium radius", () => {
+      render(<Button shape="circle" aria-label="Add" />);
+      const cls = screen.getByRole("button").className;
+      expect(cls).toContain("rounded-full");
+      expect(cls).toContain("size-9");
+      expect(cls).not.toMatch(/(?<![:\w-])rounded-md(?![\w-])/);
+    });
+
+    it("lets a consumer size replace the square's box", () => {
+      render(<Button shape="square" className="size-12" aria-label="Search" />);
+      const cls = screen.getByRole("button").className;
+      expect(cls).toContain("size-12");
+      expect(cls).not.toContain("size-9");
+    });
+
+    it("keeps the icon at 14px on xs and 16px on larger sizes unless the icon sets its own size", () => {
+      const {rerender} = render(<Button shape="square" size="xs" aria-label="Search" />);
+      expect(screen.getByRole("button").className).toContain("[&_svg:not([class*='size-'])]:size-3.5");
+      rerender(<Button shape="square" size="lg" aria-label="Search" />);
+      expect(screen.getByRole("button").className).toContain("[&_svg:not([class*='size-'])]:size-4");
     });
   });
 
@@ -220,9 +265,21 @@ describe("[property] Button class resolution", () => {
     );
   });
 
+  it("a square is always exactly one size-<n> box", {timeout: 10000}, () => {
+    fc.assert(
+      fc.property(fc.constantFrom("xs", "sm", "base", "lg"), fc.constantFrom("square", "circle"), (size, shape) => {
+        const boxes = classOf(<Button size={size} shape={shape} aria-label="Go" />)
+          .split(" ")
+          .filter((token) => /^size-\d/.test(token));
+        expect(boxes).toHaveLength(1);
+      }),
+      {numRuns: 30}
+    );
+  });
+
   it("a consumer height replaces the size's height", {timeout: 10000}, () => {
     fc.assert(
-      fc.property(fc.constantFrom("default", "sm", "lg"), fc.integer({min: 1, max: 96}), (size, height) => {
+      fc.property(fc.constantFrom("xs", "sm", "base", "lg"), fc.integer({min: 1, max: 96}), (size, height) => {
         const heights = classOf(<Button size={size} className={`h-${height}`} />)
           .split(" ")
           .filter((token) => /^h-\d+$/.test(token));

@@ -17,7 +17,7 @@ export function Showcase() {
       <DropdownMenu>
         <DropdownMenuTrigger
           render={
-            <Button size="icon" aria-label="More deploy options">
+            <Button shape="square" aria-label="More deploy options">
               <CaretDownIcon />
             </Button>
           }
@@ -50,7 +50,7 @@ function SecondaryExample(props: {state: Record<string, ControlValue>}) {
         <DropdownMenu>
           <DropdownMenuTrigger
             render={
-              <Button variant="secondary" size="icon" aria-label="More save options">
+              <Button variant="secondary" shape="square" aria-label="More save options">
                 <CaretDownIcon />
               </Button>
             }
@@ -75,7 +75,7 @@ function SizesExample(props: {state: Record<string, ControlValue>}) {
         <DropdownMenu>
           <DropdownMenuTrigger
             render={
-              <Button size="icon-sm" aria-label="More deploy options">
+              <Button shape="square" size="sm" aria-label="More deploy options">
                 <CaretDownIcon />
               </Button>
             }
@@ -90,7 +90,7 @@ function SizesExample(props: {state: Record<string, ControlValue>}) {
         <DropdownMenu>
           <DropdownMenuTrigger
             render={
-              <Button size="icon" aria-label="More deploy options">
+              <Button shape="square" aria-label="More deploy options">
                 <CaretDownIcon />
               </Button>
             }
@@ -105,7 +105,7 @@ function SizesExample(props: {state: Record<string, ControlValue>}) {
         <DropdownMenu>
           <DropdownMenuTrigger
             render={
-              <Button size="icon-lg" aria-label="More deploy options">
+              <Button shape="square" size="lg" aria-label="More deploy options">
                 <CaretDownIcon />
               </Button>
             }
@@ -130,7 +130,7 @@ export const examples: Example[] = [
   <DropdownMenu>
     <DropdownMenuTrigger
       render={
-        <Button size="icon" aria-label="More deploy options">
+        <Button shape="square" aria-label="More deploy options">
           <CaretDownIcon />
         </Button>
       }

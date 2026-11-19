@@ -31,7 +31,7 @@ function TestSplitButton() {
           <DropdownMenuTrigger
             data-testid="split-trigger"
             render={
-              <Button variant="primary" size="icon" aria-label="More deploy options">
+              <Button variant="primary" shape="square" aria-label="More deploy options">
                 <CaretIcon />
               </Button>
             }
