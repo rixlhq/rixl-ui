@@ -1,7 +1,9 @@
-import {forwardRef} from "react";
+import {forwardRef, type ReactNode} from "react";
 import {Switch as SwitchPrimitive} from "@base-ui/react/switch";
 import {cn} from "../../lib/cn";
 import {toggleControl} from "../../lib/classes";
+import {useWarnUnnamedControl} from "../../lib/warn-missing-name";
+import {ControlField} from "../label/control-field";
 
 /**
  * Rixl Switch — a two-state toggle.
@@ -9,11 +11,21 @@ import {toggleControl} from "../../lib/classes";
  * Ported from dashboard's shadcn Switch (Base UI Switch). Class names
  * swapped to `--rixl-*` tokens; `dark:*` variants dropped — rixl
  * re-evaluates every token under `[data-theme="dark"]`.
+ *
+ * With a `label` the control renders inside a Base UI `Field`, whose label
+ * encloses it; without one it is the bare control, which the app names with
+ * `aria-label` or `aria-labelledby`.
  */
-const Switch = forwardRef<HTMLElement, SwitchPrimitive.Root.Props>(function Switch({className, ...props}, ref) {
-  return (
+const Switch = forwardRef<HTMLElement, SwitchProps>(function Switch(
+  {className, label, labelTooltip, labelTooltipAriaLabel, controlFirst, required, disabled, ...props},
+  ref
+) {
+  useWarnUnnamedControl({component: "Switch", label, ariaLabel: props["aria-label"], ariaLabelledBy: props["aria-labelledby"]});
+  const control = (
     <SwitchPrimitive.Root
       ref={ref}
+      required={required}
+      disabled={disabled}
       data-slot="switch"
       className={cn(
         toggleControl,
@@ -32,8 +44,31 @@ const Switch = forwardRef<HTMLElement, SwitchPrimitive.Root.Props>(function Swit
       />
     </SwitchPrimitive.Root>
   );
+  if (!label) return control;
+  return (
+    <ControlField
+      component="Switch"
+      label={label}
+      required={required}
+      labelTooltip={labelTooltip}
+      labelTooltipAriaLabel={labelTooltipAriaLabel}
+      controlFirst={controlFirst}
+      disabled={disabled}
+    >
+      {control}
+    </ControlField>
+  );
 });
 Switch.displayName = "Switch";
 
 export {Switch};
-export type SwitchProps = SwitchPrimitive.Root.Props;
+export type SwitchProps = SwitchPrimitive.Root.Props & {
+  /** Visible label. Turns on the `Field` wrapper that names the control and makes the text clickable. */
+  label?: ReactNode;
+  /** Content of a tooltip opened from an info trigger after the label. */
+  labelTooltip?: ReactNode;
+  /** The accessible name of the tooltip trigger. The library invents none; without it `Switch` warns in development. */
+  labelTooltipAriaLabel?: string;
+  /** `true` (default) puts the control before the label text, `false` after it. */
+  controlFirst?: boolean;
+};
