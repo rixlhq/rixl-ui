@@ -23,4 +23,4 @@
 ## 5. Docs and verification
 
 - [x] 5.1 Showcases use the new props. Evidence: `apps/docs/src/showcases/__tests__/accessible-names.test.tsx` renders every example and fails on any `[Rixl …]` warning.
-- [ ] 5.2 Gate: `vp pack`, root `vp check`, `vp test --run` in packages/ui and apps/docs, `vpr knip`, `vpr budget`, `vpr publint`, root `vpr ci`. See the commit that ticks this.
+- [x] 5.2 Gate, 2026-11-19: `vp pack` built 192 files; root `vp check` no warnings or errors in 246 files; `vp test --run` in packages/ui 134 files, 1315 tests passed (unit and browser); in apps/docs 6 files, 196 tests passed; `vpr knip` clean; `vpr budget` 56.18 kB of 58 kB (JS) and 3.42 kB of 3.5 kB (preset); `vpr publint` "All good!"; root `vpr ci` 9/9 tasks successful. `.size-limit.json` unchanged.
