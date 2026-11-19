@@ -160,7 +160,7 @@ export const SidebarMenuSkeleton = React.forwardRef<HTMLDivElement, SidebarMenuS
       className={cn("flex h-8 items-center gap-2 rounded-rixl-md px-2", className)}
       {...props}
     >
-      {showIcon && <Skeleton className="size-4 rounded-rixl-md" data-sidebar="menu-skeleton-icon" />}
+      {showIcon && <Skeleton className="size-4" data-sidebar="menu-skeleton-icon" />}
       <Skeleton className="h-4 w-[70%]" data-sidebar="menu-skeleton-text" />
     </div>
   );

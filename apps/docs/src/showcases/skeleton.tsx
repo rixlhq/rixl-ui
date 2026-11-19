@@ -6,12 +6,12 @@ export const path = "skeleton";
 export const title = "Skeleton";
 export const description = "Reserve space for content while it loads.";
 export const notes =
-  "Placeholder for loading UI. Shape and size come from consumer classes; animation is pulse (default), shimmer, or none — all reduced-motion safe.";
+  "Placeholder for loading UI. Size comes from consumer classes; shape is rect (default) or circle, and animation is pulse (default), shimmer, or none — all reduced-motion safe.";
 
 export function Showcase() {
   return (
     <div className="flex w-full max-w-56 items-center gap-3">
-      <Skeleton className="size-10 shrink-0 rounded-full" />
+      <Skeleton shape="circle" className="size-10 shrink-0" />
       <div className="flex-1 space-y-2">
         <Skeleton className="h-3 w-3/4" />
         <Skeleton className="h-3 w-full" />
@@ -50,9 +50,9 @@ function ShapesExample() {
 function CirclesExample() {
   return (
     <Group label="Circle (avatar-shaped)">
-      <Skeleton className="size-8 rounded-full" />
-      <Skeleton className="size-10 rounded-full" />
-      <Skeleton className="size-12 rounded-full" />
+      <Skeleton shape="circle" className="size-8" />
+      <Skeleton shape="circle" className="size-10" />
+      <Skeleton shape="circle" className="size-12" />
     </Group>
   );
 }
@@ -61,7 +61,7 @@ function CardRowExample() {
   return (
     <Group label="Card row">
       <div className="flex w-full items-center gap-4">
-        <Skeleton className="size-10 rounded-full" />
+        <Skeleton shape="circle" className="size-10" />
         <div className="flex flex-col gap-2">
           <Skeleton className="h-4 w-40" />
           <Skeleton className="h-3 w-24" />
@@ -107,7 +107,12 @@ export const examples: Example[] = [
 <Skeleton className="h-4 w-40" animation="none" />`,
   },
   {id: "shapes", title: "Basic shapes", render: ShapesExample},
-  {id: "circles", title: "Circles", render: CirclesExample},
+  {
+    id: "circles",
+    title: "Circles",
+    render: CirclesExample,
+    code: `<Skeleton shape="circle" className="size-10" />`,
+  },
   {id: "card", title: "Card row", render: CardRowExample},
   {id: "table", title: "Table rows", render: TableRowsExample},
   {id: "block", title: "Block", render: BlockExample},
