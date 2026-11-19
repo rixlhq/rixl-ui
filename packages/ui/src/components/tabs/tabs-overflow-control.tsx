@@ -44,7 +44,7 @@ export function TabsOverflowControl({side, visible, variant, size, onClick}: Tab
       tabIndex={-1}
       onClick={onClick}
       className={cn(
-        "absolute inset-y-0 z-20 flex h-auto items-center border-0 p-0 transition-opacity duration-rixl-fast ease-rixl-out active:scale-100",
+        "absolute inset-y-0 z-20 flex h-auto items-center border-0 p-0 transition-opacity active:scale-100",
         overflowPositionClasses(side),
         visible ? "pointer-events-auto opacity-100" : "pointer-events-none opacity-0",
         overflowToneBackground(variant),

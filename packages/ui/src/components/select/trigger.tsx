@@ -12,7 +12,8 @@ export const selectTriggerVariants = cva(
     controlRadius,
     "data-[placeholder]:text-rixl-fg-muted [&_svg:not([class*='text-'])]:text-rixl-fg-muted",
     "items-center justify-between gap-2 whitespace-nowrap select-none touch-manipulation",
-    "transition-[scale,color,box-shadow,border-color] duration-rixl-fast ease-rixl-out",
+    // Adds `scale` to the control surface's transition, which already sets the duration and easing.
+    "transition-[scale,color,box-shadow,border-color]",
     "enabled:active:scale-[var(--rixl-press-scale)] motion-reduce:active:scale-100",
     // Opening the popup keeps the hover emphasis on the border.
     "data-[popup-open]:border-rixl-border-strong",
