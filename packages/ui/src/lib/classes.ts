@@ -11,6 +11,37 @@ export const focusRing = "focus-visible:border-rixl-ring focus-visible:ring-rixl
 /** Focus ring for a part with no border of its own, so there is no border colour to change. */
 export const focusRingBorderless = "focus-visible:ring-rixl-ring/50 focus-visible:ring-[3px]";
 
+/**
+ * Press feedback shared by every pressable component through `--rixl-press-scale`. `motion-reduce` drops
+ * the transform only, so a colour or shadow change still shows the press. The scale is plain `active:`
+ * so a consumer `active:scale-100` merges over it; a native disabled button cannot be pressed, and
+ * `toggleControl` cancels it for the span roots Base UI renders.
+ */
+export const pressFeedback = "active:scale-[var(--rixl-press-scale)] motion-reduce:active:scale-100";
+
+/** Press feedback plus the transition that animates it, for a pressable whose surface also changes colour or shadow (Button, Tabs trigger). */
+export const pressable = cn(
+  pressFeedback,
+  "transition-[scale,background-color,box-shadow,border-color,color] duration-(--rixl-motion-fast) ease-out"
+);
+
+/** The colours of a control marked `aria-invalid`: a danger ring colour and border. Controls add their own ring width and fill. */
+export const invalidRing = "aria-invalid:ring-rixl-danger/20 aria-invalid:border-rixl-danger";
+
+/**
+ * Base of the small toggle controls (Checkbox, RadioGroupItem, Switch): a bordered, shadowed box with a
+ * focus ring, press feedback and a disabled look. Base UI renders their roots as a `<span>`, so
+ * `:enabled` and `:disabled` never match; the disabled state is read from `data-disabled`. Each control
+ * adds its display, size, radius and checked colours; Switch replaces the border colour.
+ */
+export const toggleControl = cn(
+  "shrink-0 items-center border border-rixl-border shadow-xs outline-none touch-manipulation",
+  "transition-[scale,box-shadow,border-color,background-color] duration-(--rixl-motion-fast) ease-out",
+  pressFeedback,
+  "data-disabled:cursor-not-allowed data-disabled:opacity-50 data-disabled:active:scale-100",
+  focusRing
+);
+
 /** Mirrors a directional icon (chevron, arrow) under `dir="rtl"`. Not for icons that point up or down. */
 export const rtlFlip = "rtl:-scale-x-100";
 

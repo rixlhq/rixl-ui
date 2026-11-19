@@ -48,7 +48,7 @@
 ### Requirement: buttonPressClasses is exported from the button entry
 
 **Reason**: the press classes are a shared package constant, not a Button API.
-**Migration**: none outside the package; nothing consumed it.
+**Migration**: inside this repository only the Tabs trigger used it. A consumer outside it writes `active:scale-[var(--rixl-press-scale)] motion-reduce:active:scale-100` itself.
 
 ## MODIFIED Requirements
 

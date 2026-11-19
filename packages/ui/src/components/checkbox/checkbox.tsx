@@ -2,8 +2,7 @@ import {forwardRef} from "react";
 import {Checkbox as CheckboxPrimitive} from "@base-ui/react/checkbox";
 import {Check, Minus} from "lucide-react";
 import {cn} from "../../lib/cn";
-import {indicatorPop} from "../../lib/classes";
-import {focusRing} from "../../lib/classes";
+import {indicatorPop, invalidRing, toggleControl} from "../../lib/classes";
 
 /**
  * Rixl Checkbox — a boolean form control.
@@ -20,17 +19,14 @@ const Checkbox = forwardRef<HTMLElement, CheckboxPrimitive.Root.Props>(function 
       ref={ref}
       data-slot="checkbox"
       className={cn(
-        "peer border-rixl-border inline-flex size-4 shrink-0 items-center justify-center rounded-[4px] border shadow-xs outline-none touch-manipulation",
-        "transition-[scale,box-shadow,border-color,background-color] duration-(--rixl-motion-fast) ease-out",
-        "not-data-disabled:active:scale-[var(--rixl-press-scale)] motion-reduce:active:scale-100",
+        toggleControl,
+        "peer inline-flex size-4 justify-center rounded-xs",
         "data-unchecked:not-data-disabled:hover:border-rixl-border-strong",
         "data-checked:bg-rixl-primary data-checked:text-rixl-primary-fg data-checked:border-rixl-primary",
         "data-indeterminate:bg-rixl-primary data-indeterminate:text-rixl-primary-fg data-indeterminate:border-rixl-primary",
         "data-checked:not-data-disabled:hover:bg-rixl-primary-hover data-checked:not-data-disabled:hover:border-rixl-primary-hover",
         "data-indeterminate:not-data-disabled:hover:bg-rixl-primary-hover data-indeterminate:not-data-disabled:hover:border-rixl-primary-hover",
-        focusRing,
-        "aria-invalid:ring-rixl-danger/20 aria-invalid:border-rixl-danger",
-        "data-disabled:cursor-not-allowed data-disabled:opacity-50",
+        invalidRing,
         className
       )}
       {...props}

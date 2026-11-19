@@ -1,6 +1,6 @@
 import {cva} from "class-variance-authority";
 import {cn} from "../../lib/cn";
-import {focusRing} from "../../lib/classes";
+import {focusRing, invalidRing} from "../../lib/classes";
 
 /**
  * Border, hover, focus, disabled and invalid states shared by every bordered form control (Input, InputArea, the Select trigger, OTP slots).
@@ -13,8 +13,8 @@ export const controlSurface = cn(
   "hover:border-rixl-border-strong",
   "disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50",
   focusRing,
-  "aria-invalid:border-rixl-danger aria-invalid:ring-rixl-danger/20 aria-invalid:ring-[3px]",
-  "aria-invalid:bg-rixl-danger/10 aria-invalid:hover:border-rixl-danger"
+  invalidRing,
+  "aria-invalid:ring-[3px] aria-invalid:bg-rixl-danger/10 aria-invalid:hover:border-rixl-danger"
 );
 
 /** Height, padding and text size of single-line controls; Input and the Select trigger share them. */

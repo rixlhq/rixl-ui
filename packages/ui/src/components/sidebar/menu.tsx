@@ -3,6 +3,7 @@ import {mergeProps} from "@base-ui/react/merge-props";
 import {useRender} from "@base-ui/react/use-render";
 import {cva, type VariantProps} from "class-variance-authority";
 import {cn} from "../../lib/cn";
+import {pressFeedback} from "../../lib/classes";
 
 import {Skeleton} from "../skeleton";
 import {Tooltip, TooltipContent, TooltipTrigger} from "../tooltip";
@@ -27,7 +28,8 @@ export const sidebarMenuButtonVariants = cva(
     "peer/menu-button flex w-full items-center gap-2 overflow-hidden rounded-md p-2 text-start text-sm outline-hidden ring-rixl-sidebar-ring",
     "transition-[scale,background-color,color,box-shadow] duration-(--rixl-motion-fast) ease-out",
     "hover:bg-rixl-sidebar-accent hover:text-rixl-sidebar-accent-fg focus-visible:ring-2",
-    "active:scale-[var(--rixl-press-scale)] motion-reduce:active:scale-100 active:bg-rixl-sidebar-accent active:text-rixl-sidebar-accent-fg",
+    pressFeedback,
+    "active:bg-rixl-sidebar-accent active:text-rixl-sidebar-accent-fg",
     "disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50",
     "group-has-data-[sidebar=menu-action]/menu-item:pe-8",
     "data-active:bg-rixl-sidebar-accent data-active:font-medium data-active:text-rixl-sidebar-accent-fg",

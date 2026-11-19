@@ -23,7 +23,28 @@ import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "../
 import {Switch} from "../../components/switch";
 import {Tabs, TabsContent, TabsList, TabsTrigger} from "../../components/tabs";
 import {cn} from "../cn";
-import {focusRing, focusRingBorderless, indicatorPop, menuItem, popupSurface, rtlFlip} from "../classes";
+import {
+  Sidebar,
+  SidebarMenu,
+  SidebarMenuButton,
+  SidebarMenuItem,
+  SidebarMenuSub,
+  SidebarMenuSubButton,
+  SidebarMenuSubItem,
+  SidebarProvider,
+} from "../../components/sidebar";
+import {
+  focusRing,
+  focusRingBorderless,
+  indicatorPop,
+  invalidRing,
+  menuItem,
+  popupSurface,
+  pressable,
+  pressFeedback,
+  rtlFlip,
+  toggleControl,
+} from "../classes";
 
 const tokens = (classes: string) => classes.split(" ");
 const hasEvery = (element: Element, classes: string) => tokens(classes).every((token) => element.classList.contains(token));
@@ -76,6 +97,139 @@ describe("focusRing", () => {
   ])("%s carries it", (_name, ui) => {
     render(ui());
     expect(hasEvery(screen.getByTestId("el"), focusRing)).toBe(true);
+  });
+});
+
+const radio = () => (
+  <RadioGroup>
+    <RadioGroupItem value="a" data-testid="el" />
+  </RadioGroup>
+);
+
+describe("pressFeedback", () => {
+  it("scales to the press token and holds still under reduced motion", () => {
+    expect(tokens(pressFeedback)).toEqual(["active:scale-[var(--rixl-press-scale)]", "motion-reduce:active:scale-100"]);
+  });
+
+  it("loses to a consumer class that sets the press scale", () => {
+    const merged = cn(pressFeedback, "active:scale-100");
+    expect(tokens(merged)).toContain("active:scale-100");
+    expect(tokens(merged)).not.toContain("active:scale-[var(--rixl-press-scale)]");
+  });
+
+  it.each([
+    ["Checkbox", () => <Checkbox data-testid="el" />],
+    ["RadioGroupItem", radio],
+    ["Switch", () => <Switch data-testid="el" />],
+    ["Button", () => <Button data-testid="el">Save</Button>],
+    [
+      "SelectTrigger",
+      () => (
+        <Select>
+          <SelectTrigger aria-label="Fruit" data-testid="el">
+            <SelectValue />
+          </SelectTrigger>
+        </Select>
+      ),
+    ],
+    [
+      "TabsTrigger",
+      () => (
+        <Tabs defaultValue="a">
+          <TabsList>
+            <TabsTrigger value="a" data-testid="el">
+              A
+            </TabsTrigger>
+          </TabsList>
+        </Tabs>
+      ),
+    ],
+    [
+      "SidebarMenuButton",
+      () => (
+        <SidebarProvider>
+          <Sidebar collapsible="none">
+            <SidebarMenu>
+              <SidebarMenuItem>
+                <SidebarMenuButton data-testid="el">Home</SidebarMenuButton>
+              </SidebarMenuItem>
+            </SidebarMenu>
+          </Sidebar>
+        </SidebarProvider>
+      ),
+    ],
+    [
+      "SidebarMenuSubButton",
+      () => (
+        <SidebarProvider>
+          <Sidebar collapsible="none">
+            <SidebarMenuSub>
+              <SidebarMenuSubItem>
+                <SidebarMenuSubButton data-testid="el">Sub</SidebarMenuSubButton>
+              </SidebarMenuSubItem>
+            </SidebarMenuSub>
+          </Sidebar>
+        </SidebarProvider>
+      ),
+    ],
+  ])("%s carries it", (_name, ui) => {
+    render(ui());
+    expect(hasEvery(screen.getByTestId("el"), pressFeedback)).toBe(true);
+  });
+});
+
+describe("pressable", () => {
+  it("adds the transition that animates the press to the press feedback", () => {
+    expect(tokens(pressable)).toEqual(
+      expect.arrayContaining([...tokens(pressFeedback), "transition-[scale,background-color,box-shadow,border-color,color]"])
+    );
+  });
+});
+
+describe("invalidRing", () => {
+  it("colours the ring and the border danger on aria-invalid", () => {
+    expect(tokens(invalidRing)).toEqual(["aria-invalid:ring-rixl-danger/20", "aria-invalid:border-rixl-danger"]);
+  });
+
+  it.each([
+    ["Checkbox", () => <Checkbox data-testid="el" />],
+    ["RadioGroupItem", radio],
+    ["Button", () => <Button data-testid="el">Save</Button>],
+    ["Input", () => <Input aria-label="Name" data-testid="el" />],
+  ])("%s carries it", (_name, ui) => {
+    render(ui());
+    expect(hasEvery(screen.getByTestId("el"), invalidRing)).toBe(true);
+  });
+});
+
+describe("toggleControl", () => {
+  it("is a bordered, shadowed, focus-ringed control that dims and stops pressing when disabled", () => {
+    expect(tokens(toggleControl)).toEqual(
+      expect.arrayContaining([
+        "border",
+        "border-rixl-border",
+        "shadow-xs",
+        "outline-none",
+        "touch-manipulation",
+        "data-disabled:cursor-not-allowed",
+        "data-disabled:opacity-50",
+        "data-disabled:active:scale-100",
+        ...tokens(pressFeedback),
+        ...tokens(focusRing),
+      ])
+    );
+  });
+
+  it.each([
+    ["Checkbox", () => <Checkbox data-testid="el" />],
+    ["RadioGroupItem", radio],
+    ["Switch", () => <Switch data-testid="el" />],
+  ])("%s carries it", (_name, ui) => {
+    render(ui());
+    const element = screen.getByTestId("el");
+    // Switch sets its own transparent border, which replaces the base border colour.
+    const base = tokens(toggleControl).filter((token) => token !== "border-rixl-border");
+    expect(hasEvery(element, base.join(" "))).toBe(true);
   });
 });
 

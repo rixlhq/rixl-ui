@@ -19,7 +19,7 @@ describe("Checkbox", () => {
     expect(cls).toContain("border-rixl-border");
     expect(cls).toContain("shadow-xs");
     expect(cls).toContain("size-4");
-    expect(cls).toContain("rounded-[4px]");
+    expect(cls).toContain("rounded-xs");
   });
 
   it("applies data-checked variant classes", () => {
@@ -75,7 +75,7 @@ describe("Checkbox", () => {
     const cls = screen.getByRole("checkbox").className;
     expect(cls).toContain("data-unchecked:not-data-disabled:hover:border-rixl-border-strong");
     expect(cls).toContain("data-checked:not-data-disabled:hover:bg-rixl-primary-hover");
-    expect(cls).toContain("not-data-disabled:active:scale-[var(--rixl-press-scale)]");
+    expect(cls).toContain("active:scale-[var(--rixl-press-scale)]");
     expect(cls).toContain("motion-reduce:active:scale-100");
   });
 

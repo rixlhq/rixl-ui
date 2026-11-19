@@ -22,4 +22,9 @@ describe("Checkbox Browser Mode", () => {
       dy: Math.round(icon.top + icon.height / 2 - (box.top + box.height / 2)),
     }).toEqual({width: 16, height: 16, dx: 0, dy: 0});
   });
+
+  it("rounds its corners to 4px, the radius `rounded-xs` resolves to", () => {
+    render(<Checkbox aria-label="Accept" />);
+    expect(getComputedStyle(document.querySelector('[data-slot="checkbox"]')!).borderTopLeftRadius).toBe("4px");
+  });
 });

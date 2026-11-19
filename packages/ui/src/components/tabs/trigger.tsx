@@ -2,8 +2,7 @@ import {forwardRef, useContext} from "react";
 import {Tabs as TabsPrimitive} from "@base-ui/react/tabs";
 import {cva} from "class-variance-authority";
 import {cn} from "../../lib/cn";
-import {focusRingBorderless} from "../../lib/classes";
-import {buttonPressClasses} from "../button";
+import {focusRingBorderless, pressable} from "../../lib/classes";
 
 import {getScrollBehavior} from "./get-scroll-behavior";
 import {TabsStyleContext} from "./context";
@@ -18,7 +17,7 @@ const triggerVariants = cva(
     // travelling indicator pill is the only surface that moves across the bar.
     "text-rixl-fg-muted hover:text-rixl-fg data-active:text-rixl-fg",
     // Press feedback shared with Button; the indicator still owns the glide.
-    buttonPressClasses
+    pressable
   ),
   {
     variants: {

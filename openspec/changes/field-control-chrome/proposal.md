@@ -20,7 +20,7 @@ Seven files repeat the press-feedback, invalid-ring and toggle-base class string
 
 ## Breaking
 
-- `buttonPressClasses` is removed from `@rixl/ui/button`; use `pressFeedback` from the shared classes inside the package. Nothing outside the package imported it.
+- `buttonPressClasses` is removed from `@rixl/ui/button` (the package's own Button and Tabs trigger now share `pressable` from `lib/classes.ts`). Only the Tabs trigger imported it in this repository; a consumer outside it should write the same two utilities, `active:scale-[var(--rixl-press-scale)] motion-reduce:active:scale-100`, itself.
 - The locale provider group `input` is now `label` (`translations={{label: {optional}}}`), because `Label` owns the marker. `labels={{optional}}` on `Input`, `InputArea`, `InputGroup` and `Select` is unchanged. The type `InputFieldLabels` becomes `LabelLabels`, exported from `@rixl/ui/label`.
 - `RadioGroup` renders a `<fieldset role="radiogroup">` instead of a `<div role="radiogroup">`, as Kumo does, so its `ref` is an `HTMLFieldSetElement`.
 

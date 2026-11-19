@@ -41,7 +41,7 @@ describe("Switch", () => {
     const cls = screen.getByRole("switch").className;
     expect(cls).toContain("data-checked:not-data-disabled:hover:bg-rixl-primary-hover");
     expect(cls).toContain("data-unchecked:not-data-disabled:hover:bg-rixl-border-strong");
-    expect(cls).toContain("not-data-disabled:active:scale-[var(--rixl-press-scale)]");
+    expect(cls).toContain("active:scale-[var(--rixl-press-scale)]");
     expect(cls).toContain("motion-reduce:active:scale-100");
   });
 

@@ -3,7 +3,7 @@ import {Select as SelectPrimitive} from "@base-ui/react/select";
 import {cva, type VariantProps} from "class-variance-authority";
 import {ChevronDown} from "lucide-react";
 import {cn} from "../../lib/cn";
-
+import {pressFeedback} from "../../lib/classes";
 import {controlSizes, controlSurface} from "../input/input-variants";
 
 export const selectTriggerVariants = cva(
@@ -13,7 +13,7 @@ export const selectTriggerVariants = cva(
     "items-center justify-between gap-2 whitespace-nowrap select-none touch-manipulation",
     // Adds `scale` to the control surface's transition, which already sets the duration and easing.
     "transition-[scale,color,box-shadow,border-color]",
-    "not-data-disabled:active:scale-[var(--rixl-press-scale)] motion-reduce:active:scale-100",
+    pressFeedback,
     // Opening the popup keeps the hover emphasis on the border.
     "data-[popup-open]:border-rixl-border-strong",
     "*:data-[slot=select-value]:line-clamp-1 *:data-[slot=select-value]:flex *:data-[slot=select-value]:items-center *:data-[slot=select-value]:gap-2",

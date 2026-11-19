@@ -3,7 +3,7 @@ import {Button as ButtonPrimitive} from "@base-ui/react/button";
 import {cva, type VariantProps} from "class-variance-authority";
 import {LoaderCircle} from "lucide-react";
 import {cn} from "../../lib/cn";
-import {focusRing} from "../../lib/classes";
+import {focusRing, invalidRing, pressable} from "../../lib/classes";
 
 /**
  * Rixl Button — the primary action primitive.
@@ -13,29 +13,8 @@ import {focusRing} from "../../lib/classes";
  * semantics correct.
  */
 
-/**
- * Press feedback, shared by every pressable component via `--rixl-press-scale`.
- *
- * Scale rather than translate: dashboard buttons are fixed-height and
- * docs/landing buttons are padding-sized, and a scale reads identically on
- * both. A translate would need its offset retuned per size and per geometry.
- *
- * `motion-reduce` drops the transform only — the colour and shadow changes stay,
- * so the press is still legible without movement.
- */
-const press = cn(
-  "active:scale-[var(--rixl-press-scale)] motion-reduce:active:scale-100",
-  "transition-[scale,background-color,box-shadow,border-color,color] duration-(--rixl-motion-fast) ease-out"
-);
-
 /** Shadow collapses as the surface depresses, so it reads as pushed in rather than merely smaller. */
 const pressShadow = "shadow-xs active:shadow-none";
-
-/**
- * Shared press feedback, also consumed by pressables that cannot wrap Button
- * (e.g. tab triggers, where Button's own surface would fight the indicator).
- */
-export const buttonPressClasses = press;
 
 const variantClasses = {
   default: cn("bg-rixl-primary text-rixl-primary-fg hover:bg-rixl-primary-hover active:bg-rixl-primary-active", pressShadow),
@@ -61,8 +40,8 @@ const buttonVariants = cva(
     "[&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0",
     "outline-none",
     focusRing,
-    "aria-invalid:ring-rixl-danger/20 aria-invalid:border-rixl-danger",
-    press
+    invalidRing,
+    pressable
   ),
   {
     variants: {

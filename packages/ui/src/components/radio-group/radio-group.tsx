@@ -3,8 +3,7 @@ import {Radio as RadioPrimitive} from "@base-ui/react/radio";
 import {RadioGroup as RadioGroupPrimitive} from "@base-ui/react/radio-group";
 import {Circle} from "lucide-react";
 import {cn} from "../../lib/cn";
-import {indicatorPop} from "../../lib/classes";
-import {focusRing} from "../../lib/classes";
+import {indicatorPop, invalidRing, toggleControl} from "../../lib/classes";
 
 /**
  * Rixl RadioGroup — single-selection group of radio inputs.
@@ -29,13 +28,10 @@ const RadioGroupItem = forwardRef<HTMLElement, RadioPrimitive.Root.Props>(functi
       ref={ref}
       data-slot="radio-group-item"
       className={cn(
-        "border-rixl-border text-rixl-primary flex items-center justify-center aspect-square size-4 shrink-0 rounded-full border shadow-xs outline-none touch-manipulation",
-        "transition-[scale,box-shadow,border-color] duration-(--rixl-motion-fast) ease-out",
-        "not-data-disabled:active:scale-[var(--rixl-press-scale)] motion-reduce:active:scale-100",
+        toggleControl,
+        "text-rixl-primary flex justify-center aspect-square size-4 rounded-full",
         "data-unchecked:not-data-disabled:hover:border-rixl-border-strong data-checked:border-rixl-primary",
-        focusRing,
-        "aria-invalid:ring-rixl-danger/20 aria-invalid:border-rixl-danger",
-        "data-disabled:cursor-not-allowed data-disabled:opacity-50",
+        invalidRing,
         className
       )}
       {...props}

@@ -2,6 +2,7 @@ import * as React from "react";
 import {mergeProps} from "@base-ui/react/merge-props";
 import {useRender} from "@base-ui/react/use-render";
 import {cn} from "../../lib/cn";
+import {pressFeedback} from "../../lib/classes";
 
 export const SidebarMenuSub = React.forwardRef<HTMLUListElement, SidebarMenuSubProps>(function SidebarMenuSub({className, ...props}, ref) {
   return (
@@ -47,7 +48,8 @@ export const SidebarMenuSubButton = React.forwardRef<HTMLAnchorElement, SidebarM
       {
         className: cn(
           "text-rixl-sidebar-fg ring-rixl-sidebar-ring hover:bg-rixl-sidebar-accent hover:text-rixl-sidebar-accent-fg",
-          "active:scale-[var(--rixl-press-scale)] motion-reduce:active:scale-100 active:bg-rixl-sidebar-accent active:text-rixl-sidebar-accent-fg",
+          pressFeedback,
+          "active:bg-rixl-sidebar-accent active:text-rixl-sidebar-accent-fg",
           "transition-[scale,background-color,color] duration-(--rixl-motion-fast) ease-out",
           "[&>svg]:text-rixl-sidebar-accent-fg flex h-7 min-w-0 -translate-x-px rtl:translate-x-px items-center gap-2 overflow-hidden rounded-md px-2 outline-hidden focus-visible:ring-2",
           "disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50",

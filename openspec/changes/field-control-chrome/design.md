@@ -19,9 +19,11 @@ The marker's owner is `Label`, so the group follows it (Kumo's provider group is
 
 ## D3. The toggle roots are spans: style on `data-disabled`
 
-**Chosen**: `not-data-disabled:` replaces `enabled:`; `data-disabled:` replaces `disabled:`. Base UI sets `data-disabled` on every disabled part, including the native `<button>` of `Button`, so one `pressFeedback` serves the span controls, `Button`, `Tabs`, the Select trigger and the sidebar.
+**Chosen**: `not-data-disabled:` replaces `enabled:` for hover; `data-disabled:` replaces `disabled:` for the dimmed look. Base UI sets `data-disabled` on every disabled part.
 
-**Alternatives considered**: `nativeButton` with `render={<button/>}` on each root (what Kumo's `Switch` does). It changes the element, the ref type and Base UI's hidden-input wiring for three controls to fix a class problem. Rejected.
+`pressFeedback` itself stays plain `active:` (a consumer `active:scale-100` still merges over it, which Button's `link` variant and `ButtonGroup` rely on). The span controls cancel it while disabled with `data-disabled:active:scale-100` inside `toggleControl`. The Select trigger is a real `<button disabled data-disabled>` (probe, jsdom), where `:enabled` worked, so it uses the plain constant too.
+
+**Alternatives considered**: a `not-data-disabled:` prefix inside `pressFeedback`. tailwind-merge sees `not-data-disabled:active:scale-…` and `active:scale-100` as different variants and keeps both, so `link` and the group could no longer opt out. Rejected. `nativeButton` with `render={<button/>}` on each root (what Kumo's `Switch` does). It changes the element, the ref type and Base UI's hidden-input wiring for three controls to fix a class problem. Rejected.
 
 **Evidence**: Chromium probe, 2026-11-19: `checkbox`, `switch` and `radio-group-item` are `SPAN`; `matches(":enabled")` is `false` for all; a disabled checkbox measured `opacity: 1`, `cursor: auto`. Regression tests are in `toggle-controls.browser.test.tsx`.
 
@@ -31,7 +33,7 @@ The marker's owner is `Label`, so the group follows it (Kumo's provider group is
 
 Drift, listed rather than hidden:
 
-- Press: Button, the sidebar menu and sub-menu used `active:scale-…` with no `enabled:`; Checkbox, RadioGroupItem, Switch and the Select trigger used `enabled:active:scale-…`. All now use `not-data-disabled:active:scale-…`. For an element without `data-disabled` the two behave the same.
+- Press: Button, the sidebar menu and sub-menu used `active:scale-…` with no `enabled:`; Checkbox, RadioGroupItem, Switch and the Select trigger used `enabled:active:scale-…`. All now use the plain `active:scale-…` in `pressFeedback`; the span controls cancel it when disabled. `buttonPressClasses` (press feedback plus a five-property transition) becomes `pressable`, shared by Button and the Tabs trigger.
 - Invalid: Button, Checkbox, Radio use `aria-invalid:ring-rixl-danger/20 aria-invalid:border-rixl-danger`. `controlSurface` adds a 3px ring, a tinted background and a hover border on top of the same two colours, so it composes `invalidRing` and keeps its extras. The OTP slot applies them only to the active slot (`data-[active=true]:aria-invalid:`) and the input group uses `has-[…[aria-invalid=true]]`; both stay as they are.
 - Transition lists: Checkbox and Switch transitioned `scale, box-shadow, border-color, background-color`; Radio left out `background-color`. One list now; Radio has no background change, so nothing visible moves.
 - Disabled: Checkbox and Radio used `disabled:`, Switch `data-disabled:`; one `data-disabled:` pair in `toggleControl`. The collapsible trigger keeps its own `disabled:` pair (another change owns that file).
