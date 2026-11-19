@@ -10,7 +10,7 @@ Kumo documents one component for each (https://kumo-ui.com/components/tooltip.md
 - `Button` (`title`), `CopyBlock`, field labels and `SidebarMenuButton` move to the shorthand.
 - **BREAKING** `SidebarMenuButton`'s object `tooltip` is `{content, side, align}`, not the popup's props.
 - `InputGroupButton` gains `tooltip` and `tooltipSide` (default `bottom`); a string `tooltip` names the button when it has no `aria-label`.
-- `Progress` gains `label`, `showValue` and `customValue`, on Base UI Progress's `Label` and `Value`, and warns when it has no accessible name.
+- **BREAKING** `Progress` gains `label`, `showValue` and `customValue`, on Base UI Progress's `Label` and `Value`, and warns when it has no accessible name. The root now wraps the label row and the track, so `className` styles the wrapper; the bar's own classes go through `trackClassName` and `indicatorClassName`.
 - `Slider` is one component with `label`, `size` (`sm | base`) and `getAriaLabel`, rendering one thumb per value. `SliderControl`, `SliderTrack`, `SliderIndicator` and `SliderThumb` are removed; Kumo exposes none. `Slider` has no `pack.entry` or `exports` entry yet, so the removal breaks no consumer, and publishing it is left to a follow-up (see design 7).
 
 **Breaking status**: breaking; ships as the next major through `feat(<component>)!:` commits.

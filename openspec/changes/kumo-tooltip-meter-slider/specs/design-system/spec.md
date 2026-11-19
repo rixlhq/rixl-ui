@@ -39,6 +39,11 @@
 - **WHEN** a consumer renders `<Progress label="API" value={75} customValue="750 / 1,000" />`
 - **THEN** "750 / 1,000" shows in place of "75%"
 
+#### Scenario: The track takes its own classes
+
+- **WHEN** a consumer renders `<Progress value={30} trackClassName="h-4" />`
+- **THEN** the track carries `h-4` and not `h-2`, and `className` styles the wrapper
+
 #### Scenario: Missing name warns
 
 - **WHEN** a consumer renders `<Progress value={10} />` in development
