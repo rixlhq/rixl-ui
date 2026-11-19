@@ -56,7 +56,7 @@ const variantClasses = {
 
 const buttonVariants = cva(
   cn(
-    "inline-flex items-center cursor-pointer justify-center gap-2 whitespace-nowrap rounded-rixl-md text-sm font-medium select-none touch-manipulation",
+    "inline-flex items-center cursor-pointer justify-center gap-2 whitespace-nowrap text-sm font-medium select-none touch-manipulation",
     "disabled:pointer-events-none disabled:opacity-50",
     "[&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0",
     "outline-none",
@@ -69,27 +69,36 @@ const buttonVariants = cva(
       variant: variantClasses,
       size: {
         default: "h-9 px-4 py-2 has-[>svg]:px-3",
-        sm: "h-8 rounded-rixl-md gap-1.5 px-3 has-[>svg]:px-2.5",
+        sm: "h-8 gap-1.5 px-3 has-[>svg]:px-2.5",
         // Wider surface, shallower press: same ratio reads as more travel.
-        lg: "h-10 rounded-rixl-md px-6 has-[>svg]:px-4 active:scale-[var(--rixl-press-scale-lg)]",
+        lg: "h-10 px-6 has-[>svg]:px-4 active:scale-[var(--rixl-press-scale-lg)]",
         icon: "size-9",
         "icon-sm": "size-8 [&_svg:not([class*='size-'])]:size-4",
         "icon-xs": "size-7 [&_svg:not([class*='size-'])]:size-3.5",
         "icon-lg": "size-10 [&_svg:not([class*='size-'])]:size-4",
       },
+      radius: {
+        sm: "rounded-rixl-sm",
+        md: "rounded-rixl-md",
+        lg: "rounded-rixl-lg",
+      },
     },
     defaultVariants: {
       size: "default",
+      radius: "md",
     },
   }
 );
 
 type ButtonVariant = keyof typeof variantClasses;
 type ButtonSize = NonNullable<VariantProps<typeof buttonVariants>["size"]>;
+type ButtonRadius = NonNullable<VariantProps<typeof buttonVariants>["radius"]>;
 
 export type ButtonProps = ButtonPrimitive.Props & {
   variant?: ButtonVariant | null;
   size?: ButtonSize | null;
+  /** Corner radius, for a button that sits inside a rounded container (an input group, a segmented control). */
+  radius?: ButtonRadius | null;
   loading?: boolean;
 };
 
@@ -98,7 +107,7 @@ function ButtonSpinner() {
 }
 
 const Button = forwardRef<HTMLButtonElement, ButtonProps>(
-  ({className, variant, size, loading, disabled, nativeButton, render, children, ...props}, ref) => {
+  ({className, variant, size, radius, loading, disabled, nativeButton, render, children, ...props}, ref) => {
     // When rendered as a non-<button> element (e.g. render={<Link/>}), tell Base UI so it drops native button semantics.
     const isNativeButton = nativeButton ?? (isValidElement(render) ? render.type === "button" : true);
     // Falling back to `default` keeps a bare <Button> styled.
@@ -112,7 +121,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         disabled={disabled || loading}
         nativeButton={isNativeButton}
         render={render}
-        className={cn(buttonVariants({variant: resolved, size, className}))}
+        className={cn(buttonVariants({variant: resolved, size, radius, className}))}
         {...props}
       >
         {loading && <ButtonSpinner />}

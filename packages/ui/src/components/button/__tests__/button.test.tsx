@@ -40,6 +40,24 @@ describe("Button", () => {
     expect(screen.getByRole("button").className).toContain("size-9");
   });
 
+  it("is rounded with the medium radius by default, at every size", () => {
+    for (const size of ["default", "sm", "lg", "icon"] as const) {
+      const {unmount} = render(<Button size={size}>Save</Button>);
+      expect(screen.getByRole("button").className).toMatch(/(?<![:\w-])rounded-rixl-md(?![\w-])/);
+      unmount();
+    }
+  });
+
+  it.each([
+    ["sm", "rounded-rixl-sm"],
+    ["lg", "rounded-rixl-lg"],
+  ] as const)("radius='%s' swaps the medium radius for %s", (radius, expected) => {
+    render(<Button radius={radius}>Save</Button>);
+    const cls = screen.getByRole("button").className;
+    expect(cls).toContain(expected);
+    expect(cls).not.toContain("rounded-rixl-md");
+  });
+
   it("forwards additional className without dropping variant classes", () => {
     render(<Button className="w-full">Wide</Button>);
     const btn = screen.getByRole("button");
