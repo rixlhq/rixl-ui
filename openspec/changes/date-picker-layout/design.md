@@ -10,9 +10,9 @@ Measured on the unchanged component (Chromium, `de` locale, September, `captionL
 
 ### D1. Surface: standalone draws one, hosts draw it for us
 
-**Chosen**: the root carries `bg-rixl-surface border border-rixl-border rounded-rixl-md shadow-rixl-xs p-3` by default. Under `popover-content`, `card-content` or `dialog-content` it resets to no border, transparent background, no shadow, `rounded-none` and `p-0` through ancestor variants (`[[data-slot=popover-content]_&]:…`, the mechanism the component already used for the background). The container owns surface and padding there, which is what Kumo's `Popover.Content className="p-3"` does. A standalone consumer `className` overrides the defaults normally (`cn`, last write wins).
+**Chosen**: the root carries `bg-rixl-surface border border-rixl-border rounded-md shadow-xs p-3` by default. Under `popover-content`, `card-content` or `dialog-content` it resets to no border, transparent background, no shadow, `rounded-none` and `p-0` through ancestor variants (`[[data-slot=popover-content]_&]:…`, the mechanism the component already used for the background). The container owns surface and padding there, which is what Kumo's `Popover.Content className="p-3"` does. A standalone consumer `className` overrides the defaults normally (`cn`, last write wins).
 
-Why these tokens: `popupSurface` (`lib/classes.ts`) is `bg-rixl-surface`, `border-rixl-border`, `rounded-rixl-md`, `shadow-rixl-md`. The calendar is inline, not floating, so it takes the same surface, border and radius with the `xs` shadow that `Input` and `Button` use. `Card` is `rounded-rixl-xl` with `py-6`, which is too soft and too airy around a 224px grid of `rounded-rixl-md` cells (the inner radius should be the cell radius plus the padding gap, not smaller than it).
+Why these tokens: `popupSurface` (`lib/classes.ts`) is `bg-rixl-surface`, `border-rixl-border`, `rounded-md`, `shadow-md`. The calendar is inline, not floating, so it takes the same surface, border and radius with the `xs` shadow that `Input` and `Button` use. `Card` is `rounded-xl` with `py-6`, which is too soft and too airy around a 224px grid of `rounded-md` cells (the inner radius should be the cell radius plus the padding gap, not smaller than it).
 
 **Alternatives considered**:
 

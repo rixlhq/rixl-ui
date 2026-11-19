@@ -43,19 +43,19 @@ describe("Button", () => {
   it("is rounded with the medium radius by default, at every size", () => {
     for (const size of ["default", "sm", "lg", "icon"] as const) {
       const {unmount} = render(<Button size={size}>Save</Button>);
-      expect(screen.getByRole("button").className).toMatch(/(?<![:\w-])rounded-rixl-md(?![\w-])/);
+      expect(screen.getByRole("button").className).toMatch(/(?<![:\w-])rounded-md(?![\w-])/);
       unmount();
     }
   });
 
   it.each([
-    ["sm", "rounded-rixl-sm"],
-    ["lg", "rounded-rixl-lg"],
+    ["sm", "rounded-sm"],
+    ["lg", "rounded-lg"],
   ] as const)("radius='%s' swaps the medium radius for %s", (radius, expected) => {
     render(<Button radius={radius}>Save</Button>);
     const cls = screen.getByRole("button").className;
     expect(cls).toContain(expected);
-    expect(cls).not.toContain("rounded-rixl-md");
+    expect(cls).not.toContain("rounded-md");
   });
 
   it("forwards additional className without dropping variant classes", () => {
@@ -135,7 +135,7 @@ describe("Button", () => {
     it("collapses the shadow on press so the surface reads as depressed", () => {
       render(<Button>Save</Button>);
       const cls = screen.getByRole("button").className;
-      expect(cls).toContain("shadow-rixl-xs");
+      expect(cls).toContain("shadow-xs");
       expect(cls).toContain("active:shadow-none");
     });
 
@@ -155,7 +155,7 @@ describe("Button", () => {
       render(<Button>Save</Button>);
       const cls = screen.getByRole("button").className;
       expect(cls).not.toContain("hover:-translate-y");
-      expect(cls).not.toContain("hover:shadow-rixl-sm");
+      expect(cls).not.toContain("hover:shadow-sm");
     });
 
     it("drops the transform but keeps colour under reduced motion", () => {

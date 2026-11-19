@@ -75,9 +75,9 @@ describe("Dialog", () => {
     await act(async () => {});
     const cls = screen.getByTestId("content").className;
     expect(cls).toContain("bg-rixl-bg");
-    expect(cls).toContain("rounded-rixl-lg");
+    expect(cls).toContain("rounded-lg");
     expect(cls).toContain("border-rixl-border");
-    expect(cls).toContain("shadow-rixl-lg");
+    expect(cls).toContain("shadow-lg");
   });
 
   it.each<DialogRole>(["dialog", "alertdialog"])("renders no close button of its own for role=%s", async (role) => {
@@ -150,8 +150,8 @@ describe("Dialog", () => {
     await act(async () => {});
     const overlay = document.querySelector("[data-slot='dialog-overlay']");
     for (const cls of [overlay!.className, screen.getByTestId("content").className]) {
-      expect(cls).toContain("duration-rixl-base");
-      expect(cls).toContain("data-ending-style:duration-rixl-fast");
+      expect(cls).toContain("duration-(--rixl-motion-base)");
+      expect(cls).toContain("data-ending-style:duration-(--rixl-motion-fast)");
     }
   });
 
@@ -220,7 +220,7 @@ describe("role", () => {
     const cls = screen.getByTestId("content").className;
     expect(cls).toContain("max-w-[calc(100%-2rem)]");
     expect(cls).toContain("translate-x-[-50%]");
-    expect(cls).toContain("rounded-rixl-lg");
+    expect(cls).toContain("rounded-lg");
     expect(cls).not.toContain("h-dvh");
   });
 
@@ -228,8 +228,8 @@ describe("role", () => {
     render(<RoleDialog role="alertdialog" />);
     await act(async () => {});
     const cls = screen.getByTestId("content").className;
-    expect(cls).toContain("duration-rixl-base");
-    expect(cls).toContain("data-ending-style:duration-rixl-fast");
+    expect(cls).toContain("duration-(--rixl-motion-base)");
+    expect(cls).toContain("data-ending-style:duration-(--rixl-motion-fast)");
   });
 
   it("respects size in alertdialog mode, defaulting to the dialog default width", async () => {

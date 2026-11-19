@@ -53,9 +53,9 @@ describe("DropdownMenu", () => {
     await act(async () => {});
     const cls = screen.getByTestId("content").className;
     expect(cls).toContain("bg-rixl-surface");
-    expect(cls).toContain("rounded-rixl-md");
+    expect(cls).toContain("rounded-md");
     expect(cls).toContain("border-rixl-border");
-    expect(cls).toContain("shadow-rixl-md");
+    expect(cls).toContain("shadow-md");
     expect(cls).toContain("min-w-[8rem]");
   });
 
@@ -75,10 +75,10 @@ describe("DropdownMenu", () => {
     );
     await act(async () => {});
     const sub = screen.getByTestId("submenu");
-    expect(sub.className).toContain("shadow-rixl-lg");
-    expect(sub.className).not.toContain("shadow-rixl-md");
+    expect(sub.className).toContain("shadow-lg");
+    expect(sub.className).not.toContain("shadow-md");
     expect(sub).toHaveAttribute("data-slot", "dropdown-menu-sub-content");
-    expect(screen.getByTestId("menu").className).not.toContain("shadow-rixl-lg");
+    expect(screen.getByTestId("menu").className).not.toContain("shadow-lg");
   });
 
   it("marks destructive items with data-variant and danger text", async () => {

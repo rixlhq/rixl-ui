@@ -22,7 +22,7 @@ const Progress = forwardRef<HTMLDivElement, ProgressProps>(function Progress({cl
       <ProgressPrimitive.Indicator
         data-slot="progress-indicator"
         className={cn(
-          "bg-rixl-primary h-full transition-[width,transform] duration-rixl-base ease-rixl-out motion-reduce:transition-none",
+          "bg-rixl-primary h-full transition-[width,transform] duration-(--rixl-motion-base) ease-out motion-reduce:transition-none",
           // Base UI sets no width when the value is null; a narrower band that slides across tells it apart from 100%.
           // Reduced motion holds the band still in the middle so it doesn't read as a partial value.
           "data-indeterminate:w-1/3 rtl:[--rixl-progress-direction:-1]",

@@ -33,7 +33,7 @@ export type PaginationProps = ComponentProps<"nav"> &
  * their own message layer.
  *
  * Press feedback comes from `Button` (shared `--rixl-press-scale` token,
- * `duration-rixl-fast ease-rixl-out`, transform/opacity only, reduced-motion
+ * `duration-(--rixl-motion-fast) ease-out`, transform/opacity only, reduced-motion
  * snap); chevrons mirror in RTL via `rtl:-scale-x-100`.
  */
 export const Pagination = forwardRef<HTMLElement, PaginationProps>((props, ref) => {

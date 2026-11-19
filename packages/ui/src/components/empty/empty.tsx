@@ -4,7 +4,7 @@ import {cn} from "../../lib/cn";
 import {CopyBlock} from "../copy-block";
 import {useWarnMissingName} from "../../lib/warn-missing-name";
 
-const emptyVariants = cva("flex flex-col items-center justify-center rounded-rixl-lg border border-dashed border-rixl-border text-center", {
+const emptyVariants = cva("flex flex-col items-center justify-center rounded-lg border border-dashed border-rixl-border text-center", {
   variants: {size: {sm: "gap-2 p-4", default: "gap-3 p-8", lg: "gap-4 p-12"}},
   defaultVariants: {size: "default"},
 });

@@ -43,8 +43,8 @@ describe("Progress", () => {
     const indicator = container.querySelector("[data-slot='progress-indicator']");
     expect(indicator).not.toBeNull();
     expect(indicator!.className).toContain("bg-rixl-primary");
-    expect(indicator!.className).toContain("duration-rixl-base");
-    expect(indicator!.className).toContain("ease-rixl-out");
+    expect(indicator!.className).toContain("duration-(--rixl-motion-base)");
+    expect(indicator!.className).toContain("ease-out");
     expect(indicator!.className).toContain("motion-reduce:transition-none");
   });
 

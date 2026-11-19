@@ -23,9 +23,9 @@ const triggerVariants = cva(
   {
     variants: {
       variant: {
-        segmented: "rounded-rixl-md",
-        underline: "rounded-rixl-sm",
-        ghost: "rounded-rixl-md",
+        segmented: "rounded-md",
+        underline: "rounded-sm",
+        ghost: "rounded-md",
       },
       // A floor, not a fixed height: a trigger may stack an icon, a label and a
       // description, and a hard height would let that content spill out of the

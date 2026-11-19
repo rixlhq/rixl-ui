@@ -16,10 +16,10 @@ import {CardContent, type CardContentProps} from "./content";
 import {CardFooter, type CardFooterProps} from "./footer";
 
 /** Passive surface. Actions and their semantics belong to its children. */
-export const cardVariants = cva(cn("bg-rixl-surface text-rixl-fg flex flex-col gap-6 rounded-rixl-xl py-6", ""), {
+export const cardVariants = cva(cn("bg-rixl-surface text-rixl-fg flex flex-col gap-6 rounded-xl py-6", ""), {
   variants: {
     variant: {
-      default: "border border-rixl-border shadow-rixl-sm",
+      default: "border border-rixl-border shadow-sm",
       outline: "border border-rixl-border shadow-none",
       ghost: "border border-transparent shadow-none",
     },

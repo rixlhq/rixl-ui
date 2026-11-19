@@ -2,7 +2,7 @@
 
 Two token bugs affect every consumer.
 
-- **Nested theme scoping.** `preset.css` registers `--color-rixl-*`, `--shadow-rixl-*` and the other scales in a plain `@theme`. Tailwind emits those as `:root` declarations whose value is `var(--rixl-surface)` resolved once at `:root`, and utilities such as `bg-rixl-surface` read `var(--color-rixl-surface)`. Putting `data-theme="dark"` on `<html>` works, because `:root` resolves the dark values. On any other ancestor the utilities keep the light values, although the preset comment says "html (or any ancestor)". A dark panel inside a light page (or the reverse) renders light.
+- **Nested theme scoping.** `preset.css` registers `--color-rixl-*`, `--shadow-*` and the other scales in a plain `@theme`. Tailwind emits those as `:root` declarations whose value is `var(--rixl-surface)` resolved once at `:root`, and utilities such as `bg-rixl-surface` read `var(--color-rixl-surface)`. Putting `data-theme="dark"` on `<html>` works, because `:root` resolves the dark values. On any other ancestor the utilities keep the light values, although the preset comment says "html (or any ancestor)". A dark panel inside a light page (or the reverse) renders light.
 - **Status contrast.** `Badge` and `Alert` `success` and `warning` draw `text-rixl-success` / `text-rixl-warning` on a tint of the same colour. axe reports `color-contrast` for `Badge` (`openspec/changes/surface-polish/tasks.md`, 6.2), so its axe test leaves both variants out. `--rixl-success` and `--rixl-warning` also have no dark value.
 
 ## What Changes

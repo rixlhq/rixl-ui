@@ -49,10 +49,10 @@ const toasterVariables = {
  * override what a variable does not reach.
  */
 const focusRing = "focus-visible:ring-[3px]! focus-visible:ring-rixl-ring/50!";
-const buttonShape = "h-8! rounded-rixl-md! px-3! text-sm! font-medium!";
+const buttonShape = "h-8! rounded-md! px-3! text-sm! font-medium!";
 
 const defaultClassNames = {
-  toast: cn("shadow-rixl-lg!", focusRing),
+  toast: cn("shadow-lg!", focusRing),
   description: "text-current/75!",
   actionButton: cn(buttonShape, "bg-rixl-primary! text-rixl-primary-fg! hover:bg-rixl-primary-hover!", focusRing),
   cancelButton: cn(buttonShape, "bg-rixl-secondary! text-rixl-secondary-fg! hover:bg-rixl-secondary-hover!", focusRing),

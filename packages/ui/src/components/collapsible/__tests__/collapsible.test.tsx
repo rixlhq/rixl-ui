@@ -49,7 +49,7 @@ describe("Collapsible", () => {
     const cls = screen.getByTestId("content").className;
     expect(cls).toContain("h-[var(--collapsible-panel-height)]");
     expect(cls).toContain("transition-[height,opacity]");
-    expect(cls).toContain("duration-rixl-base");
+    expect(cls).toContain("duration-(--rixl-motion-base)");
     expect(cls).toContain("data-starting-style:h-0");
     expect(cls).toContain("data-ending-style:h-0");
     expect(cls).toContain("motion-reduce:transition-none");
@@ -70,8 +70,8 @@ describe("CollapsibleDefaultTrigger", () => {
     expect(caret).not.toBeNull();
     const caretClass = caret?.getAttribute("class") ?? "";
     expect(caretClass).toContain("transition-transform");
-    expect(caretClass).toContain("duration-rixl-base");
-    expect(caretClass).toContain("ease-rixl-out");
+    expect(caretClass).toContain("duration-(--rixl-motion-base)");
+    expect(caretClass).toContain("ease-out");
     expect(caretClass).toContain("group-data-[panel-open]:rotate-180");
     expect(caretClass).toContain("motion-reduce:transition-none");
   });
@@ -114,7 +114,7 @@ describe("CollapsibleDefaultPanel", () => {
     const panel = screen.getByTestId("panel");
     expect(panel).toHaveAttribute("data-slot", "collapsible-default-panel");
     expect(panel.className).toContain("transition-[height,opacity]");
-    expect(panel.className).toContain("duration-rixl-base");
+    expect(panel.className).toContain("duration-(--rixl-motion-base)");
     const accent = panel.querySelector("[data-slot='collapsible-default-panel-accent']");
     expect(accent).not.toBeNull();
     expect(accent?.className ?? "").toContain("border-s-2");

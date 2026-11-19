@@ -49,8 +49,8 @@ describe("text field variants", () => {
     const before = classSet(
       [
         "placeholder:text-rixl-fg-muted selection:bg-rixl-primary selection:text-rixl-primary-fg",
-        "border-rixl-border flex w-full min-w-0 rounded-rixl-md border bg-transparent shadow-rixl-xs outline-none",
-        "transition-[color,box-shadow,border-color] duration-rixl-fast ease-rixl-out",
+        "border-rixl-border flex w-full min-w-0 rounded-md border bg-transparent shadow-xs outline-none",
+        "transition-[color,box-shadow,border-color] duration-(--rixl-motion-fast) ease-out",
         "hover:border-rixl-border-strong",
         "read-only:bg-rixl-surface-muted read-only:cursor-default read-only:hover:border-rixl-border",
         "disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50",
@@ -69,13 +69,13 @@ describe("inputVariants surface", () => {
   it("raised is the default: border, radius and shadow", () => {
     const classes = classSet(inputVariants());
     expect(classes).toContain(controlRadius);
-    expect(classes).toContain("shadow-rixl-xs");
+    expect(classes).toContain("shadow-xs");
   });
 
   it("flat keeps the border and radius but draws no shadow", () => {
     const classes = classSet(inputVariants({surface: "flat"}));
     expect(classes).toContain(controlRadius);
-    expect(classes).not.toContain("shadow-rixl-xs");
+    expect(classes).not.toContain("shadow-xs");
   });
 
   it("bare draws no border, radius, shadow or invalid and focus chrome", () => {

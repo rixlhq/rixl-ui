@@ -23,7 +23,7 @@ export const CopyBlock = forwardRef<HTMLDivElement, CopyBlockProps>(({title, val
       ref={ref}
       data-slot="copy-block"
       data-copied={copied || undefined}
-      className={cn("flex min-w-0 items-center gap-2 rounded-rixl-lg bg-rixl-bg p-2", className)}
+      className={cn("flex min-w-0 items-center gap-2 rounded-lg bg-rixl-bg p-2", className)}
       {...props}
     >
       <span className="shrink-0 text-xs font-medium text-rixl-fg-muted">{title}:</span>

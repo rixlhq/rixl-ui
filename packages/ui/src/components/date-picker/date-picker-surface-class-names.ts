@@ -8,7 +8,7 @@ import {cn} from "../../lib/cn";
  * Each class is written out in full so Tailwind finds it.
  */
 export const datePickerSurface = cn(
-  "bg-rixl-surface border border-rixl-border rounded-rixl-md shadow-rixl-xs p-3",
+  "bg-rixl-surface border border-rixl-border rounded-md shadow-xs p-3",
   "[:is([data-slot=popover-content],[data-slot=card-content],[data-slot=dialog-content])_&]:border-0",
   "[:is([data-slot=popover-content],[data-slot=card-content],[data-slot=dialog-content])_&]:bg-transparent",
   "[:is([data-slot=popover-content],[data-slot=card-content],[data-slot=dialog-content])_&]:shadow-none",

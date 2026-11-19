@@ -11,7 +11,7 @@ export const SidebarInset = React.forwardRef<HTMLElement, SidebarInsetProps>(fun
       data-slot="sidebar-inset"
       className={cn(
         "bg-rixl-bg relative flex w-full min-w-0 flex-1 flex-col",
-        "md:peer-data-[variant=inset]:m-2 md:peer-data-[variant=inset]:ms-0 md:peer-data-[variant=inset]:rounded-rixl-xl md:peer-data-[variant=inset]:shadow-rixl-sm md:peer-data-[variant=inset]:peer-data-[state=collapsed]:ms-2",
+        "md:peer-data-[variant=inset]:m-2 md:peer-data-[variant=inset]:ms-0 md:peer-data-[variant=inset]:rounded-xl md:peer-data-[variant=inset]:shadow-sm md:peer-data-[variant=inset]:peer-data-[state=collapsed]:ms-2",
         className
       )}
       {...props}

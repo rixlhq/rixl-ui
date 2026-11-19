@@ -165,9 +165,9 @@ export const examples: Example[] = [
 /* button.tsx */
 active:scale-[var(--rixl-press-scale)]
 motion-reduce:active:scale-100
-shadow-rixl-xs active:shadow-none
+shadow-xs active:shadow-none
 transition-[scale,background-color,box-shadow,border-color,color]
-duration-rixl-fast ease-rixl-out`,
+duration-(--rixl-motion-fast) ease-out`,
   },
   {
     id: "sizes",

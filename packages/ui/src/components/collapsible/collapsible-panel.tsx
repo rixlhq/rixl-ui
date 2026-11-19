@@ -10,7 +10,7 @@ export const CollapsiblePanel = forwardRef<HTMLDivElement, CollapsiblePanelProps
       data-slot="collapsible-content"
       className={cn(
         "h-[var(--collapsible-panel-height)] overflow-hidden",
-        "transition-[height,opacity] duration-rixl-base ease-rixl-out motion-reduce:transition-none",
+        "transition-[height,opacity] duration-(--rixl-motion-base) ease-out motion-reduce:transition-none",
         "data-starting-style:h-0 data-starting-style:opacity-0",
         "data-ending-style:h-0 data-ending-style:opacity-0",
         className

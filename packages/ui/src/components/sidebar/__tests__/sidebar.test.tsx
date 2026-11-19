@@ -148,7 +148,7 @@ describe("Sidebar", () => {
   it("exposes sidebarMenuButtonVariants for className merging", () => {
     render(<Shell />);
     const cls = screen.getByTestId("menu-button").className;
-    expect(cls).toContain("rounded-rixl-md");
+    expect(cls).toContain("rounded-md");
   });
 
   it("uses tokenized press scale and reduced-motion fallback on menu and sub-menu buttons", () => {
@@ -221,8 +221,8 @@ describe("Sidebar", () => {
   it("fades the group label on the sidebar motion tokens, in step with the collapse", () => {
     render(<Shell />);
     const cls = screen.getByTestId("group-label").className;
-    expect(cls).toContain("duration-sidebar");
-    expect(cls).toContain("ease-curve-sidebar");
+    expect(cls).toContain("duration-(--rixl-motion-sidebar)");
+    expect(cls).toContain("ease-(--rixl-ease-drawer)");
     expect(cls).not.toContain("duration-200");
     expect(cls).not.toContain("ease-linear");
   });

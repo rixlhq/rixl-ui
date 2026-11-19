@@ -13,9 +13,7 @@ describe("DatePicker surface", () => {
   it("draws the surface tokens standalone", () => {
     render(<DatePicker mode="single" defaultMonth={JUNE_2026} />);
     const classes = calendarRoot().className.split(" ");
-    expect(classes).toEqual(
-      expect.arrayContaining(["bg-rixl-surface", "border", "border-rixl-border", "rounded-rixl-md", "shadow-rixl-xs", "p-3"])
-    );
+    expect(classes).toEqual(expect.arrayContaining(["bg-rixl-surface", "border", "border-rixl-border", "rounded-md", "shadow-xs", "p-3"]));
   });
 
   it("does not paint the page background, which is the surface's shade", () => {

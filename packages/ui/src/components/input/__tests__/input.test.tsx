@@ -25,8 +25,8 @@ describe("Input", () => {
     render(<Input placeholder="Email" />);
     const cls = screen.getByPlaceholderText("Email").className;
     expect(cls).toContain("border-rixl-border");
-    expect(cls).toContain("rounded-rixl-md");
-    expect(cls).toContain("shadow-rixl-xs");
+    expect(cls).toContain("rounded-md");
+    expect(cls).toContain("shadow-xs");
     expect(cls).toContain("placeholder:text-rixl-fg-muted");
   });
 

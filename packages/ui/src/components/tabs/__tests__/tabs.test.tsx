@@ -58,7 +58,7 @@ describe("Tabs", () => {
     const cls = screen.getByTestId("content-account").className;
     expect(cls).toContain("animate-in");
     expect(cls).toContain("fade-in-0");
-    expect(cls).toContain("duration-rixl-fast");
+    expect(cls).toContain("duration-(--rixl-motion-fast)");
     expect(cls).toContain("motion-reduce:animate-none");
     expect(cls).not.toContain("slide-in");
   });
@@ -90,7 +90,7 @@ describe("Tabs", () => {
       render(<Basic />);
       const cls = indicator()!.className;
       expect(cls).toContain("border-rixl-border");
-      expect(cls).toContain("shadow-rixl-sm");
+      expect(cls).toContain("shadow-sm");
     });
 
     it("is positioned from the measured tab box rather than a fixed offset", () => {
@@ -122,8 +122,8 @@ describe("Tabs", () => {
     it("glides on the slow in-out motion tokens rather than hardcoded timing", () => {
       render(<Basic />);
       const cls = indicator()!.className;
-      expect(cls).toContain("duration-rixl-slow");
-      expect(cls).toContain("ease-rixl-in-out");
+      expect(cls).toContain("duration-(--rixl-motion-slow)");
+      expect(cls).toContain("ease-in-out");
       expect(cls).not.toContain("duration-300");
       expect(cls).not.toContain("cubic-bezier");
     });
@@ -140,7 +140,7 @@ describe("Tabs", () => {
     it("wraps segmented tabs in a muted container", () => {
       render(<Basic />);
       expect(list().className).toContain("bg-rixl-surface-muted");
-      expect(list().className).toContain("rounded-rixl-lg");
+      expect(list().className).toContain("rounded-lg");
     });
 
     it("rules the underline variant instead of filling it", () => {
@@ -159,7 +159,7 @@ describe("Tabs", () => {
 
     it("passes the variant from the root to both list and indicator", () => {
       render(<Basic variant="ghost" />);
-      expect(indicator()!.className).toContain("shadow-rixl-xs");
+      expect(indicator()!.className).toContain("shadow-xs");
     });
   });
 
@@ -245,9 +245,9 @@ describe("Tabs", () => {
     it("takes its transition timing from the press classes alone", () => {
       render(<Basic />);
       const cls = screen.getByTestId("tab-password").className;
-      expect(cls).toContain("duration-rixl-fast");
+      expect(cls).toContain("duration-(--rixl-motion-fast)");
       expect(cls).not.toContain("transition-colors");
-      expect(cls).not.toContain("duration-rixl-base");
+      expect(cls).not.toContain("duration-(--rixl-motion-base)");
     });
 
     it("renders overflow scroll controls when scrollable is enabled", () => {
@@ -355,6 +355,6 @@ describe("Tabs", () => {
     );
     const cls = screen.getByTestId("tab-account").className;
     expect(cls).toContain("max-w-xs");
-    expect(cls).toContain("rounded-rixl-md");
+    expect(cls).toContain("rounded-md");
   });
 });

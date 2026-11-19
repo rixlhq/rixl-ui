@@ -29,8 +29,8 @@ const RadioGroupItem = forwardRef<HTMLElement, RadioPrimitive.Root.Props>(functi
       ref={ref}
       data-slot="radio-group-item"
       className={cn(
-        "border-rixl-border text-rixl-primary flex items-center justify-center aspect-square size-4 shrink-0 rounded-full border shadow-rixl-xs outline-none touch-manipulation",
-        "transition-[scale,box-shadow,border-color] duration-rixl-fast ease-rixl-out",
+        "border-rixl-border text-rixl-primary flex items-center justify-center aspect-square size-4 shrink-0 rounded-full border shadow-xs outline-none touch-manipulation",
+        "transition-[scale,box-shadow,border-color] duration-(--rixl-motion-fast) ease-out",
         "enabled:active:scale-[var(--rixl-press-scale)] motion-reduce:active:scale-100",
         "data-unchecked:enabled:hover:border-rixl-border-strong data-checked:border-rixl-primary",
         focusRing,

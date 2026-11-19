@@ -19,19 +19,19 @@ describe("Skeleton", () => {
     const cls = screen.getByTestId("s").className;
     expect(cls).toContain("bg-rixl-surface-muted");
     expect(cls).toContain("after:animate-rixl-shimmer");
-    expect(cls).toContain("rounded-rixl-md");
+    expect(cls).toContain("rounded-md");
   });
 
   it("is a rounded rectangle by default", () => {
     render(<Skeleton data-testid="s" />);
-    expect(screen.getByTestId("s").className).toContain("rounded-rixl-md");
+    expect(screen.getByTestId("s").className).toContain("rounded-md");
   });
 
   it("shape='circle' is fully round instead of using the rectangle radius", () => {
     render(<Skeleton data-testid="s" shape="circle" />);
     const cls = screen.getByTestId("s").className;
     expect(cls).toContain("rounded-full");
-    expect(cls).not.toContain("rounded-rixl-md");
+    expect(cls).not.toContain("rounded-md");
   });
 
   it("forwards additional className without dropping base classes", () => {

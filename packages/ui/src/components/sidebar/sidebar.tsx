@@ -12,7 +12,7 @@ const SIDEBAR_WIDTH_MOBILE = "18rem";
 
 const MOBILE_PANEL_CLASSES = cn(
   "bg-rixl-sidebar text-rixl-sidebar-fg fixed inset-y-0 z-50 flex h-dvh w-(--sidebar-width) flex-col overflow-x-hidden overflow-y-auto overscroll-contain wrap-anywhere [&>*]:min-w-0 [&>*]:shrink-0",
-  "shadow-rixl-lg transition-transform duration-rixl-slow data-ending-style:duration-rixl-base ease-rixl-drawer motion-reduce:transition-none"
+  "shadow-lg transition-transform duration-(--rixl-motion-slow) data-ending-style:duration-(--rixl-motion-base) ease-(--rixl-ease-drawer) motion-reduce:transition-none"
 );
 
 // `left` and `right` mean the inline start and end, as on the desktop panel, so the sheet pins to
@@ -99,7 +99,7 @@ function DesktopSidebar({side, variant = "sidebar", collapsible = "offcanvas", c
       <div
         data-slot="sidebar-gap"
         className={cn(
-          "relative w-(--sidebar-width) bg-transparent transition-[width] duration-sidebar ease-curve-sidebar",
+          "relative w-(--sidebar-width) bg-transparent transition-[width] duration-(--rixl-motion-sidebar) ease-(--rixl-ease-drawer)",
           "group-data-[collapsible=offcanvas]:w-0",
           isInset
             ? "group-data-[collapsible=icon]:w-[calc(var(--sidebar-width-icon)+(--spacing(4)))]"
@@ -110,7 +110,7 @@ function DesktopSidebar({side, variant = "sidebar", collapsible = "offcanvas", c
         ref={panelRef}
         data-slot="sidebar-container"
         className={cn(
-          "fixed inset-y-0 z-10 hidden h-svh w-(--sidebar-width) transition-[inset-inline-start,inset-inline-end,width] duration-sidebar ease-curve-sidebar md:flex",
+          "fixed inset-y-0 z-10 hidden h-svh w-(--sidebar-width) transition-[inset-inline-start,inset-inline-end,width] duration-(--rixl-motion-sidebar) ease-(--rixl-ease-drawer) md:flex",
           side === "left"
             ? "start-0 group-data-[collapsible=offcanvas]:start-[calc(var(--sidebar-width)*-1)]"
             : "end-0 group-data-[collapsible=offcanvas]:end-[calc(var(--sidebar-width)*-1)]",
@@ -124,7 +124,7 @@ function DesktopSidebar({side, variant = "sidebar", collapsible = "offcanvas", c
         <div
           data-sidebar="sidebar"
           data-slot="sidebar-inner"
-          className="bg-rixl-sidebar group-data-[variant=floating]:border-rixl-sidebar-border flex h-full w-full flex-col group-data-[variant=floating]:rounded-rixl-lg group-data-[variant=floating]:border group-data-[variant=floating]:shadow-rixl-sm"
+          className="bg-rixl-sidebar group-data-[variant=floating]:border-rixl-sidebar-border flex h-full w-full flex-col group-data-[variant=floating]:rounded-lg group-data-[variant=floating]:border group-data-[variant=floating]:shadow-sm"
         >
           {children}
         </div>

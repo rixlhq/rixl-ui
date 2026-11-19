@@ -10,7 +10,7 @@ export const TableRow = forwardRef<HTMLTableRowElement, TableRowProps>(({classNa
     ref={ref}
     data-slot="table-row"
     className={cn(
-      "hover:bg-rixl-surface-muted/50 aria-selected:bg-rixl-surface-muted border-b border-rixl-border transition-colors duration-rixl-fast ease-rixl-out",
+      "hover:bg-rixl-surface-muted/50 aria-selected:bg-rixl-surface-muted border-b border-rixl-border transition-colors duration-(--rixl-motion-fast) ease-out",
       className
     )}
     {...props}

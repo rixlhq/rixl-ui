@@ -28,7 +28,7 @@ export const AppSidebar = memo(function AppSidebar({showcases, activePath}: {sho
       <SidebarHeader className="docs-brand">
         <a href="#/" className="flex items-center justify-between gap-2 text-rixl-sidebar-fg">
           <div className="flex items-center gap-2.5">
-            <span className="flex size-6 items-center justify-center rounded-rixl-sm bg-rixl-primary text-xs font-bold text-rixl-primary-fg">
+            <span className="flex size-6 items-center justify-center rounded-sm bg-rixl-primary text-xs font-bold text-rixl-primary-fg">
               R
             </span>
             <span className="text-sm font-semibold tracking-tight">Rixl UI</span>

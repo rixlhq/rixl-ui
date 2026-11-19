@@ -48,7 +48,7 @@ Source of the target Select API: https://kumo-ui.com/components/select.md. Kumo'
 
 5. **Trigger is `w-full`.** The shared surface is `w-full`; a field-wrapped trigger fills its column like `Input`. Consumers that want a narrow trigger pass `className="w-48"` (the existing browser test already does).
 
-6. **OTP slots keep per-slot surface, with joined edges.** Each slot is `border` + `not-first:border-s-0` + `rounded-none first:rounded-s-rixl-md last:rounded-e-rixl-md`, which draws the same bar as before (outer edge on the first slot, shared edges otherwise). Active-slot ring and `z-10` stay slot-specific because the variant is `data-[active=true]`, not `:focus-visible`. Invalid now shows the shared danger background and ring on every slot, as `Input` does.
+6. **OTP slots keep per-slot surface, with joined edges.** Each slot is `border` + `not-first:border-s-0` + `rounded-none first:rounded-s-md last:rounded-e-md`, which draws the same bar as before (outer edge on the first slot, shared edges otherwise). Active-slot ring and `z-10` stay slot-specific because the variant is `data-[active=true]`, not `:focus-visible`. Invalid now shows the shared danger background and ring on every slot, as `Input` does.
    **Dropped:** putting the surface on `InputOTPGroup` (would move `aria-invalid` from slot to group, an API change).
 
 7. **Pagination page-size uses `Select` with its own label.** A stacked field label does not fit the inline "Rows per page [20]" row, so the component renders a `<label htmlFor>` beside the trigger (the trigger takes the matching `id`), which names the combobox and is native to buttons. Values are strings inside the select and converted with `Number` at the edge, because Base UI `items` records are keyed by string.

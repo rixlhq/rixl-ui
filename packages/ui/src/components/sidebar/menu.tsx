@@ -24,8 +24,8 @@ SidebarMenuItem.displayName = "SidebarMenuItem";
 
 export const sidebarMenuButtonVariants = cva(
   cn(
-    "peer/menu-button flex w-full items-center gap-2 overflow-hidden rounded-rixl-md p-2 text-start text-sm outline-hidden ring-rixl-sidebar-ring",
-    "transition-[scale,background-color,color,box-shadow] duration-rixl-fast ease-rixl-out",
+    "peer/menu-button flex w-full items-center gap-2 overflow-hidden rounded-md p-2 text-start text-sm outline-hidden ring-rixl-sidebar-ring",
+    "transition-[scale,background-color,color,box-shadow] duration-(--rixl-motion-fast) ease-out",
     "hover:bg-rixl-sidebar-accent hover:text-rixl-sidebar-accent-fg focus-visible:ring-2",
     "active:scale-[var(--rixl-press-scale)] motion-reduce:active:scale-100 active:bg-rixl-sidebar-accent active:text-rixl-sidebar-accent-fg",
     "disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50",
@@ -104,7 +104,7 @@ export const SidebarMenuAction = React.forwardRef<HTMLButtonElement, SidebarMenu
     props: mergeProps<"button">(
       {
         className: cn(
-          "text-rixl-sidebar-fg ring-rixl-sidebar-ring hover:bg-rixl-sidebar-accent hover:text-rixl-sidebar-accent-fg peer-hover/menu-button:text-rixl-sidebar-accent-fg absolute top-1.5 end-1 flex aspect-square w-5 items-center justify-center rounded-rixl-md p-0 outline-hidden transition-transform focus-visible:ring-2 [&>svg]:size-4 [&>svg]:shrink-0",
+          "text-rixl-sidebar-fg ring-rixl-sidebar-ring hover:bg-rixl-sidebar-accent hover:text-rixl-sidebar-accent-fg peer-hover/menu-button:text-rixl-sidebar-accent-fg absolute top-1.5 end-1 flex aspect-square w-5 items-center justify-center rounded-md p-0 outline-hidden transition-transform focus-visible:ring-2 [&>svg]:size-4 [&>svg]:shrink-0",
           // Increases the hit area of the button on mobile.
           "after:absolute after:-inset-2 md:after:hidden",
           "peer-data-[size=sm]/menu-button:top-1",
@@ -134,7 +134,7 @@ export const SidebarMenuBadge = React.forwardRef<HTMLDivElement, SidebarMenuBadg
       data-slot="sidebar-menu-badge"
       data-sidebar="menu-badge"
       className={cn(
-        "text-rixl-sidebar-fg pointer-events-none absolute end-1 flex h-5 min-w-5 items-center justify-center rounded-rixl-md px-1 text-xs font-medium tabular-nums select-none",
+        "text-rixl-sidebar-fg pointer-events-none absolute end-1 flex h-5 min-w-5 items-center justify-center rounded-md px-1 text-xs font-medium tabular-nums select-none",
         "peer-hover/menu-button:text-rixl-sidebar-accent-fg peer-data-active/menu-button:text-rixl-sidebar-accent-fg",
         "peer-data-[size=sm]/menu-button:top-1",
         "peer-data-[size=default]/menu-button:top-1.5",
@@ -157,7 +157,7 @@ export const SidebarMenuSkeleton = React.forwardRef<HTMLDivElement, SidebarMenuS
       ref={ref}
       data-slot="sidebar-menu-skeleton"
       data-sidebar="menu-skeleton"
-      className={cn("flex h-8 items-center gap-2 rounded-rixl-md px-2", className)}
+      className={cn("flex h-8 items-center gap-2 rounded-md px-2", className)}
       {...props}
     >
       {showIcon && <Skeleton className="size-4" data-sidebar="menu-skeleton-icon" />}

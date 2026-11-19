@@ -59,7 +59,7 @@ export const SidebarRail = React.forwardRef<HTMLButtonElement, SidebarRailProps>
       tabIndex={-1}
       onClick={toggleSidebar}
       className={cn(
-        "hover:after:bg-rixl-sidebar-border absolute inset-y-0 z-20 hidden w-4 cursor-ew-resize ltr:-translate-x-1/2 rtl:translate-x-1/2 transition-colors duration-rixl-fast ease-rixl-out group-data-[side=left]:-end-4 group-data-[side=right]:start-0 after:absolute after:inset-y-0 after:start-1/2 after:w-[2px] sm:flex",
+        "hover:after:bg-rixl-sidebar-border absolute inset-y-0 z-20 hidden w-4 cursor-ew-resize ltr:-translate-x-1/2 rtl:translate-x-1/2 transition-colors duration-(--rixl-motion-fast) ease-out group-data-[side=left]:-end-4 group-data-[side=right]:start-0 after:absolute after:inset-y-0 after:start-1/2 after:w-[2px] sm:flex",
         "hover:group-data-[collapsible=offcanvas]:bg-rixl-sidebar group-data-[collapsible=offcanvas]:translate-x-0 group-data-[collapsible=offcanvas]:after:end-full",
         "[[data-side=left][data-collapsible=offcanvas]_&]:-end-2",
         "[[data-side=right][data-collapsible=offcanvas]_&]:-start-2",

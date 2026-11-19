@@ -29,11 +29,11 @@ A component SHALL merge a consumer's `className` after its own classes, so a con
 - **WHEN** a `Button` of any size gets `className="h-<n>"`
 - **THEN** the rendered element carries `h-<n>` and no other height utility (`button.test.tsx`, `[property] a consumer height replaces the size's height`)
 
-#### Scenario: Token utilities are not replaced
+#### Scenario: Token utilities are replaced
 
-- **WHEN** a consumer passes `rounded-full`, `shadow-none`, `duration-500` or `ease-linear` to a component whose default is a `rixl-*` token utility (`rounded-rixl-md`, `shadow-rixl-xs`, `duration-rixl-fast`, `ease-rixl-out`)
-- **THEN** `cn` keeps both classes and CSS order decides, because it does not know the `rixl-*` tokens; overriding a `rixl-*` token utility through `className` is not supported
-- **AND** a component that needs another radius or shadow than the base it builds on asks the base for it through a variant (`Button` `radius`, `inputVariants` `surface`, the nested popup surface) and carries no important modifier for it (`composed-overrides.browser.test.tsx`)
+- **WHEN** a consumer passes a standard radius, shadow or easing class (`rounded-full`, `shadow-none`, `ease-linear`) to a component whose default is the same kind of utility (`rounded-md`, `shadow-xs`, `ease-out`)
+- **THEN** the rendered element carries the consumer's class and not the component's, because radii, shadows and easing are registered on Tailwind's standard theme keys and `cn` merges them
+- **AND** the browser resolves the consumer's radius or shadow (`composed-overrides.browser.test.tsx`)
 
 ### Requirement: Button resolves its look from `variant`, then `color`
 

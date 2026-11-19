@@ -71,7 +71,7 @@ function OverflowExample() {
         <Row labels={CLOUDFLARE} variant="segmented" />
       </div>
 
-      <div className="max-w-md space-y-4 rounded-rixl-lg border border-rixl-border bg-rixl-bg p-5">
+      <div className="max-w-md space-y-4 rounded-lg border border-rixl-border bg-rixl-bg p-5">
         <Breadcrumb>
           <BreadcrumbList>
             <BreadcrumbItem>

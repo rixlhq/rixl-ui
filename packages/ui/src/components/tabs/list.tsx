@@ -12,7 +12,7 @@ import {scrollTabsByPage, TabsOverflowControl, useHorizontalDragScroll, useOverf
 const listVariants = cva("relative isolate flex w-fit min-w-0 max-w-full items-stretch", {
   variants: {
     variant: {
-      segmented: "bg-rixl-surface-muted rounded-rixl-lg gap-1 p-1",
+      segmented: "bg-rixl-surface-muted rounded-lg gap-1 p-1",
       underline: "border-rixl-border gap-4 border-b",
       ghost: "gap-1",
     },

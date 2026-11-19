@@ -29,7 +29,7 @@ export function Showcase() {
 
 function SidebarPreview({collapsible}: {collapsible: "offcanvas" | "icon" | "none"}) {
   return (
-    <div className="h-80 w-full overflow-hidden rounded-rixl-lg border border-rixl-border shadow-rixl-xs [transform:translateZ(0)]">
+    <div className="h-80 w-full overflow-hidden rounded-lg border border-rixl-border shadow-xs [transform:translateZ(0)]">
       <SidebarProvider defaultOpen className="h-full min-h-0">
         <Sidebar collapsible={collapsible} className="h-full" aria-label="Preview navigation">
           <SidebarHeader className="border-b border-rixl-sidebar-border px-4 py-3">

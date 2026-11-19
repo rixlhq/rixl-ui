@@ -17,7 +17,7 @@ describe("Checkbox", () => {
     render(<Checkbox />);
     const cls = screen.getByRole("checkbox").className;
     expect(cls).toContain("border-rixl-border");
-    expect(cls).toContain("shadow-rixl-xs");
+    expect(cls).toContain("shadow-xs");
     expect(cls).toContain("size-4");
     expect(cls).toContain("rounded-[4px]");
   });

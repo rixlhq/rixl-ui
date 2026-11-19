@@ -4,7 +4,7 @@ An audit of `@rixl/ui` against Emil Kowalski's design-engineering guidance found
 
 ## What Changes
 
-- **className merging**: `cn` from the `cn` package does not know the `rixl-*` radius, shadow, duration and easing tokens, so `rounded-rixl-md rounded-full` keeps both and the token utility wins by CSS order. Add a configured `cn` in `src/lib/cn.ts` and use it in every component.
+- **className merging**: `cn` from the `cn` package does not know the `rixl-*` radius, shadow, duration and easing tokens, so `rounded-md rounded-full` keeps both and the token utility wins by CSS order. Add a configured `cn` in `src/lib/cn.ts` and use it in every component.
 - **Switch**: the checked thumb overflows the track under `dir="rtl"`; mirror the translation.
 - **Progress**: `value={null}` renders a full static bar; render an animated indeterminate band instead.
 - **Tooltip**: every `Tooltip` wraps its own `TooltipProvider` with `delay={0}`, which shadows any app-level provider and prevents grouping. `Tooltip` stops wrapping a provider; `TooltipProvider` defaults to a hover-intent delay.

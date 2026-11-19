@@ -18,9 +18,9 @@ export function gridClassNames(defaultClassNames: CalendarClassNames) {
       defaultClassNames.day
     ),
     // The band is the cell's background; each end cell carries it behind a rounded primary cap, so the band runs into the cap.
-    range_start: cn("rounded-s-rixl-md bg-rixl-surface-muted", defaultClassNames.range_start),
+    range_start: cn("rounded-s-md bg-rixl-surface-muted", defaultClassNames.range_start),
     range_middle: cn("rounded-none bg-rixl-surface-muted", defaultClassNames.range_middle),
-    range_end: cn("rounded-e-rixl-md bg-rixl-surface-muted", defaultClassNames.range_end),
+    range_end: cn("rounded-e-md bg-rixl-surface-muted", defaultClassNames.range_end),
     outside: cn("text-rixl-fg-muted aria-selected:text-rixl-fg-muted", defaultClassNames.outside),
     disabled: cn("text-rixl-fg-muted", defaultClassNames.disabled),
     hidden: cn("invisible", defaultClassNames.hidden),

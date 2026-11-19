@@ -124,10 +124,7 @@ function CustomContentExample(props: {state: Record<string, ControlValue>}) {
               tag: "Quota",
             },
           ].map((n) => (
-            <div
-              key={n.title}
-              className="flex items-start justify-between gap-3 rounded-rixl-md border border-rixl-border bg-rixl-surface p-3"
-            >
+            <div key={n.title} className="flex items-start justify-between gap-3 rounded-md border border-rixl-border bg-rixl-surface p-3">
               <div className="min-w-0">
                 <p className="text-sm font-medium">{n.title}</p>
                 <p className="truncate text-xs text-rixl-fg-muted">{n.body}</p>
@@ -200,7 +197,7 @@ function LongContentExample() {
         </DialogHeader>
         <div className="space-y-4">
           {Array.from({length: 20}, (_, index) => (
-            <div key={index} className="rounded-rixl-md border border-rixl-border p-4">
+            <div key={index} className="rounded-md border border-rixl-border p-4">
               <p className="text-sm font-medium">Activity {index + 1}</p>
               <p className="text-sm text-rixl-fg-muted">
                 A workspace member updated the project settings. Review the changes with your team before the next release.

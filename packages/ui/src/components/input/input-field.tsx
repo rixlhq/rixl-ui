@@ -58,7 +58,7 @@ function InputLabelRow({
           <Tooltip>
             <TooltipTrigger
               aria-label={labelTooltipAriaLabel}
-              className="inline-flex items-center text-rixl-fg-muted transition-colors duration-rixl-fast ease-rixl-out hover:text-rixl-fg [&_svg]:size-3.5"
+              className="inline-flex items-center text-rixl-fg-muted transition-colors duration-(--rixl-motion-fast) ease-out hover:text-rixl-fg [&_svg]:size-3.5"
             >
               <InfoIcon aria-hidden="true" />
             </TooltipTrigger>

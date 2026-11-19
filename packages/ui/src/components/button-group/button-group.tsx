@@ -30,7 +30,7 @@ const ButtonGroup = forwardRef<HTMLDivElement, ButtonGroupProps>(({className, ch
       // Every child gets a stacking context so a keyboard-focused control can
       // lift above the adjacent seam, including tooltip-wrapped buttons.
       "[&>*]:relative [&>*:focus-visible]:z-10 [&>*:has(:focus-visible)]:z-10",
-      // Each Button carries its own `shadow-rixl-xs`. Inside a group those
+      // Each Button carries its own `shadow-xs`. Inside a group those
       // shadows overlap at the seams and make the middle button look elevated.
       // Drop them so the group reads as one control.
       "[&>*>:is(button,a)]:shadow-none [&>:is(button,a)]:shadow-none",

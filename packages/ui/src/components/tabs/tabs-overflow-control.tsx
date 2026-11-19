@@ -53,7 +53,7 @@ export function TabsOverflowControl({side, visible, variant, size, onClick}: Tab
     >
       <span
         className={cn(
-          "text-rixl-fg-muted hover:text-rixl-fg flex items-center justify-center rounded-rixl-sm transition-colors duration-rixl-fast",
+          "text-rixl-fg-muted hover:text-rixl-fg flex items-center justify-center rounded-sm transition-colors duration-(--rixl-motion-fast)",
           size === "sm" ? "size-5" : "size-6",
           isStart ? "ms-1" : "me-1"
         )}

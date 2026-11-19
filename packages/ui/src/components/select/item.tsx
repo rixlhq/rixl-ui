@@ -28,7 +28,7 @@ export const SelectItem = forwardRef<HTMLDivElement, SelectItemProps>(function S
         */}
         <SelectPrimitive.ItemIndicator
           keepMounted
-          className="scale-50 opacity-0 transition-[scale,opacity] duration-rixl-fast ease-rixl-out in-data-selected:scale-100 in-data-selected:opacity-100 motion-reduce:transition-none"
+          className="scale-50 opacity-0 transition-[scale,opacity] duration-(--rixl-motion-fast) ease-out in-data-selected:scale-100 in-data-selected:opacity-100 motion-reduce:transition-none"
         >
           <Check className="size-4" />
         </SelectPrimitive.ItemIndicator>

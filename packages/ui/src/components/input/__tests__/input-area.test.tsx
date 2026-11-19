@@ -19,8 +19,8 @@ describe("InputArea", () => {
     render(<InputArea placeholder="Message" />);
     const cls = screen.getByPlaceholderText("Message").className;
     expect(cls).toContain("border-rixl-border");
-    expect(cls).toContain("rounded-rixl-md");
-    expect(cls).toContain("shadow-rixl-xs");
+    expect(cls).toContain("rounded-md");
+    expect(cls).toContain("shadow-xs");
     expect(cls).toContain("placeholder:text-rixl-fg-muted");
     expect(cls).toContain("field-sizing-content");
   });

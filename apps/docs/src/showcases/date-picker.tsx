@@ -197,7 +197,7 @@ function PresetsExample() {
                     if (preset.range.from) setMonth(startOfMonth(preset.range.from));
                   }}
                   data-active={isSameRange(range, preset.range)}
-                  className="rounded-rixl-md px-3 py-1.5 text-start text-sm whitespace-nowrap text-rixl-fg-muted hover:bg-rixl-surface-muted data-[active=true]:bg-rixl-primary data-[active=true]:text-rixl-primary-fg"
+                  className="rounded-md px-3 py-1.5 text-start text-sm whitespace-nowrap text-rixl-fg-muted hover:bg-rixl-surface-muted data-[active=true]:bg-rixl-primary data-[active=true]:text-rixl-primary-fg"
                 >
                   {preset.label}
                 </button>

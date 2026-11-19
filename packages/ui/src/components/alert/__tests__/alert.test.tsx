@@ -73,7 +73,7 @@ describe("Alert", () => {
     );
     const cls = getAlert().className;
     expect(cls).toContain("mt-4");
-    expect(cls).toContain("rounded-rixl-lg");
+    expect(cls).toContain("rounded-lg");
   });
 
   it("renders AlertTitle with data-slot='alert-title' and base classes", () => {

@@ -10,6 +10,7 @@ import {
 } from "../../components/dropdown-menu";
 import {InputGroup, InputGroupButton, InputGroupInput} from "../../components/input-group";
 import {Button} from "../../components/button";
+import {Skeleton} from "../../components/skeleton";
 import {Select, SelectTrigger, SelectValue} from "../../components/select";
 import {SidebarInput} from "../../components/sidebar";
 import {Tabs, TabsList, TabsTrigger} from "../../components/tabs";
@@ -82,6 +83,28 @@ describe("a radius or shadow one component sets over its base", () => {
     await new Promise((resolve) => setTimeout(resolve, 300));
     const menu = styleOf("[data-slot='dropdown-menu-content']").boxShadow;
     expect(styleOf("[data-slot='dropdown-menu-sub-content']").boxShadow).not.toBe(menu);
+  });
+
+  it("lets a consumer rounded-full replace the Skeleton radius", () => {
+    render(
+      <>
+        <Skeleton data-testid="skeleton" className="size-10 rounded-full" />
+        <div data-testid="reference" className="size-10 rounded-full" />
+      </>
+    );
+    const radius = getComputedStyle(document.querySelector("[data-testid='skeleton']")!).borderRadius;
+    expect(radius).toBe(getComputedStyle(document.querySelector("[data-testid='reference']")!).borderRadius);
+  });
+
+  it("lets a consumer shadow-none remove a popup's shadow", async () => {
+    render(
+      <DropdownMenu defaultOpen>
+        <DropdownMenuTrigger>Open</DropdownMenuTrigger>
+        <DropdownMenuContent className="shadow-none">Items</DropdownMenuContent>
+      </DropdownMenu>
+    );
+    await new Promise((resolve) => setTimeout(resolve, 300));
+    expect(styleOf("[data-slot='dropdown-menu-content']").boxShadow).not.toContain(RIXL_SHADOW_COLOUR);
   });
 
   it("times the tabs overflow control's fade with the Button's duration and easing", () => {

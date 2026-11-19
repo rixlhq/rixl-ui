@@ -11,7 +11,7 @@ A consumer `className` SHALL replace a component's default radius, shadow, trans
 #### Scenario: Rounded button
 
 - **WHEN** a consumer renders `<Button className="rounded-full">`
-- **THEN** the rendered element has a fully rounded radius and no `rounded-rixl-md` class
+- **THEN** the rendered element has a fully rounded radius and no `rounded-md` class
 
 ### Requirement: Switch thumb stays in its track in both directions
 

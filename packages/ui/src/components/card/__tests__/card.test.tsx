@@ -34,8 +34,8 @@ describe("Card", () => {
     const cls = screen.getByTestId("card").className;
     expect(cls).toContain("bg-rixl-surface");
     expect(cls).toContain("text-rixl-fg");
-    expect(cls).toContain("rounded-rixl-xl");
-    expect(cls).toContain("shadow-rixl-sm");
+    expect(cls).toContain("rounded-xl");
+    expect(cls).toContain("shadow-sm");
   });
 
   it("renders children", () => {
@@ -71,7 +71,7 @@ describe("Card", () => {
     it("defaults to the elevated (shadowed) variant", () => {
       render(<Card data-testid="card" />);
       const cls = screen.getByTestId("card").className;
-      expect(cls).toContain("shadow-rixl-sm");
+      expect(cls).toContain("shadow-sm");
       expect(cls).toContain("border-rixl-border");
     });
 

@@ -34,8 +34,8 @@ export function captionClassNames(defaultClassNames: CalendarClassNames, caption
     // The month select takes the width the year select leaves, so a longer month name never moves the year or the nav buttons.
     dropdowns: cn("flex h-(--cell-size) min-w-0 flex-1 items-center justify-center gap-1", STATIC_PART, defaultClassNames.dropdowns),
     dropdown_root: cn(
-      "relative flex h-8 min-w-0 items-center rounded-rixl-md border border-rixl-border shadow-rixl-xs",
-      "transition-[box-shadow,border-color] duration-rixl-fast ease-rixl-out hover:border-rixl-border-strong",
+      "relative flex h-8 min-w-0 items-center rounded-md border border-rixl-border shadow-xs",
+      "transition-[box-shadow,border-color] duration-(--rixl-motion-fast) ease-out hover:border-rixl-border-strong",
       // The select is a transparent overlay, so the focus ring belongs to the visible wrapper.
       "has-focus-visible:border-rixl-ring has-focus-visible:ring-rixl-ring/50 has-focus-visible:ring-[3px]",
       "has-[select[class*=months]]:flex-1 has-[select[class*=years]]:shrink-0",

@@ -34,8 +34,8 @@ describe("InputGroup", () => {
     );
     const cls = screen.getByTestId("group").className;
     expect(cls).toContain("border-rixl-border");
-    expect(cls).toContain("rounded-rixl-md");
-    expect(cls).toContain("shadow-rixl-xs");
+    expect(cls).toContain("rounded-md");
+    expect(cls).toContain("shadow-xs");
     expect(cls).toContain("items-center");
   });
 
@@ -156,7 +156,7 @@ describe("InputGroupInput", () => {
       </InputGroup>
     );
     const cls = screen.getByPlaceholderText("Search").className;
-    expect(cls).not.toMatch(/(?<![:\w-])(border|rounded-rixl-md|shadow-rixl-xs)(?![\w-])/);
+    expect(cls).not.toMatch(/(?<![:\w-])(border|rounded-md|shadow-xs)(?![\w-])/);
     expect(cls).not.toContain("aria-invalid:ring");
     expect(cls).toContain("px-2");
     expect(cls).toContain("flex-1");

@@ -4,7 +4,7 @@
 
 ### Requirement: Tokens resolve at the element, so any ancestor can set the theme
 
-Utilities that read a `--rixl-*` token (`bg-rixl-*`, `text-rixl-*`, `border-rixl-*`, `ring-rixl-*`, `shadow-rixl-*`) SHALL resolve it at the element that uses them, so `data-theme` on any ancestor, and not only on `<html>`, selects the light or dark values.
+Utilities that read a `--rixl-*` token (`bg-rixl-*`, `text-rixl-*`, `border-rixl-*`, `ring-rixl-*`, `shadow-*`) SHALL resolve it at the element that uses them, so `data-theme` on any ancestor, and not only on `<html>`, selects the light or dark values.
 
 #### Scenario: Dark scope inside a light page
 

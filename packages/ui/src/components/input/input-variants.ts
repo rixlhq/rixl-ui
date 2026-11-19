@@ -6,7 +6,7 @@ import {focusRing} from "../../lib/classes";
 const controlBase = cn(
   "placeholder:text-rixl-fg-muted selection:bg-rixl-primary selection:text-rixl-primary-fg",
   "flex w-full min-w-0 bg-transparent outline-none",
-  "transition-[color,box-shadow,border-color] duration-rixl-fast ease-rixl-out",
+  "transition-[color,box-shadow,border-color] duration-(--rixl-motion-fast) ease-out",
   "disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50"
 );
 
@@ -19,10 +19,10 @@ const controlBorder = cn(
   "aria-invalid:bg-rixl-danger/10 aria-invalid:hover:border-rixl-danger"
 );
 
-const controlShadow = "shadow-rixl-xs";
+const controlShadow = "shadow-xs";
 
 /** The corner radius of a bordered control. Kept apart so a part that shapes its own corners (an OTP slot) adds none. */
-export const controlRadius = "rounded-rixl-md";
+export const controlRadius = "rounded-md";
 
 /**
  * Base, border, hover, focus, disabled, invalid states and shadow shared by every bordered form control (Input, InputArea, the Select trigger, OTP slots).

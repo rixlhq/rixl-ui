@@ -16,8 +16,8 @@ export const rtlFlip = "rtl:-scale-x-100";
 
 const popupBase = cn(
   "bg-rixl-surface text-rixl-fg z-50 max-h-(--available-height) max-w-[calc(100dvw-2rem)] origin-(--transform-origin) overflow-x-hidden overflow-y-auto overscroll-contain wrap-anywhere",
-  "rounded-rixl-md border border-rixl-border outline-hidden",
-  "transition-[scale,opacity] duration-rixl-fast ease-rixl-out motion-reduce:transition-none",
+  "rounded-md border border-rixl-border outline-hidden",
+  "transition-[scale,opacity] duration-(--rixl-motion-fast) ease-out motion-reduce:transition-none",
   "data-starting-style:scale-95 data-starting-style:opacity-0 data-ending-style:scale-95 data-ending-style:opacity-0"
 );
 
@@ -25,10 +25,10 @@ const popupBase = cn(
  * Surface of a floating popup (Popover, DropdownMenu, Select) with its scale-and-fade
  * enter and exit. Each popup adds its own width, padding and positioning.
  */
-export const popupSurface = cn(popupBase, "shadow-rixl-md");
+export const popupSurface = cn(popupBase, "shadow-md");
 
 /** A popup that opens over another popup (a sub-menu): the same surface under a larger shadow. */
-export const nestedPopupSurface = cn(popupBase, "shadow-rixl-lg");
+export const nestedPopupSurface = cn(popupBase, "shadow-lg");
 
 /**
  * A selectable row in a menu or listbox: highlight on `data-highlighted` (keyboard and pointer, not
@@ -38,7 +38,7 @@ export const nestedPopupSurface = cn(popupBase, "shadow-rixl-lg");
  */
 export const menuItem = cn(
   "data-highlighted:bg-rixl-surface-muted data-highlighted:text-rixl-fg",
-  "relative flex cursor-default items-center gap-2 rounded-rixl-sm py-1.5 text-sm outline-hidden select-none",
+  "relative flex cursor-default items-center gap-2 rounded-sm py-1.5 text-sm outline-hidden select-none",
   "data-disabled:pointer-events-none data-disabled:opacity-50",
   "[&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4"
 );
@@ -49,6 +49,6 @@ export const menuItem = cn(
  * mounted and driven by `data-selected`, so it has its own classes.
  */
 export const indicatorPop = cn(
-  "transition-[scale,opacity] duration-rixl-fast ease-rixl-out motion-reduce:transition-none",
+  "transition-[scale,opacity] duration-(--rixl-motion-fast) ease-out motion-reduce:transition-none",
   "data-starting-style:scale-50 data-starting-style:opacity-0 data-ending-style:scale-50 data-ending-style:opacity-0"
 );

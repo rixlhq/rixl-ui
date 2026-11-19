@@ -41,7 +41,7 @@ describe("Tooltip", () => {
     const cls = screen.getByTestId("content").className;
     expect(cls).toContain("bg-rixl-primary");
     expect(cls).toContain("text-rixl-primary-fg");
-    expect(cls).toContain("rounded-rixl-md");
+    expect(cls).toContain("rounded-md");
   });
 
   it("skips transition duration when data-instant is present", async () => {

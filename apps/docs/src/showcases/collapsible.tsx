@@ -107,7 +107,7 @@ function MultipleItemsExample(props: {state: Record<string, ControlValue>}) {
   return (
     <div className="grid gap-2">
       {multipleItems.map((item) => (
-        <Collapsible key={item.title} className="w-full max-w-sm rounded-rixl-md border border-rixl-border px-1 py-1">
+        <Collapsible key={item.title} className="w-full max-w-sm rounded-md border border-rixl-border px-1 py-1">
           <CollapsibleDefaultTrigger>{item.title}</CollapsibleDefaultTrigger>
           <CollapsibleDefaultPanel>
             <p className="py-2 text-sm text-rixl-fg-muted">{item.body}</p>
@@ -128,7 +128,7 @@ function AccordionExample(props: {state: Record<string, ControlValue>}) {
           key={item.title}
           open={activeIndex === index}
           onOpenChange={(open: boolean) => setActiveIndex(open ? index : null)}
-          className="w-full max-w-sm rounded-rixl-md border border-rixl-border px-1 py-1"
+          className="w-full max-w-sm rounded-md border border-rixl-border px-1 py-1"
         >
           <CollapsibleDefaultTrigger>{item.title}</CollapsibleDefaultTrigger>
           <CollapsibleDefaultPanel keepMounted>

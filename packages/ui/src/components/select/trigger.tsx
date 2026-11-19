@@ -44,7 +44,7 @@ export const SelectTrigger = forwardRef<HTMLButtonElement, SelectTriggerProps>(f
       {/* Chevron flips when the popup is open (ancestor carries data-popup-open). */}
       <SelectPrimitive.Icon
         render={
-          <ChevronDown className="size-4 opacity-50 transition-transform duration-rixl-fast ease-rixl-out motion-reduce:transition-none [[data-popup-open]_&]:rotate-180" />
+          <ChevronDown className="size-4 opacity-50 transition-transform duration-(--rixl-motion-fast) ease-out motion-reduce:transition-none [[data-popup-open]_&]:rotate-180" />
         }
       />
     </SelectPrimitive.Trigger>

@@ -17,7 +17,7 @@ export const CollapsibleDefaultTrigger = forwardRef<HTMLButtonElement, Collapsib
       render={render ?? <Button variant="ghost" />}
       data-slot="collapsible-default-trigger"
       className={cn(
-        "group flex w-full items-center justify-between gap-2 rounded-rixl-sm px-3 py-2 text-sm font-medium text-rixl-fg outline-none select-none",
+        "group flex w-full items-center justify-between gap-2 rounded-sm px-3 py-2 text-sm font-medium text-rixl-fg outline-none select-none",
         "hover:bg-rixl-secondary",
         focusRing,
         "disabled:cursor-not-allowed disabled:opacity-50",
@@ -28,7 +28,7 @@ export const CollapsibleDefaultTrigger = forwardRef<HTMLButtonElement, Collapsib
       <span className="min-w-0 flex-1 truncate text-start">{children}</span>
       <ChevronDown
         aria-hidden="true"
-        className="size-4 shrink-0 text-rixl-fg-muted transition-transform duration-rixl-base ease-rixl-out motion-reduce:transition-none group-data-[panel-open]:rotate-180"
+        className="size-4 shrink-0 text-rixl-fg-muted transition-transform duration-(--rixl-motion-base) ease-out motion-reduce:transition-none group-data-[panel-open]:rotate-180"
       />
     </CollapsibleTrigger>
   );

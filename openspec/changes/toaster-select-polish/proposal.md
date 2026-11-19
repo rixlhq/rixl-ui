@@ -2,7 +2,7 @@
 
 `Toaster` and `Select` have polish gaps that show up next to the components around them.
 
-- `Toaster` passes no `theme` to Sonner and sets only the `--normal-*` variables. Under `[data-theme="dark"]`, Sonner's own colours for rich types, descriptions, the close button and the loading spinner stay on its light palette. Its injected stylesheet is unlayered, so the Tailwind classes the wrapper passes (`bg-rixl-primary` on the action button, `text-rixl-fg-muted` on the description, `shadow-rixl-lg` on the toast) lose the cascade and do nothing.
+- `Toaster` passes no `theme` to Sonner and sets only the `--normal-*` variables. Under `[data-theme="dark"]`, Sonner's own colours for rich types, descriptions, the close button and the loading spinner stay on its light palette. Its injected stylesheet is unlayered, so the Tailwind classes the wrapper passes (`bg-rixl-primary` on the action button, `text-rixl-fg-muted` on the description, `shadow-lg` on the toast) lose the cascade and do nothing.
 - `Select`'s check indicator appears instantly, while the `DropdownMenu` checkbox and radio indicators scale and fade in. `SelectItem` uses `cursor-pointer`, while every menu item uses `cursor-default`. The leaf parts are plain function components, which under the React 18 peer cannot receive a `ref`.
 
 ## What Changes

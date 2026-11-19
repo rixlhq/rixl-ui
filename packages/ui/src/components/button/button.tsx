@@ -25,11 +25,11 @@ import {focusRing} from "../../lib/classes";
  */
 const press = cn(
   "active:scale-[var(--rixl-press-scale)] motion-reduce:active:scale-100",
-  "transition-[scale,background-color,box-shadow,border-color,color] duration-rixl-fast ease-rixl-out"
+  "transition-[scale,background-color,box-shadow,border-color,color] duration-(--rixl-motion-fast) ease-out"
 );
 
 /** Shadow collapses as the surface depresses, so it reads as pushed in rather than merely smaller. */
-const pressShadow = "shadow-rixl-xs active:shadow-none";
+const pressShadow = "shadow-xs active:shadow-none";
 
 /**
  * Shared press feedback, also consumed by pressables that cannot wrap Button
@@ -78,9 +78,9 @@ const buttonVariants = cva(
         "icon-lg": "size-10 [&_svg:not([class*='size-'])]:size-4",
       },
       radius: {
-        sm: "rounded-rixl-sm",
-        md: "rounded-rixl-md",
-        lg: "rounded-rixl-lg",
+        sm: "rounded-sm",
+        md: "rounded-md",
+        lg: "rounded-lg",
       },
     },
     defaultVariants: {

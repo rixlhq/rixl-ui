@@ -17,7 +17,7 @@ describe("Switch", () => {
     render(<Switch />);
     const cls = screen.getByRole("switch").className;
     expect(cls).toContain("rounded-full");
-    expect(cls).toContain("shadow-rixl-xs");
+    expect(cls).toContain("shadow-xs");
     expect(cls).toContain("h-[1.15rem]");
     expect(cls).toContain("w-8");
   });

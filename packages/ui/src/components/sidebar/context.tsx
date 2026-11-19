@@ -7,7 +7,7 @@ import {TooltipProvider} from "../tooltip";
 /**
  * Rixl Sidebar — offcanvas/collapsible navigation shell.
  * Ported from dashboard's shadcn sidebar; token-mapped to rixl sidebar
- * tokens and motion tokens (duration-sidebar / ease-curve-sidebar).
+ * tokens and motion tokens (duration-(--rixl-motion-sidebar) / ease-(--rixl-ease-drawer)).
  */
 const SIDEBAR_COOKIE_NAME = "sidebar_state";
 const SIDEBAR_COOKIE_MAX_AGE = 60 * 60 * 24 * 7;

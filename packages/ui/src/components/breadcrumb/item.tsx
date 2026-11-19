@@ -19,7 +19,7 @@ export const BreadcrumbLink = forwardRef<HTMLAnchorElement, BreadcrumbLinkProps>
     props: mergeProps<"a">(
       {
         className: cn(
-          "rounded-rixl-sm outline-none hover:text-rixl-fg transition-[color,box-shadow] duration-rixl-fast ease-rixl-out",
+          "rounded-sm outline-none hover:text-rixl-fg transition-[color,box-shadow] duration-(--rixl-motion-fast) ease-out",
           focusRingBorderless,
           className
         ),

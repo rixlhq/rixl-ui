@@ -98,6 +98,7 @@
     --rixl-ease-out: cubic-bezier(0.23, 1, 0.32, 1);
     --rixl-ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
     --rixl-ease-drawer: cubic-bezier(0.32, 0.72, 0, 1);
+    --rixl-motion-sidebar: 220ms;
 
     /*
      * Press feedback. One scale shared by every pressable component so a
@@ -172,7 +173,7 @@
 
 /*
  * Register tokens with Tailwind 4's @theme directive so consumers can
- * write `bg-rixl-primary`, `text-rixl-fg`, `rounded-rixl-md`, etc.,
+ * write `bg-rixl-primary`, `text-rixl-fg`, `rounded-md`, etc.,
  * anywhere in their app — not just inside @rixl/ui components.
  * `inline` makes utilities read `var(--rixl-*)` on the element, not a
  * `--color-rixl-*` copy resolved at :root, so any ancestor can set the theme.
@@ -219,32 +220,23 @@
   --color-rixl-sidebar-border: var(--rixl-sidebar-border);
   --color-rixl-sidebar-ring: var(--rixl-sidebar-ring);
 
-  --radius-rixl-xs: var(--rixl-radius-xs);
-  --radius-rixl-sm: var(--rixl-radius-sm);
-  --radius-rixl-md: var(--rixl-radius-md);
-  --radius-rixl-lg: var(--rixl-radius-lg);
-  --radius-rixl-xl: var(--rixl-radius-xl);
-  --radius-rixl-full: var(--rixl-radius-full);
+  /* Standard Tailwind keys, so `cn` merges them: `rounded-md`, `shadow-sm`, `ease-out`. */
+  --radius-xs: var(--rixl-radius-xs);
+  --radius-sm: var(--rixl-radius-sm);
+  --radius-md: var(--rixl-radius-md);
+  --radius-lg: var(--rixl-radius-lg);
+  --radius-xl: var(--rixl-radius-xl);
 
-  /* Motion, exposed as `duration-rixl-*` / `ease-rixl-*` utilities. */
-  --transition-duration-rixl-fast: var(--rixl-motion-fast);
-  --transition-duration-rixl-base: var(--rixl-motion-base);
-  --transition-duration-rixl-slow: var(--rixl-motion-slow);
-  --ease-rixl-out: var(--rixl-ease-out);
-  --ease-rixl-in-out: var(--rixl-ease-in-out);
-  --ease-rixl-drawer: var(--rixl-ease-drawer);
+  --ease-out: var(--rixl-ease-out);
+  --ease-in-out: var(--rixl-ease-in-out);
 
-  --shadow-rixl-xs: var(--rixl-shadow-xs);
-  --shadow-rixl-sm: var(--rixl-shadow-sm);
-  --shadow-rixl-md: var(--rixl-shadow-md);
-  --shadow-rixl-lg: var(--rixl-shadow-lg);
+  --shadow-xs: var(--rixl-shadow-xs);
+  --shadow-sm: var(--rixl-shadow-sm);
+  --shadow-md: var(--rixl-shadow-md);
+  --shadow-lg: var(--rixl-shadow-lg);
 }
 
 @theme {
-  /* Sidebar collapse/expand motion (used by the Sidebar component). */
-  --transition-duration-sidebar: 220ms;
-  --ease-curve-sidebar: var(--rixl-ease-drawer);
-
   /*
    * Blinking caret used by the InputOTP slot. Consumers get
    * `animate-caret-blink` automatically once they import preset.css.
@@ -322,7 +314,7 @@
  *
  * Timing deliberately mirrors the stock DayPicker curve
  * (var(--rixl-cal-slide-duration, 300ms), cubic-bezier(0.4, 0, 0.2, 1))
- * instead of --ease-rixl-out: a full-panel traverse with a fast-start
+ * instead of --rixl-ease-out: a full-panel traverse with a fast-start
  * ease-out reads as teleport-then-settle (the
  * old month appears "removed" while the new one slides in). The sustained
  * traverse is what makes both months visibly share the frame mid-flight.

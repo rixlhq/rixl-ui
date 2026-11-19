@@ -25,7 +25,7 @@ import {cn} from "../../lib/cn";
 const skeletonVariants = cva("bg-rixl-surface-muted", {
   variants: {
     shape: {
-      rect: "rounded-rixl-md",
+      rect: "rounded-md",
       circle: "rounded-full",
     },
     animation: {

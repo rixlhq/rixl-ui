@@ -38,7 +38,7 @@ describe("InputOTP", () => {
     render(<Basic />);
     const cls = screen.getByTestId("s0").className;
     expect(cls).toContain("border-rixl-border");
-    expect(cls).toContain("shadow-rixl-xs");
+    expect(cls).toContain("shadow-xs");
     expect(cls).toContain("tabular-nums");
     expect(cls).toContain("h-9");
     expect(cls).toContain("w-9");
@@ -116,8 +116,8 @@ describe("InputOTP", () => {
     render(<Basic />);
     const cls = screen.getByTestId("s1").className;
     expect(cls).not.toMatch(/(?<![:\w-])rounded-/);
-    expect(cls).toContain("first:rounded-s-rixl-md");
-    expect(cls).toContain("last:rounded-e-rixl-md");
+    expect(cls).toContain("first:rounded-s-md");
+    expect(cls).toContain("last:rounded-e-md");
     expect(cls).toContain("not-first:border-s-0");
   });
 });

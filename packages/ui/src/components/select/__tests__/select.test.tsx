@@ -49,8 +49,8 @@ describe("Select", () => {
     render(<Basic />);
     const cls = screen.getByTestId("trigger").className;
     expect(cls).toContain("border-rixl-border");
-    expect(cls).toContain("rounded-rixl-md");
-    expect(cls).toContain("shadow-rixl-xs");
+    expect(cls).toContain("rounded-md");
+    expect(cls).toContain("shadow-xs");
     expect(cls).toContain("focus-visible:border-rixl-ring");
   });
 
@@ -187,8 +187,8 @@ describe("Select open popup", () => {
       "in-data-selected:scale-100",
       "in-data-selected:opacity-100",
       "transition-[scale,opacity]",
-      "duration-rixl-fast",
-      "ease-rixl-out",
+      "duration-(--rixl-motion-fast)",
+      "ease-out",
       "motion-reduce:transition-none"
     );
   });
