@@ -1,0 +1,23 @@
+# Tasks
+
+## 1. CopyBlock
+
+- [ ] 1.1 `text`, `textToCopy`, `size`, `masked`, reveal and hide labels (test first)
+
+## 2. Breadcrumb
+
+- [ ] 2.1 `size`, `icon`, `loading` (test first)
+
+## 3. Sidebar
+
+- [ ] 3.1 One `focusRingSidebar`; browser test of the computed ring
+- [ ] 3.2 Selectors on `data-slot`; remove `data-sidebar`
+
+## 4. Menu item indicator
+
+- [ ] 4.1 One `menuItemIndicator` for the dropdown and select items
+
+## 5. Docs and verify
+
+- [ ] 5.1 Showcases for CopyBlock, Breadcrumb and Locale
+- [ ] 5.2 `vp install`, `vp pack` in `packages/ui`, root `vpr ci`
