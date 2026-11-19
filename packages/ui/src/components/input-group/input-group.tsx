@@ -2,7 +2,7 @@ import {forwardRef, type ComponentProps, type ReactNode} from "react";
 import type {VariantProps} from "class-variance-authority";
 import type {inputVariants} from "../input/input-variants";
 import {InputField} from "../input/input-field";
-import type {InputFieldLabels} from "../input/input-field-labels";
+import type {LabelLabels} from "../label/label-labels";
 import {normalizeInputError, type InputErrorProp} from "../input/input-field-error";
 import {InputGroupContext} from "./input-group-context";
 import {inputGroupClassName} from "./input-group-class-name";
@@ -20,7 +20,7 @@ export type InputGroupProps = ComponentProps<"div"> &
     /** Names the `labelTooltip` trigger, which is an icon-only button. The app supplies it; setting `labelTooltip` without it warns in development. */
     labelTooltipAriaLabel?: string;
     /** Overrides the field chrome copy (`optional`); each key falls back to `RixlLocaleProvider`, then English. */
-    labels?: Partial<InputFieldLabels>;
+    labels?: Partial<LabelLabels>;
     /**
      * Whether the field is required. Passed to the inner control through
      * field state; `false` renders a muted `(optional)` marker after the label.

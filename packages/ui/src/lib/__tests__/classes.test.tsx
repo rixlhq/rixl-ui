@@ -5,6 +5,7 @@ import {BreadcrumbLink, BreadcrumbSeparator} from "../../components/breadcrumb";
 import {Button} from "../../components/button";
 import {Checkbox} from "../../components/checkbox";
 import {Input} from "../../components/input";
+import {Label} from "../../components/label";
 import {Collapsible, CollapsibleDefaultTrigger} from "../../components/collapsible";
 import {
   DropdownMenu,
@@ -35,6 +36,7 @@ import {
 } from "../../components/sidebar";
 import {
   focusRing,
+  fieldLabel,
   focusRingBorderless,
   indicatorPop,
   invalidRing,
@@ -183,6 +185,21 @@ describe("pressable", () => {
     expect(tokens(pressable)).toEqual(
       expect.arrayContaining([...tokens(pressFeedback), "transition-[scale,background-color,box-shadow,border-color,color]"])
     );
+  });
+});
+
+describe("fieldLabel", () => {
+  it("sets the form label's text style", () => {
+    expect(tokens(fieldLabel)).toEqual(["flex", "items-center", "gap-2", "text-sm", "leading-none", "font-medium", "select-none"]);
+  });
+
+  it.each([
+    ["Label", () => <Label data-testid="el">Name</Label>],
+    ["Input's label", () => <Input label="Name" data-testid="control" />],
+  ])("%s carries it", (name, ui) => {
+    render(ui());
+    const element = name === "Label" ? screen.getByTestId("el") : screen.getByText("Name").closest("label")!;
+    expect(hasEvery(element, fieldLabel)).toBe(true);
   });
 });
 

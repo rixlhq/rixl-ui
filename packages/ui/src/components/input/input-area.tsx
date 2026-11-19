@@ -3,7 +3,7 @@ import type {VariantProps} from "class-variance-authority";
 import {Field} from "@base-ui/react/field";
 import {cn} from "../../lib/cn";
 import {InputField} from "./input-field";
-import type {InputFieldLabels} from "./input-field-labels";
+import type {LabelLabels} from "../label/label-labels";
 import {normalizeInputError, type InputErrorProp} from "./input-field-error";
 import {inputAreaVariants} from "./input-variants";
 import {useWarnUnnamedInput} from "./use-warn-unnamed-input";
@@ -21,7 +21,7 @@ export type InputAreaProps = Omit<ComponentProps<"textarea">, "size"> &
     /** Names the `labelTooltip` trigger, which is an icon-only button. The app supplies it; setting `labelTooltip` without it warns in development. */
     labelTooltipAriaLabel?: string;
     /** Overrides the field chrome copy (`optional`); each key falls back to `RixlLocaleProvider`, then English. */
-    labels?: Partial<InputFieldLabels>;
+    labels?: Partial<LabelLabels>;
     /** Base UI convenience handler receiving the value directly. */
     onValueChange?: ComponentProps<typeof Field.Control>["onValueChange"];
   };

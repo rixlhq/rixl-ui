@@ -4,11 +4,11 @@ import {describe, expect, it} from "vitest";
 import {InputGroup, InputGroupInput} from "../../input-group";
 import {RixlLocaleProvider} from "../../locale";
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "../../select";
-import type {InputFieldLabels} from "../input-field-labels";
+import type {LabelLabels} from "../../label";
 import {Input} from "../input";
 import {InputArea} from "../input-area";
 
-type FieldProps = {required?: boolean; labels?: Partial<InputFieldLabels>};
+type FieldProps = {required?: boolean; labels?: Partial<LabelLabels>};
 
 const fields: [string, (props: FieldProps) => ReactElement][] = [
   ["Input", (props) => <Input label="Name" {...props} />],
@@ -53,13 +53,13 @@ describe.each(fields)("%s optional marker", (_name, field) => {
   });
 
   it("takes the provider's string", () => {
-    render(<RixlLocaleProvider translations={{input: {optional: "(optionnel)"}}}>{field({required: false})}</RixlLocaleProvider>);
+    render(<RixlLocaleProvider translations={{label: {optional: "(optionnel)"}}}>{field({required: false})}</RixlLocaleProvider>);
     expect(screen.getByText("(optionnel)")).toBeInTheDocument();
   });
 
   it("lets labels beat the provider", () => {
     render(
-      <RixlLocaleProvider translations={{input: {optional: "(optionnel)"}}}>
+      <RixlLocaleProvider translations={{label: {optional: "(optionnel)"}}}>
         {field({required: false, labels: {optional: "(facultatif)"}})}
       </RixlLocaleProvider>
     );

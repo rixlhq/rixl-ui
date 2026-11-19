@@ -1,7 +1,11 @@
 import {createRef} from "react";
 import {describe, it, expect} from "vitest";
 import {render, screen} from "@testing-library/react";
+import {afterEach, vi} from "vitest";
+import {RixlLocaleProvider} from "../../locale";
 import {Label} from "../label";
+
+afterEach(() => vi.restoreAllMocks());
 
 describe("Label", () => {
   it("renders as a native <label>", () => {
@@ -61,5 +65,78 @@ describe("Label", () => {
 
   it("has a displayName for devtools", () => {
     expect(Label.displayName).toBe("Label");
+  });
+
+  describe("optional marker", () => {
+    it("shows (optional) in English for showOptional", () => {
+      render(<Label showOptional>Email</Label>);
+      expect(screen.getByText("(optional)")).toBeInTheDocument();
+    });
+
+    it("shows nothing without showOptional", () => {
+      render(<Label>Email</Label>);
+      expect(screen.queryByText("(optional)")).not.toBeInTheDocument();
+    });
+
+    it("takes the provider's label.optional", () => {
+      render(
+        <RixlLocaleProvider translations={{label: {optional: "(optionnel)"}}}>
+          <Label showOptional>Email</Label>
+        </RixlLocaleProvider>
+      );
+      expect(screen.getByText("(optionnel)")).toBeInTheDocument();
+    });
+
+    it("lets optionalLabel beat the provider", () => {
+      render(
+        <RixlLocaleProvider translations={{label: {optional: "(optionnel)"}}}>
+          <Label showOptional optionalLabel="(facultatif)">
+            Email
+          </Label>
+        </RixlLocaleProvider>
+      );
+      expect(screen.getByText("(facultatif)")).toBeInTheDocument();
+    });
+
+    it("keeps the text and the marker inside the one label", () => {
+      render(<Label showOptional>Email</Label>);
+      expect(screen.getByText("(optional)").closest("label")).toBe(screen.getByText("Email", {exact: false}).closest("label"));
+    });
+  });
+
+  describe("tooltip", () => {
+    it("renders a trigger named by tooltipAriaLabel", () => {
+      const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
+      render(
+        <Label tooltip="Help" tooltipAriaLabel="About email">
+          Email
+        </Label>
+      );
+      expect(screen.getByRole("button", {name: "About email"})).toBeInTheDocument();
+      expect(warn).not.toHaveBeenCalled();
+    });
+
+    it("warns, naming tooltipAriaLabel, and invents no name, when it is missing", () => {
+      const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
+      render(
+        <>
+          <Label htmlFor="email" tooltip="Help">
+            Email
+          </Label>
+          <input id="email" />
+        </>
+      );
+      expect(warn).toHaveBeenCalledExactlyOnceWith(
+        expect.stringMatching(/\[Rixl Label\]: .+ must have an accessible name\..*tooltipAriaLabel/)
+      );
+      expect(screen.getByRole("button")).not.toHaveAccessibleName();
+    });
+
+    it("renders no trigger and does not warn without a tooltip", () => {
+      const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
+      render(<Label>Email</Label>);
+      expect(screen.queryByRole("button")).not.toBeInTheDocument();
+      expect(warn).not.toHaveBeenCalled();
+    });
   });
 });

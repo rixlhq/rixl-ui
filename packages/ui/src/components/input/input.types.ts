@@ -2,7 +2,7 @@ import type {ComponentProps, ReactNode} from "react";
 import type {Input as InputPrimitive} from "@base-ui/react/input";
 import type {VariantProps} from "class-variance-authority";
 import type {InputErrorProp} from "./input-field-error";
-import type {InputFieldLabels} from "./input-field-labels";
+import type {LabelLabels} from "../label/label-labels";
 import {inputVariants} from "./input-variants";
 
 export type InputProps = Omit<ComponentProps<"input">, "size"> &
@@ -18,7 +18,7 @@ export type InputProps = Omit<ComponentProps<"input">, "size"> &
     /** Names the `labelTooltip` trigger, which is an icon-only button. The app supplies it; setting `labelTooltip` without it warns in development. */
     labelTooltipAriaLabel?: string;
     /** Overrides the field chrome copy (`optional`); each key falls back to `RixlLocaleProvider`, then English. */
-    labels?: Partial<InputFieldLabels>;
+    labels?: Partial<LabelLabels>;
     /** Opts non-credential fields out of password-manager overlays. */
     passwordManagerIgnore?: boolean;
     /** Base UI convenience handler receiving the value directly. */

@@ -42,6 +42,9 @@ export const toggleControl = cn(
   focusRing
 );
 
+/** The text style of a form label (`Label`, and the label a field renders around its control). */
+export const fieldLabel = "flex items-center gap-2 text-sm leading-none font-medium select-none";
+
 /** Mirrors a directional icon (chevron, arrow) under `dir="rtl"`. Not for icons that point up or down. */
 export const rtlFlip = "rtl:-scale-x-100";
 

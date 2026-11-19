@@ -1,11 +1,9 @@
 import type {ReactElement, ReactNode} from "react";
 import {Field} from "@base-ui/react/field";
-import {InfoIcon} from "lucide-react";
 import {cn} from "../../lib/cn";
-import {useWarnMissingName} from "../../lib/warn-missing-name";
-import {useTranslations} from "../locale/use-translations";
-import {DEFAULT_INPUT_FIELD_LABELS, type InputFieldLabels} from "./input-field-labels";
-import {Tooltip, TooltipContent, TooltipTrigger} from "../tooltip";
+import {fieldLabel} from "../../lib/classes";
+import {FieldLabelContent} from "../label/field-label-content";
+import type {LabelLabels} from "../label/label-labels";
 import type {NormalizedInputError} from "./input-field-error";
 
 type InputFieldProps = {
@@ -18,7 +16,7 @@ type InputFieldProps = {
   description?: ReactNode;
   disabled?: boolean;
   labelTooltipAriaLabel?: string;
-  labels?: Partial<InputFieldLabels>;
+  labels?: Partial<LabelLabels>;
   children: ReactElement;
 };
 
@@ -40,35 +38,17 @@ function InputLabelRow({
   labelTooltipAriaLabel,
   labels,
 }: Pick<InputFieldProps, "component" | "label" | "required" | "labelTooltip" | "labelTooltipAriaLabel" | "labels">) {
-  const t = useTranslations("input", DEFAULT_INPUT_FIELD_LABELS, labels);
-  useWarnMissingName(Boolean(labelTooltip) && !labelTooltipAriaLabel, {
-    component,
-    subject: "The labelTooltip trigger",
-    fix: `Set labelTooltipAriaLabel: <${component} labelTooltip='…' labelTooltipAriaLabel='About this field' />.`,
-  });
   return (
-    <Field.Label
-      data-slot="input-label"
-      className={cn(
-        "flex items-center gap-2 text-sm leading-none font-medium select-none",
-        "data-disabled:pointer-events-none data-disabled:opacity-50"
-      )}
-    >
-      <span className="inline-flex items-center gap-1.5">
+    <Field.Label data-slot="input-label" className={cn(fieldLabel, "data-disabled:pointer-events-none data-disabled:opacity-50")}>
+      <FieldLabelContent
+        component={component}
+        required={required}
+        labelTooltip={labelTooltip}
+        labelTooltipAriaLabel={labelTooltipAriaLabel}
+        labels={labels}
+      >
         {label}
-        {required === false ? <span className="font-normal text-rixl-fg-muted">{t.optional}</span> : null}
-        {labelTooltip ? (
-          <Tooltip>
-            <TooltipTrigger
-              aria-label={labelTooltipAriaLabel}
-              className="inline-flex items-center text-rixl-fg-muted transition-colors duration-(--rixl-motion-fast) ease-out hover:text-rixl-fg [&_svg]:size-3.5"
-            >
-              <InfoIcon aria-hidden="true" />
-            </TooltipTrigger>
-            <TooltipContent>{labelTooltip}</TooltipContent>
-          </Tooltip>
-        ) : null}
-      </span>
+      </FieldLabelContent>
     </Field.Label>
   );
 }

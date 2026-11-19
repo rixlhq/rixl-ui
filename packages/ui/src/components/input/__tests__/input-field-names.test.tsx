@@ -72,7 +72,7 @@ describe.each(fields)("%s field chrome", (name, field) => {
   });
 
   it("takes the provider's (optional)", () => {
-    render(<RixlLocaleProvider translations={{input: {optional: "(optionnel)"}}}>{field("About")}</RixlLocaleProvider>);
+    render(<RixlLocaleProvider translations={{label: {optional: "(optionnel)"}}}>{field("About")}</RixlLocaleProvider>);
     expect(screen.getByText("(optionnel)")).toBeInTheDocument();
   });
 

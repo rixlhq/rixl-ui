@@ -1,6 +1,6 @@
 import type {BreadcrumbLabels} from "../breadcrumb/breadcrumb-labels";
 import type {CopyBlockLabels} from "../copy-block/copy-block-labels";
-import type {InputFieldLabels} from "../input/input-field-labels";
+import type {LabelLabels} from "../label/label-labels";
 import type {PaginationLabels} from "../pagination/pagination-labels";
 
 /**
@@ -14,7 +14,7 @@ import type {PaginationLabels} from "../pagination/pagination-labels";
 export type RixlTranslations = {
   breadcrumb: BreadcrumbLabels;
   copyBlock: CopyBlockLabels;
-  input: InputFieldLabels;
+  label: LabelLabels;
   pagination: PaginationLabels;
 };
 

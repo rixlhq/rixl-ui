@@ -11,7 +11,7 @@ export const title = "Locale";
 export const group = "providers";
 export const description = "Replace the English copy @rixl/ui draws on its own.";
 export const notes =
-  "Every component that renders text owns its English defaults, and takes a labels prop to override them. RixlLocaleProvider is the optional app-wide layer: it overrides only the strings you pass, holds no defaults, and a component's labels prop beats it. Precedence is labels, then the provider, then the component's own default. Provider groups: breadcrumb (label), copyBlock (copyAction, copied), input (optional, the (optional) marker on fields) and pagination. Values are plain strings, or functions for the strings that interpolate (pagination.page, pagination.showing), so compiled message functions from an i18n library can be passed in directly. Breadcrumb takes aria-label instead of labels, as Kumo's does. Names for icon buttons and landmarks the library cannot know (a dialog's close button, a field's info icon, the sidebar toggle) are not in the provider: pass your own translated string as aria-label or labelTooltipAriaLabel. Calendar text comes from DatePicker's react-day-picker locale. The provider computes its value on every render, so passing new strings after a locale switch updates every component. The library ships English only and has no i18n dependency; a consumer of one component pulls no strings for another.";
+  "Every component that renders text owns its English defaults, and takes a labels prop to override them. RixlLocaleProvider is the optional app-wide layer: it overrides only the strings you pass, holds no defaults, and a component's labels prop beats it. Precedence is labels, then the provider, then the component's own default. Provider groups: breadcrumb (label), copyBlock (copyAction, copied), label (optional, the (optional) marker on Label, Input, Checkbox and the other fields) and pagination. Values are plain strings, or functions for the strings that interpolate (pagination.page, pagination.showing), so compiled message functions from an i18n library can be passed in directly. Breadcrumb takes aria-label instead of labels, as Kumo's does. Names for icon buttons and landmarks the library cannot know (a dialog's close button, a field's info icon, the sidebar toggle) are not in the provider: pass your own translated string as aria-label or labelTooltipAriaLabel. Calendar text comes from DatePicker's react-day-picker locale. The provider computes its value on every render, so passing new strings after a locale switch updates every component. The library ships English only and has no i18n dependency; a consumer of one component pulls no strings for another.";
 
 /** What an app would keep in its message files. German and French are demo data, not shipped by the library. */
 const messages = {
@@ -46,7 +46,7 @@ type Locale = keyof typeof messages;
 function toRixlTranslations(m: (typeof messages)[Locale]): RixlTranslationsPartial {
   return {
     copyBlock: {copyAction: m.copy_action, copied: m.copied},
-    input: {optional: m.optional},
+    label: {optional: m.optional},
     breadcrumb: {label: m.breadcrumb},
     pagination: {showing: (range, total) => `${m.showing} ${range} ${m.of} ${total}`},
   };
@@ -125,7 +125,7 @@ export const examples: Example[] = [
 <RixlLocaleProvider
   translations={{
     copyBlock: {copyAction: "In die Zwischenablage kopieren", copied: "Kopiert!"},
-    input: {optional: "(optional)"},
+    label: {optional: "(optional)"},
   }}
 >
   <App />
@@ -161,7 +161,7 @@ export const rixlTranslations = (locale: Locale): RixlTranslationsPartial => ({
     copyAction: m.copy_action({}, {locale}),
     copied: m.copy_copied({}, {locale}),
   },
-  input: {optional: m.input_optional({}, {locale})},
+  label: {optional: m.input_optional({}, {locale})},
   pagination: {
     page: (page) => m.pagination_page({page}, {locale}),
     showing: (range, total) => m.pagination_showing({range, total}, {locale}),
