@@ -4,16 +4,21 @@ import {Toaster as SonnerToaster, toast, type ExternalToast} from "sonner";
 
 import {cn} from "../../lib/cn";
 
+// The fill and border shares of `feedbackTint` (lib/classes.ts), so a toast tints like an Alert or a Badge.
 const FEEDBACK_BACKGROUND_SHARE = "10%";
 const FEEDBACK_BORDER_SHARE = "30%";
 // Raw success and warning colours miss 4.5:1 as text on a light surface; mixing toward the foreground darkens them on light and lightens them on dark.
 const FEEDBACK_TEXT_SHARE = "55%";
 
-/** Background, border and text for one feedback colour, all derived from tokens so they follow `[data-theme]`. oklab, because oklch would interpolate the hue toward the surface's and shift the colour. */
+/**
+ * Background, border and text for one feedback colour, all derived from tokens so they follow `[data-theme]`.
+ * The fill and border mix in srgb, the space a Tailwind alpha tint blends in, so they match Alert and
+ * Badge; the text mixes in oklab, where a darker shade keeps the hue.
+ */
 function feedbackColors(name: "success" | "error" | "warning", token: string) {
   return {
-    [`--${name}-bg`]: `color-mix(in oklab, var(${token}) ${FEEDBACK_BACKGROUND_SHARE}, var(--rixl-surface))`,
-    [`--${name}-border`]: `color-mix(in oklab, var(${token}) ${FEEDBACK_BORDER_SHARE}, var(--rixl-surface))`,
+    [`--${name}-bg`]: `color-mix(in srgb, var(${token}) ${FEEDBACK_BACKGROUND_SHARE}, var(--rixl-surface))`,
+    [`--${name}-border`]: `color-mix(in srgb, var(${token}) ${FEEDBACK_BORDER_SHARE}, var(--rixl-surface))`,
     [`--${name}-text`]: `color-mix(in oklab, var(${token}) ${FEEDBACK_TEXT_SHARE}, var(--rixl-fg))`,
   };
 }

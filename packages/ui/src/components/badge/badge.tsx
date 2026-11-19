@@ -3,7 +3,7 @@ import {mergeProps} from "@base-ui/react/merge-props";
 import {useRender} from "@base-ui/react/use-render";
 import {cva, type VariantProps} from "class-variance-authority";
 import {cn} from "../../lib/cn";
-import {focusRing} from "../../lib/classes";
+import {feedbackTint, focusRing} from "../../lib/classes";
 
 /**
  * Rixl Badge — a compact status / count label.
@@ -29,8 +29,8 @@ const badgeVariants = cva(
         default: "border-transparent bg-rixl-primary text-rixl-primary-fg shadow-sm [a&]:hover:bg-rixl-primary-hover",
         secondary: "border-transparent bg-rixl-secondary text-rixl-secondary-fg [a&]:hover:bg-rixl-secondary-hover",
         destructive: "border-transparent bg-rixl-danger text-rixl-danger-fg shadow-sm [a&]:hover:bg-rixl-danger-hover",
-        success: "border-rixl-success/30 bg-rixl-success/15 text-rixl-success [a&]:hover:bg-rixl-success/25",
-        warning: "border-rixl-warning/30 bg-rixl-warning/15 text-rixl-warning [a&]:hover:bg-rixl-warning/25",
+        success: cn(feedbackTint.success, "[a&]:hover:bg-rixl-success/20"),
+        warning: cn(feedbackTint.warning, "[a&]:hover:bg-rixl-warning/20"),
         outline: "text-rixl-fg [a&]:hover:bg-rixl-surface-muted [a&]:hover:text-rixl-fg",
       },
     },

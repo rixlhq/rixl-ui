@@ -82,13 +82,18 @@ describe("Toaster Browser Mode", () => {
 
       it("tints success toward green and error toward red", async () => {
         renderToaster(theme);
-        // oklab(L a b): a < 0 is green, a > 0 is red. oklch mixing once dragged every hue toward the surface's.
-        const redGreenAxis = (type: string) =>
-          Number(/oklab\(\S+ (\S+) /.exec(getComputedStyle(findToastOrThrow(type)).backgroundColor)?.[1]);
+        // color(srgb r g b): a green tint has g above r, a red tint r above g. A mix in oklch once dragged every hue toward the surface's.
+        const channels = (type: string) =>
+          /color\(srgb (\S+) (\S+) (\S+)\)/
+            .exec(getComputedStyle(findToastOrThrow(type)).backgroundColor)!
+            .slice(1)
+            .map(Number);
         await openToast("success");
         await openToast("error");
-        expect(redGreenAxis("success")).toBeLessThan(0);
-        expect(redGreenAxis("error")).toBeGreaterThan(0);
+        const [successRed, successGreen] = channels("success");
+        const [errorRed, errorGreen] = channels("error");
+        expect(successGreen).toBeGreaterThan(successRed!);
+        expect(errorRed).toBeGreaterThan(errorGreen!);
       });
 
       it("has no WCAG 2.2 AA violations with a toast of each type open", async () => {

@@ -44,6 +44,20 @@ A component SHALL merge a consumer's `className` after its own classes, so a con
 - **WHEN** a `Button` gets any `variant` and any `color` string
 - **THEN** it renders exactly as with that `variant` alone (`[property] a native color attribute never changes the classes`)
 
+### Requirement: Feedback tints share one recipe and meet AA
+
+Alert, Badge and Toaster SHALL tint success, warning and danger with a 10% fill and a 30% border of the feedback token (`feedbackTint` in `src/lib/classes.ts`; Toaster mixes the same shares), and their text SHALL keep at least 4.5:1 on that fill in the light and dark themes.
+
+#### Scenario: Text on the tint
+
+- **WHEN** an Alert title and description, a Badge (also hovered as a link) and a Toaster title and description render each feedback colour
+- **THEN** each text colour is at least 4.5:1 on its fill (`feedback-tint.browser.test.tsx`, `keeps … at 4.5:1`)
+
+#### Scenario: One fill
+
+- **WHEN** Alert, Badge and Toaster render the same feedback colour on the same surface
+- **THEN** the painted fills differ by at most one unit per channel (`feedback-tint.browser.test.tsx`, `draws the same fill`)
+
 ### Requirement: Open popups meet WCAG 2.2 AA
 
 Dialog, dropdown menu, popover, select and sheet SHALL have no axe-detectable WCAG 2.2 AA violations while open, with the preset's light tokens applied.

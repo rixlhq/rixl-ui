@@ -48,6 +48,17 @@ export const toggleControl = cn(
   focusRing
 );
 
+/**
+ * The tint of a feedback colour (Alert, Badge): a 10% fill, a 30% border and the colour itself as text,
+ * which `--rixl-success`, `--rixl-warning` and `--rixl-danger` are tuned to keep at 4.5:1 on that fill.
+ * Toaster mixes the same shares in `color-mix`, because sonner reads its colours from CSS variables.
+ */
+export const feedbackTint = {
+  danger: "border-rixl-danger/30 bg-rixl-danger/10 text-rixl-danger",
+  success: "border-rixl-success/30 bg-rixl-success/10 text-rixl-success",
+  warning: "border-rixl-warning/30 bg-rixl-warning/10 text-rixl-warning",
+} as const;
+
 /** The text style of a form label (`Label`, and the label a field renders around its control). */
 export const fieldLabel = "flex items-center gap-2 text-sm leading-none font-medium select-none";
 

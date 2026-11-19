@@ -1,6 +1,7 @@
 import {forwardRef, type ComponentProps} from "react";
 import {cva, type VariantProps} from "class-variance-authority";
 import {cn} from "../../lib/cn";
+import {feedbackTint} from "../../lib/classes";
 
 /**
  * Rixl Alert — an inline banner for status / instructive messages.
@@ -24,12 +25,9 @@ const alertVariants = cva(
     variants: {
       variant: {
         default: "border-rixl-border bg-rixl-bg text-rixl-fg",
-        destructive:
-          "border-rixl-danger/30 bg-rixl-danger/5 text-rixl-danger [&>svg]:text-current *:data-[slot=alert-description]:text-rixl-danger",
-        success:
-          "border-rixl-success/30 bg-rixl-success/5 text-rixl-success [&>svg]:text-current *:data-[slot=alert-description]:text-rixl-fg-muted",
-        warning:
-          "border-rixl-warning/30 bg-rixl-warning/5 text-rixl-warning [&>svg]:text-current *:data-[slot=alert-description]:text-rixl-fg-muted",
+        destructive: cn(feedbackTint.danger, "[&>svg]:text-current *:data-[slot=alert-description]:text-rixl-danger"),
+        success: cn(feedbackTint.success, "[&>svg]:text-current *:data-[slot=alert-description]:text-rixl-fg-muted"),
+        warning: cn(feedbackTint.warning, "[&>svg]:text-current *:data-[slot=alert-description]:text-rixl-fg-muted"),
       },
     },
     defaultVariants: {
