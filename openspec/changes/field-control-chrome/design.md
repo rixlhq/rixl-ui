@@ -50,6 +50,21 @@ Drift, listed rather than hidden:
 
 ## D6. Groups: a fieldset that is the group
 
-`RadioGroup` and `CheckboxGroup` render `Fieldset.Root` with the Base UI group as its `render` element (`render={<fieldset/>}` on the group), as Kumo's `Radio.Group` does, so the `radiogroup` or `group` is the fieldset and Base UI names it from the legend, with no nameless group wrapped around a named fieldset. `error` and `description` are paragraphs linked with `aria-describedby`; `error` also sets `aria-invalid` on the group. A `Checkbox` inside `CheckboxGroup` opens a `Field.Item` instead of a `Field.Root`, which Base UI documents for grouped controls, so each checkbox keeps its own label.
+`RadioGroup` and `CheckboxGroup` render a Base UI `Field.Root` whose `render` is a `Fieldset.Root` whose `render` is the Base UI group with `render={<fieldset/>}` (the `ControlGroup` module). The `radiogroup` or `group` is the fieldset, named from the legend by Base UI, so there is no nameless group wrapped around a named fieldset (the reason Kumo's `Radio.Group` does the same). The `Field.Root` is needed because Base UI's `Field.Item` and `Field.Label` throw without one. `error` and `description` are paragraphs linked with `aria-describedby`, error first, joined with the app's own `aria-describedby`.
 
-**Dropped**: Kumo's separate `Checkbox.Item` and `Radio.Legend`/`Checkbox.Legend` sub-components. `Checkbox` with `value` is the item (one component, no duplicated markup); `legend` takes a `ReactNode`, so a visually hidden legend is `legend={<span className="sr-only">…</span>}`.
+- `error` sets `aria-invalid` on a `RadioGroup` (the `radiogroup` role allows it) but not on a `CheckboxGroup`, whose `group` role does not.
+- A labelled `Checkbox` inside `CheckboxGroup` opens a `Field.Item` instead of a `Field.Root`, which Base UI documents for grouped controls, so each checkbox keeps its own label. `RadioGroupItem` is always in a group, so it always uses `Field.Item`.
+- `Fieldset.Legend` renders a `<div>`, not a `<legend>`; Base UI names the group through `aria-labelledby`.
+- Items sit in an inner `data-slot="<group>-items"` wrapper (`data-orientation`), so `orientation` does not depend on a consumer's `className`.
+
+**Dropped**: Kumo's separate `Checkbox.Item` and the `Radio.Legend`/`Checkbox.Legend` sub-components. `Checkbox` with `value` is the item (one component, no duplicated markup); `legend` takes a `ReactNode`, so a visually hidden legend is `legend={<span className="sr-only">…</span>}`.
+
+**Deviation from Kumo**: `controlFirst` is a prop of `RadioGroupItem` (and `Checkbox`), not of the group (Kumo's group-level `controlPosition`); and `RadioGroupItem` has no `labelTooltip` or optional marker, as Kumo's `Radio.Item` has none.
+
+**Not built**: `Switch.Group` (Kumo has it); the task named only the checkbox and radio groups. It would reuse `ControlGroup`.
+
+**Evidence**: `radio-group-field.test.tsx`, `checkbox-group.test.tsx` (name, description, orientation, ref), and the two `*-field.browser.test.tsx` / `checkbox-group.browser.test.tsx` axe checks.
+
+## D7. Why the browser project pre-bundles two entries
+
+Adding `@base-ui/react/fieldset` and `@base-ui/react/checkbox-group` to the component code made a warm Vite cache reload the page mid-run ("optimized dependencies changed", then `Invalid hook call` and failed suites). Both entries are now in `optimizeDeps.include` of the browser project in `packages/ui/vite.config.ts`.
