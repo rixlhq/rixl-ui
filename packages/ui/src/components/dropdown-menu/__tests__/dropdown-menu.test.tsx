@@ -24,7 +24,7 @@ function Basic({open}: {open?: boolean} = {}) {
         <DropdownMenuLabel>My Account</DropdownMenuLabel>
         <DropdownMenuItem>Profile</DropdownMenuItem>
         <DropdownMenuSeparator />
-        <DropdownMenuItem variant="destructive">Delete</DropdownMenuItem>
+        <DropdownMenuItem variant="danger">Delete</DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );
@@ -81,12 +81,12 @@ describe("DropdownMenu", () => {
     expect(screen.getByTestId("menu").className).not.toContain("shadow-lg");
   });
 
-  it("marks destructive items with data-variant and danger text", async () => {
+  it("marks danger items with data-variant and danger text", async () => {
     render(<Basic open />);
     await act(async () => {});
     const item = screen.getByText("Delete");
-    expect(item).toHaveAttribute("data-variant", "destructive");
-    expect(item.className).toContain("text-rixl-danger");
+    expect(item).toHaveAttribute("data-variant", "danger");
+    expect(item.className).toContain("data-[variant=danger]:text-rixl-danger");
   });
 
   it("highlights items via data-highlighted (Base UI), not :focus", async () => {

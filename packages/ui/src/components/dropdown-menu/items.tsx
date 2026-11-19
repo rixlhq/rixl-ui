@@ -7,7 +7,7 @@ import {Check, Circle} from "lucide-react";
 
 export type DropdownMenuItemProps = MenuPrimitive.Item.Props & {
   inset?: boolean;
-  variant?: "default" | "destructive";
+  variant?: "default" | "danger";
 };
 
 export const DropdownMenuItem = forwardRef<HTMLElement, DropdownMenuItemProps>(function DropdownMenuItem(
@@ -22,7 +22,7 @@ export const DropdownMenuItem = forwardRef<HTMLElement, DropdownMenuItemProps>(f
       data-variant={variant}
       className={cn(
         menuItem,
-        "px-2 data-[variant=destructive]:text-rixl-danger data-[variant=destructive]:data-highlighted:bg-rixl-danger/10 data-[variant=destructive]:data-highlighted:text-rixl-danger data-[variant=destructive]:*:[svg]:!text-rixl-danger [&_svg:not([class*='text-'])]:text-rixl-fg-muted data-[inset]:ps-8",
+        "px-2 data-[variant=danger]:text-rixl-danger data-[variant=danger]:data-highlighted:bg-rixl-danger/10 data-[variant=danger]:data-highlighted:text-rixl-danger data-[variant=danger]:*:[svg]:!text-rixl-danger [&_svg:not([class*='text-'])]:text-rixl-fg-muted data-[inset]:ps-8",
         className
       )}
       {...props}

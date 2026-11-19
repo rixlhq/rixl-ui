@@ -60,7 +60,7 @@ Dialog, dropdown menu, popover, select and sheet SHALL have no axe-detectable WC
 
 #### Scenario: Danger text contrast
 
-- **WHEN** a destructive menu item renders its text in `--rixl-danger` on the light surface
+- **WHEN** a danger menu item renders its text in `--rixl-danger` on the light surface
 - **THEN** the contrast is at least 4.5:1 (`dropdown-menu.browser.test.tsx`)
 
 #### Scenario: Select needs a name from the consumer

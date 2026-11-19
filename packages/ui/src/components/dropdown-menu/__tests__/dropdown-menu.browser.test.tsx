@@ -23,7 +23,7 @@ function TestDropdownMenu({
             Settings
           </DropdownMenuItem>
           <DropdownMenuSeparator data-testid="menu-separator" />
-          <DropdownMenuItem data-testid="item-logout" variant="destructive" onClick={() => onSelect("logout")}>
+          <DropdownMenuItem data-testid="item-logout" variant="danger" onClick={() => onSelect("logout")}>
             Logout
           </DropdownMenuItem>
         </DropdownMenuContent>
@@ -66,7 +66,7 @@ describe("DropdownMenu Browser Mode", () => {
 
     const logout = page.getByTestId("item-logout");
     await expect.element(logout).toBeVisible();
-    await expect.element(logout).toHaveAttribute("data-variant", "destructive");
+    await expect.element(logout).toHaveAttribute("data-variant", "danger");
   });
 
   it("triggers callback and closes menu on item click", async () => {

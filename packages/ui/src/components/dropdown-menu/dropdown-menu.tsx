@@ -35,7 +35,7 @@ import {
  * - `<DropdownMenuContent>` — portalled popup; `side`/`align`/offsets
  *   pass through; scrolls when taller than the viewport.
  * - `<DropdownMenuItem>` — action row; `inset` indents it, `variant`
- *   ("default" | "destructive") colors it.
+ *   ("default" | "danger") colors it.
  * - `<DropdownMenuCheckboxItem>` / `<DropdownMenuRadioItem>` +
  *   `<DropdownMenuRadioGroup>` — selectable rows with indicators.
  * - `<DropdownMenuLabel>` / `<DropdownMenuSeparator>` /
@@ -45,7 +45,7 @@ import {
  *
  * Class names swapped to `--rixl-*` tokens. There is no `accent` token
  * in rixl, so hover/focus highlight maps to `bg-rixl-surface-muted`
- * with `text-rixl-fg`; destructive maps to `text-rixl-danger`.
+ * with `text-rixl-fg`; danger maps to `text-rixl-danger`.
  */
 export type DropdownMenuProps = MenuPrimitive.Root.Props;
 export type DropdownMenuPortalProps = MenuPrimitive.Portal.Props;
