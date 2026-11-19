@@ -4,7 +4,7 @@ export default defineConfig({
   lint: {
     plugins: ["react", "react-perf", "typescript", "jsx-a11y"],
     jsPlugins: [{name: "vite-plus", specifier: "vite-plus/oxlint-plugin"}],
-    ignorePatterns: ["**/dist/**", "**/__tests__/**", "**/*.test.ts", "**/*.test.tsx", "packages/ui/src/lib/cn-tables.ts"],
+    ignorePatterns: ["**/dist/**", "**/__tests__/**", "**/*.test.ts", "**/*.test.tsx"],
     rules: {
       "react/react-in-jsx-scope": "off",
       "typescript/no-explicit-any": "error",
@@ -40,7 +40,6 @@ export default defineConfig({
       "**/dist/**",
       "**/node_modules/**",
       "openapi.yaml",
-      "packages/ui/src/lib/cn-tables.ts",
       "packages/ui/CHANGELOG.md",
       "packages/ui/.release-please-manifest.json",
     ],

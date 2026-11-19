@@ -296,10 +296,10 @@ describe("DatePicker surface (Browser Mode)", () => {
     expect(surface.radius).not.toBe("0px");
   });
 
-  it("lets a consumer className remove the standalone surface", async () => {
-    render(<DatePicker mode="single" defaultMonth={SEPTEMBER_2026} className="border-0 bg-transparent p-0 shadow-none" />);
+  it("lets a consumer className remove the standalone border, background and padding", async () => {
+    render(<DatePicker mode="single" defaultMonth={SEPTEMBER_2026} className="border-0 bg-transparent p-0" />);
     await expect.element(page.getByRole("grid")).toBeVisible();
-    expect(surfaceOf(calendarRoot())).toMatchObject({border: "0px", background: NO_SURFACE.background, padding: "0px", shadowed: false});
+    expect(surfaceOf(calendarRoot())).toMatchObject({border: "0px", background: NO_SURFACE.background, padding: "0px"});
   });
 
   it("draws nothing of its own inside a popover, which owns the surface and padding", async () => {

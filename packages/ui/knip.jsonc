@@ -7,7 +7,5 @@
     "scripts/*.mjs",
     // stryker.config.mjs names the Vitest config as a string.
     "test/stryker.vitest.config.ts",
-    // package.json "cn:tables" passes it to the cn CLI by path.
-    "cn.config.mjs",
   ],
 }

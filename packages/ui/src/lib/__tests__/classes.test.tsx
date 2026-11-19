@@ -138,12 +138,6 @@ describe("popupSurface", () => {
     );
   });
 
-  it("loses to a consumer class that sets the radius", () => {
-    const merged = cn(popupSurface, "rounded-rixl-lg");
-    expect(tokens(merged)).toContain("rounded-rixl-lg");
-    expect(tokens(merged)).not.toContain("rounded-rixl-md");
-  });
-
   it.each([
     [
       "PopoverContent",

@@ -47,11 +47,6 @@ describe("Button", () => {
     expect(btn.className).toContain("bg-rixl-primary");
   });
 
-  it("lets a consumer radius replace the rixl radius token", () => {
-    render(<Button className="rounded-full">Pill</Button>);
-    expect(screen.getByRole("button").className).not.toContain("rounded-rixl-md");
-  });
-
   it("last-write-wins on conflicting Tailwind utilities via cn", () => {
     render(
       <Button size="default" className="h-14">

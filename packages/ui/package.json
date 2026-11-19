@@ -223,7 +223,6 @@
     "react-doctor": "react-doctor -y --verbose --scope changed --no-score",
     "test:coverage": "vp test --coverage",
     "test:mutation": "stryker run",
-    "cn:tables": "cn build --full --css src/styles/preset.css --config cn.config.mjs --out src/lib/cn-tables.ts",
     "clean": "rm -rf dist node_modules"
   },
   "dependencies": {
