@@ -15,7 +15,7 @@
 
 ## 4. Menu item indicator
 
-- [ ] 4.1 One `menuItemIndicator` for the dropdown and select items
+- [x] 4.1 One `menuItemIndicator` for the dropdown and select items: `classes.test.tsx` "menuItemIndicator" (fails on the old SelectItem wrapper, passes now); Select kept at the end side, as in Kumo; `vpr budget` see below
 
 ## 5. Docs and verify
 

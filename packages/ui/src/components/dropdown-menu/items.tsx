@@ -1,7 +1,7 @@
 import {forwardRef, type ComponentProps} from "react";
 import {Menu as MenuPrimitive} from "@base-ui/react/menu";
 import {cn} from "../../lib/cn";
-import {indicatorPop, menuItem} from "../../lib/classes";
+import {indicatorPop, menuItem, menuItemIndicator} from "../../lib/classes";
 
 import {Check, Circle} from "lucide-react";
 
@@ -45,7 +45,7 @@ export const DropdownMenuCheckboxItem = forwardRef<HTMLElement, DropdownMenuChec
       checked={checked}
       {...props}
     >
-      <span className="pointer-events-none absolute start-2 flex size-3.5 items-center justify-center">
+      <span className={cn(menuItemIndicator, "start-2")}>
         <MenuPrimitive.CheckboxItemIndicator className={indicatorPop}>
           <Check className="size-4" />
         </MenuPrimitive.CheckboxItemIndicator>
@@ -71,7 +71,7 @@ export const DropdownMenuRadioItem = forwardRef<HTMLElement, DropdownMenuRadioIt
 ) {
   return (
     <MenuPrimitive.RadioItem ref={ref} data-slot="dropdown-menu-radio-item" className={cn(menuItem, "pe-2 ps-8", className)} {...props}>
-      <span className="pointer-events-none absolute start-2 flex size-3.5 items-center justify-center">
+      <span className={cn(menuItemIndicator, "start-2")}>
         <MenuPrimitive.RadioItemIndicator className={indicatorPop}>
           <Circle className="size-2 fill-current" />
         </MenuPrimitive.RadioItemIndicator>

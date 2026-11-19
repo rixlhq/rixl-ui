@@ -79,6 +79,13 @@ export const menuItem = cn(
 );
 
 /**
+ * The box that holds the check mark of a selectable menu or listbox row (the DropdownMenu checkbox and
+ * radio items, `SelectItem`). It is inert, so a press lands on the row. Each row adds the side it sits on:
+ * `start-2` in front of the label, `end-2` after it.
+ */
+export const menuItemIndicator = "pointer-events-none absolute flex size-3.5 items-center justify-center";
+
+/**
  * Scale-and-fade for an indicator that Base UI mounts and unmounts with the checked state
  * (Checkbox, RadioGroup, the DropdownMenu checked and radio items). Select's item indicator is kept
  * mounted and driven by `data-selected`, so it has its own classes.

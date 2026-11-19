@@ -2,7 +2,7 @@ import {forwardRef, type ComponentProps} from "react";
 import {Select as SelectPrimitive} from "@base-ui/react/select";
 import {Check} from "lucide-react";
 import {cn} from "../../lib/cn";
-import {menuItem} from "../../lib/classes";
+import {menuItem, menuItemIndicator} from "../../lib/classes";
 
 export type SelectItemProps = SelectPrimitive.Item.Props;
 
@@ -19,7 +19,7 @@ export const SelectItem = forwardRef<HTMLDivElement, SelectItemProps>(function S
       )}
       {...props}
     >
-      <span className="absolute end-2 flex size-3.5 items-center justify-center">
+      <span className={cn(menuItemIndicator, "end-2")}>
         {/*
           Same scale and fade as the DropdownMenu indicators. Base UI mounts this
           indicator only while selected and mounts it already settled, so

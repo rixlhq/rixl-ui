@@ -41,6 +41,7 @@ import {
   indicatorPop,
   invalidRing,
   menuItem,
+  menuItemIndicator,
   popupSurface,
   pressable,
   pressFeedback,
@@ -465,6 +466,54 @@ describe("indicatorPop", () => {
     };
     for (const [name, indicator] of Object.entries(indicators)) {
       expect(indicator && hasEvery(indicator, indicatorPop), name).toBe(true);
+    }
+  });
+});
+
+describe("menuItemIndicator", () => {
+  it("is an inert, absolutely placed box that centres a 14px mark", () => {
+    expect(tokens(menuItemIndicator)).toEqual(
+      expect.arrayContaining(["pointer-events-none", "absolute", "flex", "size-3.5", "items-center", "justify-center"])
+    );
+  });
+
+  it("wraps the check of the DropdownMenu items at the start and of SelectItem at the end", async () => {
+    render(
+      <>
+        <DropdownMenu open>
+          <DropdownMenuTrigger render={<button type="button">Open</button>} />
+          <DropdownMenuContent>
+            <DropdownMenuCheckboxItem data-testid="checkbox-item" checked>
+              Checkbox
+            </DropdownMenuCheckboxItem>
+            <DropdownMenuRadioGroup value="a">
+              <DropdownMenuRadioItem data-testid="radio-item" value="a">
+                Radio
+              </DropdownMenuRadioItem>
+            </DropdownMenuRadioGroup>
+          </DropdownMenuContent>
+        </DropdownMenu>
+        <Select defaultOpen defaultValue="a">
+          <SelectTrigger>
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem data-testid="select-item" value="a">
+              A
+            </SelectItem>
+          </SelectContent>
+        </Select>
+      </>
+    );
+    await act(async () => {});
+    const wrapper = (id: string) => screen.getByTestId(id).querySelector("svg")?.parentElement?.parentElement;
+    for (const [id, side] of [
+      ["checkbox-item", "start-2"],
+      ["radio-item", "start-2"],
+      ["select-item", "end-2"],
+    ] as const) {
+      const element = wrapper(id);
+      expect(element && hasEvery(element, menuItemIndicator) && element.classList.contains(side), id).toBe(true);
     }
   });
 });
