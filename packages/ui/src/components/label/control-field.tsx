@@ -14,6 +14,8 @@ type ControlFieldProps = {
   /** `true` (default) puts the control before the label text, `false` after it. */
   controlFirst?: boolean;
   disabled?: boolean;
+  /** Inside a group of controls: a `Field.Item`, which gives the control its own label scope, instead of a `Field.Root`. */
+  inGroup?: boolean;
   /** The control; the `Field.Label` encloses it, so a click on the text reaches it. */
   children: ReactNode;
 };
@@ -27,8 +29,10 @@ export function ControlField({
   labelTooltipAriaLabel,
   controlFirst = true,
   disabled,
+  inGroup,
   children,
 }: ControlFieldProps) {
+  const Root = inGroup ? Field.Item : Field.Root;
   const text = (
     <FieldLabelContent
       component={component}
@@ -41,11 +45,11 @@ export function ControlField({
     </FieldLabelContent>
   );
   return (
-    <Field.Root data-slot="control-field" disabled={disabled} className="inline-flex">
+    <Root data-slot="control-field" disabled={disabled} className="inline-flex">
       <Field.Label className={cn(fieldLabel, "group cursor-pointer data-disabled:cursor-not-allowed")}>
         {controlFirst ? children : text}
         {controlFirst ? text : children}
       </Field.Label>
-    </Field.Root>
+    </Root>
   );
 }
