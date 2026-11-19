@@ -26,7 +26,7 @@ Shared lint rules live in the root `vite.config.ts`; UI-specific complexity caps
 ## Styling
 
 - Tailwind 4 utilities only. Inline `style` only for values computed at runtime.
-- Compose classes with `cn` from `src/lib/cn.ts` (relative import), a plain re-export of the `cn` package (tailwind-merge rules, last write wins), with `className` last. It does not know the `rixl-*` tokens, so a consumer class does not replace a `rixl-*` radius, shadow, easing, duration or colour utility; that is not supported. Where a component itself sets a radius or shadow over a base that already sets one, mark the override important (`rounded-none!`) instead of relying on CSS order.
+- Compose classes with `cn` from `src/lib/cn.ts` (relative import), a plain re-export of the `cn` package (tailwind-merge rules, last write wins), with `className` last. It does not know the `rixl-*` tokens, so a consumer class does not replace a `rixl-*` radius, shadow, easing, duration or colour utility; that is not supported. A component never composes two of those over one element, and never wins with an important modifier (`rounded-none!`): when it needs a different radius, shadow, duration or easing than a base it builds on, the base takes a variant for it (`Button` `radius`, `inputVariants` `surface`, `Skeleton` `shape`) or the class moves out of the shared base into the parts that need it. Important modifiers stay only where they override third-party styles (Sonner) or inline positioning.
 - Variants go through `cva`. Export the helper as `<name>Variants` when consumers need the classes on their own elements.
 - Every colour, radius, shadow and duration reads a `--rixl-*` token registered in `src/styles/preset.css`. A new token gets a light and a dark value.
 

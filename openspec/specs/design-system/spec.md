@@ -33,7 +33,7 @@ A component SHALL merge a consumer's `className` after its own classes, so a con
 
 - **WHEN** a consumer passes `rounded-full`, `shadow-none`, `duration-500` or `ease-linear` to a component whose default is a `rixl-*` token utility (`rounded-rixl-md`, `shadow-rixl-xs`, `duration-rixl-fast`, `ease-rixl-out`)
 - **THEN** `cn` keeps both classes and CSS order decides, because it does not know the `rixl-*` tokens; overriding a `rixl-*` token utility through `className` is not supported
-- **AND** a component that overrides a radius or shadow set by its own base marks the override important (`rounded-none!`) (`composed-overrides.browser.test.tsx`)
+- **AND** a component that needs another radius or shadow than the base it builds on asks the base for it through a variant (`Button` `radius`, `inputVariants` `surface`, the nested popup surface) and carries no important modifier for it (`composed-overrides.browser.test.tsx`)
 
 ### Requirement: Button resolves its look from `variant`, then `color`
 
