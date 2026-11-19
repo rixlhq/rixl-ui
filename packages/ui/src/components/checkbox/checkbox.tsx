@@ -1,10 +1,24 @@
-import {forwardRef, type ReactNode} from "react";
+import {forwardRef, useContext, type ReactNode} from "react";
 import {Checkbox as CheckboxPrimitive} from "@base-ui/react/checkbox";
 import {Check, Minus} from "lucide-react";
 import {cn} from "../../lib/cn";
 import {indicatorPop, invalidRing, toggleControl} from "../../lib/classes";
 import {useWarnUnnamedControl} from "../../lib/warn-missing-name";
 import {ControlField} from "../label/control-field";
+import {InCheckboxGroup} from "./checkbox-group-context";
+
+/** The check, or the dash for `indeterminate`; Base UI mounts it with the checked state and it pops in. */
+function CheckboxIndicator() {
+  return (
+    <CheckboxPrimitive.Indicator
+      data-slot="checkbox-indicator"
+      className={cn("text-rixl-primary-fg flex items-center justify-center", indicatorPop)}
+    >
+      <Check data-slot="checkbox-icon" strokeWidth={3} className="size-3.5 [[data-indeterminate]_&]:hidden" />
+      <Minus data-slot="checkbox-icon" strokeWidth={3} className="hidden size-3.5 [[data-indeterminate]_&]:block" />
+    </CheckboxPrimitive.Indicator>
+  );
+}
 
 /**
  * Rixl Checkbox — a boolean form control.
@@ -23,6 +37,7 @@ const Checkbox = forwardRef<HTMLElement, CheckboxProps>(function Checkbox(
   {className, label, labelTooltip, labelTooltipAriaLabel, controlFirst, variant, required, disabled, ...props},
   ref
 ) {
+  const inGroup = useContext(InCheckboxGroup);
   useWarnUnnamedControl({component: "Checkbox", label, ariaLabel: props["aria-label"], ariaLabelledBy: props["aria-labelledby"]});
   const control = (
     <CheckboxPrimitive.Root
@@ -44,13 +59,7 @@ const Checkbox = forwardRef<HTMLElement, CheckboxProps>(function Checkbox(
       )}
       {...props}
     >
-      <CheckboxPrimitive.Indicator
-        data-slot="checkbox-indicator"
-        className={cn("text-rixl-primary-fg flex items-center justify-center", indicatorPop)}
-      >
-        <Check data-slot="checkbox-icon" strokeWidth={3} className="size-3.5 [[data-indeterminate]_&]:hidden" />
-        <Minus data-slot="checkbox-icon" strokeWidth={3} className="hidden size-3.5 [[data-indeterminate]_&]:block" />
-      </CheckboxPrimitive.Indicator>
+      <CheckboxIndicator />
     </CheckboxPrimitive.Root>
   );
   if (!label) return control;
@@ -63,6 +72,7 @@ const Checkbox = forwardRef<HTMLElement, CheckboxProps>(function Checkbox(
       labelTooltipAriaLabel={labelTooltipAriaLabel}
       controlFirst={controlFirst}
       disabled={disabled}
+      inGroup={inGroup}
     >
       {control}
     </ControlField>
