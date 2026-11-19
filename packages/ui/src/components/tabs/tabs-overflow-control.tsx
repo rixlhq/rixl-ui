@@ -19,7 +19,7 @@ function overflowPositionClasses(side: "start" | "end") {
 }
 
 function overflowToneClasses(variant: TabsVariant, size: TabsSize) {
-  if (variant === "segmented") return size === "sm" ? "w-7 rounded-rixl-lg" : "w-9 rounded-rixl-lg";
+  if (variant === "segmented") return size === "sm" ? "w-7 rounded-rixl-lg!" : "w-9 rounded-rixl-lg!";
   return "w-8";
 }
 

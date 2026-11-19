@@ -45,7 +45,7 @@ export const DropdownMenuSubContent = forwardRef<HTMLDivElement, DropdownMenuSub
     <DropdownMenuContent
       ref={ref}
       data-slot="dropdown-menu-sub-content"
-      className={cn("min-w-[8rem] shadow-rixl-lg", className)}
+      className={cn("min-w-[8rem] shadow-rixl-lg!", className)}
       align={align}
       alignOffset={alignOffset}
       side={side}

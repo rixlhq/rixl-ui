@@ -23,7 +23,7 @@ export const InputGroupInput = forwardRef<HTMLInputElement, InputGroupInputProps
       required={required ?? group.required}
       disabled={disabled ?? group.disabled}
       className={cn(
-        "h-full flex-1 rounded-none border-0 bg-transparent px-2 shadow-none",
+        "h-full flex-1 rounded-none! border-0 bg-transparent px-2 shadow-none!",
         "focus-visible:ring-0 aria-invalid:bg-transparent aria-invalid:ring-0",
         className
       )}
