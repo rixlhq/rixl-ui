@@ -29,9 +29,9 @@ const triggerVariants = cva(
       // A floor, not a fixed height: a trigger may stack an icon, a label and a
       // description, and a hard height would let that content spill out of the
       // box the indicator is measured from.
-      size: {sm: "min-h-7 px-2.5 py-1 text-xs", md: "min-h-8 px-3 py-1.5 text-sm"},
+      size: {sm: "min-h-7 px-2.5 py-1 text-xs", base: "min-h-8 px-3 py-1.5 text-sm"},
     },
-    defaultVariants: {variant: "segmented", size: "md"},
+    defaultVariants: {variant: "segmented", size: "base"},
   }
 );
 

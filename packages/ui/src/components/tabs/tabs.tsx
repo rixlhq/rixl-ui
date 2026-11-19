@@ -9,7 +9,7 @@ export type TabsProps = TabsPrimitive.Root.Props & {
   size?: TabsSize;
 };
 
-export const Tabs = forwardRef<HTMLDivElement, TabsProps>(function Tabs({className, variant = "segmented", size = "md", ...props}, ref) {
+export const Tabs = forwardRef<HTMLDivElement, TabsProps>(function Tabs({className, variant = "segmented", size = "base", ...props}, ref) {
   const styleValue = useMemo(() => ({variant, size}), [variant, size]);
   return (
     <TabsStyleContext.Provider value={styleValue}>

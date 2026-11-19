@@ -121,8 +121,8 @@ function AllVariantsExample() {
 function SizesExample() {
   return (
     <div className="space-y-6">
-      <Group label="md — 32px triggers">
-        <Row labels={["Overview", "Metrics", "Settings"]} size="md" />
+      <Group label="base — 32px triggers">
+        <Row labels={["Overview", "Metrics", "Settings"]} size="base" />
       </Group>
       <Group label="sm — 28px triggers, for toolbars and card headers">
         <Row labels={["Overview", "Metrics", "Settings"]} size="sm" />

@@ -178,7 +178,7 @@ describe("Tabs", () => {
     // A floor rather than a fixed height, so a trigger stacking a label over a
     // description grows instead of spilling out of the box the indicator
     // measures.
-    it("defaults triggers to the md size as a compact 32px minimum height", () => {
+    it("defaults triggers to the base size as a compact 32px minimum height", () => {
       render(<Basic />);
       const cls = screen.getByTestId("tab-account").className;
       expect(cls).toContain("min-h-8");
