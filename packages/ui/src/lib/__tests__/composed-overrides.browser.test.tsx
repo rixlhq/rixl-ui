@@ -26,8 +26,8 @@ const styleOf = (selector: string) => {
   return getComputedStyle(el);
 };
 
-// `cn` does not know the rixl radius, shadow, duration and easing tokens, so two of them on one element would both
-// stay and CSS order would decide. Components ask their base for a variant instead; these check what the browser resolves.
+// Radii, shadows and easing sit on Tailwind's standard theme keys, so `cn` replaces the base's class with the one a
+// component or consumer passes. These check what the browser resolves, since two classes of one kind would leave CSS order to decide.
 describe("a radius or shadow one component sets over its base", () => {
   afterEach(cleanup);
 

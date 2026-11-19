@@ -138,6 +138,18 @@ describe("popupSurface", () => {
     );
   });
 
+  it("loses to a consumer class that sets the radius", () => {
+    const merged = cn(popupSurface, "rounded-lg");
+    expect(tokens(merged)).toContain("rounded-lg");
+    expect(tokens(merged)).not.toContain("rounded-md");
+  });
+
+  it("loses to a consumer class that sets the shadow", () => {
+    const merged = cn(popupSurface, "shadow-lg");
+    expect(tokens(merged)).toContain("shadow-lg");
+    expect(tokens(merged)).not.toContain("shadow-md");
+  });
+
   it.each([
     [
       "PopoverContent",

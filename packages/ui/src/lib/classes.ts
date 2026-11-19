@@ -14,21 +14,16 @@ export const focusRingBorderless = "focus-visible:ring-rixl-ring/50 focus-visibl
 /** Mirrors a directional icon (chevron, arrow) under `dir="rtl"`. Not for icons that point up or down. */
 export const rtlFlip = "rtl:-scale-x-100";
 
-const popupBase = cn(
-  "bg-rixl-surface text-rixl-fg z-50 max-h-(--available-height) max-w-[calc(100dvw-2rem)] origin-(--transform-origin) overflow-x-hidden overflow-y-auto overscroll-contain wrap-anywhere",
-  "rounded-md border border-rixl-border outline-hidden",
-  "transition-[scale,opacity] duration-(--rixl-motion-fast) ease-out motion-reduce:transition-none",
-  "data-starting-style:scale-95 data-starting-style:opacity-0 data-ending-style:scale-95 data-ending-style:opacity-0"
-);
-
 /**
  * Surface of a floating popup (Popover, DropdownMenu, Select) with its scale-and-fade
  * enter and exit. Each popup adds its own width, padding and positioning.
  */
-export const popupSurface = cn(popupBase, "shadow-md");
-
-/** A popup that opens over another popup (a sub-menu): the same surface under a larger shadow. */
-export const nestedPopupSurface = cn(popupBase, "shadow-lg");
+export const popupSurface = cn(
+  "bg-rixl-surface text-rixl-fg z-50 max-h-(--available-height) max-w-[calc(100dvw-2rem)] origin-(--transform-origin) overflow-x-hidden overflow-y-auto overscroll-contain wrap-anywhere",
+  "rounded-md border border-rixl-border shadow-md outline-hidden",
+  "transition-[scale,opacity] duration-(--rixl-motion-fast) ease-out motion-reduce:transition-none",
+  "data-starting-style:scale-95 data-starting-style:opacity-0 data-ending-style:scale-95 data-ending-style:opacity-0"
+);
 
 /**
  * A selectable row in a menu or listbox: highlight on `data-highlighted` (keyboard and pointer, not
