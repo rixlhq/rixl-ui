@@ -59,6 +59,28 @@ describe("DropdownMenu", () => {
     expect(cls).toContain("min-w-[8rem]");
   });
 
+  it("raises a sub-menu popup with the large shadow in place of the menu's", async () => {
+    render(
+      <DropdownMenu open>
+        <DropdownMenuTrigger render={<button type="button">Open</button>} />
+        <DropdownMenuContent data-testid="menu">
+          <DropdownMenuSub open>
+            <DropdownMenuSubTrigger>More</DropdownMenuSubTrigger>
+            <DropdownMenuSubContent data-testid="submenu">
+              <DropdownMenuItem>Nested item</DropdownMenuItem>
+            </DropdownMenuSubContent>
+          </DropdownMenuSub>
+        </DropdownMenuContent>
+      </DropdownMenu>
+    );
+    await act(async () => {});
+    const sub = screen.getByTestId("submenu");
+    expect(sub.className).toContain("shadow-rixl-lg");
+    expect(sub.className).not.toContain("shadow-rixl-md");
+    expect(sub).toHaveAttribute("data-slot", "dropdown-menu-sub-content");
+    expect(screen.getByTestId("menu").className).not.toContain("shadow-rixl-lg");
+  });
+
   it("marks destructive items with data-variant and danger text", async () => {
     render(<Basic open />);
     await act(async () => {});

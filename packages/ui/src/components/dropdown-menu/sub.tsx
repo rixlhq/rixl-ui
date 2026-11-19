@@ -1,10 +1,10 @@
-import {forwardRef, type ComponentProps} from "react";
+import {forwardRef} from "react";
 import {Menu as MenuPrimitive} from "@base-ui/react/menu";
 import {ChevronRight} from "lucide-react";
 import {cn} from "../../lib/cn";
 import {menuItem, rtlFlip} from "../../lib/classes";
 
-import {DropdownMenuContent} from "./content";
+import {DropdownMenuPopup, type DropdownMenuContentProps} from "./content";
 
 export type DropdownMenuSubProps = MenuPrimitive.SubmenuRoot.Props;
 
@@ -35,17 +35,18 @@ export const DropdownMenuSubTrigger = forwardRef<HTMLElement, DropdownMenuSubTri
 });
 DropdownMenuSubTrigger.displayName = "DropdownMenuSubTrigger";
 
-export type DropdownMenuSubContentProps = ComponentProps<typeof DropdownMenuContent>;
+export type DropdownMenuSubContentProps = DropdownMenuContentProps;
 
 export const DropdownMenuSubContent = forwardRef<HTMLDivElement, DropdownMenuSubContentProps>(function DropdownMenuSubContent(
   {className, align = "start", alignOffset = -3, side = "inline-end", sideOffset = 0, ...props},
   ref
 ) {
   return (
-    <DropdownMenuContent
+    <DropdownMenuPopup
       ref={ref}
+      nested
       data-slot="dropdown-menu-sub-content"
-      className={cn("min-w-[8rem] shadow-rixl-lg!", className)}
+      className={className}
       align={align}
       alignOffset={alignOffset}
       side={side}
