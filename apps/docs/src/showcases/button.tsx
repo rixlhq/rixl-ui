@@ -5,7 +5,8 @@ import {Group} from "../components/showcase-layout";
 export const path = "button";
 export const title = "Button";
 export const description = "Trigger an action or navigate to another page.";
-export const notes = "Primary action primitive. Six variants, four sizes, three shapes, token-driven press feedback, and a loading state.";
+export const notes =
+  "Primary action primitive. Six variants, four sizes, three shapes, an icon, a tooltip title, token-driven press feedback, and a loading state.";
 
 export function Showcase() {
   return (
@@ -121,6 +122,20 @@ function IconExample() {
   );
 }
 
+function TitleExample() {
+  return (
+    <Group label="Title — a tooltip, and the accessible name of an icon-only button">
+      <Button shape="square" variant="outline" icon={SearchIcon} title="Search" />
+      <Button variant="secondary" title="Create a project in the current workspace" icon={PlusIcon}>
+        Create
+      </Button>
+      <Button variant="outline" title="Available on the Pro plan" disabled>
+        Upgrade
+      </Button>
+    </Group>
+  );
+}
+
 function StatesExample() {
   return (
     <div className="space-y-6">
@@ -222,6 +237,16 @@ duration-(--rixl-motion-fast) ease-out`,
 <Button variant="outline" icon={<SearchIcon />}>Search</Button>
 <Button shape="square" icon={SearchIcon} aria-label="Search" />
 <Button icon={PlusIcon} loading>Creating</Button>`,
+  },
+  {
+    id: "title",
+    title: "Title",
+    description:
+      "Wraps the button in a tooltip. A string title also names a button that has no text, and a disabled button keeps its tooltip.",
+    render: TitleExample,
+    code: `<Button shape="square" icon={SearchIcon} title="Search" />
+<Button icon={PlusIcon} title="Create a project in the current workspace">Create</Button>
+<Button title="Available on the Pro plan" disabled>Upgrade</Button>`,
   },
   {
     id: "states",

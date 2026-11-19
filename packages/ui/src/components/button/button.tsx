@@ -1,9 +1,10 @@
-import {createElement, forwardRef, isValidElement, type ComponentType, type ReactNode} from "react";
+import {Children, createElement, forwardRef, isValidElement, type ComponentType, type ReactElement, type ReactNode} from "react";
 import {Button as ButtonPrimitive} from "@base-ui/react/button";
 import {cva, type VariantProps} from "class-variance-authority";
 import {LoaderCircle} from "lucide-react";
 import {cn} from "../../lib/cn";
 import {focusRing, invalidRing, pressable} from "../../lib/classes";
+import {Tooltip, TooltipContent, TooltipTrigger} from "../tooltip";
 
 /**
  * Rixl Button — the primary action primitive.
@@ -77,7 +78,8 @@ type ButtonVariant = keyof typeof variantClasses;
 type ButtonSize = NonNullable<VariantProps<typeof buttonVariants>["size"]>;
 type ButtonShape = NonNullable<VariantProps<typeof buttonVariants>["shape"]>;
 
-export type ButtonProps = ButtonPrimitive.Props & {
+// `title` is a tooltip here, never the native attribute, so the native string type is replaced.
+export type ButtonProps = Omit<ButtonPrimitive.Props, "title"> & {
   variant?: ButtonVariant | null;
   size?: ButtonSize | null;
   /** `square` and `circle` are fixed-size boxes for icon-only buttons; give them an accessible name. */
@@ -85,6 +87,8 @@ export type ButtonProps = ButtonPrimitive.Props & {
   /** An icon component or a node, rendered before the children. The spinner takes its place while `loading`. */
   icon?: ComponentType<{className?: string}> | ReactNode;
   loading?: boolean;
+  /** Shown as a tooltip. A string or number also names a button that has no children, `aria-label` or `aria-labelledby`. */
+  title?: ReactNode;
 };
 
 type ButtonIcon = ButtonProps["icon"];
@@ -103,13 +107,28 @@ function ButtonSpinner() {
   return <LoaderCircle data-slot="button-spinner" strokeWidth={2.5} className="size-4 animate-spin motion-reduce:animate-none" />;
 }
 
+/** A disabled button takes no pointer events, so its tooltip hangs off a wrapper that does. */
+function ButtonTooltip({title, inert, children}: {title: ReactNode; inert: boolean; children: ReactElement}) {
+  return (
+    <Tooltip>
+      {inert ? <TooltipTrigger render={<span className="inline-flex" />}>{children}</TooltipTrigger> : <TooltipTrigger render={children} />}
+      <TooltipContent>{title}</TooltipContent>
+    </Tooltip>
+  );
+}
+
+function titleAsName(title: ReactNode, children: ReactNode, labelledBy: string | undefined) {
+  const isText = typeof title === "string" || typeof title === "number";
+  return isText && !labelledBy && Children.toArray(children).length === 0 ? String(title) : undefined;
+}
+
 const Button = forwardRef<HTMLButtonElement, ButtonProps>(
-  ({className, variant, size, shape, icon, loading, disabled, nativeButton, render, children, ...props}, ref) => {
+  ({className, variant, size, shape, icon, loading, title, disabled, nativeButton, render, children, ...props}, ref) => {
     // When rendered as a non-<button> element (e.g. render={<Link/>}), tell Base UI so it drops native button semantics.
     const isNativeButton = nativeButton ?? (isValidElement(render) ? render.type === "button" : true);
     // Falling back to `primary` keeps a bare <Button> styled.
     const resolved: ButtonVariant = variant ?? "primary";
-    return (
+    const button = (
       <ButtonPrimitive
         ref={ref}
         data-slot="button"
@@ -119,11 +138,18 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         nativeButton={isNativeButton}
         render={render}
         className={cn(buttonVariants({variant: resolved, size, shape, className}))}
+        aria-label={titleAsName(title, children, props["aria-labelledby"])}
         {...props}
       >
         {loading ? <ButtonSpinner /> : renderIcon(icon)}
         {children}
       </ButtonPrimitive>
+    );
+    if (!title) return button;
+    return (
+      <ButtonTooltip title={title} inert={Boolean(disabled || loading)}>
+        {button}
+      </ButtonTooltip>
     );
   }
 );
