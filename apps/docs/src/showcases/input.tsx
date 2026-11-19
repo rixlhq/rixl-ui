@@ -6,7 +6,7 @@ export const path = "input";
 export const title = "Input";
 export const description = "Enter a single line of text.";
 export const notes =
-  "Single-line text input. Base UI Input on rixl tokens, with sizes, hover/focus/disabled/read-only/invalid states, and a built-in field: label, labelTooltip, description, error and required wire the label, aria-describedby and aria-invalid for you. For icons, text addons or buttons around the input use InputGroup. The info-icon button is icon-only, so name it with labelTooltipAriaLabel; setting labelTooltip without it warns in development. (optional) is built-in copy that RixlLocaleProvider can translate (input.optional).";
+  "Single-line text input. Base UI Input on rixl tokens, with sizes, hover/focus/disabled/read-only/invalid states, and a built-in field: label, labelTooltip, description, error and required wire the label, aria-describedby and aria-invalid for you. For icons, text addons or buttons around the input use InputGroup. The info-icon button is icon-only, so name it with labelTooltipAriaLabel; setting labelTooltip without it warns in development. (optional) shows after the label only when required is explicitly false (nothing for true or undefined, as in Kumo). Translate it with labels={{optional}} on the field, or app-wide with RixlLocaleProvider (input.optional); labels wins.";
 
 export function Showcase() {
   return (

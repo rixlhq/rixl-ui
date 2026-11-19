@@ -7,7 +7,7 @@ export const path = "input-group";
 export const title = "Input Group";
 export const description = "Combine a text input with a prefix, suffix, or action.";
 export const notes =
-  "The only place for icons, text addons and buttons around an input. The group wears the input chrome — border, shadow, 3px focus ring — while InputGroupInput renders borderless. Pass label, description, error and required to the group for the same built-in field as Input; InputGroupAddon align puts an addon before or after the input. labels takes optional and moreInformation (the field chrome). Strings you leave out come from RixlLocaleProvider (@rixl/ui/locale), then English.";
+  "The only place for icons, text addons and buttons around an input. The group wears the input chrome — border, shadow, 3px focus ring — while InputGroupInput renders borderless. Pass label, description, error and required to the group for the same built-in field as Input; InputGroupAddon align puts an addon before or after the input. (optional) shows only when required is explicitly false. labels takes optional, the field chrome copy; it beats RixlLocaleProvider (@rixl/ui/locale), then English.";
 
 export function Showcase() {
   return (

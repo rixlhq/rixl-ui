@@ -29,7 +29,7 @@ describe("Empty Browser Mode", () => {
     render(
       <Empty title="No apps yet" commandLine="npm create rixl" commandTitle="Install command" action={<Button>Read the docs</Button>} />
     );
-    await expect.element(page.getByRole("button", {name: "Copy Install command"})).toBeVisible();
+    await expect.element(page.getByRole("button", {name: "Copy to clipboard"})).toBeVisible();
     await expect.element(page.getByRole("button", {name: "Read the docs"})).toBeVisible();
   });
 });

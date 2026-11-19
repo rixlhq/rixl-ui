@@ -1,14 +1,15 @@
 import {useContext} from "react";
 import {LocaleContext} from "./locale-context";
 import {mergeDefined} from "./merge-translations";
-import {DEFAULT_TRANSLATIONS, type RixlTranslations} from "./translations";
+import type {RixlTranslations} from "./translations";
 
-/** One component's strings: the `labels` prop, then the provider, then English. */
+/** One component's strings: the `labels` prop, then the provider, then the component's own defaults. */
 export function useTranslations<Group extends keyof RixlTranslations>(
   group: Group,
+  defaults: RixlTranslations[Group],
   labels?: Partial<RixlTranslations[Group]>
 ): RixlTranslations[Group] {
   const provided = useContext(LocaleContext);
-  // as: the English defaults define every key, and mergeDefined only adds defined values over them.
-  return mergeDefined<RixlTranslations[Group]>([DEFAULT_TRANSLATIONS[group], provided?.[group], labels]) as RixlTranslations[Group];
+  // as: the defaults define every key, and mergeDefined only adds defined values over them.
+  return mergeDefined<RixlTranslations[Group]>([defaults, provided?.[group], labels]) as RixlTranslations[Group];
 }

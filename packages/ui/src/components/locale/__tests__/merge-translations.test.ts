@@ -5,8 +5,8 @@ import type {RixlTranslationsPartial} from "../translations";
 
 describe("mergeTranslations", () => {
   it("keeps a lower layer's keys in the same group", () => {
-    const merged = mergeTranslations({copyBlock: {copying: "A"}}, {copyBlock: {copied: "B"}});
-    expect(merged).toEqual({copyBlock: {copying: "A", copied: "B"}});
+    const merged = mergeTranslations({copyBlock: {copyAction: "A"}}, {copyBlock: {copied: "B"}});
+    expect(merged).toEqual({copyBlock: {copyAction: "A", copied: "B"}});
   });
 
   it("lets an undefined value leave the lower layer's string alone", () => {

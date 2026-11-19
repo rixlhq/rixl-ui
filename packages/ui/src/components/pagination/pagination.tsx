@@ -1,6 +1,6 @@
 import {forwardRef, type ComponentProps} from "react";
 import {cn} from "../../lib/cn";
-import type {PaginationLabels} from "./pagination-context";
+import type {PaginationLabels} from "./pagination-labels";
 import {PaginationControls, type PaginationControlsProps} from "./pagination-controls";
 import {PaginationInfo, type PaginationInfoProps} from "./pagination-info";
 import type {PaginationTotals} from "./normalize-pagination";

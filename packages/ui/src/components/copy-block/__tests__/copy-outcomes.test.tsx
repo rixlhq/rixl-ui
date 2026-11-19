@@ -19,11 +19,18 @@ describe("CopyBlock outcomes", () => {
     expect(document.querySelector('[data-copied="true"]')).toBeInTheDocument();
   });
 
-  it("announces failure without falsely confirming success", async () => {
+  it("shows no success and announces nothing when the copy fails", async () => {
     vi.stubGlobal("navigator", {...navigator, clipboard: {writeText: vi.fn().mockRejectedValue(new Error("Denied"))}});
     render(<CopyBlock title="Code" value="abc" />);
     await act(async () => screen.getByRole("button").click());
     expect(document.querySelector('[data-copied="true"]')).toBeNull();
-    expect(screen.getByRole("status")).toHaveTextContent("Unable to copy");
+    expect(screen.getByRole("status")).toBeEmptyDOMElement();
+  });
+
+  it("lets the button try again after a failed copy", async () => {
+    vi.stubGlobal("navigator", {...navigator, clipboard: {writeText: vi.fn().mockRejectedValue(new Error("Denied"))}});
+    render(<CopyBlock title="Code" value="abc" />);
+    await act(async () => screen.getByRole("button").click());
+    expect(screen.getByRole("button")).toBeEnabled();
   });
 });

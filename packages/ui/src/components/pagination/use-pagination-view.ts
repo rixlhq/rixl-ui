@@ -1,7 +1,7 @@
 import type {PaginationProps} from "./pagination";
 import {normalizePagination, type NormalizedPagination} from "./normalize-pagination";
 import {useTranslations} from "../locale/use-translations";
-import type {PaginationLabels} from "./pagination-context";
+import {DEFAULT_PAGINATION_LABELS, type PaginationLabels} from "./pagination-labels";
 
 export type PaginationView = {
   className?: string;
@@ -27,7 +27,7 @@ export function usePaginationView({
   text,
   ...navProps
 }: PaginationProps): PaginationView {
-  const mergedLabels = useTranslations("pagination", labels);
+  const mergedLabels = useTranslations("pagination", DEFAULT_PAGINATION_LABELS, labels);
   return {
     className,
     children,

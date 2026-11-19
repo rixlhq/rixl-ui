@@ -6,7 +6,7 @@ export const path = "select";
 export const title = "Select";
 export const description = "Choose one value from a list of options.";
 export const notes =
-  "Portalled Base UI Select on the same control surface and sizes as Input. The root takes label, labelTooltip, description and error for the built-in field; the trigger takes size (xs, sm, base, lg) and fills its container, so set a width with className. A trigger without a label needs an aria-label. The info-icon button is icon-only, so name it with labelTooltipAriaLabel; setting labelTooltip without it warns in development. (optional) is built-in copy that RixlLocaleProvider can translate (input.optional).";
+  "Portalled Base UI Select on the same control surface and sizes as Input. The root takes label, labelTooltip, description and error for the built-in field; the trigger takes size (xs, sm, base, lg) and fills its container, so set a width with className. A trigger without a label needs an aria-label. The info-icon button is icon-only, so name it with labelTooltipAriaLabel; setting labelTooltip without it warns in development. (optional) shows after the label only when required is explicitly false (nothing for true or undefined, as in Kumo). Translate it with labels={{optional}} on the field, or app-wide with RixlLocaleProvider (input.optional); labels wins.";
 
 const triggerWidth = "w-full max-w-sm";
 

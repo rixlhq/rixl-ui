@@ -4,6 +4,7 @@ import {InfoIcon} from "lucide-react";
 import {cn} from "../../lib/cn";
 import {useWarnMissingName} from "../../lib/warn-missing-name";
 import {useTranslations} from "../locale/use-translations";
+import {DEFAULT_INPUT_FIELD_LABELS, type InputFieldLabels} from "./input-field-labels";
 import {Tooltip, TooltipContent, TooltipTrigger} from "../tooltip";
 import type {NormalizedInputError} from "./input-field-error";
 
@@ -17,6 +18,7 @@ type InputFieldProps = {
   description?: ReactNode;
   disabled?: boolean;
   labelTooltipAriaLabel?: string;
+  labels?: Partial<InputFieldLabels>;
   children: ReactElement;
 };
 
@@ -36,8 +38,9 @@ function InputLabelRow({
   required,
   labelTooltip,
   labelTooltipAriaLabel,
-}: Pick<InputFieldProps, "component" | "label" | "required" | "labelTooltip" | "labelTooltipAriaLabel">) {
-  const t = useTranslations("input");
+  labels,
+}: Pick<InputFieldProps, "component" | "label" | "required" | "labelTooltip" | "labelTooltipAriaLabel" | "labels">) {
+  const t = useTranslations("input", DEFAULT_INPUT_FIELD_LABELS, labels);
   useWarnMissingName(Boolean(labelTooltip) && !labelTooltipAriaLabel, {
     component,
     subject: "The labelTooltip trigger",
@@ -103,6 +106,7 @@ export function InputField({
   description,
   disabled,
   labelTooltipAriaLabel,
+  labels,
   children,
 }: InputFieldProps) {
   if (!hasChrome({label, labelTooltip, description, error})) return children;
@@ -120,6 +124,7 @@ export function InputField({
           required={required}
           labelTooltip={labelTooltip}
           labelTooltipAriaLabel={labelTooltipAriaLabel}
+          labels={labels}
         />
       ) : null}
       {children}

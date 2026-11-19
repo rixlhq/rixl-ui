@@ -97,11 +97,11 @@ describe("Empty", () => {
     expect(screen.getByText("npm create rixl")).toBeInTheDocument();
   });
 
-  it("titles the command block, and names its copy button, from commandTitle", () => {
+  it("titles the command block, and names its copy button Copy to clipboard and describes it with commandTitle", () => {
     const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
     render(<Empty title="No apps" commandLine="npm create rixl" commandTitle="Install command" />);
     expect(screen.getByText("Install command:")).toBeInTheDocument();
-    expect(screen.getByRole("button", {name: "Copy Install command"})).toBeInTheDocument();
+    expect(screen.getByRole("button", {name: "Copy to clipboard"})).toBeInTheDocument();
     expect(warn).not.toHaveBeenCalled();
     warn.mockRestore();
   });

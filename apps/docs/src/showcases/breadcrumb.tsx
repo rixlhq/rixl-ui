@@ -14,7 +14,7 @@ export const path = "breadcrumb";
 export const title = "Breadcrumb";
 export const description = "Show the path to the current page.";
 export const notes =
-  "The landmark is named breadcrumb by default, a string RixlLocaleProvider (@rixl/ui/locale) can translate and the aria-label prop overrides. BreadcrumbEllipsis is decorative: it is aria-hidden and carries no text.";
+  "The landmark is named breadcrumb by default (as in Kumo). Name one trail with the aria-label prop, or every trail with RixlLocaleProvider (@rixl/ui/locale) and breadcrumb.label; the prop wins. There is no labels prop. BreadcrumbEllipsis is decorative: it is aria-hidden and carries no text.";
 
 export function Showcase() {
   return (

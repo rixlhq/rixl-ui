@@ -4,6 +4,7 @@ import {afterEach, beforeEach, describe, expect, it, vi} from "vite-plus/test";
 import {examples} from "../locale";
 
 const SwitchExample = examples[0].render;
+const InstanceExample = examples[1].render;
 let container: HTMLDivElement;
 let root: ReturnType<typeof createRoot>;
 
@@ -39,5 +40,16 @@ describe("locale showcase", () => {
   it("leaves unset keys in English", async () => {
     await renderLocale("de");
     expect(container.querySelector('[aria-label="Go to last page"]')).not.toBeNull();
+  });
+
+  it("names the copy button from the provider's copyAction", async () => {
+    await renderLocale("fr");
+    expect(container.querySelector('button[aria-label="Copier dans le presse-papiers"]')).not.toBeNull();
+  });
+
+  it("lets labels and aria-label beat the German provider", async () => {
+    await act(async () => root.render(<InstanceExample state={{}} />));
+    expect(container.textContent).toContain("(wenn du magst)");
+    expect(container.querySelector('nav[aria-label="Pfad"]')).not.toBeNull();
   });
 });

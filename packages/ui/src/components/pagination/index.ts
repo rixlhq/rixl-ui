@@ -5,7 +5,8 @@ export {PaginationNavButton, type PaginationNavButtonProps} from "./pagination-n
 export {PaginationPageSize, type PaginationPageSizeProps} from "./pagination-page-size";
 export {PaginationPageInput, type PaginationPageInputProps} from "./pagination-page-input";
 export {PaginationSeparator, type PaginationSeparatorProps} from "./pagination-separator";
-export {PaginationContext, type PaginationContextValue, type PaginationLabels} from "./pagination-context";
+export {PaginationContext, type PaginationContextValue} from "./pagination-context";
+export type {PaginationLabels} from "./pagination-labels";
 export {usePaginationContext} from "./use-pagination-context";
 export {PaginationProvider, type PaginationProviderProps} from "./pagination-provider";
 export {usePageDraft} from "./use-page-draft";

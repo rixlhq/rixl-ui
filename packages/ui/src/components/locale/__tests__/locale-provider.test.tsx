@@ -2,13 +2,15 @@ import {describe, it, expect} from "vitest";
 import {render, screen} from "@testing-library/react";
 import {RixlLocaleProvider} from "../locale-provider";
 import {useTranslations} from "../use-translations";
-import type {RixlTranslations} from "../translations";
+import type {CopyBlockLabels} from "../../copy-block/copy-block-labels";
 
-function Probe({labels}: {labels?: Partial<RixlTranslations["copyBlock"]>}) {
-  const t = useTranslations("copyBlock", labels);
+const defaults: CopyBlockLabels = {copyAction: "Copy to clipboard", copied: "Copied"};
+
+function Probe({labels}: {labels?: Partial<CopyBlockLabels>}) {
+  const t = useTranslations("copyBlock", defaults, labels);
   return (
     <p>
-      {t.copy("Token")}|{t.copying}|{t.copied}|{t.error}
+      {t.copyAction}|{t.copied}
     </p>
   );
 }
@@ -16,9 +18,9 @@ function Probe({labels}: {labels?: Partial<RixlTranslations["copyBlock"]>}) {
 const text = () => screen.getByText(/\|/).textContent;
 
 describe("RixlLocaleProvider", () => {
-  it("shows English without a provider", () => {
+  it("shows the component defaults without a provider", () => {
     render(<Probe />);
-    expect(text()).toBe("Copy Token|Copying|Copied!|Unable to copy. Try again.");
+    expect(text()).toBe("Copy to clipboard|Copied");
   });
 
   it("overrides one key and keeps the other defaults", () => {
@@ -27,25 +29,16 @@ describe("RixlLocaleProvider", () => {
         <Probe />
       </RixlLocaleProvider>
     );
-    expect(text()).toBe("Copy Token|Copying|Kopiert!|Unable to copy. Try again.");
-  });
-
-  it("passes interpolated values to a function string", () => {
-    render(
-      <RixlLocaleProvider translations={{copyBlock: {copy: (title) => `Copiar ${title}`}}}>
-        <Probe />
-      </RixlLocaleProvider>
-    );
-    expect(text()).toContain("Copiar Token|");
+    expect(text()).toBe("Copy to clipboard|Kopiert!");
   });
 
   it("lets the instance labels beat the provider", () => {
     render(
-      <RixlLocaleProvider translations={{copyBlock: {copied: "Kopiert!", copying: "Kopiere"}}}>
+      <RixlLocaleProvider translations={{copyBlock: {copied: "Kopiert!", copyAction: "Kopieren"}}}>
         <Probe labels={{copied: "Fertig"}} />
       </RixlLocaleProvider>
     );
-    expect(text()).toBe("Copy Token|Kopiere|Fertig|Unable to copy. Try again.");
+    expect(text()).toBe("Kopieren|Fertig");
   });
 
   it("shows new translations when the provider re-renders", () => {
@@ -59,18 +52,18 @@ describe("RixlLocaleProvider", () => {
         <Probe />
       </RixlLocaleProvider>
     );
-    expect(text()).toContain("|Copié !|");
+    expect(text()).toContain("|Copié !");
   });
 
   it("merges a nested provider over its parent", () => {
     render(
-      <RixlLocaleProvider translations={{copyBlock: {copying: "Kopiere"}}}>
+      <RixlLocaleProvider translations={{copyBlock: {copyAction: "Kopieren"}}}>
         <RixlLocaleProvider translations={{copyBlock: {copied: "Kopiert!"}}}>
           <Probe />
         </RixlLocaleProvider>
       </RixlLocaleProvider>
     );
-    expect(text()).toBe("Copy Token|Kopiere|Kopiert!|Unable to copy. Try again.");
+    expect(text()).toBe("Kopieren|Kopiert!");
   });
 
   it("treats an undefined provider value as not overriding", () => {
@@ -79,6 +72,6 @@ describe("RixlLocaleProvider", () => {
         <Probe />
       </RixlLocaleProvider>
     );
-    expect(text()).toContain("|Copied!|");
+    expect(text()).toContain("|Copied");
   });
 });

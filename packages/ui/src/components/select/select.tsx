@@ -2,6 +2,7 @@ import {Children, isValidElement, useMemo, type ReactNode} from "react";
 import {Select as SelectPrimitive} from "@base-ui/react/select";
 
 import {InputField} from "../input/input-field";
+import type {InputFieldLabels} from "../input/input-field-labels";
 import {normalizeInputError, type InputErrorProp} from "../input/input-field-error";
 
 import {
@@ -65,6 +66,8 @@ export type SelectProps<Value = string> = Omit<SelectPrimitive.Root.Props<Value>
   error?: InputErrorProp;
   /** Names the `labelTooltip` trigger, which is an icon-only button. The app supplies it; setting `labelTooltip` without it warns in development. */
   labelTooltipAriaLabel?: string;
+  /** Overrides the field chrome copy (`optional`); each key falls back to `RixlLocaleProvider`, then English. */
+  labels?: Partial<InputFieldLabels>;
 };
 
 export function Select<Value = string>({
@@ -76,6 +79,7 @@ export function Select<Value = string>({
   description,
   error,
   labelTooltipAriaLabel,
+  labels,
   ...props
 }: SelectProps<Value>) {
   // Base UI resolves the trigger label from `items` when the popup is unmounted,
@@ -97,6 +101,7 @@ export function Select<Value = string>({
       required={props.required}
       disabled={props.disabled}
       labelTooltipAriaLabel={labelTooltipAriaLabel}
+      labels={labels}
     >
       <SelectPrimitive.Root
         items={resolvedItems}

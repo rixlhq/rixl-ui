@@ -6,7 +6,7 @@ export const path = "pagination";
 export const title = "Pagination";
 export const description = "Move between pages of a longer list.";
 export const notes =
-  "Kumo's props: page and setPage, plus totalCount with perPage, or hasNextPage when the total is unknown. The default layout is info and controls; compose PaginationInfo, PaginationPageSize (a labelled Select), PaginationSeparator and PaginationControls (a page input, or a Select with pageSelector) in any order. Every string arrives through labels or a render function, so consumers wire their own message layer. labels also takes page(page) and showing(range, total), the default info text. Strings you leave out come from RixlLocaleProvider (@rixl/ui/locale), then English.";
+  "Kumo's props: page and setPage, plus totalCount with perPage, or hasNextPage when the total is unknown. The default layout is info and controls; compose PaginationInfo, PaginationPageSize (a labelled Select), PaginationSeparator and PaginationControls (a page input, or a Select with pageSelector) in any order. Every string arrives through labels or a render function, so consumers wire their own message layer. labels also takes page(page) and showing(range, total), the default info text. The English defaults live in Pagination itself; strings you leave out of labels come from RixlLocaleProvider (@rixl/ui/locale), then those defaults.";
 
 export function Showcase() {
   const [page, setPage] = useState(2);

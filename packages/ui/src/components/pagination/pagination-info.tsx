@@ -1,7 +1,8 @@
 import {forwardRef, type ComponentProps, type ReactNode} from "react";
 import {cn} from "../../lib/cn";
 import {usePaginationContext} from "./use-pagination-context";
-import type {PaginationContextValue, PaginationLabels} from "./pagination-context";
+import type {PaginationContextValue} from "./pagination-context";
+import type {PaginationLabels} from "./pagination-labels";
 
 export type PaginationInfoState = Pick<PaginationContextValue, "page" | "perPage" | "totalCount" | "totalPages" | "pageShowingRange">;
 

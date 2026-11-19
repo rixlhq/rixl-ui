@@ -1,6 +1,7 @@
 import {forwardRef, type ComponentProps} from "react";
 
 import {useTranslations} from "../locale/use-translations";
+import {DEFAULT_BREADCRUMB_LABELS} from "./breadcrumb-labels";
 import {BreadcrumbList, type BreadcrumbListProps} from "./list";
 import {
   BreadcrumbItem,
@@ -19,7 +20,7 @@ export type BreadcrumbProps = ComponentProps<"nav">;
  * Ported verbatim from dashboard; token-mapped to rixl tokens.
  */
 export const Breadcrumb = forwardRef<HTMLElement, BreadcrumbProps>((props, ref) => {
-  const {label} = useTranslations("breadcrumb");
+  const {label} = useTranslations("breadcrumb", DEFAULT_BREADCRUMB_LABELS);
   return <nav ref={ref} aria-label={label} data-slot="breadcrumb" {...props} />;
 });
 Breadcrumb.displayName = "Breadcrumb";

@@ -11,13 +11,13 @@ export const title = "Locale";
 export const group = "providers";
 export const description = "Replace the English copy @rixl/ui draws on its own.";
 export const notes =
-  "RixlLocaleProvider covers the copy the library draws itself: the breadcrumb landmark name, CopyBlock, (optional) on fields and Pagination. Every key you leave out stays English, and no provider is needed for English. Values are plain strings, or functions for the strings that interpolate (copyBlock.copy, pagination.page, pagination.showing), so compiled message functions from an i18n library can be passed in directly. CopyBlock and Pagination also take a labels prop, which beats the provider; Breadcrumb's aria-label beats it too. Names for icon buttons and landmarks the library cannot know (a dialog's close button, a field's info icon, the sidebar toggle) are not in the provider: pass your own translated string as aria-label or labelTooltipAriaLabel. The provider computes its value on every render, so passing new strings after a locale switch updates every component. The library ships English only and has no i18n dependency.";
+  "Every component that renders text owns its English defaults, and takes a labels prop to override them. RixlLocaleProvider is the optional app-wide layer: it overrides only the strings you pass, holds no defaults, and a component's labels prop beats it. Precedence is labels, then the provider, then the component's own default. Provider groups: breadcrumb (label), copyBlock (copyAction, copied), input (optional, the (optional) marker on fields) and pagination. Values are plain strings, or functions for the strings that interpolate (pagination.page, pagination.showing), so compiled message functions from an i18n library can be passed in directly. Breadcrumb takes aria-label instead of labels, as Kumo's does. Names for icon buttons and landmarks the library cannot know (a dialog's close button, a field's info icon, the sidebar toggle) are not in the provider: pass your own translated string as aria-label or labelTooltipAriaLabel. Calendar text comes from DatePicker's react-day-picker locale. The provider computes its value on every render, so passing new strings after a locale switch updates every component. The library ships English only and has no i18n dependency; a consumer of one component pulls no strings for another.";
 
 /** What an app would keep in its message files. German and French are demo data, not shipped by the library. */
 const messages = {
   en: {
     copied: "Copied!",
-    copy_label: (title: string) => `Copy ${title}`,
+    copy_action: "Copy to clipboard",
     optional: "(optional)",
     breadcrumb: "breadcrumb",
     showing: "Showing",
@@ -25,7 +25,7 @@ const messages = {
   },
   de: {
     copied: "Kopiert!",
-    copy_label: (title: string) => `${title} kopieren`,
+    copy_action: "In die Zwischenablage kopieren",
     optional: "(optional)",
     breadcrumb: "Brotkrumen",
     showing: "Zeige",
@@ -33,7 +33,7 @@ const messages = {
   },
   fr: {
     copied: "Copié !",
-    copy_label: (title: string) => `Copier ${title}`,
+    copy_action: "Copier dans le presse-papiers",
     optional: "(facultatif)",
     breadcrumb: "fil d'Ariane",
     showing: "Affichage de",
@@ -45,7 +45,7 @@ type Locale = keyof typeof messages;
 /** The app-side adapter: maps message functions onto the library's keys. Call it during render so it reads the active locale. */
 function toRixlTranslations(m: (typeof messages)[Locale]): RixlTranslationsPartial {
   return {
-    copyBlock: {copy: m.copy_label, copied: m.copied},
+    copyBlock: {copyAction: m.copy_action, copied: m.copied},
     input: {optional: m.optional},
     breadcrumb: {label: m.breadcrumb},
     pagination: {showing: (range, total) => `${m.showing} ${range} ${m.of} ${total}`},
@@ -98,8 +98,16 @@ function SwitchExample({state}: {state: Record<string, ControlValue>}) {
 function InstanceExample() {
   return (
     <RixlLocaleProvider translations={toRixlTranslations(messages.de)}>
-      <Group label="Provider: German; this instance: labels={{copied: ...}}">
+      <Group label="Provider: German; these instances: labels">
         <CopyBlock title="Token" value="sk_live_51H3xQ9kP2e0R8m" labels={{copied: "Fertig!"}} className="w-full max-w-md" />
+        <Input label="Display name" required={false} labels={{optional: "(wenn du magst)"}} className="w-full max-w-md" />
+        <Breadcrumb aria-label="Pfad">
+          <BreadcrumbList>
+            <BreadcrumbItem>
+              <BreadcrumbPage>Einstellungen</BreadcrumbPage>
+            </BreadcrumbItem>
+          </BreadcrumbList>
+        </Breadcrumb>
       </Group>
     </RixlLocaleProvider>
   );
@@ -116,7 +124,7 @@ export const examples: Example[] = [
 
 <RixlLocaleProvider
   translations={{
-    copyBlock: {copied: "Kopiert!", copy: (title) => \`\${title} kopieren\`},
+    copyBlock: {copyAction: "In die Zwischenablage kopieren", copied: "Kopiert!"},
     input: {optional: "(optional)"},
   }}
 >
@@ -126,9 +134,12 @@ export const examples: Example[] = [
   {
     id: "instance",
     title: "Per-instance labels",
-    description: "A component's labels prop beats the provider for the keys it sets and leaves the rest alone.",
+    description:
+      "A component's labels prop beats the provider for the keys it sets and leaves the rest alone. Breadcrumb takes aria-label instead.",
     render: InstanceExample,
-    code: `<CopyBlock title="Token" value={token} labels={{copied: "Fertig!"}} />`,
+    code: `<CopyBlock title="Token" value={token} labels={{copied: "Fertig!"}} />
+<Input label="Display name" required={false} labels={{optional: "(wenn du magst)"}} />
+<Breadcrumb aria-label="Pfad">…</Breadcrumb>`,
   },
   {
     id: "paraglide",
@@ -147,11 +158,8 @@ import type {Locale} from "./paraglide/runtime.js";
 export const rixlTranslations = (locale: Locale): RixlTranslationsPartial => ({
   breadcrumb: {label: m.breadcrumb_label({}, {locale})},
   copyBlock: {
-    // The library passes the title; Paraglide takes an object of parameters.
-    copy: (title) => m.copy_label({title}, {locale}),
-    copying: m.copy_copying({}, {locale}),
+    copyAction: m.copy_action({}, {locale}),
     copied: m.copy_copied({}, {locale}),
-    error: m.copy_error({}, {locale}),
   },
   input: {optional: m.input_optional({}, {locale})},
   pagination: {

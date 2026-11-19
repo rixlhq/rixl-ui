@@ -1,5 +1,6 @@
 import type {ReactNode} from "react";
-import {PaginationContext, type PaginationLabels} from "./pagination-context";
+import {PaginationContext} from "./pagination-context";
+import type {PaginationLabels} from "./pagination-labels";
 import type {NormalizedPagination} from "./normalize-pagination";
 
 export type PaginationProviderProps = {
