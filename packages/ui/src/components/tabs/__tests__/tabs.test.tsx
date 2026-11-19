@@ -204,10 +204,11 @@ describe("Tabs", () => {
       expect(list().className).toContain("w-fit");
     });
 
-    it("distributes triggers evenly when fullWidth is set", () => {
+    // Stretched tabs are a layout choice for the app: a consumer className on the list and triggers does it.
+    it("has no full-width mode", () => {
+      // @ts-expect-error -- fullWidth was removed; Tabs must not accept it.
       render(<Basic fullWidth />);
-      expect(screen.getByTestId("tab-account").className).toContain("flex-1");
-      expect(list().className).toContain("w-full");
+      expect(screen.getByTestId("tab-account").className).not.toContain("flex-1");
     });
 
     // A wrapped row would leave the indicator jumping between lines.

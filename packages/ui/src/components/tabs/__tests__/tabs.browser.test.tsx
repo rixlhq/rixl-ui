@@ -85,6 +85,28 @@ describe("Tabs Browser Mode", () => {
     await expect.element(page.getByTestId("tab-overview")).toHaveFocus();
   });
 
+  // There is no full-width mode: an app that wants stretched tabs says so with classNames.
+  it("stretches the row across the root when the app passes w-full and flex-1", async () => {
+    render(
+      <div className="w-[480px]">
+        <Tabs defaultValue="a" data-testid="stretch-root">
+          <TabsList className="w-full">
+            <TabsTrigger value="a" className="flex-1">
+              A
+            </TabsTrigger>
+            <TabsTrigger value="b" className="flex-1" data-testid="stretch-last">
+              B
+            </TabsTrigger>
+          </TabsList>
+        </Tabs>
+      </div>
+    );
+    await expect.element(page.getByTestId("stretch-last")).toBeVisible();
+    const root = document.querySelector<HTMLElement>("[data-testid='stretch-root']")!.getBoundingClientRect();
+    const list = document.querySelector<HTMLElement>("[data-slot='tabs-list']")!.getBoundingClientRect();
+    expect(list.width).toBeCloseTo(root.width, 0);
+  });
+
   it("has no WCAG 2.2 AA violations", async () => {
     render(<TestTabs />);
     await expect.element(page.getByTestId("panel-overview")).toBeVisible();

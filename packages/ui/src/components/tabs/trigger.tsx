@@ -31,16 +31,15 @@ const triggerVariants = cva(
       // description, and a hard height would let that content spill out of the
       // box the indicator is measured from.
       size: {sm: "min-h-7 px-2.5 py-1 text-xs", md: "min-h-8 px-3 py-1.5 text-sm"},
-      fullWidth: {true: "flex-1", false: ""},
     },
-    defaultVariants: {variant: "segmented", size: "md", fullWidth: false},
+    defaultVariants: {variant: "segmented", size: "md"},
   }
 );
 
 export type TabsTriggerProps = TabsPrimitive.Tab.Props;
 
 export const TabsTrigger = forwardRef<HTMLButtonElement, TabsTriggerProps>(function TabsTrigger({className, onClick, ...props}, ref) {
-  const {variant, size, fullWidth} = useContext(TabsStyleContext);
+  const {variant, size} = useContext(TabsStyleContext);
   return (
     <TabsPrimitive.Tab
       ref={ref}
@@ -54,7 +53,7 @@ export const TabsTrigger = forwardRef<HTMLButtonElement, TabsTriggerProps>(funct
           inline: "nearest",
         });
       }}
-      className={cn(triggerVariants({variant, size, fullWidth}), className)}
+      className={cn(triggerVariants({variant, size}), className)}
       {...props}
     />
   );
