@@ -2,6 +2,11 @@ import {getDefaultClassNames} from "react-day-picker";
 import {cn} from "../../lib/cn";
 type CalendarClassNames = ReturnType<typeof getDefaultClassNames>;
 
+// The band has no neighbour past the edge of a week, so its cell rounds that side. Logical radii, so a right-to-left page mirrors them.
+// The first day is not `:first-child` when a week-number cell comes before it, so it is the first cell with a `data-day`.
+const weekStartRound = "[&:nth-child(1_of_[data-day])]:rounded-s-md";
+const weekEndRound = "last:rounded-e-md";
+
 export function gridClassNames(defaultClassNames: CalendarClassNames) {
   return {
     month_grid: cn("w-full border-collapse", defaultClassNames.month_grid),
@@ -18,9 +23,9 @@ export function gridClassNames(defaultClassNames: CalendarClassNames) {
       defaultClassNames.day
     ),
     // The band is the cell's background; each end cell carries it behind a rounded primary cap, so the band runs into the cap.
-    range_start: cn("rounded-s-md bg-rixl-surface-muted", defaultClassNames.range_start),
-    range_middle: cn("rounded-none bg-rixl-surface-muted", defaultClassNames.range_middle),
-    range_end: cn("rounded-e-md bg-rixl-surface-muted", defaultClassNames.range_end),
+    range_start: cn("rounded-s-md bg-rixl-surface-muted", weekEndRound, defaultClassNames.range_start),
+    range_middle: cn("rounded-none bg-rixl-surface-muted", weekStartRound, weekEndRound, defaultClassNames.range_middle),
+    range_end: cn("rounded-e-md bg-rixl-surface-muted", weekStartRound, defaultClassNames.range_end),
     outside: cn("text-rixl-fg-muted aria-selected:text-rixl-fg-muted", defaultClassNames.outside),
     disabled: cn("text-rixl-fg-muted", defaultClassNames.disabled),
     hidden: cn("invisible", defaultClassNames.hidden),
