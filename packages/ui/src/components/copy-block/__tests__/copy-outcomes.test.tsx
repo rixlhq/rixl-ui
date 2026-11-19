@@ -9,7 +9,7 @@ describe("CopyBlock outcomes", () => {
       finish = resolve;
     });
     vi.stubGlobal("navigator", {...navigator, clipboard: {writeText: () => pending}});
-    render(<CopyBlock title="Code" value="abc" />);
+    render(<CopyBlock title="Code" text="abc" />);
     act(() => screen.getByRole("button").click());
     expect(document.querySelector('[data-copied="true"]')).toBeNull();
     await act(async () => {
@@ -21,7 +21,7 @@ describe("CopyBlock outcomes", () => {
 
   it("shows no success and announces nothing when the copy fails", async () => {
     vi.stubGlobal("navigator", {...navigator, clipboard: {writeText: vi.fn().mockRejectedValue(new Error("Denied"))}});
-    render(<CopyBlock title="Code" value="abc" />);
+    render(<CopyBlock title="Code" text="abc" />);
     await act(async () => screen.getByRole("button").click());
     expect(document.querySelector('[data-copied="true"]')).toBeNull();
     expect(screen.getByRole("status")).toBeEmptyDOMElement();
@@ -29,7 +29,7 @@ describe("CopyBlock outcomes", () => {
 
   it("lets the button try again after a failed copy", async () => {
     vi.stubGlobal("navigator", {...navigator, clipboard: {writeText: vi.fn().mockRejectedValue(new Error("Denied"))}});
-    render(<CopyBlock title="Code" value="abc" />);
+    render(<CopyBlock title="Code" text="abc" />);
     await act(async () => screen.getByRole("button").click());
     expect(screen.getByRole("button")).toBeEnabled();
   });

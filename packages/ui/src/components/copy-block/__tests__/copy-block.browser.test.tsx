@@ -14,7 +14,7 @@ describe("CopyBlock Browser Mode", () => {
     vi.stubGlobal("navigator", {...navigator, clipboard: {writeText: () => Promise.resolve()}});
     render(
       <div className="p-12">
-        <CopyBlock title="Token" value="abc" tooltip={{text: "Copy", copiedText: "Copied!"}} />
+        <CopyBlock title="Token" text="abc" tooltip={{text: "Copy", copiedText: "Copied!"}} />
       </div>
     );
     const button = page.getByRole("button", {name: "Copy to clipboard"});
@@ -26,8 +26,17 @@ describe("CopyBlock Browser Mode", () => {
   });
 
   it("has no axe violations without a tooltip", async () => {
-    render(<CopyBlock title="Token" value="abc" />);
+    render(<CopyBlock title="Token" text="abc" />);
     await expect.element(page.getByRole("button", {name: "Copy to clipboard"})).toBeVisible();
+    expect(await axeViolations(document.body)).toEqual([]);
+  });
+
+  it("has no axe violations masked or revealed, and the reveal button swaps the content", async () => {
+    render(<CopyBlock title="Token" text="abc" masked />);
+    await expect.element(page.getByRole("button", {name: "Reveal value"})).toBeVisible();
+    expect(await axeViolations(document.body)).toEqual([]);
+    await userEvent.click(page.getByRole("button", {name: "Reveal value"}));
+    await expect.element(page.getByText("abc", {exact: true})).toBeVisible();
     expect(await axeViolations(document.body)).toEqual([]);
   });
 });

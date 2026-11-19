@@ -37,7 +37,7 @@ export const Empty = forwardRef<HTMLDivElement, EmptyProps>(
           <Heading className="text-lg font-semibold tracking-tight text-rixl-fg">{title}</Heading>
           {description && <p className="text-sm text-balance text-rixl-fg-muted">{description}</p>}
         </div>
-        {commandLine && <CopyBlock value={commandLine} className="w-full max-w-sm" />}
+        {commandLine && <CopyBlock text={commandLine} className="w-full max-w-sm" />}
         {children}
         {action}
       </div>

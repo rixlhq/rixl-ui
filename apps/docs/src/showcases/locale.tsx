@@ -11,7 +11,7 @@ export const title = "Locale";
 export const group = "providers";
 export const description = "Replace the English copy @rixl/ui draws on its own.";
 export const notes =
-  "Every component that renders text owns its English defaults, and takes a labels prop to override them. RixlLocaleProvider is the optional app-wide layer: it overrides only the strings you pass, holds no defaults, and a component's labels prop beats it. Precedence is labels, then the provider, then the component's own default. Provider groups: breadcrumb (label), copyBlock (copyAction, copied), label (optional, the (optional) marker on Label, Input, Checkbox and the other fields) and pagination. Values are plain strings, or functions for the strings that interpolate (pagination.page, pagination.showing), so compiled message functions from an i18n library can be passed in directly. Breadcrumb takes aria-label instead of labels, as Kumo's does. Names for icon buttons and landmarks the library cannot know (a dialog's close button, a field's info icon, the sidebar toggle) are not in the provider: pass your own translated string as aria-label or labelTooltipAriaLabel. Calendar text comes from DatePicker's react-day-picker locale. The provider computes its value on every render, so passing new strings after a locale switch updates every component. The library ships English only and has no i18n dependency; a consumer of one component pulls no strings for another.";
+  "Every component that renders text owns its English defaults, and takes a labels prop to override them. RixlLocaleProvider is the optional app-wide layer: it overrides only the strings you pass, holds no defaults, and a component's labels prop beats it. Precedence is labels, then the provider, then the component's own default. Provider groups: breadcrumb (label), copyBlock (copyAction, copied, revealAction, hideAction), label (optional, the (optional) marker on Label, Input, Checkbox and the other fields) and pagination. Values are plain strings, or functions for the strings that interpolate (pagination.page, pagination.showing), so compiled message functions from an i18n library can be passed in directly. Breadcrumb takes aria-label instead of labels, as Kumo's does. Names for icon buttons and landmarks the library cannot know (a dialog's close button, a field's info icon, the sidebar toggle) are not in the provider: pass your own translated string as aria-label or labelTooltipAriaLabel. Calendar text comes from DatePicker's react-day-picker locale. The provider computes its value on every render, so passing new strings after a locale switch updates every component. The library ships English only and has no i18n dependency; a consumer of one component pulls no strings for another.";
 
 /** What an app would keep in its message files. German and French are demo data, not shipped by the library. */
 const messages = {
@@ -72,7 +72,7 @@ function Demo({locale}: {locale: Locale}) {
   return (
     <RixlLocaleProvider translations={toRixlTranslations(messages[locale])}>
       <div className="flex w-full max-w-md flex-col gap-4">
-        <CopyBlock title="Token" value="sk_live_51H3xQ9kP2e0R8m" />
+        <CopyBlock title="Token" text="sk_live_51H3xQ9kP2e0R8m" />
         <Input label="Display name" required={false} placeholder="Ada" />
         <Breadcrumb>
           <BreadcrumbList>
@@ -99,7 +99,7 @@ function InstanceExample() {
   return (
     <RixlLocaleProvider translations={toRixlTranslations(messages.de)}>
       <Group label="Provider: German; these instances: labels">
-        <CopyBlock title="Token" value="sk_live_51H3xQ9kP2e0R8m" labels={{copied: "Fertig!"}} className="w-full max-w-md" />
+        <CopyBlock title="Token" text="sk_live_51H3xQ9kP2e0R8m" labels={{copied: "Fertig!"}} className="w-full max-w-md" />
         <Input label="Display name" required={false} labels={{optional: "(wenn du magst)"}} className="w-full max-w-md" />
         <Breadcrumb aria-label="Pfad">
           <BreadcrumbList>
@@ -137,7 +137,7 @@ export const examples: Example[] = [
     description:
       "A component's labels prop beats the provider for the keys it sets and leaves the rest alone. Breadcrumb takes aria-label instead.",
     render: InstanceExample,
-    code: `<CopyBlock title="Token" value={token} labels={{copied: "Fertig!"}} />
+    code: `<CopyBlock title="Token" text={token} labels={{copied: "Fertig!"}} />
 <Input label="Display name" required={false} labels={{optional: "(wenn du magst)"}} />
 <Breadcrumb aria-label="Pfad">…</Breadcrumb>`,
   },

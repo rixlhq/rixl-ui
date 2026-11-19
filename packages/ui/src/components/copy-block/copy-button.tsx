@@ -1,4 +1,4 @@
-import {Button} from "../button";
+import {Button, type ButtonProps} from "../button";
 import {Tooltip, type TooltipProps} from "../tooltip";
 import type {CopyBlockLabels} from "./copy-block-labels";
 import {CopyIndicator} from "./copy-indicator";
@@ -15,6 +15,7 @@ export type CopyBlockTooltip = {
 
 type CopyButtonProps = {
   state: CopyState;
+  size: ButtonProps["size"];
   disabled: boolean;
   labels: CopyBlockLabels;
   /** Id of the visible title, which describes the button. */
@@ -24,14 +25,14 @@ type CopyButtonProps = {
 };
 
 /** The icon button of a `CopyBlock`; wrapped in a tooltip only when the app asks for one. */
-export function CopyButton({state, disabled, labels, describedBy, tooltip, onCopy}: CopyButtonProps) {
+export function CopyButton({state, size, disabled, labels, describedBy, tooltip, onCopy}: CopyButtonProps) {
   const copied = state === "copied";
   const buttonProps = {
     "data-slot": "copy-block-button",
     type: "button",
     variant: "ghost",
     shape: "square",
-    size: "sm",
+    size,
     "aria-label": labels.copyAction,
     "aria-describedby": describedBy,
     "data-copied": copied || undefined,

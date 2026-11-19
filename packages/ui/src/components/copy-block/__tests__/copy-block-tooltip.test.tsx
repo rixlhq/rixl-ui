@@ -19,7 +19,7 @@ async function hover() {
 function setup(props: Partial<CopyBlockProps> = {}) {
   vi.useFakeTimers();
   vi.stubGlobal("navigator", {...navigator, clipboard: {writeText: () => Promise.resolve()}});
-  render(<CopyBlock title="Token" value="abc" {...props} />);
+  render(<CopyBlock title="Token" text="abc" {...props} />);
 }
 
 describe("CopyBlock tooltip", () => {

@@ -2,7 +2,7 @@
 
 ## 1. CopyBlock
 
-- [ ] 1.1 `text`, `textToCopy`, `size`, `masked`, reveal and hide labels (test first)
+- [x] 1.1 `text`, `textToCopy`, `size`, `masked`, reveal and hide labels (test first): `copy-block-options.test.tsx` passes (15 tests), `copy-block.browser.test.tsx` "has no axe violations masked or revealed"; `vpr budget` 51.29 kB of 53 kB (was 50.88)
 
 ## 2. Breadcrumb
 

@@ -4,7 +4,12 @@ import {RixlLocaleProvider} from "../locale-provider";
 import {useTranslations} from "../use-translations";
 import type {CopyBlockLabels} from "../../copy-block/copy-block-labels";
 
-const defaults: CopyBlockLabels = {copyAction: "Copy to clipboard", copied: "Copied"};
+const defaults: CopyBlockLabels = {
+  copyAction: "Copy to clipboard",
+  copied: "Copied",
+  revealAction: "Reveal value",
+  hideAction: "Hide value",
+};
 
 function Probe({labels}: {labels?: Partial<CopyBlockLabels>}) {
   const t = useTranslations("copyBlock", defaults, labels);

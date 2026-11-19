@@ -4,19 +4,19 @@ import {CopyBlock} from "../copy-block";
 
 describe("CopyBlock", () => {
   it("renders the title and value", () => {
-    render(<CopyBlock title="API Key" value="sk_live_123" />);
+    render(<CopyBlock title="API Key" text="sk_live_123" />);
     expect(screen.getByText("API Key:")).toBeInTheDocument();
     expect(screen.getByText("sk_live_123")).toBeInTheDocument();
   });
 
   it("renders the copy button with the icon", () => {
-    render(<CopyBlock title="API Key" value="sk_live_123" />);
+    render(<CopyBlock title="API Key" text="sk_live_123" />);
     expect(screen.getByRole("button")).toBeInTheDocument();
     expect(screen.getByRole("button")).toContainHTML("svg");
   });
 
   it("marks the copy button for slot targeting", () => {
-    render(<CopyBlock title="API Key" value="sk_live_123" />);
+    render(<CopyBlock title="API Key" text="sk_live_123" />);
     expect(screen.getByRole("button")).toHaveAttribute("data-slot", "copy-block-button");
   });
 
@@ -24,7 +24,7 @@ describe("CopyBlock", () => {
     vi.useFakeTimers();
     const writeText = vi.fn().mockResolvedValue(undefined);
     vi.stubGlobal("navigator", {...navigator, clipboard: {writeText}});
-    render(<CopyBlock title="API Key" value="sk_live_123" />);
+    render(<CopyBlock title="API Key" text="sk_live_123" />);
     const btn = screen.getByRole("button");
     expect(btn).not.toHaveAttribute("data-copied");
     await act(async () => {
@@ -44,7 +44,7 @@ describe("CopyBlock", () => {
   });
 
   it("applies token-based press feedback and focus-visible ring without legacy shadcn classes", () => {
-    render(<CopyBlock title="API Key" value="sk_live_123" />);
+    render(<CopyBlock title="API Key" text="sk_live_123" />);
     const btn = screen.getByRole("button");
     expect(btn.className).toContain("active:scale-[var(--rixl-press-scale)]");
     expect(btn.className).toContain("motion-reduce:active:scale-100");
