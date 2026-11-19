@@ -186,7 +186,12 @@ function ControlField({
 
   return (
     <div className="flex items-center gap-2">
-      <Switch id={controlId} checked={Boolean(value)} onCheckedChange={(checked) => onChange({...state, [control.name]: checked})} />
+      <Switch
+        id={controlId}
+        aria-label={control.label}
+        checked={Boolean(value)}
+        onCheckedChange={(checked) => onChange({...state, [control.name]: checked})}
+      />
       <Label htmlFor={controlId} className="cursor-pointer text-xs text-rixl-fg-muted">
         {control.label}
       </Label>

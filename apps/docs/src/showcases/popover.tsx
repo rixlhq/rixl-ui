@@ -1,6 +1,5 @@
 import {Button} from "@rixl/ui/button";
 import {Input} from "@rixl/ui/input";
-import {Label} from "@rixl/ui/label";
 import {Popover, PopoverContent, PopoverTrigger} from "@rixl/ui/popover";
 import {Switch} from "@rixl/ui/switch";
 import type {ControlValue, Example} from "./registry";
@@ -77,10 +76,7 @@ function FormInsideExample(props: {state: Record<string, ControlValue>}) {
       <PopoverContent>
         <div className="space-y-4">
           <Input label="Dimensions" defaultValue="1000×1000" />
-          <div className="flex items-center justify-between gap-2">
-            <Label htmlFor="popover-crop">Automatically crop to source</Label>
-            <Switch id="popover-crop" defaultChecked />
-          </div>
+          <Switch label="Automatically crop to source" controlFirst={false} defaultChecked />
           <Button size="sm">Update image</Button>
         </div>
       </PopoverContent>
