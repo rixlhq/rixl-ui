@@ -13,7 +13,7 @@
 ## 3. Slider
 
 - [x] 3.1 One-piece `Slider` with `label`, `size`, `getAriaLabel`; remove the parts (test first); `vpr budget` 57.11 kB of 58 kB
-- [ ] 3.2 Publish `slider` (entry, export, barrel, showcase): 58.69 kB with it, 687 B over the limit; blocked on budget
+- [x] 3.2 Publish `slider` (entry, export, barrel, showcase); JSDoc left out of the dist JS first (57.11 to 49.65 kB), then `vpr budget` 50.88 kB of 58 kB with Slider
 
 ## 4. Docs and specs
 

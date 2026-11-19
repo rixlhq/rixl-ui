@@ -7,6 +7,7 @@ import * as badge from "./badge";
 import * as avatar from "./avatar";
 import * as skeleton from "./skeleton";
 import * as progress from "./progress";
+import * as slider from "./slider";
 import * as alert from "./alert";
 import * as input from "./input";
 import * as inputGroup from "./input-group";
@@ -92,6 +93,7 @@ export const showcases: Showcase[] = [
   avatar,
   skeleton,
   progress,
+  slider,
   alert,
   input,
   inputGroup,

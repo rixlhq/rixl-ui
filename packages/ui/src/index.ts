@@ -16,6 +16,7 @@ export * from "./components/badge";
 export * from "./components/avatar";
 export * from "./components/skeleton";
 export * from "./components/progress";
+export * from "./components/slider";
 export * from "./components/alert";
 export * from "./components/input";
 export * from "./components/input-group";

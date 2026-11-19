@@ -40,6 +40,7 @@ export default defineConfig({
       avatar: "src/components/avatar/index.ts",
       skeleton: "src/components/skeleton/index.ts",
       progress: "src/components/progress/index.ts",
+      slider: "src/components/slider/index.ts",
       alert: "src/components/alert/index.ts",
       input: "src/components/input/index.ts",
       "input-group": "src/components/input-group/index.ts",

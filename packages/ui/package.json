@@ -80,6 +80,11 @@
       "development": "./src/components/progress/index.ts",
       "import": "./dist/progress.js"
     },
+    "./slider": {
+      "types": "./dist/slider.d.ts",
+      "development": "./src/components/slider/index.ts",
+      "import": "./dist/slider.js"
+    },
     "./alert": {
       "types": "./dist/alert.d.ts",
       "development": "./src/components/alert/index.ts",
