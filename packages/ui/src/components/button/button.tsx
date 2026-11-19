@@ -1,4 +1,4 @@
-import {forwardRef, isValidElement} from "react";
+import {createElement, forwardRef, isValidElement, type ComponentType, type ReactNode} from "react";
 import {Button as ButtonPrimitive} from "@base-ui/react/button";
 import {cva, type VariantProps} from "class-variance-authority";
 import {LoaderCircle} from "lucide-react";
@@ -82,15 +82,29 @@ export type ButtonProps = ButtonPrimitive.Props & {
   size?: ButtonSize | null;
   /** `square` and `circle` are fixed-size boxes for icon-only buttons; give them an accessible name. */
   shape?: ButtonShape | null;
+  /** An icon component or a node, rendered before the children. The spinner takes its place while `loading`. */
+  icon?: ComponentType<{className?: string}> | ReactNode;
   loading?: boolean;
 };
+
+type ButtonIcon = ButtonProps["icon"];
+
+// A component is a function, or an object such as forwardRef and memo return; an element is also an object, so callers rule it out first.
+function isComponentType(icon: ButtonIcon): icon is ComponentType<{className?: string}> {
+  return typeof icon === "function" || (typeof icon === "object" && icon !== null && "$$typeof" in icon);
+}
+
+function renderIcon(icon: ButtonIcon): ReactNode {
+  if (isValidElement(icon) || !isComponentType(icon)) return icon;
+  return createElement(icon);
+}
 
 function ButtonSpinner() {
   return <LoaderCircle data-slot="button-spinner" strokeWidth={2.5} className="size-4 animate-spin motion-reduce:animate-none" />;
 }
 
 const Button = forwardRef<HTMLButtonElement, ButtonProps>(
-  ({className, variant, size, shape, loading, disabled, nativeButton, render, children, ...props}, ref) => {
+  ({className, variant, size, shape, icon, loading, disabled, nativeButton, render, children, ...props}, ref) => {
     // When rendered as a non-<button> element (e.g. render={<Link/>}), tell Base UI so it drops native button semantics.
     const isNativeButton = nativeButton ?? (isValidElement(render) ? render.type === "button" : true);
     // Falling back to `primary` keeps a bare <Button> styled.
@@ -107,7 +121,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         className={cn(buttonVariants({variant: resolved, size, shape, className}))}
         {...props}
       >
-        {loading && <ButtonSpinner />}
+        {loading ? <ButtonSpinner /> : renderIcon(icon)}
         {children}
       </ButtonPrimitive>
     );

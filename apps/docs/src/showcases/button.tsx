@@ -99,6 +99,28 @@ function SizesExample() {
   );
 }
 
+function IconExample() {
+  return (
+    <div className="space-y-6">
+      <Group label="Icon — a component or a node, rendered before the label">
+        <Button icon={PlusIcon}>Create project</Button>
+        <Button variant="outline" icon={<SearchIcon />}>
+          Search
+        </Button>
+      </Group>
+      <Group label="Icon only — square or circle, named with aria-label">
+        <Button shape="square" variant="outline" icon={SearchIcon} aria-label="Search" />
+        <Button shape="circle" icon={PlusIcon} aria-label="Add" />
+      </Group>
+      <Group label="Loading — the spinner replaces the icon">
+        <Button icon={PlusIcon} loading>
+          Creating
+        </Button>
+      </Group>
+    </div>
+  );
+}
+
 function StatesExample() {
   return (
     <div className="space-y-6">
@@ -190,6 +212,16 @@ duration-(--rixl-motion-fast) ease-out`,
 <Button shape="square" aria-label="Search"><SearchIcon /></Button>
 <Button shape="square" size="sm" aria-label="Search"><SearchIcon /></Button>
 <Button shape="circle" aria-label="Add"><PlusIcon /></Button>`,
+  },
+  {
+    id: "icon",
+    title: "Icon",
+    description: "Pass an icon component or a node; it renders before the label and gives way to the spinner while loading.",
+    render: IconExample,
+    code: `<Button icon={PlusIcon}>Create project</Button>
+<Button variant="outline" icon={<SearchIcon />}>Search</Button>
+<Button shape="square" icon={SearchIcon} aria-label="Search" />
+<Button icon={PlusIcon} loading>Creating</Button>`,
   },
   {
     id: "states",

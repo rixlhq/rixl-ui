@@ -1,7 +1,13 @@
 import {describe, it, expect, vi} from "vitest";
 import fc from "fast-check";
 import {render, screen} from "@testing-library/react";
+import {forwardRef, memo} from "react";
 import {Button, buttonVariants} from "../button";
+
+const PlusIcon = () => <svg data-testid="icon" />;
+const RefPlusIcon = forwardRef<SVGSVGElement>((_props, ref) => <svg ref={ref} data-testid="icon" />);
+RefPlusIcon.displayName = "RefPlusIcon";
+const MemoPlusIcon = memo(PlusIcon);
 
 describe("Button", () => {
   it("renders as a native <button>", () => {
@@ -123,6 +129,55 @@ describe("Button", () => {
     expect(document.querySelector("[data-slot='button-spinner']")).not.toBeNull();
     btn.click();
     expect(onClick).not.toHaveBeenCalled();
+  });
+
+  describe("icon", () => {
+    it("renders an icon component before the children", () => {
+      render(<Button icon={PlusIcon}>Create</Button>);
+      const btn = screen.getByRole("button", {name: "Create"});
+      expect(btn.firstElementChild).toBe(screen.getByTestId("icon"));
+      expect(btn.lastChild?.textContent).toBe("Create");
+    });
+
+    it("renders a forwardRef icon component", () => {
+      render(<Button icon={RefPlusIcon}>Create</Button>);
+      expect(screen.getByTestId("icon")).toBeInTheDocument();
+    });
+
+    it("renders a memo icon component", () => {
+      render(<Button icon={MemoPlusIcon}>Create</Button>);
+      expect(screen.getByTestId("icon")).toBeInTheDocument();
+    });
+
+    it("renders an icon element as given", () => {
+      render(<Button icon={<svg data-testid="icon" className="custom" />}>Create</Button>);
+      expect(screen.getByTestId("icon")).toHaveClass("custom");
+    });
+
+    it("renders text given as the icon", () => {
+      render(<Button icon="★">Star</Button>);
+      expect(screen.getByRole("button").textContent).toBe("★Star");
+    });
+
+    it("renders only the icon for an icon-only button", () => {
+      render(<Button shape="square" icon={PlusIcon} aria-label="Add" />);
+      expect(screen.getByRole("button", {name: "Add"}).querySelector("svg")).not.toBeNull();
+    });
+
+    it("renders nothing for a missing icon", () => {
+      render(<Button icon={null}>Create</Button>);
+      expect(screen.getByRole("button").querySelector("svg")).toBeNull();
+    });
+
+    it("swaps the icon for the spinner while loading", () => {
+      render(
+        <Button icon={PlusIcon} loading>
+          Create
+        </Button>
+      );
+      expect(screen.queryByTestId("icon")).toBeNull();
+      expect(document.querySelectorAll("[data-slot='button-spinner']")).toHaveLength(1);
+    });
   });
 
   it("renders as a non-button element via `render`", () => {
