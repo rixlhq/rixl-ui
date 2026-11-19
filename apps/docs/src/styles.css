@@ -498,7 +498,6 @@ body {
     padding: 0;
     justify-content: center;
   }
-  .docs-search-trigger > span,
   .docs-search-trigger kbd {
     display: none;
   }

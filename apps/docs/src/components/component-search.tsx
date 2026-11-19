@@ -39,9 +39,9 @@ export function ComponentSearch() {
     >
       <PopoverTrigger
         render={
-          <Button ref={triggerRef} variant="outline" size="sm" className="docs-search-trigger" aria-label="Search components">
+          <Button ref={triggerRef} variant="outline" size="sm" className="docs-search-trigger">
             <SearchIcon />
-            <span>Search components</span>
+            <span className="max-[540px]:sr-only">Search components</span>
             <kbd aria-hidden="true">⌘ K</kbd>
           </Button>
         }

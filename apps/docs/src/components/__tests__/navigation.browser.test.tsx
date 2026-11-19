@@ -70,6 +70,16 @@ describe("showcase navigation", () => {
     await expect.element(trigger).toHaveFocus();
     await expect.element(popup).not.toBeInTheDocument();
   });
+  it("names the search trigger from its visible text", async () => {
+    await page.viewport(1440, 900);
+    const trigger = page.getByRole("button", {name: "Search components", exact: true});
+    // The rule is experimental, so the WCAG tag set skips it unless it is turned on by id.
+    const {violations} = await axe.run(trigger.element(), {
+      rules: {"label-content-name-mismatch": {enabled: true}},
+      runOnly: ["label-content-name-mismatch"],
+    });
+    expect(violations.map((violation) => violation.id)).toEqual([]);
+  });
   it("navigates to the result with the keyboard", async () => {
     await userEvent.keyboard("{Control>}k{/Control}");
     const input = page.getByRole("textbox", {name: "Search components", exact: true});
@@ -100,7 +110,7 @@ describe("showcase navigation", () => {
     expect(document.documentElement.dir).toBe("rtl");
     const sidebar = document.querySelector("[data-slot='sidebar-container']")!.getBoundingClientRect();
     expect(Math.round(sidebar.right)).toBe(window.innerWidth);
-    // axe on the whole page takes over 10 s, and the header's search trigger has an unrelated name mismatch.
+    // axe on the whole page takes over 10 s.
     expect(await axeViolations(toggle.element())).toEqual([]);
     expect(await axeViolations(document.querySelector("[data-slot='sidebar-container']")!)).toEqual([]);
     await toggle.click();
