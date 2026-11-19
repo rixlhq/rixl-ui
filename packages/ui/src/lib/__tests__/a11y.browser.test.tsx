@@ -22,6 +22,7 @@ describe("axeViolations", () => {
   });
 
   it("reports a violation on an element that has an infinite animation running", async () => {
+    // react-doctor-disable-next-line react-doctor/alt-text -- the missing alt is the violation axe must report
     const {container} = render(<img src="data:image/gif;base64,R0lGODlhAQABAAAAACw=" />);
     container.querySelector("img")!.animate({transform: ["rotate(0deg)", "rotate(360deg)"]}, {duration: 400, iterations: Infinity});
 
