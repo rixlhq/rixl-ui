@@ -2,7 +2,7 @@ import {cva} from "class-variance-authority";
 import {cn} from "../../lib/cn";
 const dialogContentSizeClasses = {
   sm: "sm:max-w-sm",
-  default: "sm:max-w-lg",
+  base: "sm:max-w-lg",
   lg: "sm:max-w-2xl",
   xl: "sm:max-w-4xl",
 } as const;
@@ -29,6 +29,6 @@ export const dialogContentVariants = cva(
           "top-[50%] left-[50%] max-h-[calc(100dvh-2rem)] max-w-[calc(100%-2rem)] translate-x-[-50%] translate-y-[-50%] rounded-lg border shadow-lg",
       },
     },
-    defaultVariants: {size: "default", placement: "responsive"},
+    defaultVariants: {size: "base", placement: "responsive"},
   }
 );

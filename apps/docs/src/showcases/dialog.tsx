@@ -143,10 +143,10 @@ function CustomContentExample(props: {state: Record<string, ControlValue>}) {
 
 function SizesExample(props: {state: Record<string, ControlValue>}) {
   void props;
-  const labels = {sm: "Sm", default: "Default", lg: "Lg", xl: "Xl"} as const;
+  const labels = {sm: "Sm", base: "Base", lg: "Lg", xl: "Xl"} as const;
   return (
     <Group label="Sizes">
-      {(["sm", "default", "lg", "xl"] as const).map((size) => (
+      {(["sm", "base", "lg", "xl"] as const).map((size) => (
         <Dialog key={size}>
           <DialogTrigger render={<Button variant="outline">{labels[size]}</Button>} />
           <DialogContent size={size}>

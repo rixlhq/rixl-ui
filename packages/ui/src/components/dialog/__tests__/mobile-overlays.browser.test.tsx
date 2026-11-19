@@ -98,7 +98,7 @@ describe("mobile overlay layout", () => {
     await expect.element(dialog).not.toBeInTheDocument();
   });
 
-  it.each(["sm", "default", "lg", "xl"] as const)("keeps the %s dialog centered on desktop", async (size) => {
+  it.each(["sm", "base", "lg", "xl"] as const)("keeps the %s dialog centered on desktop", async (size) => {
     await page.viewport(1280, 800);
     render(
       <Dialog defaultOpen>
@@ -110,7 +110,7 @@ describe("mobile overlay layout", () => {
     );
     const dialog = page.getByRole("dialog");
     await expect.element(dialog).toBeVisible();
-    const expected = {sm: 384, default: 512, lg: 672, xl: 896}[size];
+    const expected = {sm: 384, base: 512, lg: 672, xl: 896}[size];
     await expect.poll(() => Math.round(dialog.element().getBoundingClientRect().width)).toBe(expected);
     expect(Math.round(dialog.element().getBoundingClientRect().left)).toBe((1280 - expected) / 2);
   });

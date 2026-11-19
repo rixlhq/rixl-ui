@@ -156,7 +156,7 @@ describe("Dialog", () => {
   });
 
   describe("size", () => {
-    it("defaults to the lg max-width", async () => {
+    it("defaults to the base max-width", async () => {
       render(<Basic open />);
       await act(async () => {});
       expect(screen.getByTestId("content").className).toContain("sm:max-w-lg");
@@ -175,6 +175,10 @@ describe("Dialog", () => {
       expect(screen.getByTestId("content").className).toContain("sm:max-w-2xl");
     });
 
+    it("names the middle size base", () => {
+      expect(dialogContentVariants({size: "base"})).toContain("sm:max-w-lg");
+    });
+
     it("dialogContentVariants is exported and produces size classes", () => {
       expect(dialogContentVariants({size: "xl"})).toContain("sm:max-w-4xl");
     });
@@ -185,7 +189,7 @@ describe("role", () => {
   function RoleDialog({
     role,
     contentProps,
-  }: {role?: DialogRole; contentProps?: {size?: "sm" | "default" | "lg" | "xl"; className?: string}} = {}) {
+  }: {role?: DialogRole; contentProps?: {size?: "sm" | "base" | "lg" | "xl"; className?: string}} = {}) {
     return (
       <Dialog open role={role}>
         <DialogTrigger data-testid="trigger" render={<button type="button">Open</button>} />
