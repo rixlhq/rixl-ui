@@ -5,9 +5,8 @@ import {cn} from "../../lib/cn";
 /**
  * Rixl Skeleton — a placeholder for loading UI.
  *
- * Size comes from consumer classes (`<Skeleton className="h-4 w-32" />`). `shape`
- * is `rect` (rounded rectangle, the default) or `circle` for avatars. Pick the
- * loading motion via `animation`:
+ * Size and shape come from consumer classes (`<Skeleton className="h-4 w-32" />`,
+ * `rounded-full` for avatars). Pick the loading motion via `animation`:
  *
  * - `shimmer` (default) → a highlight band sweeps across the placeholder (the
  *   Facebook / Linear / Stripe style), using `--rixl-surface-raised` over the
@@ -22,12 +21,8 @@ import {cn} from "../../lib/cn";
  * The atom is decorative, so it defaults to `aria-hidden`. Pair a group of
  * skeletons with a `role="status"` container that carries an sr-only "Loading…".
  */
-const skeletonVariants = cva("bg-rixl-surface-muted", {
+const skeletonVariants = cva("bg-rixl-surface-muted rounded-md", {
   variants: {
-    shape: {
-      rect: "rounded-md",
-      circle: "rounded-full",
-    },
     animation: {
       pulse: "animate-pulse motion-reduce:animate-none",
       shimmer: cn(
@@ -38,13 +33,13 @@ const skeletonVariants = cva("bg-rixl-surface-muted", {
       none: "",
     },
   },
-  defaultVariants: {shape: "rect", animation: "shimmer"},
+  defaultVariants: {animation: "shimmer"},
 });
 
 export type SkeletonProps = ComponentProps<"div"> & VariantProps<typeof skeletonVariants>;
 
-const Skeleton = forwardRef<HTMLDivElement, SkeletonProps>(({className, shape, animation, ...props}, ref) => (
-  <div ref={ref} data-slot="skeleton" aria-hidden="true" className={cn(skeletonVariants({shape, animation}), className)} {...props} />
+const Skeleton = forwardRef<HTMLDivElement, SkeletonProps>(({className, animation, ...props}, ref) => (
+  <div ref={ref} data-slot="skeleton" aria-hidden="true" className={cn(skeletonVariants({animation}), className)} {...props} />
 ));
 Skeleton.displayName = "Skeleton";
 

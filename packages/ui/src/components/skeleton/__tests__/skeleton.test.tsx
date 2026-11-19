@@ -22,13 +22,8 @@ describe("Skeleton", () => {
     expect(cls).toContain("rounded-md");
   });
 
-  it("is a rounded rectangle by default", () => {
-    render(<Skeleton data-testid="s" />);
-    expect(screen.getByTestId("s").className).toContain("rounded-md");
-  });
-
-  it("shape='circle' is fully round instead of using the rectangle radius", () => {
-    render(<Skeleton data-testid="s" shape="circle" />);
+  it("lets a consumer rounded-full replace the rectangle radius", () => {
+    render(<Skeleton data-testid="s" className="rounded-full" />);
     const cls = screen.getByTestId("s").className;
     expect(cls).toContain("rounded-full");
     expect(cls).not.toContain("rounded-md");
