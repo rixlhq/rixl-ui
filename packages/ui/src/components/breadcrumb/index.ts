@@ -7,6 +7,7 @@ export {
   BreadcrumbSeparator,
   BreadcrumbEllipsis,
   type BreadcrumbProps,
+  type BreadcrumbSize,
   type BreadcrumbListProps,
   type BreadcrumbItemProps,
   type BreadcrumbLinkProps,

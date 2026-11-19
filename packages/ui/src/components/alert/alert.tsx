@@ -1,6 +1,7 @@
-import type {ComponentProps} from "react";
+import {forwardRef, type ComponentProps} from "react";
 import {cva, type VariantProps} from "class-variance-authority";
-import {cn} from "cn";
+import {cn} from "../../lib/cn";
+import {feedbackTint} from "../../lib/classes";
 
 /**
  * Rixl Alert — an inline banner for status / instructive messages.
@@ -12,19 +13,21 @@ import {cn} from "cn";
  *
  * Class names swapped to `--rixl-*` tokens; destructive text uses
  * `text-rixl-danger` so it reads legibly on the surface it sits on.
+ *
+ * The root has no `role`: a banner that is on the page at load needs none, and
+ * `role="alert"` would make screen readers announce it assertively on mount.
+ * Pass `role="alert"` for an urgent message that appears after the page has
+ * loaded (a failed save), or `role="status"` for a polite update (a saved draft).
  */
 const alertVariants = cva(
-  "relative w-full rounded-rixl-lg border px-4 py-3 text-sm grid has-[>svg]:grid-cols-[calc(var(--spacing)*4)_1fr] grid-cols-[0_1fr] has-[>svg]:gap-x-3 gap-y-0.5 items-start [&>svg]:size-4 [&>svg]:translate-y-0.5 [&>svg]:text-current",
+  "relative w-full rounded-lg border px-4 py-3 text-sm grid has-[>svg]:grid-cols-[calc(var(--spacing)*4)_1fr] grid-cols-[0_1fr] has-[>svg]:gap-x-3 gap-y-0.5 items-start [&>svg]:size-4 [&>svg]:translate-y-0.5 [&>svg]:text-current",
   {
     variants: {
       variant: {
         default: "border-rixl-border bg-rixl-bg text-rixl-fg",
-        destructive:
-          "border-rixl-danger/30 bg-rixl-danger/5 text-rixl-danger [&>svg]:text-current *:data-[slot=alert-description]:text-rixl-danger/80",
-        success:
-          "border-rixl-success/30 bg-rixl-success/5 text-rixl-success [&>svg]:text-current *:data-[slot=alert-description]:text-rixl-fg-muted",
-        warning:
-          "border-rixl-warning/30 bg-rixl-warning/5 text-rixl-warning [&>svg]:text-current *:data-[slot=alert-description]:text-rixl-fg-muted",
+        destructive: cn(feedbackTint.danger, "[&>svg]:text-current *:data-[slot=alert-description]:text-rixl-danger"),
+        success: cn(feedbackTint.success, "[&>svg]:text-current *:data-[slot=alert-description]:text-rixl-fg-muted"),
+        warning: cn(feedbackTint.warning, "[&>svg]:text-current *:data-[slot=alert-description]:text-rixl-fg-muted"),
       },
     },
     defaultVariants: {
@@ -33,32 +36,33 @@ const alertVariants = cva(
   }
 );
 
-function Alert({className, variant, ...props}: ComponentProps<"div"> & VariantProps<typeof alertVariants>) {
-  return <div data-slot="alert" role="alert" className={cn(alertVariants({variant}), className)} {...props} />;
-}
+const Alert = forwardRef<HTMLDivElement, AlertProps>(({className, variant, ...props}, ref) => (
+  <div ref={ref} data-slot="alert" className={cn(alertVariants({variant}), className)} {...props} />
+));
+Alert.displayName = "Alert";
 
-function AlertTitle({className, ...props}: ComponentProps<"div">) {
-  return (
-    <div
-      data-slot="alert-title"
-      className={cn("col-start-2 text-sm line-clamp-1 min-h-4 font-medium tracking-tight", className)}
-      {...props}
-    />
-  );
-}
+const AlertTitle = forwardRef<HTMLDivElement, AlertTitleProps>(({className, ...props}, ref) => (
+  <div
+    ref={ref}
+    data-slot="alert-title"
+    className={cn("col-start-2 min-h-4 min-w-0 text-sm font-medium tracking-tight wrap-anywhere", className)}
+    {...props}
+  />
+));
+AlertTitle.displayName = "AlertTitle";
 
-function AlertDescription({className, ...props}: ComponentProps<"div">) {
-  return (
-    <div
-      data-slot="alert-description"
-      className={cn(
-        "text-rixl-fg-muted col-start-2 grid min-w-0 justify-items-start gap-1 text-xs break-words [&_p]:leading-relaxed",
-        className
-      )}
-      {...props}
-    />
-  );
-}
+const AlertDescription = forwardRef<HTMLDivElement, AlertDescriptionProps>(({className, ...props}, ref) => (
+  <div
+    ref={ref}
+    data-slot="alert-description"
+    className={cn(
+      "text-rixl-fg-muted col-start-2 grid min-w-0 justify-items-start gap-1 text-xs break-words [&_p]:leading-relaxed",
+      className
+    )}
+    {...props}
+  />
+));
+AlertDescription.displayName = "AlertDescription";
 
 export {Alert, AlertTitle, AlertDescription, alertVariants};
 export type AlertProps = ComponentProps<"div"> & VariantProps<typeof alertVariants>;

@@ -84,4 +84,4 @@ Interactive `Button` (except `variant="link"`) and `Card` (`interactive`) SHALL 
 #### Scenario: Sheet drawer physics curve
 
 - **WHEN** `SheetContent` renders
-- **THEN** it transitions transform with `ease-rixl-drawer` and contains scroll chaining with `overscroll-contain` (`sheet.test.tsx`, `applies base popup classes and defaults side='right'`)
+- **THEN** it transitions transform with `ease-(--rixl-ease-drawer)` and contains scroll chaining with `overscroll-contain` (`sheet.test.tsx`, `applies base popup classes and defaults side='right'`)

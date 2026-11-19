@@ -6,46 +6,12 @@ export const path = "input";
 export const title = "Input";
 export const description = "Enter a single line of text.";
 export const notes =
-  "Single-line text input. Base UI Input on rixl tokens, with three sizes, leading/trailing icon slots, hover/focus/disabled/read-only/invalid states, and built-in Field props (label, description, error).";
-
-function SearchIcon() {
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden="true"
-    >
-      <circle cx="11" cy="11" r="8" />
-      <path d="m21 21-4.3-4.3" />
-    </svg>
-  );
-}
-
-function EyeIcon() {
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden="true"
-    >
-      <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z" />
-      <circle cx="12" cy="12" r="3" />
-    </svg>
-  );
-}
+  "Single-line text input. Base UI Input on rixl tokens, with sizes, hover/focus/disabled/read-only/invalid states, and a built-in field: label, labelTooltip, description, error and required wire the label, aria-describedby and aria-invalid for you. For icons, text addons or buttons around the input use InputGroup. The info-icon button is icon-only, so name it with labelTooltipAriaLabel; setting labelTooltip without it warns in development. (optional) shows after the label only when required is explicitly false (nothing for true or undefined, as in Kumo). Translate it with labels={{optional}} on the field, or app-wide with RixlLocaleProvider (input.optional); labels wins.";
 
 export function Showcase() {
   return (
     <div className="grid gap-3">
-      <Input placeholder="Search anything…" aria-label="Demo search" startIcon={<SearchIcon />} />
+      <Input placeholder="Search anything…" aria-label="Demo search" />
       <Input placeholder="you@example.com" aria-label="Demo email" type="email" />
     </div>
   );
@@ -53,25 +19,22 @@ export function Showcase() {
 
 function LiveExample({state}: {state: Record<string, ControlValue>}) {
   const type = state.type as React.HTMLInputTypeAttribute;
-  const inputSize = state.inputSize as "sm" | "default" | "lg";
+  const size = state.size as "xs" | "sm" | "base" | "lg";
   const disabled = state.disabled as boolean;
   const readOnly = state.readOnly as boolean;
   const invalid = state.invalid as boolean;
-  const withIcon = state.withIcon as boolean;
 
   return (
     <Input
       label={type === "email" ? "Email" : "Label"}
       type={type}
-      inputSize={inputSize}
+      size={size}
       placeholder={`${type} placeholder`}
       disabled={disabled}
       readOnly={readOnly}
       error={invalid ? "Please correct the value." : undefined}
       defaultValue={readOnly ? "read-only value" : undefined}
-      startIcon={withIcon ? <SearchIcon /> : undefined}
       className="w-full max-w-sm"
-      wrapperClassName="w-full max-w-sm"
     />
   );
 }
@@ -80,26 +43,10 @@ function SizesExample(props: {state: Record<string, ControlValue>}) {
   void props;
   return (
     <Group label="Sizes">
-      <Input inputSize="sm" placeholder="Small" className="w-full max-w-sm" />
-      <Input inputSize="default" placeholder="Default" className="w-full max-w-sm" />
-      <Input inputSize="lg" placeholder="Large" className="w-full max-w-sm" />
-    </Group>
-  );
-}
-
-function IconsExample(props: {state: Record<string, ControlValue>}) {
-  void props;
-  return (
-    <Group label="With icons">
-      <Input placeholder="Search" startIcon={<SearchIcon />} className="w-full max-w-sm" wrapperClassName="w-full max-w-sm" />
-      <Input type="password" placeholder="Password" endIcon={<EyeIcon />} className="w-full max-w-sm" wrapperClassName="w-full max-w-sm" />
-      <Input
-        placeholder="Both"
-        startIcon={<SearchIcon />}
-        endIcon={<EyeIcon />}
-        className="w-full max-w-sm"
-        wrapperClassName="w-full max-w-sm"
-      />
+      <Input size="xs" placeholder="Extra small" aria-label="Extra small" className="w-full max-w-sm" />
+      <Input size="sm" placeholder="Small" aria-label="Small" className="w-full max-w-sm" />
+      <Input size="base" placeholder="Base" aria-label="Base" className="w-full max-w-sm" />
+      <Input size="lg" placeholder="Large" aria-label="Large" className="w-full max-w-sm" />
     </Group>
   );
 }
@@ -110,6 +57,22 @@ function FieldExample(props: {state: Record<string, ControlValue>}) {
     <Group label="Built-in field">
       <Input label="Email" placeholder="you@example.com" description="We'll never share your address." className="w-full max-w-sm" />
       <Input label="Phone" required={false} placeholder="+1 (555) 000-0000" className="w-full max-w-sm" />
+    </Group>
+  );
+}
+
+function AccessibleNamesExample(props: {state: Record<string, ControlValue>}) {
+  void props;
+  return (
+    <Group label="Accessible names">
+      <Input
+        label="Email"
+        placeholder="you@example.com"
+        labelTooltip="We only use it for receipts."
+        labelTooltipAriaLabel="About email"
+        className="w-full max-w-sm"
+      />
+      <Input placeholder="Search..." aria-label="Search products" className="w-full max-w-sm" />
     </Group>
   );
 }
@@ -133,10 +96,10 @@ function StatesExample(props: {state: Record<string, ControlValue>}) {
   void props;
   return (
     <Group label="States">
-      <Input placeholder="Default" className="w-full max-w-sm" />
-      <Input placeholder="Disabled" disabled className="w-full max-w-sm" />
-      <Input readOnly defaultValue="Read-only" className="w-full max-w-sm" />
-      <Input aria-invalid placeholder="Invalid" defaultValue="not-an-email" className="w-full max-w-sm" />
+      <Input placeholder="Default" aria-label="Default" className="w-full max-w-sm" />
+      <Input placeholder="Disabled" aria-label="Disabled" disabled className="w-full max-w-sm" />
+      <Input readOnly defaultValue="Read-only" aria-label="Read-only" className="w-full max-w-sm" />
+      <Input aria-invalid aria-label="Invalid" placeholder="Invalid" defaultValue="not-an-email" className="w-full max-w-sm" />
     </Group>
   );
 }
@@ -145,13 +108,13 @@ function TypesExample(props: {state: Record<string, ControlValue>}) {
   void props;
   return (
     <Group label="Types">
-      <Input placeholder="Text" className="w-full max-w-sm" />
-      <Input type="email" placeholder="Email" className="w-full max-w-sm" />
-      <Input type="password" placeholder="Password" className="w-full max-w-sm" />
-      <Input type="number" placeholder="Number" className="w-full max-w-sm" />
-      <Input type="tel" placeholder="Phone" className="w-full max-w-sm" />
-      <Input type="url" placeholder="URL" className="w-full max-w-sm" />
-      <Input type="file" className="w-full max-w-sm" />
+      <Input placeholder="Text" aria-label="Text" className="w-full max-w-sm" />
+      <Input type="email" placeholder="Email" aria-label="Email" className="w-full max-w-sm" />
+      <Input type="password" placeholder="Password" aria-label="Password" className="w-full max-w-sm" />
+      <Input type="number" placeholder="Number" aria-label="Number" className="w-full max-w-sm" />
+      <Input type="tel" placeholder="Phone" aria-label="Phone" className="w-full max-w-sm" />
+      <Input type="url" placeholder="URL" aria-label="URL" className="w-full max-w-sm" />
+      <Input type="file" aria-label="File" className="w-full max-w-sm" />
     </Group>
   );
 }
@@ -164,15 +127,16 @@ export const examples: Example[] = [
     render: LiveExample,
     controls: [
       {
-        name: "inputSize",
+        name: "size",
         label: "Size",
         type: "select",
         options: [
+          {value: "xs", label: "Extra small"},
           {value: "sm", label: "Small"},
-          {value: "default", label: "Default"},
+          {value: "base", label: "Base"},
           {value: "lg", label: "Large"},
         ],
-        defaultValue: "default",
+        defaultValue: "base",
       },
       {
         name: "type",
@@ -188,7 +152,6 @@ export const examples: Example[] = [
         ],
         defaultValue: "text",
       },
-      {name: "withIcon", label: "Start icon", type: "boolean", defaultValue: false},
       {name: "disabled", label: "Disabled", type: "boolean", defaultValue: false},
       {name: "readOnly", label: "Read-only", type: "boolean", defaultValue: false},
       {name: "invalid", label: "Invalid", type: "boolean", defaultValue: false},
@@ -199,25 +162,27 @@ export const examples: Example[] = [
     id: "sizes",
     title: "Sizes",
     render: SizesExample,
-    code: `<Input inputSize="sm" placeholder="Small" />
-<Input inputSize="default" placeholder="Default" />
-<Input inputSize="lg" placeholder="Large" />`,
-  },
-  {
-    id: "icons",
-    title: "With icons",
-    description: "startIcon / endIcon wrap the field and auto-pad to clear the glyph.",
-    render: IconsExample,
-    code: `<Input placeholder="Search" startIcon={<SearchIcon />} />
-<Input type="password" placeholder="Password" endIcon={<EyeIcon />} />`,
+    code: `<Input size="xs" placeholder="Extra small" aria-label="Extra small" />
+<Input size="sm" placeholder="Small" aria-label="Small" />
+<Input size="base" placeholder="Base" aria-label="Base" />
+<Input size="lg" placeholder="Large" aria-label="Large" />`,
   },
   {
     id: "field",
     title: "Built-in field",
-    description: "label, description and required wire through the Field wrapper; required={false} shows (optional).",
+    description: "label, description and required are props of Input; required={false} shows (optional).",
     render: FieldExample,
     code: `<Input label="Email" placeholder="you@example.com" description="We'll never share your address." />
 <Input label="Phone" required={false} placeholder="+1 (555) 000-0000" />`,
+  },
+  {
+    id: "accessible-names",
+    title: "Accessible names",
+    description:
+      "Every input needs a name: a label prop, an aria-label or aria-labelledby. The icon-only tooltip button needs labelTooltipAriaLabel. The library supplies no hidden text and warns in development when a name is missing.",
+    render: AccessibleNamesExample,
+    code: `<Input label="Email" labelTooltip="We only use it for receipts." labelTooltipAriaLabel="About email" />
+<Input placeholder="Search..." aria-label="Search products" />`,
   },
   {
     id: "error",
@@ -230,17 +195,17 @@ export const examples: Example[] = [
     id: "states",
     title: "States",
     render: StatesExample,
-    code: `<Input placeholder="Default" />
-<Input placeholder="Disabled" disabled />
-<Input readOnly defaultValue="Read-only" />
-<Input aria-invalid defaultValue="not-an-email" />`,
+    code: `<Input placeholder="Default" aria-label="Default" />
+<Input placeholder="Disabled" aria-label="Disabled" disabled />
+<Input readOnly defaultValue="Read-only" aria-label="Read-only" />
+<Input aria-invalid defaultValue="not-an-email" aria-label="Email" />`,
   },
   {
     id: "types",
     title: "Types",
     render: TypesExample,
-    code: `<Input placeholder="Text" />
-<Input type="email" placeholder="Email" />
-<Input type="password" placeholder="Password" />`,
+    code: `<Input placeholder="Text" aria-label="Text" />
+<Input type="email" placeholder="Email" aria-label="Email" />
+<Input type="password" placeholder="Password" aria-label="Password" />`,
   },
 ];

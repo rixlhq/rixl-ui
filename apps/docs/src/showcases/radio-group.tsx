@@ -1,4 +1,3 @@
-import {Label} from "@rixl/ui/label";
 import {RadioGroup, RadioGroupItem} from "@rixl/ui/radio-group";
 import type {Example} from "./registry";
 import {Group} from "../components/showcase-layout";
@@ -7,77 +6,50 @@ export const path = "radio-group";
 export const title = "Radio Group";
 export const description = "Choose one option from a group.";
 export const notes =
-  "Single-selection group. Hover-strengthened border, primary border when selected, and a dot that pops in. Compose each item with a Label for accessible labelling.";
+  'A fieldset that is the radiogroup. legend names it (a node, so it can be sr-only), description and error sit under it and are linked with aria-describedby, and orientation lays the items out vertically or in a row. Give each RadioGroupItem a label: the text names the radio and a click on it selects. controlFirst={false} puts the text first; variant="error" marks the radio aria-invalid.';
 
 export function Showcase() {
   return (
-    <RadioGroup defaultValue="monthly" name="overview-billing" className="w-full max-w-56 gap-3" aria-label="Billing frequency">
-      <div className="flex items-center gap-2">
-        <RadioGroupItem id="overview-monthly" value="monthly" />
-        <Label htmlFor="overview-monthly">Monthly billing</Label>
-      </div>
-      <div className="flex items-center gap-2">
-        <RadioGroupItem id="overview-yearly" value="yearly" />
-        <Label htmlFor="overview-yearly">Yearly billing</Label>
-      </div>
+    <RadioGroup defaultValue="monthly" name="overview-billing" className="w-full max-w-56" legend="Billing frequency">
+      <RadioGroupItem value="monthly" label="Monthly billing" />
+      <RadioGroupItem value="yearly" label="Yearly billing" />
     </RadioGroup>
   );
 }
 
 function BasicExample() {
   return (
-    <RadioGroup defaultValue="comfortable" name="density">
-      <div className="flex items-center gap-2">
-        <RadioGroupItem id="d-compact" value="compact" />
-        <Label htmlFor="d-compact">Compact</Label>
-      </div>
-      <div className="flex items-center gap-2">
-        <RadioGroupItem id="d-comfortable" value="comfortable" />
-        <Label htmlFor="d-comfortable">Comfortable</Label>
-      </div>
-      <div className="flex items-center gap-2">
-        <RadioGroupItem id="d-spacious" value="spacious" />
-        <Label htmlFor="d-spacious">Spacious</Label>
-      </div>
+    <RadioGroup defaultValue="comfortable" name="density" legend="Density">
+      <RadioGroupItem value="compact" label="Compact" />
+      <RadioGroupItem value="comfortable" label="Comfortable" />
+      <RadioGroupItem value="spacious" label="Spacious" />
     </RadioGroup>
   );
 }
 
-function InvalidExample() {
+function ChromeExample() {
   return (
-    <Group label="Invalid">
-      <RadioGroup defaultValue="comfortable" name="density-invalid">
-        <div className="flex items-center gap-2">
-          <RadioGroupItem id="i-compact" value="compact" aria-invalid />
-          <Label htmlFor="i-compact">Compact</Label>
-        </div>
-        <div className="flex items-center gap-2">
-          <RadioGroupItem id="i-comfortable" value="comfortable" aria-invalid />
-          <Label htmlFor="i-comfortable" className="text-rixl-danger">
-            Comfortable
-          </Label>
-        </div>
+    <div className="flex flex-col gap-6">
+      <RadioGroup legend="Size" description="Applies to new tables" orientation="horizontal" defaultValue="md" name="size">
+        <RadioGroupItem value="sm" label="Small" />
+        <RadioGroupItem value="md" label="Medium" />
+        <RadioGroupItem value="lg" label="Large" />
       </RadioGroup>
-    </Group>
+      <RadioGroup legend="Payment method" error="Choose a payment method" name="payment">
+        <RadioGroupItem value="card" label="Credit card" variant="error" />
+        <RadioGroupItem value="paypal" label="PayPal" variant="error" />
+      </RadioGroup>
+    </div>
   );
 }
 
 function DisabledOptionsExample() {
   return (
     <Group label="Disabled options">
-      <RadioGroup defaultValue="pro" name="plan">
-        <div className="flex items-center gap-2">
-          <RadioGroupItem id="p-free" value="free" />
-          <Label htmlFor="p-free">Free</Label>
-        </div>
-        <div className="flex items-center gap-2">
-          <RadioGroupItem id="p-pro" value="pro" />
-          <Label htmlFor="p-pro">Pro</Label>
-        </div>
-        <div className="flex items-center gap-2">
-          <RadioGroupItem id="p-enterprise" value="enterprise" disabled />
-          <Label htmlFor="p-enterprise">Enterprise (contact sales)</Label>
-        </div>
+      <RadioGroup defaultValue="pro" name="plan" legend="Plan">
+        <RadioGroupItem value="free" label="Free" />
+        <RadioGroupItem value="pro" label="Pro" />
+        <RadioGroupItem value="enterprise" label="Enterprise (contact sales)" disabled />
       </RadioGroup>
     </Group>
   );
@@ -88,18 +60,21 @@ export const examples: Example[] = [
     id: "basic",
     title: "Basic",
     render: BasicExample,
-    code: `<RadioGroup defaultValue="comfortable" name="density">
-  <div className="flex items-center gap-2">
-    <RadioGroupItem id="d-comfortable" value="comfortable" />
-    <Label htmlFor="d-comfortable">Comfortable</Label>
-  </div>
+    code: `<RadioGroup defaultValue="comfortable" name="density" legend="Density">
+  <RadioGroupItem value="compact" label="Compact" />
+  <RadioGroupItem value="comfortable" label="Comfortable" />
 </RadioGroup>`,
   },
   {
-    id: "invalid",
-    title: "Invalid",
-    render: InvalidExample,
-    code: `<RadioGroupItem id="d-compact" value="compact" aria-invalid />`,
+    id: "chrome",
+    title: "Description and error",
+    render: ChromeExample,
+    code: `<RadioGroup legend="Size" description="Applies to new tables" orientation="horizontal">
+  <RadioGroupItem value="sm" label="Small" />
+</RadioGroup>
+<RadioGroup legend="Payment method" error="Choose a payment method">
+  <RadioGroupItem value="card" label="Credit card" variant="error" />
+</RadioGroup>`,
   },
   {id: "disabled-options", title: "Disabled options", render: DisabledOptionsExample},
 ];

@@ -4,19 +4,18 @@ import {mergeProps} from "@base-ui/react/merge-props";
 import {mergeTabsListRefs} from "./merge-tabs-list-refs";
 import {TabsIndicator} from "./tabs-indicator";
 import {cva} from "class-variance-authority";
-import {cn} from "cn";
+import {cn} from "../../lib/cn";
 
 import {TabsStyleContext} from "./context";
 import {scrollTabsByPage, TabsOverflowControl, useHorizontalDragScroll, useOverflowDetect} from "./overflow";
 
-const listVariants = cva("relative isolate flex min-w-0 max-w-full items-stretch", {
+const listVariants = cva("relative isolate flex w-fit min-w-0 max-w-full items-stretch", {
   variants: {
     variant: {
-      segmented: "bg-rixl-surface-muted rounded-rixl-lg gap-1 p-1",
+      segmented: "bg-rixl-surface-muted rounded-lg gap-1 p-1",
       underline: "border-rixl-border gap-4 border-b",
       ghost: "gap-1",
     },
-    fullWidth: {true: "w-full", false: "w-fit"},
     // Many tabs in a narrow column scroll rather than wrap, so a tab row is
     // always one row and the indicator never has to jump between lines.
     scrollable: {
@@ -24,7 +23,7 @@ const listVariants = cva("relative isolate flex min-w-0 max-w-full items-stretch
       false: "",
     },
   },
-  defaultVariants: {variant: "segmented", fullWidth: false, scrollable: true},
+  defaultVariants: {variant: "segmented", scrollable: true},
 });
 
 export type TabsListProps = TabsPrimitive.List.Props & {
@@ -36,13 +35,15 @@ export const TabsList = forwardRef<HTMLDivElement, TabsListProps>(function TabsL
   {className, children, scrollable = true, ...props},
   forwardedRef
 ) {
-  const {variant, size, fullWidth} = useContext(TabsStyleContext);
-  const {ref: listRef, isOverflowing, canScrollStart, canScrollEnd, isRtl} = useOverflowDetect(scrollable);
+  const {variant, size} = useContext(TabsStyleContext);
+  const {ref: listRef, isOverflowing, canScrollStart, canScrollEnd} = useOverflowDetect(scrollable);
   const dragHandlers = useHorizontalDragScroll(listRef, isOverflowing);
   const mergedRef = useMemo(() => mergeTabsListRefs(listRef, forwardedRef), [listRef, forwardedRef]);
 
   return (
-    <div data-slot="tabs-list-wrapper" className={cn("relative flex min-w-0 max-w-full items-center", fullWidth ? "w-full" : "w-fit")}>
+    // The wrapper fills the row and the list stays w-fit, so a consumer `w-full` on TabsList can stretch it. The
+    // overflow controls show only while the list overflows, and then it already spans the wrapper.
+    <div data-slot="tabs-list-wrapper" className="relative flex min-w-0 max-w-full items-center">
       <TabsPrimitive.List
         ref={mergedRef}
         data-slot="tabs-list"
@@ -50,7 +51,7 @@ export const TabsList = forwardRef<HTMLDivElement, TabsListProps>(function TabsL
         data-overflow-start={canScrollStart ? "" : undefined}
         data-overflow-end={canScrollEnd ? "" : undefined}
 
-        className={cn(listVariants({variant, fullWidth, scrollable}), isOverflowing && "cursor-grab active:cursor-grabbing", className)}
+        className={cn(listVariants({variant, scrollable}), isOverflowing && "cursor-grab active:cursor-grabbing", className)}
         {...mergeProps(dragHandlers, props)}
       >
         {children}
@@ -59,7 +60,6 @@ export const TabsList = forwardRef<HTMLDivElement, TabsListProps>(function TabsL
       {scrollable ? (
         <>
           <TabsOverflowControl
-            isRtl={isRtl}
             side="start"
             visible={canScrollStart}
             variant={variant}
@@ -67,7 +67,6 @@ export const TabsList = forwardRef<HTMLDivElement, TabsListProps>(function TabsL
             onClick={() => scrollTabsByPage(listRef.current, "start")}
           />
           <TabsOverflowControl
-            isRtl={isRtl}
             side="end"
             visible={canScrollEnd}
             variant={variant}

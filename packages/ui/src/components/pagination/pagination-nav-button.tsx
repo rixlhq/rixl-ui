@@ -1,17 +1,30 @@
-import type {ComponentProps} from "react";
+import {forwardRef, type ComponentProps} from "react";
 import type {LucideIcon} from "lucide-react";
+import {rtlFlip} from "../../lib/classes";
 import {Button} from "../button";
 
 export type PaginationNavButtonProps = Omit<ComponentProps<typeof Button>, "children"> & {
   target: number;
-  onPageChange: (page: number) => void;
+  setPage: (page: number) => void;
   Icon: LucideIcon;
 };
 
-export function PaginationNavButton({target, onPageChange, Icon, ...props}: PaginationNavButtonProps) {
+export const PaginationNavButton = forwardRef<HTMLButtonElement, PaginationNavButtonProps>(function PaginationNavButton(
+  {target, setPage, Icon, ...props},
+  ref
+) {
   return (
-    <Button variant="outline" size="icon" className="min-h-11 min-w-11" onClick={() => onPageChange(target)} {...props}>
-      <Icon className="rtl:-scale-x-100" />
+    <Button
+      ref={ref}
+      data-slot="pagination-nav-button"
+      variant="outline"
+      shape="square"
+      className="min-h-11 min-w-11"
+      onClick={() => setPage(target)}
+      {...props}
+    >
+      <Icon className={rtlFlip} />
     </Button>
   );
-}
+});
+PaginationNavButton.displayName = "PaginationNavButton";

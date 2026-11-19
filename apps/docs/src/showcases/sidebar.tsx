@@ -21,7 +21,7 @@ export const path = "sidebar";
 export const title = "Sidebar";
 export const description = "Navigate between the main sections of an application.";
 export const notes =
-  "Navigation shell with offcanvas / icon / none collapsibility. Context provider tracks open state, mobile detection, and a Cmd/Ctrl+B shortcut. Renders a Sheet on mobile.";
+  "Navigation shell with offcanvas / icon / none collapsibility. Context provider tracks open state, mobile detection, and a Cmd/Ctrl+B shortcut. Renders an edge-placed Dialog on mobile. The app names what the library cannot: SidebarTrigger and SidebarRail take aria-label (or aria-labelledby), and the mobile sheet is named by the aria-label you pass to Sidebar; each warns in development when its name is missing.";
 
 export function Showcase() {
   return <SidebarPreview collapsible="offcanvas" />;
@@ -29,9 +29,9 @@ export function Showcase() {
 
 function SidebarPreview({collapsible}: {collapsible: "offcanvas" | "icon" | "none"}) {
   return (
-    <div className="h-80 w-full overflow-hidden rounded-rixl-lg border border-rixl-border shadow-rixl-xs [transform:translateZ(0)]">
+    <div className="h-80 w-full overflow-hidden rounded-lg border border-rixl-border shadow-xs [transform:translateZ(0)]">
       <SidebarProvider defaultOpen className="h-full min-h-0">
-        <Sidebar collapsible={collapsible} className="h-full">
+        <Sidebar collapsible={collapsible} className="h-full" aria-label="Preview navigation">
           <SidebarHeader className="border-b border-rixl-sidebar-border px-4 py-3">
             <div className="flex items-center justify-between gap-2">
               <span className="truncate text-sm font-semibold text-rixl-sidebar-fg">Acme Inc</span>
@@ -63,12 +63,12 @@ function SidebarPreview({collapsible}: {collapsible: "offcanvas" | "icon" | "non
               </SidebarMenuItem>
             </SidebarMenu>
           </SidebarFooter>
-          {collapsible !== "none" ? <SidebarRail /> : null}
+          {collapsible !== "none" ? <SidebarRail aria-label="Toggle sidebar" /> : null}
         </Sidebar>
         <SidebarInset>
           <div className="flex h-full flex-col">
             <header className="flex h-12 items-center gap-3 border-b border-rixl-border px-4">
-              {collapsible !== "none" ? <SidebarTrigger /> : null}
+              {collapsible !== "none" ? <SidebarTrigger aria-label="Toggle sidebar" /> : null}
               <span className="text-sm font-medium text-rixl-fg">Dashboard</span>
             </header>
             <div className="flex flex-1 items-center justify-center p-4 text-xs text-rixl-fg-muted">
@@ -100,7 +100,7 @@ export const examples: Example[] = [
     description: "Contained preview of SidebarProvider + Sidebar + SidebarInset. Click the trigger or press ⌘B to toggle.",
     render: OffcanvasExample,
     code: `<SidebarProvider defaultOpen>
-  <Sidebar collapsible="offcanvas">
+  <Sidebar collapsible="offcanvas" aria-label="Preview navigation">
     <SidebarHeader>Acme Inc</SidebarHeader>
     <SidebarContent>
       <SidebarGroup>
@@ -114,10 +114,10 @@ export const examples: Example[] = [
         </SidebarGroupContent>
       </SidebarGroup>
     </SidebarContent>
-    <SidebarRail />
+    <SidebarRail aria-label="Toggle sidebar" />
   </Sidebar>
   <SidebarInset>
-    <SidebarTrigger />
+    <SidebarTrigger aria-label="Toggle sidebar" />
   </SidebarInset>
 </SidebarProvider>`,
   },
@@ -126,8 +126,8 @@ export const examples: Example[] = [
     title: "Icon rail",
     description: "Collapses to an icon rail instead of sliding off-canvas.",
     render: IconRailExample,
-    code: `<Sidebar collapsible="icon">
-  <SidebarRail />
+    code: `<Sidebar collapsible="icon" aria-label="Main navigation">
+  <SidebarRail aria-label="Toggle sidebar" />
 </Sidebar>`,
   },
   {
@@ -135,6 +135,6 @@ export const examples: Example[] = [
     title: "Static",
     description: "No collapsibility; the trigger and rail are omitted.",
     render: StaticExample,
-    code: `<Sidebar collapsible="none" />`,
+    code: `<Sidebar collapsible="none" aria-label="Main navigation" />`,
   },
 ];

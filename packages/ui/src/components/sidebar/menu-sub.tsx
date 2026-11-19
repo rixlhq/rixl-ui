@@ -1,13 +1,14 @@
 import * as React from "react";
 import {mergeProps} from "@base-ui/react/merge-props";
 import {useRender} from "@base-ui/react/use-render";
-import {cn} from "cn";
+import {cn} from "../../lib/cn";
+import {focusRingSidebar, pressFeedback} from "../../lib/classes";
 
-export function SidebarMenuSub({className, ...props}: React.ComponentProps<"ul">) {
+export const SidebarMenuSub = React.forwardRef<HTMLUListElement, SidebarMenuSubProps>(function SidebarMenuSub({className, ...props}, ref) {
   return (
     <ul
+      ref={ref}
       data-slot="sidebar-menu-sub"
-      data-sidebar="menu-sub"
       className={cn(
         "border-rixl-sidebar-border mx-3.5 flex min-w-0 translate-x-px rtl:-translate-x-px flex-col gap-1 border-s px-2.5 py-0.5",
         "group-data-[collapsible=icon]:hidden",
@@ -16,38 +17,33 @@ export function SidebarMenuSub({className, ...props}: React.ComponentProps<"ul">
       {...props}
     />
   );
-}
+});
+SidebarMenuSub.displayName = "SidebarMenuSub";
 
-export function SidebarMenuSubItem({className, ...props}: React.ComponentProps<"li">) {
-  return (
-    <li
-      data-slot="sidebar-menu-sub-item"
-      data-sidebar="menu-sub-item"
-      className={cn("group/menu-sub-item relative", className)}
-      {...props}
-    />
-  );
-}
+export const SidebarMenuSubItem = React.forwardRef<HTMLLIElement, SidebarMenuSubItemProps>(function SidebarMenuSubItem(
+  {className, ...props},
+  ref
+) {
+  return <li ref={ref} data-slot="sidebar-menu-sub-item" className={cn("group/menu-sub-item relative", className)} {...props} />;
+});
+SidebarMenuSubItem.displayName = "SidebarMenuSubItem";
 
-export function SidebarMenuSubButton({
-  size = "md",
-  isActive = false,
-  className,
-  render,
-  ...props
-}: useRender.ComponentProps<"a"> & {
-  size?: "sm" | "md";
-  isActive?: boolean;
-}) {
+export const SidebarMenuSubButton = React.forwardRef<HTMLAnchorElement, SidebarMenuSubButtonProps>(function SidebarMenuSubButton(
+  {size = "md", isActive = false, className, render, ...props},
+  ref
+) {
   return useRender({
     defaultTagName: "a",
+    ref,
     props: mergeProps<"a">(
       {
         className: cn(
-          "text-rixl-sidebar-fg ring-rixl-sidebar-ring hover:bg-rixl-sidebar-accent hover:text-rixl-sidebar-accent-fg",
-          "active:scale-[var(--rixl-press-scale)] motion-reduce:active:scale-100 active:bg-rixl-sidebar-accent active:text-rixl-sidebar-accent-fg",
-          "transition-[scale,background-color,color] duration-rixl-fast ease-rixl-out",
-          "[&>svg]:text-rixl-sidebar-accent-fg flex h-7 min-w-0 -translate-x-px rtl:translate-x-px items-center gap-2 overflow-hidden rounded-rixl-md px-2 outline-hidden focus-visible:ring-2",
+          focusRingSidebar,
+          "text-rixl-sidebar-fg hover:bg-rixl-sidebar-accent hover:text-rixl-sidebar-accent-fg",
+          pressFeedback,
+          "active:bg-rixl-sidebar-accent active:text-rixl-sidebar-accent-fg",
+          "transition-[scale,background-color,color] duration-(--rixl-motion-fast) ease-out",
+          "[&>svg]:text-rixl-sidebar-accent-fg flex h-7 min-w-0 -translate-x-px rtl:translate-x-px items-center gap-2 overflow-hidden rounded-md px-2 outline-hidden",
           "disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50",
           "[&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0",
           "data-active:bg-rixl-sidebar-accent data-active:text-rixl-sidebar-accent-fg",
@@ -61,9 +57,10 @@ export function SidebarMenuSubButton({
       props
     ),
     render,
-    state: {slot: "sidebar-menu-sub-button", sidebar: "menu-sub-button", size, active: isActive},
+    state: {slot: "sidebar-menu-sub-button", size, active: isActive},
   });
-}
+});
+SidebarMenuSubButton.displayName = "SidebarMenuSubButton";
 
 export type SidebarMenuSubProps = React.ComponentProps<"ul">;
 export type SidebarMenuSubItemProps = React.ComponentProps<"li">;

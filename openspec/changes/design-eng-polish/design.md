@@ -35,7 +35,7 @@ We audited the library against Apple Human Interface Guidelines and Emil Kowalsk
 - **Chosen**:
   - `--rixl-ease-out: cubic-bezier(0.23, 1, 0.32, 1)` (strong ease-out for UI entrances and press feedback)
   - `--rixl-ease-in-out: cubic-bezier(0.77, 0, 0.175, 1)` (strong ease-in-out for on-screen indicator movement)
-  - `--rixl-ease-drawer: cubic-bezier(0.32, 0.72, 0, 1)` (`ease-rixl-drawer` for `SheetContent`)
+  - `--rixl-ease-drawer: cubic-bezier(0.32, 0.72, 0, 1)` (`ease-(--rixl-ease-drawer)` for `SheetContent`)
 - **Alternatives considered**:
   - _Browser built-in `ease-out` / `ease-in-out`_: Too weak initial acceleration, making 180–260ms UI transitions feel sluggish.
   - _Reusing `--rixl-ease-out` for edge-attached `SheetContent`_: A full-height sheet travels 300–400px; it needs Vaul/iOS's steeper initial acceleration (`cubic-bezier(0.32, 0.72, 0, 1)`) so it feels responsive immediately on click while settling gently.
@@ -63,4 +63,4 @@ We audited the library against Apple Human Interface Guidelines and Emil Kowalsk
 ## Risks / Trade-offs
 
 - **[Risk] Removing `data-open:animate-in` from overlays leaves `@keyframes rixl-enter` only for non-Base-UI-transition elements** → Mitigation: Keep `@keyframes rixl-enter` and `@utility animate-in` in `preset.css` because `TabsContent` (`data-[activation-direction]`), `Checkbox`, `RadioGroup`, and `DropdownMenuCheckboxItem` indicators still use `animate-in` where Base UI does not apply `data-starting-style`.
-- **[Risk] `CopyBlock` blur crossfade (`blur-[2px]`) on older GPUs** → Mitigation: Scoped strictly to a `16×16px` (`size-4`) SVG icon over `120ms` (`duration-rixl-fast`), well under the 2px/small-surface threshold in `animation-performance/SKILL.md`, and disabled under `motion-reduce:transition-none`.
+- **[Risk] `CopyBlock` blur crossfade (`blur-[2px]`) on older GPUs** → Mitigation: Scoped strictly to a `16×16px` (`size-4`) SVG icon over `120ms` (`duration-(--rixl-motion-fast)`), well under the 2px/small-surface threshold in `animation-performance/SKILL.md`, and disabled under `motion-reduce:transition-none`.

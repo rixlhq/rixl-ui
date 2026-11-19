@@ -25,8 +25,8 @@ describe("Input", () => {
     render(<Input placeholder="Email" />);
     const cls = screen.getByPlaceholderText("Email").className;
     expect(cls).toContain("border-rixl-border");
-    expect(cls).toContain("rounded-rixl-md");
-    expect(cls).toContain("shadow-rixl-xs");
+    expect(cls).toContain("rounded-md");
+    expect(cls).toContain("shadow-xs");
     expect(cls).toContain("placeholder:text-rixl-fg-muted");
   });
 
@@ -94,78 +94,49 @@ describe("Input", () => {
     });
 
     it.each([
+      ["xs", "h-7"],
       ["sm", "h-8"],
-      ["default", "h-9"],
+      ["base", "h-9"],
       ["lg", "h-10"],
-    ] as const)("inputSize=%s applies %s", (inputSize, expected) => {
-      render(<Input placeholder="Email" inputSize={inputSize} />);
-      expect(screen.getByPlaceholderText("Email").className).toContain(expected);
-    });
-  });
-
-  describe("icons", () => {
-    it("renders a lone <input> with no wrapper when no icons are set", () => {
-      render(<Input placeholder="Email" />);
-      expect(screen.getByPlaceholderText("Email").parentElement).not.toHaveAttribute("data-slot", "input-wrapper");
+    ] as const)("size=%s applies %s", (size, expected) => {
+      render(<Input placeholder="Email" size={size} />);
+      // toHaveClass matches whole tokens; the file: variant also carries h-7
+      expect(screen.getByPlaceholderText("Email")).toHaveClass(expected);
     });
 
-    it("wraps and pads for a startIcon", () => {
-      render(<Input placeholder="Email" startIcon={<svg data-testid="start" />} />);
-      const el = screen.getByPlaceholderText("Email");
-      expect(el.className).toContain("ps-9");
-      expect(el.parentElement).toHaveAttribute("data-slot", "input-wrapper");
-      expect(screen.getByTestId("start")).toBeInTheDocument();
-    });
-
-    it("wraps and pads for an endIcon", () => {
-      render(<Input placeholder="Email" endIcon={<svg data-testid="end" />} />);
-      const el = screen.getByPlaceholderText("Email");
-      expect(el.className).toContain("pe-9");
-      expect(screen.getByTestId("end")).toBeInTheDocument();
-    });
-
-    it("scales icon padding with inputSize", () => {
-      render(<Input placeholder="Email" inputSize="lg" startIcon={<svg />} />);
-      expect(screen.getByPlaceholderText("Email").className).toContain("ps-10");
-    });
-
-    it("uses logical spacing and insets in RTL", () => {
-      render(
-        <div dir="rtl">
-          <Input placeholder="Email" startIcon={<svg data-testid="start" />} endIcon={<svg data-testid="end" />} />
-        </div>
-      );
-      expect(screen.getByPlaceholderText("Email").className).toContain("ps-9");
-      expect(screen.getByPlaceholderText("Email").className).toContain("pe-9");
-      expect(screen.getByTestId("start").parentElement?.className).toContain("start-3");
-      expect(screen.getByTestId("end").parentElement?.className).toContain("end-3");
+    it("does not accept the removed inputSize and variant props", () => {
+      // @ts-expect-error -- inputSize was removed in favour of size
+      const legacySize = <Input aria-label="Email" inputSize="sm" />;
+      // @ts-expect-error -- variant="error" was removed; error and aria-invalid drive the styling
+      const legacyVariant = <Input aria-label="Email" variant="error" />;
+      expect([legacySize, legacyVariant]).toHaveLength(2);
     });
   });
 
   describe("inputVariants", () => {
     it("is exported and produces the size class", () => {
-      expect(inputVariants({inputSize: "sm"})).toContain("h-8");
+      expect(inputVariants({size: "sm"})).toContain("h-8");
     });
   });
 
   describe("built-in field", () => {
     it("renders no field wrapper for a bare input", () => {
       render(<Input placeholder="Email" aria-label="Email" />);
-      expect(screen.getByPlaceholderText("Email").closest('[data-slot="field"]')).toBeNull();
+      expect(screen.getByPlaceholderText("Email").closest('[data-slot="input-field"]')).toBeNull();
     });
 
     it("wraps the input in a field with an associated label", () => {
       render(<Input label="Email" placeholder="you@example.com" />);
       const input = screen.getByPlaceholderText("you@example.com");
       const label = screen.getByText("Email").closest("label");
-      expect(input.closest('[data-slot="field"]')).toBe(label?.closest('[data-slot="field"]'));
+      expect(input.closest('[data-slot="input-field"]')).toBe(label?.closest('[data-slot="input-field"]'));
       expect(label?.getAttribute("for")).toBe(input.getAttribute("id"));
     });
 
     it("renders description and references it from aria-describedby", () => {
       render(<Input label="Email" placeholder="you@example.com" description="We never share your address." />);
       const description = screen.getByText("We never share your address.");
-      expect(description).toHaveAttribute("data-slot", "field-description");
+      expect(description).toHaveAttribute("data-slot", "input-description");
       const describedBy = screen.getByPlaceholderText("you@example.com").getAttribute("aria-describedby") ?? "";
       expect(describedBy.split(" ")).toContain(description.getAttribute("id"));
     });
@@ -174,7 +145,7 @@ describe("Input", () => {
       render(<Input label="Email" placeholder="you@example.com" defaultValue="not-an-email" error="Enter a valid email." />);
       const input = screen.getByPlaceholderText("you@example.com");
       const message = screen.getByText("Enter a valid email.");
-      expect(message).toHaveAttribute("data-slot", "field-error");
+      expect(message).toHaveAttribute("data-slot", "input-error");
       expect(input).toHaveAttribute("aria-invalid", "true");
       const describedBy = input.getAttribute("aria-describedby") ?? "";
       expect(describedBy.split(" ")).toContain(message.getAttribute("id"));
@@ -220,27 +191,9 @@ describe("Input", () => {
       expect(screen.queryByText("(optional)")).not.toBeInTheDocument();
     });
 
-    it.each([
-      ["xs", "h-8"],
-      ["sm", "h-8"],
-      ["base", "h-9"],
-      ["lg", "h-10"],
-    ] as const)("maps size=%s to %s", (size, expected) => {
-      render(<Input label="Email" placeholder="you@example.com" size={size} />);
-      expect(screen.getByPlaceholderText("you@example.com").className).toContain(expected);
-    });
-
-    it("prefers inputSize over the size alias", () => {
-      render(<Input label="Email" placeholder="you@example.com" inputSize="lg" size="sm" />);
-      expect(screen.getByPlaceholderText("you@example.com").className).toContain("h-10");
-    });
-
-    it("variant=error forces invalid styling without an error message", () => {
-      const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
-      render(<Input label="Email" placeholder="you@example.com" variant="error" />);
+    it("marks the control invalid while a message error is set", () => {
+      render(<Input label="Email" placeholder="you@example.com" error="Bad" />);
       expect(screen.getByPlaceholderText("you@example.com")).toHaveAttribute("aria-invalid", "true");
-      expect(screen.queryByRole("alert")).not.toBeInTheDocument();
-      expect(warn).toHaveBeenCalledWith(expect.stringContaining('variant="error" is deprecated'));
     });
 
     it("adds password manager ignore attributes", () => {
@@ -261,22 +214,30 @@ describe("Input", () => {
     });
 
     it("renders the label tooltip trigger", () => {
-      render(<Input label="API key" placeholder="sk_live_..." labelTooltip="Find this in settings." />);
+      render(
+        <Input label="API key" placeholder="sk_live_..." labelTooltip="Find this in settings." labelTooltipAriaLabel="More information" />
+      );
       expect(screen.getByRole("button", {name: "More information"})).toBeInTheDocument();
     });
 
     it("renders description without a label row when only help text is set", () => {
       render(<Input aria-label="Search" placeholder="Search" description="Search by name or email." />);
       expect(screen.getByText("Search by name or email.")).toBeInTheDocument();
-      expect(document.querySelector('[data-slot="field-label"]')).not.toBeInTheDocument();
+      expect(document.querySelector('[data-slot="input-label"]')).not.toBeInTheDocument();
     });
 
     it("renders the tooltip without a visible label", () => {
       render(
-        <Input aria-label="API key" placeholder="sk_live_..." labelTooltip="Find this in settings." description="Used for API calls." />
+        <Input
+          aria-label="API key"
+          placeholder="sk_live_..."
+          labelTooltip="Find this in settings."
+          labelTooltipAriaLabel="More information"
+          description="Used for API calls."
+        />
       );
       expect(screen.getByRole("button", {name: "More information"})).toBeInTheDocument();
-      expect(document.querySelector('[data-slot="field-label"]')).toBeInTheDocument();
+      expect(document.querySelector('[data-slot="input-label"]')).toBeInTheDocument();
     });
 
     it("warns in dev when a bare input has no accessible name", () => {
@@ -289,6 +250,12 @@ describe("Input", () => {
       const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
       render(<Input label="Email" placeholder="you@example.com" />);
       render(<Input placeholder="Search" aria-label="Search products" />);
+      expect(warn).not.toHaveBeenCalled();
+    });
+
+    it("stays quiet when the input is named by aria-labelledby", () => {
+      const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
+      render(<Input placeholder="Search" aria-labelledby="search-heading" />);
       expect(warn).not.toHaveBeenCalled();
     });
   });

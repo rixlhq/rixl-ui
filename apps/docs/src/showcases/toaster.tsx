@@ -6,6 +6,8 @@ import {Group} from "../components/showcase-layout";
 export const path = "toaster";
 export const title = "Toaster";
 export const description = "Give brief feedback after an action.";
+export const notes =
+  "The region and close-button names are sonner's own props, containerAriaLabel and toastOptions.closeButtonAriaLabel; sonner's English defaults apply until you set them, so pass your translated strings there.";
 
 export function Showcase() {
   return (
@@ -28,6 +30,12 @@ function BasicExample(props: {state: Record<string, ControlValue>}) {
       <Button variant="outline" onClick={() => toast.error("Failed to save workspace settings")}>
         Error
       </Button>
+      <Button variant="outline" onClick={() => toast.warning("Storage is almost full")}>
+        Warning
+      </Button>
+      <Button variant="outline" onClick={() => toast.info("A new version is available")}>
+        Info
+      </Button>
     </Group>
   );
 }
@@ -41,6 +49,7 @@ function WithActionExample(props: {state: Record<string, ControlValue>}) {
         toast("Project archived", {
           description: "Moved to trash. You can restore it within 30 days.",
           action: {label: "Undo", onClick: () => toast("Project restored")},
+          cancel: {label: "Dismiss", onClick: () => undefined},
         })
       }
     >
@@ -69,6 +78,6 @@ function PromiseExample(props: {state: Record<string, ControlValue>}) {
 
 export const examples: Example[] = [
   {id: "basic", title: "Variants", render: BasicExample},
-  {id: "action", title: "With action", render: WithActionExample},
+  {id: "action", title: "With actions", render: WithActionExample},
   {id: "promise", title: "Promise", render: PromiseExample},
 ];

@@ -52,8 +52,8 @@ describe("Popover", () => {
     expect(cls).toContain("bg-rixl-surface");
     expect(cls).toContain("text-rixl-fg");
     expect(cls).toContain("border-rixl-border");
-    expect(cls).toContain("rounded-rixl-md");
-    expect(cls).toContain("shadow-rixl-md");
+    expect(cls).toContain("rounded-md");
+    expect(cls).toContain("shadow-md");
     expect(cls).toContain("w-72");
     expect(cls).toContain("origin-(--transform-origin)");
     expect(cls).toContain("data-starting-style:scale-95");

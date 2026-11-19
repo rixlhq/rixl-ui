@@ -88,9 +88,9 @@ describe("RadioGroup", () => {
       </RadioGroup>
     );
     const cls = screen.getByTestId("a").className;
-    expect(cls).toContain("data-unchecked:enabled:hover:border-rixl-border-strong");
+    expect(cls).toContain("data-unchecked:not-data-disabled:hover:border-rixl-border-strong");
     expect(cls).toContain("data-checked:border-rixl-primary");
-    expect(cls).toContain("enabled:active:scale-[var(--rixl-press-scale)]");
+    expect(cls).toContain("active:scale-[var(--rixl-press-scale)]");
     expect(cls).toContain("motion-reduce:active:scale-100");
   });
 

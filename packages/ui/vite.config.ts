@@ -40,12 +40,10 @@ export default defineConfig({
       avatar: "src/components/avatar/index.ts",
       skeleton: "src/components/skeleton/index.ts",
       progress: "src/components/progress/index.ts",
+      slider: "src/components/slider/index.ts",
       alert: "src/components/alert/index.ts",
       input: "src/components/input/index.ts",
-      field: "src/components/field/index.ts",
       "input-group": "src/components/input-group/index.ts",
-      "input-area": "src/components/input-area/index.ts",
-      textarea: "src/components/textarea/index.ts",
       checkbox: "src/components/checkbox/index.ts",
       "radio-group": "src/components/radio-group/index.ts",
       switch: "src/components/switch/index.ts",
@@ -54,8 +52,6 @@ export default defineConfig({
       tooltip: "src/components/tooltip/index.ts",
       popover: "src/components/popover/index.ts",
       dialog: "src/components/dialog/index.ts",
-      "alert-dialog": "src/components/alert-dialog/index.ts",
-      sheet: "src/components/sheet/index.ts",
       "dropdown-menu": "src/components/dropdown-menu/index.ts",
       collapsible: "src/components/collapsible/index.ts",
       tabs: "src/components/tabs/index.ts",
@@ -64,12 +60,12 @@ export default defineConfig({
       card: "src/components/card/index.ts",
       table: "src/components/table/index.ts",
       pagination: "src/components/pagination/index.ts",
-      calendar: "src/components/calendar/index.ts",
       "date-picker": "src/components/date-picker/index.ts",
       "copy-block": "src/components/copy-block/index.ts",
       empty: "src/components/empty/index.ts",
-      "empty-state": "src/components/empty-state/index.ts",
       toaster: "src/components/toaster/index.ts",
+      locale: "src/components/locale/index.ts",
+      "direction-provider": "src/components/direction-provider/index.ts",
     },
     // Manage `package.json#exports` by hand — we ship both compiled JS
     // subpaths and a raw CSS subpath (preset.css) that vp's auto-exports
@@ -80,6 +76,8 @@ export default defineConfig({
     minify: false,
     platform: "browser",
     sourcemap: true,
+    // The JSDoc stays in the .d.ts files, where editors read it; the JS keeps only the /* @__PURE__ */ hints bundlers need.
+    outputOptions: {comments: {jsdoc: false}},
     target: "es2022",
   },
   test: {
@@ -90,7 +88,8 @@ export default defineConfig({
         plugins: [tailwindcss()],
         // Pre-bundled so the browser can load the coverage module; served unbundled, its import fails to fetch.
         optimizeDeps: {
-          include: ["react", "react-dom/client", "axe-core", "@vitest/coverage-v8/browser"],
+          // Every Base UI entry is pre-bundled up front: one discovered mid-run makes Vite reload the page and fail the running suites.
+          include: ["react", "react-dom/client", "axe-core", "@vitest/coverage-v8/browser", "@base-ui/react/*"],
         },
         test: {
           name: "browser",

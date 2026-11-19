@@ -35,7 +35,7 @@ export function Showcase() {
         <DropdownMenuItem>Billing</DropdownMenuItem>
         <DropdownMenuItem disabled>Settings (disabled)</DropdownMenuItem>
         <DropdownMenuSeparator />
-        <DropdownMenuItem variant="destructive">Delete account</DropdownMenuItem>
+        <DropdownMenuItem variant="danger">Delete account</DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );
@@ -54,7 +54,7 @@ function BasicExample(props: {state: Record<string, ControlValue>}) {
           <DropdownMenuItem>Billing</DropdownMenuItem>
           <DropdownMenuItem disabled>Settings (disabled)</DropdownMenuItem>
           <DropdownMenuSeparator />
-          <DropdownMenuItem variant="destructive">Delete account</DropdownMenuItem>
+          <DropdownMenuItem variant="danger">Delete account</DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
     </Group>
@@ -84,7 +84,7 @@ function ShortcutsExample(props: {state: Record<string, ControlValue>}) {
             <DropdownMenuSeparator />
             <DropdownMenuItem inset>Move to…</DropdownMenuItem>
             <DropdownMenuItem inset>Duplicate</DropdownMenuItem>
-            <DropdownMenuItem inset variant="destructive">
+            <DropdownMenuItem inset variant="danger">
               Archive
             </DropdownMenuItem>
           </DropdownMenuGroup>
@@ -142,7 +142,7 @@ function SubmenuExample(props: {state: Record<string, ControlValue>}) {
               <DropdownMenuItem>Copy invite link</DropdownMenuItem>
               <DropdownMenuItem>Invite by email</DropdownMenuItem>
               <DropdownMenuSeparator />
-              <DropdownMenuItem variant="destructive">Revoke access</DropdownMenuItem>
+              <DropdownMenuItem variant="danger">Revoke access</DropdownMenuItem>
             </DropdownMenuSubContent>
           </DropdownMenuSub>
           <DropdownMenuSeparator />

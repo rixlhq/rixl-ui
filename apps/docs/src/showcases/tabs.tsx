@@ -9,7 +9,7 @@ export const path = "tabs";
 export const title = "Tabs";
 export const description = "Switch between related views in the same space.";
 export const notes =
-  "Tabbed content built on Base UI Tabs. Hovering an inactive tab changes text intensity only while a single indicator glides across tabs over 300ms. Overflowing tab lists scroll in one row with fade + chevron controls, drag-to-scroll, and smooth scrollIntoView.";
+  "Tabbed content built on Base UI Tabs. Hovering an inactive tab changes text intensity only while a single indicator glides across tabs over 300ms. Overflowing tab lists scroll in one row with fade + chevron controls, drag-to-scroll, and smooth scrollIntoView. The overflow buttons are pointer-only affordances: they are aria-hidden and not tabbable, because arrowing between tabs already scrolls the focused tab into view.";
 
 const CLOUDFLARE = ["Overview", "Metrics", "Deployments", "Bindings", "Observability", "Domains", "Access", "Settings"];
 
@@ -71,7 +71,7 @@ function OverflowExample() {
         <Row labels={CLOUDFLARE} variant="segmented" />
       </div>
 
-      <div className="max-w-md space-y-4 rounded-rixl-lg border border-rixl-border bg-rixl-bg p-5">
+      <div className="max-w-md space-y-4 rounded-lg border border-rixl-border bg-rixl-bg p-5">
         <Breadcrumb>
           <BreadcrumbList>
             <BreadcrumbItem>
@@ -121,8 +121,8 @@ function AllVariantsExample() {
 function SizesExample() {
   return (
     <div className="space-y-6">
-      <Group label="md — 32px triggers">
-        <Row labels={["Overview", "Metrics", "Settings"]} size="md" />
+      <Group label="base — 32px triggers">
+        <Row labels={["Overview", "Metrics", "Settings"]} size="base" />
       </Group>
       <Group label="sm — 28px triggers, for toolbars and card headers">
         <Row labels={["Overview", "Metrics", "Settings"]} size="sm" />

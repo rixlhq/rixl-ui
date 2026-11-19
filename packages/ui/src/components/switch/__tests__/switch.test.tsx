@@ -17,7 +17,7 @@ describe("Switch", () => {
     render(<Switch />);
     const cls = screen.getByRole("switch").className;
     expect(cls).toContain("rounded-full");
-    expect(cls).toContain("shadow-rixl-xs");
+    expect(cls).toContain("shadow-xs");
     expect(cls).toContain("h-[1.15rem]");
     expect(cls).toContain("w-8");
   });
@@ -39,9 +39,9 @@ describe("Switch", () => {
   it("applies hover and press affordances for both states", () => {
     render(<Switch />);
     const cls = screen.getByRole("switch").className;
-    expect(cls).toContain("data-checked:enabled:hover:bg-rixl-primary-hover");
-    expect(cls).toContain("data-unchecked:enabled:hover:bg-rixl-border-strong");
-    expect(cls).toContain("enabled:active:scale-[var(--rixl-press-scale)]");
+    expect(cls).toContain("data-checked:not-data-disabled:hover:bg-rixl-primary-hover");
+    expect(cls).toContain("data-unchecked:not-data-disabled:hover:bg-rixl-border-strong");
+    expect(cls).toContain("active:scale-[var(--rixl-press-scale)]");
     expect(cls).toContain("motion-reduce:active:scale-100");
   });
 
@@ -51,6 +51,13 @@ describe("Switch", () => {
     expect(thumb).not.toBeNull();
     expect(thumb!.className).toContain("bg-rixl-surface");
     expect(thumb!.className).toContain("rounded-full");
+  });
+
+  it("mirrors the checked thumb translation under rtl", () => {
+    const {container} = render(<Switch />);
+    const cls = container.querySelector("[data-slot='switch-thumb']")!.className;
+    expect(cls).toContain("data-checked:translate-x-[calc(100%-2px)]");
+    expect(cls).toContain("rtl:data-checked:-translate-x-[calc(100%-2px)]");
   });
 
   it("forwards additional className without dropping base classes", () => {

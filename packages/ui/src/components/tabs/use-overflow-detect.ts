@@ -1,7 +1,7 @@
 import {useEffect, useLayoutEffect, useRef, useState} from "react";
 import {getNextOverflowState, type OverflowState} from "./get-next-overflow-state";
 
-const INITIAL_OVERFLOW: OverflowState = {isRtl: false, isOverflowing: false, canScrollStart: false, canScrollEnd: false};
+const INITIAL_OVERFLOW: OverflowState = {isOverflowing: false, canScrollStart: false, canScrollEnd: false};
 
 export function useOverflowDetect(enabled: boolean) {
   const ref = useRef<HTMLDivElement>(null);

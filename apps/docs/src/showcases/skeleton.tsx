@@ -107,7 +107,12 @@ export const examples: Example[] = [
 <Skeleton className="h-4 w-40" animation="none" />`,
   },
   {id: "shapes", title: "Basic shapes", render: ShapesExample},
-  {id: "circles", title: "Circles", render: CirclesExample},
+  {
+    id: "circles",
+    title: "Circles",
+    render: CirclesExample,
+    code: `<Skeleton className="size-10 rounded-full" />`,
+  },
   {id: "card", title: "Card row", render: CardRowExample},
   {id: "table", title: "Table rows", render: TableRowsExample},
   {id: "block", title: "Block", render: BlockExample},

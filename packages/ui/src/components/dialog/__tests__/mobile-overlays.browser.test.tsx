@@ -3,8 +3,6 @@ import {page, userEvent} from "vitest/browser";
 import {cleanup, render} from "@testing-library/react";
 import {axeViolations} from "../../../../test/a11y";
 import {Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter, DialogClose} from "../dialog";
-import {AlertDialog, AlertDialogContent, AlertDialogTitle, AlertDialogDescription, AlertDialogCancel} from "../../alert-dialog";
-import {Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription, SheetClose} from "../../sheet";
 import {Popover, PopoverContent, PopoverTrigger} from "../../popover";
 import {
   DropdownMenu,
@@ -15,8 +13,7 @@ import {
   DropdownMenuSubTrigger,
   DropdownMenuSubContent,
 } from "../../dropdown-menu";
-import {Input} from "../../input";
-import {Textarea} from "../../textarea";
+import {Input, InputArea} from "../../input";
 import {Table, TableBody, TableRow, TableCell} from "../../table";
 
 import {Select, SelectTrigger, SelectValue, SelectContent, SelectItem} from "../../select";
@@ -101,7 +98,7 @@ describe("mobile overlay layout", () => {
     await expect.element(dialog).not.toBeInTheDocument();
   });
 
-  it.each(["sm", "default", "lg", "xl"] as const)("keeps the %s dialog centered on desktop", async (size) => {
+  it.each(["sm", "base", "lg", "xl"] as const)("keeps the %s dialog centered on desktop", async (size) => {
     await page.viewport(1280, 800);
     render(
       <Dialog defaultOpen>
@@ -113,7 +110,7 @@ describe("mobile overlay layout", () => {
     );
     const dialog = page.getByRole("dialog");
     await expect.element(dialog).toBeVisible();
-    const expected = {sm: 384, default: 512, lg: 672, xl: 896}[size];
+    const expected = {sm: 384, base: 512, lg: 672, xl: 896}[size];
     await expect.poll(() => Math.round(dialog.element().getBoundingClientRect().width)).toBe(expected);
     expect(Math.round(dialog.element().getBoundingClientRect().left)).toBe((1280 - expected) / 2);
   });
@@ -121,40 +118,19 @@ describe("mobile overlay layout", () => {
   it("keeps long alerts inset and their cancel action reachable", async () => {
     await page.viewport(320, 320);
     render(
-      <AlertDialog defaultOpen>
-        <AlertDialogContent>
-          <AlertDialogTitle>{longText}</AlertDialogTitle>
-          <AlertDialogDescription>Confirm records</AlertDialogDescription>
+      <Dialog role="alertdialog" defaultOpen>
+        <DialogContent>
+          <DialogTitle>{longText}</DialogTitle>
+          <DialogDescription>Confirm records</DialogDescription>
           <LongContent />
-          <AlertDialogCancel data-testid="end">Cancel</AlertDialogCancel>
-        </AlertDialogContent>
-      </AlertDialog>
+          <DialogClose data-testid="end">Cancel</DialogClose>
+        </DialogContent>
+      </Dialog>
     );
     const dialog = page.getByRole("alertdialog");
     await expect.element(dialog).toBeVisible();
     expectContained(dialog.element());
     expect(dialog.element().getBoundingClientRect().width).toBeLessThan(320);
-    await reachEnd(dialog.element());
-    expect(await axeViolations(document.body)).toEqual([]);
-  });
-
-  it.each(["left", "right", "top", "bottom"] as const)("scrolls long %s sheets within a short phone viewport", async (side) => {
-    await page.viewport(320, 320);
-    render(
-      <Sheet defaultOpen>
-        <SheetContent side={side}>
-          <SheetHeader>
-            <SheetTitle>Records</SheetTitle>
-            <SheetDescription>Review records</SheetDescription>
-          </SheetHeader>
-          <LongContent />
-          <SheetClose data-testid="end">Done</SheetClose>
-        </SheetContent>
-      </Sheet>
-    );
-    const dialog = page.getByRole("dialog");
-    await expect.element(dialog).toBeVisible();
-    expectContained(dialog.element());
     await reachEnd(dialog.element());
     expect(await axeViolations(document.body)).toEqual([]);
   });
@@ -254,7 +230,7 @@ describe("mobile overlay layout", () => {
     expect(document.documentElement.scrollWidth).toBeLessThanOrEqual(window.innerWidth);
   });
 
-  it("uses touch-sized close controls and readable phone fields", async () => {
+  it("keeps phone fields readable", async () => {
     await page.viewport(320, 568);
     render(
       <Dialog defaultOpen>
@@ -262,15 +238,12 @@ describe("mobile overlay layout", () => {
           <DialogTitle>Form</DialogTitle>
           <DialogDescription>Edit details</DialogDescription>
           <Input aria-label="Name" />
-          <Input inputSize="sm" aria-label="Code" />
-          <Textarea aria-label="Notes" />
+          <Input size="sm" aria-label="Code" />
+          <InputArea aria-label="Notes" />
         </DialogContent>
       </Dialog>
     );
-    const close = page.getByRole("button", {name: "Close"});
-    await expect.element(close).toBeVisible();
-    expect(close.element().getBoundingClientRect().width).toBeGreaterThanOrEqual(44);
-    expect(close.element().getBoundingClientRect().height).toBeGreaterThanOrEqual(44);
+    await expect.element(page.getByRole("textbox", {name: "Name"})).toBeVisible();
     for (const name of ["Name", "Code", "Notes"])
       expect(parseFloat(getComputedStyle(page.getByRole("textbox", {name}).element()).fontSize)).toBeGreaterThanOrEqual(16);
   });

@@ -1,28 +1,35 @@
 import {getDefaultClassNames} from "react-day-picker";
-import {cn} from "cn";
+import {cn} from "../../lib/cn";
 type CalendarClassNames = ReturnType<typeof getDefaultClassNames>;
+
+// The band has no neighbour past the edge of a week, so its cell rounds that side. Logical radii, so a right-to-left page mirrors them.
+// The first day is not `:first-child` when a week-number cell comes before it, so it is the first cell with a `data-day`.
+const weekStartRound = "[&:nth-child(1_of_[data-day])]:rounded-s-md";
+const weekEndRound = "last:rounded-e-md";
 
 export function gridClassNames(defaultClassNames: CalendarClassNames) {
   return {
     month_grid: cn("w-full border-collapse", defaultClassNames.month_grid),
     weekdays: cn("flex", defaultClassNames.weekdays),
     weekday: cn(
-      "text-rixl-fg rounded-rixl-md flex w-(--cell-size) shrink-0 items-center justify-center font-normal text-[0.8rem] tabular-nums select-none",
+      "flex h-8 w-(--cell-size) shrink-0 items-center justify-center text-xs font-medium text-rixl-fg-muted select-none",
       defaultClassNames.weekday
     ),
-    week: cn("flex w-full mt-2", defaultClassNames.week),
-    week_number_header: cn("select-none w-(--cell-size) shrink-0", defaultClassNames.week_number_header),
-    week_number: cn("text-[0.8rem] tabular-nums select-none text-rixl-fg-muted", defaultClassNames.week_number),
+    week: cn("mt-1 flex w-full", defaultClassNames.week),
+    week_number_header: cn("w-(--cell-size) shrink-0 select-none", defaultClassNames.week_number_header),
+    week_number: cn("text-xs text-rixl-fg-muted tabular-nums select-none", defaultClassNames.week_number),
     day: cn(
-      "relative flex size-(--cell-size) shrink-0 items-center justify-center p-0 text-center tabular-nums [&:first-child[data-selected=true]_button]:rounded-s-rixl-md [&:last-child[data-selected=true]_button]:rounded-e-rixl-md group/day select-none",
+      "group/day relative flex size-(--cell-size) shrink-0 items-center justify-center p-0 text-center tabular-nums select-none",
       defaultClassNames.day
     ),
-    range_start: cn("rounded-s-rixl-md bg-rixl-primary", defaultClassNames.range_start),
-    range_middle: cn("rounded-none bg-rixl-surface-muted", defaultClassNames.range_middle),
-    range_end: cn("rounded-e-rixl-md bg-rixl-primary", defaultClassNames.range_end),
-    today: cn("bg-rixl-surface-muted text-rixl-fg rounded-rixl-md data-[selected=true]:rounded-none", defaultClassNames.today),
+    // The band is the cell's background; each end cell carries it behind a rounded primary cap, so the band runs into the cap.
+    range_start: cn("rounded-s-md bg-rixl-surface-muted", weekEndRound, defaultClassNames.range_start),
+    range_middle: cn("rounded-none bg-rixl-surface-muted", weekStartRound, weekEndRound, defaultClassNames.range_middle),
+    range_end: cn("rounded-e-md bg-rixl-surface-muted", weekStartRound, defaultClassNames.range_end),
     outside: cn("text-rixl-fg-muted aria-selected:text-rixl-fg-muted", defaultClassNames.outside),
-    disabled: cn("text-rixl-fg-muted opacity-50", defaultClassNames.disabled),
+    disabled: cn("text-rixl-fg-muted", defaultClassNames.disabled),
     hidden: cn("invisible", defaultClassNames.hidden),
+    // `w-0 min-w-full`, as on the caption: the footer takes the grid's width and wraps, so long text cannot widen the `w-fit` root.
+    footer: cn("mt-1 w-0 min-w-full pt-2 text-xs text-pretty text-rixl-fg-muted", defaultClassNames.footer),
   };
 }

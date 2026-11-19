@@ -11,12 +11,12 @@ const JUNE_2026 = new Date(2026, 5, 1);
 
 function SingleHarness() {
   const [value, setValue] = useState<Date | undefined>();
-  return <DatePicker mode="single" defaultMonth={JUNE_2026} value={value} onSelect={setValue} />;
+  return <DatePicker mode="single" defaultMonth={JUNE_2026} selected={value} onChange={setValue} />;
 }
 
 function RangeHarness() {
   const [value, setValue] = useState<DateRange | undefined>();
-  return <DatePicker mode="range" defaultMonth={JUNE_2026} value={value} onSelect={setValue} />;
+  return <DatePicker mode="range" defaultMonth={JUNE_2026} selected={value} onChange={setValue} />;
 }
 
 /** Fixed "today" so preset months are deterministic across runs. */
@@ -72,8 +72,8 @@ function PresetsInPopoverHarness() {
               <DatePicker
                 mode="range"
                 numberOfMonths={2}
-                value={range}
-                onSelect={(next) => setRange(next)}
+                selected={range}
+                onChange={(next) => setRange(next)}
                 month={month}
                 onMonthChange={setMonth}
                 showOutsideDays={false}
@@ -101,7 +101,7 @@ function StabilityHarness() {
       <button type="button" onClick={() => setMonth(OCT_2026)}>
         Show October
       </button>
-      <DatePicker mode="range" month={month} onMonthChange={setMonth} value={range} onSelect={setRange} />
+      <DatePicker mode="range" month={month} onMonthChange={setMonth} selected={range} onChange={setRange} />
     </div>
   );
 }

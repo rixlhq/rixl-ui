@@ -1,20 +1,16 @@
 import {ChevronLeftIcon, ChevronRightIcon} from "lucide-react";
-import {cn} from "cn";
+import {cn} from "../../lib/cn";
+import {rtlFlip} from "../../lib/classes";
 import {Button} from "../button";
 import type {TabsSize, TabsVariant} from "./context";
 
 type TabsOverflowControlProps = {
-  isRtl: boolean;
   side: "start" | "end";
   visible: boolean;
   variant: TabsVariant;
   size: TabsSize;
   onClick: () => void;
 };
-
-function overflowLabel(isStart: boolean, isRtl: boolean) {
-  return isStart !== isRtl ? "Scroll tabs left" : "Scroll tabs right";
-}
 
 function overflowPositionClasses(side: "start" | "end") {
   return side === "start"
@@ -23,7 +19,7 @@ function overflowPositionClasses(side: "start" | "end") {
 }
 
 function overflowToneClasses(variant: TabsVariant, size: TabsSize) {
-  if (variant === "segmented") return size === "sm" ? "w-7 rounded-rixl-lg" : "w-9 rounded-rixl-lg";
+  if (variant === "segmented") return size === "sm" ? "w-7 rounded-lg" : "w-9 rounded-lg";
   return "w-8";
 }
 
@@ -33,7 +29,7 @@ function overflowToneBackground(variant: TabsVariant) {
     : "from-rixl-bg via-rixl-bg/95 to-transparent";
 }
 
-export function TabsOverflowControl({side, visible, variant, size, isRtl, onClick}: TabsOverflowControlProps) {
+export function TabsOverflowControl({side, visible, variant, size, onClick}: TabsOverflowControlProps) {
   const isStart = side === "start";
   const Icon = isStart ? ChevronLeftIcon : ChevronRightIcon;
   return (
@@ -42,12 +38,12 @@ export function TabsOverflowControl({side, visible, variant, size, isRtl, onClic
       variant="ghost"
       data-slot="tabs-overflow-control"
       data-side={side}
-      aria-label={overflowLabel(isStart, isRtl)}
-      aria-hidden={!visible}
-      tabIndex={visible ? 0 : -1}
+      // A pointer-only affordance: arrowing between tabs already scrolls the focused tab into view.
+      aria-hidden="true"
+      tabIndex={-1}
       onClick={onClick}
       className={cn(
-        "absolute inset-y-0 z-20 flex h-auto items-center border-0 p-0 transition-opacity duration-rixl-fast ease-rixl-out active:scale-100",
+        "absolute inset-y-0 z-20 flex h-auto items-center border-0 p-0 transition-opacity active:scale-100",
         overflowPositionClasses(side),
         visible ? "pointer-events-auto opacity-100" : "pointer-events-none opacity-0",
         overflowToneBackground(variant),
@@ -56,12 +52,12 @@ export function TabsOverflowControl({side, visible, variant, size, isRtl, onClic
     >
       <span
         className={cn(
-          "text-rixl-fg-muted hover:text-rixl-fg flex items-center justify-center rounded-rixl-sm transition-colors duration-rixl-fast",
+          "text-rixl-fg-muted hover:text-rixl-fg flex items-center justify-center rounded-sm transition-colors duration-(--rixl-motion-fast)",
           size === "sm" ? "size-5" : "size-6",
           isStart ? "ms-1" : "me-1"
         )}
       >
-        <Icon className="size-3.5 rtl:-scale-x-100" aria-hidden="true" />
+        <Icon className={cn("size-3.5", rtlFlip)} aria-hidden="true" />
       </span>
     </Button>
   );

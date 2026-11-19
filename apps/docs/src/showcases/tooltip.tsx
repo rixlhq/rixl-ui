@@ -1,5 +1,5 @@
 import {Button} from "@rixl/ui/button";
-import {Tooltip, TooltipContent, TooltipProvider, TooltipTrigger} from "@rixl/ui/tooltip";
+import {Tooltip, TooltipProvider} from "@rixl/ui/tooltip";
 import type {ControlValue, Example} from "./registry";
 import {Group} from "../components/showcase-layout";
 
@@ -7,19 +7,12 @@ export const path = "tooltip";
 export const title = "Tooltip";
 export const description = "Explain a control with a short contextual label.";
 export const notes =
-  "Portalled contextual label anchored to a trigger. Scales from its trigger origin and skips transition duration on adjacent hovers (`data-instant:duration-0`).";
+  "Kumo's shape: `<Tooltip content=… render={<Button />}>children</Tooltip>`, with `side`, `align`, `delay` and `closeDelay`. Portalled contextual label anchored to a trigger. Scales from its trigger origin and skips transition duration on adjacent hovers (`data-instant:duration-0`).";
 
 export function Showcase() {
   return (
-    <Tooltip>
-      <TooltipTrigger
-        render={
-          <Button variant="outline" size="sm">
-            Hover me
-          </Button>
-        }
-      />
-      <TooltipContent>Add to library</TooltipContent>
+    <Tooltip content="Add to library" render={<Button variant="outline" size="sm" />}>
+      Hover me
     </Tooltip>
   );
 }
@@ -27,9 +20,8 @@ export function Showcase() {
 function BasicExample(props: {state: Record<string, ControlValue>}) {
   void props;
   return (
-    <Tooltip>
-      <TooltipTrigger render={<Button variant="outline">Hover me</Button>} />
-      <TooltipContent>Add to library</TooltipContent>
+    <Tooltip content="Add to library" render={<Button variant="outline" />}>
+      Hover me
     </Tooltip>
   );
 }
@@ -40,15 +32,8 @@ function ToolbarGroupExample(props: {state: Record<string, ControlValue>}) {
     <Group label="Hover across buttons — first tooltip animates in, adjacent ones open instantly">
       <TooltipProvider delay={250}>
         {(["Bold (⌘B)", "Italic (⌘I)", "Underline (⌘U)", "Code (⌘E)"] as const).map((label) => (
-          <Tooltip key={label}>
-            <TooltipTrigger
-              render={
-                <Button variant="outline" size="sm">
-                  {label.split(" ")[0]}
-                </Button>
-              }
-            />
-            <TooltipContent>{label}</TooltipContent>
+          <Tooltip key={label} content={label} render={<Button variant="outline" size="sm" />}>
+            {label.split(" ")[0]}
           </Tooltip>
         ))}
       </TooltipProvider>
@@ -61,9 +46,8 @@ function SidesExample(props: {state: Record<string, ControlValue>}) {
   return (
     <Group label="Sides">
       {(["top", "right", "bottom", "left"] as const).map((side) => (
-        <Tooltip key={side}>
-          <TooltipTrigger render={<Button variant="outline">{side}</Button>} />
-          <TooltipContent side={side}>Side: {side}</TooltipContent>
+        <Tooltip key={side} content={`Side: ${side}`} side={side} render={<Button variant="outline" />}>
+          {side}
         </Tooltip>
       ))}
     </Group>
@@ -75,11 +59,8 @@ function AlignmentsExample(props: {state: Record<string, ControlValue>}) {
   return (
     <Group label="Alignments (side=bottom)">
       {(["start", "center", "end"] as const).map((align) => (
-        <Tooltip key={align}>
-          <TooltipTrigger render={<Button variant="outline">align={align}</Button>} />
-          <TooltipContent side="bottom" align={align}>
-            Aligned {align}
-          </TooltipContent>
+        <Tooltip key={align} content={`Aligned ${align}`} side="bottom" align={align} render={<Button variant="outline" />}>
+          align={align}
         </Tooltip>
       ))}
     </Group>
@@ -90,15 +71,8 @@ function IconTriggerExample(props: {state: Record<string, ControlValue>}) {
   void props;
   return (
     <Group label="Icon button trigger">
-      <Tooltip>
-        <TooltipTrigger
-          render={
-            <Button variant="outline" size="icon-sm" aria-label="Info">
-              <InfoIcon />
-            </Button>
-          }
-        />
-        <TooltipContent>What is this?</TooltipContent>
+      <Tooltip content="What is this?" render={<Button variant="outline" shape="square" size="sm" aria-label="Info" />}>
+        <InfoIcon />
       </Tooltip>
     </Group>
   );

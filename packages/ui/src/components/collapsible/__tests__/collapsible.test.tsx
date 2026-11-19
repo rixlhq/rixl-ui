@@ -1,13 +1,13 @@
 import {describe, it, expect} from "vitest";
 import {useState} from "react";
 import {act, render, screen} from "@testing-library/react";
-import {Collapsible, CollapsibleTrigger, CollapsibleContent, CollapsibleDefaultTrigger, CollapsibleDefaultPanel} from "../collapsible";
+import {Collapsible, CollapsibleTrigger, CollapsiblePanel, CollapsibleDefaultTrigger, CollapsibleDefaultPanel} from "../collapsible";
 
 function Basic({defaultOpen}: {defaultOpen?: boolean} = {}) {
   return (
     <Collapsible defaultOpen={defaultOpen}>
       <CollapsibleTrigger data-testid="trigger">Toggle</CollapsibleTrigger>
-      <CollapsibleContent data-testid="content">Panel body</CollapsibleContent>
+      <CollapsiblePanel data-testid="content">Panel body</CollapsiblePanel>
     </Collapsible>
   );
 }
@@ -49,7 +49,7 @@ describe("Collapsible", () => {
     const cls = screen.getByTestId("content").className;
     expect(cls).toContain("h-[var(--collapsible-panel-height)]");
     expect(cls).toContain("transition-[height,opacity]");
-    expect(cls).toContain("duration-rixl-base");
+    expect(cls).toContain("duration-(--rixl-motion-base)");
     expect(cls).toContain("data-starting-style:h-0");
     expect(cls).toContain("data-ending-style:h-0");
     expect(cls).toContain("motion-reduce:transition-none");
@@ -61,7 +61,7 @@ describe("CollapsibleDefaultTrigger", () => {
     render(
       <Collapsible>
         <CollapsibleDefaultTrigger data-testid="trigger">Details</CollapsibleDefaultTrigger>
-        <CollapsibleContent>body</CollapsibleContent>
+        <CollapsiblePanel>body</CollapsiblePanel>
       </Collapsible>
     );
     const trigger = screen.getByTestId("trigger");
@@ -70,10 +70,22 @@ describe("CollapsibleDefaultTrigger", () => {
     expect(caret).not.toBeNull();
     const caretClass = caret?.getAttribute("class") ?? "";
     expect(caretClass).toContain("transition-transform");
-    expect(caretClass).toContain("duration-rixl-base");
-    expect(caretClass).toContain("ease-rixl-out");
+    expect(caretClass).toContain("duration-(--rixl-motion-base)");
+    expect(caretClass).toContain("ease-out");
     expect(caretClass).toContain("group-data-[panel-open]:rotate-180");
     expect(caretClass).toContain("motion-reduce:transition-none");
+  });
+
+  it("keeps Button's press transition so the scale on press animates", () => {
+    render(
+      <Collapsible>
+        <CollapsibleDefaultTrigger data-testid="trigger">Details</CollapsibleDefaultTrigger>
+        <CollapsiblePanel>body</CollapsiblePanel>
+      </Collapsible>
+    );
+    const cls = screen.getByTestId("trigger").className;
+    expect(cls).toContain("active:scale-[var(--rixl-press-scale)]");
+    expect(cls).toMatch(/transition-\[[^\]]*\bscale\b[^\]]*\]/);
   });
 
   it("keeps a visible focus ring and lets a consumer className win", () => {
@@ -82,7 +94,7 @@ describe("CollapsibleDefaultTrigger", () => {
         <CollapsibleDefaultTrigger data-testid="trigger" className="px-9">
           Details
         </CollapsibleDefaultTrigger>
-        <CollapsibleContent>body</CollapsibleContent>
+        <CollapsiblePanel>body</CollapsiblePanel>
       </Collapsible>
     );
     const cls = screen.getByTestId("trigger").className;
@@ -102,7 +114,7 @@ describe("CollapsibleDefaultPanel", () => {
     const panel = screen.getByTestId("panel");
     expect(panel).toHaveAttribute("data-slot", "collapsible-default-panel");
     expect(panel.className).toContain("transition-[height,opacity]");
-    expect(panel.className).toContain("duration-rixl-base");
+    expect(panel.className).toContain("duration-(--rixl-motion-base)");
     const accent = panel.querySelector("[data-slot='collapsible-default-panel-accent']");
     expect(accent).not.toBeNull();
     expect(accent?.className ?? "").toContain("border-s-2");

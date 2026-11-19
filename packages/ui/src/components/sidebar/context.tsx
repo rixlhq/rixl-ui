@@ -1,5 +1,5 @@
 import * as React from "react";
-import {cn} from "cn";
+import {cn} from "../../lib/cn";
 
 import {useIsMobile} from "../../hooks/use-mobile";
 import {TooltipProvider} from "../tooltip";
@@ -7,7 +7,7 @@ import {TooltipProvider} from "../tooltip";
 /**
  * Rixl Sidebar — offcanvas/collapsible navigation shell.
  * Ported from dashboard's shadcn sidebar; token-mapped to rixl sidebar
- * tokens and motion tokens (duration-sidebar / ease-curve-sidebar).
+ * tokens and motion tokens (duration-(--rixl-motion-sidebar) / ease-(--rixl-ease-drawer)).
  */
 const SIDEBAR_COOKIE_NAME = "sidebar_state";
 const SIDEBAR_COOKIE_MAX_AGE = 60 * 60 * 24 * 7;
@@ -102,13 +102,17 @@ function useSidebarState(options: OpenState): SidebarContextProps {
   );
 }
 
-export function SidebarProvider({defaultOpen, open, onOpenChange, className, style, children, ...props}: SidebarProviderProps) {
+export const SidebarProvider = React.forwardRef<HTMLDivElement, SidebarProviderProps>(function SidebarProvider(
+  {defaultOpen, open, onOpenChange, className, style, children, ...props},
+  ref
+) {
   const contextValue = useSidebarState({defaultOpen, open, onOpenChange});
 
   return (
     <SidebarContext.Provider value={contextValue}>
       <TooltipProvider delay={0}>
         <div
+          ref={ref}
           data-slot="sidebar-wrapper"
           style={
             {
@@ -125,4 +129,5 @@ export function SidebarProvider({defaultOpen, open, onOpenChange, className, sty
       </TooltipProvider>
     </SidebarContext.Provider>
   );
-}
+});
+SidebarProvider.displayName = "SidebarProvider";

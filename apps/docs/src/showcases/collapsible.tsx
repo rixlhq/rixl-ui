@@ -2,13 +2,7 @@ import {useState} from "react";
 import {Badge} from "@rixl/ui/badge";
 import {Button} from "@rixl/ui/button";
 import {Card, CardContent} from "@rixl/ui/card";
-import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-  CollapsibleDefaultTrigger,
-  CollapsibleDefaultPanel,
-} from "@rixl/ui/collapsible";
+import {Collapsible, CollapsiblePanel, CollapsibleTrigger, CollapsibleDefaultTrigger, CollapsibleDefaultPanel} from "@rixl/ui/collapsible";
 import type {ControlValue, Example} from "./registry";
 
 export const path = "collapsible";
@@ -25,13 +19,13 @@ export function Showcase() {
           </Button>
         }
       />
-      <CollapsibleContent>
+      <CollapsiblePanel>
         <div className="pt-2">
           <Card>
             <CardContent>Expandable panel content.</CardContent>
           </Card>
         </div>
-      </CollapsibleContent>
+      </CollapsiblePanel>
     </Collapsible>
   );
 }
@@ -41,7 +35,7 @@ function UncontrolledExample(props: {state: Record<string, ControlValue>}) {
   return (
     <Collapsible className="w-full max-w-sm">
       <CollapsibleTrigger render={<Button variant="outline">Toggle section</Button>} />
-      <CollapsibleContent>
+      <CollapsiblePanel>
         <div className="pt-2.5">
           <Card>
             <CardContent>
@@ -52,7 +46,7 @@ function UncontrolledExample(props: {state: Record<string, ControlValue>}) {
             </CardContent>
           </Card>
         </div>
-      </CollapsibleContent>
+      </CollapsiblePanel>
     </Collapsible>
   );
 }
@@ -74,7 +68,7 @@ function ControlledExample(props: {state: Record<string, ControlValue>}) {
             />
             <Badge variant={open ? "success" : "secondary"}>open = {String(open)}</Badge>
           </div>
-          <CollapsibleContent>
+          <CollapsiblePanel>
             <div className="pt-2.5">
               <Card>
                 <CardContent>
@@ -82,7 +76,7 @@ function ControlledExample(props: {state: Record<string, ControlValue>}) {
                 </CardContent>
               </Card>
             </div>
-          </CollapsibleContent>
+          </CollapsiblePanel>
         </Collapsible>
       </div>
     </div>
@@ -107,7 +101,7 @@ function MultipleItemsExample(props: {state: Record<string, ControlValue>}) {
   return (
     <div className="grid gap-2">
       {multipleItems.map((item) => (
-        <Collapsible key={item.title} className="w-full max-w-sm rounded-rixl-md border border-rixl-border px-1 py-1">
+        <Collapsible key={item.title} className="w-full max-w-sm rounded-md border border-rixl-border px-1 py-1">
           <CollapsibleDefaultTrigger>{item.title}</CollapsibleDefaultTrigger>
           <CollapsibleDefaultPanel>
             <p className="py-2 text-sm text-rixl-fg-muted">{item.body}</p>
@@ -128,7 +122,7 @@ function AccordionExample(props: {state: Record<string, ControlValue>}) {
           key={item.title}
           open={activeIndex === index}
           onOpenChange={(open: boolean) => setActiveIndex(open ? index : null)}
-          className="w-full max-w-sm rounded-rixl-md border border-rixl-border px-1 py-1"
+          className="w-full max-w-sm rounded-md border border-rixl-border px-1 py-1"
         >
           <CollapsibleDefaultTrigger>{item.title}</CollapsibleDefaultTrigger>
           <CollapsibleDefaultPanel keepMounted>

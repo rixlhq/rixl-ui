@@ -26,9 +26,10 @@ Shared lint rules live in the root `vite.config.ts`; UI-specific complexity caps
 ## Styling
 
 - Tailwind 4 utilities only. Inline `style` only for values computed at runtime.
-- Compose classes with `cn` (`import {cn} from "cn"`), so a consumer's `className` wins over the defaults (tailwind-merge, last write wins).
+- Compose classes with `cn` from `src/lib/cn.ts` (relative import), a plain re-export of the `cn` package (tailwind-merge rules, last write wins), with `className` last. A consumer class replaces the component's own: `rounded-full` over `rounded-md`, `shadow-none` over `shadow-xs`, `ease-linear` over `ease-out`. A component restyles a base it builds on the same way, through `className` (`rounded-none border-0 shadow-none`), and never with an important modifier (`rounded-none!`). Important modifiers stay only where they override third-party styles (Sonner) or inline positioning.
 - Variants go through `cva`. Export the helper as `<name>Variants` when consumers need the classes on their own elements.
 - Every colour, radius, shadow and duration reads a `--rixl-*` token registered in `src/styles/preset.css`. A new token gets a light and a dark value.
+- Radii, shadows and easing are registered on Tailwind's standard theme keys (`--radius-md`, `--shadow-sm`, `--ease-out`), so plain `cn` merges them: write `rounded-md`, `shadow-sm`, `ease-out`. Durations and the drawer curve have no fitting standard key and are read as `duration-(--rixl-motion-fast)` and `ease-(--rixl-ease-drawer)`. Do not invent a custom radius, shadow, easing or duration theme key (a `rounded-<brand>-md` or `duration-<brand>-fast` utility): tailwind-merge cannot see keys outside the colour namespace, so those would not merge.
 
 ## Public API
 

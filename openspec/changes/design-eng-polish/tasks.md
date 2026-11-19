@@ -1,7 +1,7 @@
 ## 1. Motion Tokens & Preset Polish
 
 - [x] 1.1 Update light-theme `--rixl-danger` contrast and dark-theme `--rixl-shadow-*` tokens in `packages/ui/src/styles/preset.css` (Evidence: `dropdown-menu.browser.test.tsx` → `has no WCAG 2.2 AA violations when open` passed in Chromium)
-- [x] 1.2 Update `--rixl-ease-out` (`cubic-bezier(0.23, 1, 0.32, 1)`), `--rixl-ease-in-out` (`cubic-bezier(0.77, 0, 0.175, 1)`), and add `--rixl-ease-drawer` (`cubic-bezier(0.32, 0.72, 0, 1)`) + `--ease-rixl-drawer` in `packages/ui/src/styles/preset.css` (Evidence: `sheet.test.tsx` → `defaults to the right side and applies edge classes` passed & `vp run -F @rixl/ui pack` succeeded)
+- [x] 1.2 Update `--rixl-ease-out` (`cubic-bezier(0.23, 1, 0.32, 1)`), `--rixl-ease-in-out` (`cubic-bezier(0.77, 0, 0.175, 1)`), and add `--rixl-ease-drawer` (`cubic-bezier(0.32, 0.72, 0, 1)`) + `--ease-(--rixl-ease-drawer)` in `packages/ui/src/styles/preset.css` (Evidence: `sheet.test.tsx` → `defaults to the right side and applies edge classes` passed & `vp run -F @rixl/ui pack` succeeded)
 
 ## 2. Press Feedback, Loading State & Copy Morphing
 
@@ -15,7 +15,7 @@
 
 - [x] 3.1 Remove redundant `data-open:animate-in` / `data-closed:animate-out` keyframe classes from `Dialog`, `AlertDialog`, `Popover`, `DropdownMenu`, `Select`, and `Tooltip` so `data-starting-style` / `data-ending-style` CSS transitions are 100% interruptible, and add `overscroll-contain` to `DropdownMenuContent` and `SelectContent` (Evidence: `dialog.test.tsx` → `uses a lighter, blurred backdrop with interruptible starting/ending transitions` & `popover.test.tsx` → `applies base classes and origin-anchored interruptible transitions to the popup` passed)
 - [x] 3.2 Add `data-instant:duration-0` to `TooltipContent` so adjacent tooltips open instantly (`packages/ui/src/components/tooltip/tooltip.tsx`) (Evidence: `tooltip.test.tsx` → `skips transition duration when data-instant is present` passed)
-- [x] 3.3 Use `ease-rixl-drawer` and `overscroll-contain` on `SheetContent` (`packages/ui/src/components/sheet/sheet.tsx`) (Evidence: `sheet.test.tsx` → `defaults to the right side and applies edge classes` & `sheet.browser.test.tsx` → `has no WCAG 2.2 AA violations when open` passed)
+- [x] 3.3 Use `ease-(--rixl-ease-drawer)` and `overscroll-contain` on `SheetContent` (`packages/ui/src/components/sheet/sheet.tsx`) (Evidence: `sheet.test.tsx` → `defaults to the right side and applies edge classes` & `sheet.browser.test.tsx` → `has no WCAG 2.2 AA violations when open` passed)
 
 ## 4. Layout Resilience (`break-ui`) & Proportional Sizing
 

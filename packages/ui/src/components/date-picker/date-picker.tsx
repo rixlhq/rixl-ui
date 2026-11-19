@@ -1,43 +1,15 @@
-import {forwardRef} from "react";
+import {forwardRef, type ComponentProps} from "react";
+import type {DayPicker} from "react-day-picker";
 import {DatePickerGrid} from "./date-picker-grid";
-import {sharedGridProps} from "./shared-grid-props";
-import {selectionHandler} from "./selection-handler";
 import type {DatePickerProps} from "./date-picker.types";
 
-const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>((props, ref) => {
-  const shared = sharedGridProps(props);
-  if (props.mode === "range") {
-    const {value, selected, onSelect, onChange, min, max} = props;
-    return (
-      <DatePickerGrid
-        ref={ref}
-        mode="range"
-        {...shared}
-        min={min}
-        max={max}
-        selected={value ?? selected}
-        onSelect={selectionHandler(onSelect, onChange)}
-      />
-    );
-  }
-  if (props.mode === "multiple") {
-    const {value, selected, onSelect, onChange, min, max} = props;
-    return (
-      <DatePickerGrid
-        ref={ref}
-        mode="multiple"
-        {...shared}
-        min={min}
-        max={max}
-        selected={value ?? selected}
-        onSelect={selectionHandler(onSelect, onChange)}
-      />
-    );
-  }
-  const {value, selected, onSelect, onChange} = props;
-  return (
-    <DatePickerGrid ref={ref} mode="single" {...shared} selected={value ?? selected} onSelect={selectionHandler(onSelect, onChange)} />
-  );
+const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(({onChange, ...props}, ref) => {
+  // as: DayPicker's props are a union keyed on `mode`; once `onChange` is
+  // renamed to `onSelect` the compiler can't pair each `mode` with its
+  // `selected` and `onSelect` again, though every DatePickerProps variant has
+  // exactly one matching DayPicker variant.
+  const dayPickerProps = {...props, onSelect: onChange} as ComponentProps<typeof DayPicker>;
+  return <DatePickerGrid ref={ref} {...dayPickerProps} />;
 });
 DatePicker.displayName = "DatePicker";
 export {DatePicker};

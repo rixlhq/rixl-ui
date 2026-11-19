@@ -18,8 +18,15 @@ describe("Skeleton", () => {
     render(<Skeleton data-testid="s" />);
     const cls = screen.getByTestId("s").className;
     expect(cls).toContain("bg-rixl-surface-muted");
-    expect(cls).toContain("animate-rixl-shimmer");
-    expect(cls).toContain("rounded-rixl-md");
+    expect(cls).toContain("after:animate-rixl-shimmer");
+    expect(cls).toContain("rounded-md");
+  });
+
+  it("lets a consumer rounded-full replace the rectangle radius", () => {
+    render(<Skeleton data-testid="s" className="rounded-full" />);
+    const cls = screen.getByTestId("s").className;
+    expect(cls).toContain("rounded-full");
+    expect(cls).not.toContain("rounded-md");
   });
 
   it("forwards additional className without dropping base classes", () => {
@@ -27,7 +34,7 @@ describe("Skeleton", () => {
     const cls = screen.getByTestId("s").className;
     expect(cls).toContain("h-4");
     expect(cls).toContain("w-32");
-    expect(cls).toContain("animate-rixl-shimmer");
+    expect(cls).toContain("after:animate-rixl-shimmer");
   });
 
   it("last-write-wins on conflicting Tailwind utilities via cn", () => {
@@ -59,7 +66,7 @@ describe("Skeleton", () => {
   describe("animation", () => {
     it("defaults to shimmer", () => {
       render(<Skeleton data-testid="s" />);
-      expect(screen.getByTestId("s").className).toContain("animate-rixl-shimmer");
+      expect(screen.getByTestId("s").className).toContain("after:animate-rixl-shimmer");
     });
 
     it("pulse applies the opacity pulse and freezes under reduced motion", () => {
@@ -69,13 +76,20 @@ describe("Skeleton", () => {
       expect(cls).toContain("motion-reduce:animate-none");
     });
 
-    it("shimmer applies the sweep and falls back to a flat fill under reduced motion", () => {
+    it("shimmer animates a clipped highlight band instead of the root background", () => {
       render(<Skeleton data-testid="s" animation="shimmer" />);
       const cls = screen.getByTestId("s").className;
-      expect(cls).toContain("animate-rixl-shimmer");
-      expect(cls).toContain("bg-[length:200%_100%]");
-      expect(cls).toContain("motion-reduce:animate-none");
-      expect(cls).toContain("motion-reduce:bg-none");
+      expect(cls).toContain("relative");
+      expect(cls).toContain("overflow-hidden");
+      expect(cls).toContain("after:absolute");
+      expect(cls).toContain("after:animate-rixl-shimmer");
+      expect(cls).not.toMatch(/(^|\s)animate-rixl-shimmer/);
+      expect(cls).not.toContain("bg-[length");
+    });
+
+    it("shimmer removes the band under reduced motion", () => {
+      render(<Skeleton data-testid="s" animation="shimmer" />);
+      expect(screen.getByTestId("s").className).toContain("motion-reduce:after:hidden");
     });
 
     it("none renders a static muted fill with no animation utility", () => {
@@ -84,12 +98,13 @@ describe("Skeleton", () => {
       expect(cls).toContain("bg-rixl-surface-muted");
       expect(cls).not.toContain("animate-pulse");
       expect(cls).not.toContain("animate-rixl-shimmer");
+      expect(cls).not.toContain("after:");
     });
   });
 
   describe("skeletonVariants", () => {
     it("is exported and produces the shimmer animation class", () => {
-      expect(skeletonVariants({animation: "shimmer"})).toContain("animate-rixl-shimmer");
+      expect(skeletonVariants({animation: "shimmer"})).toContain("after:animate-rixl-shimmer");
     });
   });
 });

@@ -59,6 +59,19 @@ describe("Tabs Browser Mode", () => {
     expect(parseFloat(nextLeft)).toBeGreaterThan(parseFloat(initialLeft));
   });
 
+  it("fades a newly activated panel in with no slide, and leaves the first panel still", async () => {
+    render(<TestTabs />);
+    const initial = getComputedStyle(page.getByTestId("panel-overview").element());
+    expect(initial.animationName).toBe("none");
+
+    await userEvent.click(page.getByTestId("tab-metrics"));
+    const style = getComputedStyle(page.getByTestId("panel-metrics").element());
+    expect(style.animationName).toBe("rixl-enter");
+    expect(style.animationDuration).toBe("0.12s");
+    expect(style.getPropertyValue("--rixl-enter-opacity")).toBe("0");
+    expect(style.getPropertyValue("--rixl-enter-translate-x")).toBe("");
+  });
+
   it("navigates tabs with ArrowRight and ArrowLeft keys", async () => {
     render(<TestTabs />);
 
@@ -70,6 +83,28 @@ describe("Tabs Browser Mode", () => {
 
     await userEvent.keyboard("{ArrowLeft}");
     await expect.element(page.getByTestId("tab-overview")).toHaveFocus();
+  });
+
+  // There is no full-width mode: an app that wants stretched tabs says so with classNames.
+  it("stretches the row across the root when the app passes w-full and flex-1", async () => {
+    render(
+      <div className="w-[480px]">
+        <Tabs defaultValue="a" data-testid="stretch-root">
+          <TabsList className="w-full">
+            <TabsTrigger value="a" className="flex-1">
+              A
+            </TabsTrigger>
+            <TabsTrigger value="b" className="flex-1" data-testid="stretch-last">
+              B
+            </TabsTrigger>
+          </TabsList>
+        </Tabs>
+      </div>
+    );
+    await expect.element(page.getByTestId("stretch-last")).toBeVisible();
+    const root = document.querySelector<HTMLElement>("[data-testid='stretch-root']")!.getBoundingClientRect();
+    const list = document.querySelector<HTMLElement>("[data-slot='tabs-list']")!.getBoundingClientRect();
+    expect(list.width).toBeCloseTo(root.width, 0);
   });
 
   it("has no WCAG 2.2 AA violations", async () => {

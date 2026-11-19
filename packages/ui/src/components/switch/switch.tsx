@@ -1,5 +1,9 @@
+import {forwardRef, type ReactNode} from "react";
 import {Switch as SwitchPrimitive} from "@base-ui/react/switch";
-import {cn} from "cn";
+import {cn} from "../../lib/cn";
+import {toggleControl} from "../../lib/classes";
+import {useWarnUnnamedControl} from "../../lib/warn-missing-name";
+import {ControlField} from "../label/control-field";
 
 /**
  * Rixl Switch — a two-state toggle.
@@ -7,19 +11,27 @@ import {cn} from "cn";
  * Ported from dashboard's shadcn Switch (Base UI Switch). Class names
  * swapped to `--rixl-*` tokens; `dark:*` variants dropped — rixl
  * re-evaluates every token under `[data-theme="dark"]`.
+ *
+ * With a `label` the control renders inside a Base UI `Field`, whose label
+ * encloses it; without one it is the bare control, which the app names with
+ * `aria-label` or `aria-labelledby`.
  */
-function Switch({className, ...props}: SwitchPrimitive.Root.Props) {
-  return (
+const Switch = forwardRef<HTMLElement, SwitchProps>(function Switch(
+  {className, label, labelTooltip, labelTooltipAriaLabel, controlFirst, required, disabled, ...props},
+  ref
+) {
+  useWarnUnnamedControl({component: "Switch", label, ariaLabel: props["aria-label"], ariaLabelledBy: props["aria-labelledby"]});
+  const control = (
     <SwitchPrimitive.Root
+      ref={ref}
+      required={required}
+      disabled={disabled}
       data-slot="switch"
       className={cn(
-        "peer inline-flex h-[1.15rem] w-8 shrink-0 items-center rounded-full border border-transparent shadow-rixl-xs outline-none touch-manipulation",
-        "transition-[scale,background-color,border-color,box-shadow] duration-rixl-fast ease-rixl-out",
-        "enabled:active:scale-[var(--rixl-press-scale)] motion-reduce:active:scale-100",
+        toggleControl,
+        "peer inline-flex h-[1.15rem] w-8 rounded-full border-transparent",
         "data-checked:bg-rixl-primary data-unchecked:bg-rixl-border",
-        "data-checked:enabled:hover:bg-rixl-primary-hover data-unchecked:enabled:hover:bg-rixl-border-strong",
-        "focus-visible:border-rixl-ring focus-visible:ring-rixl-ring/50 focus-visible:ring-[3px]",
-        "data-disabled:cursor-not-allowed data-disabled:opacity-50",
+        "data-checked:not-data-disabled:hover:bg-rixl-primary-hover data-unchecked:not-data-disabled:hover:bg-rixl-border-strong",
         className
       )}
       {...props}
@@ -27,12 +39,36 @@ function Switch({className, ...props}: SwitchPrimitive.Root.Props) {
       <SwitchPrimitive.Thumb
         data-slot="switch-thumb"
         className={cn(
-          "bg-rixl-surface pointer-events-none block size-4 rounded-full ring-0 transition-transform duration-rixl-fast ease-rixl-out motion-reduce:transition-none data-checked:translate-x-[calc(100%-2px)] data-unchecked:translate-x-0"
+          "bg-rixl-surface pointer-events-none block size-4 rounded-full ring-0 transition-transform duration-(--rixl-motion-fast) ease-out motion-reduce:transition-none data-checked:translate-x-[calc(100%-2px)] rtl:data-checked:-translate-x-[calc(100%-2px)] data-unchecked:translate-x-0"
         )}
       />
     </SwitchPrimitive.Root>
   );
-}
+  if (!label) return control;
+  return (
+    <ControlField
+      component="Switch"
+      label={label}
+      required={required}
+      labelTooltip={labelTooltip}
+      labelTooltipAriaLabel={labelTooltipAriaLabel}
+      controlFirst={controlFirst}
+      disabled={disabled}
+    >
+      {control}
+    </ControlField>
+  );
+});
+Switch.displayName = "Switch";
 
 export {Switch};
-export type SwitchProps = SwitchPrimitive.Root.Props;
+export type SwitchProps = SwitchPrimitive.Root.Props & {
+  /** Visible label. Turns on the `Field` wrapper that names the control and makes the text clickable. */
+  label?: ReactNode;
+  /** Content of a tooltip opened from an info trigger after the label. */
+  labelTooltip?: ReactNode;
+  /** The accessible name of the tooltip trigger. The library invents none; without it `Switch` warns in development. */
+  labelTooltipAriaLabel?: string;
+  /** `true` (default) puts the control before the label text, `false` after it. */
+  controlFirst?: boolean;
+};

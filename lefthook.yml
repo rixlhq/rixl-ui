@@ -1,16 +1,58 @@
+# Run the lefthook pinned in the root package.json, not a global install, so
+# every machine runs the same hook version.
+lefthook: node_modules/.bin/lefthook
+min_version: 2.2.2
+
+# `root` runs a command inside packages/ui with staged paths relative to it. `check`
+# has no root: the shared lint and format config lives at the repository root and
+# covers apps/ as well as packages/.
+#
+# Every job reads stdin from /dev/null so a hidden prompt can't block it, and the
+# slow ones have a timeout (well above their full run on a laptop) so a hang fails
+# the hook instead of stalling it.
+
 pre-commit:
+  # In order, stopping at the first failure: the fixes land before the tests read the files.
+  piped: true
   commands:
     check:
+      glob:
+        - "*.{js,mjs,ts,tsx}"
+        - "*.{json,md,yaml,yml,css}"
       run: vp check --fix < /dev/null
       stage_fixed: true
+    suppressions:
+      root: "packages/ui/"
+      glob: "*.{ts,tsx}"
+      run: vpr lint:suppressions < /dev/null
+    test:
+      root: "packages/ui/"
+      glob: "*.{ts,tsx}"
+      # Unit tests that import the staged files; the browser project runs on push and in CI.
+      run: vp test related {staged_files} --project unit --run --bail=1 < /dev/null
+      timeout: 2m
 
 pre-push:
+  parallel: true
   commands:
-    pack:
-      glob: "*.{js,ts,jsx,tsx}"
-      run: vpr pack < /dev/null
-      timeout: 2m
     test:
-      glob: "*.{js,ts,jsx,tsx}"
-      run: vp test --root packages/ui --run --bail=1 < /dev/null
+      root: "packages/ui/"
+      run: vp test --run --bail=1 < /dev/null
+      timeout: 3m
+    docs-test:
+      root: "apps/docs/"
+      run: vp test --run --bail=1 < /dev/null
+      timeout: 3m
+    pack:
+      root: "packages/ui/"
+      run: vp pack < /dev/null
+      timeout: 3m
+    knip:
+      root: "packages/ui/"
+      run: vpr knip < /dev/null
+      timeout: 2m
+    react-doctor:
+      root: "packages/ui/"
+      glob: "*.{jsx,tsx}"
+      run: vpr react-doctor < /dev/null
       timeout: 2m

@@ -4,6 +4,7 @@ import {
   Sidebar,
   SidebarContent,
   SidebarGroup,
+  SidebarGroupAction,
   SidebarGroupContent,
   SidebarGroupLabel,
   SidebarHeader,
@@ -51,7 +52,7 @@ function Shell() {
       </Sidebar>
       <SidebarInset>
         <main>
-          <SidebarTrigger data-testid="trigger" />
+          <SidebarTrigger data-testid="trigger" aria-label="Toggle Sidebar" />
         </main>
       </SidebarInset>
     </SidebarProvider>
@@ -136,7 +137,7 @@ describe("Sidebar", () => {
     render(
       <SidebarProvider>
         <Sidebar>
-          <SidebarTrigger data-testid="trigger" />
+          <SidebarTrigger data-testid="trigger" aria-label="Toggle Sidebar" />
         </Sidebar>
       </SidebarProvider>
     );
@@ -147,7 +148,7 @@ describe("Sidebar", () => {
   it("exposes sidebarMenuButtonVariants for className merging", () => {
     render(<Shell />);
     const cls = screen.getByTestId("menu-button").className;
-    expect(cls).toContain("rounded-rixl-md");
+    expect(cls).toContain("rounded-md");
   });
 
   it("uses tokenized press scale and reduced-motion fallback on menu and sub-menu buttons", () => {
@@ -215,5 +216,19 @@ describe("Sidebar", () => {
     expect(cls).toContain("[&::-webkit-scrollbar-thumb]:bg-rixl-border-strong");
     expect(cls).toContain("[&::-webkit-scrollbar-thumb:hover]:bg-rixl-fg-subtle");
     expect(cls).not.toContain("scroll-smooth");
+  });
+
+  it("fades the group label on the sidebar motion tokens, in step with the collapse", () => {
+    render(<Shell />);
+    const cls = screen.getByTestId("group-label").className;
+    expect(cls).toContain("duration-(--rixl-motion-sidebar)");
+    expect(cls).toContain("ease-(--rixl-ease-drawer)");
+    expect(cls).not.toContain("duration-200");
+    expect(cls).not.toContain("ease-linear");
+  });
+
+  it("does not declare a transform transition on the group action, which has no transform to animate", () => {
+    render(<SidebarGroupAction data-testid="group-action">+</SidebarGroupAction>);
+    expect(screen.getByTestId("group-action").className).not.toContain("transition-transform");
   });
 });

@@ -29,7 +29,7 @@ describe("Input Browser Mode", () => {
 
     await expect.element(page.getByText("Enter a valid email.")).toBeVisible();
     const input = document.querySelector('input[placeholder="you@example.com"]');
-    const error = document.querySelector('[data-slot="field-error"]');
+    const error = document.querySelector('[data-slot="input-error"]');
     expect(input?.getAttribute("aria-describedby")?.split(" ")).toContain(error?.getAttribute("id"));
   });
 
