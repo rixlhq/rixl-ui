@@ -2,13 +2,7 @@ import {useState} from "react";
 import {Badge} from "@rixl/ui/badge";
 import {Button} from "@rixl/ui/button";
 import {Card, CardContent} from "@rixl/ui/card";
-import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-  CollapsibleDefaultTrigger,
-  CollapsibleDefaultPanel,
-} from "@rixl/ui/collapsible";
+import {Collapsible, CollapsiblePanel, CollapsibleTrigger, CollapsibleDefaultTrigger, CollapsibleDefaultPanel} from "@rixl/ui/collapsible";
 import type {ControlValue, Example} from "./registry";
 
 export const path = "collapsible";
@@ -25,13 +19,13 @@ export function Showcase() {
           </Button>
         }
       />
-      <CollapsibleContent>
+      <CollapsiblePanel>
         <div className="pt-2">
           <Card>
             <CardContent>Expandable panel content.</CardContent>
           </Card>
         </div>
-      </CollapsibleContent>
+      </CollapsiblePanel>
     </Collapsible>
   );
 }
@@ -41,7 +35,7 @@ function UncontrolledExample(props: {state: Record<string, ControlValue>}) {
   return (
     <Collapsible className="w-full max-w-sm">
       <CollapsibleTrigger render={<Button variant="outline">Toggle section</Button>} />
-      <CollapsibleContent>
+      <CollapsiblePanel>
         <div className="pt-2.5">
           <Card>
             <CardContent>
@@ -52,7 +46,7 @@ function UncontrolledExample(props: {state: Record<string, ControlValue>}) {
             </CardContent>
           </Card>
         </div>
-      </CollapsibleContent>
+      </CollapsiblePanel>
     </Collapsible>
   );
 }
@@ -74,7 +68,7 @@ function ControlledExample(props: {state: Record<string, ControlValue>}) {
             />
             <Badge variant={open ? "success" : "secondary"}>open = {String(open)}</Badge>
           </div>
-          <CollapsibleContent>
+          <CollapsiblePanel>
             <div className="pt-2.5">
               <Card>
                 <CardContent>
@@ -82,7 +76,7 @@ function ControlledExample(props: {state: Record<string, ControlValue>}) {
                 </CardContent>
               </Card>
             </div>
-          </CollapsibleContent>
+          </CollapsiblePanel>
         </Collapsible>
       </div>
     </div>

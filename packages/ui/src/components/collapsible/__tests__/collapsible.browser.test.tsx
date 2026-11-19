@@ -3,16 +3,16 @@ import {useState} from "react";
 import {page, userEvent} from "vitest/browser";
 import {render, cleanup} from "@testing-library/react";
 import {axeViolations} from "../../../../test/a11y";
-import {Collapsible, CollapsibleTrigger, CollapsibleContent, CollapsibleDefaultTrigger, CollapsibleDefaultPanel} from "../collapsible";
+import {Collapsible, CollapsibleTrigger, CollapsiblePanel, CollapsibleDefaultTrigger, CollapsibleDefaultPanel} from "../collapsible";
 
 function TestCollapsible({defaultOpen = false}: {defaultOpen?: boolean} = {}) {
   return (
     <div className="p-8">
       <Collapsible defaultOpen={defaultOpen}>
         <CollapsibleTrigger data-testid="collapsible-trigger">Toggle details</CollapsibleTrigger>
-        <CollapsibleContent data-testid="collapsible-content">
+        <CollapsiblePanel data-testid="collapsible-content">
           <div className="py-2">Detailed logs and metrics appear here.</div>
-        </CollapsibleContent>
+        </CollapsiblePanel>
       </Collapsible>
     </div>
   );

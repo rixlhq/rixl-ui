@@ -1,13 +1,13 @@
 import {describe, it, expect} from "vitest";
 import {useState} from "react";
 import {act, render, screen} from "@testing-library/react";
-import {Collapsible, CollapsibleTrigger, CollapsibleContent, CollapsibleDefaultTrigger, CollapsibleDefaultPanel} from "../collapsible";
+import {Collapsible, CollapsibleTrigger, CollapsiblePanel, CollapsibleDefaultTrigger, CollapsibleDefaultPanel} from "../collapsible";
 
 function Basic({defaultOpen}: {defaultOpen?: boolean} = {}) {
   return (
     <Collapsible defaultOpen={defaultOpen}>
       <CollapsibleTrigger data-testid="trigger">Toggle</CollapsibleTrigger>
-      <CollapsibleContent data-testid="content">Panel body</CollapsibleContent>
+      <CollapsiblePanel data-testid="content">Panel body</CollapsiblePanel>
     </Collapsible>
   );
 }
@@ -61,7 +61,7 @@ describe("CollapsibleDefaultTrigger", () => {
     render(
       <Collapsible>
         <CollapsibleDefaultTrigger data-testid="trigger">Details</CollapsibleDefaultTrigger>
-        <CollapsibleContent>body</CollapsibleContent>
+        <CollapsiblePanel>body</CollapsiblePanel>
       </Collapsible>
     );
     const trigger = screen.getByTestId("trigger");
@@ -80,7 +80,7 @@ describe("CollapsibleDefaultTrigger", () => {
     render(
       <Collapsible>
         <CollapsibleDefaultTrigger data-testid="trigger">Details</CollapsibleDefaultTrigger>
-        <CollapsibleContent>body</CollapsibleContent>
+        <CollapsiblePanel>body</CollapsiblePanel>
       </Collapsible>
     );
     const cls = screen.getByTestId("trigger").className;
@@ -94,7 +94,7 @@ describe("CollapsibleDefaultTrigger", () => {
         <CollapsibleDefaultTrigger data-testid="trigger" className="px-9">
           Details
         </CollapsibleDefaultTrigger>
-        <CollapsibleContent>body</CollapsibleContent>
+        <CollapsiblePanel>body</CollapsiblePanel>
       </Collapsible>
     );
     const cls = screen.getByTestId("trigger").className;
