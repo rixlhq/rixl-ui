@@ -17,7 +17,6 @@ export const SidebarTrigger = React.forwardRef<HTMLButtonElement, SidebarTrigger
   return (
     <Button
       ref={ref}
-      data-sidebar="trigger"
       data-slot="sidebar-trigger"
       variant="ghost"
       shape="square"
@@ -54,7 +53,6 @@ export const SidebarRail = React.forwardRef<HTMLButtonElement, SidebarRailProps>
   return (
     <button
       ref={ref}
-      data-sidebar="rail"
       data-slot="sidebar-rail"
       tabIndex={-1}
       onClick={toggleSidebar}

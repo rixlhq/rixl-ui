@@ -64,7 +64,6 @@ function MobileSidebar({side, children, panelRef, "aria-label": ariaLabel, "aria
         <DialogOverlay />
         <DialogPrimitive.Popup
           ref={panelRef}
-          data-sidebar="sidebar"
           data-slot="sidebar"
           data-mobile="true"
           aria-label={ariaLabel}
@@ -122,7 +121,6 @@ function DesktopSidebar({side, variant = "sidebar", collapsible = "offcanvas", c
         {...props}
       >
         <div
-          data-sidebar="sidebar"
           data-slot="sidebar-inner"
           className="bg-rixl-sidebar group-data-[variant=floating]:border-rixl-sidebar-border flex h-full w-full flex-col group-data-[variant=floating]:rounded-lg group-data-[variant=floating]:border group-data-[variant=floating]:shadow-sm"
         >

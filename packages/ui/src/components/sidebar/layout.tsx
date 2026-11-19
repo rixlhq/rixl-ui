@@ -21,27 +21,17 @@ export const SidebarInset = React.forwardRef<HTMLElement, SidebarInsetProps>(fun
 SidebarInset.displayName = "SidebarInset";
 
 export const SidebarInput = React.forwardRef<HTMLInputElement, SidebarInputProps>(function SidebarInput({className, ...props}, ref) {
-  return (
-    <Input
-      ref={ref}
-      data-slot="sidebar-input"
-      data-sidebar="input"
-      className={cn("bg-rixl-bg h-8 w-full shadow-none", className)}
-      {...props}
-    />
-  );
+  return <Input ref={ref} data-slot="sidebar-input" className={cn("bg-rixl-bg h-8 w-full shadow-none", className)} {...props} />;
 });
 SidebarInput.displayName = "SidebarInput";
 
 export const SidebarHeader = React.forwardRef<HTMLDivElement, SidebarHeaderProps>(function SidebarHeader({className, ...props}, ref) {
-  return <div ref={ref} data-slot="sidebar-header" data-sidebar="header" className={cn("flex flex-col gap-2 p-2", className)} {...props} />;
+  return <div ref={ref} data-slot="sidebar-header" className={cn("flex flex-col gap-2 p-2", className)} {...props} />;
 });
 SidebarHeader.displayName = "SidebarHeader";
 
 export const SidebarFooter = React.forwardRef<HTMLDivElement, SidebarFooterProps>(function SidebarFooter({className, ...props}, ref) {
-  return (
-    <div ref={ref} data-slot="sidebar-footer" data-sidebar="footer" className={cn("flex flex-col gap-2 pb-2", className)} {...props} />
-  );
+  return <div ref={ref} data-slot="sidebar-footer" className={cn("flex flex-col gap-2 pb-2", className)} {...props} />;
 });
 SidebarFooter.displayName = "SidebarFooter";
 
@@ -49,15 +39,7 @@ export const SidebarSeparator = React.forwardRef<HTMLDivElement, SidebarSeparato
   {className, ...props},
   ref
 ) {
-  return (
-    <Separator
-      ref={ref}
-      data-slot="sidebar-separator"
-      data-sidebar="separator"
-      className={cn("bg-rixl-sidebar-border mx-2 w-auto", className)}
-      {...props}
-    />
-  );
+  return <Separator ref={ref} data-slot="sidebar-separator" className={cn("bg-rixl-sidebar-border mx-2 w-auto", className)} {...props} />;
 });
 SidebarSeparator.displayName = "SidebarSeparator";
 
@@ -66,7 +48,6 @@ export const SidebarContent = React.forwardRef<HTMLDivElement, SidebarContentPro
     <div
       ref={ref}
       data-slot="sidebar-content"
-      data-sidebar="content"
       className={cn(
         "flex min-h-0 flex-1 flex-col gap-2 overflow-auto group-data-[collapsible=icon]:overflow-hidden",
         // Thin tokenized scrollbar: `border-strong` stays visible against the

@@ -9,7 +9,6 @@ export const SidebarMenuSub = React.forwardRef<HTMLUListElement, SidebarMenuSubP
     <ul
       ref={ref}
       data-slot="sidebar-menu-sub"
-      data-sidebar="menu-sub"
       className={cn(
         "border-rixl-sidebar-border mx-3.5 flex min-w-0 translate-x-px rtl:-translate-x-px flex-col gap-1 border-s px-2.5 py-0.5",
         "group-data-[collapsible=icon]:hidden",
@@ -25,15 +24,7 @@ export const SidebarMenuSubItem = React.forwardRef<HTMLLIElement, SidebarMenuSub
   {className, ...props},
   ref
 ) {
-  return (
-    <li
-      ref={ref}
-      data-slot="sidebar-menu-sub-item"
-      data-sidebar="menu-sub-item"
-      className={cn("group/menu-sub-item relative", className)}
-      {...props}
-    />
-  );
+  return <li ref={ref} data-slot="sidebar-menu-sub-item" className={cn("group/menu-sub-item relative", className)} {...props} />;
 });
 SidebarMenuSubItem.displayName = "SidebarMenuSubItem";
 
@@ -66,7 +57,7 @@ export const SidebarMenuSubButton = React.forwardRef<HTMLAnchorElement, SidebarM
       props
     ),
     render,
-    state: {slot: "sidebar-menu-sub-button", sidebar: "menu-sub-button", size, active: isActive},
+    state: {slot: "sidebar-menu-sub-button", size, active: isActive},
   });
 });
 SidebarMenuSubButton.displayName = "SidebarMenuSubButton";

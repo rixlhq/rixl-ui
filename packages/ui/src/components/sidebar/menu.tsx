@@ -10,16 +10,12 @@ import {Tooltip, type TooltipProps} from "../tooltip";
 import {SidebarSideContext, useSidebar} from "./context";
 
 export const SidebarMenu = React.forwardRef<HTMLUListElement, SidebarMenuProps>(function SidebarMenu({className, ...props}, ref) {
-  return (
-    <ul ref={ref} data-slot="sidebar-menu" data-sidebar="menu" className={cn("flex w-full min-w-0 flex-col gap-1", className)} {...props} />
-  );
+  return <ul ref={ref} data-slot="sidebar-menu" className={cn("flex w-full min-w-0 flex-col gap-1", className)} {...props} />;
 });
 SidebarMenu.displayName = "SidebarMenu";
 
 export const SidebarMenuItem = React.forwardRef<HTMLLIElement, SidebarMenuItemProps>(function SidebarMenuItem({className, ...props}, ref) {
-  return (
-    <li ref={ref} data-slot="sidebar-menu-item" data-sidebar="menu-item" className={cn("group/menu-item relative", className)} {...props} />
-  );
+  return <li ref={ref} data-slot="sidebar-menu-item" className={cn("group/menu-item relative", className)} {...props} />;
 });
 SidebarMenuItem.displayName = "SidebarMenuItem";
 
@@ -32,7 +28,7 @@ export const sidebarMenuButtonVariants = cva(
     pressFeedback,
     "active:bg-rixl-sidebar-accent active:text-rixl-sidebar-accent-fg",
     "disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50",
-    "group-has-data-[sidebar=menu-action]/menu-item:pe-8",
+    "group-has-data-[slot=sidebar-menu-action]/menu-item:pe-8",
     "data-active:bg-rixl-sidebar-accent data-active:font-medium data-active:text-rixl-sidebar-accent-fg",
     "data-popup-open:hover:bg-rixl-sidebar-accent data-popup-open:hover:text-rixl-sidebar-accent-fg",
     "group-data-[collapsible=icon]:size-8! group-data-[collapsible=icon]:p-2!",
@@ -70,7 +66,7 @@ export const SidebarMenuButton = React.forwardRef<HTMLButtonElement, SidebarMenu
     ref,
     props: mergeProps<"button">({className: cn(sidebarMenuButtonVariants({variant, size}), className)}, props),
     render,
-    state: {slot: "sidebar-menu-button", sidebar: "menu-button", size, active: isActive},
+    state: {slot: "sidebar-menu-button", size, active: isActive},
   });
 
   if (!tooltip) {
@@ -117,7 +113,7 @@ export const SidebarMenuAction = React.forwardRef<HTMLButtonElement, SidebarMenu
       props
     ),
     render,
-    state: {slot: "sidebar-menu-action", sidebar: "menu-action"},
+    state: {slot: "sidebar-menu-action"},
   });
 });
 SidebarMenuAction.displayName = "SidebarMenuAction";
@@ -130,7 +126,6 @@ export const SidebarMenuBadge = React.forwardRef<HTMLDivElement, SidebarMenuBadg
     <div
       ref={ref}
       data-slot="sidebar-menu-badge"
-      data-sidebar="menu-badge"
       className={cn(
         "text-rixl-sidebar-fg pointer-events-none absolute end-1 flex h-5 min-w-5 items-center justify-center rounded-md px-1 text-xs font-medium tabular-nums select-none",
         "peer-hover/menu-button:text-rixl-sidebar-accent-fg peer-data-active/menu-button:text-rixl-sidebar-accent-fg",
@@ -151,15 +146,9 @@ export const SidebarMenuSkeleton = React.forwardRef<HTMLDivElement, SidebarMenuS
   ref
 ) {
   return (
-    <div
-      ref={ref}
-      data-slot="sidebar-menu-skeleton"
-      data-sidebar="menu-skeleton"
-      className={cn("flex h-8 items-center gap-2 rounded-md px-2", className)}
-      {...props}
-    >
-      {showIcon && <Skeleton className="size-4" data-sidebar="menu-skeleton-icon" />}
-      <Skeleton className="h-4 w-[70%]" data-sidebar="menu-skeleton-text" />
+    <div ref={ref} data-slot="sidebar-menu-skeleton" className={cn("flex h-8 items-center gap-2 rounded-md px-2", className)} {...props}>
+      {showIcon && <Skeleton className="size-4" />}
+      <Skeleton className="h-4 w-[70%]" />
     </div>
   );
 });

@@ -11,7 +11,7 @@
 ## 3. Sidebar
 
 - [x] 3.1 One `focusRingSidebar`; `sidebar-focus.browser.test.tsx` pins 2 px in `--rixl-sidebar-ring` on all five parts, light and dark, passing before and after the change (no visual change); `vpr budget` see 3.2
-- [ ] 3.2 Selectors on `data-slot`; remove `data-sidebar`
+- [x] 3.2 Selectors on `data-slot`; remove `data-sidebar`: `sidebar-slots.browser.test.tsx` (no `[data-sidebar]` element; menu button end padding 32px with an action, 8px without); `vpr budget` see below
 
 ## 4. Menu item indicator
 

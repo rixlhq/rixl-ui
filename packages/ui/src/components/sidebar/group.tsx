@@ -5,15 +5,7 @@ import {cn} from "../../lib/cn";
 import {focusRingSidebar} from "../../lib/classes";
 
 export const SidebarGroup = React.forwardRef<HTMLDivElement, SidebarGroupProps>(function SidebarGroup({className, ...props}, ref) {
-  return (
-    <div
-      ref={ref}
-      data-slot="sidebar-group"
-      data-sidebar="group"
-      className={cn("relative flex w-full min-w-0 flex-col p-2", className)}
-      {...props}
-    />
-  );
+  return <div ref={ref} data-slot="sidebar-group" className={cn("relative flex w-full min-w-0 flex-col p-2", className)} {...props} />;
 });
 SidebarGroup.displayName = "SidebarGroup";
 
@@ -36,7 +28,7 @@ export const SidebarGroupLabel = React.forwardRef<HTMLDivElement, SidebarGroupLa
       props
     ),
     render,
-    state: {slot: "sidebar-group-label", sidebar: "group-label"},
+    state: {slot: "sidebar-group-label"},
   });
 });
 SidebarGroupLabel.displayName = "SidebarGroupLabel";
@@ -62,7 +54,7 @@ export const SidebarGroupAction = React.forwardRef<HTMLButtonElement, SidebarGro
       props
     ),
     render,
-    state: {slot: "sidebar-group-action", sidebar: "group-action"},
+    state: {slot: "sidebar-group-action"},
   });
 });
 SidebarGroupAction.displayName = "SidebarGroupAction";
@@ -71,9 +63,7 @@ export const SidebarGroupContent = React.forwardRef<HTMLDivElement, SidebarGroup
   {className, ...props},
   ref
 ) {
-  return (
-    <div ref={ref} data-slot="sidebar-group-content" data-sidebar="group-content" className={cn("w-full text-sm", className)} {...props} />
-  );
+  return <div ref={ref} data-slot="sidebar-group-content" className={cn("w-full text-sm", className)} {...props} />;
 });
 SidebarGroupContent.displayName = "SidebarGroupContent";
 
