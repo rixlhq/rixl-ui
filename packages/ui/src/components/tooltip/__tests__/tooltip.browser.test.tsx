@@ -2,14 +2,13 @@ import {describe, it, expect, afterEach} from "vitest";
 import {page, userEvent} from "vitest/browser";
 import {render, cleanup} from "@testing-library/react";
 import {axeViolations} from "../../../../test/a11y";
-import {Tooltip, TooltipTrigger, TooltipContent, TooltipProvider} from "../tooltip";
+import {Tooltip, TooltipProvider} from "../tooltip";
 
 function TestTooltip({defaultOpen = false}: {defaultOpen?: boolean} = {}) {
   return (
     <div className="p-12">
-      <Tooltip defaultOpen={defaultOpen}>
-        <TooltipTrigger data-testid="tooltip-trigger" render={<button type="button">Hover me</button>} />
-        <TooltipContent data-testid="tooltip-content">Helpful shortcut</TooltipContent>
+      <Tooltip defaultOpen={defaultOpen} content="Helpful shortcut" render={<button type="button" data-testid="tooltip-trigger" />}>
+        Hover me
       </Tooltip>
     </div>
   );
@@ -27,7 +26,7 @@ describe("Tooltip Browser Mode", () => {
     await expect.element(trigger).toBeVisible();
 
     await userEvent.hover(trigger);
-    const content = page.getByTestId("tooltip-content");
+    const content = page.getByText("Helpful shortcut");
     await expect.element(content).toBeVisible();
     await expect.element(content).toHaveTextContent("Helpful shortcut");
 
@@ -37,7 +36,7 @@ describe("Tooltip Browser Mode", () => {
 
   it("has no WCAG 2.2 AA violations when open", async () => {
     render(<TestTooltip defaultOpen />);
-    await expect.element(page.getByTestId("tooltip-content")).toBeVisible();
+    await expect.element(page.getByText("Helpful shortcut")).toBeVisible();
 
     expect(await axeViolations(document.body)).toEqual([]);
   });
@@ -46,24 +45,22 @@ describe("Tooltip Browser Mode", () => {
     render(
       <TooltipProvider delay={200}>
         <div className="flex gap-4 p-12">
-          <Tooltip>
-            <TooltipTrigger data-testid="first-trigger" render={<button type="button">First</button>} />
-            <TooltipContent data-testid="first-content">First tip</TooltipContent>
+          <Tooltip content="First tip" render={<button type="button" data-testid="first-trigger" />}>
+            First
           </Tooltip>
-          <Tooltip>
-            <TooltipTrigger data-testid="second-trigger" render={<button type="button">Second</button>} />
-            <TooltipContent data-testid="second-content">Second tip</TooltipContent>
+          <Tooltip content="Second tip" render={<button type="button" data-testid="second-trigger" />}>
+            Second
           </Tooltip>
         </div>
       </TooltipProvider>
     );
 
     await userEvent.hover(page.getByTestId("first-trigger"));
-    await expect.element(page.getByTestId("first-content")).toBeVisible();
-    expect(page.getByTestId("first-content").element()).not.toHaveAttribute("data-instant");
+    await expect.element(page.getByText("First tip")).toBeVisible();
+    expect(page.getByText("First tip").element()).not.toHaveAttribute("data-instant");
 
     await userEvent.hover(page.getByTestId("second-trigger"));
-    await expect.element(page.getByTestId("second-content")).toHaveAttribute("data-instant");
+    await expect.element(page.getByText("Second tip")).toHaveAttribute("data-instant");
   });
 
   it("keeps a tooltip closed until the app-level provider delay has elapsed", async () => {
@@ -76,7 +73,7 @@ describe("Tooltip Browser Mode", () => {
 
     const startedAt = performance.now();
     await userEvent.hover(page.getByTestId("tooltip-trigger"));
-    await expect.element(page.getByTestId("tooltip-content")).toBeVisible();
+    await expect.element(page.getByText("Helpful shortcut")).toBeVisible();
 
     expect(performance.now() - startedAt).toBeGreaterThanOrEqual(delayMs);
   });

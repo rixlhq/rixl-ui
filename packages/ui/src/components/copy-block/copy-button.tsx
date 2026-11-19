@@ -1,5 +1,5 @@
 import {Button} from "../button";
-import {Tooltip, TooltipContent, TooltipTrigger, type TooltipContentProps} from "../tooltip";
+import {Tooltip, type TooltipProps} from "../tooltip";
 import type {CopyBlockLabels} from "./copy-block-labels";
 import {CopyIndicator} from "./copy-indicator";
 import type {CopyState} from "./use-copy-state";
@@ -10,7 +10,7 @@ export type CopyBlockTooltip = {
   /** Shown after a successful copy. Defaults to `labels.copied`. */
   copiedText?: string;
   /** @default "top" */
-  side?: TooltipContentProps["side"];
+  side?: TooltipProps["side"];
 };
 
 type CopyButtonProps = {
@@ -43,15 +43,15 @@ export function CopyButton({state, disabled, labels, describedBy, tooltip, onCop
   if (!tooltip) return <Button {...buttonProps}>{indicator}</Button>;
   return (
     <Tooltip
+      content={copied ? (tooltip.copiedText ?? labels.copied) : (tooltip.text ?? labels.copyAction)}
+      side={tooltip.side}
+      render={<Button {...buttonProps} />}
       onOpenChange={(_open, details) => {
         // Keep the tooltip open on click so it can show the copied text.
         if (details.reason === "trigger-press") details.cancel();
       }}
     >
-      <TooltipTrigger render={<Button {...buttonProps} />}>{indicator}</TooltipTrigger>
-      <TooltipContent side={tooltip.side}>
-        {copied ? (tooltip.copiedText ?? labels.copied) : (tooltip.text ?? labels.copyAction)}
-      </TooltipContent>
+      {indicator}
     </Tooltip>
   );
 }

@@ -4,7 +4,7 @@ import {cva, type VariantProps} from "class-variance-authority";
 import {LoaderCircle} from "lucide-react";
 import {cn} from "../../lib/cn";
 import {focusRing, invalidRing, pressable} from "../../lib/classes";
-import {Tooltip, TooltipContent, TooltipTrigger} from "../tooltip";
+import {Tooltip} from "../tooltip";
 
 /**
  * Rixl Button — the primary action primitive.
@@ -110,9 +110,8 @@ function ButtonSpinner() {
 /** A disabled button takes no pointer events, so its tooltip hangs off a wrapper that does. */
 function ButtonTooltip({title, inert, children}: {title: ReactNode; inert: boolean; children: ReactElement}) {
   return (
-    <Tooltip>
-      {inert ? <TooltipTrigger render={<span className="inline-flex" />}>{children}</TooltipTrigger> : <TooltipTrigger render={children} />}
-      <TooltipContent>{title}</TooltipContent>
+    <Tooltip content={title} render={inert ? <span className="inline-flex" /> : children}>
+      {inert ? children : undefined}
     </Tooltip>
   );
 }

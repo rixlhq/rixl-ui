@@ -6,7 +6,7 @@ import {cn} from "../../lib/cn";
 import {pressFeedback} from "../../lib/classes";
 
 import {Skeleton} from "../skeleton";
-import {Tooltip, TooltipContent, TooltipTrigger} from "../tooltip";
+import {Tooltip, type TooltipProps} from "../tooltip";
 import {SidebarSideContext, useSidebar} from "./context";
 
 export const SidebarMenu = React.forwardRef<HTMLUListElement, SidebarMenuProps>(function SidebarMenu({className, ...props}, ref) {
@@ -76,22 +76,16 @@ export const SidebarMenuButton = React.forwardRef<HTMLButtonElement, SidebarMenu
     return button;
   }
 
-  if (typeof tooltip === "string") {
-    tooltip = {
-      children: tooltip,
-    };
-  }
+  const {content, ...placement} = typeof tooltip === "string" ? {content: tooltip} : tooltip;
 
   return (
-    <Tooltip>
-      <TooltipTrigger render={button as React.ReactElement<Record<string, unknown>>} />
-      <TooltipContent
-        side={side === "left" ? "inline-end" : "inline-start"}
-        align="center"
-        hidden={state !== "collapsed" || isMobile}
-        {...tooltip}
-      />
-    </Tooltip>
+    <Tooltip
+      content={content}
+      side={side === "left" ? "inline-end" : "inline-start"}
+      disabled={state !== "collapsed" || isMobile}
+      render={button as React.ReactElement<Record<string, unknown>>}
+      {...placement}
+    />
   );
 });
 SidebarMenuButton.displayName = "SidebarMenuButton";
@@ -173,7 +167,7 @@ export type SidebarMenuProps = React.ComponentProps<"ul">;
 export type SidebarMenuItemProps = React.ComponentProps<"li">;
 export type SidebarMenuButtonProps = useRender.ComponentProps<"button"> & {
   isActive?: boolean;
-  tooltip?: string | React.ComponentProps<typeof TooltipContent>;
+  tooltip?: string | Pick<TooltipProps, "content" | "side" | "align">;
 } & VariantProps<typeof sidebarMenuButtonVariants>;
 export type SidebarMenuActionProps = useRender.ComponentProps<"button"> & {
   showOnHover?: boolean;

@@ -1,20 +1,38 @@
 import {afterEach, describe, it, expect, vi} from "vitest";
 import {act, fireEvent, render, screen} from "@testing-library/react";
-import {Tooltip, TooltipContent, TooltipProvider, TooltipTrigger} from "../tooltip";
+import {Tooltip, TooltipProvider} from "../tooltip";
 
-function Basic({open, defaultOpen}: {open?: boolean; defaultOpen?: boolean} = {}) {
+function content() {
+  return document.querySelector<HTMLElement>("[data-slot=tooltip-content]");
+}
+
+function Basic(props: Partial<React.ComponentProps<typeof Tooltip>> = {}) {
   return (
-    <Tooltip open={open} defaultOpen={defaultOpen}>
-      <TooltipTrigger data-testid="trigger" render={<button type="button">Trigger</button>} />
-      <TooltipContent data-testid="content">Hello</TooltipContent>
+    <Tooltip content="Hello" render={<button type="button" data-testid="trigger" />} {...props}>
+      Trigger
     </Tooltip>
   );
 }
 
+async function renderOpen(props: Partial<React.ComponentProps<typeof Tooltip>> = {}) {
+  render(<Basic defaultOpen {...props} />);
+  await act(async () => {});
+}
+
 describe("Tooltip", () => {
+  it("renders its children inside the trigger element", () => {
+    render(<Basic />);
+    expect(screen.getByTestId("trigger")).toHaveTextContent("Trigger");
+  });
+
   it("sets data-slot='tooltip-trigger' on the trigger", () => {
     render(<Basic />);
     expect(screen.getByTestId("trigger")).toHaveAttribute("data-slot", "tooltip-trigger");
+  });
+
+  it("falls back to a button trigger when no render element is given", () => {
+    render(<Tooltip content="Hello">Trigger</Tooltip>);
+    expect(screen.getByRole("button", {name: "Trigger"})).toBeInTheDocument();
   });
 
   it("does not render content while closed", () => {
@@ -22,81 +40,88 @@ describe("Tooltip", () => {
     expect(screen.queryByText("Hello")).not.toBeInTheDocument();
   });
 
-  it("renders content when open (default open)", async () => {
-    render(<Basic defaultOpen />);
-    // Base UI mounts the portal asynchronously; give React a tick.
-    await act(async () => {});
+  it("renders the content when open", async () => {
+    await renderOpen();
     expect(screen.getByText("Hello")).toBeInTheDocument();
   });
 
   it("sets data-slot='tooltip-content' on the popup", async () => {
-    render(<Basic defaultOpen />);
-    await act(async () => {});
-    expect(screen.getByTestId("content")).toHaveAttribute("data-slot", "tooltip-content");
+    await renderOpen();
+    expect(content()).toHaveTextContent("Hello");
   });
 
   it("applies base classes to the popup", async () => {
-    render(<Basic defaultOpen />);
-    await act(async () => {});
-    const cls = screen.getByTestId("content").className;
+    await renderOpen();
+    const cls = content()!.className;
     expect(cls).toContain("bg-rixl-primary");
     expect(cls).toContain("text-rixl-primary-fg");
     expect(cls).toContain("rounded-md");
   });
 
   it("skips transition duration when data-instant is present", async () => {
-    render(<Basic defaultOpen />);
-    await act(async () => {});
-    const cls = screen.getByTestId("content").className;
+    await renderOpen();
+    const cls = content()!.className;
     expect(cls).toContain("data-instant:duration-0");
     expect(cls).toContain("data-starting-style:scale-[0.97]");
     expect(cls).not.toContain("data-open:animate-in");
   });
 
   it("enters and exits at a barely-there scale", async () => {
-    render(<Basic defaultOpen />);
-    await act(async () => {});
-    const cls = screen.getByTestId("content").className;
+    await renderOpen();
+    const cls = content()!.className;
     expect(cls).toContain("data-ending-style:scale-[0.97]");
     expect(cls).not.toContain("scale-95");
+  });
+
+  it("places the popup on the requested side", async () => {
+    await renderOpen({side: "bottom"});
+    expect(content()).toHaveAttribute("data-side", "bottom");
+  });
+
+  it("aligns the popup to the requested edge", async () => {
+    await renderOpen({align: "end"});
+    expect(content()).toHaveAttribute("data-align", "end");
   });
 
   it("positions the arrow with logical sides in RTL", async () => {
     render(
       <div dir="rtl">
-        <Tooltip open>
-          <TooltipTrigger data-testid="trigger" render={<button type="button">Trigger</button>} />
-          <TooltipContent data-testid="content" side="inline-end">
-            Hello
-          </TooltipContent>
-        </Tooltip>
+        <Basic open side="inline-end" />
       </div>
     );
     await act(async () => {});
-    const arrow = screen.getByTestId("content").lastElementChild;
+    const arrow = content()?.lastElementChild;
     expect(arrow?.getAttribute("class")).toContain("data-[side=inline-end]:-start-1");
     expect(arrow?.getAttribute("class")).toContain("data-[side=inline-start]:-end-1");
   });
 
-  it("forwards additional className without dropping base classes", async () => {
-    render(
-      <Tooltip defaultOpen>
-        <TooltipTrigger render={<button type="button">Trigger</button>} />
-        <TooltipContent data-testid="content" className="max-w-xs">
-          Hello
-        </TooltipContent>
-      </Tooltip>
-    );
-    await act(async () => {});
-    const cls = screen.getByTestId("content").className;
-    expect(cls).toContain("max-w-xs");
-    expect(cls).toContain("bg-rixl-primary");
+  it("merges className onto the trigger, not the popup", async () => {
+    await renderOpen({className: "text-red-500"});
+    expect(screen.getByTestId("trigger")).toHaveClass("text-red-500");
   });
 
   it("respects a controlled `open` prop", async () => {
     render(<Basic open />);
     await act(async () => {});
     expect(screen.getByText("Hello")).toBeInTheDocument();
+  });
+
+  it("never opens while disabled", async () => {
+    render(<Basic open disabled />);
+    await act(async () => {});
+    expect(screen.queryByText("Hello")).not.toBeInTheDocument();
+  });
+
+  it("reports open changes to onOpenChange", () => {
+    vi.useFakeTimers();
+    const onOpenChange = vi.fn();
+    render(<Basic onOpenChange={onOpenChange} delay={0} />);
+    fireEvent.focus(screen.getByTestId("trigger"));
+    act(() => {
+      vi.runAllTimers();
+    });
+    vi.useRealTimers();
+    expect(onOpenChange).toHaveBeenCalledWith(true, expect.anything());
   });
 
   it("TooltipProvider renders no element of its own", () => {
@@ -116,13 +141,7 @@ describe("Tooltip delay", () => {
 
   function hoverFor(delayProps: {provider?: number; trigger?: number}) {
     vi.useFakeTimers();
-    const trigger = <TooltipTrigger data-testid="trigger" delay={delayProps.trigger} render={<button type="button">Trigger</button>} />;
-    const tooltip = (
-      <Tooltip>
-        {trigger}
-        <TooltipContent data-testid="content">Hello</TooltipContent>
-      </Tooltip>
-    );
+    const tooltip = <Basic delay={delayProps.trigger} />;
     render(delayProps.provider === undefined ? tooltip : <TooltipProvider delay={delayProps.provider}>{tooltip}</TooltipProvider>);
     fireEvent.mouseEnter(screen.getByTestId("trigger"));
     fireEvent.mouseMove(screen.getByTestId("trigger"));
@@ -133,7 +152,7 @@ describe("Tooltip delay", () => {
     act(() => {
       vi.advanceTimersByTime(299);
     });
-    expect(screen.queryByTestId("content")).not.toBeInTheDocument();
+    expect(screen.queryByText("Hello")).not.toBeInTheDocument();
   });
 
   it("opens once the app-level TooltipProvider delay has elapsed", () => {
@@ -141,7 +160,15 @@ describe("Tooltip delay", () => {
     act(() => {
       vi.advanceTimersByTime(300);
     });
-    expect(screen.getByTestId("content")).toBeInTheDocument();
+    expect(screen.getByText("Hello")).toBeInTheDocument();
+  });
+
+  it("lets the tooltip's own delay override the provider's", () => {
+    hoverFor({provider: 300, trigger: 50});
+    act(() => {
+      vi.advanceTimersByTime(50);
+    });
+    expect(screen.getByText("Hello")).toBeInTheDocument();
   });
 
   it("does not open instantly when no provider delay is set", () => {
@@ -149,6 +176,6 @@ describe("Tooltip delay", () => {
     act(() => {
       vi.advanceTimersByTime(100);
     });
-    expect(screen.queryByTestId("content")).not.toBeInTheDocument();
+    expect(screen.queryByText("Hello")).not.toBeInTheDocument();
   });
 });
