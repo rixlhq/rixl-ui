@@ -46,6 +46,11 @@
 
 ## REMOVED Requirements
 
+### Requirement: Empty names its command block from `commandTitle`
+
+**Reason**: The copy button has its own name (`labels.copyAction`), so a title is no longer needed to name it.
+**Migration**: Remove `commandTitle`; `<Empty commandLine="npm create rixl">` is enough.
+
 ### Requirement: CopyBlock strings come from labels
 
 **Reason**: `CopyBlock` now follows Kumo's `ClipboardText`: `labels` is `{copyAction, copied}`.
@@ -71,3 +76,17 @@
 
 - **WHEN** the clipboard rejects
 - **THEN** nothing is announced and the copied state is not shown (`copy-outcomes.test.tsx`)
+
+### Requirement: Empty takes a command line alone, and CopyBlock's title is optional
+
+`Empty` SHALL take `commandLine` without a title, as Kumo does, and SHALL NOT warn about it. `CopyBlock`'s `title` SHALL be optional; when omitted, no title renders and the copy button has no `aria-describedby`.
+
+#### Scenario: Command line alone
+
+- **WHEN** `<Empty title="No apps" commandLine="npm create rixl">` renders
+- **THEN** the copy button is named "Copy to clipboard" and nothing is logged (`empty.test.tsx`)
+
+#### Scenario: CopyBlock without a title
+
+- **WHEN** `<CopyBlock value="abc">` renders
+- **THEN** the button "Copy to clipboard" has no `aria-describedby` (`copy-block-labels.test.tsx`)

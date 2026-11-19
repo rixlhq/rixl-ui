@@ -69,6 +69,8 @@ The mobile `Sidebar` sheet SHALL be named by the `aria-label` or `aria-labelledb
 
 ### Requirement: Empty names its command block from `commandTitle`
 
+> Superseded by `component-owned-labels`: the copy button is named by `labels.copyAction`, so `Empty` takes `commandLine` alone, as in Kumo.
+
 `Empty` SHALL take `commandTitle`, the `title` of the `CopyBlock` that shows `commandLine`, and SHALL warn when `commandLine` is set without it. It SHALL NOT take `labels`.
 
 #### Scenario: Command title

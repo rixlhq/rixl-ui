@@ -5,8 +5,7 @@ import type {ControlValue, Example} from "./registry";
 export const path = "empty";
 export const title = "Empty";
 export const description = "Explain why a view is empty and offer a next step.";
-export const notes =
-  "commandLine comes with commandTitle, the title of the copy block that shows the command; it also names the copy button, so the app supplies it (omitting it warns in development).";
+export const notes = "commandLine shows a shell command in a copy block; its copy button is named Copy to clipboard, as in Kumo.";
 
 export function Showcase() {
   return <Empty title="No media" description="Upload your first asset." size="sm" />;
@@ -27,14 +26,7 @@ function WithActionExample(props: {state: Record<string, ControlValue>}) {
 
 function WithCommandExample(props: {state: Record<string, ControlValue>}) {
   void props;
-  return (
-    <Empty
-      title="No apps yet"
-      description="Create your first app from the terminal."
-      commandLine="npm create rixl"
-      commandTitle="Install command"
-    />
-  );
+  return <Empty title="No apps yet" description="Create your first app from the terminal." commandLine="npm create rixl" />;
 }
 
 export const examples: Example[] = [
@@ -69,6 +61,6 @@ export const examples: Example[] = [
     title: "With command line",
     description: "A copyable command for onboarding states.",
     render: WithCommandExample,
-    code: `<Empty title="No apps yet" commandLine="npm create rixl" commandTitle="Install command" />`,
+    code: `<Empty title="No apps yet" commandLine="npm create rixl" />`,
   },
 ];

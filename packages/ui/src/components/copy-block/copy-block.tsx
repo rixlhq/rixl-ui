@@ -8,8 +8,8 @@ import {useCopyState} from "./use-copy-state";
 export type {CopyBlockTooltip};
 
 export type CopyBlockProps = Omit<ComponentProps<"div">, "title"> & {
-  /** Visible name of the value; it also describes the copy button. */
-  title: string;
+  /** Visible name of the value; when set, it also describes the copy button. */
+  title?: string;
   value?: string;
   /** Opt-in tooltip on the copy button. Without it, no tooltip renders. */
   tooltip?: CopyBlockTooltip;
@@ -31,9 +31,11 @@ export const CopyBlock = forwardRef<HTMLDivElement, CopyBlockProps>(
         className={cn("flex min-w-0 items-center gap-2 rounded-lg bg-rixl-bg p-2", className)}
         {...props}
       >
-        <span id={titleId} className="shrink-0 text-xs font-medium text-rixl-fg-muted">
-          {title}:
-        </span>
+        {title && (
+          <span id={titleId} className="shrink-0 text-xs font-medium text-rixl-fg-muted">
+            {title}:
+          </span>
+        )}
         <div className="min-w-0 flex-1 overflow-x-auto">
           {children ?? <p className="whitespace-nowrap font-mono text-sm text-rixl-fg-muted">{value}</p>}
         </div>
@@ -41,7 +43,7 @@ export const CopyBlock = forwardRef<HTMLDivElement, CopyBlockProps>(
           state={state}
           disabled={!value}
           labels={t}
-          describedBy={titleId}
+          describedBy={title ? titleId : undefined}
           tooltip={tooltip}
           onCopy={() => {
             void handleCopy();

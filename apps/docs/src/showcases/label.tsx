@@ -6,7 +6,7 @@ export const path = "label";
 export const title = "Label";
 export const description = "Give a form control a clear, visible name.";
 export const notes =
-  "Accessible names: the app supplies them. A control needs a visible label (the label prop of Input, Select and the other field components, or a Label wired with htmlFor), an aria-label, or an aria-labelledby; an icon-only control needs its own aria-label. The library renders no hidden screen-reader text. In development, Input, InputArea, InputGroup, Select (labelTooltipAriaLabel), SidebarTrigger, SidebarRail, the mobile Sidebar and Empty (commandTitle) warn once per instance when their name is missing. A Label next to an Input that has no label prop does not name it for the check: add aria-labelledby with the Label's id, as the examples here do.";
+  "Accessible names: the app supplies them. A control needs a visible label (the label prop of Input, Select and the other field components, or a Label wired with htmlFor), an aria-label, or an aria-labelledby; an icon-only control needs its own aria-label. The library renders no hidden screen-reader text. In development, Input, InputArea, InputGroup, Select (labelTooltipAriaLabel), SidebarTrigger, SidebarRail and the mobile Sidebar warn once per instance when their name is missing. A Label next to an Input that has no label prop does not name it for the check: add aria-labelledby with the Label's id, as the examples here do.";
 
 export function Showcase() {
   return (

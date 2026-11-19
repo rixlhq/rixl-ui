@@ -18,7 +18,7 @@ type CopyButtonProps = {
   disabled: boolean;
   labels: CopyBlockLabels;
   /** Id of the visible title, which describes the button. */
-  describedBy: string;
+  describedBy?: string;
   tooltip?: CopyBlockTooltip;
   onCopy: () => void;
 };

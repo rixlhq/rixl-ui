@@ -93,30 +93,15 @@ describe("Empty", () => {
   });
 
   it("renders the command line", () => {
-    render(<Empty title="No apps" commandLine="npm create rixl" commandTitle="Install command" />);
+    render(<Empty title="No apps" commandLine="npm create rixl" />);
     expect(screen.getByText("npm create rixl")).toBeInTheDocument();
   });
 
-  it("titles the command block, and names its copy button Copy to clipboard and describes it with commandTitle", () => {
+  // As in Kumo, commandLine alone is enough: the copy button has its own name, so the app supplies no title.
+  it("names the command's copy button Copy to clipboard without a title or a warning", () => {
     const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
-    render(<Empty title="No apps" commandLine="npm create rixl" commandTitle="Install command" />);
-    expect(screen.getByText("Install command:")).toBeInTheDocument();
-    expect(screen.getByRole("button", {name: "Copy to clipboard"})).toBeInTheDocument();
-    expect(warn).not.toHaveBeenCalled();
-    warn.mockRestore();
-  });
-
-  it("warns, naming commandTitle, when commandLine has no commandTitle", () => {
-    const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
-    // @ts-expect-error -- commandLine requires commandTitle; the omission is the case under test.
     render(<Empty title="No apps" commandLine="npm create rixl" />);
-    expect(warn).toHaveBeenCalledExactlyOnceWith(expect.stringMatching(/\[Rixl Empty\].*must have an accessible name.*commandTitle/));
-    warn.mockRestore();
-  });
-
-  it("does not warn without a command line", () => {
-    const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
-    render(<Empty title="No apps" />);
+    expect(screen.getByRole("button", {name: "Copy to clipboard"})).toBeInTheDocument();
     expect(warn).not.toHaveBeenCalled();
     warn.mockRestore();
   });
@@ -129,7 +114,7 @@ describe("Empty", () => {
   it("copies exactly the command line", async () => {
     const writeText = vi.fn().mockResolvedValue(undefined);
     vi.stubGlobal("navigator", {...navigator, clipboard: {writeText}});
-    render(<Empty title="No apps" commandLine="npm create rixl" commandTitle="Install command" />);
+    render(<Empty title="No apps" commandLine="npm create rixl" />);
     await act(async () => {
       screen.getByRole("button", {name: /copy/i}).click();
     });

@@ -20,6 +20,12 @@ describe("CopyBlock labels", () => {
     expect(screen.getByRole("button")).toHaveAccessibleDescription("Token:");
   });
 
+  it("renders no title and no description when title is omitted", () => {
+    render(<CopyBlock value="abc" />);
+    expect(screen.getByRole("button", {name: "Copy to clipboard"})).not.toHaveAttribute("aria-describedby");
+    expect(screen.queryByText(/:$/)).toBeNull();
+  });
+
   it("takes the provider's copyAction", () => {
     render(
       <RixlLocaleProvider translations={{copyBlock: {copyAction: "Copiar"}}}>
