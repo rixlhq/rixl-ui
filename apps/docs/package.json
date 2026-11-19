@@ -12,6 +12,7 @@
     "preview": "vp build && vp preview"
   },
   "dependencies": {
+    "@base-ui/react": "^1.9.0",
     "@rixl/ui": "workspace:*",
     "react": "^19.3.1",
     "react-dom": "^19.3.1"
