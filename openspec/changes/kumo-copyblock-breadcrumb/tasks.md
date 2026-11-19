@@ -19,5 +19,5 @@
 
 ## 5. Docs and verify
 
-- [ ] 5.1 Showcases for CopyBlock, Breadcrumb and Locale
-- [ ] 5.2 `vp install`, `vp pack` in `packages/ui`, root `vpr ci`
+- [x] 5.1 Showcases for CopyBlock, Breadcrumb and Locale: `apps/docs` tests (6 files, 211 tests) and `vp build` pass
+- [x] 5.2 `vp install`, `vp pack` in `packages/ui`, root `vpr ci`: exit 0, 10/10 tasks; UI 143 files, 1434 tests; budget 51.48 kB of 53 kB, preset 3.42 kB of 3.5 kB
