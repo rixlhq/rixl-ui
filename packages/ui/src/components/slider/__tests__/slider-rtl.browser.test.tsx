@@ -3,7 +3,7 @@ import {page, userEvent} from "vitest/browser";
 import {cleanup} from "@testing-library/react";
 import {axeViolations} from "../../../../test/a11y";
 import {renderRtl, resetDirection} from "../../../../test/rtl";
-import {Slider, SliderControl, SliderIndicator, SliderThumb, SliderTrack} from "../index";
+import {Slider} from "../index";
 
 afterEach(() => {
   cleanup();
@@ -11,16 +11,7 @@ afterEach(() => {
 });
 
 function renderSlider() {
-  renderRtl(
-    <Slider defaultValue={25}>
-      <SliderControl>
-        <SliderTrack>
-          <SliderIndicator />
-          <SliderThumb aria-label="Volume" />
-        </SliderTrack>
-      </SliderControl>
-    </Slider>
-  );
+  renderRtl(<Slider label="Volume" defaultValue={25} />);
 }
 
 const thumb = () => page.getByRole("slider", {name: "Volume"});

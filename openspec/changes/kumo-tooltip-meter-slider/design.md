@@ -11,6 +11,9 @@ Sources read: https://kumo-ui.com/components/{tooltip,meter,slider,input-group}.
 5. **Progress follows `Meter`.** `label` renders in Base UI's `Progress.Label`, `showValue` (default `true` when a label is set) in `Progress.Value`, `customValue` replaces the value text. With no `label`, `aria-label` or `aria-labelledby`, it warns in development through `useWarnMissingName`. `trackClassName` and `indicatorClassName` are not added: no caller needs them.
 6. **Slider is one piece.** Kumo's `Slider` takes `label`, `size`, `getAriaLabel` and Base UI's root props; it has no parts. `Slider` renders the control, track, indicator and one thumb per value. `orientation` stays, because Rixl's slider has supported vertical.
 
+7. **Slider stays unpublished.** `packages/ui/vite.config.ts#pack.entry`, `package.json#exports` and `src/index.ts` have never listed `slider`, so no consumer imports it and no docs showcase can. Publishing adds its code to `dist/`: `vpr budget` goes from 57.11 kB to 58.69 kB against the 58 kB limit, so it needs budget room first. The one-piece `Slider` is tested and ready; only the wiring (entry, export, barrel line, showcase) is missing.
+8. **Progress keeps its track colour.** Progress uses `bg-rixl-primary/20 h-2` and Slider `bg-rixl-secondary h-1.5`. Kumo does not align them either (`Meter` `bg-kumo-fill h-2`, `Slider` `bg-kumo-recessed` inside a padded `h-6`/`h-8` track), and a change would restyle every Progress, so both keep their look.
+
 ## Migration
 
 - `<Tooltip><TooltipTrigger render={x} /><TooltipContent side="top">Hi</TooltipContent></Tooltip>` → `<Tooltip content="Hi" side="top" render={x} />`; trigger text moves to the children.
