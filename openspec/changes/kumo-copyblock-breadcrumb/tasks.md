@@ -6,7 +6,7 @@
 
 ## 2. Breadcrumb
 
-- [ ] 2.1 `size`, `icon`, `loading` (test first)
+- [x] 2.1 `size`, `icon`, `loading` (test first): `breadcrumb-options.test.tsx` (13 tests) and `breadcrumb.browser.test.tsx` (computed 12px/14px, axe with icons and loading); `vpr budget` 51.58 kB of 53 kB
 
 ## 3. Sidebar
 

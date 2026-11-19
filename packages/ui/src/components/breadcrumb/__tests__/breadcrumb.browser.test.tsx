@@ -74,4 +74,47 @@ describe("Breadcrumb Browser Mode", () => {
 
     expect(await axeViolations(document.body)).toEqual([]);
   });
+
+  it("sizes the trail text: 12px for sm, 14px for base", () => {
+    const {getByText, rerender} = render(
+      <Breadcrumb size="sm">
+        <BreadcrumbList>
+          <BreadcrumbItem>
+            <BreadcrumbLink href="/">Home</BreadcrumbLink>
+          </BreadcrumbItem>
+        </BreadcrumbList>
+      </Breadcrumb>
+    );
+    expect(getComputedStyle(getByText("Home")).fontSize).toBe("12px");
+    rerender(
+      <Breadcrumb>
+        <BreadcrumbList>
+          <BreadcrumbItem>
+            <BreadcrumbLink href="/">Home</BreadcrumbLink>
+          </BreadcrumbItem>
+        </BreadcrumbList>
+      </Breadcrumb>
+    );
+    expect(getComputedStyle(getByText("Home")).fontSize).toBe("14px");
+  });
+
+  it("has no WCAG 2.2 AA violations with icons and a loading page", async () => {
+    render(
+      <Breadcrumb size="sm">
+        <BreadcrumbList>
+          <BreadcrumbItem>
+            <BreadcrumbLink href="/" icon={<svg viewBox="0 0 16 16" />}>
+              Home
+            </BreadcrumbLink>
+          </BreadcrumbItem>
+          <BreadcrumbSeparator />
+          <BreadcrumbItem>
+            <BreadcrumbPage loading icon={<svg viewBox="0 0 16 16" />} />
+          </BreadcrumbItem>
+        </BreadcrumbList>
+      </Breadcrumb>
+    );
+
+    expect(await axeViolations(document.body)).toEqual([]);
+  });
 });
