@@ -45,7 +45,7 @@ function ButtonExample(props: {state: Record<string, ControlValue>}) {
       </InputGroup>
       <InputGroup className="w-full max-w-sm">
         <InputGroupInput placeholder="Copy this value" aria-label="Copy this value" defaultValue="rixl-ui" readOnly />
-        <InputGroupButton variant="ghost" shape="square" size="xs" aria-label="Copy value">
+        <InputGroupButton variant="ghost" shape="square" size="xs" tooltip="Copy value">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
             <rect width="14" height="14" x="8" y="8" rx="2" />
             <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" />
@@ -178,11 +178,16 @@ export const examples: Example[] = [
   {
     id: "button",
     title: "With action",
-    description: "The button addon is a Rixl Button with shared press feedback and focus ring.",
+    description:
+      "The button addon is a Rixl Button with shared press feedback and focus ring. tooltip wraps it in a Tooltip (tooltipSide, default bottom) and, as a string, names an icon-only button.",
     render: ButtonExample,
     code: `<InputGroup>
   <InputGroupInput placeholder="Search" />
   <InputGroupButton variant="secondary">Search</InputGroupButton>
+</InputGroup>
+<InputGroup>
+  <InputGroupInput defaultValue="rixl-ui" readOnly aria-label="Value" />
+  <InputGroupButton variant="ghost" shape="square" size="xs" tooltip="Copy value"><CopyIcon /></InputGroupButton>
 </InputGroup>`,
   },
   {

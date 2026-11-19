@@ -180,4 +180,25 @@ describe("InputGroup Browser Mode", () => {
 
     expect(await axeViolations(document.body)).toEqual([]);
   });
+
+  it("opens the button's tooltip on keyboard focus without axe violations", async () => {
+    render(
+      <div className="p-12">
+        <InputGroup>
+          <InputGroupInput aria-label="Query" />
+          <InputGroupAddon align="end">
+            <InputGroupButton shape="square" tooltip="Query language help">
+              <svg aria-hidden="true" />
+            </InputGroupButton>
+          </InputGroupAddon>
+        </InputGroup>
+      </div>
+    );
+
+    await userEvent.tab();
+    await userEvent.tab();
+    await expect.element(page.getByRole("button", {name: "Query language help"})).toHaveFocus();
+    await expect.element(page.getByText("Query language help", {exact: true}).first()).toBeVisible();
+    expect(await axeViolations(document.body)).toEqual([]);
+  });
 });
