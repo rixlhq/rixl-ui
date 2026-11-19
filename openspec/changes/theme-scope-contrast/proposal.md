@@ -21,4 +21,4 @@ Two token bugs affect every consumer.
 
 ## Impact
 
-`packages/ui/src/styles/preset.css`, `packages/ui/src/lib/cn-tables.ts` (regenerated), browser tests in `src/styles/__tests__/`, `badge/__tests__/` and `alert/__tests__/`. The preset stays within the 3.5 kB budget in `.size-limit.json`.
+`packages/ui/src/styles/preset.css`, the generated `cn` merge tables (since removed), browser tests in `src/styles/__tests__/`, `badge/__tests__/` and `alert/__tests__/`. The preset stays within the 3.5 kB budget in `.size-limit.json`.

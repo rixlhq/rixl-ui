@@ -22,12 +22,18 @@ The package SHALL expose every component at `@rixl/ui/<component>`, built as its
 
 ### Requirement: A consumer's classes win
 
-A component SHALL merge a consumer's `className` after its own classes, so a conflicting utility from the consumer replaces the component's.
+A component SHALL merge a consumer's `className` after its own classes, so a conflicting standard Tailwind utility from the consumer replaces the component's. The merge is `cn` from `src/lib/cn.ts`, which re-exports the `cn` package unchanged: no generated tables, no configuration.
 
 #### Scenario: Conflicting height
 
 - **WHEN** a `Button` of any size gets `className="h-<n>"`
 - **THEN** the rendered element carries `h-<n>` and no other height utility (`button.test.tsx`, `[property] a consumer height replaces the size's height`)
+
+#### Scenario: Token utilities are not replaced
+
+- **WHEN** a consumer passes `rounded-full`, `shadow-none`, `duration-500` or `ease-linear` to a component whose default is a `rixl-*` token utility (`rounded-rixl-md`, `shadow-rixl-xs`, `duration-rixl-fast`, `ease-rixl-out`)
+- **THEN** `cn` keeps both classes and CSS order decides, because it does not know the `rixl-*` tokens; overriding a `rixl-*` token utility through `className` is not supported
+- **AND** a component that overrides a radius or shadow set by its own base marks the override important (`rounded-none!`) (`composed-overrides.browser.test.tsx`)
 
 ### Requirement: Button resolves its look from `variant`, then `color`
 

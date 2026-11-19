@@ -4,7 +4,7 @@
 
 - [x] 1.1 Failing browser test: nested `data-theme="dark"` differs from `<html data-theme="dark">`. Evidence: `theme-scope.browser.test.tsx`, 3 of 3 fail before the fix.
 - [x] 1.2 Registrations resolve at the element; nested dark and nested light inside dark pass.
-- [x] 1.3 `vpr cn:tables` regenerated, cn tests pass.
+- [x] 1.3 Merge tables regenerated, cn tests pass (superseded: the tables were later removed and `cn` is the plain package).
 
 ## 2. Status contrast
 

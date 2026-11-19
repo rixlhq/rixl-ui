@@ -4,6 +4,8 @@
 
 ### Requirement: Consumer classes override token defaults
 
+> Superseded: `cn` is now the plain `cn` package, so a consumer `className` no longer replaces `rixl-*` token utilities. See `openspec/specs/design-system/spec.md`.
+
 A consumer `className` SHALL replace a component's default radius, shadow, transition duration and easing, including defaults that read `rixl-*` tokens.
 
 #### Scenario: Rounded button
