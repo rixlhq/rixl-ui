@@ -115,7 +115,7 @@ describe("InputOTP", () => {
   it("joins slots into one bar: rounded outer edges only, one border between neighbours", () => {
     render(<Basic />);
     const cls = screen.getByTestId("s1").className;
-    expect(cls).toContain("rounded-none");
+    expect(cls).not.toMatch(/(?<![:\w-])rounded-/);
     expect(cls).toContain("first:rounded-s-rixl-md");
     expect(cls).toContain("last:rounded-e-rixl-md");
     expect(cls).toContain("not-first:border-s-0");

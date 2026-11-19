@@ -20,7 +20,7 @@ export const InputOTPSlot = forwardRef<HTMLDivElement, InputOTPSlotProps>(functi
         controlSurface,
         "relative h-9 w-9 items-center justify-center text-sm tabular-nums",
         // Slots join into one bar: only the outer edges are rounded and neighbours share one border.
-        "rounded-none! first:rounded-s-rixl-md! last:rounded-e-rixl-md! not-first:border-s-0",
+        "first:rounded-s-rixl-md last:rounded-e-rixl-md not-first:border-s-0",
         // The caret lives in the hidden input, so the active slot stands in for :focus-visible.
         "data-[active=true]:z-10 data-[active=true]:border-rixl-ring data-[active=true]:ring-rixl-ring/50 data-[active=true]:ring-[3px]",
         "data-[active=true]:aria-invalid:border-rixl-danger data-[active=true]:aria-invalid:ring-rixl-danger/20",

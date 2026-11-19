@@ -36,6 +36,7 @@ describe("a radius or shadow one component sets over its base", () => {
     );
     const style = styleOf("[data-slot='input-group-input']");
     expect(style.borderRadius).toBe("0px");
+    expect(style.borderTopWidth).toBe("0px");
     expect(style.boxShadow).not.toContain(RIXL_SHADOW_COLOUR);
   });
 

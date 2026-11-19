@@ -4,7 +4,7 @@ import {InputControl, type InputControlProps} from "../input/input-control";
 import {useWarnUnnamedInput} from "../input/use-warn-unnamed-input";
 import {InputGroupContext} from "./input-group-context";
 
-export type InputGroupInputProps = Omit<InputControlProps, "size">;
+export type InputGroupInputProps = Omit<InputControlProps, "size" | "surface">;
 
 /** The text input of an InputGroup: borderless, flexible, and sized, required and disabled by the group. */
 export const InputGroupInput = forwardRef<HTMLInputElement, InputGroupInputProps>(({className, required, disabled, ...props}, ref) => {
@@ -20,13 +20,10 @@ export const InputGroupInput = forwardRef<HTMLInputElement, InputGroupInputProps
       ref={ref}
       data-slot="input-group-input"
       size={group.size}
+      surface="bare"
       required={required ?? group.required}
       disabled={disabled ?? group.disabled}
-      className={cn(
-        "h-full flex-1 rounded-none! border-0 bg-transparent px-2 shadow-none!",
-        "focus-visible:ring-0 aria-invalid:bg-transparent aria-invalid:ring-0",
-        className
-      )}
+      className={cn("h-full flex-1 px-2", className)}
       {...props}
     />
   );

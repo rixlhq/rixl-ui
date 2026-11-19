@@ -26,7 +26,8 @@ export const SidebarInput = React.forwardRef<HTMLInputElement, SidebarInputProps
       ref={ref}
       data-slot="sidebar-input"
       data-sidebar="input"
-      className={cn("bg-rixl-bg h-8 w-full shadow-none!", className)}
+      surface="flat"
+      className={cn("bg-rixl-bg h-8 w-full", className)}
       {...props}
     />
   );
