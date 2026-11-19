@@ -4,7 +4,7 @@ import {axeViolations} from "../../../../test/a11y";
 import {Progress} from "../progress";
 
 function measure(container: HTMLElement) {
-  const track = container.querySelector<HTMLElement>("[data-slot='progress']")!;
+  const track = container.querySelector<HTMLElement>("[data-slot='progress-track']")!;
   const indicator = container.querySelector<HTMLElement>("[data-slot='progress-indicator']")!;
   return {track: track.getBoundingClientRect(), indicator: indicator.getBoundingClientRect(), style: getComputedStyle(indicator)};
 }
@@ -69,6 +69,12 @@ describe("Progress Browser Mode", () => {
 
   it("has no WCAG 2.2 AA violations when indeterminate", async () => {
     render(<Progress value={null} aria-label="Loading" />);
+
+    expect(await axeViolations(document.body)).toEqual([]);
+  });
+
+  it("has no WCAG 2.2 AA violations with a label and a value", async () => {
+    render(<Progress label="Storage used" value={65} />);
 
     expect(await axeViolations(document.body)).toEqual([]);
   });

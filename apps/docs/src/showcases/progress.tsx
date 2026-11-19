@@ -10,20 +10,28 @@ export const description = "Show how far a task has progressed.";
 export function Showcase() {
   return (
     <div className="w-full max-w-64 space-y-3">
-      <div className="flex justify-between text-xs">
-        <span>Uploading assets</span>
-        <span className="text-rixl-fg-muted">64%</span>
-      </div>
-      <Progress value={64} aria-label="Uploading assets" />
+      <Progress label="Uploading assets" value={64} />
       <p className="text-xs text-rixl-fg-muted">16 of 25 files</p>
     </div>
+  );
+}
+
+function LabelExample() {
+  return (
+    <Group label="Label and value">
+      <div className="flex w-full max-w-sm flex-col gap-4">
+        <Progress label="Storage used" value={65} />
+        <Progress label="API requests" value={75} customValue="750 / 1,000" />
+        <Progress label="Progress" value={40} showValue={false} />
+      </div>
+    </Group>
   );
 }
 
 function IndeterminateExample() {
   return (
     <Group label="Indeterminate (value=null)">
-      <Progress value={null} />
+      <Progress value={null} aria-label="Loading" />
     </Group>
   );
 }
@@ -32,11 +40,11 @@ function StaticValuesExample() {
   return (
     <Group label="Static values">
       <div className="flex w-full flex-col gap-3">
-        <Progress value={0} />
-        <Progress value={25} />
-        <Progress value={50} />
-        <Progress value={75} />
-        <Progress value={100} />
+        <Progress value={0} aria-label="0 percent" />
+        <Progress value={25} aria-label="25 percent" />
+        <Progress value={50} aria-label="50 percent" />
+        <Progress value={75} aria-label="75 percent" />
+        <Progress value={100} aria-label="100 percent" />
       </div>
     </Group>
   );
@@ -44,11 +52,11 @@ function StaticValuesExample() {
 
 function CustomHeightExample() {
   return (
-    <Group label="Custom height (className)">
+    <Group label="Custom height (trackClassName)">
       <div className="flex w-full flex-col gap-3">
-        <Progress value={60} className="h-1" />
-        <Progress value={60} className="h-3" />
-        <Progress value={60} className="h-4" />
+        <Progress value={60} trackClassName="h-1" aria-label="Thin" />
+        <Progress value={60} trackClassName="h-3" aria-label="Medium" />
+        <Progress value={60} trackClassName="h-4" aria-label="Thick" />
       </div>
     </Group>
   );
@@ -58,7 +66,7 @@ function AnimatedExample() {
   const animated = useAnimatedValue();
   return (
     <Group label="Animated (loops 0→100)">
-      <Progress value={animated} />
+      <Progress value={animated} aria-label="Animated" />
     </Group>
   );
 }
@@ -69,7 +77,17 @@ export const examples: Example[] = [
     title: "Indeterminate",
     description: "Pass null while the duration is unknown.",
     render: IndeterminateExample,
-    code: `<Progress value={null} />`,
+    code: `<Progress value={null} aria-label="Loading" />`,
+  },
+  {
+    id: "label",
+    title: "Label and value",
+    description:
+      "label names the bar and shows above it with the value. showValue={false} hides the value; customValue replaces its text. Without a label, set aria-label or aria-labelledby: Progress warns in development otherwise.",
+    render: LabelExample,
+    code: `<Progress label="Storage used" value={65} />
+<Progress label="API requests" value={75} customValue="750 / 1,000" />
+<Progress label="Progress" value={40} showValue={false} />`,
   },
   {id: "static", title: "Static values", render: StaticValuesExample},
   {id: "heights", title: "Custom heights", render: CustomHeightExample},
