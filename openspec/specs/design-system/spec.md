@@ -35,19 +35,14 @@ A component SHALL merge a consumer's `className` after its own classes, so a con
 - **THEN** the rendered element carries the consumer's class and not the component's, because radii, shadows and easing are registered on Tailwind's standard theme keys and `cn` merges them
 - **AND** the browser resolves the consumer's radius or shadow (`composed-overrides.browser.test.tsx`)
 
-### Requirement: Button resolves its look from `variant`, then `color`
+### Requirement: Button resolves its look from `variant` alone
 
-`Button` SHALL use `variant` when it is given, otherwise a known `color`, otherwise the default variant, `primary`.
+`Button` SHALL take its look from `variant`, defaulting to `primary`. The `color` alias is removed, and a native `color` attribute SHALL NOT change the classes.
 
-#### Scenario: Both given
+#### Scenario: A color attribute is ignored
 
-- **WHEN** a `Button` gets a `variant` and any `color`
-- **THEN** it renders exactly as with that `variant` alone (`[property] variant wins over any color`)
-
-#### Scenario: Unknown color
-
-- **WHEN** a `Button` gets a `color` that is not one of its variants, including an inherited object key such as `toString`
-- **THEN** it renders as the default variant, `primary` (`[property] an unknown color falls back to the default variant`)
+- **WHEN** a `Button` gets any `variant` and any `color` string
+- **THEN** it renders exactly as with that `variant` alone (`[property] a native color attribute never changes the classes`)
 
 ### Requirement: Open popups meet WCAG 2.2 AA
 
