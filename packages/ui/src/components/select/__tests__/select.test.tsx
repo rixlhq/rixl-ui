@@ -57,7 +57,7 @@ describe("Select", () => {
   it("applies hover, press, and open-state affordances to the trigger", () => {
     render(<Basic />);
     const cls = screen.getByTestId("trigger").className;
-    expect(cls).toContain("enabled:active:scale-[var(--rixl-press-scale)]");
+    expect(cls).toContain("not-data-disabled:active:scale-[var(--rixl-press-scale)]");
     expect(cls).toContain("motion-reduce:active:scale-100");
     expect(cls).toContain("data-[popup-open]:border-rixl-border-strong");
   });

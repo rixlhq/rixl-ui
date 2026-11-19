@@ -18,9 +18,9 @@ const Switch = forwardRef<HTMLElement, SwitchPrimitive.Root.Props>(function Swit
       className={cn(
         "peer inline-flex h-[1.15rem] w-8 shrink-0 items-center rounded-full border border-transparent shadow-xs outline-none touch-manipulation",
         "transition-[scale,background-color,border-color,box-shadow] duration-(--rixl-motion-fast) ease-out",
-        "enabled:active:scale-[var(--rixl-press-scale)] motion-reduce:active:scale-100",
+        "not-data-disabled:active:scale-[var(--rixl-press-scale)] motion-reduce:active:scale-100",
         "data-checked:bg-rixl-primary data-unchecked:bg-rixl-border",
-        "data-checked:enabled:hover:bg-rixl-primary-hover data-unchecked:enabled:hover:bg-rixl-border-strong",
+        "data-checked:not-data-disabled:hover:bg-rixl-primary-hover data-unchecked:not-data-disabled:hover:bg-rixl-border-strong",
         focusRing,
         "data-disabled:cursor-not-allowed data-disabled:opacity-50",
         className

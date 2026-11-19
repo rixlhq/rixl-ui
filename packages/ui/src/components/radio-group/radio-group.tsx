@@ -31,11 +31,11 @@ const RadioGroupItem = forwardRef<HTMLElement, RadioPrimitive.Root.Props>(functi
       className={cn(
         "border-rixl-border text-rixl-primary flex items-center justify-center aspect-square size-4 shrink-0 rounded-full border shadow-xs outline-none touch-manipulation",
         "transition-[scale,box-shadow,border-color] duration-(--rixl-motion-fast) ease-out",
-        "enabled:active:scale-[var(--rixl-press-scale)] motion-reduce:active:scale-100",
-        "data-unchecked:enabled:hover:border-rixl-border-strong data-checked:border-rixl-primary",
+        "not-data-disabled:active:scale-[var(--rixl-press-scale)] motion-reduce:active:scale-100",
+        "data-unchecked:not-data-disabled:hover:border-rixl-border-strong data-checked:border-rixl-primary",
         focusRing,
         "aria-invalid:ring-rixl-danger/20 aria-invalid:border-rixl-danger",
-        "disabled:cursor-not-allowed disabled:opacity-50",
+        "data-disabled:cursor-not-allowed data-disabled:opacity-50",
         className
       )}
       {...props}

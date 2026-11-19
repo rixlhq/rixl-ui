@@ -22,15 +22,15 @@ const Checkbox = forwardRef<HTMLElement, CheckboxPrimitive.Root.Props>(function 
       className={cn(
         "peer border-rixl-border inline-flex size-4 shrink-0 items-center justify-center rounded-[4px] border shadow-xs outline-none touch-manipulation",
         "transition-[scale,box-shadow,border-color,background-color] duration-(--rixl-motion-fast) ease-out",
-        "enabled:active:scale-[var(--rixl-press-scale)] motion-reduce:active:scale-100",
-        "data-unchecked:enabled:hover:border-rixl-border-strong",
+        "not-data-disabled:active:scale-[var(--rixl-press-scale)] motion-reduce:active:scale-100",
+        "data-unchecked:not-data-disabled:hover:border-rixl-border-strong",
         "data-checked:bg-rixl-primary data-checked:text-rixl-primary-fg data-checked:border-rixl-primary",
         "data-indeterminate:bg-rixl-primary data-indeterminate:text-rixl-primary-fg data-indeterminate:border-rixl-primary",
-        "data-checked:enabled:hover:bg-rixl-primary-hover data-checked:enabled:hover:border-rixl-primary-hover",
-        "data-indeterminate:enabled:hover:bg-rixl-primary-hover data-indeterminate:enabled:hover:border-rixl-primary-hover",
+        "data-checked:not-data-disabled:hover:bg-rixl-primary-hover data-checked:not-data-disabled:hover:border-rixl-primary-hover",
+        "data-indeterminate:not-data-disabled:hover:bg-rixl-primary-hover data-indeterminate:not-data-disabled:hover:border-rixl-primary-hover",
         focusRing,
         "aria-invalid:ring-rixl-danger/20 aria-invalid:border-rixl-danger",
-        "disabled:cursor-not-allowed disabled:opacity-50",
+        "data-disabled:cursor-not-allowed data-disabled:opacity-50",
         className
       )}
       {...props}

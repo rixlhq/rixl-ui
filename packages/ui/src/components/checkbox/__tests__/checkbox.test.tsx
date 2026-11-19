@@ -73,9 +73,9 @@ describe("Checkbox", () => {
   it("applies hover and press affordances (unchecked strengthens, checked deepens, active depresses)", () => {
     render(<Checkbox />);
     const cls = screen.getByRole("checkbox").className;
-    expect(cls).toContain("data-unchecked:enabled:hover:border-rixl-border-strong");
-    expect(cls).toContain("data-checked:enabled:hover:bg-rixl-primary-hover");
-    expect(cls).toContain("enabled:active:scale-[var(--rixl-press-scale)]");
+    expect(cls).toContain("data-unchecked:not-data-disabled:hover:border-rixl-border-strong");
+    expect(cls).toContain("data-checked:not-data-disabled:hover:bg-rixl-primary-hover");
+    expect(cls).toContain("not-data-disabled:active:scale-[var(--rixl-press-scale)]");
     expect(cls).toContain("motion-reduce:active:scale-100");
   });
 
