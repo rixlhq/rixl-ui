@@ -11,7 +11,7 @@ export function Showcase() {
   return <Empty title="No media" description="Upload your first asset." size="sm" />;
 }
 
-type EmptySize = "sm" | "default" | "lg";
+type EmptySize = "sm" | "base" | "lg";
 
 function BasicExample(props: {state: Record<string, ControlValue>}) {
   // The select control only emits the options declared below.
@@ -39,10 +39,10 @@ export const examples: Example[] = [
         name: "size",
         label: "Size",
         type: "select",
-        defaultValue: "default",
+        defaultValue: "base",
         options: [
           {value: "sm", label: "sm"},
-          {value: "default", label: "default"},
+          {value: "base", label: "base"},
           {value: "lg", label: "lg"},
         ],
       },

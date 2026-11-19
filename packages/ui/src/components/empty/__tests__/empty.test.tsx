@@ -41,19 +41,19 @@ describe("Empty", () => {
   });
 
   it("applies distinct spacing per size", () => {
-    const classes = (size?: "sm" | "default" | "lg") => {
+    const classes = (size?: "sm" | "base" | "lg") => {
       const {unmount} = render(<Empty title="x" size={size} data-testid="root" />);
       const value = screen.getByTestId("root").className;
       unmount();
       return value;
     };
-    expect(new Set([classes("sm"), classes("default"), classes("lg")]).size).toBe(3);
+    expect(new Set([classes("sm"), classes("base"), classes("lg")]).size).toBe(3);
   });
 
-  it("uses the default size when none is given", () => {
+  it("uses the base size when none is given", () => {
     const {rerender} = render(<Empty title="x" data-testid="root" />);
     const implicit = screen.getByTestId("root").className;
-    rerender(<Empty title="x" size="default" data-testid="root" />);
+    rerender(<Empty title="x" size="base" data-testid="root" />);
     expect(screen.getByTestId("root").className).toBe(implicit);
   });
 
