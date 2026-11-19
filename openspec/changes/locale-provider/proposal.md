@@ -1,3 +1,5 @@
+> **Superseded in part by `component-owned-labels`.** English defaults no longer live in `locale/translations.ts`: each component owns them, and the provider only overrides. `CopyBlock` `labels` is `{copyAction, copied}` with an opt-in `tooltip`, and the field chrome takes `labels.optional` again. Bullets below describe the original scope.
+
 > **Scope narrowed by `app-supplied-names`.** The provider now carries only the copy the library draws itself (`breadcrumb.label`, `copyBlock`, `input.optional`, `pagination`). Screen-reader names for parts only the app can name (dialog close, field info icon, breadcrumb ellipsis, sidebar, tabs scroll buttons, toast region, `Empty` command title) were removed from the provider and are props or sonner's own. Bullets below say so where they changed.
 
 ## Why
