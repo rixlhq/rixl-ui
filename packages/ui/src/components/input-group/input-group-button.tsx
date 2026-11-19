@@ -8,8 +8,7 @@ export const InputGroupButton = forwardRef<HTMLButtonElement, ButtonProps>(({cla
     data-slot="input-group-button"
     type={type}
     size={size}
-    radius="sm"
-    className={cn("h-full shrink-0", size?.startsWith("icon") && "aspect-square w-auto", className)}
+    className={cn("h-full shrink-0 rounded-sm", size?.startsWith("icon") && "aspect-square w-auto", className)}
     {...props}
   />
 ));

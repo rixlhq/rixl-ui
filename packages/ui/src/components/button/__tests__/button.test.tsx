@@ -40,29 +40,26 @@ describe("Button", () => {
     expect(screen.getByRole("button").className).toContain("size-9");
   });
 
-  it("is rounded with the medium radius by default, at every size", () => {
-    for (const size of ["default", "sm", "lg", "icon"] as const) {
-      const {unmount} = render(<Button size={size}>Save</Button>);
-      expect(screen.getByRole("button").className).toMatch(/(?<![:\w-])rounded-md(?![\w-])/);
-      unmount();
-    }
-  });
-
-  it.each([
-    ["sm", "rounded-sm"],
-    ["lg", "rounded-lg"],
-  ] as const)("radius='%s' swaps the medium radius for %s", (radius, expected) => {
-    render(<Button radius={radius}>Save</Button>);
-    const cls = screen.getByRole("button").className;
-    expect(cls).toContain(expected);
-    expect(cls).not.toContain("rounded-md");
-  });
-
   it("forwards additional className without dropping variant classes", () => {
     render(<Button className="w-full">Wide</Button>);
     const btn = screen.getByRole("button");
     expect(btn.className).toContain("w-full");
     expect(btn.className).toContain("bg-rixl-primary");
+  });
+
+  it("lets a consumer radius replace the medium radius", () => {
+    render(<Button className="rounded-full">Pill</Button>);
+    const cls = screen.getByRole("button").className;
+    expect(cls).toContain("rounded-full");
+    expect(cls).not.toMatch(/(?<![:\w-])rounded-md(?![\w-])/);
+  });
+
+  it("is rounded with the medium radius at every size", () => {
+    for (const size of ["default", "sm", "lg", "icon"] as const) {
+      const {unmount} = render(<Button size={size}>Save</Button>);
+      expect(screen.getByRole("button").className).toMatch(/(?<![:\w-])rounded-md(?![\w-])/);
+      unmount();
+    }
   });
 
   it("last-write-wins on conflicting Tailwind utilities via cn", () => {

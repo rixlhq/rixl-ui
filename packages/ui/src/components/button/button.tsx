@@ -56,7 +56,7 @@ const variantClasses = {
 
 const buttonVariants = cva(
   cn(
-    "inline-flex items-center cursor-pointer justify-center gap-2 whitespace-nowrap text-sm font-medium select-none touch-manipulation",
+    "inline-flex items-center cursor-pointer justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium select-none touch-manipulation",
     "disabled:pointer-events-none disabled:opacity-50",
     "[&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0",
     "outline-none",
@@ -77,28 +77,19 @@ const buttonVariants = cva(
         "icon-xs": "size-7 [&_svg:not([class*='size-'])]:size-3.5",
         "icon-lg": "size-10 [&_svg:not([class*='size-'])]:size-4",
       },
-      radius: {
-        sm: "rounded-sm",
-        md: "rounded-md",
-        lg: "rounded-lg",
-      },
     },
     defaultVariants: {
       size: "default",
-      radius: "md",
     },
   }
 );
 
 type ButtonVariant = keyof typeof variantClasses;
 type ButtonSize = NonNullable<VariantProps<typeof buttonVariants>["size"]>;
-type ButtonRadius = NonNullable<VariantProps<typeof buttonVariants>["radius"]>;
 
 export type ButtonProps = ButtonPrimitive.Props & {
   variant?: ButtonVariant | null;
   size?: ButtonSize | null;
-  /** Corner radius, for a button that sits inside a rounded container (an input group, a segmented control). */
-  radius?: ButtonRadius | null;
   loading?: boolean;
 };
 
@@ -107,7 +98,7 @@ function ButtonSpinner() {
 }
 
 const Button = forwardRef<HTMLButtonElement, ButtonProps>(
-  ({className, variant, size, radius, loading, disabled, nativeButton, render, children, ...props}, ref) => {
+  ({className, variant, size, loading, disabled, nativeButton, render, children, ...props}, ref) => {
     // When rendered as a non-<button> element (e.g. render={<Link/>}), tell Base UI so it drops native button semantics.
     const isNativeButton = nativeButton ?? (isValidElement(render) ? render.type === "button" : true);
     // Falling back to `default` keeps a bare <Button> styled.
@@ -121,7 +112,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         disabled={disabled || loading}
         nativeButton={isNativeButton}
         render={render}
-        className={cn(buttonVariants({variant: resolved, size, radius, className}))}
+        className={cn(buttonVariants({variant: resolved, size, className}))}
         {...props}
       >
         {loading && <ButtonSpinner />}

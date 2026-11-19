@@ -19,7 +19,7 @@ function overflowPositionClasses(side: "start" | "end") {
 }
 
 function overflowToneClasses(variant: TabsVariant, size: TabsSize) {
-  if (variant === "segmented") return size === "sm" ? "w-7" : "w-9";
+  if (variant === "segmented") return size === "sm" ? "w-7 rounded-lg" : "w-9 rounded-lg";
   return "w-8";
 }
 
@@ -38,7 +38,6 @@ export function TabsOverflowControl({side, visible, variant, size, onClick}: Tab
       variant="ghost"
       data-slot="tabs-overflow-control"
       data-side={side}
-      radius={variant === "segmented" ? "lg" : "md"}
       // A pointer-only affordance: arrowing between tabs already scrolls the focused tab into view.
       aria-hidden="true"
       tabIndex={-1}
