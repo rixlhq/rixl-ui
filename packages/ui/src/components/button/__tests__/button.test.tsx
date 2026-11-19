@@ -15,7 +15,7 @@ describe("Button", () => {
     expect(screen.getByRole("button")).toHaveAttribute("data-slot", "button");
   });
 
-  it("applies the default variant classes by default", () => {
+  it("applies the primary variant classes by default", () => {
     render(<Button>Save</Button>);
     expect(screen.getByRole("button").className).toContain("bg-rixl-primary");
   });
@@ -23,6 +23,19 @@ describe("Button", () => {
   it("respects an explicit variant", () => {
     render(<Button variant="destructive">Delete</Button>);
     expect(screen.getByRole("button").className).toContain("bg-rixl-danger");
+  });
+
+  it("applies the primary variant when asked for it by name", () => {
+    render(<Button variant="primary">Save</Button>);
+    expect(screen.getByRole("button").className).toContain("bg-rixl-primary");
+  });
+
+  it("styles secondary-destructive as danger text on the secondary surface", () => {
+    render(<Button variant="secondary-destructive">Remove</Button>);
+    const cls = screen.getByRole("button").className;
+    expect(cls).toContain("text-rixl-danger");
+    expect(cls).toContain("bg-rixl-secondary");
+    expect(cls).not.toContain("bg-rixl-danger");
   });
 
   it("respects the sm size", () => {
@@ -109,7 +122,7 @@ describe("Button", () => {
 
   it("renders as a non-button element via `render`", () => {
     render(
-      <Button render={<a href="/somewhere" />} variant="link">
+      <Button render={<a href="/somewhere" />} variant="ghost">
         Link
       </Button>
     );
@@ -139,13 +152,6 @@ describe("Button", () => {
     it("uses the shallower scale on the lg size", () => {
       render(<Button size="lg">Save</Button>);
       expect(screen.getByRole("button").className).toContain("active:scale-[var(--rixl-press-scale-lg)]");
-    });
-
-    // Scaling inline text against surrounding copy looks broken, so `link`
-    // signals the press with colour alone.
-    it("opts the link variant out of the press transform", () => {
-      render(<Button variant="link">Docs</Button>);
-      expect(screen.getByRole("button").className).toContain("active:scale-100");
     });
 
     it("does not jump or lift on hover", () => {
@@ -197,7 +203,7 @@ describe("Button", () => {
 });
 
 describe("[property] Button class resolution", () => {
-  const variants = ["default", "destructive", "outline", "secondary", "ghost", "link"] as const;
+  const variants = ["primary", "destructive", "outline", "secondary", "secondary-destructive", "ghost"] as const;
   const classOf = (element: React.ReactElement) => {
     const {getByRole, unmount} = render(element);
     const className = getByRole("button").className;

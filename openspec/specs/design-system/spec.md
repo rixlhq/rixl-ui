@@ -37,7 +37,7 @@ A component SHALL merge a consumer's `className` after its own classes, so a con
 
 ### Requirement: Button resolves its look from `variant`, then `color`
 
-`Button` SHALL use `variant` when it is given, otherwise a known `color`, otherwise the default variant.
+`Button` SHALL use `variant` when it is given, otherwise a known `color`, otherwise the default variant, `primary`.
 
 #### Scenario: Both given
 
@@ -47,7 +47,7 @@ A component SHALL merge a consumer's `className` after its own classes, so a con
 #### Scenario: Unknown color
 
 - **WHEN** a `Button` gets a `color` that is not one of its variants, including an inherited object key such as `toString`
-- **THEN** it renders as the default variant (`[property] an unknown color falls back to the default variant`)
+- **THEN** it renders as the default variant, `primary` (`[property] an unknown color falls back to the default variant`)
 
 ### Requirement: Open popups meet WCAG 2.2 AA
 

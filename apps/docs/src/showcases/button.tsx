@@ -27,10 +27,11 @@ function PressExample() {
   return (
     <div className="space-y-6">
       <Group label="Press — every variant depresses and drops its shadow">
-        <Button>Default</Button>
+        <Button>Primary</Button>
         <Button variant="secondary">Secondary</Button>
         <Button variant="outline">Outline</Button>
         <Button variant="destructive">Destructive</Button>
+        <Button variant="secondary-destructive">Secondary destructive</Button>
         <Button variant="ghost">Ghost</Button>
       </Group>
 
@@ -38,10 +39,6 @@ function PressExample() {
         <Button size="sm">Small · 0.97</Button>
         <Button>Default · 0.97</Button>
         <Button size="lg">Large · 0.98</Button>
-      </Group>
-
-      <Group label="Link opts out — scaling inline text against copy looks broken">
-        <Button variant="link">Press me, I only change colour</Button>
       </Group>
 
       <p className="text-sm text-rixl-fg-muted">
@@ -57,12 +54,12 @@ function PressExample() {
 function VariantGridExample() {
   return (
     <Group>
-      <Button>Default</Button>
+      <Button>Primary</Button>
       <Button variant="secondary">Secondary</Button>
       <Button variant="outline">Outline</Button>
       <Button variant="ghost">Ghost</Button>
       <Button variant="destructive">Destructive</Button>
-      <Button variant="link">Link</Button>
+      <Button variant="secondary-destructive">Secondary destructive</Button>
     </Group>
   );
 }
@@ -127,7 +124,7 @@ function StatesExample() {
 function PolymorphicExample() {
   return (
     <Group label="Polymorphic (render={<a/>})">
-      <Button render={<a href="https://rixl.com" target="_blank" rel="noreferrer" aria-label="Open rixl.com" />} variant="link">
+      <Button render={<a href="https://rixl.com" target="_blank" rel="noreferrer" aria-label="Open rixl.com" />} variant="ghost">
         Open rixl.com
       </Button>
       <Button
@@ -146,12 +143,12 @@ export const examples: Example[] = [
     title: "Variants",
     description: "All six variants side by side.",
     render: VariantGridExample,
-    code: `<Button>Default</Button>
+    code: `<Button>Primary</Button>
 <Button variant="secondary">Secondary</Button>
 <Button variant="outline">Outline</Button>
 <Button variant="ghost">Ghost</Button>
 <Button variant="destructive">Destructive</Button>
-<Button variant="link">Link</Button>`,
+<Button variant="secondary-destructive">Secondary destructive</Button>`,
   },
   {
     id: "press",
@@ -195,7 +192,7 @@ duration-(--rixl-motion-fast) ease-out`,
     title: "Polymorphic",
     description: "Render as a different element while keeping button styling.",
     render: PolymorphicExample,
-    code: `<Button render={<a href="https://rixl.com" />} variant="link">
+    code: `<Button render={<a href="https://rixl.com" />} variant="ghost">
   Open rixl.com
 </Button>`,
   },

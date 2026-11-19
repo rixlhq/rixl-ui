@@ -17,7 +17,7 @@ import {focusRing, invalidRing, pressable} from "../../lib/classes";
 const pressShadow = "shadow-xs active:shadow-none";
 
 const variantClasses = {
-  default: cn("bg-rixl-primary text-rixl-primary-fg hover:bg-rixl-primary-hover active:bg-rixl-primary-active", pressShadow),
+  primary: cn("bg-rixl-primary text-rixl-primary-fg hover:bg-rixl-primary-hover active:bg-rixl-primary-active", pressShadow),
   destructive: cn(
     "bg-rixl-danger text-rixl-danger-fg hover:bg-rixl-danger-hover active:bg-rixl-danger-active focus-visible:ring-rixl-danger/20",
     pressShadow
@@ -27,10 +27,11 @@ const variantClasses = {
     pressShadow
   ),
   secondary: cn("bg-rixl-secondary text-rixl-secondary-fg hover:bg-rixl-secondary-hover active:bg-rixl-secondary-active", pressShadow),
+  "secondary-destructive": cn(
+    "bg-rixl-secondary text-rixl-danger hover:bg-rixl-secondary-hover active:bg-rixl-secondary-active focus-visible:ring-rixl-danger/20",
+    pressShadow
+  ),
   ghost: "hover:bg-rixl-surface-muted hover:text-rixl-fg active:bg-rixl-secondary-active",
-  // Inline text: scaling it against surrounding copy looks broken, so `link`
-  // opts out of the press transform and signals with colour alone.
-  link: "text-rixl-primary underline underline-offset-4 active:scale-100 active:text-rixl-primary-active",
 } as const;
 
 const buttonVariants = cva(
@@ -80,8 +81,8 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   ({className, variant, size, loading, disabled, nativeButton, render, children, ...props}, ref) => {
     // When rendered as a non-<button> element (e.g. render={<Link/>}), tell Base UI so it drops native button semantics.
     const isNativeButton = nativeButton ?? (isValidElement(render) ? render.type === "button" : true);
-    // Falling back to `default` keeps a bare <Button> styled.
-    const resolved: ButtonVariant = variant ?? "default";
+    // Falling back to `primary` keeps a bare <Button> styled.
+    const resolved: ButtonVariant = variant ?? "primary";
     return (
       <ButtonPrimitive
         ref={ref}
