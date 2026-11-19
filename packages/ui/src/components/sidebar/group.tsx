@@ -2,6 +2,7 @@ import * as React from "react";
 import {mergeProps} from "@base-ui/react/merge-props";
 import {useRender} from "@base-ui/react/use-render";
 import {cn} from "../../lib/cn";
+import {focusRingSidebar} from "../../lib/classes";
 
 export const SidebarGroup = React.forwardRef<HTMLDivElement, SidebarGroupProps>(function SidebarGroup({className, ...props}, ref) {
   return (
@@ -26,7 +27,8 @@ export const SidebarGroupLabel = React.forwardRef<HTMLDivElement, SidebarGroupLa
     props: mergeProps<"div">(
       {
         className: cn(
-          "text-rixl-sidebar-fg/70 ring-rixl-sidebar-ring flex h-8 shrink-0 items-center rounded-md px-2 text-xs font-medium outline-hidden transition-[margin,opacity] duration-(--rixl-motion-sidebar) ease-(--rixl-ease-drawer) focus-visible:ring-2 [&>svg]:size-4 [&>svg]:shrink-0",
+          focusRingSidebar,
+          "text-rixl-sidebar-fg/70 flex h-8 shrink-0 items-center rounded-md px-2 text-xs font-medium outline-hidden transition-[margin,opacity] duration-(--rixl-motion-sidebar) ease-(--rixl-ease-drawer) [&>svg]:size-4 [&>svg]:shrink-0",
           "group-data-[collapsible=icon]:-mt-8 group-data-[collapsible=icon]:opacity-0",
           className
         ),
@@ -49,7 +51,8 @@ export const SidebarGroupAction = React.forwardRef<HTMLButtonElement, SidebarGro
     props: mergeProps<"button">(
       {
         className: cn(
-          "text-rixl-sidebar-fg ring-rixl-sidebar-ring hover:bg-rixl-sidebar-accent hover:text-rixl-sidebar-accent-fg absolute top-3.5 end-3 flex aspect-square w-5 items-center justify-center rounded-md p-0 outline-hidden focus-visible:ring-2 [&>svg]:size-4 [&>svg]:shrink-0",
+          focusRingSidebar,
+          "text-rixl-sidebar-fg hover:bg-rixl-sidebar-accent hover:text-rixl-sidebar-accent-fg absolute top-3.5 end-3 flex aspect-square w-5 items-center justify-center rounded-md p-0 outline-hidden [&>svg]:size-4 [&>svg]:shrink-0",
           // Increases the hit area of the button on mobile.
           "after:absolute after:-inset-2 md:after:hidden",
           "group-data-[collapsible=icon]:hidden",

@@ -12,6 +12,12 @@ export const focusRing = "focus-visible:border-rixl-ring focus-visible:ring-rixl
 export const focusRingBorderless = "focus-visible:ring-rixl-ring/50 focus-visible:ring-[3px]";
 
 /**
+ * Focus ring of the sidebar parts: 2 px in `--rixl-sidebar-ring`, which a consumer can retune with the
+ * rest of the sidebar theme. Narrower and stronger than `focusRingBorderless`, so a sidebar keeps its own look.
+ */
+export const focusRingSidebar = "ring-rixl-sidebar-ring focus-visible:ring-2";
+
+/**
  * Press feedback shared by every pressable component through `--rixl-press-scale`. `motion-reduce` drops
  * the transform only, so a colour or shadow change still shows the press. The scale is plain `active:`
  * so a consumer `active:scale-100` merges over it; a native disabled button cannot be pressed, and

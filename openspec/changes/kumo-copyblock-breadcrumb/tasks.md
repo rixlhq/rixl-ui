@@ -10,7 +10,7 @@
 
 ## 3. Sidebar
 
-- [ ] 3.1 One `focusRingSidebar`; browser test of the computed ring
+- [x] 3.1 One `focusRingSidebar`; `sidebar-focus.browser.test.tsx` pins 2 px in `--rixl-sidebar-ring` on all five parts, light and dark, passing before and after the change (no visual change); `vpr budget` see 3.2
 - [ ] 3.2 Selectors on `data-slot`; remove `data-sidebar`
 
 ## 4. Menu item indicator

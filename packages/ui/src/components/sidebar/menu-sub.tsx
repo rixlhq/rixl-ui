@@ -2,7 +2,7 @@ import * as React from "react";
 import {mergeProps} from "@base-ui/react/merge-props";
 import {useRender} from "@base-ui/react/use-render";
 import {cn} from "../../lib/cn";
-import {pressFeedback} from "../../lib/classes";
+import {focusRingSidebar, pressFeedback} from "../../lib/classes";
 
 export const SidebarMenuSub = React.forwardRef<HTMLUListElement, SidebarMenuSubProps>(function SidebarMenuSub({className, ...props}, ref) {
   return (
@@ -47,11 +47,12 @@ export const SidebarMenuSubButton = React.forwardRef<HTMLAnchorElement, SidebarM
     props: mergeProps<"a">(
       {
         className: cn(
-          "text-rixl-sidebar-fg ring-rixl-sidebar-ring hover:bg-rixl-sidebar-accent hover:text-rixl-sidebar-accent-fg",
+          focusRingSidebar,
+          "text-rixl-sidebar-fg hover:bg-rixl-sidebar-accent hover:text-rixl-sidebar-accent-fg",
           pressFeedback,
           "active:bg-rixl-sidebar-accent active:text-rixl-sidebar-accent-fg",
           "transition-[scale,background-color,color] duration-(--rixl-motion-fast) ease-out",
-          "[&>svg]:text-rixl-sidebar-accent-fg flex h-7 min-w-0 -translate-x-px rtl:translate-x-px items-center gap-2 overflow-hidden rounded-md px-2 outline-hidden focus-visible:ring-2",
+          "[&>svg]:text-rixl-sidebar-accent-fg flex h-7 min-w-0 -translate-x-px rtl:translate-x-px items-center gap-2 overflow-hidden rounded-md px-2 outline-hidden",
           "disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50",
           "[&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0",
           "data-active:bg-rixl-sidebar-accent data-active:text-rixl-sidebar-accent-fg",

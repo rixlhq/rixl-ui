@@ -3,7 +3,7 @@ import {mergeProps} from "@base-ui/react/merge-props";
 import {useRender} from "@base-ui/react/use-render";
 import {cva, type VariantProps} from "class-variance-authority";
 import {cn} from "../../lib/cn";
-import {pressFeedback} from "../../lib/classes";
+import {focusRingSidebar, pressFeedback} from "../../lib/classes";
 
 import {Skeleton} from "../skeleton";
 import {Tooltip, type TooltipProps} from "../tooltip";
@@ -25,9 +25,10 @@ SidebarMenuItem.displayName = "SidebarMenuItem";
 
 export const sidebarMenuButtonVariants = cva(
   cn(
-    "peer/menu-button flex w-full items-center gap-2 overflow-hidden rounded-md p-2 text-start text-sm outline-hidden ring-rixl-sidebar-ring",
+    "peer/menu-button flex w-full items-center gap-2 overflow-hidden rounded-md p-2 text-start text-sm outline-hidden",
+    focusRingSidebar,
     "transition-[scale,background-color,color,box-shadow] duration-(--rixl-motion-fast) ease-out",
-    "hover:bg-rixl-sidebar-accent hover:text-rixl-sidebar-accent-fg focus-visible:ring-2",
+    "hover:bg-rixl-sidebar-accent hover:text-rixl-sidebar-accent-fg",
     pressFeedback,
     "active:bg-rixl-sidebar-accent active:text-rixl-sidebar-accent-fg",
     "disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50",
@@ -100,7 +101,8 @@ export const SidebarMenuAction = React.forwardRef<HTMLButtonElement, SidebarMenu
     props: mergeProps<"button">(
       {
         className: cn(
-          "text-rixl-sidebar-fg ring-rixl-sidebar-ring hover:bg-rixl-sidebar-accent hover:text-rixl-sidebar-accent-fg peer-hover/menu-button:text-rixl-sidebar-accent-fg absolute top-1.5 end-1 flex aspect-square w-5 items-center justify-center rounded-md p-0 outline-hidden transition-transform focus-visible:ring-2 [&>svg]:size-4 [&>svg]:shrink-0",
+          focusRingSidebar,
+          "text-rixl-sidebar-fg hover:bg-rixl-sidebar-accent hover:text-rixl-sidebar-accent-fg peer-hover/menu-button:text-rixl-sidebar-accent-fg absolute top-1.5 end-1 flex aspect-square w-5 items-center justify-center rounded-md p-0 outline-hidden transition-transform [&>svg]:size-4 [&>svg]:shrink-0",
           // Increases the hit area of the button on mobile.
           "after:absolute after:-inset-2 md:after:hidden",
           "peer-data-[size=sm]/menu-button:top-1",
