@@ -39,6 +39,10 @@ pre-push:
       root: "packages/ui/"
       run: vp test --run --bail=1 < /dev/null
       timeout: 3m
+    docs-test:
+      root: "apps/docs/"
+      run: vp test --run --bail=1 < /dev/null
+      timeout: 3m
     pack:
       root: "packages/ui/"
       run: vp pack < /dev/null

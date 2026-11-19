@@ -62,7 +62,7 @@ vpr ci                     # Standalone UI package gate
 vpr ci:package             # UI-only tasks (suppressions, knip, coverage tests, pack, budget, publint)
 ```
 
-The repository root owns the Bun version pin and workspace installation. Run `vp install` from the root; all CI workflows set up Vite+ there. `vp check` runs shared format and lint checks across the workspaces. UI commands delegate to `@rixl/ui`; `vpr docs` starts the showcase app and `vpr docs:build` builds the library and docs app. `vpr check` is `vp check` plus React Doctor. From the root, `vpr ci` is the workspace gate used by release; CI runs its `ci:check` and `ci:ui` tasks in parallel, then builds docs with `ci:docs`. Use `vp` for everything; don't call `bun`, `npm` or `npx` directly. Install Chromium from `packages/ui/` with `vpx playwright install chromium`.
+The repository root owns the Bun version pin and workspace installation. Run `vp install` from the root; all CI workflows set up Vite+ there. `vp check` runs shared format and lint checks across the workspaces. UI commands delegate to `@rixl/ui`; `vpr docs` starts the showcase app and `vpr docs:build` builds the library and docs app. `vpr check` is `vp check` plus React Doctor. From the root, `vpr ci` is the workspace gate used by release; CI runs its `ci:check` and `ci:ui` tasks in parallel, then tests and builds docs with `ci:docs`. Use `vp` for everything; don't call `bun`, `npm` or `npx` directly. Install Chromium from `packages/ui/` with `vpx playwright install chromium`.
 
 ## Repository layout
 
@@ -117,6 +117,6 @@ Behaviour changes start as an OpenSpec change (`/opsx:propose`); `openspec/specs
 
 ## CI and release
 
-- `.github/workflows/ci.yml` runs `ci:check` and `ci:ui` (suppressions, Knip, tests with coverage, pack, size budget, publint) in parallel, builds docs with `ci:docs`, then reports coverage on PRs. On `main`, Release Please and npm publishing run only after those gates succeed. Chromium is installed for the browser project.
+- `.github/workflows/ci.yml` runs `ci:check` and `ci:ui` (suppressions, Knip, tests with coverage, pack, size budget, publint) in parallel, tests and builds docs with `ci:docs` (unit and browser), then reports coverage on PRs. On `main`, Release Please and npm publishing run only after those gates succeed. Chromium is installed for the browser project.
 - React Doctor runs from the workspace check script and the pre-push hook; its CLI reports locally and in CI without a separate GitHub action.
 - `.github/workflows/mutation.yml` runs Stryker every Monday and opens a `mutation-report` issue.

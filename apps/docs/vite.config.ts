@@ -20,6 +20,8 @@ export default defineConfig({
       },
       {
         extends: true,
+        // Every Base UI entry is pre-bundled up front: one discovered mid-run makes Vite reload the page and fail the running suites.
+        optimizeDeps: {include: ["@base-ui/react/*"]},
         test: {
           name: "browser",
           include: ["src/**/__tests__/**/*.browser.test.tsx"],

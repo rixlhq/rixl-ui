@@ -85,15 +85,8 @@ export default defineConfig({
         plugins: [tailwindcss()],
         // Pre-bundled so the browser can load the coverage module; served unbundled, its import fails to fetch.
         optimizeDeps: {
-          // The Base UI entries are listed when a test first imports them: a cache built before that import reloads the page mid-run.
-          include: [
-            "react",
-            "react-dom/client",
-            "axe-core",
-            "@vitest/coverage-v8/browser",
-            "@base-ui/react/fieldset",
-            "@base-ui/react/checkbox-group",
-          ],
+          // Every Base UI entry is pre-bundled up front: one discovered mid-run makes Vite reload the page and fail the running suites.
+          include: ["react", "react-dom/client", "axe-core", "@vitest/coverage-v8/browser", "@base-ui/react/*"],
         },
         test: {
           name: "browser",
