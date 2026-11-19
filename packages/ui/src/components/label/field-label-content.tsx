@@ -1,4 +1,5 @@
 import type {ReactNode} from "react";
+import {cn} from "../../lib/cn";
 import {useWarnMissingName} from "../../lib/warn-missing-name";
 import {useTranslations} from "../locale/use-translations";
 import {LabelAddons} from "./label-addons";
@@ -13,10 +14,19 @@ type FieldLabelContentProps = {
   labelTooltip?: ReactNode;
   labelTooltipAriaLabel?: string;
   labels?: Partial<LabelLabels>;
+  className?: string;
 };
 
 /** The inside of a field's `Field.Label`: the label text, the optional marker for `required={false}`, and the `labelTooltip` trigger. */
-export function FieldLabelContent({component, children, required, labelTooltip, labelTooltipAriaLabel, labels}: FieldLabelContentProps) {
+export function FieldLabelContent({
+  component,
+  children,
+  required,
+  labelTooltip,
+  labelTooltipAriaLabel,
+  labels,
+  className,
+}: FieldLabelContentProps) {
   const t = useTranslations("label", DEFAULT_LABEL_LABELS, labels);
   useWarnMissingName(Boolean(labelTooltip) && !labelTooltipAriaLabel, {
     component,
@@ -24,7 +34,7 @@ export function FieldLabelContent({component, children, required, labelTooltip, 
     fix: `Set labelTooltipAriaLabel: <${component} labelTooltip='…' labelTooltipAriaLabel='About this field' />.`,
   });
   return (
-    <span className="inline-flex items-center gap-1.5">
+    <span className={cn("inline-flex items-center gap-1.5", className)}>
       {children}
       <LabelAddons optional={required === false ? t.optional : undefined} tooltip={labelTooltip} tooltipAriaLabel={labelTooltipAriaLabel} />
     </span>

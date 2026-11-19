@@ -1,8 +1,10 @@
-import {forwardRef} from "react";
+import {forwardRef, type ReactNode} from "react";
 import {Checkbox as CheckboxPrimitive} from "@base-ui/react/checkbox";
 import {Check, Minus} from "lucide-react";
 import {cn} from "../../lib/cn";
 import {indicatorPop, invalidRing, toggleControl} from "../../lib/classes";
+import {useWarnUnnamedControl} from "../../lib/warn-missing-name";
+import {ControlField} from "../label/control-field";
 
 /**
  * Rixl Checkbox — a boolean form control.
@@ -12,11 +14,22 @@ import {indicatorPop, invalidRing, toggleControl} from "../../lib/classes";
  * - the check/dash pops in (`zoom-in`), reduced-motion safe;
  * - `indeterminate` is supported — the root's `data-indeterminate` swaps the
  *   check for a dash and fills the box like a checked one.
+ *
+ * With a `label` the control renders inside a Base UI `Field`, whose label
+ * encloses it; without one it is the bare control, which the app names with
+ * `aria-label` or `aria-labelledby`.
  */
-const Checkbox = forwardRef<HTMLElement, CheckboxPrimitive.Root.Props>(function Checkbox({className, ...props}, ref) {
-  return (
+const Checkbox = forwardRef<HTMLElement, CheckboxProps>(function Checkbox(
+  {className, label, labelTooltip, labelTooltipAriaLabel, controlFirst, variant, required, disabled, ...props},
+  ref
+) {
+  useWarnUnnamedControl({component: "Checkbox", label, ariaLabel: props["aria-label"], ariaLabelledBy: props["aria-labelledby"]});
+  const control = (
     <CheckboxPrimitive.Root
       ref={ref}
+      required={required}
+      disabled={disabled}
+      aria-invalid={variant === "error" ? true : undefined}
       data-slot="checkbox"
       className={cn(
         toggleControl,
@@ -40,8 +53,33 @@ const Checkbox = forwardRef<HTMLElement, CheckboxPrimitive.Root.Props>(function 
       </CheckboxPrimitive.Indicator>
     </CheckboxPrimitive.Root>
   );
+  if (!label) return control;
+  return (
+    <ControlField
+      component="Checkbox"
+      label={label}
+      required={required}
+      labelTooltip={labelTooltip}
+      labelTooltipAriaLabel={labelTooltipAriaLabel}
+      controlFirst={controlFirst}
+      disabled={disabled}
+    >
+      {control}
+    </ControlField>
+  );
 });
 Checkbox.displayName = "Checkbox";
 
 export {Checkbox};
-export type CheckboxProps = CheckboxPrimitive.Root.Props;
+export type CheckboxProps = CheckboxPrimitive.Root.Props & {
+  /** Visible label. Turns on the `Field` wrapper that names the control and makes the text clickable. */
+  label?: ReactNode;
+  /** Content of a tooltip opened from an info trigger after the label. */
+  labelTooltip?: ReactNode;
+  /** The accessible name of the tooltip trigger. The library invents none; without it `Checkbox` warns in development. */
+  labelTooltipAriaLabel?: string;
+  /** `true` (default) puts the control before the label text, `false` after it. */
+  controlFirst?: boolean;
+  /** `error` marks the control `aria-invalid`, which draws the danger border. */
+  variant?: "default" | "error";
+};
