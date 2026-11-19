@@ -16,9 +16,7 @@ import {popupSurface} from "../../lib/classes";
  * Class names swapped to `--rixl-*` tokens; the popup surface uses the
  * `bg-rixl-surface` / `text-rixl-fg` panel pattern.
  */
-function Popover({...props}: PopoverPrimitive.Root.Props) {
-  return <PopoverPrimitive.Root data-slot="popover" {...props} />;
-}
+const Popover = PopoverPrimitive.Root;
 
 const PopoverTrigger = forwardRef<HTMLButtonElement, PopoverPrimitive.Trigger.Props>(function PopoverTrigger(props, ref) {
   return <PopoverPrimitive.Trigger ref={ref} data-slot="popover-trigger" {...props} />;

@@ -27,6 +27,7 @@ type CopyButtonProps = {
 export function CopyButton({state, disabled, labels, describedBy, tooltip, onCopy}: CopyButtonProps) {
   const copied = state === "copied";
   const buttonProps = {
+    "data-slot": "copy-block-button",
     type: "button",
     variant: "ghost",
     size: "icon-sm",

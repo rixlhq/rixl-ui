@@ -52,9 +52,7 @@ export type DropdownMenuPortalProps = MenuPrimitive.Portal.Props;
 export type DropdownMenuTriggerProps = MenuPrimitive.Trigger.Props;
 export type DropdownMenuGroupProps = MenuPrimitive.Group.Props;
 
-export function DropdownMenu({...props}: DropdownMenuProps) {
-  return <MenuPrimitive.Root data-slot="dropdown-menu" {...props} />;
-}
+export const DropdownMenu = MenuPrimitive.Root;
 
 export function DropdownMenuPortal({...props}: DropdownMenuPortalProps) {
   return <MenuPrimitive.Portal data-slot="dropdown-menu-portal" {...props} />;

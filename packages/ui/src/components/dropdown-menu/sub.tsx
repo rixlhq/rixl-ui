@@ -8,9 +8,7 @@ import {DropdownMenuContent} from "./content";
 
 export type DropdownMenuSubProps = MenuPrimitive.SubmenuRoot.Props;
 
-export function DropdownMenuSub({...props}: DropdownMenuSubProps) {
-  return <MenuPrimitive.SubmenuRoot data-slot="dropdown-menu-sub" {...props} />;
-}
+export const DropdownMenuSub = MenuPrimitive.SubmenuRoot;
 
 export type DropdownMenuSubTriggerProps = MenuPrimitive.SubmenuTrigger.Props & {
   inset?: boolean;

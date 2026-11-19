@@ -23,12 +23,10 @@ import {cn} from "../../lib/cn";
 const TOOLTIP_DEFAULT_DELAY_MS = 500;
 
 function TooltipProvider({delay = TOOLTIP_DEFAULT_DELAY_MS, ...props}: TooltipPrimitive.Provider.Props) {
-  return <TooltipPrimitive.Provider data-slot="tooltip-provider" delay={delay} {...props} />;
+  return <TooltipPrimitive.Provider delay={delay} {...props} />;
 }
 
-function Tooltip({...props}: TooltipPrimitive.Root.Props) {
-  return <TooltipPrimitive.Root data-slot="tooltip" {...props} />;
-}
+const Tooltip = TooltipPrimitive.Root;
 
 const TooltipTrigger = forwardRef<HTMLButtonElement, TooltipPrimitive.Trigger.Props>(function TooltipTrigger(props, ref) {
   return <TooltipPrimitive.Trigger ref={ref} data-slot="tooltip-trigger" {...props} />;

@@ -14,7 +14,15 @@ export const PaginationNavButton = forwardRef<HTMLButtonElement, PaginationNavBu
   ref
 ) {
   return (
-    <Button ref={ref} variant="outline" size="icon" className="min-h-11 min-w-11" onClick={() => setPage(target)} {...props}>
+    <Button
+      ref={ref}
+      data-slot="pagination-nav-button"
+      variant="outline"
+      size="icon"
+      className="min-h-11 min-w-11"
+      onClick={() => setPage(target)}
+      {...props}
+    >
       <Icon className={rtlFlip} />
     </Button>
   );

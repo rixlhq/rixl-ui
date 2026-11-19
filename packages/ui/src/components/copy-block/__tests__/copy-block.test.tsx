@@ -15,6 +15,11 @@ describe("CopyBlock", () => {
     expect(screen.getByRole("button")).toContainHTML("svg");
   });
 
+  it("marks the copy button for slot targeting", () => {
+    render(<CopyBlock title="API Key" value="sk_live_123" />);
+    expect(screen.getByRole("button")).toHaveAttribute("data-slot", "copy-block-button");
+  });
+
   it("copies the value to the clipboard on click and morphs into the copied state", async () => {
     vi.useFakeTimers();
     const writeText = vi.fn().mockResolvedValue(undefined);

@@ -99,18 +99,13 @@ describe("Tooltip", () => {
     expect(screen.getByText("Hello")).toBeInTheDocument();
   });
 
-  it("TooltipProvider sets data-slot='tooltip-provider' when used explicitly", () => {
+  it("TooltipProvider renders no element of its own", () => {
     const {container} = render(
       <TooltipProvider delay={0}>
         <span>child</span>
       </TooltipProvider>
     );
-    const provider = container.querySelector("[data-slot='tooltip-provider']");
-    // Provider may render as a Fragment in Base UI; attribute may not surface on a real element.
-    // The important behaviour is that its children mount; we assert that here as a smoke test.
-    expect(screen.getByText("child")).toBeInTheDocument();
-    // If the primitive does forward a wrapper, verify our data-slot lives on it.
-    if (provider) expect(provider).toHaveAttribute("data-slot", "tooltip-provider");
+    expect(container.firstElementChild?.tagName).toBe("SPAN");
   });
 });
 

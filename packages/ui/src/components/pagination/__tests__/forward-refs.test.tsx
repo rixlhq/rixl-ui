@@ -43,7 +43,7 @@ describeForwardRefs([
     name: "PaginationNavButton",
     component: PaginationNavButton,
     element: (ref) => <PaginationNavButton ref={ref} target={2} setPage={noop} Icon={ChevronRight} aria-label="Next" />,
-    slot: "button",
+    slot: "pagination-nav-button",
   },
   {
     name: "PaginationPageInput",

@@ -21,6 +21,7 @@ const DatePickerDayButton = React.forwardRef<HTMLButtonElement, DatePickerDayBut
       ref={React.useMemo(() => mergeDatePickerRefs(setButtonElement, ref), [ref])}
       variant="ghost"
       size="icon"
+      data-slot="calendar-day-button"
       data-day={day.date.toLocaleDateString()}
       data-selected-single={modifiers.selected && !modifiers.range_start && !modifiers.range_end && !modifiers.range_middle}
       data-range-start={modifiers.range_start}

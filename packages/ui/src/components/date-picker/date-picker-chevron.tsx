@@ -9,6 +9,7 @@ export const DatePickerChevron = forwardRef<SVGSVGElement, ComponentProps<typeof
   return (
     <Icon
       ref={ref}
+      data-slot="calendar-chevron"
       className={cn("size-4", orientation === "left" || orientation === "right" ? rtlFlip : undefined, className)}
       {...props}
     />

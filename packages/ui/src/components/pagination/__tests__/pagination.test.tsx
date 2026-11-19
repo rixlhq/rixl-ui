@@ -79,7 +79,7 @@ describe("Pagination", () => {
 
   it("flips chevrons in RTL via logical mirroring", () => {
     render(<Pagination page={3} setPage={noop} perPage={10} totalCount={50} />);
-    const icons = document.querySelectorAll("[data-slot='pagination'] [data-slot='button'] svg");
+    const icons = document.querySelectorAll("[data-slot='pagination'] [data-slot='pagination-nav-button'] svg");
     expect(icons.length).toBe(4);
     for (const icon of icons) {
       expect(icon.getAttribute("class")).toContain("rtl:-scale-x-100");
