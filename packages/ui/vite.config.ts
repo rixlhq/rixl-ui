@@ -75,6 +75,8 @@ export default defineConfig({
     minify: false,
     platform: "browser",
     sourcemap: true,
+    // The JSDoc stays in the .d.ts files, where editors read it; the JS keeps only the /* @__PURE__ */ hints bundlers need.
+    outputOptions: {comments: {jsdoc: false}},
     target: "es2022",
   },
   test: {
