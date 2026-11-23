@@ -23,5 +23,5 @@ description: The red, green, refactor cycle and what each change ships with.
 
 ## Commits
 
-- Commit after each completed cycle (`.agents/rules/commits.md`).
+- Hand over a commit message after each completed cycle (`.agents/rules/commits.md`).
 - Never commit a failing test to `main`.
