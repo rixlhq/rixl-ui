@@ -6,6 +6,8 @@ import {Group} from "../components/showcase-layout";
 export const path = "input-otp";
 export const title = "Input OTP";
 export const description = "Enter a verification code one digit at a time.";
+export const notes =
+  "Slots share Input's control surface (border, hover, invalid) and join into one bar; the active slot takes the focus ring. Set aria-invalid on the slots to show the invalid state.";
 
 export function Showcase() {
   return (
@@ -88,6 +90,26 @@ function DisabledExample() {
           <InputOTPSlot index={3} />
           <InputOTPSlot index={4} />
           <InputOTPSlot index={5} />
+        </InputOTPGroup>
+      </InputOTP>
+    </Group>
+  );
+}
+
+function InvalidExample() {
+  return (
+    <Group label="Invalid">
+      <InputOTP maxLength={6} defaultValue="123456" aria-label="Verification code">
+        <InputOTPGroup>
+          <InputOTPSlot index={0} aria-invalid />
+          <InputOTPSlot index={1} aria-invalid />
+          <InputOTPSlot index={2} aria-invalid />
+        </InputOTPGroup>
+        <InputOTPSeparator />
+        <InputOTPGroup>
+          <InputOTPSlot index={3} aria-invalid />
+          <InputOTPSlot index={4} aria-invalid />
+          <InputOTPSlot index={5} aria-invalid />
         </InputOTPGroup>
       </InputOTP>
     </Group>
@@ -183,6 +205,19 @@ export const examples: Example[] = [
     code: `<InputOTP maxLength={6} disabled>
   <InputOTPGroup>
     <InputOTPSlot index={0} />
+  </InputOTPGroup>
+</InputOTP>`,
+  },
+  {
+    id: "invalid",
+    title: "Invalid",
+    description: "aria-invalid on each slot shows the same danger state as Input.",
+    render: InvalidExample,
+    code: `<InputOTP maxLength={3}>
+  <InputOTPGroup>
+    <InputOTPSlot index={0} aria-invalid />
+    <InputOTPSlot index={1} aria-invalid />
+    <InputOTPSlot index={2} aria-invalid />
   </InputOTPGroup>
 </InputOTP>`,
   },

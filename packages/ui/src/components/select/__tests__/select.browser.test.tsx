@@ -2,6 +2,7 @@ import {describe, it, expect, afterEach, vi} from "vitest";
 import {page, userEvent} from "vitest/browser";
 import {render, cleanup} from "@testing-library/react";
 import {axeViolations} from "../../../../test/a11y";
+import {Select as SelectPrimitive} from "@base-ui/react/select";
 import {Select, SelectTrigger, SelectValue, SelectContent, SelectItem} from "../select";
 
 function TestSelect({
@@ -96,9 +97,82 @@ describe("Select Browser Mode", () => {
     await expect.element(trigger).toHaveFocus();
   });
 
+  it("uses the default cursor on options", async () => {
+    render(<TestSelect />);
+    await userEvent.click(page.getByTestId("select-trigger"));
+    expect(getComputedStyle(document.querySelector<HTMLElement>("[data-testid=option-banana]")!).cursor).toBe("default");
+  });
+
+  it("shows the check only on the selected option", async () => {
+    render(<TestSelect defaultValue="banana" />);
+    await userEvent.click(page.getByTestId("select-trigger"));
+    const opacityOf = (testId: string) =>
+      getComputedStyle(document.querySelector(`[data-testid=${testId}]`)!.querySelector("svg")!.parentElement!).opacity;
+    expect(opacityOf("option-banana")).toBe("1");
+    expect(opacityOf("option-apple")).toBe("0");
+  });
+
+  it("transitions the check in over the fast motion token when an option becomes selected", async () => {
+    render(
+      <div className="p-8">
+        {/* The wrapper types a single value, so reach multiple selection through Base UI's root. */}
+        <SelectPrimitive.Root multiple defaultValue={[]}>
+          <SelectTrigger data-testid="select-trigger" aria-label="Fruit">
+            <SelectValue placeholder="Choose" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="apple" data-testid="option-apple">
+              Apple
+            </SelectItem>
+          </SelectContent>
+        </SelectPrimitive.Root>
+      </div>
+    );
+    await userEvent.click(page.getByTestId("select-trigger"));
+    const option = document.querySelector<HTMLElement>("[data-testid=option-apple]")!;
+    const indicator = option.querySelector("svg")!.parentElement!;
+    // Asserting the declared transition plus both end states, not a running CSSTransition:
+    // under a loaded machine the 120ms transition can finish before the next frame.
+    const style = getComputedStyle(indicator);
+    const before = {opacity: style.opacity, scale: style.scale};
+    await userEvent.click(page.getByTestId("option-apple"));
+    await expect.poll(() => getComputedStyle(indicator).opacity).toBe("1");
+    expect({
+      property: style.transitionProperty.split(", ").sort(),
+      duration: style.transitionDuration,
+      before,
+      afterScale: getComputedStyle(indicator).scale,
+    }).toEqual({property: ["opacity", "scale"], duration: "0.12s", before: {opacity: "0", scale: "0.5"}, afterScale: "1"});
+  });
+
+  it("keeps a transparent background, since :read-only would mute any button", async () => {
+    render(<TestSelect />);
+    const trigger = document.querySelector<HTMLElement>("[data-testid=select-trigger]")!;
+    expect(getComputedStyle(trigger).backgroundColor).toBe("rgba(0, 0, 0, 0)");
+  });
+
   it("has no WCAG 2.2 AA violations when open", async () => {
     render(<TestSelect />);
     await userEvent.click(page.getByTestId("select-trigger"));
+    await expect.element(page.getByTestId("select-content")).toBeVisible();
+
+    expect(await axeViolations(document.body)).toEqual([]);
+  });
+
+  it("has no WCAG 2.2 AA violations with a label, a description and an error, open", async () => {
+    render(
+      <div className="p-8">
+        <Select label="Fruit" description="Pick your favourite" error="Choose a fruit">
+          <SelectTrigger data-testid="select-trigger" className="w-48">
+            <SelectValue placeholder="Choose an option" />
+          </SelectTrigger>
+          <SelectContent data-testid="select-content">
+            <SelectItem value="apple">Apple</SelectItem>
+          </SelectContent>
+        </Select>
+      </div>
+    );
+    await userEvent.click(page.getByRole("combobox", {name: "Fruit"}));
     await expect.element(page.getByTestId("select-content")).toBeVisible();
 
     expect(await axeViolations(document.body)).toEqual([]);

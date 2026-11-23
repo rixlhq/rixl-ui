@@ -1,49 +1,53 @@
+/** Either a known total (`totalCount` with the `perPage` that splits it), or an unknown one (`hasNextPage`). */
+export type PaginationTotals =
+  | {
+      /** Total number of items across all pages. */
+      totalCount: number;
+      /** Number of items per page. */
+      perPage: number;
+      /** Ignored: with a total, the last page is known. */
+      hasNextPage?: boolean;
+    }
+  | {
+      totalCount?: undefined;
+      perPage?: number;
+      /** Whether another page exists when the total is unknown. */
+      hasNextPage?: boolean;
+    };
+
 export type PaginationModel = {
-  /** 1-based requested page. */
+  /** 1-indexed requested page. */
   page?: number;
-  /** Legacy alias for `page`. */
-  currentPage?: number;
-  /** Total page count for the legacy model. */
-  totalPages?: number;
-  /** Page size for the record model (or the legacy `limit`). */
-  pageSize?: number;
-  /** Legacy alias for `pageSize`. */
-  limit?: number;
-  /** Total record count for the record model. */
   totalCount?: number;
+  perPage?: number;
+  hasNextPage?: boolean;
 };
 
 export type NormalizedPagination = {
-  /** Effective 1-based page clamped into range (0 when there are no pages). */
+  /** Effective 1-indexed page, clamped into range when the total is known. */
   page: number;
-  totalPages: number;
-  pageSize?: number;
+  perPage?: number;
   totalCount?: number;
-  /** True when the record model (`totalCount`) supplies the totals. */
-  isRecordModel: boolean;
+  /** Page count, at least 1; `undefined` when the total is unknown. */
+  totalPages?: number;
+  hasNextPage: boolean;
+  /** Items on the current page, such as `11–20`; `undefined` when the total is unknown. */
+  pageShowingRange?: string;
 };
 
-export function normalizePagination(model: PaginationModel): NormalizedPagination {
-  const {page, currentPage, totalPages, pageSize, limit, totalCount} = model;
-  const size = pageSize ?? limit;
-  const requested = page ?? currentPage ?? 1;
-  if (totalCount !== undefined) {
-    const count = Math.max(0, Math.floor(totalCount));
-    const total = size !== undefined && size > 0 ? Math.ceil(count / size) : 0;
-    return {
-      page: total === 0 ? 0 : Math.min(Math.max(1, Math.floor(requested)), total),
-      totalPages: total,
-      pageSize: size,
-      totalCount: count,
-      isRecordModel: true,
-    };
-  }
-  const total = Math.max(0, Math.floor(totalPages ?? 0));
+export function normalizePagination({page = 1, perPage, totalCount, hasNextPage = false}: PaginationModel): NormalizedPagination {
+  const requested = Math.max(1, Math.floor(page));
+  if (totalCount === undefined || !perPage) return {page: requested, perPage, hasNextPage};
+  const count = Math.max(0, Math.floor(totalCount));
+  const totalPages = Math.max(1, Math.ceil(count / perPage));
+  const current = Math.min(requested, totalPages);
+  const first = (current - 1) * perPage + 1;
   return {
-    page: total === 0 ? 0 : Math.min(Math.max(1, Math.floor(requested)), total),
-    totalPages: total,
-    pageSize: size,
-    totalCount: undefined,
-    isRecordModel: false,
+    page: current,
+    perPage,
+    totalCount: count,
+    totalPages,
+    hasNextPage: current < totalPages,
+    pageShowingRange: count === 0 ? "0–0" : `${first}–${Math.min(current * perPage, count)}`,
   };
 }

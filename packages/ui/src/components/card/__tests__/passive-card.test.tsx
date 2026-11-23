@@ -5,9 +5,9 @@ import {Card} from "../card";
 import {Button} from "../../button";
 
 describe("passive Card", () => {
-  it("leaves actions to children even with the deprecated interactive prop", () => {
+  it("leaves actions to children", () => {
     render(
-      <Card interactive data-testid="surface">
+      <Card data-testid="surface">
         <Button>Open settings</Button>
       </Card>
     );

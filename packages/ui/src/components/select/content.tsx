@@ -1,22 +1,16 @@
-import type {ComponentProps} from "react";
+import {forwardRef, type ComponentProps} from "react";
 import {Select as SelectPrimitive} from "@base-ui/react/select";
-import {cn} from "cn";
-
-import {ChevronDownIcon, ChevronUpIcon} from "./icons";
+import {ChevronDown, ChevronUp} from "lucide-react";
+import {cn} from "../../lib/cn";
+import {popupSurface} from "../../lib/classes";
 
 export type SelectContentProps = SelectPrimitive.Popup.Props &
   Pick<SelectPrimitive.Positioner.Props, "align" | "alignOffset" | "side" | "sideOffset" | "alignItemWithTrigger">;
 
-export function SelectContent({
-  className,
-  children,
-  side = "bottom",
-  sideOffset = 4,
-  align = "start",
-  alignOffset = 0,
-  alignItemWithTrigger = false,
-  ...props
-}: SelectContentProps) {
+export const SelectContent = forwardRef<HTMLDivElement, SelectContentProps>(function SelectContent(
+  {className, children, side = "bottom", sideOffset = 4, align = "start", alignOffset = 0, alignItemWithTrigger = false, ...props},
+  ref
+) {
   return (
     <SelectPrimitive.Portal>
       <SelectPrimitive.Positioner
@@ -28,13 +22,9 @@ export function SelectContent({
         className="isolate z-50"
       >
         <SelectPrimitive.Popup
+          ref={ref}
           data-slot="select-content"
-          className={cn(
-            "bg-rixl-surface text-rixl-fg relative z-50 max-h-(--available-height) min-w-[8rem] max-w-[calc(100dvw-2rem)] origin-(--transform-origin) overflow-x-hidden overflow-y-auto overscroll-contain wrap-anywhere rounded-rixl-md border border-rixl-border shadow-rixl-md",
-            "transition-[scale,opacity] duration-rixl-fast ease-rixl-out motion-reduce:transition-none",
-            "data-starting-style:scale-95 data-starting-style:opacity-0 data-ending-style:scale-95 data-ending-style:opacity-0",
-            className
-          )}
+          className={cn(popupSurface, "relative min-w-[8rem]", className)}
           {...props}
         >
           <SelectScrollUpButton />
@@ -44,32 +34,43 @@ export function SelectContent({
       </SelectPrimitive.Positioner>
     </SelectPrimitive.Portal>
   );
-}
+});
+SelectContent.displayName = "SelectContent";
 
 export type SelectScrollUpButtonProps = ComponentProps<typeof SelectPrimitive.ScrollUpArrow>;
 
-export function SelectScrollUpButton({className, ...props}: SelectScrollUpButtonProps) {
+export const SelectScrollUpButton = forwardRef<HTMLDivElement, SelectScrollUpButtonProps>(function SelectScrollUpButton(
+  {className, ...props},
+  ref
+) {
   return (
     <SelectPrimitive.ScrollUpArrow
+      ref={ref}
       data-slot="select-scroll-up-button"
       className={cn("flex cursor-default items-center justify-center py-1", className)}
       {...props}
     >
-      <ChevronUpIcon className="size-4" />
+      <ChevronUp className="size-4" />
     </SelectPrimitive.ScrollUpArrow>
   );
-}
+});
+SelectScrollUpButton.displayName = "SelectScrollUpButton";
 
 export type SelectScrollDownButtonProps = ComponentProps<typeof SelectPrimitive.ScrollDownArrow>;
 
-export function SelectScrollDownButton({className, ...props}: SelectScrollDownButtonProps) {
+export const SelectScrollDownButton = forwardRef<HTMLDivElement, SelectScrollDownButtonProps>(function SelectScrollDownButton(
+  {className, ...props},
+  ref
+) {
   return (
     <SelectPrimitive.ScrollDownArrow
+      ref={ref}
       data-slot="select-scroll-down-button"
       className={cn("flex cursor-default items-center justify-center py-1", className)}
       {...props}
     >
-      <ChevronDownIcon className="size-4" />
+      <ChevronDown className="size-4" />
     </SelectPrimitive.ScrollDownArrow>
   );
-}
+});
+SelectScrollDownButton.displayName = "SelectScrollDownButton";

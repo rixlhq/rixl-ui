@@ -1,7 +1,13 @@
 import {describe, it, expect, vi} from "vitest";
 import fc from "fast-check";
 import {render, screen} from "@testing-library/react";
+import {forwardRef, memo} from "react";
 import {Button, buttonVariants} from "../button";
+
+const PlusIcon = () => <svg data-testid="icon" />;
+const RefPlusIcon = forwardRef<SVGSVGElement>((_props, ref) => <svg ref={ref} data-testid="icon" />);
+RefPlusIcon.displayName = "RefPlusIcon";
+const MemoPlusIcon = memo(PlusIcon);
 
 describe("Button", () => {
   it("renders as a native <button>", () => {
@@ -15,7 +21,7 @@ describe("Button", () => {
     expect(screen.getByRole("button")).toHaveAttribute("data-slot", "button");
   });
 
-  it("applies the default variant classes by default", () => {
+  it("applies the primary variant classes by default", () => {
     render(<Button>Save</Button>);
     expect(screen.getByRole("button").className).toContain("bg-rixl-primary");
   });
@@ -23,6 +29,19 @@ describe("Button", () => {
   it("respects an explicit variant", () => {
     render(<Button variant="destructive">Delete</Button>);
     expect(screen.getByRole("button").className).toContain("bg-rixl-danger");
+  });
+
+  it("applies the primary variant when asked for it by name", () => {
+    render(<Button variant="primary">Save</Button>);
+    expect(screen.getByRole("button").className).toContain("bg-rixl-primary");
+  });
+
+  it("styles secondary-destructive as danger text on the secondary surface", () => {
+    render(<Button variant="secondary-destructive">Remove</Button>);
+    const cls = screen.getByRole("button").className;
+    expect(cls).toContain("text-rixl-danger");
+    expect(cls).toContain("bg-rixl-secondary");
+    expect(cls).not.toContain("bg-rixl-danger");
   });
 
   it("respects the sm size", () => {
@@ -35,9 +54,14 @@ describe("Button", () => {
     expect(screen.getByRole("button").className).toContain("h-10");
   });
 
-  it("respects the icon size", () => {
-    render(<Button size="icon" aria-label="Search" />);
-    expect(screen.getByRole("button").className).toContain("size-9");
+  it("defaults to the base size", () => {
+    render(<Button>Save</Button>);
+    expect(screen.getByRole("button").className).toContain("h-9");
+  });
+
+  it("respects the xs size", () => {
+    render(<Button size="xs">Save</Button>);
+    expect(screen.getByRole("button").className).toContain("h-7");
   });
 
   it("forwards additional className without dropping variant classes", () => {
@@ -47,9 +71,24 @@ describe("Button", () => {
     expect(btn.className).toContain("bg-rixl-primary");
   });
 
+  it("lets a consumer radius replace the medium radius", () => {
+    render(<Button className="rounded-full">Pill</Button>);
+    const cls = screen.getByRole("button").className;
+    expect(cls).toContain("rounded-full");
+    expect(cls).not.toMatch(/(?<![:\w-])rounded-md(?![\w-])/);
+  });
+
+  it("is rounded with the medium radius at every size", () => {
+    for (const size of ["xs", "sm", "base", "lg"] as const) {
+      const {unmount} = render(<Button size={size}>Save</Button>);
+      expect(screen.getByRole("button").className).toMatch(/(?<![:\w-])rounded-md(?![\w-])/);
+      unmount();
+    }
+  });
+
   it("last-write-wins on conflicting Tailwind utilities via cn", () => {
     render(
-      <Button size="default" className="h-14">
+      <Button size="base" className="h-14">
         Tall
       </Button>
     );
@@ -92,9 +131,58 @@ describe("Button", () => {
     expect(onClick).not.toHaveBeenCalled();
   });
 
+  describe("icon", () => {
+    it("renders an icon component before the children", () => {
+      render(<Button icon={PlusIcon}>Create</Button>);
+      const btn = screen.getByRole("button", {name: "Create"});
+      expect(btn.firstElementChild).toBe(screen.getByTestId("icon"));
+      expect(btn.lastChild?.textContent).toBe("Create");
+    });
+
+    it("renders a forwardRef icon component", () => {
+      render(<Button icon={RefPlusIcon}>Create</Button>);
+      expect(screen.getByTestId("icon")).toBeInTheDocument();
+    });
+
+    it("renders a memo icon component", () => {
+      render(<Button icon={MemoPlusIcon}>Create</Button>);
+      expect(screen.getByTestId("icon")).toBeInTheDocument();
+    });
+
+    it("renders an icon element as given", () => {
+      render(<Button icon={<svg data-testid="icon" className="custom" />}>Create</Button>);
+      expect(screen.getByTestId("icon")).toHaveClass("custom");
+    });
+
+    it("renders text given as the icon", () => {
+      render(<Button icon="★">Star</Button>);
+      expect(screen.getByRole("button").textContent).toBe("★Star");
+    });
+
+    it("renders only the icon for an icon-only button", () => {
+      render(<Button shape="square" icon={PlusIcon} aria-label="Add" />);
+      expect(screen.getByRole("button", {name: "Add"}).querySelector("svg")).not.toBeNull();
+    });
+
+    it("renders nothing for a missing icon", () => {
+      render(<Button icon={null}>Create</Button>);
+      expect(screen.getByRole("button").querySelector("svg")).toBeNull();
+    });
+
+    it("swaps the icon for the spinner while loading", () => {
+      render(
+        <Button icon={PlusIcon} loading>
+          Create
+        </Button>
+      );
+      expect(screen.queryByTestId("icon")).toBeNull();
+      expect(document.querySelectorAll("[data-slot='button-spinner']")).toHaveLength(1);
+    });
+  });
+
   it("renders as a non-button element via `render`", () => {
     render(
-      <Button render={<a href="/somewhere" />} variant="link">
+      <Button render={<a href="/somewhere" />} variant="ghost">
         Link
       </Button>
     );
@@ -117,7 +205,7 @@ describe("Button", () => {
     it("collapses the shadow on press so the surface reads as depressed", () => {
       render(<Button>Save</Button>);
       const cls = screen.getByRole("button").className;
-      expect(cls).toContain("shadow-rixl-xs");
+      expect(cls).toContain("shadow-xs");
       expect(cls).toContain("active:shadow-none");
     });
 
@@ -126,18 +214,11 @@ describe("Button", () => {
       expect(screen.getByRole("button").className).toContain("active:scale-[var(--rixl-press-scale-lg)]");
     });
 
-    // Scaling inline text against surrounding copy looks broken, so `link`
-    // signals the press with colour alone.
-    it("opts the link variant out of the press transform", () => {
-      render(<Button variant="link">Docs</Button>);
-      expect(screen.getByRole("button").className).toContain("active:scale-100");
-    });
-
     it("does not jump or lift on hover", () => {
       render(<Button>Save</Button>);
       const cls = screen.getByRole("button").className;
       expect(cls).not.toContain("hover:-translate-y");
-      expect(cls).not.toContain("hover:shadow-rixl-sm");
+      expect(cls).not.toContain("hover:shadow-sm");
     });
 
     it("drops the transform but keeps colour under reduced motion", () => {
@@ -159,44 +240,61 @@ describe("Button", () => {
     });
   });
 
-  describe("fumadocs-compatible API", () => {
-    it("accepts `color` as an alias for `variant`", () => {
-      render(<Button color="destructive">Delete</Button>);
-      expect(screen.getByRole("button").className).toContain("bg-rixl-danger");
+  describe("shape", () => {
+    it("is a rectangle with padding by default", () => {
+      render(<Button>Save</Button>);
+      const cls = screen.getByRole("button").className;
+      expect(cls).toContain("px-4");
+      expect(cls).not.toContain("size-9");
     });
 
-    it("maps fumadocs `primary` onto the default variant", () => {
-      render(<Button color="primary">Go</Button>);
-      expect(screen.getByRole("button").className).toContain("bg-rixl-primary");
+    it("makes a square the size's height on both axes with no padding", () => {
+      for (const [size, box] of [
+        ["xs", "size-7"],
+        ["sm", "size-8"],
+        ["base", "size-9"],
+        ["lg", "size-10"],
+      ] as const) {
+        const {unmount} = render(<Button shape="square" size={size} aria-label="Search" />);
+        const cls = screen.getByRole("button").className;
+        expect(cls).toContain(box);
+        expect(cls).toContain("p-0");
+        expect(cls).not.toMatch(/(?<![:\w-])px-\d/);
+        unmount();
+      }
     });
 
-    it("prefers `variant` when both are supplied", () => {
-      render(
-        <Button variant="destructive" color="primary">
-          Delete
-        </Button>
-      );
-      expect(screen.getByRole("button").className).toContain("bg-rixl-danger");
+    it("squares the base size when no size is given", () => {
+      render(<Button shape="square" aria-label="Search" />);
+      expect(screen.getByRole("button").className).toContain("size-9");
     });
 
-    // <button> has a deprecated HTML `color` attribute, so components that
-    // spread native button props (Calendar's day button) can pass anything.
-    it("ignores a `color` value that is not a known variant", () => {
-      render(<Button color="#ff0000">Save</Button>);
-      const btn = screen.getByRole("button");
-      expect(btn.className).toContain("bg-rixl-primary");
-      expect(btn).not.toHaveAttribute("color");
+    it("rounds a circle fully instead of with the medium radius", () => {
+      render(<Button shape="circle" aria-label="Add" />);
+      const cls = screen.getByRole("button").className;
+      expect(cls).toContain("rounded-full");
+      expect(cls).toContain("size-9");
+      expect(cls).not.toMatch(/(?<![:\w-])rounded-md(?![\w-])/);
     });
 
-    it("supports the icon-sm size", () => {
-      render(<Button size="icon-sm" aria-label="Search" />);
-      expect(screen.getByRole("button").className).toContain("size-8");
+    it("lets a consumer size replace the square's box", () => {
+      render(<Button shape="square" className="size-12" aria-label="Search" />);
+      const cls = screen.getByRole("button").className;
+      expect(cls).toContain("size-12");
+      expect(cls).not.toContain("size-9");
     });
 
-    it("supports the icon-xs size", () => {
-      render(<Button size="icon-xs" aria-label="Search" />);
-      expect(screen.getByRole("button").className).toContain("size-7");
+    it("keeps the icon at 14px on xs and 16px on larger sizes unless the icon sets its own size", () => {
+      const {rerender} = render(<Button shape="square" size="xs" aria-label="Search" />);
+      expect(screen.getByRole("button").className).toContain("[&_svg:not([class*='size-'])]:size-3.5");
+      rerender(<Button shape="square" size="lg" aria-label="Search" />);
+      expect(screen.getByRole("button").className).toContain("[&_svg:not([class*='size-'])]:size-4");
     });
+  });
+
+  it("does not restyle for the native color attribute", () => {
+    render(<Button color="destructive">Delete</Button>);
+    expect(screen.getByRole("button").className).not.toContain("bg-rixl-danger");
   });
 
   it("exports a buttonVariants helper that returns a class string", () => {
@@ -205,8 +303,7 @@ describe("Button", () => {
 });
 
 describe("[property] Button class resolution", () => {
-  const variants = ["default", "destructive", "outline", "secondary", "ghost", "link"] as const;
-  const knownColors = new Set<string>([...variants, "primary"]);
+  const variants = ["primary", "destructive", "outline", "secondary", "secondary-destructive", "ghost"] as const;
   const classOf = (element: React.ReactElement) => {
     const {getByRole, unmount} = render(element);
     const className = getByRole("button").className;
@@ -214,7 +311,7 @@ describe("[property] Button class resolution", () => {
     return className;
   };
 
-  it("variant wins over any color", {timeout: 10000}, () => {
+  it("a native color attribute never changes the classes", {timeout: 10000}, () => {
     fc.assert(
       fc.property(fc.constantFrom(...variants), fc.string(), (variant, color) => {
         expect(classOf(<Button variant={variant} color={color} />)).toBe(classOf(<Button variant={variant} />));
@@ -223,21 +320,21 @@ describe("[property] Button class resolution", () => {
     );
   });
 
-  it("an unknown color falls back to the default variant", {timeout: 10000}, () => {
+  it("a square is always exactly one size-<n> box", {timeout: 10000}, () => {
     fc.assert(
-      fc.property(
-        fc.string().filter((color) => !knownColors.has(color)),
-        (color) => {
-          expect(classOf(<Button color={color} />)).toBe(classOf(<Button />));
-        }
-      ),
+      fc.property(fc.constantFrom("xs", "sm", "base", "lg"), fc.constantFrom("square", "circle"), (size, shape) => {
+        const boxes = classOf(<Button size={size} shape={shape} aria-label="Go" />)
+          .split(" ")
+          .filter((token) => /^size-\d/.test(token));
+        expect(boxes).toHaveLength(1);
+      }),
       {numRuns: 30}
     );
   });
 
   it("a consumer height replaces the size's height", {timeout: 10000}, () => {
     fc.assert(
-      fc.property(fc.constantFrom("default", "sm", "lg"), fc.integer({min: 1, max: 96}), (size, height) => {
+      fc.property(fc.constantFrom("xs", "sm", "base", "lg"), fc.integer({min: 1, max: 96}), (size, height) => {
         const heights = classOf(<Button size={size} className={`h-${height}`} />)
           .split(" ")
           .filter((token) => /^h-\d+$/.test(token));

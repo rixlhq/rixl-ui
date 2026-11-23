@@ -351,9 +351,16 @@ body {
 .docs-skip-link:focus {
   transform: translate(-50%, 0);
 }
-.docs-shell :focus-visible {
-  outline: 2px solid var(--rixl-ring);
-  outline-offset: 3px;
+/*
+ * A fallback ring for docs chrome. In the base layer so a component's own
+ * focus utilities (e.g. InputGroupInput's outline-none inside a group that
+ * draws the ring) win; unlayered, it beat every utility layer.
+ */
+@layer base {
+  .docs-shell :focus-visible {
+    outline: 2px solid var(--rixl-ring);
+    outline-offset: 3px;
+  }
 }
 @media (max-width: 1200px) {
   .docs-example-picker {
@@ -413,7 +420,7 @@ body {
 }
 .docs-mini-sidebar {
   width: 30%;
-  border-right: 1px solid var(--rixl-border);
+  border-inline-end: 1px solid var(--rixl-border);
   background: var(--rixl-bg);
   padding: 1rem 0.75rem;
 }
@@ -491,7 +498,6 @@ body {
     padding: 0;
     justify-content: center;
   }
-  .docs-search-trigger > span,
   .docs-search-trigger kbd {
     display: none;
   }

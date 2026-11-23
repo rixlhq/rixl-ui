@@ -1,3 +1,4 @@
+import {createRef} from "react";
 import {describe, it, expect} from "vitest";
 import {render, screen} from "@testing-library/react";
 import {Table, TableHeader, TableBody, TableFooter, TableRow, TableHead, TableCell, TableCaption} from "../table";
@@ -106,5 +107,69 @@ describe("Table", () => {
     );
     const container = document.querySelector("[data-slot='table-container']");
     expect(container!.className).toContain("overflow-x-auto");
+  });
+
+  it("styles a row with aria-selected as selected", () => {
+    render(
+      <Table>
+        <TableBody>
+          <TableRow aria-selected="true" data-testid="row">
+            <TableCell>x</TableCell>
+          </TableRow>
+        </TableBody>
+      </Table>
+    );
+    expect(screen.getByTestId("row").className).toContain("aria-selected:bg-rixl-surface-muted");
+  });
+
+  it("forwards a ref from each part to its element", () => {
+    const refs = {
+      table: createRef<HTMLTableElement>(),
+      header: createRef<HTMLTableSectionElement>(),
+      body: createRef<HTMLTableSectionElement>(),
+      footer: createRef<HTMLTableSectionElement>(),
+      row: createRef<HTMLTableRowElement>(),
+      head: createRef<HTMLTableCellElement>(),
+      cell: createRef<HTMLTableCellElement>(),
+      caption: createRef<HTMLTableCaptionElement>(),
+    };
+    render(
+      <Table ref={refs.table}>
+        <TableCaption ref={refs.caption}>Roster</TableCaption>
+        <TableHeader ref={refs.header}>
+          <TableRow ref={refs.row}>
+            <TableHead ref={refs.head}>Name</TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody ref={refs.body}>
+          <TableRow>
+            <TableCell ref={refs.cell}>Alice</TableCell>
+          </TableRow>
+        </TableBody>
+        <TableFooter ref={refs.footer}>
+          <TableRow>
+            <TableCell>Total</TableCell>
+          </TableRow>
+        </TableFooter>
+      </Table>
+    );
+    const tags = Object.fromEntries(Object.entries(refs).map(([name, ref]) => [name, ref.current?.tagName]));
+    expect(tags).toEqual({
+      table: "TABLE",
+      header: "THEAD",
+      body: "TBODY",
+      footer: "TFOOT",
+      row: "TR",
+      head: "TH",
+      cell: "TD",
+      caption: "CAPTION",
+    });
+  });
+
+  it("names every part for devtools", () => {
+    const names = [Table, TableHeader, TableBody, TableFooter, TableRow, TableHead, TableCell, TableCaption].map(
+      (part) => part.displayName
+    );
+    expect(names).toEqual(["Table", "TableHeader", "TableBody", "TableFooter", "TableRow", "TableHead", "TableCell", "TableCaption"]);
   });
 });

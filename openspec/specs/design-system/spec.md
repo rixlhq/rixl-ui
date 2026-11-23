@@ -22,26 +22,41 @@ The package SHALL expose every component at `@rixl/ui/<component>`, built as its
 
 ### Requirement: A consumer's classes win
 
-A component SHALL merge a consumer's `className` after its own classes, so a conflicting utility from the consumer replaces the component's.
+A component SHALL merge a consumer's `className` after its own classes, so a conflicting standard Tailwind utility from the consumer replaces the component's. The merge is `cn` from `src/lib/cn.ts`, which re-exports the `cn` package unchanged: no generated tables, no configuration.
 
 #### Scenario: Conflicting height
 
 - **WHEN** a `Button` of any size gets `className="h-<n>"`
 - **THEN** the rendered element carries `h-<n>` and no other height utility (`button.test.tsx`, `[property] a consumer height replaces the size's height`)
 
-### Requirement: Button resolves its look from `variant`, then `color`
+#### Scenario: Token utilities are replaced
 
-`Button` SHALL use `variant` when it is given, otherwise a known `color`, otherwise the default variant.
+- **WHEN** a consumer passes a standard radius, shadow or easing class (`rounded-full`, `shadow-none`, `ease-linear`) to a component whose default is the same kind of utility (`rounded-md`, `shadow-xs`, `ease-out`)
+- **THEN** the rendered element carries the consumer's class and not the component's, because radii, shadows and easing are registered on Tailwind's standard theme keys and `cn` merges them
+- **AND** the browser resolves the consumer's radius or shadow (`composed-overrides.browser.test.tsx`)
 
-#### Scenario: Both given
+### Requirement: Button resolves its look from `variant` alone
 
-- **WHEN** a `Button` gets a `variant` and any `color`
-- **THEN** it renders exactly as with that `variant` alone (`[property] variant wins over any color`)
+`Button` SHALL take its look from `variant`, defaulting to `primary`. The `color` alias is removed, and a native `color` attribute SHALL NOT change the classes.
 
-#### Scenario: Unknown color
+#### Scenario: A color attribute is ignored
 
-- **WHEN** a `Button` gets a `color` that is not one of its variants, including an inherited object key such as `toString`
-- **THEN** it renders as the default variant (`[property] an unknown color falls back to the default variant`)
+- **WHEN** a `Button` gets any `variant` and any `color` string
+- **THEN** it renders exactly as with that `variant` alone (`[property] a native color attribute never changes the classes`)
+
+### Requirement: Feedback tints share one recipe and meet AA
+
+Alert, Badge and Toaster SHALL tint success, warning and danger with a 10% fill and a 30% border of the feedback token (`feedbackTint` in `src/lib/classes.ts`; Toaster mixes the same shares), and their text SHALL keep at least 4.5:1 on that fill in the light and dark themes.
+
+#### Scenario: Text on the tint
+
+- **WHEN** an Alert title and description, a Badge (also hovered as a link) and a Toaster title and description render each feedback colour
+- **THEN** each text colour is at least 4.5:1 on its fill (`feedback-tint.browser.test.tsx`, `keeps … at 4.5:1`)
+
+#### Scenario: One fill
+
+- **WHEN** Alert, Badge and Toaster render the same feedback colour on the same surface
+- **THEN** the painted fills differ by at most one unit per channel (`feedback-tint.browser.test.tsx`, `draws the same fill`)
 
 ### Requirement: Open popups meet WCAG 2.2 AA
 
@@ -54,7 +69,7 @@ Dialog, dropdown menu, popover, select and sheet SHALL have no axe-detectable WC
 
 #### Scenario: Danger text contrast
 
-- **WHEN** a destructive menu item renders its text in `--rixl-danger` on the light surface
+- **WHEN** a danger menu item renders its text in `--rixl-danger` on the light surface
 - **THEN** the contrast is at least 4.5:1 (`dropdown-menu.browser.test.tsx`)
 
 #### Scenario: Select needs a name from the consumer

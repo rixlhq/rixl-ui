@@ -1,22 +1,11 @@
 import {createContext} from "react";
+import type {NormalizedPagination} from "./normalize-pagination";
+import type {PaginationLabels} from "./pagination-labels";
 
-export type PaginationContextValue = {
-  /** 1-based effective page, clamped into range (0 when there are no pages). */
-  page: number;
-  /** Total page count (0 when empty). */
-  totalPages: number;
-  /** Page size when the record model is used. */
-  pageSize?: number;
-  /** Total record count when the record model is used. */
-  totalCount?: number;
-  /** True when the record model (`totalCount`) supplies the totals. */
-  isRecordModel: boolean;
-  /** Called with the 1-based target page. */
-  onPageChange: (page: number) => void;
-  firstLabel: string;
-  prevLabel: string;
-  nextLabel: string;
-  lastLabel: string;
+export type PaginationContextValue = NormalizedPagination & {
+  /** Called with the 1-indexed target page. */
+  setPage: (page: number) => void;
+  labels: PaginationLabels;
 };
 
 export const PaginationContext = createContext<PaginationContextValue | null>(null);

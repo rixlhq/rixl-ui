@@ -16,10 +16,10 @@ A commit records claims: the message and the code. Only commit what has been che
 
 ## Hooks
 
-Lefthook runs them (`lefthook.yml` at the repo root, installed by the root `prepare`, using the version pinned in the root `package.json`). Every command sets `root: packages/ui/`, so it runs there with staged paths relative to it.
+Lefthook runs them (`lefthook.yml` at the repo root, installed by the root `prepare`, using the version pinned in the root `package.json`). Every command except `check` sets `root: packages/ui/`, so it runs there with staged paths relative to it; `check` runs at the repository root because the shared lint and format config covers `apps/` too.
 
-- **pre-commit**, in order, stopping at the first failure: `vp check --fix` on staged files (fixes are re-staged); `vp run lint:suppressions`; and `vp test related` on the staged files (unit project).
-- **pre-push:** the whole test suite (unit and browser), `vp pack`, `vp run knip`, and React Doctor on changed components.
+- **pre-commit**, in order, stopping at the first failure: `vp check --fix` across the workspace (fixes are re-staged); `vpr lint:suppressions`; and `vp test related` on the staged files (unit project).
+- **pre-push:** the whole UI test suite (unit and browser), the docs app tests (unit and browser), `vp pack`, `vpr knip`, and React Doctor on changed components.
 
 Every job reads stdin from `/dev/null`, so a hidden prompt can't block it, and the slow ones have a `timeout`, so a stuck run fails the hook instead of hanging it.
 

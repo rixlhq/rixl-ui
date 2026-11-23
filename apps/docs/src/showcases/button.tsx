@@ -6,7 +6,7 @@ export const path = "button";
 export const title = "Button";
 export const description = "Trigger an action or navigate to another page.";
 export const notes =
-  "Primary action primitive. Six variants, six sizes, token-driven press feedback, and a fumadocs-compatible `color` alias so dashboard, docs and landing share one button.";
+  "Primary action primitive. Six variants, four sizes, three shapes, an icon, a tooltip title, token-driven press feedback, and a loading state.";
 
 export function Showcase() {
   return (
@@ -28,21 +28,18 @@ function PressExample() {
   return (
     <div className="space-y-6">
       <Group label="Press — every variant depresses and drops its shadow">
-        <Button>Default</Button>
+        <Button>Primary</Button>
         <Button variant="secondary">Secondary</Button>
         <Button variant="outline">Outline</Button>
         <Button variant="destructive">Destructive</Button>
+        <Button variant="secondary-destructive">Secondary destructive</Button>
         <Button variant="ghost">Ghost</Button>
       </Group>
 
       <Group label="Amplitude by size — lg presses shallower so the travel reads the same">
         <Button size="sm">Small · 0.97</Button>
-        <Button>Default · 0.97</Button>
+        <Button>Base · 0.97</Button>
         <Button size="lg">Large · 0.98</Button>
-      </Group>
-
-      <Group label="Link opts out — scaling inline text against copy looks broken">
-        <Button variant="link">Press me, I only change colour</Button>
       </Group>
 
       <p className="text-sm text-rixl-fg-muted">
@@ -58,12 +55,12 @@ function PressExample() {
 function VariantGridExample() {
   return (
     <Group>
-      <Button>Default</Button>
+      <Button>Primary</Button>
       <Button variant="secondary">Secondary</Button>
       <Button variant="outline">Outline</Button>
       <Button variant="ghost">Ghost</Button>
       <Button variant="destructive">Destructive</Button>
-      <Button variant="link">Link</Button>
+      <Button variant="secondary-destructive">Secondary destructive</Button>
     </Group>
   );
 }
@@ -71,41 +68,71 @@ function VariantGridExample() {
 function SizesExample() {
   return (
     <div className="space-y-6">
-      <Group label="Text sizes">
+      <Group label="Sizes">
+        <Button size="xs">Extra small</Button>
         <Button size="sm">Small</Button>
-        <Button size="default">Default</Button>
+        <Button size="base">Base</Button>
         <Button size="lg">Large</Button>
       </Group>
-      <Group label="Icon sizes — icon-sm and icon-xs exist for docs/landing density">
-        <Button size="icon" aria-label="Search">
+      <Group label="Square — one box per size, for icon-only buttons">
+        <Button shape="square" size="xs" variant="ghost" aria-label="Search">
           <SearchIcon />
         </Button>
-        <Button size="icon-sm" variant="outline" aria-label="Search">
+        <Button shape="square" size="sm" variant="outline" aria-label="Search">
           <SearchIcon />
         </Button>
-        <Button size="icon-xs" variant="ghost" aria-label="Search">
+        <Button shape="square" aria-label="Search">
           <SearchIcon />
+        </Button>
+        <Button shape="square" size="lg" aria-label="Search">
+          <SearchIcon />
+        </Button>
+      </Group>
+      <Group label="Circle">
+        <Button shape="circle" variant="outline" aria-label="Add">
+          <PlusIcon />
+        </Button>
+        <Button shape="circle" aria-label="Add">
+          <PlusIcon />
         </Button>
       </Group>
     </div>
   );
 }
 
-function CrossAppExample() {
+function IconExample() {
   return (
     <div className="space-y-6">
-      <Group label="Same button, two naming conventions">
-        <Button variant="default">variant=&quot;default&quot;</Button>
-        <Button color="primary">color=&quot;primary&quot;</Button>
+      <Group label="Icon — a component or a node, rendered before the label">
+        <Button icon={PlusIcon}>Create project</Button>
+        <Button variant="outline" icon={<SearchIcon />}>
+          Search
+        </Button>
       </Group>
-      <p className="text-sm text-rixl-fg-muted">
-        Dashboard call sites say <code className="text-rixl-fg">variant</code>; fumadocs — which docs and landing are built on — passes{" "}
-        <code className="text-rixl-fg">color</code> from its own internals. Both render identically, and{" "}
-        <code className="text-rixl-fg">variant</code> wins when both are supplied. A <code className="text-rixl-fg">color</code> that is not
-        a known variant (the deprecated HTML <code className="text-rixl-fg">color</code> attribute, which Calendar&apos;s day button
-        spreads) is ignored rather than applied.
-      </p>
+      <Group label="Icon only — square or circle, named with aria-label">
+        <Button shape="square" variant="outline" icon={SearchIcon} aria-label="Search" />
+        <Button shape="circle" icon={PlusIcon} aria-label="Add" />
+      </Group>
+      <Group label="Loading — the spinner replaces the icon">
+        <Button icon={PlusIcon} loading>
+          Creating
+        </Button>
+      </Group>
     </div>
+  );
+}
+
+function TitleExample() {
+  return (
+    <Group label="Title — a tooltip, and the accessible name of an icon-only button">
+      <Button shape="square" variant="outline" icon={SearchIcon} title="Search" />
+      <Button variant="secondary" title="Create a project in the current workspace" icon={PlusIcon}>
+        Create
+      </Button>
+      <Button variant="outline" title="Available on the Pro plan" disabled>
+        Upgrade
+      </Button>
+    </Group>
   );
 }
 
@@ -146,7 +173,7 @@ function StatesExample() {
 function PolymorphicExample() {
   return (
     <Group label="Polymorphic (render={<a/>})">
-      <Button render={<a href="https://rixl.com" target="_blank" rel="noreferrer" aria-label="Open rixl.com" />} variant="link">
+      <Button render={<a href="https://rixl.com" target="_blank" rel="noreferrer" aria-label="Open rixl.com" />} variant="ghost">
         Open rixl.com
       </Button>
       <Button
@@ -165,12 +192,12 @@ export const examples: Example[] = [
     title: "Variants",
     description: "All six variants side by side.",
     render: VariantGridExample,
-    code: `<Button>Default</Button>
+    code: `<Button>Primary</Button>
 <Button variant="secondary">Secondary</Button>
 <Button variant="outline">Outline</Button>
 <Button variant="ghost">Ghost</Button>
 <Button variant="destructive">Destructive</Button>
-<Button variant="link">Link</Button>`,
+<Button variant="secondary-destructive">Secondary destructive</Button>`,
   },
   {
     id: "press",
@@ -184,35 +211,42 @@ export const examples: Example[] = [
 /* button.tsx */
 active:scale-[var(--rixl-press-scale)]
 motion-reduce:active:scale-100
-shadow-rixl-xs active:shadow-none
+shadow-xs active:shadow-none
 transition-[scale,background-color,box-shadow,border-color,color]
-duration-rixl-fast ease-rixl-out`,
+duration-(--rixl-motion-fast) ease-out`,
   },
   {
     id: "sizes",
     title: "Sizes",
-    description: "All six supported sizes side-by-side.",
+    description: "Four sizes, plus square and circle shapes for icon-only buttons.",
     render: SizesExample,
-    code: `<Button size="sm">Small</Button>
-<Button size="default">Default</Button>
+    code: `<Button size="xs">Extra small</Button>
+<Button size="sm">Small</Button>
+<Button size="base">Base</Button>
 <Button size="lg">Large</Button>
-<Button size="icon" aria-label="Search"><SearchIcon /></Button>
-<Button size="icon-sm" aria-label="Search"><SearchIcon /></Button>
-<Button size="icon-xs" aria-label="Search"><SearchIcon /></Button>`,
+<Button shape="square" aria-label="Search"><SearchIcon /></Button>
+<Button shape="square" size="sm" aria-label="Search"><SearchIcon /></Button>
+<Button shape="circle" aria-label="Add"><PlusIcon /></Button>`,
   },
   {
-    id: "cross-app",
-    title: "Cross-app API",
-    description: "One button for dashboard, docs and landing.",
-    render: CrossAppExample,
-    code: `// dashboard (shadcn-shaped)
-<Button variant="default">Save</Button>
-
-// docs / landing (fumadocs passes \`color\`)
-<Button color="primary">Save</Button>
-
-// \`variant\` wins when both are given
-<Button variant="destructive" color="primary">Delete</Button>`,
+    id: "icon",
+    title: "Icon",
+    description: "Pass an icon component or a node; it renders before the label and gives way to the spinner while loading.",
+    render: IconExample,
+    code: `<Button icon={PlusIcon}>Create project</Button>
+<Button variant="outline" icon={<SearchIcon />}>Search</Button>
+<Button shape="square" icon={SearchIcon} aria-label="Search" />
+<Button icon={PlusIcon} loading>Creating</Button>`,
+  },
+  {
+    id: "title",
+    title: "Title",
+    description:
+      "Wraps the button in a tooltip. A string title also names a button that has no text, and a disabled button keeps its tooltip.",
+    render: TitleExample,
+    code: `<Button shape="square" icon={SearchIcon} title="Search" />
+<Button icon={PlusIcon} title="Create a project in the current workspace">Create</Button>
+<Button title="Available on the Pro plan" disabled>Upgrade</Button>`,
   },
   {
     id: "states",
@@ -228,7 +262,7 @@ duration-rixl-fast ease-rixl-out`,
     title: "Polymorphic",
     description: "Render as a different element while keeping button styling.",
     render: PolymorphicExample,
-    code: `<Button render={<a href="https://rixl.com" />} variant="link">
+    code: `<Button render={<a href="https://rixl.com" />} variant="ghost">
   Open rixl.com
 </Button>`,
   },

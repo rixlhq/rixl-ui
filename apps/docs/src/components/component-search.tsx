@@ -1,6 +1,6 @@
 import {useEffect, useRef, useState} from "react";
 import {Button} from "@rixl/ui/button";
-import {Input} from "@rixl/ui/input";
+import {InputGroup, InputGroupAddon, InputGroupInput} from "@rixl/ui/input-group";
 import {Popover, PopoverContent, PopoverTrigger} from "@rixl/ui/popover";
 import {matchesShowcase} from "../hooks/use-hash-route";
 import {showcases} from "../showcases/registry";
@@ -39,9 +39,9 @@ export function ComponentSearch() {
     >
       <PopoverTrigger
         render={
-          <Button ref={triggerRef} variant="outline" size="sm" className="docs-search-trigger" aria-label="Search components">
+          <Button ref={triggerRef} variant="outline" size="sm" className="docs-search-trigger">
             <SearchIcon />
-            <span>Search components</span>
+            <span className="max-[540px]:sr-only">Search components</span>
             <kbd aria-hidden="true">⌘ K</kbd>
           </Button>
         }
@@ -58,24 +58,28 @@ export function ComponentSearch() {
         className="docs-search-popup p-0 transition-none"
       >
         <div className="p-3 border-b border-rixl-border">
-          <Input
-            ref={inputRef}
-            value={query}
-            onChange={(event) => setQuery(event.target.value)}
-            aria-label="Search components"
-            placeholder="Find a component…"
-            startIcon={<SearchIcon />}
-            onKeyDown={(event) => {
-              if (event.key === "ArrowDown") {
-                event.preventDefault();
-                resultsRef.current?.querySelector("a")?.focus();
-              }
-              if (event.key === "Enter") {
-                event.preventDefault();
-                resultsRef.current?.querySelector("a")?.click();
-              }
-            }}
-          />
+          <InputGroup>
+            <InputGroupAddon>
+              <SearchIcon />
+            </InputGroupAddon>
+            <InputGroupInput
+              ref={inputRef}
+              value={query}
+              onChange={(event) => setQuery(event.target.value)}
+              aria-label="Search components"
+              placeholder="Find a component…"
+              onKeyDown={(event) => {
+                if (event.key === "ArrowDown") {
+                  event.preventDefault();
+                  resultsRef.current?.querySelector("a")?.focus();
+                }
+                if (event.key === "Enter") {
+                  event.preventDefault();
+                  resultsRef.current?.querySelector("a")?.click();
+                }
+              }}
+            />
+          </InputGroup>
         </div>
         <nav ref={resultsRef} aria-label="Component results" className="docs-search-results">
           {results.length ? (

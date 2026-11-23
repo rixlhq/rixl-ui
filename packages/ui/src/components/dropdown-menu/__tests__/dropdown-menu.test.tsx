@@ -24,7 +24,7 @@ function Basic({open}: {open?: boolean} = {}) {
         <DropdownMenuLabel>My Account</DropdownMenuLabel>
         <DropdownMenuItem>Profile</DropdownMenuItem>
         <DropdownMenuSeparator />
-        <DropdownMenuItem variant="destructive">Delete</DropdownMenuItem>
+        <DropdownMenuItem variant="danger">Delete</DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );
@@ -53,18 +53,40 @@ describe("DropdownMenu", () => {
     await act(async () => {});
     const cls = screen.getByTestId("content").className;
     expect(cls).toContain("bg-rixl-surface");
-    expect(cls).toContain("rounded-rixl-md");
+    expect(cls).toContain("rounded-md");
     expect(cls).toContain("border-rixl-border");
-    expect(cls).toContain("shadow-rixl-md");
+    expect(cls).toContain("shadow-md");
     expect(cls).toContain("min-w-[8rem]");
   });
 
-  it("marks destructive items with data-variant and danger text", async () => {
+  it("raises a sub-menu popup with the large shadow in place of the menu's", async () => {
+    render(
+      <DropdownMenu open>
+        <DropdownMenuTrigger render={<button type="button">Open</button>} />
+        <DropdownMenuContent data-testid="menu">
+          <DropdownMenuSub open>
+            <DropdownMenuSubTrigger>More</DropdownMenuSubTrigger>
+            <DropdownMenuSubContent data-testid="submenu">
+              <DropdownMenuItem>Nested item</DropdownMenuItem>
+            </DropdownMenuSubContent>
+          </DropdownMenuSub>
+        </DropdownMenuContent>
+      </DropdownMenu>
+    );
+    await act(async () => {});
+    const sub = screen.getByTestId("submenu");
+    expect(sub.className).toContain("shadow-lg");
+    expect(sub.className).not.toContain("shadow-md");
+    expect(sub).toHaveAttribute("data-slot", "dropdown-menu-sub-content");
+    expect(screen.getByTestId("menu").className).not.toContain("shadow-lg");
+  });
+
+  it("marks danger items with data-variant and danger text", async () => {
     render(<Basic open />);
     await act(async () => {});
     const item = screen.getByText("Delete");
-    expect(item).toHaveAttribute("data-variant", "destructive");
-    expect(item.className).toContain("text-rixl-danger");
+    expect(item).toHaveAttribute("data-variant", "danger");
+    expect(item.className).toContain("data-[variant=danger]:text-rixl-danger");
   });
 
   it("highlights items via data-highlighted (Base UI), not :focus", async () => {

@@ -1,6 +1,10 @@
 import {Children, isValidElement, useMemo, type ReactNode} from "react";
 import {Select as SelectPrimitive} from "@base-ui/react/select";
 
+import {InputField} from "../input/input-field";
+import type {LabelLabels} from "../label/label-labels";
+import {normalizeInputError, type InputErrorProp} from "../input/input-field-error";
+
 import {
   SelectContent,
   SelectScrollDownButton,
@@ -24,14 +28,12 @@ import {SelectTrigger, SelectValue, selectTriggerVariants, type SelectTriggerPro
 /**
  * Rixl Select — an accessible, portalled select composition.
  *
- * Ported from dashboard's shadcn Select (Base UI Select). Lucide
- * icons (CheckIcon, ChevronUpIcon, ChevronDownIcon) inlined as local
- * SVGs so `@rixl/ui` stays icon-dep-free. Class names swapped to
+ * Ported from dashboard's shadcn Select (Base UI Select). Class names swapped to
  * `--rixl-*` tokens; `dark:*` variants dropped.
  *
  * Composition:
- * - `<Select>` — the root; auto-derives an `items` map from `<SelectItem>` children so preset values render with their label when the popup is unmounted.
- * - `<SelectTrigger>` — the trigger button; `size="sm" | "default"`. It has role="combobox", which takes no name from its text, so give it `aria-label` or a `<Label>`.
+ * - `<Select>` — the root; auto-derives an `items` map from `<SelectItem>` children so preset values render with their label when the popup is unmounted. `label`, `labelTooltip`, `description` and `error` wrap the trigger in the same field `Input` has.
+ * - `<SelectTrigger>` — the trigger button; `size="xs" | "sm" | "base" | "lg"` as `Input`. It has role="combobox", which takes no name from its text, so give the root a `label` or the trigger an `aria-label`.
  * - `<SelectValue>` — placeholder + selected label.
  * - `<SelectContent>` — the popup, portalled; positioning props (side/align/offset) are pass-through.
  * - `<SelectItem value="…">` — an option row with a checkmark indicator.
@@ -54,9 +56,32 @@ function collectSelectItems(children: ReactNode, map: Record<string, ReactNode>)
 export type SelectProps<Value = string> = Omit<SelectPrimitive.Root.Props<Value>, "onValueChange"> & {
   // Our selects are not clearable, so the emitted value is never null.
   onValueChange?: (value: Value) => void;
+  /** Label content (enables the built-in field); a string or any React node. */
+  label?: ReactNode;
+  /** Tooltip content shown next to the label via an info icon. */
+  labelTooltip?: ReactNode;
+  /** Help text below the trigger (hidden while `error` is present). */
+  description?: ReactNode;
+  /** Error message, or `{message, match}` shown while the native validity matches. */
+  error?: InputErrorProp;
+  /** Names the `labelTooltip` trigger, which is an icon-only button. The app supplies it; setting `labelTooltip` without it warns in development. */
+  labelTooltipAriaLabel?: string;
+  /** Overrides the field chrome copy (`optional`); each key falls back to `RixlLocaleProvider`, then English. */
+  labels?: Partial<LabelLabels>;
 };
 
-export function Select<Value = string>({onValueChange, items, children, ...props}: SelectProps<Value>) {
+export function Select<Value = string>({
+  onValueChange,
+  items,
+  children,
+  label,
+  labelTooltip,
+  description,
+  error,
+  labelTooltipAriaLabel,
+  labels,
+  ...props
+}: SelectProps<Value>) {
   // Base UI resolves the trigger label from `items` when the popup is unmounted,
   // so derive it from the SelectItem children to keep preset values showing their label.
   const resolvedItems = useMemo(() => {
@@ -67,13 +92,25 @@ export function Select<Value = string>({onValueChange, items, children, ...props
   }, [items, children]);
 
   return (
-    <SelectPrimitive.Root
-      items={resolvedItems}
-      onValueChange={onValueChange as SelectPrimitive.Root.Props<Value>["onValueChange"]}
-      {...props}
+    <InputField
+      component="Select"
+      label={label}
+      labelTooltip={labelTooltip}
+      description={description}
+      error={normalizeInputError(error)}
+      required={props.required}
+      disabled={props.disabled}
+      labelTooltipAriaLabel={labelTooltipAriaLabel}
+      labels={labels}
     >
-      {children}
-    </SelectPrimitive.Root>
+      <SelectPrimitive.Root
+        items={resolvedItems}
+        onValueChange={onValueChange as SelectPrimitive.Root.Props<Value>["onValueChange"]}
+        {...props}
+      >
+        {children}
+      </SelectPrimitive.Root>
+    </InputField>
   );
 }
 

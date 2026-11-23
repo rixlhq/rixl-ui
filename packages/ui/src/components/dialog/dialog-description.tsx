@@ -1,6 +1,6 @@
 import {forwardRef} from "react";
 import {Dialog as DialogPrimitive} from "@base-ui/react/dialog";
-import {cn} from "cn";
+import {cn} from "../../lib/cn";
 export type DialogDescriptionProps = DialogPrimitive.Description.Props;
 export const DialogDescription = forwardRef<HTMLParagraphElement, DialogDescriptionProps>(({className, ...props}, ref) => (
   <DialogPrimitive.Description

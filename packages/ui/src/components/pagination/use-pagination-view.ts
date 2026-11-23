@@ -1,17 +1,16 @@
 import type {PaginationProps} from "./pagination";
 import {normalizePagination, type NormalizedPagination} from "./normalize-pagination";
-import type {PaginationLabels} from "./pagination-provider";
-import type {PaginationLimitNodeProps} from "./pagination-limit-node";
+import {useTranslations} from "../locale/use-translations";
+import {DEFAULT_PAGINATION_LABELS, type PaginationLabels} from "./pagination-labels";
 
 export type PaginationView = {
   className?: string;
   children?: PaginationProps["children"];
-  navLabel: string;
-  getPageLabel?: (current: number, total: number) => string;
+  controls: PaginationProps["controls"];
+  text: PaginationProps["text"];
   normalized: NormalizedPagination;
-  onPageChange: (page: number) => void;
+  setPage: (page: number) => void;
   labels: PaginationLabels;
-  limitNodeProps: PaginationLimitNodeProps;
   navProps: Record<string, unknown>;
 };
 
@@ -19,34 +18,24 @@ export function usePaginationView({
   className,
   children,
   page,
-  currentPage,
-  totalPages,
-  pageSize,
+  setPage,
+  perPage,
   totalCount,
-  onPageChange,
-  limit,
-  setLimit,
-  limitOptions = [10, 20, 50, 100],
-  showLimitSelector,
-  renderLimitSelector,
-  navLabel = "Pagination",
-  firstLabel = "Go to first page",
-  prevLabel = "Go to previous page",
-  nextLabel = "Go to next page",
-  lastLabel = "Go to last page",
-  limitLabel = "Rows per page",
-  getPageLabel,
+  hasNextPage,
+  controls,
+  labels,
+  text,
   ...navProps
 }: PaginationProps): PaginationView {
+  const mergedLabels = useTranslations("pagination", DEFAULT_PAGINATION_LABELS, labels);
   return {
     className,
     children,
-    navLabel,
-    getPageLabel,
-    normalized: normalizePagination({page, currentPage, totalPages, pageSize, limit, totalCount}),
-    onPageChange,
-    labels: {firstLabel, prevLabel, nextLabel, lastLabel},
-    limitNodeProps: {showLimitSelector, renderLimitSelector, limit, setLimit, limitOptions, limitLabel},
+    controls,
+    text,
+    normalized: normalizePagination({page, perPage, totalCount, hasNextPage}),
+    setPage,
+    labels: mergedLabels,
     navProps,
   };
 }

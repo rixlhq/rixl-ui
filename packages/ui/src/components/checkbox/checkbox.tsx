@@ -1,5 +1,24 @@
+import {forwardRef, useContext, type ReactNode} from "react";
 import {Checkbox as CheckboxPrimitive} from "@base-ui/react/checkbox";
-import {cn} from "cn";
+import {Check, Minus} from "lucide-react";
+import {cn} from "../../lib/cn";
+import {indicatorPop, invalidRing, toggleControl} from "../../lib/classes";
+import {useWarnUnnamedControl} from "../../lib/warn-missing-name";
+import {ControlField} from "../label/control-field";
+import {InCheckboxGroup} from "./checkbox-group-context";
+
+/** The check, or the dash for `indeterminate`; Base UI mounts it with the checked state and it pops in. */
+function CheckboxIndicator() {
+  return (
+    <CheckboxPrimitive.Indicator
+      data-slot="checkbox-indicator"
+      className={cn("text-rixl-primary-fg flex items-center justify-center", indicatorPop)}
+    >
+      <Check data-slot="checkbox-icon" strokeWidth={3} className="size-3.5 [[data-indeterminate]_&]:hidden" />
+      <Minus data-slot="checkbox-icon" strokeWidth={3} className="hidden size-3.5 [[data-indeterminate]_&]:block" />
+    </CheckboxPrimitive.Indicator>
+  );
+}
 
 /**
  * Rixl Checkbox — a boolean form control.
@@ -10,74 +29,67 @@ import {cn} from "cn";
  * - `indeterminate` is supported — the root's `data-indeterminate` swaps the
  *   check for a dash and fills the box like a checked one.
  *
- * Icons are inlined local SVGs to keep `@rixl/ui` icon-dep-free.
+ * With a `label` the control renders inside a Base UI `Field`, whose label
+ * encloses it; without one it is the bare control, which the app names with
+ * `aria-label` or `aria-labelledby`.
  */
-function Checkbox({className, ...props}: CheckboxPrimitive.Root.Props) {
-  return (
+const Checkbox = forwardRef<HTMLElement, CheckboxProps>(function Checkbox(
+  {className, label, labelTooltip, labelTooltipAriaLabel, controlFirst, variant, required, disabled, ...props},
+  ref
+) {
+  const inGroup = useContext(InCheckboxGroup);
+  useWarnUnnamedControl({component: "Checkbox", label, ariaLabel: props["aria-label"], ariaLabelledBy: props["aria-labelledby"]});
+  const control = (
     <CheckboxPrimitive.Root
+      ref={ref}
+      required={required}
+      disabled={disabled}
+      aria-invalid={variant === "error" ? true : undefined}
       data-slot="checkbox"
       className={cn(
-        "peer border-rixl-border size-4 shrink-0 rounded-[4px] border shadow-rixl-xs outline-none touch-manipulation",
-        "transition-[scale,box-shadow,border-color,background-color] duration-rixl-fast ease-rixl-out",
-        "enabled:active:scale-[var(--rixl-press-scale)] motion-reduce:active:scale-100",
-        "data-unchecked:enabled:hover:border-rixl-border-strong",
+        toggleControl,
+        "peer inline-flex size-4 justify-center rounded-xs",
+        "data-unchecked:not-data-disabled:hover:border-rixl-border-strong",
         "data-checked:bg-rixl-primary data-checked:text-rixl-primary-fg data-checked:border-rixl-primary",
         "data-indeterminate:bg-rixl-primary data-indeterminate:text-rixl-primary-fg data-indeterminate:border-rixl-primary",
-        "data-checked:enabled:hover:bg-rixl-primary-hover data-checked:enabled:hover:border-rixl-primary-hover",
-        "data-indeterminate:enabled:hover:bg-rixl-primary-hover data-indeterminate:enabled:hover:border-rixl-primary-hover",
-        "focus-visible:border-rixl-ring focus-visible:ring-rixl-ring/50 focus-visible:ring-[3px]",
-        "aria-invalid:ring-rixl-danger/20 aria-invalid:border-rixl-danger",
-        "disabled:cursor-not-allowed disabled:opacity-50",
+        "data-checked:not-data-disabled:hover:bg-rixl-primary-hover data-checked:not-data-disabled:hover:border-rixl-primary-hover",
+        "data-indeterminate:not-data-disabled:hover:bg-rixl-primary-hover data-indeterminate:not-data-disabled:hover:border-rixl-primary-hover",
+        invalidRing,
         className
       )}
       {...props}
     >
-      <CheckboxPrimitive.Indicator
-        data-slot="checkbox-indicator"
-        className="text-rixl-primary-fg flex items-center justify-center transition-[scale,opacity] duration-rixl-fast ease-rixl-out motion-reduce:transition-none data-starting-style:scale-50 data-starting-style:opacity-0 data-ending-style:scale-50 data-ending-style:opacity-0"
-      >
-        <CheckIcon className="size-3.5 [[data-indeterminate]_&]:hidden" />
-        <MinusIcon className="hidden size-3.5 [[data-indeterminate]_&]:block" />
-      </CheckboxPrimitive.Indicator>
+      <CheckboxIndicator />
     </CheckboxPrimitive.Root>
   );
-}
-
-function CheckIcon({className}: {className?: string}) {
+  if (!label) return control;
   return (
-    <svg
-      data-slot="checkbox-icon"
-      className={className}
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="3"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden="true"
+    <ControlField
+      component="Checkbox"
+      label={label}
+      required={required}
+      labelTooltip={labelTooltip}
+      labelTooltipAriaLabel={labelTooltipAriaLabel}
+      controlFirst={controlFirst}
+      disabled={disabled}
+      inGroup={inGroup}
     >
-      <path d="M20 6 9 17l-5-5" />
-    </svg>
+      {control}
+    </ControlField>
   );
-}
-
-function MinusIcon({className}: {className?: string}) {
-  return (
-    <svg
-      data-slot="checkbox-icon"
-      className={className}
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="3"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden="true"
-    >
-      <path d="M5 12h14" />
-    </svg>
-  );
-}
+});
+Checkbox.displayName = "Checkbox";
 
 export {Checkbox};
-export type CheckboxProps = CheckboxPrimitive.Root.Props;
+export type CheckboxProps = CheckboxPrimitive.Root.Props & {
+  /** Visible label. Turns on the `Field` wrapper that names the control and makes the text clickable. */
+  label?: ReactNode;
+  /** Content of a tooltip opened from an info trigger after the label. */
+  labelTooltip?: ReactNode;
+  /** The accessible name of the tooltip trigger. The library invents none; without it `Checkbox` warns in development. */
+  labelTooltipAriaLabel?: string;
+  /** `true` (default) puts the control before the label text, `false` after it. */
+  controlFirst?: boolean;
+  /** `error` marks the control `aria-invalid`, which draws the danger border. */
+  variant?: "default" | "error";
+};

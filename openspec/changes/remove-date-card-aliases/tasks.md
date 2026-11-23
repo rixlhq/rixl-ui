@@ -1,0 +1,14 @@
+# Tasks
+
+## 1. Date picker and calendar
+
+- [x] 1.1 Add a `DatePicker` test for the `data-slot="calendar"` root and `button[data-day]` buttons, then delete `calendar/`, `date-picker/calendar.tsx`, the four `DatePickerCalendar*` exports, the `./calendar` export, the pack entry and the barrel line, and the alias-identity tests. Evidence: `date-picker.test.tsx` "marks its root with data-slot calendar…" passes; the removed `calendar.test.tsx` checks (root slot, `data-day` buttons, `data-selected-single` after a click) are covered there and by "selects a single date and notifies onSelect".
+
+## 2. Card
+
+- [x] 2.1 Remove the `interactive` variant and prop; delete the tests that only pinned it and keep the passive-surface tests. Evidence: `card.test.tsx` "has no click affordance by default" and "has no interactive variant" (`@ts-expect-error`), `passive-card.test.tsx` "leaves actions to children" pass.
+- [x] 2.2 Update the Card showcase to stop passing `interactive`. Evidence: `git grep -w interactive apps/docs/src/showcases/card.tsx` finds nothing.
+
+## 3. Gate
+
+- [x] 3.1 `vp check`, `vp test run` (69 files, 678 tests), `vp pack`, `vpx size-limit` (54.9 kB of 58 kB; preset 3.36 kB of 3.5 kB), `vpx knip` (nothing in `date-picker/` or `card/`) and `vpr docs` pass.

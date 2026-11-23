@@ -18,7 +18,7 @@ export const path = "dialog";
 export const title = "Dialog";
 export const description = "Open a focused task above the current page.";
 export const notes =
-  "Fullscreen below 640px; centered with four size variants on larger screens. Long content scrolls within the dialog. Use Table for horizontally scrollable data and include an explicit close action after long content.";
+  'Fullscreen below 640px; centered with four size variants on larger screens. Long content scrolls within the dialog. Use Table for horizontally scrollable data and include an explicit close action after long content. `role="alertdialog"` gives a confirmation that ignores outside clicks. DialogContent draws no close button: render DialogClose yourself, and name an icon-only one with aria-label. Accessible names: the app supplies them (aria-label, aria-labelledby or a visible label) and the library warns in development when one is missing, the way Kumo asks for a label on every Input.';
 
 export function Showcase() {
   return (
@@ -68,19 +68,26 @@ function BasicExample(props: {state: Record<string, ControlValue>}) {
   );
 }
 
-function NoCloseExample(props: {state: Record<string, ControlValue>}) {
+function CloseButtonExample(props: {state: Record<string, ControlValue>}) {
   void props;
   return (
     <Dialog>
-      <DialogTrigger render={<Button variant="outline">No X button</Button>} />
-      <DialogContent showCloseButton={false}>
-        <DialogHeader>
-          <DialogTitle>Custom close</DialogTitle>
-          <DialogDescription>Only the explicit buttons below close this dialog.</DialogDescription>
+      <DialogTrigger render={<Button variant="outline">Close button</Button>} />
+      <DialogContent>
+        <DialogHeader className="flex-row items-start justify-between gap-4">
+          <div className="flex flex-col gap-1.5">
+            <DialogTitle>Custom close</DialogTitle>
+            <DialogDescription>An icon-only close action needs a name from the app.</DialogDescription>
+          </div>
+          <DialogClose
+            aria-label="Close"
+            render={
+              <Button variant="ghost" shape="square">
+                <span aria-hidden="true">×</span>
+              </Button>
+            }
+          />
         </DialogHeader>
-        <DialogFooter>
-          <DialogClose render={<Button variant="outline">Got it</Button>} />
-        </DialogFooter>
       </DialogContent>
     </Dialog>
   );
@@ -117,10 +124,7 @@ function CustomContentExample(props: {state: Record<string, ControlValue>}) {
               tag: "Quota",
             },
           ].map((n) => (
-            <div
-              key={n.title}
-              className="flex items-start justify-between gap-3 rounded-rixl-md border border-rixl-border bg-rixl-surface p-3"
-            >
+            <div key={n.title} className="flex items-start justify-between gap-3 rounded-md border border-rixl-border bg-rixl-surface p-3">
               <div className="min-w-0">
                 <p className="text-sm font-medium">{n.title}</p>
                 <p className="truncate text-xs text-rixl-fg-muted">{n.body}</p>
@@ -139,10 +143,10 @@ function CustomContentExample(props: {state: Record<string, ControlValue>}) {
 
 function SizesExample(props: {state: Record<string, ControlValue>}) {
   void props;
-  const labels = {sm: "Sm", default: "Default", lg: "Lg", xl: "Xl"} as const;
+  const labels = {sm: "Sm", base: "Base", lg: "Lg", xl: "Xl"} as const;
   return (
     <Group label="Sizes">
-      {(["sm", "default", "lg", "xl"] as const).map((size) => (
+      {(["sm", "base", "lg", "xl"] as const).map((size) => (
         <Dialog key={size}>
           <DialogTrigger render={<Button variant="outline">{labels[size]}</Button>} />
           <DialogContent size={size}>
@@ -160,7 +164,7 @@ function SizesExample(props: {state: Record<string, ControlValue>}) {
   );
 }
 
-function AlertExample() {
+function AlertDialogExample() {
   return (
     <Group label="Alert (role=alertdialog) — destructive confirm, explicit close only">
       <Dialog role="alertdialog">
@@ -193,7 +197,7 @@ function LongContentExample() {
         </DialogHeader>
         <div className="space-y-4">
           {Array.from({length: 20}, (_, index) => (
-            <div key={index} className="rounded-rixl-md border border-rixl-border p-4">
+            <div key={index} className="rounded-md border border-rixl-border p-4">
               <p className="text-sm font-medium">Activity {index + 1}</p>
               <p className="text-sm text-rixl-fg-muted">
                 A workspace member updated the project settings. Review the changes with your team before the next release.
@@ -212,9 +216,40 @@ function LongContentExample() {
 
 export const examples: Example[] = [
   {id: "basic", title: "Basic", render: BasicExample},
-  {id: "alert", title: "Alert confirm", render: AlertExample},
+  {
+    id: "alert-dialog",
+    title: "Alert dialog",
+    description: "A confirmation that ignores outside clicks. Escape and the explicit buttons close it.",
+    render: AlertDialogExample,
+    code: `<Dialog role="alertdialog">
+  <DialogTrigger render={<Button variant="destructive">Delete account</Button>} />
+  <DialogContent>
+    <DialogHeader>
+      <DialogTitle>Are you absolutely sure?</DialogTitle>
+      <DialogDescription>This action cannot be undone.</DialogDescription>
+    </DialogHeader>
+    <DialogFooter>
+      <DialogClose render={<Button variant="outline">Cancel</Button>} />
+      <DialogClose render={<Button variant="destructive">Continue</Button>} />
+    </DialogFooter>
+  </DialogContent>
+</Dialog>`,
+  },
   {id: "long-content", title: "Long content on mobile", render: LongContentExample},
   {id: "sizes", title: "Sizes", render: SizesExample},
-  {id: "no-close", title: "Without close button", render: NoCloseExample},
+  {
+    id: "close-button",
+    title: "Close button",
+    description: "DialogContent has no automatic close button. Render DialogClose and name it.",
+    render: CloseButtonExample,
+    code: `<DialogClose
+  aria-label="Close"
+  render={
+    <Button variant="ghost" shape="square">
+      <XIcon aria-hidden="true" />
+    </Button>
+  }
+/>`,
+  },
   {id: "custom", title: "Custom content", render: CustomContentExample},
 ];

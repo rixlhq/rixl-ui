@@ -1,5 +1,5 @@
 import {forwardRef} from "react";
-import {cn} from "cn";
+import {cn} from "../../lib/cn";
 import {CollapsiblePanel, type CollapsiblePanelProps} from "./collapsible-panel";
 
 export type CollapsibleDefaultPanelProps = CollapsiblePanelProps;

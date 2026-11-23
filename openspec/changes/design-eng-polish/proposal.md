@@ -6,9 +6,9 @@ Several `@rixl/ui` components exhibited generic AI-generated UI tells ("hover ju
 
 - **Tactile press without hover jump**: Remove `hover:-translate-y-px` / `hover:-translate-y-0.5` from `Button` and `Card` (`interactive`), preserving `active:scale-[var(--rixl-press-scale)]` (`0.97` default, `0.98` large) with `motion-reduce:active:scale-100`, `select-none`, and `touch-manipulation`.
 - **Motion tokens & interruptible overlay transitions**:
-  - Update `--rixl-ease-out` to `cubic-bezier(0.23, 1, 0.32, 1)`, `--rixl-ease-in-out` to `cubic-bezier(0.77, 0, 0.175, 1)`, and add `--rixl-ease-drawer: cubic-bezier(0.32, 0.72, 0, 1)` (`ease-rixl-drawer`) in `preset.css`.
+  - Update `--rixl-ease-out` to `cubic-bezier(0.23, 1, 0.32, 1)`, `--rixl-ease-in-out` to `cubic-bezier(0.77, 0, 0.175, 1)`, and add `--rixl-ease-drawer: cubic-bezier(0.32, 0.72, 0, 1)` (`ease-(--rixl-ease-drawer)`) in `preset.css`.
   - Use pure CSS `transition-[scale,opacity]` with Base UI's `data-starting-style` and `data-ending-style` on `Dialog`, `AlertDialog`, `Popover`, `DropdownMenu`, `Select`, and `Tooltip` (dropping redundant `data-open:animate-in` / `data-closed:animate-out` keyframe classes that blocked mid-flight interruption).
-  - Add `data-instant:duration-0` on `TooltipContent` so adjacent tooltips open instantly once one is warm, and use `ease-rixl-drawer` on `SheetContent`.
+  - Add `data-instant:duration-0` on `TooltipContent` so adjacent tooltips open instantly once one is warm, and use `ease-(--rixl-ease-drawer)` on `SheetContent`.
   - Add `CollapsibleContent` height + opacity transitions via `--collapsible-panel-height` and directional `TabsContent` transitions via `data-[activation-direction]`.
 - **Component capabilities & polish**:
   - `Button`: Add `loading?: boolean` prop that disables the button, sets `aria-busy` and `data-loading`, and renders an inline `<ButtonSpinner />` (`data-slot="button-spinner"`).
@@ -38,7 +38,7 @@ None.
 
 ### Modified Capabilities
 
-- `design-system`: Add requirements for press-only button/card feedback (no hover translation), `Button` loading state (`loading` prop), `CopyBlock` copy confirmation state, `Alert` and `Badge` `success`/`warning` variants, interruptible popup transitions (`data-starting-style` / `data-ending-style`, `Tooltip` `data-instant:duration-0`, `Sheet` `ease-rixl-drawer`), and expanded WCAG 2.2 AA browser verification across overlays and interactive primitives.
+- `design-system`: Add requirements for press-only button/card feedback (no hover translation), `Button` loading state (`loading` prop), `CopyBlock` copy confirmation state, `Alert` and `Badge` `success`/`warning` variants, interruptible popup transitions (`data-starting-style` / `data-ending-style`, `Tooltip` `data-instant:duration-0`, `Sheet` `ease-(--rixl-ease-drawer)`), and expanded WCAG 2.2 AA browser verification across overlays and interactive primitives.
 
 ## Acceptance
 

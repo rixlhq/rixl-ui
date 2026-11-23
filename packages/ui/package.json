@@ -80,6 +80,11 @@
       "development": "./src/components/progress/index.ts",
       "import": "./dist/progress.js"
     },
+    "./slider": {
+      "types": "./dist/slider.d.ts",
+      "development": "./src/components/slider/index.ts",
+      "import": "./dist/slider.js"
+    },
     "./alert": {
       "types": "./dist/alert.d.ts",
       "development": "./src/components/alert/index.ts",
@@ -90,25 +95,10 @@
       "development": "./src/components/input/index.ts",
       "import": "./dist/input.js"
     },
-    "./field": {
-      "types": "./dist/field.d.ts",
-      "development": "./src/components/field/index.ts",
-      "import": "./dist/field.js"
-    },
     "./input-group": {
       "types": "./dist/input-group.d.ts",
       "development": "./src/components/input-group/index.ts",
       "import": "./dist/input-group.js"
-    },
-    "./input-area": {
-      "types": "./dist/input-area.d.ts",
-      "development": "./src/components/input-area/index.ts",
-      "import": "./dist/input-area.js"
-    },
-    "./textarea": {
-      "types": "./dist/textarea.d.ts",
-      "development": "./src/components/textarea/index.ts",
-      "import": "./dist/textarea.js"
     },
     "./checkbox": {
       "types": "./dist/checkbox.d.ts",
@@ -150,16 +140,6 @@
       "development": "./src/components/dialog/index.ts",
       "import": "./dist/dialog.js"
     },
-    "./alert-dialog": {
-      "types": "./dist/alert-dialog.d.ts",
-      "development": "./src/components/alert-dialog/index.ts",
-      "import": "./dist/alert-dialog.js"
-    },
-    "./sheet": {
-      "types": "./dist/sheet.d.ts",
-      "development": "./src/components/sheet/index.ts",
-      "import": "./dist/sheet.js"
-    },
     "./dropdown-menu": {
       "types": "./dist/dropdown-menu.d.ts",
       "development": "./src/components/dropdown-menu/index.ts",
@@ -195,15 +175,20 @@
       "development": "./src/components/table/index.ts",
       "import": "./dist/table.js"
     },
+    "./direction-provider": {
+      "types": "./dist/direction-provider.d.ts",
+      "development": "./src/components/direction-provider/index.ts",
+      "import": "./dist/direction-provider.js"
+    },
+    "./locale": {
+      "types": "./dist/locale.d.ts",
+      "development": "./src/components/locale/index.ts",
+      "import": "./dist/locale.js"
+    },
     "./pagination": {
       "types": "./dist/pagination.d.ts",
       "development": "./src/components/pagination/index.ts",
       "import": "./dist/pagination.js"
-    },
-    "./calendar": {
-      "types": "./dist/calendar.d.ts",
-      "development": "./src/components/calendar/index.ts",
-      "import": "./dist/calendar.js"
     },
     "./date-picker": {
       "types": "./dist/date-picker.d.ts",
@@ -220,11 +205,6 @@
       "development": "./src/components/empty/index.ts",
       "import": "./dist/empty.js"
     },
-    "./empty-state": {
-      "types": "./dist/empty-state.d.ts",
-      "development": "./src/components/empty-state/index.ts",
-      "import": "./dist/empty-state.js"
-    },
     "./toaster": {
       "types": "./dist/toaster.d.ts",
       "development": "./src/components/toaster/index.ts",
@@ -239,7 +219,16 @@
   "scripts": {
     "dev": "vp pack --watch",
     "pack": "vp pack",
-    "clean": "rimraf dist node_modules"
+    "ci": "vp check && vpr ci:package",
+    "ci:package": "vpr lint:suppressions && vpr knip && vp test --coverage --run && vp pack && vpr budget && vpr publint",
+    "lint:suppressions": "! grep -rnE '(eslint|oxlint)-disable' src test --include='*.ts' --include='*.tsx' | grep -v ' -- '",
+    "knip": "knip --no-progress",
+    "budget": "size-limit",
+    "publint": "publint --strict",
+    "react-doctor": "react-doctor -y --verbose --scope changed --no-score",
+    "test:coverage": "vp test --coverage",
+    "test:mutation": "stryker run",
+    "clean": "rm -rf dist node_modules"
   },
   "dependencies": {
     "class-variance-authority": "^0.7.1",
@@ -268,8 +257,11 @@
     "axe-core": "^4.14.1",
     "fast-check": "^4.10.2",
     "jsdom": "^31.0.1",
+    "knip": "^6.45.1",
     "playwright": "^1.65.1",
+    "publint": "^0.3.25",
     "react": "^19.3.1",
+    "react-doctor": "^0.9.23",
     "react-dom": "^19.3.1",
     "size-limit": "^14.3.0",
     "tailwindcss": "^4.3.5",

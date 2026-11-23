@@ -16,7 +16,8 @@
  */
 
 @layer rixl-tokens {
-  :root {
+  :root,
+  [data-theme="light"] {
     /* ── Surfaces ─────────────────────────────────────────── */
     --rixl-bg: oklch(0.99 0.002 264);
     --rixl-surface: oklch(1 0 0);
@@ -60,15 +61,16 @@
     --rixl-secondary-fg: oklch(0.2 0.01 265);
 
     /* ── Destructive (danger) ─────────────────────────────── */
-    /* 0.56 keeps danger text at 4.5:1 (WCAG AA) on white and on its 10% highlight tint. */
-    --rixl-danger: oklch(0.56 0.22 25);
+    /* 0.54 keeps danger text at 4.5:1 (WCAG AA) on white and on the 10% feedback tint Alert and Toaster draw. */
+    --rixl-danger: oklch(0.54 0.22 25);
     --rixl-danger-hover: oklch(0.51 0.22 25);
     --rixl-danger-active: oklch(0.46 0.22 25);
     --rixl-danger-fg: oklch(1 0 0);
 
     /* ── Success / warning (feedback) ─────────────────────── */
-    --rixl-success: oklch(0.65 0.16 145);
-    --rixl-warning: oklch(0.78 0.16 80);
+    /* Text on a tint of themselves: 0.48 and 0.5 keep 4.5:1 (WCAG AA) on light. */
+    --rixl-success: oklch(0.48 0.12 145);
+    --rixl-warning: oklch(0.5 0.11 80);
 
     /* ── Focus ring ───────────────────────────────────────── */
     --rixl-ring: oklch(0.21 0 0 / 0.4);
@@ -96,6 +98,7 @@
     --rixl-ease-out: cubic-bezier(0.23, 1, 0.32, 1);
     --rixl-ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
     --rixl-ease-drawer: cubic-bezier(0.32, 0.72, 0, 1);
+    --rixl-motion-sidebar: 220ms;
 
     /*
      * Press feedback. One scale shared by every pressable component so a
@@ -115,7 +118,7 @@
 
   /*
    * Dark mode: consumers opt in by adding `data-theme="dark"` to <html>
-   * (or any ancestor). We deliberately don't hook into `.dark` or
+   * (or any ancestor); `data-theme="light"` inside it restores the light values. We deliberately don't hook into `.dark` or
    * `prefers-color-scheme` here — dashboard, landing, and docs each
    * pick their own strategy and toggle the attribute themselves.
    */
@@ -149,6 +152,9 @@
     --rixl-danger-active: oklch(0.76 0.2 25);
     --rixl-danger-fg: oklch(0.14 0.01 265);
 
+    --rixl-success: oklch(0.65 0.16 145);
+    --rixl-warning: oklch(0.78 0.16 80);
+
     --rixl-ring: oklch(0.83 0 0 / 0.5);
 
     --rixl-sidebar: oklch(0.17 0.01 265);
@@ -167,10 +173,12 @@
 
 /*
  * Register tokens with Tailwind 4's @theme directive so consumers can
- * write `bg-rixl-primary`, `text-rixl-fg`, `rounded-rixl-md`, etc.,
+ * write `bg-rixl-primary`, `text-rixl-fg`, `rounded-md`, etc.,
  * anywhere in their app — not just inside @rixl/ui components.
+ * `inline` makes utilities read `var(--rixl-*)` on the element, not a
+ * `--color-rixl-*` copy resolved at :root, so any ancestor can set the theme.
  */
-@theme {
+@theme inline {
   --color-rixl-bg: var(--rixl-bg);
   --color-rixl-surface: var(--rixl-surface);
   --color-rixl-surface-muted: var(--rixl-surface-muted);
@@ -212,30 +220,23 @@
   --color-rixl-sidebar-border: var(--rixl-sidebar-border);
   --color-rixl-sidebar-ring: var(--rixl-sidebar-ring);
 
-  --radius-rixl-xs: var(--rixl-radius-xs);
-  --radius-rixl-sm: var(--rixl-radius-sm);
-  --radius-rixl-md: var(--rixl-radius-md);
-  --radius-rixl-lg: var(--rixl-radius-lg);
-  --radius-rixl-xl: var(--rixl-radius-xl);
-  --radius-rixl-full: var(--rixl-radius-full);
+  /* Standard Tailwind keys, so `cn` merges them: `rounded-md`, `shadow-sm`, `ease-out`. */
+  --radius-xs: var(--rixl-radius-xs);
+  --radius-sm: var(--rixl-radius-sm);
+  --radius-md: var(--rixl-radius-md);
+  --radius-lg: var(--rixl-radius-lg);
+  --radius-xl: var(--rixl-radius-xl);
 
-  /* Motion, exposed as `duration-rixl-*` / `ease-rixl-*` utilities. */
-  --transition-duration-rixl-fast: var(--rixl-motion-fast);
-  --transition-duration-rixl-base: var(--rixl-motion-base);
-  --transition-duration-rixl-slow: var(--rixl-motion-slow);
-  --ease-rixl-out: var(--rixl-ease-out);
-  --ease-rixl-in-out: var(--rixl-ease-in-out);
-  --ease-rixl-drawer: var(--rixl-ease-drawer);
+  --ease-out: var(--rixl-ease-out);
+  --ease-in-out: var(--rixl-ease-in-out);
 
-  --shadow-rixl-xs: var(--rixl-shadow-xs);
-  --shadow-rixl-sm: var(--rixl-shadow-sm);
-  --shadow-rixl-md: var(--rixl-shadow-md);
-  --shadow-rixl-lg: var(--rixl-shadow-lg);
+  --shadow-xs: var(--rixl-shadow-xs);
+  --shadow-sm: var(--rixl-shadow-sm);
+  --shadow-md: var(--rixl-shadow-md);
+  --shadow-lg: var(--rixl-shadow-lg);
+}
 
-  /* Sidebar collapse/expand motion (used by the Sidebar component). */
-  --transition-duration-sidebar: 220ms;
-  --ease-curve-sidebar: var(--rixl-ease-drawer);
-
+@theme {
   /*
    * Blinking caret used by the InputOTP slot. Consumers get
    * `animate-caret-blink` automatically once they import preset.css.
@@ -254,18 +255,30 @@
   }
 
   /*
-   * Shimmer sweep for the Skeleton `shimmer` variant. A highlight band travels
-   * across the placeholder; the base `--rixl-surface-muted` shows through the
-   * transparent stops. Linear + infinite reads as a steady metronome. Consumers
-   * get `animate-rixl-shimmer` automatically once they import preset.css.
+   * Skeleton `shimmer`: the root's `::after` band moves with `translate`, so
+   * the compositor runs the sweep without repainting.
    */
   --animate-rixl-shimmer: rixl-shimmer 1.5s linear infinite;
   @keyframes rixl-shimmer {
     from {
-      background-position: 200% 0;
+      translate: -100% 0;
     }
     to {
-      background-position: -200% 0;
+      translate: 100% 0;
+    }
+  }
+
+  /*
+   * Indeterminate Progress band. `--rixl-progress-direction: -1` mirrors it
+   * under RTL.
+   */
+  --animate-rixl-progress-indeterminate: rixl-progress-indeterminate 1.5s linear infinite;
+  @keyframes rixl-progress-indeterminate {
+    from {
+      transform: translateX(calc(-100% * var(--rixl-progress-direction, 1)));
+    }
+    to {
+      transform: translateX(calc(300% * var(--rixl-progress-direction, 1)));
     }
   }
 }
@@ -301,8 +314,8 @@
  *
  * Timing deliberately mirrors the stock DayPicker curve
  * (var(--rixl-cal-slide-duration, 300ms), cubic-bezier(0.4, 0, 0.2, 1))
- * instead of --ease-rixl-out: a full-panel traverse with a fast-start
- * traverse with a fast-start ease-out reads as teleport-then-settle (the
+ * instead of --rixl-ease-out: a full-panel traverse with a fast-start
+ * ease-out reads as teleport-then-settle (the
  * old month appears "removed" while the new one slides in). The sustained
  * traverse is what makes both months visibly share the frame mid-flight.
  * Reduced motion still kills it entirely.
@@ -406,10 +419,6 @@
 
 @utility fade-out-0 {
   --rixl-exit-opacity: 0;
-}
-
-@utility zoom-in-50 {
-  --rixl-enter-scale: 0.75;
 }
 
 @utility zoom-in-95 {

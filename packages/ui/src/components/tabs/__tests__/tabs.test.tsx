@@ -53,15 +53,21 @@ describe("Tabs", () => {
     expect(screen.getByText("Account panel")).toBeInTheDocument();
   });
 
-  it("animates the content panel according to activation direction, reduced-motion safe", () => {
+  it("fades the content panel in without sliding, reduced-motion safe", () => {
     render(<Basic />);
     const cls = screen.getByTestId("content-account").className;
-    expect(cls).toContain("data-[activation-direction=right]:animate-in");
-    expect(cls).toContain("data-[activation-direction=left]:animate-in");
-    expect(cls).toContain("data-[activation-direction=right]:slide-in-from-right-1");
-    expect(cls).toContain("data-[activation-direction=left]:slide-in-from-left-1");
-    expect(cls).toContain("duration-rixl-base");
+    expect(cls).toContain("animate-in");
+    expect(cls).toContain("fade-in-0");
+    expect(cls).toContain("duration-(--rixl-motion-fast)");
     expect(cls).toContain("motion-reduce:animate-none");
+    expect(cls).not.toContain("slide-in");
+  });
+
+  it("does not play the fade on the initially mounted panel", () => {
+    render(<Basic />);
+    const cls = screen.getByTestId("content-account").className;
+    expect(cls).toContain("not-data-[activation-direction=none]:animate-in");
+    expect(screen.getByTestId("content-account")).toHaveAttribute("data-activation-direction", "none");
   });
 
   describe("travelling indicator", () => {
@@ -84,7 +90,7 @@ describe("Tabs", () => {
       render(<Basic />);
       const cls = indicator()!.className;
       expect(cls).toContain("border-rixl-border");
-      expect(cls).toContain("shadow-rixl-sm");
+      expect(cls).toContain("shadow-sm");
     });
 
     it("is positioned from the measured tab box rather than a fixed offset", () => {
@@ -113,6 +119,15 @@ describe("Tabs", () => {
       expect(cls).toContain("motion-reduce:transition-none");
     });
 
+    it("glides on the slow in-out motion tokens rather than hardcoded timing", () => {
+      render(<Basic />);
+      const cls = indicator()!.className;
+      expect(cls).toContain("duration-(--rixl-motion-slow)");
+      expect(cls).toContain("ease-in-out");
+      expect(cls).not.toContain("duration-300");
+      expect(cls).not.toContain("cubic-bezier");
+    });
+
     it("draws a bar rather than a pill for the underline variant", () => {
       render(<Basic variant="underline" />);
       const cls = indicator()!.className;
@@ -125,7 +140,7 @@ describe("Tabs", () => {
     it("wraps segmented tabs in a muted container", () => {
       render(<Basic />);
       expect(list().className).toContain("bg-rixl-surface-muted");
-      expect(list().className).toContain("rounded-rixl-lg");
+      expect(list().className).toContain("rounded-lg");
     });
 
     it("rules the underline variant instead of filling it", () => {
@@ -144,7 +159,7 @@ describe("Tabs", () => {
 
     it("passes the variant from the root to both list and indicator", () => {
       render(<Basic variant="ghost" />);
-      expect(indicator()!.className).toContain("shadow-rixl-xs");
+      expect(indicator()!.className).toContain("shadow-xs");
     });
   });
 
@@ -163,7 +178,7 @@ describe("Tabs", () => {
     // A floor rather than a fixed height, so a trigger stacking a label over a
     // description grows instead of spilling out of the box the indicator
     // measures.
-    it("defaults triggers to the md size as a compact 32px minimum height", () => {
+    it("defaults triggers to the base size as a compact 32px minimum height", () => {
       render(<Basic />);
       const cls = screen.getByTestId("tab-account").className;
       expect(cls).toContain("min-h-8");
@@ -189,10 +204,11 @@ describe("Tabs", () => {
       expect(list().className).toContain("w-fit");
     });
 
-    it("distributes triggers evenly when fullWidth is set", () => {
+    // Stretched tabs are a layout choice for the app: a consumer className on the list and triggers does it.
+    it("has no full-width mode", () => {
+      // @ts-expect-error -- fullWidth was removed; Tabs must not accept it.
       render(<Basic fullWidth />);
-      expect(screen.getByTestId("tab-account").className).toContain("flex-1");
-      expect(list().className).toContain("w-full");
+      expect(screen.getByTestId("tab-account").className).not.toContain("flex-1");
     });
 
     // A wrapped row would leave the indicator jumping between lines.
@@ -224,6 +240,14 @@ describe("Tabs", () => {
       expect(cls).toContain("active:scale-[var(--rixl-press-scale)]");
       expect(cls).toContain("motion-reduce:active:scale-100");
       expect(cls).not.toContain("hover:bg-rixl-fg/5");
+    });
+
+    it("takes its transition timing from the press classes alone", () => {
+      render(<Basic />);
+      const cls = screen.getByTestId("tab-password").className;
+      expect(cls).toContain("duration-(--rixl-motion-fast)");
+      expect(cls).not.toContain("transition-colors");
+      expect(cls).not.toContain("duration-(--rixl-motion-base)");
     });
 
     it("renders overflow scroll controls when scrollable is enabled", () => {
@@ -331,6 +355,6 @@ describe("Tabs", () => {
     );
     const cls = screen.getByTestId("tab-account").className;
     expect(cls).toContain("max-w-xs");
-    expect(cls).toContain("rounded-rixl-md");
+    expect(cls).toContain("rounded-md");
   });
 });

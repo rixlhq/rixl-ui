@@ -26,12 +26,12 @@ function TestSplitButton() {
   return (
     <div className="p-8">
       <ButtonGroup aria-label="Deploy">
-        <Button variant="default">Deploy</Button>
+        <Button variant="primary">Deploy</Button>
         <DropdownMenu>
           <DropdownMenuTrigger
             data-testid="split-trigger"
             render={
-              <Button variant="default" size="icon" aria-label="More deploy options">
+              <Button variant="primary" shape="square" aria-label="More deploy options">
                 <CaretIcon />
               </Button>
             }

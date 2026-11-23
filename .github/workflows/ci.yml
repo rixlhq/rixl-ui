@@ -26,6 +26,9 @@ jobs:
     steps:
       - name: 📥 Checkout
         uses: actions/checkout@v7
+        with:
+          # React Doctor compares against the base branch, so it needs history.
+          fetch-depth: 0
 
       - name: ⚙️ Setup Vite+
         uses: voidzero-dev/setup-vp@v1.22.0
@@ -49,19 +52,17 @@ jobs:
         run: vpx playwright install chromium
         working-directory: packages/ui
 
+      # The checks and the UI gate are independent. The UI gate packs the library and runs
+      # the tests with coverage; the docs tests and build below need the packed output.
       - parallel:
-          - name: 🧹 Checks
-            run: vp check
+          - name: 🧹 Workspace checks
+            run: vpr ci:check
 
-          - name: 📦 Pack UI package
-            run: vpr pack
+          - name: 📦 UI package gate
+            run: vpr ci:ui
 
-      - name: 🏗️ Build docs app
-        run: vpr docs
-
-      - name: 🧪 Test UI package with coverage
-        run: vp test --coverage --run
-        working-directory: packages/ui
+      - name: 🏗️ Test and build docs app
+        run: vpr ci:docs
 
       - name: 📊 Report coverage to PR
         if: ${{ !cancelled() && github.event_name == 'pull_request' && github.event.pull_request.head.repo.fork == false && hashFiles('packages/ui/coverage/coverage-summary.json') != '' }}

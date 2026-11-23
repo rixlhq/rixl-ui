@@ -3,8 +3,10 @@ import {copyToClipboard} from "../../lib/clipboard";
 
 const COPY_FEEDBACK_MS = 1500;
 
+export type CopyState = "idle" | "pending" | "copied";
+
 export function useCopyState(value?: string) {
-  const [state, setState] = useState<"idle" | "pending" | "copied" | "error">("idle");
+  const [state, setState] = useState<CopyState>("idle");
   const [prevValue, setPrevValue] = useState(value);
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const request = useRef(0);
@@ -30,7 +32,7 @@ export function useCopyState(value?: string) {
       setState("copied");
       timer.current = setTimeout(() => setState("idle"), COPY_FEEDBACK_MS);
     } catch {
-      if (id === request.current) setState("error");
+      if (id === request.current) setState("idle");
     } finally {
       if (id === request.current) pending.current = false;
     }

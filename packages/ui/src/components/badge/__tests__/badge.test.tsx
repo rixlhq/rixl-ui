@@ -1,3 +1,4 @@
+import {createRef} from "react";
 import {describe, it, expect} from "vitest";
 import {render, screen} from "@testing-library/react";
 import {Badge, badgeVariants} from "../badge";
@@ -72,6 +73,26 @@ describe("Badge", () => {
     const el = screen.getByText("New");
     expect(el).toHaveAttribute("id", "badge-1");
     expect(el).toHaveAttribute("title", "Tooltip");
+  });
+
+  it("forwards a ref to the span", () => {
+    const ref = createRef<HTMLSpanElement>();
+    render(<Badge ref={ref}>New</Badge>);
+    expect(ref.current).toBe(screen.getByText("New"));
+  });
+
+  it("forwards a ref to a custom rendered element", () => {
+    const ref = createRef<HTMLSpanElement>();
+    render(
+      <Badge ref={ref} render={<a href="/tags/new" />}>
+        New
+      </Badge>
+    );
+    expect(ref.current).toBe(screen.getByText("New"));
+  });
+
+  it("has a displayName for devtools", () => {
+    expect(Badge.displayName).toBe("Badge");
   });
 
   it("exports a badgeVariants helper that returns a class string", () => {

@@ -23,8 +23,11 @@ Tailwind 4 preset shared across `dashboard`, `landing`, and `docs`.
 - **Tailwind 4 preset, not compiled CSS.** Consumers already run
   Tailwind 4 (dashboard, landing, docs all do). Importing
   `@rixl/ui/preset.css` registers our tokens with `@theme` so
-  `bg-rixl-primary`, `rounded-rixl-md`, `text-rixl-fg`, etc. work
-  everywhere in the consuming app.
+  `bg-rixl-primary`, `rounded-md`, `text-rixl-fg`, etc. work
+  everywhere in the consuming app. Colours are `*-rixl-*` utilities;
+  radii, shadows and the `ease-out` / `ease-in-out` curves replace
+  Tailwind's own `rounded-*`, `shadow-*` and `ease-*` values, so the
+  utilities you already write use our tokens.
 
 ## Usage
 
@@ -73,11 +76,11 @@ vp env doctor          # diagnose toolchain issues
 From the repo root, use the workspace scripts:
 
 ```bash
-vpr build              # → packages/ui $ vp pack
-vpr test:run           # → packages/ui $ vp test --run
-vp check
-vpr pack               # build the library before the docs production build
-vpr docs               # build the docs app
+vpr pack               # build the library (production)
+vpr test:coverage      # → packages/ui tests with coverage
+vpr check              # vp check + React Doctor
+vpr docs               # start the docs app
+vpr docs:build         # pack the library, then build the docs app
 vpr ci                 # CI/release gate across the workspace
 ```
 
@@ -125,8 +128,7 @@ Git build for this project when using the GitHub Actions deployment.
 To build and deploy locally with those environment variables set:
 
 ```bash
-vpr pack
-vpr docs
+vpr docs:build
 cd apps/docs
 vpr cf:deploy --dry-run   # validate the static deployment without publishing
 vpr cf:deploy            # publish to ui
@@ -167,7 +169,11 @@ Tokens live in `src/styles/preset.css`. Two layers:
 
 1. `@layer rixl-tokens` — the source of truth (CSS variables).
 2. `@theme` — registers each token with Tailwind 4 so utility classes
-   like `bg-rixl-primary` resolve at build time.
+   like `bg-rixl-primary` resolve at build time. Radii, shadows and
+   easing use Tailwind's standard keys (`rounded-md`, `shadow-sm`,
+   `ease-out`), which is why `cn` can merge them. Durations and the
+   drawer curve are read as `duration-(--rixl-motion-fast)` and
+   `ease-(--rixl-ease-drawer)`.
 
 Consumers override any token by redeclaring the variable:
 
