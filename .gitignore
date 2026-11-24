@@ -12,3 +12,9 @@ coverage
 reports
 .stryker-tmp
 .stryker-cache
+
+# Review files quote private sources (agent-review skill)
+reviews/
+
+# Personal agent settings (Claude Code writes settings.local.json for one machine)
+.agents/settings.local.json

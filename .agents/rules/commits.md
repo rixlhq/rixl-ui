@@ -1,5 +1,5 @@
 ---
-trigger: when preparing to commit code
+trigger: when handing over a commit
 description: Commit order, git hooks and message rules.
 ---
 
@@ -12,7 +12,7 @@ A commit records claims: the message and the code. Only commit what has been che
 1. Finish one logical change.
 2. Run the checks for what you touched, from `packages/ui`: `vp check`, `vp test`, and `vp pack` when entries, exports or config changed.
 3. Run the `code-simplifier` skill on the changed code, then rerun the checks.
-4. Commit. Then move on to the next change.
+4. Run the Level 3 procedure on the uncommitted diff (`AGENTS.md`, "Working rules for every agent", rule 2), then hand the commit message to the owner, who commits. Start the next change only after that commit.
 
 ## Hooks
 
@@ -36,4 +36,4 @@ Never skip a hook (`--no-verify`, `-n`, `LEFTHOOK=0`, `core.hooksPath`). If a ho
 ## `main`
 
 - Never merge or push to `main` while CI is red.
-- Everything goes through a pull request unless a human asks for a hotfix.
+- Everything goes through a pull request, which the owner opens, unless the owner pushes a hotfix.
