@@ -17,8 +17,8 @@ function ValueExample(props: {state: Record<string, ControlValue>}) {
 function CustomContentExample(props: {state: Record<string, ControlValue>}) {
   void props;
   return (
-    <CopyBlock title="Endpoint" value="https://api.rixl.dev/v1/media" className="w-full max-w-md">
-      <span className="p-2 font-mono text-sm whitespace-nowrap text-rixl-fg">https://api.rixl.dev/v1/media</span>
+    <CopyBlock title="Endpoint" value="https://api.rixl.com/v1/media" className="w-full max-w-md">
+      <span className="p-2 font-mono text-sm whitespace-nowrap text-rixl-fg">https://api.rixl.com/v1/media</span>
     </CopyBlock>
   );
 }
@@ -36,8 +36,8 @@ export const examples: Example[] = [
     title: "Custom content",
     description: "Pass custom children while keeping the copy value.",
     render: CustomContentExample,
-    code: `<CopyBlock title="Endpoint" value="https://api.rixl.dev/v1/media">
-  <span className="p-2 font-mono text-sm">https://api.rixl.dev/v1/media</span>
+    code: `<CopyBlock title="Endpoint" value="https://api.rixl.com/v1/media">
+  <span className="p-2 font-mono text-sm">https://api.rixl.com/v1/media</span>
 </CopyBlock>`,
   },
 ];
