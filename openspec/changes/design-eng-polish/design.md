@@ -53,7 +53,7 @@ We audited the library against Apple Human Interface Guidelines and Emil Kowalsk
 
 ### 4. Suppressing false-positive `act(...)` console warnings from Playwright CDP input in Browser Mode
 
-- **Chosen**: Filter `was not wrapped in act(...)` messages in `packages/ui/test/setup.browser.ts` while leaving unit tests (`jsdom`) untouched.
+- **Chosen**: Filter `was not wrapped in act(...)` messages in `packages/ui/test/setup.browser.ts` while leaving unit tests (`happy-dom`) untouched.
 - **Alternatives considered**:
   - _Setting `globalThis.IS_REACT_ACT_ENVIRONMENT = false` in `setup.browser.ts`_: `@testing-library/react` sets `IS_REACT_ACT_ENVIRONMENT = true` inside every `render()` call and restores the previous value, leaving it `true` when async Base UI `ResizeObserver`/pointer handlers fire outside `act(...)`.
   - _Wrapping `userEvent.click()` in `act()`_: Vitest Browser Mode executes `userEvent` via Playwright CDP commands in the host process, which cannot be wrapped in synchronous React `act()`.

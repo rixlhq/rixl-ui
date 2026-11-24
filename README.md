@@ -61,7 +61,7 @@ cd packages/ui
 vp pack                # bundle library (Rolldown + tsdown; ESM + .d.ts)
 vp dev                 # watch build
 vp test                # Vitest (watch)
-vp test --run          # single pass: unit (jsdom) and browser (Chromium, axe) projects
+vp test --run          # single pass: unit (happy-dom) and browser (Chromium, axe) projects
 vp test --coverage     # with coverage; fails under the floor in vite.config.ts
 vpr ci                 # standalone UI package gate
 vp check               # oxlint + tsc, zero warnings
@@ -148,7 +148,7 @@ packages/ui/src/components/<name>/
   <name>.tsx          — implementation
   index.ts            — public re-exports
   __tests__/
-    <name>.test.tsx          — unit: Vitest + Testing Library (jsdom)
+    <name>.test.tsx          — unit: Vitest + Testing Library (happy-dom)
     <name>.browser.test.tsx  — popups, focus, dismissal in Chromium, with an axe check
 ```
 

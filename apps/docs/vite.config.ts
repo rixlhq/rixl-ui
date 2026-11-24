@@ -16,7 +16,12 @@ export default defineConfig({
     projects: [
       {
         extends: true,
-        test: {name: "unit", environment: "jsdom", include: ["src/**/__tests__/**/*.test.{ts,tsx}"], exclude: ["**/*.browser.test.tsx"]},
+        test: {
+          name: "unit",
+          environment: "happy-dom",
+          include: ["src/**/__tests__/**/*.test.{ts,tsx}"],
+          exclude: ["**/*.browser.test.tsx"],
+        },
       },
       {
         extends: true,

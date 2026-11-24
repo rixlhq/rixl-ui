@@ -8,7 +8,7 @@ export const unitProject: TestProjectInlineConfiguration = {
   test: {
     name: "unit",
     globals: true,
-    environment: "jsdom",
+    environment: "happy-dom",
     setupFiles: ["./vitest.setup.ts"],
     isolate: true,
     pool: "vmThreads",

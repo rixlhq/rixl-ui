@@ -60,7 +60,7 @@ Run these in `packages/ui/`:
 vp install                 # Install dependencies (Vite+ fetches the pinned bun)
 vp check                   # Oxfmt + Oxlint, type-aware, zero warnings, complexity caps
 vp test                    # Unit and browser tests (watch mode)
-vp test --project unit     # jsdom tests only
+vp test --project unit     # happy-dom tests only
 vp test --project browser  # Real Chromium with the preset built; axe accessibility checks
 vpr test:coverage          # Tests with coverage; fails under the floor in vite.config.ts
 vpr test:mutation          # Stryker (CI only, weekly: .github/workflows/mutation.yml)
