@@ -65,7 +65,7 @@ describe("Avatar", () => {
         <AvatarFallback>AA</AvatarFallback>
       </Avatar>
     );
-    // Image renders only after loading in Base UI; the fallback is what shows synchronously in jsdom.
+    // Image renders only after loading in Base UI; the fallback is what shows synchronously in happy-dom.
     // We can still verify the fallback got a data-slot, matching the composition contract.
     expect(screen.getByText("AA")).toHaveAttribute("data-slot", "avatar-fallback");
   });
@@ -98,7 +98,7 @@ describe("Avatar", () => {
     vi.unstubAllGlobals();
   });
 
-  it("shows the fallback initially in jsdom (image not yet loaded)", () => {
+  it("shows the fallback initially in happy-dom (image not yet loaded)", () => {
     render(
       <Avatar>
         <AvatarImage src="/does-not-exist.png" alt="Me" />

@@ -106,7 +106,7 @@ describe("AlertDialog", () => {
     });
     await act(async () => {});
     // Root flipped closed; Base UI keeps the popup mounted during the exit
-    // animation (never completes in jsdom), so assert via the close intent.
+    // animation (never completes in happy-dom), so assert via the close intent.
     expect(document.querySelector("[data-slot='alert-dialog-content']")).toBeNull();
   });
 });
