@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.4.1](https://github.com/rixlhq/rixl-ui/compare/@rixl/ui-v0.4.0...@rixl/ui-v0.4.1) (2026-11-24)
+
+
+### Bug Fixes
+
+* **branding:** use canonical company name Rixl Inc., rixl.com and Wilmington DE address ([#79](https://github.com/rixlhq/rixl-ui/issues/79)) ([7a58c2f](https://github.com/rixlhq/rixl-ui/commit/7a58c2ff4da47bf20db345e7affaa416596de12c))
+
 ## [0.4.0](https://github.com/rixlhq/rixl-ui/compare/@rixl/ui-v0.3.0...@rixl/ui-v0.4.0) (2026-11-17)
 
 
